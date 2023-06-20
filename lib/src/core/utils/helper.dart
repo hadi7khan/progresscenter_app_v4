@@ -14,4 +14,6 @@ class Helper {
   static Color color128 = const Color.fromRGBO(128, 128, 128, 1);
   static Color headerBackground = const Color.fromRGBO(248, 249, 251, 1);
   static Color baseBlack = const Color.fromRGBO(0, 0, 0, 1);
+  static const successColor = Color.fromARGB(255, 20, 160, 25);
+  static const errorColor = Colors.red;
 }

@@ -83,26 +83,17 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           path: '/password',
           name: passwordRoute,
           pageBuilder: (context, state) {
+            Map<String, dynamic> args = state.extra as Map<String, dynamic>;
             return NoTransitionPage(
               key: state.pageKey,
               child: PasswordScreen(
                 key: state.pageKey,
+                email: args['email'],
               ),
             );
           },
         ),
-        GoRoute(
-          path: '/verify',
-          name: verifyemailRoute,
-          pageBuilder: (context, state) {
-            return NoTransitionPage(
-              key: state.pageKey,
-              child: VerifyEmailScreen(
-                key: state.pageKey,
-              ),
-            );
-          },
-        ),
+        
         GoRoute(
           path: '/forgotpassword',
           name: forgotpasswordRoute,
@@ -116,13 +107,29 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           },
         ),
         GoRoute(
+          path: '/verifyEmail',
+          name: verifyemailRoute,
+          pageBuilder: (context, state) {
+            Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+            return NoTransitionPage(
+              key: state.pageKey,
+              child: VerifyEmailScreen(
+                key: state.pageKey,
+                token: args['token'],
+              ),
+            );
+          },
+        ),
+        GoRoute(
           path: '/changepassword',
           name: changepasswordRoute,
           pageBuilder: (context, state) {
+            Map<String, dynamic> args = state.extra as Map<String, dynamic>;
             return NoTransitionPage(
               key: state.pageKey,
               child: ChangePasswordScreen(
                 key: state.pageKey,
+                token: args['token'],
               ),
             );
           },
