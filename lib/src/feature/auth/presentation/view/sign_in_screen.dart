@@ -13,6 +13,7 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   TextEditingController _controller = TextEditingController();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+  bool _changeState = false;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -75,6 +76,12 @@ class _SignInScreenState extends State<SignInScreen> {
                     controller: _controller,
                     onChanged: (text) {
                       setState(() {});
+                      _changeState = true;
+                    },
+                    onSubmitted: (text){
+                      setState(() {
+                        _changeState = true;
+                      });
                     },
                     validator: (val) {
                       if (val == null || val.isEmpty) {
@@ -113,6 +120,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                 onPressed: () {
                                   setState(() {
                                     _controller.clear();
+                                    _changeState = false;
                                   });
                                 },
                               ),
@@ -153,7 +161,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                       style: ButtonStyle(
                           backgroundColor:
-                              MaterialStatePropertyAll(Helper.blendmode),
+                              MaterialStatePropertyAll(_changeState ? Helper.primary : Helper.blendmode),
                           shape: MaterialStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),

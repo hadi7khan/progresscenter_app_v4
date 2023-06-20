@@ -24,6 +24,7 @@ class _ChangePasswordScreenState
   bool _obscurePassword = true;
   bool _obscurePasswordretype = true;
   bool isLoading = false;
+  bool _changeState = false;
 
   void togglePassword() {
     setState(() {
@@ -110,6 +111,12 @@ class _ChangePasswordScreenState
                     obscureText: _obscurePassword,
                     onChanged: (text) {
                       setState(() {});
+                      _changeState = true;
+                    },
+                    onSubmitted: (text){
+                      setState(() {
+                        _changeState = true;
+                      });
                     },
                     validator: (val) {
                       if (val == null || val.isEmpty) {
@@ -184,6 +191,12 @@ class _ChangePasswordScreenState
                     obscureText: _obscurePasswordretype,
                     onChanged: (text) {
                       setState(() {});
+                      _changeState = true;
+                    },
+                    onSubmitted: (text){
+                      setState(() {
+                        _changeState = true;
+                      });
                     },
                     validator: (val) {
                       if (val == null || val.isEmpty) {
@@ -260,7 +273,7 @@ class _ChangePasswordScreenState
                             ),
                       style: ButtonStyle(
                           backgroundColor:
-                              MaterialStatePropertyAll(Helper.primary),
+                              MaterialStatePropertyAll(_changeState ? Helper.primary : Helper.blendmode),
                           shape: MaterialStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),

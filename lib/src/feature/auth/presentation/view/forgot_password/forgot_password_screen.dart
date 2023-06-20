@@ -21,6 +21,7 @@ class _ForgotPasswordScreenState
     extends BaseConsumerState<ForgotPasswordScreen> {
   TextEditingController _verifyemailcontroller = TextEditingController();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+  bool _changeState = false;
   bool isLoading = false;
 
   @override
@@ -99,7 +100,14 @@ class _ForgotPasswordScreenState
                     controller: _verifyemailcontroller,
                     onChanged: (text) {
                       setState(() {});
+                      _changeState = true;
                     },
+                    onSubmitted: (text) {
+                      setState(() {
+                        _changeState = true;
+                      });
+                    },
+                    
                     validator: (val) {
                       if (val == null || val.isEmpty) {
                         return 'Email is required';
@@ -137,6 +145,7 @@ class _ForgotPasswordScreenState
                                 onPressed: () {
                                   setState(() {
                                     _verifyemailcontroller.clear();
+                                    _changeState = false;
                                   });
                                 },
                               ),
@@ -180,8 +189,8 @@ class _ForgotPasswordScreenState
                               // currentIndex == contents.length - 1 ? "Continue" : "Next"
                             ),
                       style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(Helper.blendmode),
+                          backgroundColor: MaterialStatePropertyAll(
+                              _changeState ? Helper.primary : Helper.blendmode),
                           shape: MaterialStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
