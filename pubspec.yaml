@@ -66,6 +66,10 @@ dependencies:
   # https://pub.dev/packages/form_builder_validators
   form_builder_validators: 9.0.0
   page_transition: 2.0.9
+  # https://pub.dev/packages/fluttertoast
+  fluttertoast: 8.2.2
+  # https://pub.dev/packages/another_flushbar
+  another_flushbar: 1.12.30
 
 dev_dependencies:
   flutter_test:

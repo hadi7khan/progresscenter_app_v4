@@ -1,45 +1,29 @@
 class Endpoints {
   // base url
-  static const String baseUrl = "https://admin-api-dev-v4.progresscenter.io";
+  static const String baseUrl = "https://api-dev-v4.progresscenter.io";
 
-  //---------------------------- Clients ---------------------------------------
-  static clientListUrl(page) {
-    return '$baseUrl/api/v4/reseller/61caf1dccb3a8396b119a117/clients';
+  //---------------------------- Auth ---------------------------------------
+  static signinUrl() {
+    return '$baseUrl/api/v4/auth/authenticate';
   }
 
-  static clientDetailsUrl(id) {
-    return '$baseUrl/api/v4/reseller/61caf1dccb3a8396b119a117/clients/$id';
+  static forgotPasswordUrl() {
+    return '$baseUrl/api/v4/auth/forgot-password';
   }
 
-  static createClientUrl(data) {
-    return '$baseUrl/api/v4/clients';
+  static changePasswordUrl(token) {
+    return '$baseUrl/api/v4/auth/forgot-password/$token/reset';
   }
 
-  static deleteClientUrl(id) {
-    return '$baseUrl/api/v4/reseller/61caf1dccb3a8396b119a117/clients';
+  static resendOtpUrl(token) {
+    return '$baseUrl/api/v4/auth/forgot-password/$token/resend';
+  }
+
+  static verifyEmailUrl(token) {
+    return '$baseUrl/api/v4/auth/forgot-password/$token/validate';
   }
 
   //---------------------------- Users ---------------------------------------
-  static userListUrl(page) {
-    return '$baseUrl/api/v4/reseller/61caf1dccb3a8396b119a117/users?clientId=010018';
-  }
-
-  static userDetailsUrl(id) {
-    return '$baseUrl/api/v4/users/$id';
-  }
-
-  static createUserUrl(data) {
-    return '$baseUrl/api/v4/clients';
-  }
-
-  static deleteUserUrl(id) {
-    return '$baseUrl/api/v4/reseller/61caf1dccb3a8396b119a117/clients';
-  }
-
-  //---------------------------- Support ---------------------------------------
-  static ticketListUrl(page) {
-    return '$baseUrl/api/v4/reseller/61caf1dccb3a8396b119a117/support-tickets';
-  }
 
   // receiveTimeout
   static const int receiveTimeout = 15000;
