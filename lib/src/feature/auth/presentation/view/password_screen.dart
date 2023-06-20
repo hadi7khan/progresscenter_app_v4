@@ -20,6 +20,7 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   bool isLoading = false;
   bool _obscurePassword = true;
+  bool _changeState = false;
 
   void togglePassword() {
     setState(() {
@@ -105,6 +106,15 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                   FormBuilderTextField(
                     name: 'password',
                     controller: _passwordcontroller,
+                    onChanged: (text) {
+                      setState(() {});
+                      _changeState = true;
+                    },
+                    onSubmitted: (text){
+                      setState(() {
+                        _changeState = true;
+                      });
+                    },
                     validator: (val) {
                       if (val == null || val.isEmpty) {
                         return 'Password is required';
@@ -181,7 +191,7 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                             ),
                       style: ButtonStyle(
                           backgroundColor:
-                              MaterialStatePropertyAll(Helper.primary),
+                              MaterialStatePropertyAll(_changeState ? Helper.primary : Helper.blendmode),
                           shape: MaterialStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),

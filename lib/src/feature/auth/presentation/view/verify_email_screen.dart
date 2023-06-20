@@ -20,6 +20,7 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
   TextEditingController _codecontroller = TextEditingController();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   bool isLoading = false;
+  bool _changeState = false;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -112,6 +113,12 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                     },
                     onChanged: (text) {
                       setState(() {});
+                      _changeState = true;
+                    },
+                    onSubmitted: (text){
+                      setState(() {
+                        _changeState = true;
+                      });
                     },
                     textInputAction: TextInputAction.done,
                     style: TextStyle(
@@ -200,7 +207,7 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                       ),
                       style: ButtonStyle(
                           backgroundColor:
-                              MaterialStatePropertyAll(Helper.blendmode),
+                              MaterialStatePropertyAll(_changeState ? Helper.primary : Helper.blendmode),
                           shape: MaterialStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
