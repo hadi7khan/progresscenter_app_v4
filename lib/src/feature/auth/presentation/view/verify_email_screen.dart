@@ -21,6 +21,21 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   bool isLoading = false;
   bool _changeState = false;
+  bool invalidCode = false;
+  bool _validate = false;
+  FocusNode _focusNode = FocusNode();
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(() {
+      if (!_focusNode.hasFocus) {
+        setState(() {
+          _validate = true;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -33,29 +48,26 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
             child: SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 82),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 28),
             child: FormBuilder(
               key: _fbKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Stack(
-                  //   alignment: Alignment.topLeft,
-                  //   children: [
-                  //     IconButton(
-                  //       padding: EdgeInsets.zero,
-                  //       alignment: Alignment.centerLeft,
-                  //       icon: Icon(
-                  //         Icons.arrow_back,
-                  //         size: 24,
-                  //       ),
-                  //       onPressed: () => context.pop(),
-                  //     ),
-                  //     const SizedBox(
-                  //       height: 38,
-                  //     ),
-                  //   ],
-                  // ),
+                  Container(
+                    height: 24,
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      alignment: Alignment.centerLeft,
+                      icon: Icon(
+                        Icons.arrow_back,
+                      ),
+                      onPressed: () => context.pop(),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 38,
+                  ),
                   Text(
                     "Verify your email",
                     style: TextStyle(
@@ -105,7 +117,7 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                     name: 'password',
                     controller: _codecontroller,
                     validator: (val) {
-                      if (val == null || val.isEmpty) {
+                      if (_validate && val == null || val!.isEmpty) {
                         return 'Code is required';
                       }
 
@@ -115,7 +127,7 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                       setState(() {});
                       _changeState = true;
                     },
-                    onSubmitted: (text){
+                    onSubmitted: (text) {
                       setState(() {
                         _changeState = true;
                       });
@@ -156,18 +168,29 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                     ),
                     onTap: () {},
                   ),
-                  const SizedBox(height: 6),
+                  SizedBox(height: invalidCode ? 6 : 0),
+                  invalidCode
+                      ? Text(
+                          "You’ve entered incorrect code",
+                          style: TextStyle(
+                              color: Helper.errorColor,
+                              fontWeight: FontWeight.w400),
+                        )
+                      : SizedBox(),
+                  SizedBox(height: invalidCode ? 16 : 6),
                   InkWell(
-                    onTap: ()async{
+                    onTap: () async {
                       await ref
-                              .watch(resendOTPProvider.notifier)
-                              .resendOTP(widget.token)
-                              .then((value) {
-                            Utils.toastSuccessMessage("Code sent");
-                            setState(() {
-                              isLoading = false;
-                            });
-                          });
+                          .watch(resendOTPProvider.notifier)
+                          .resendOTP(widget.token)
+                          .then((value) {
+                        Utils.toastSuccessMessage("OTP sent");
+                        setState(() {
+                          isLoading = false;
+                          invalidCode = false;
+                          _codecontroller.clear();
+                        });
+                      });
                     },
                     child: RichText(
                       text: TextSpan(
@@ -206,8 +229,8 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                         // currentIndex == contents.length - 1 ? "Continue" : "Next"
                       ),
                       style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(_changeState ? Helper.primary : Helper.blendmode),
+                          backgroundColor: MaterialStatePropertyAll(
+                              _changeState ? Helper.primary : Helper.blendmode),
                           shape: MaterialStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
@@ -220,21 +243,24 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                         if (_fbKey.currentState!.saveAndValidate()) {
                           setState(() {
                             isLoading = true;
+                            invalidCode = false;
                           });
                           await ref
                               .watch(verifyEmailProvider.notifier)
                               .verifyEmail(data, widget.token)
                               .then((value) {
                             print(value.toString());
-                            context.push('/changePassword', extra: {"token": widget.token});
+                            context.push('/changePassword',
+                                extra: {"token": widget.token});
 
                             setState(() {
                               isLoading = false;
+                              invalidCode = false;
                             });
                           }).onError((error, stackTrace) {
-                            Utils.flushBarErrorMessage("Invalid code", context);
                             setState(() {
                               isLoading = false;
+                              invalidCode = true;
                             });
                           });
                         }
