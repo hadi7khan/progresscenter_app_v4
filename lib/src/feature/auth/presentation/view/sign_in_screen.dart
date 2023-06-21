@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
+import 'package:progresscenter_app_v4/src/common/data/extension.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -14,6 +15,21 @@ class _SignInScreenState extends State<SignInScreen> {
   TextEditingController _controller = TextEditingController();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   bool _changeState = false;
+
+  FocusNode focusNode = FocusNode();
+  bool _validate = false;
+  @override
+  void initState() {
+    super.initState();
+    focusNode.addListener(() {
+      if (!focusNode.hasFocus) {
+        setState(() {
+          _validate = true;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -25,12 +41,18 @@ class _SignInScreenState extends State<SignInScreen> {
             child: SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 82),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 28),
             child: FormBuilder(
               key: _fbKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Container(
+                    height: 24,
+                  ),
+                  const SizedBox(
+                    height: 38,
+                  ),
                   RichText(
                     text: TextSpan(
                       // Note: Styles for TextSpans must be explicitly defined.
@@ -74,22 +96,22 @@ class _SignInScreenState extends State<SignInScreen> {
                   FormBuilderTextField(
                     name: 'email',
                     controller: _controller,
+                    focusNode: focusNode,
                     onChanged: (text) {
                       setState(() {});
                       _changeState = true;
                     },
-                    onSubmitted: (text){
+                    onSubmitted: (text) {
                       setState(() {
                         _changeState = true;
                       });
                     },
                     validator: (val) {
-                      if (val == null || val.isEmpty) {
+                      if (_validate && val == null || val!.isEmpty) {
                         return 'Email is required';
                       }
-                      // if (val.length < 8) {
-                      //   return 'Password must be at least 8 characters';
-                      // }
+                      if (_validate && !val.isValidEmail)
+                        return 'Enter valid email';
                       return null;
                     },
                     textInputAction: TextInputAction.done,
@@ -97,7 +119,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                     ),
-                    textCapitalization: TextCapitalization.sentences,
+                    textCapitalization: TextCapitalization.none,
                     keyboardType: TextInputType.name,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
@@ -160,8 +182,8 @@ class _SignInScreenState extends State<SignInScreen> {
                         // currentIndex == contents.length - 1 ? "Continue" : "Next"
                       ),
                       style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(_changeState ? Helper.primary : Helper.blendmode),
+                          backgroundColor: MaterialStatePropertyAll(
+                              _changeState ? Helper.primary : Helper.blendmode),
                           shape: MaterialStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
@@ -170,7 +192,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       onPressed: () {
                         if (_fbKey.currentState!.saveAndValidate()) {
                           context.push('/password',
-                              extra: {"email": _controller.text});
+                              extra: {"email": _controller.text.toLowerCase()});
                         }
                       },
                     ),

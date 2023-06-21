@@ -25,6 +25,7 @@ class _ChangePasswordScreenState
   bool _obscurePasswordretype = true;
   bool isLoading = false;
   bool _changeState = false;
+  bool passwordNotMatched = false;
 
   void togglePassword() {
     setState(() {
@@ -51,29 +52,26 @@ class _ChangePasswordScreenState
             child: SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 82),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 28),
             child: FormBuilder(
               key: _fbKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Stack(
-                  //   alignment: Alignment.topLeft,
-                  //   children: [
-                  //     IconButton(
-                  //       padding: EdgeInsets.zero,
-                  //       alignment: Alignment.centerLeft,
-                  //       icon: Icon(
-                  //         Icons.arrow_back,
-                  //         size: 24,
-                  //       ),
-                  //       onPressed: () => context.pop(),
-                  //     ),
-                  //     const SizedBox(
-                  //       height: 38,
-                  //     ),
-                  //   ],
-                  // ),
+                  Container(
+                    height: 24,
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      alignment: Alignment.centerLeft,
+                      icon: Icon(
+                        Icons.arrow_back,
+                      ),
+                      onPressed: () => context.pop(),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 38,
+                  ),
                   Text(
                     "Choose new password",
                     style: TextStyle(
@@ -109,15 +107,15 @@ class _ChangePasswordScreenState
                     name: 'newpassword',
                     controller: _newPasswordcontroller,
                     obscureText: _obscurePassword,
-                    onChanged: (text) {
-                      setState(() {});
-                      _changeState = true;
-                    },
-                    onSubmitted: (text){
-                      setState(() {
-                        _changeState = true;
-                      });
-                    },
+                    // onChanged: (text) {
+                    //   setState(() {});
+                    //   _changeState = true;
+                    // },
+                    // onSubmitted: (text){
+                    //   setState(() {
+                    //     _changeState = true;
+                    //   });
+                    // },
                     validator: (val) {
                       if (val == null || val.isEmpty) {
                         return 'Email is required';
@@ -192,10 +190,12 @@ class _ChangePasswordScreenState
                     onChanged: (text) {
                       setState(() {});
                       _changeState = true;
+                      passwordNotMatched = false;
                     },
                     onSubmitted: (text){
                       setState(() {
                         _changeState = true;
+                        passwordNotMatched = false;
                       });
                     },
                     validator: (val) {
@@ -254,6 +254,16 @@ class _ChangePasswordScreenState
                     ),
                     onTap: () {},
                   ),
+                  SizedBox(height:passwordNotMatched
+                      ? 6: 0),
+                  passwordNotMatched
+                      ? Text(
+                          "Password not matching",
+                          style: TextStyle(
+                              color: Helper.errorColor,
+                              fontWeight: FontWeight.w400),
+                        )
+                      : SizedBox(),
                   const SizedBox(height: 28),
                   Container(
                     height: 52,
@@ -308,10 +318,10 @@ class _ChangePasswordScreenState
                             });
                           }
                         } else {
-                          Utils.flushBarErrorMessage(
-                              "Password is not matching", context);
+                          
                           setState(() {
                             isLoading = false;
+                            passwordNotMatched = true;
                           });
                         }
                         setState(() {

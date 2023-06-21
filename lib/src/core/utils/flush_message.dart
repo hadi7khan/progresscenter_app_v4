@@ -16,7 +16,7 @@ class Utils {
     Fluttertoast.showToast(
       msg: message,
       backgroundColor: Helper.successColor,
-      textColor: Helper.textColor900,
+      textColor: Colors.white,
       fontSize: 15.0,
     );
   }

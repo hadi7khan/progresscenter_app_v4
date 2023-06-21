@@ -21,6 +21,20 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
   bool isLoading = false;
   bool _obscurePassword = true;
   bool _changeState = false;
+  bool invalidUser = false;
+  FocusNode _focusNode = FocusNode();
+  bool _validate = false;
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(() {
+      if (!_focusNode.hasFocus) {
+        setState(() {
+          _validate = true;
+        });
+      }
+    });
+  }
 
   void togglePassword() {
     setState(() {
@@ -40,29 +54,26 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
             child: SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 82),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 28),
             child: FormBuilder(
               key: _fbKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Stack(
-                  //   alignment: Alignment.topLeft,
-                  //   children: [
-                  //     IconButton(
-                  //       padding: EdgeInsets.zero,
-                  //       alignment: Alignment.centerLeft,
-                  //       icon: Icon(
-                  //         Icons.arrow_back,
-                  //         size: 24,
-                  //       ),
-                  //       onPressed: () => context.pop(),
-                  //     ),
-                  //     const SizedBox(
-                  //       height: 38,
-                  //     ),
-                  //   ],
-                  // ),
+                  Container(
+                    height: 24,
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      alignment: Alignment.centerLeft,
+                      icon: Icon(
+                        Icons.arrow_back,
+                      ),
+                      onPressed: () => context.pop(),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 38,
+                  ),
                   RichText(
                     text: TextSpan(
                       // Note: Styles for TextSpans must be explicitly defined.
@@ -110,18 +121,18 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                       setState(() {});
                       _changeState = true;
                     },
-                    onSubmitted: (text){
+                    onSubmitted: (text) {
                       setState(() {
                         _changeState = true;
                       });
                     },
                     validator: (val) {
-                      if (val == null || val.isEmpty) {
+                      if (_validate && val == null || val!.isEmpty) {
                         return 'Password is required';
                       }
-                      if (val.length < 5) {
-                        return 'Password is short';
-                      }
+                      // if (val.length < 5) {
+                      //   return 'Password is short';
+                      // }
                       return null;
                     },
                     obscureText: _obscurePassword,
@@ -133,6 +144,7 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                     ),
                     textCapitalization: TextCapitalization.sentences,
                     keyboardType: TextInputType.name,
+                    
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
                       contentPadding:
@@ -172,6 +184,16 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                     ),
                     onTap: () {},
                   ),
+                  SizedBox(height:invalidUser
+                      ? 6: 0),
+                  invalidUser
+                      ? Text(
+                          "You’ve entered an incorrect password, try again",
+                          style: TextStyle(
+                              color: Helper.errorColor,
+                              fontWeight: FontWeight.w400),
+                        )
+                      : SizedBox(),
                   const SizedBox(height: 28),
                   Container(
                     height: 52,
@@ -190,8 +212,8 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                               // currentIndex == contents.length - 1 ? "Continue" : "Next"
                             ),
                       style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(_changeState ? Helper.primary : Helper.blendmode),
+                          backgroundColor: MaterialStatePropertyAll(
+                              _changeState ? Helper.primary : Helper.blendmode),
                           shape: MaterialStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
@@ -205,6 +227,7 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                         if (_fbKey.currentState!.saveAndValidate()) {
                           setState(() {
                             isLoading = true;
+                            invalidUser = false;
                           });
                           await ref
                               .watch(signInProvider.notifier)
@@ -215,12 +238,12 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                             Utils.toastSuccessMessage("Signed in successfully");
                             setState(() {
                               isLoading = false;
+                              invalidUser = false;
                             });
                           }).onError((error, stackTrace) {
-                            Utils.flushBarErrorMessage(
-                                "Invalid username or password", context);
                             setState(() {
                               isLoading = false;
+                              invalidUser = true;
                             });
                           });
                         }

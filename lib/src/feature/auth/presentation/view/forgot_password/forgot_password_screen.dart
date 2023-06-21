@@ -5,6 +5,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
+import 'package:progresscenter_app_v4/src/common/data/extension.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/forgot_password_controller.dart';
@@ -23,6 +24,19 @@ class _ForgotPasswordScreenState
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   bool _changeState = false;
   bool isLoading = false;
+  bool _validate = false;
+  FocusNode _focusNode = FocusNode();
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(() {
+      if (!_focusNode.hasFocus) {
+        setState(() {
+          _validate = true;
+        });
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -42,29 +56,26 @@ class _ForgotPasswordScreenState
             child: SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 82),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 28),
             child: FormBuilder(
               key: _fbKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Stack(
-                  //   alignment: Alignment.topLeft,
-                  //   children: [
-                  //     IconButton(
-                  //       padding: EdgeInsets.zero,
-                  //       alignment: Alignment.centerLeft,
-                  //       icon: Icon(
-                  //         Icons.arrow_back,
-                  //         size: 24,
-                  //       ),
-                  //       onPressed: () => context.pop(),
-                  //     ),
-                  //     const SizedBox(
-                  //       height: 38,
-                  //     ),
-                  //   ],
-                  // ),
+                  Container(
+                    height: 24,
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      alignment: Alignment.centerLeft,
+                      icon: Icon(
+                        Icons.arrow_back,
+                      ),
+                      onPressed: () => context.pop(),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 38,
+                  ),
                   Text(
                     "Forgot your password?",
                     style: TextStyle(
@@ -107,14 +118,12 @@ class _ForgotPasswordScreenState
                         _changeState = true;
                       });
                     },
-                    
                     validator: (val) {
-                      if (val == null || val.isEmpty) {
+                      if (_validate && val == null || val!.isEmpty) {
                         return 'Email is required';
                       }
-                      // if (val.length < 8) {
-                      //   return 'Password must be at least 8 characters';
-                      // }
+                      if (_validate && !val.isValidEmail)
+                        return 'Enter valid email';
                       return null;
                     },
                     textInputAction: TextInputAction.done,
@@ -202,7 +211,7 @@ class _ForgotPasswordScreenState
                             isLoading = true;
                           });
                           Map<String, dynamic> data = {
-                            "email": _verifyemailcontroller.text,
+                            "email": _verifyemailcontroller.text.toLowerCase(),
                           };
                           await ref
                               .watch(forgotPasswordProvider.notifier)
