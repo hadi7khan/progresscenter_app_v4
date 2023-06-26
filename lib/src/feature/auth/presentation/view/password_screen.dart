@@ -234,7 +234,7 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                               .signIn(data)
                               .then((value) {
                             print(value.toString());
-                            context.push('/verify');
+                            context.go('/projects');
                             Utils.toastSuccessMessage("Signed in successfully");
                             setState(() {
                               isLoading = false;
