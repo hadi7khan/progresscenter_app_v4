@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/common/data/extension.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
@@ -41,24 +42,24 @@ class _SignInScreenState extends State<SignInScreen> {
             child: SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 28),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
             child: FormBuilder(
               key: _fbKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    height: 24,
+                    height: 24.h,
                   ),
-                  const SizedBox(
-                    height: 38,
+                  SizedBox(
+                    height: 38.h,
                   ),
                   RichText(
                     text: TextSpan(
                       // Note: Styles for TextSpans must be explicitly defined.
                       // Child text spans will inherit styles from parent
                       style: TextStyle(
-                        fontSize: 32,
+                        fontSize: 32.sp,
                         fontWeight: FontWeight.w600,
                         color: Helper.baseBlack,
                       ),
@@ -70,28 +71,28 @@ class _SignInScreenState extends State<SignInScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 12,
+                  SizedBox(
+                    height: 12.h,
                   ),
                   Text(
                     "Sign in to start managing your projects and job sites.",
                     style: TextStyle(
                         color: Helper.color128,
                         fontWeight: FontWeight.w400,
-                        fontSize: 16),
+                        fontSize: 16.sp),
                   ),
-                  const SizedBox(
-                    height: 34,
+                   SizedBox(
+                    height: 34.h,
                   ),
                   Text(
                     "Email",
                     style: TextStyle(
                         color: Helper.textColor700,
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500),
                   ),
-                  const SizedBox(
-                    height: 6,
+                  SizedBox(
+                    height: 6.h,
                   ),
                   FormBuilderTextField(
                     name: 'email',
@@ -116,7 +117,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     },
                     textInputAction: TextInputAction.done,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
                     ),
                     textCapitalization: TextCapitalization.none,
@@ -124,16 +125,16 @@ class _SignInScreenState extends State<SignInScreen> {
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
                       contentPadding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+                          EdgeInsets.symmetric(vertical: 10.h, horizontal: 14.w),
                       hintText: "Email or username",
                       hintStyle: TextStyle(
                         color: Helper.textColor500,
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.w400,
                       ),
                       suffixIcon: _controller.text.isNotEmpty
                           ? Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 3),
+                              padding: EdgeInsets.symmetric(horizontal: 3.w),
                               child: IconButton(
                                 icon: Icon(
                                   Icons.clear,
@@ -150,27 +151,27 @@ class _SignInScreenState extends State<SignInScreen> {
                           : SizedBox(),
                       // hintText: widget.control.label,
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                         borderSide: BorderSide(color: Helper.textColor300),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                         borderSide: BorderSide(color: Helper.primary),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                         borderSide: const BorderSide(color: Colors.red),
                       ),
                       errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                         borderSide: const BorderSide(color: Colors.red),
                       ),
                     ),
                     onTap: () {},
                   ),
-                  const SizedBox(height: 28),
+                  SizedBox(height: 28.h),
                   Container(
-                    height: 52,
+                    height: 52.h,
                     width: double.infinity,
                     child: ElevatedButton(
                       child: Text(
@@ -186,7 +187,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               _changeState ? Helper.primary : Helper.blendmode),
                           shape: MaterialStateProperty.all(
                             RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(8.r),
                             ),
                           )),
                       onPressed: () {

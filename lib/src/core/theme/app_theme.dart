@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 
@@ -24,12 +25,15 @@ mixin AppThemeMixin {
   final lightTheme = ThemeData(
     primarySwatch: primarySwatch,
     brightness: Brightness.light,
+    splashColor: Colors.transparent,
+    scaffoldBackgroundColor: Color(0xFFF7F7F7),
+    fontFamily: 'Inter',
+    useMaterial3: true,
     appBarTheme: AppBarTheme(
         iconTheme: const IconThemeData(color: Colors.black),
         toolbarTextStyle: TextStyle(color: Helper.secondary),
         backgroundColor: Colors.transparent,
         elevation: 0),
-    scaffoldBackgroundColor: Color(0xFFF7F7F7),
     floatingActionButtonTheme:
         FloatingActionButtonThemeData(backgroundColor: Helper.primary),
     inputDecorationTheme: InputDecorationTheme(
@@ -66,21 +70,21 @@ mixin AppThemeMixin {
       ),
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: Colors.pinkAccent,
+      showUnselectedLabels: true,
+      type: BottomNavigationBarType.fixed,
       selectedItemColor: Helper.primary,
-      unselectedItemColor: Colors.grey,
-      selectedIconTheme: const IconThemeData(size: 18),
-      unselectedIconTheme: const IconThemeData(size: 18),
+      unselectedItemColor: Helper.secondary,
       selectedLabelStyle: TextStyle(
         color: Helper.primary,
-        fontSize: 12,
+        fontSize: 11,
+        fontWeight: FontWeight.w500,
+      ),
+      unselectedLabelStyle: TextStyle(
+        color: Helper.secondary,
+        fontSize: 11,
         fontWeight: FontWeight.w400,
       ),
-      unselectedLabelStyle: const TextStyle(
-        color: Colors.grey,
-        fontSize: 12,
-        fontWeight: FontWeight.w400,
-      ),
+      backgroundColor: Colors.white,
     ),
     textTheme: ThemeData.light().textTheme.copyWith(
           labelLarge: const TextStyle(

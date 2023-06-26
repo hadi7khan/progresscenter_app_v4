@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:progresscenter_app_v4/src/core/theme/app_theme.dart';
+import 'package:progresscenter_app_v4/src/core/theme/theme_const.dart';
 
 import 'src/base/base_consumer_state.dart';
 import 'src/core/route/go_router_provider.dart';
 import 'src/core/utils/helper.dart';
-import 'src/feature/auth/presentation/view/onboarding_screen.dart';
 
 void main() {
   runApp(const ProviderScope(child: const MyApp()));
@@ -20,22 +21,33 @@ class MyApp extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _MyAppState();
 }
 
-class _MyAppState extends BaseConsumerState<MyApp> {
+class _MyAppState extends BaseConsumerState<MyApp> with AppThemeMixin {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     final goRouter = ref.watch(goRouterProvider);
-    return MaterialApp.router(
-      routerDelegate: goRouter.routerDelegate,
-      routeInformationParser: goRouter.routeInformationParser,
-      routeInformationProvider: goRouter.routeInformationProvider,
-      title: 'ProgressCenter',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        fontFamily: 'Inter',
-        useMaterial3: true,
-      ),
-    );
+    return ScreenUtilInit(
+        designSize: const Size(375, 812),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, child) {
+          ScreenUtil.init(context);
+          return MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            routerDelegate: goRouter.routerDelegate,
+            routeInformationParser: goRouter.routeInformationParser,
+            routeInformationProvider: goRouter.routeInformationProvider,
+            title: 'ProgressCenter',
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            themeMode: currentTheme(kLight),
+            // theme: ThemeData(
+            //   splashColor: Colors.transparent,
+            //   fontFamily: 'Inter',
+            //   useMaterial3: true,
+            // ),
+          );
+        });
   }
 }
 

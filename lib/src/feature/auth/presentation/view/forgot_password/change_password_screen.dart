@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
@@ -52,14 +53,14 @@ class _ChangePasswordScreenState
             child: SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 28),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
             child: FormBuilder(
               key: _fbKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    height: 24,
+                    height: 24.h,
                     child: IconButton(
                       padding: EdgeInsets.zero,
                       alignment: Alignment.centerLeft,
@@ -69,39 +70,39 @@ class _ChangePasswordScreenState
                       onPressed: () => context.pop(),
                     ),
                   ),
-                  const SizedBox(
-                    height: 38,
+                  SizedBox(
+                    height: 38.h,
                   ),
                   Text(
                     "Choose new password",
                     style: TextStyle(
                         color: Helper.baseBlack,
                         fontWeight: FontWeight.w600,
-                        fontSize: 28),
+                        fontSize: 28.sp),
                   ),
-                  const SizedBox(
-                    height: 12,
+                   SizedBox(
+                    height: 12.h,
                   ),
                   Text(
                     "Create a new password that is atleast 8 characters long.",
                     style: TextStyle(
                         color: Helper.color128,
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.w400),
                   ),
 
-                  const SizedBox(
-                    height: 34,
+                  SizedBox(
+                    height: 34.h,
                   ),
                   Text(
                     "New Password",
                     style: TextStyle(
                         color: Helper.textColor700,
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500),
                   ),
-                  const SizedBox(
-                    height: 6,
+                   SizedBox(
+                    height: 6.h,
                   ),
                   FormBuilderTextField(
                     name: 'newpassword',
@@ -128,7 +129,7 @@ class _ChangePasswordScreenState
                     obscuringCharacter: '*',
                     textInputAction: TextInputAction.done,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
                     ),
                     textCapitalization: TextCapitalization.sentences,
@@ -136,11 +137,11 @@ class _ChangePasswordScreenState
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
                       contentPadding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+                          EdgeInsets.symmetric(vertical: 10.h, horizontal: 14.w),
                       hintText: "Enter Password",
                       hintStyle: TextStyle(
                         color: Helper.textColor500,
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.w400,
                       ),
                       suffixIcon: InkWell(
@@ -154,15 +155,15 @@ class _ChangePasswordScreenState
                       ),
                       // hintText: widget.control.label,
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                         borderSide: BorderSide(color: Helper.textColor300),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                         borderSide: BorderSide(color: Helper.primary),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                         borderSide: const BorderSide(color: Colors.red),
                       ),
                       errorBorder: OutlineInputBorder(
@@ -172,16 +173,16 @@ class _ChangePasswordScreenState
                     ),
                     onTap: () {},
                   ),
-                  const SizedBox(height: 28),
+                  SizedBox(height: 28.h),
                   Text(
                     "Retype new password",
                     style: TextStyle(
                         color: Helper.textColor700,
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500),
                   ),
-                  const SizedBox(
-                    height: 6,
+                  SizedBox(
+                    height: 6.h,
                   ),
                   FormBuilderTextField(
                     name: 'retypepassword',
@@ -210,7 +211,7 @@ class _ChangePasswordScreenState
                     obscuringCharacter: '*',
                     textInputAction: TextInputAction.done,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
                     ),
                     textCapitalization: TextCapitalization.sentences,
@@ -218,11 +219,11 @@ class _ChangePasswordScreenState
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
                       contentPadding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+                          EdgeInsets.symmetric(vertical: 10.h, horizontal: 14.w),
                       hintText: "Retype Password",
                       hintStyle: TextStyle(
                         color: Helper.textColor500,
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.w400,
                       ),
                       suffixIcon: InkWell(
@@ -236,26 +237,26 @@ class _ChangePasswordScreenState
                       ),
                       // hintText: widget.control.label,
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                         borderSide: BorderSide(color: Helper.textColor300),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                         borderSide: BorderSide(color: Helper.primary),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                         borderSide: const BorderSide(color: Colors.red),
                       ),
                       errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                         borderSide: const BorderSide(color: Colors.red),
                       ),
                     ),
                     onTap: () {},
                   ),
                   SizedBox(height:passwordNotMatched
-                      ? 6: 0),
+                      ? 6.h: 0),
                   passwordNotMatched
                       ? Text(
                           "Password not matching",
@@ -264,9 +265,9 @@ class _ChangePasswordScreenState
                               fontWeight: FontWeight.w400),
                         )
                       : SizedBox(),
-                  const SizedBox(height: 28),
+                   SizedBox(height: 28.h),
                   Container(
-                    height: 52,
+                    height: 52.h,
                     width: double.infinity,
                     child: ElevatedButton(
                       child: isLoading
@@ -277,7 +278,7 @@ class _ChangePasswordScreenState
                               "Reset Password",
                               style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 16,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w500),
                               // currentIndex == contents.length - 1 ? "Continue" : "Next"
                             ),
@@ -286,7 +287,7 @@ class _ChangePasswordScreenState
                               MaterialStatePropertyAll(_changeState ? Helper.primary : Helper.blendmode),
                           shape: MaterialStateProperty.all(
                             RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(8.r),
                             ),
                           )),
                       onPressed: () async {

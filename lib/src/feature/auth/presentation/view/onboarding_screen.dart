@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
@@ -64,12 +65,12 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                           child: Container(
                             margin: EdgeInsets.zero,
                             padding:
-                                EdgeInsets.only(top: 40, left: 20, right: 20),
+                                EdgeInsets.only(top: 40.h, left: 20.w, right: 20.w),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(30),
-                                topRight: Radius.circular(30),
+                                topLeft: Radius.circular(30.r),
+                                topRight: Radius.circular(30.r),
                               ),
                             ),
                             child: Column(
@@ -78,16 +79,16 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                                   Text(
                                     contents[i].title!,
                                     style: TextStyle(
-                                      fontSize: 32,
+                                      fontSize: 32.sp,
                                       fontWeight: FontWeight.w600,
                                       color: Helper.textColor800,
                                     ),
                                   ),
-                                  const SizedBox(height: 8),
+                                  SizedBox(height: 8.h),
                                   Text(
                                     contents[i].discription!,
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.w400,
                                       color: Helper.textColor600,
                                     ),
@@ -104,8 +105,8 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
               child: Stack(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(bottom: 30),
-                    padding: EdgeInsets.symmetric(horizontal: 20,),
+                    margin: EdgeInsets.only(bottom: 30.h),
+                    padding: EdgeInsets.symmetric(horizontal: 20.w,),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: List.generate(
@@ -114,19 +115,19 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 34),
+                  SizedBox(height: 34.h),
                   Column(
                     children: [
                       Container(
-                        height: 52,
+                        height: 52.h,
                         width: double.infinity,
-                        margin: EdgeInsets.all(20),
+                        margin: EdgeInsets.all(20.w),
                         child: ElevatedButton(
                           child: Text(
                             "Sign in",
                             style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 16,
+                                fontSize: 16.sp,
                                 fontWeight: FontWeight.w500),
                             // currentIndex == contents.length - 1 ? "Continue" : "Next"
                           ),
@@ -135,7 +136,7 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                                   MaterialStatePropertyAll(Helper.primary),
                               shape: MaterialStateProperty.all(
                                 RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
+                                  borderRadius: BorderRadius.circular(8.r),
                                 ),
                               )),
                           onPressed: () {
@@ -164,7 +165,7 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                         // currentIndex == contents.length - 1 ? "Continue" : "Next"
                       ),
                       SizedBox(
-                        height: 32,
+                        height: 32.h,
                       ),
                     ],
                   ),
@@ -179,11 +180,11 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
 
   Container buildDot(int index, BuildContext context) {
     return Container(
-      height: 6,
-      width: currentIndex == index ? 24 : 13,
-      margin: EdgeInsets.only(right: 3),
+      height: 6.h,
+      width: currentIndex == index ? 24.w : 13.w,
+      margin: EdgeInsets.only(right: 3.w),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.r),
         color: currentIndex == index ? Helper.primary : Helper.textColor300,
       ),
     );

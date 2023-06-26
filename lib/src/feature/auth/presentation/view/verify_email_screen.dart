@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
@@ -48,14 +49,14 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
             child: SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 28),
+            padding:  EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
             child: FormBuilder(
               key: _fbKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    height: 24,
+                    height: 24.h,
                     child: IconButton(
                       padding: EdgeInsets.zero,
                       alignment: Alignment.centerLeft,
@@ -65,25 +66,25 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                       onPressed: () => context.pop(),
                     ),
                   ),
-                  const SizedBox(
-                    height: 38,
+                   SizedBox(
+                    height: 38.h,
                   ),
                   Text(
                     "Verify your email",
                     style: TextStyle(
                         color: Helper.baseBlack,
                         fontWeight: FontWeight.w600,
-                        fontSize: 28),
+                        fontSize: 28.sp),
                   ),
-                  const SizedBox(
-                    height: 12,
+                  SizedBox(
+                    height: 12.h,
                   ),
                   RichText(
                     text: TextSpan(
                       // Note: Styles for TextSpans must be explicitly defined.
                       // Child text spans will inherit styles from parent
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.w400,
                         color: Helper.color128,
                       ),
@@ -100,18 +101,18 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 34,
+                   SizedBox(
+                    height: 34.h,
                   ),
                   Text(
                     "Enter code",
                     style: TextStyle(
                         color: Helper.textColor700,
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500),
                   ),
-                  const SizedBox(
-                    height: 6,
+                   SizedBox(
+                    height: 6.h,
                   ),
                   FormBuilderTextField(
                     name: 'password',
@@ -142,33 +143,33 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
                       contentPadding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+                          EdgeInsets.symmetric(vertical: 10.h, horizontal: 14.w),
                       hintText: "Enter code",
                       hintStyle: TextStyle(
                         color: Helper.textColor500,
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.w400,
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                         borderSide: BorderSide(color: Helper.textColor300),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                         borderSide: BorderSide(color: Helper.primary),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                         borderSide: const BorderSide(color: Colors.red),
                       ),
                       errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                         borderSide: const BorderSide(color: Colors.red),
                       ),
                     ),
                     onTap: () {},
                   ),
-                  SizedBox(height: invalidCode ? 6 : 0),
+                  SizedBox(height: invalidCode ? 6.h : 0),
                   invalidCode
                       ? Text(
                           "You’ve entered incorrect code",
@@ -177,7 +178,7 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                               fontWeight: FontWeight.w400),
                         )
                       : SizedBox(),
-                  SizedBox(height: invalidCode ? 16 : 6),
+                  SizedBox(height: invalidCode ? 16.h : 6.h),
                   InkWell(
                     onTap: () async {
                       await ref
@@ -197,7 +198,7 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                         // Note: Styles for TextSpans must be explicitly defined.
                         // Child text spans will inherit styles from parent
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w400,
                           color: Helper.textColor500,
                         ),
@@ -215,16 +216,16 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 28),
+                   SizedBox(height: 28.h),
                   Container(
-                    height: 52,
+                    height: 52.h,
                     width: double.infinity,
                     child: ElevatedButton(
                       child: Text(
                         "Verify your account",
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: 16,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w500),
                         // currentIndex == contents.length - 1 ? "Continue" : "Next"
                       ),
@@ -233,7 +234,7 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                               _changeState ? Helper.primary : Helper.blendmode),
                           shape: MaterialStateProperty.all(
                             RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(8.r),
                             ),
                           )),
                       onPressed: () async {
