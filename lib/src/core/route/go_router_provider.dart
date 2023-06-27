@@ -10,8 +10,10 @@ import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/passwor
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/sign_in_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/verify_email_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/bottom_navigation/view/bottom_navigation.dart';
+import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/docs_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/project_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/projects_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/team/presentation/view/teams_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/timeline/presentation/view/timeline_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/timeline/presentation/view/timeline_screen.dart';
 
@@ -23,11 +25,13 @@ import 'route_names.dart';
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorAKey = GlobalKey<NavigatorState>(debugLabel: 'shellA');
 final _shellNavigatorBKey = GlobalKey<NavigatorState>(debugLabel: 'shellB');
+final _shellNavigatorCKey = GlobalKey<NavigatorState>(debugLabel: 'shellC');
+final _shellNavigatorDKey = GlobalKey<NavigatorState>(debugLabel: 'shellD');
 
 final goRouterProvider = Provider<GoRouter>((ref){
   final notifier = ref.read(goRouterNotifierProvider);
   return  GoRouter(
-  initialLocation: '/',
+  initialLocation: '/projects',
   // * Passing a navigatorKey causes an issue on hot reload:
   // * https://github.com/flutter/flutter/issues/113757#issuecomment-1518421380
   // * However it's still necessary otherwise the navigator pops back to
@@ -64,12 +68,52 @@ final goRouterProvider = Provider<GoRouter>((ref){
         StatefulShellBranch(
           navigatorKey: _shellNavigatorBKey,
           routes: [
-            // Shopping Cart
+            // Timeline
             GoRoute(
               path: '/timeline',
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: TimelineScreen(
                     label: 'Timeline', detailsPath: '/timeline/details'),
+              ),
+              routes: [
+                GoRoute(
+                  path: 'details',
+                  builder: (context, state) =>
+                      const TimelineDetailsScreen(label: 'details'),
+                ),
+              ],
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: _shellNavigatorCKey,
+          routes: [
+            // Docs
+            GoRoute(
+              path: '/docs',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: DocsScreen(
+                    label: 'Teams', detailsPath: '/docs/details'),
+              ),
+              routes: [
+                GoRoute(
+                  path: 'details',
+                  builder: (context, state) =>
+                      const TimelineDetailsScreen(label: 'details'),
+                ),
+              ],
+            ),
+          ],
+        ),
+        StatefulShellBranch(
+          navigatorKey: _shellNavigatorDKey,
+          routes: [
+            // Teams
+            GoRoute(
+              path: '/teams',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: TeamsScreen(
+                    label: 'Teams', detailsPath: '/teams/details'),
               ),
               routes: [
                 GoRoute(

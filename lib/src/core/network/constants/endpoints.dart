@@ -23,7 +23,11 @@ class Endpoints {
     return '$baseUrl/api/v4/auth/forgot-password/$token/validate';
   }
 
-  //---------------------------- Users ---------------------------------------
+  //---------------------------- Projects ---------------------------------------
+
+  static projectListUrl(token) {
+    return '$baseUrl/api/v4/projects';
+  }
 
   // receiveTimeout
   static const int receiveTimeout = 15000;

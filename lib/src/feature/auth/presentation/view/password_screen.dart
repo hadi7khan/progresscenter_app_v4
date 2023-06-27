@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
@@ -54,14 +55,14 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
             child: SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 28),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
             child: FormBuilder(
               key: _fbKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    height: 24,
+                    height: 24.h,
                     child: IconButton(
                       padding: EdgeInsets.zero,
                       alignment: Alignment.centerLeft,
@@ -71,15 +72,15 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                       onPressed: () => context.pop(),
                     ),
                   ),
-                  const SizedBox(
-                    height: 38,
+                  SizedBox(
+                    height: 38.h,
                   ),
                   RichText(
                     text: TextSpan(
                       // Note: Styles for TextSpans must be explicitly defined.
                       // Child text spans will inherit styles from parent
                       style: TextStyle(
-                        fontSize: 32,
+                        fontSize: 32.sp,
                         fontWeight: FontWeight.w600,
                         color: Helper.baseBlack,
                       ),
@@ -99,20 +100,20 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                     style: TextStyle(
                         color: Helper.color128,
                         fontWeight: FontWeight.w400,
-                        fontSize: 16),
+                        fontSize: 16.sp),
                   ),
-                  const SizedBox(
-                    height: 34,
+                   SizedBox(
+                    height: 34.h,
                   ),
                   Text(
                     "Password",
                     style: TextStyle(
                         color: Helper.textColor700,
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w500),
                   ),
-                  const SizedBox(
-                    height: 6,
+                   SizedBox(
+                    height: 6.h,
                   ),
                   FormBuilderTextField(
                     name: 'password',
@@ -166,26 +167,26 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                       ),
                       // hintText: widget.control.label,
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                         borderSide: BorderSide(color: Helper.textColor300),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                         borderSide: BorderSide(color: Helper.primary),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                         borderSide: const BorderSide(color: Colors.red),
                       ),
                       errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                         borderSide: const BorderSide(color: Colors.red),
                       ),
                     ),
                     onTap: () {},
                   ),
                   SizedBox(height:invalidUser
-                      ? 6: 0),
+                      ? 6.h: 0),
                   invalidUser
                       ? Text(
                           "You’ve entered an incorrect password, try again",
@@ -194,9 +195,9 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                               fontWeight: FontWeight.w400),
                         )
                       : SizedBox(),
-                  const SizedBox(height: 28),
+                   SizedBox(height: 28.h),
                   Container(
-                    height: 52,
+                    height: 52.h,
                     width: double.infinity,
                     child: ElevatedButton(
                       child: isLoading
@@ -216,7 +217,7 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                               _changeState ? Helper.primary : Helper.blendmode),
                           shape: MaterialStateProperty.all(
                             RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(8.r),
                             ),
                           )),
                       onPressed: () async {
@@ -250,8 +251,8 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                       },
                     ),
                   ),
-                  const SizedBox(
-                    height: 16,
+                   SizedBox(
+                    height: 16.h,
                   ),
                   Align(
                       alignment: Alignment.center,
@@ -263,7 +264,7 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                           "Forgot your password?",
                           style: TextStyle(
                               color: Helper.color128,
-                              fontSize: 16,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.w500),
                         ),
                       )),

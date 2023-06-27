@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 
 class ScaffoldWithNestedNavigation extends StatelessWidget {
   const ScaffoldWithNestedNavigation({
@@ -26,20 +27,20 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: navigationShell,
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: navigationShell.currentIndex,
-        backgroundColor: Colors.white,
-        destinations: const [
-          NavigationDestination(
-              label: 'Projects', icon: FaIcon(FontAwesomeIcons.bars)),
-          NavigationDestination(
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: navigationShell.currentIndex,
+        items: const [
+          BottomNavigationBarItem(
+              label: 'Projects', icon: Icon(Icons.view_agenda)),
+          BottomNavigationBarItem(
               label: 'Timeline', icon: Icon(Icons.space_dashboard)),
-          NavigationDestination(
-              label: 'Docs', icon: Icon(Icons.insert_drive_file_outlined)),
-          NavigationDestination(label: 'Team', icon: Icon(Icons.person_4)),
-          NavigationDestination(label: 'Settings', icon: Icon(Icons.settings)),
+          BottomNavigationBarItem(
+              label: 'Docs', icon: FaIcon(FontAwesomeIcons.file)),
+          BottomNavigationBarItem(label: 'Team', icon: Icon(Icons.person_4)),
+          BottomNavigationBarItem(
+              label: 'Settings', icon: Icon(Icons.settings)),
         ],
-        onDestinationSelected: _goBranch,
+        onTap: _goBranch,
       ),
     );
   }

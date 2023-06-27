@@ -12,6 +12,11 @@ class TimelineScreen extends StatefulWidget {
 class _TimelineScreenState extends State<TimelineScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: SafeArea(
+          child: Center(
+        child: Text("Timeline"),
+      )),
+    );
   }
 }

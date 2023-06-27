@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 class DioInterceptor extends Interceptor {
   // final _prefsLocator = getIt.get<SharedPreferenceHelper>();
   final token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNlbGxlciI6IjYxY2FmMWRjY2IzYTgzOTZiMTE5YTExNyIsImlhdCI6MTY4NjcyNzg4NX0.ZRFWxtidQ5YXC-cvP_KvNB9wiDCW3HmrOLPkKcSiCi8';
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI3ODI4NjEwOSIsImlhdCI6MTY4Nzg0NzQ2OH0.0AOezzfGVTy3M55xQTjQRUWh6f0sgdBVIc-yx-ohQmU';
 
   @override
   void onRequest(

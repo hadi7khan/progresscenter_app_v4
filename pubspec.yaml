@@ -44,7 +44,7 @@ dependencies:
   # https://pub.dev/packages/flutter_riverpod
   flutter_riverpod: 2.3.6
   # https://pub.dev/packages/flutter_screenutil
-  flutter_screenutil: 5.8.2
+  flutter_screenutil: 5.8.4
   # https://pub.dev/packages/internet_connection_checker
   internet_connection_checker: 1.0.0+1
   # https://pub.dev/packages/json_serializable
@@ -70,6 +70,9 @@ dependencies:
   fluttertoast: 8.2.2
   # https://pub.dev/packages/another_flushbar
   another_flushbar: 1.12.30
+  # https://pub.dev/packages/carousel_slider
+  carousel_slider: 4.2.1
+  dots_indicator: ^3.0.0
 
 dev_dependencies:
   flutter_test:
