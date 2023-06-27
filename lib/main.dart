@@ -10,7 +10,7 @@ import 'src/base/base_consumer_state.dart';
 import 'src/core/route/go_router_provider.dart';
 import 'src/core/utils/helper.dart';
 
-void main() {
+void main() async{
   runApp(const ProviderScope(child: const MyApp()));
 }
 
@@ -31,15 +31,14 @@ class _MyAppState extends BaseConsumerState<MyApp> with AppThemeMixin {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) {
-          ScreenUtil.init(context);
           return MaterialApp.router(
             debugShowCheckedModeBanner: false,
             routerDelegate: goRouter.routerDelegate,
             routeInformationParser: goRouter.routeInformationParser,
             routeInformationProvider: goRouter.routeInformationProvider,
             title: 'ProgressCenter',
-            theme: lightTheme,
-            darkTheme: darkTheme,
+            theme: lightTheme(),
+            darkTheme: darkTheme(),
             themeMode: currentTheme(kLight),
             // theme: ThemeData(
             //   splashColor: Colors.transparent,

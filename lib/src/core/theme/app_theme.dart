@@ -22,80 +22,84 @@ mixin AppThemeMixin {
     },
   );
 
-  final lightTheme = ThemeData(
-    primarySwatch: primarySwatch,
-    brightness: Brightness.light,
-    splashColor: Colors.transparent,
-    scaffoldBackgroundColor: Color(0xFFF7F7F7),
-    fontFamily: 'Inter',
-    useMaterial3: true,
-    appBarTheme: AppBarTheme(
-        iconTheme: const IconThemeData(color: Colors.black),
-        toolbarTextStyle: TextStyle(color: Helper.secondary),
-        backgroundColor: Colors.transparent,
-        elevation: 0),
-    floatingActionButtonTheme:
-        FloatingActionButtonThemeData(backgroundColor: Helper.primary),
-    inputDecorationTheme: InputDecorationTheme(
-      hintStyle: TextStyle(
-          fontWeight: FontWeight.w400,
-          fontSize: 16,
-          color: Colors.grey.shade400),
-      enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.grey.shade300),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Helper.primary),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      errorBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Color(0xffEB2727)),
-        borderRadius: BorderRadius.circular(8),
-      ),
-    ),
-    navigationRailTheme: NavigationRailThemeData(
-      selectedIconTheme: IconThemeData(
-        color: Helper.primary,
-      ),
-      selectedLabelTextStyle: TextStyle(
-        color: Helper.primary,
-        fontSize: 14,
-        fontWeight: FontWeight.w600,
-      ),
-      unselectedLabelTextStyle: TextStyle(
-        color: Colors.grey.shade700,
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
-      ),
-    ),
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      showUnselectedLabels: true,
-      type: BottomNavigationBarType.fixed,
-      selectedItemColor: Helper.primary,
-      unselectedItemColor: Helper.secondary,
-      selectedLabelStyle: TextStyle(
-        color: Helper.primary,
-        fontSize: 11,
-        fontWeight: FontWeight.w500,
-      ),
-      unselectedLabelStyle: TextStyle(
-        color: Helper.secondary,
-        fontSize: 11,
-        fontWeight: FontWeight.w400,
-      ),
-      backgroundColor: Colors.white,
-    ),
-    textTheme: ThemeData.light().textTheme.copyWith(
-          labelLarge: const TextStyle(
-            fontSize: 24,
-            letterSpacing: 10,
-            color: Colors.black,
-          ),
+  lightTheme() {
+    final lightTheme = ThemeData(
+      primarySwatch: primarySwatch,
+      brightness: Brightness.light,
+      splashColor: Colors.transparent,
+      scaffoldBackgroundColor: Color(0xFFF7F7F7),
+      fontFamily: 'Inter',
+      useMaterial3: true,
+      appBarTheme: AppBarTheme(
+          iconTheme: const IconThemeData(color: Colors.black),
+          toolbarTextStyle: TextStyle(color: Helper.secondary),
+          backgroundColor: Colors.transparent,
+          elevation: 0),
+      floatingActionButtonTheme:
+          FloatingActionButtonThemeData(backgroundColor: Helper.primary),
+      inputDecorationTheme: InputDecorationTheme(
+        hintStyle: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontSize: 16.sp,
+            color: Colors.grey.shade400),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey.shade300),
+          borderRadius: BorderRadius.circular(8.r),
         ),
-  );
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Helper.primary),
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Color(0xffEB2727)),
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+      ),
+      navigationRailTheme: NavigationRailThemeData(
+        selectedIconTheme: IconThemeData(
+          color: Helper.primary,
+        ),
+        selectedLabelTextStyle: TextStyle(
+          color: Helper.primary,
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w600,
+        ),
+        unselectedLabelTextStyle: TextStyle(
+          color: Colors.grey.shade700,
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        showUnselectedLabels: true,
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Helper.primary,
+        unselectedItemColor: Helper.textColor700,
+        selectedLabelStyle: TextStyle(
+          color: Helper.primary,
+          fontSize: 11.sp,
+          fontWeight: FontWeight.w500,
+        ),
+        unselectedLabelStyle: TextStyle(
+          color: Helper.secondary,
+          fontSize: 11.sp,
+          fontWeight: FontWeight.w400,
+        ),
+        backgroundColor: Colors.white,
+      ),
+      textTheme: ThemeData.light().textTheme.copyWith(
+            labelLarge: TextStyle(
+              fontSize: 24.sp,
+              letterSpacing: 10,
+              color: Colors.black,
+            ),
+          ),
+    );
+    return lightTheme;
+  }
 
-  final darkTheme = ThemeData(
+  darkTheme(){
+    final darkTheme = ThemeData(
     primarySwatch: primarySwatch,
     brightness: Brightness.dark,
     floatingActionButtonTheme:
@@ -109,16 +113,18 @@ mixin AppThemeMixin {
       unselectedItemColor: Colors.grey,
       selectedLabelStyle: TextStyle(
         color: Helper.primary,
-        fontSize: 14,
-        fontWeight: FontWeight.w400,
-      ),
-      unselectedLabelStyle: const TextStyle(
-        color: Colors.grey,
-        fontSize: 12,
+        fontSize: 11.sp,
         fontWeight: FontWeight.w500,
+      ),
+      unselectedLabelStyle: TextStyle(
+        color: Colors.grey,
+        fontSize: 11.sp,
+        fontWeight: FontWeight.w400,
       ),
     ),
   );
+  return darkTheme;
+  }
 
   ThemeMode currentTheme(String theme) {
     switch (theme) {
