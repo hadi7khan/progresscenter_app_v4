@@ -31,11 +31,11 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
         currentIndex: navigationShell.currentIndex,
         items: const [
           BottomNavigationBarItem(
-              label: 'Projects', icon: Icon(Icons.view_agenda)),
+              label: 'Timeline', icon: Icon(Icons.calendar_today_outlined)),
           BottomNavigationBarItem(
-              label: 'Timeline', icon: Icon(Icons.space_dashboard)),
+              label: 'Docs', icon: Icon(Icons.article_outlined)),
           BottomNavigationBarItem(
-              label: 'Docs', icon: FaIcon(FontAwesomeIcons.file)),
+              label: 'Projects', icon: Icon(Icons.width_normal_outlined)),
           BottomNavigationBarItem(label: 'Team', icon: Icon(Icons.person_4)),
           BottomNavigationBarItem(
               label: 'Settings', icon: Icon(Icons.settings)),
