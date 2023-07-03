@@ -72,7 +72,11 @@ dependencies:
   another_flushbar: 1.12.30
   # https://pub.dev/packages/carousel_slider
   carousel_slider: 4.2.1
-  dots_indicator: ^3.0.0
+  # https://pub.dev/packages/dots_indicator
+  dots_indicator: 3.0.0
+  # https://pub.dev/packages/shimmer
+  shimmer: 3.0.0
+  blurrycontainer: 1.0.2
 
 dev_dependencies:
   flutter_test:

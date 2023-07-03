@@ -27,7 +27,7 @@ mixin AppThemeMixin {
       primarySwatch: primarySwatch,
       brightness: Brightness.light,
       splashColor: Colors.transparent,
-      scaffoldBackgroundColor: Color(0xFFF7F7F7),
+      scaffoldBackgroundColor: Colors.white,
       fontFamily: 'Inter',
       useMaterial3: true,
       appBarTheme: AppBarTheme(
