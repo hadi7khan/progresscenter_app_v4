@@ -21,7 +21,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 14.h),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

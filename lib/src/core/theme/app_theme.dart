@@ -90,7 +90,7 @@ mixin AppThemeMixin {
       textTheme: ThemeData.light().textTheme.copyWith(
             labelLarge: TextStyle(
               fontSize: 24.sp,
-              letterSpacing: 10,
+              letterSpacing: 1,
               color: Colors.black,
             ),
           ),

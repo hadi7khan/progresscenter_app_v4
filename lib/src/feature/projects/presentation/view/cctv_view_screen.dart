@@ -1,5 +1,4 @@
 import 'package:blurrycontainer/blurrycontainer.dart';
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,24 +6,20 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 
-class TimelapseScreen extends StatefulWidget {
+class CCTVScreen extends StatefulWidget {
   final String projectId;
-  const TimelapseScreen({super.key, required this.projectId});
+  const CCTVScreen({super.key, required this.projectId});
 
   @override
-  State<TimelapseScreen> createState() => _TimelapseScreenState();
+  State<CCTVScreen> createState() => _CCTVScreenState();
 }
 
-class _TimelapseScreenState extends State<TimelapseScreen> {
+class _CCTVScreenState extends State<CCTVScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    return Scaffold(body: SafeArea(child: SingleChildScrollView(child: Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
@@ -43,50 +38,27 @@ class _TimelapseScreenState extends State<TimelapseScreen> {
                   ),
                   SizedBox(width: 8.w),
                   Text(
-                    "Timelapse · 5",
+                    "CCTV View · 5",
                     style: TextStyle(
                         color: Helper.baseBlack,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500),
                   )
                 ]),
-                // ListTile(
-                //   dense: true,
-                //   leading: Container(
-                //       height: 24.h,
-                //       child: IconButton(
-                //         padding: EdgeInsets.zero,
-                //         alignment: Alignment.centerLeft,
-                //         icon:
-                //             SvgPicture.asset('assets/images/sort.svg'),
-                //         onPressed: () => context.pop(),
-                //       ),
-                //     ),
-                //     title:Container(
-                //       height: 24.h,
-                //       child: IconButton(
-                //         padding: EdgeInsets.zero,
-                //         alignment: Alignment.centerLeft,
-                //         icon:
-                //             SvgPicture.asset('assets/images/sort.svg'),
-                //         onPressed: () => context.pop(),
-                //       ),
-                //     ),
-                // ),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Container(
-                      margin: EdgeInsets.zero,
-                      height: 24.h,
-                      child: IconButton(
-                        padding: EdgeInsets.zero,
-                        alignment: Alignment.centerLeft,
-                        icon: SvgPicture.asset('assets/images/sort.svg'),
-                        onPressed: () => context.pop(),
-                      ),
-                    ),
+                    // Container(
+                    //   margin: EdgeInsets.zero,
+                    //   height: 24.h,
+                    //   child: IconButton(
+                    //     padding: EdgeInsets.zero,
+                    //     alignment: Alignment.centerLeft,
+                    //     icon: SvgPicture.asset('assets/images/sort.svg'),
+                    //     onPressed: () => context.pop(),
+                    //   ),
+                    // ),
                     Container(
                       margin: EdgeInsets.zero,
                       height: 24.h,
@@ -184,40 +156,15 @@ class _TimelapseScreenState extends State<TimelapseScreen> {
                                   color: Colors.white.withOpacity(0.1),
                                   child: Row(
                                     children: [
-                                      SvgPicture.asset(
-                                        'assets/images/updated.svg',
-                                        height: 10.h,
-                                        width: 9.w,
-                                        color: Colors.white,
-                                      ),
+                                      Icon(Icons.circle, size: 8, color: Helper.successColor300),
+                                      // SvgPicture.asset(
+                                      //   'assets/images/updated.svg',
+                                      //   height: 10.h,
+                                      //   width: 9.w,
+                                      //   color: Colors.white,
+                                      // ),
                                       SizedBox(width: 4.w),
-                                      Text("9:00AM · 12 Jun 23",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 12.sp)),
-                                    ],
-                                  )),
-                            ),
-                            Positioned(
-                              top: 16,
-                              right: 16,
-                              child: BlurryContainer(
-                                  blur: 3,
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 6.h, horizontal: 8.w),
-                                  borderRadius: BorderRadius.circular(30.r),
-                                  color: Colors.white.withOpacity(0.1),
-                                  child: Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        'assets/images/weather.svg',
-                                        height: 10.h,
-                                        width: 9.w,
-                                        color: Colors.white,
-                                      ),
-                                      SizedBox(width: 4.w),
-                                      Text("25℃",
+                                      Text("Online",
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,
@@ -250,7 +197,7 @@ class _TimelapseScreenState extends State<TimelapseScreen> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              "Timelapse",
+                                              "CCTV 1",
                                               style: TextStyle(
                                                 fontSize: 18.sp,
                                                 fontWeight: FontWeight.w500,
@@ -305,8 +252,6 @@ class _TimelapseScreenState extends State<TimelapseScreen> {
               }),
             )
           ]),
-        ),
-      ),
-    ));
+    ))),);
   }
 }

@@ -11,8 +11,12 @@ import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/sign_in
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/verify_email_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/bottom_navigation/view/bottom_navigation.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/docs_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/camera_360.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/cctv_view_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/drone_footage_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/project_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/projects_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/timelapse_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/teams_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/timeline/presentation/view/timeline_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/timeline/presentation/view/timeline_screen.dart';
@@ -94,12 +98,12 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                       label: 'Projects', detailsPath: '/projects/details'),
                 ),
                 routes: [
-                  GoRoute(
-                      path: 'details',
-                      builder: (context, state) {
-                        Map<String, dynamic> args = state.extra as Map<String, dynamic>;
-                        return ProjectDetailsScreen(label: 'details', projectId: args['projectId'], projectName: args['projectName'],);
-                      }),
+                  // GoRoute(
+                  //     path: 'details',
+                  //     builder: (context, state) {
+                  //       Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+                  //       return ProjectDetailsScreen(label: 'details', projectId: args['projectId'], projectName: args['projectName'],);
+                  //     }),
                 ],
               ),
             ],
@@ -142,6 +146,77 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             key: state.pageKey,
             child: SplashScreen(
               key: state.pageKey,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/details',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: projectDetailRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: ProjectDetailsScreen(
+              key: state.pageKey,
+              label: 'details', projectId: args['projectId'], projectName: args['projectName'],
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/timelapse',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: timelapseRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: TimelapseScreen(
+              key: state.pageKey, projectId: args['projectId'],
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/dronefootage',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: dronefootageRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: DroneFootageScreen(
+              key: state.pageKey, projectId: args['projectId'],
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/cctv',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: cctvRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: CCTVScreen(
+              key: state.pageKey, projectId: args['projectId'],
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/camera360',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: camera360Route,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: Camera360Screen(
+              key: state.pageKey, projectId: args['projectId'],
             ),
           );
         },
