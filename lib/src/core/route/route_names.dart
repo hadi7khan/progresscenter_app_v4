@@ -5,7 +5,11 @@ const String verifyemailRoute = 'verifyEmail';
 const String forgotpasswordRoute = 'forgotpassword';
 const String changepasswordRoute = 'changePassword';
 const String onbordingRoute = 'onbording';
-const String projectDetailRoute = 'projectDetail';
+const String projectDetailRoute = 'details';
+const String timelapseRoute = 'timelapse';
+const String dronefootageRoute = 'dronefootage';
+const String cctvRoute = 'cctv';
+const String camera360Route = 'camera360';
 
 
 const String noInternetRoute = 'noInternet';

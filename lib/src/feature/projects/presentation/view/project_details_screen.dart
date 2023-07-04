@@ -32,7 +32,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
       body: SafeArea(
           child: SingleChildScrollView(
               child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 14.h),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(
             children: [
@@ -57,8 +57,8 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
               )
             ],
           ),
-          SizedBox(height: 30.h),
-          Stack(fit: StackFit.loose, alignment: Alignment.center, children: [
+          SizedBox(height: 24.h),
+          Stack(fit: StackFit.loose,alignment: Alignment.bottomCenter, children: [
             CarouselSlider.builder(
               itemCount: 4,
               options: CarouselOptions(
@@ -89,7 +89,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                               ClipRRect(
                                   borderRadius: BorderRadius.circular(16.r),
                                   child: Image.network(
-                                    "https://www.kasandbox.org/programming-images/avatars/piceratops-ultimate.png",
+                                    "https://placekitten.com/640/360",
                                     fit: BoxFit.cover,
                                   ))
                           // : SizedBox(),
@@ -117,22 +117,25 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
             ),
             // data[index].images!.isNotEmpty
             //     ?
-            Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: DotsIndicator(
-                  dotsCount: 4,
-                  position: _currentIndex != null ? _currentIndex! : 0,
-                  decorator: DotsDecorator(
-                      color: Colors.white.withOpacity(0.6),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6.r)),
-                      activeColor: Colors.white,
-                      activeShape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.r)),
-                      size: Size(6, 6),
-                      activeSize: Size(8, 8),
-                      spacing: EdgeInsets.only(right: 6.w)),
-                )),
+            Positioned(
+              top: 168.h,
+              child: Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: DotsIndicator(
+                    dotsCount: 4,
+                    position: _currentIndex != null ? _currentIndex! : 0,
+                    decorator: DotsDecorator(
+                        color: Colors.white.withOpacity(0.6),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6.r)),
+                        activeColor: Colors.white,
+                        activeShape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.r)),
+                        size: Size(6, 6),
+                        activeSize: Size(8, 8),
+                        spacing: EdgeInsets.only(right: 6.w)),
+                  )),
+            ),
             // : SizedBox(),
             Positioned.fill(
               // bottom: 20,
@@ -259,7 +262,7 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
             height: 24.h,
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, ),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 5.h),
             decoration: BoxDecoration(
                 color: Color.fromRGBO(
                   246,
@@ -270,6 +273,9 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                 borderRadius: BorderRadius.circular(12.r)),
             child: Column(children: [
               ListTile(
+                onTap: (){
+                  context.push('/timelapse', extra: {"projectId": "0002"});
+                },
                 dense: true,
                 minVerticalPadding: 0,
                 // visualDensity: VisualDensity(vertical: ,),
@@ -297,6 +303,9 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                       color: Helper.textColor400)),
               Divider(thickness: 1,color: Helper.baseBlack.withOpacity(0.04),),
               ListTile(
+                onTap: (){
+                  context.push('/dronefootage', extra: {"projectId": "0002"});
+                },
                 dense: true,
                 minVerticalPadding: 0,
                 // visualDensity: VisualDensity(vertical: -2,),
@@ -324,6 +333,9 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                       color: Helper.textColor400)),
               Divider(thickness: 1,color: Helper.baseBlack.withOpacity(0.04),),
               ListTile(
+                onTap: (){
+                  context.push('/cctv', extra: {"projectId": "0002"});
+                },
                 dense: true,
                 minVerticalPadding: 0,
                 // visualDensity: VisualDensity(vertical: -2,),
@@ -351,6 +363,9 @@ class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
                       color: Helper.textColor400)),
               Divider(thickness: 1,color: Helper.baseBlack.withOpacity(0.04),),
               ListTile(
+                onTap: (){
+                  context.push('/camera360', extra: {"projectId": "0002"});
+                },
                 dense: true,
                 minVerticalPadding: 0,
                 // visualDensity: VisualDensity(vertical: -2,),

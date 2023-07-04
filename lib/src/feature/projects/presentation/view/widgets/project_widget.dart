@@ -20,6 +20,7 @@ class ProjectWidget extends ConsumerStatefulWidget {
 
 class _ProjectWidgetState extends BaseConsumerState<ProjectWidget> {
   int? _currentIndex;
+  CarouselController carouselController = CarouselController();
   @override
   void initState() {
     super.initState();
@@ -36,7 +37,7 @@ class _ProjectWidgetState extends BaseConsumerState<ProjectWidget> {
       data: (data) {
         return ListView.separated(
           separatorBuilder: (context, index) {
-            return SizedBox(height: 20.h);
+            return SizedBox(height: 16.h);
           },
           shrinkWrap: true,
           padding: EdgeInsets.zero,
@@ -66,6 +67,7 @@ class _ProjectWidgetState extends BaseConsumerState<ProjectWidget> {
                       alignment: Alignment.center,
                       children: [
                         CarouselSlider.builder(
+                          carouselController: carouselController,
                           itemCount: data[index].images!.length,
                           options: CarouselOptions(
                               height: 284.h,
@@ -122,26 +124,29 @@ class _ProjectWidgetState extends BaseConsumerState<ProjectWidget> {
                               )),
                         ),
                         data[index].images!.isNotEmpty
-                            ? Padding(
-                                padding: const EdgeInsets.only(bottom: 12),
-                                child: DotsIndicator(
-                                  dotsCount: data[index].images!.length,
-                                  position: _currentIndex != null
-                                      ? _currentIndex!
-                                      : 0,
-                                  decorator: DotsDecorator(
-                                      color: Colors.white.withOpacity(0.6),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(6.r)),
-                                      activeColor: Colors.white,
-                                      activeShape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8.r)),
-                                      size: Size(6, 6),
-                                      activeSize: Size(8, 8),
-                                      spacing: EdgeInsets.only(right: 6.w)),
-                                ))
+                            ? Positioned(
+                              top: 168.h,
+                              child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 12),
+                                  child: DotsIndicator(
+                                    dotsCount: data[index].images!.length,
+                                    position: _currentIndex != null
+                                        ? _currentIndex!
+                                        : 0,
+                                    decorator: DotsDecorator(
+                                        color: Colors.white.withOpacity(0.6),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(6.r)),
+                                        activeColor: Colors.white,
+                                        activeShape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8.r)),
+                                        size: Size(6, 6),
+                                        activeSize: Size(8, 8),
+                                        spacing: EdgeInsets.only(right: 6.w)),
+                                  )),
+                            )
                             : SizedBox(),
                         Positioned.fill(
                           // bottom: 20,
@@ -189,7 +194,7 @@ class _ProjectWidgetState extends BaseConsumerState<ProjectWidget> {
                                     ),
                                     TextButton(
                                         onPressed: () {
-                                          context.push(widget.detailsPath, extra: {"projectId": "projectId", "projectName": data[index].name!});
+                                          context.push('/details', extra: {"projectId": "projectId", "projectName": data[index].name!});
                                         },
                                         style: ButtonStyle(
                                             shape: MaterialStateProperty.all(
