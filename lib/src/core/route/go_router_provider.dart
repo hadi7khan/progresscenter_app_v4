@@ -174,7 +174,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return NoTransitionPage(
             key: state.pageKey,
             child: TimelapseScreen(
-              key: state.pageKey, projectId: args['projectId'],
+              key: state.pageKey, projectId: args['projectId'], projectName: args['projectName']
             ),
           );
         },

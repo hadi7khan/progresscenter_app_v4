@@ -14,9 +14,10 @@ String projectModelToJson(List<ProjectModel> data) =>
 class ProjectModel with _$ProjectModel {
   const factory ProjectModel({
     Location? location,
-    String? id,
+    @JsonKey(name: '_id') String? id,
     String? name,
     List<Image>? images,
+    List<Asset>? assets,
     String? status,
     String? activity,
     DateTime? lastUpdated,
@@ -32,6 +33,15 @@ class ProjectModel with _$ProjectModel {
 
   factory ProjectModel.fromJson(Map<String, dynamic> json) =>
       _$ProjectModelFromJson(json);
+}
+@freezed
+class Asset with _$Asset {
+    const factory Asset({
+        String? name,
+        int? count,
+    }) = _Asset;
+
+    factory Asset.fromJson(Map<String, dynamic> json) => _$AssetFromJson(json);
 }
 
 @freezed

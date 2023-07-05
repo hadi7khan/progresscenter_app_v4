@@ -111,8 +111,8 @@ class _SignInScreenState extends State<SignInScreen> {
                       if (_validate && val == null || val!.isEmpty) {
                         return 'Email is required';
                       }
-                      if (_validate && !val.isValidEmail)
-                        return 'Enter valid email';
+                      // if (_validate && !val.isValidEmail)
+                      //   return 'Enter valid email';
                       return null;
                     },
                     textInputAction: TextInputAction.done,

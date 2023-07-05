@@ -21,9 +21,11 @@ ProjectModel _$ProjectModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ProjectModel {
   Location? get location => throw _privateConstructorUsedError;
+  @JsonKey(name: '_id')
   String? get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   List<Image>? get images => throw _privateConstructorUsedError;
+  List<Asset>? get assets => throw _privateConstructorUsedError;
   String? get status => throw _privateConstructorUsedError;
   String? get activity => throw _privateConstructorUsedError;
   DateTime? get lastUpdated => throw _privateConstructorUsedError;
@@ -50,9 +52,10 @@ abstract class $ProjectModelCopyWith<$Res> {
   @useResult
   $Res call(
       {Location? location,
-      String? id,
+      @JsonKey(name: '_id') String? id,
       String? name,
       List<Image>? images,
+      List<Asset>? assets,
       String? status,
       String? activity,
       DateTime? lastUpdated,
@@ -85,6 +88,7 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
     Object? id = freezed,
     Object? name = freezed,
     Object? images = freezed,
+    Object? assets = freezed,
     Object? status = freezed,
     Object? activity = freezed,
     Object? lastUpdated = freezed,
@@ -114,6 +118,10 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
               as List<Image>?,
+      assets: freezed == assets
+          ? _value.assets
+          : assets // ignore: cast_nullable_to_non_nullable
+              as List<Asset>?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -184,9 +192,10 @@ abstract class _$$_ProjectModelCopyWith<$Res>
   @useResult
   $Res call(
       {Location? location,
-      String? id,
+      @JsonKey(name: '_id') String? id,
       String? name,
       List<Image>? images,
+      List<Asset>? assets,
       String? status,
       String? activity,
       DateTime? lastUpdated,
@@ -218,6 +227,7 @@ class __$$_ProjectModelCopyWithImpl<$Res>
     Object? id = freezed,
     Object? name = freezed,
     Object? images = freezed,
+    Object? assets = freezed,
     Object? status = freezed,
     Object? activity = freezed,
     Object? lastUpdated = freezed,
@@ -247,6 +257,10 @@ class __$$_ProjectModelCopyWithImpl<$Res>
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
               as List<Image>?,
+      assets: freezed == assets
+          ? _value._assets
+          : assets // ignore: cast_nullable_to_non_nullable
+              as List<Asset>?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -300,9 +314,10 @@ class __$$_ProjectModelCopyWithImpl<$Res>
 class _$_ProjectModel implements _ProjectModel {
   const _$_ProjectModel(
       {this.location,
-      this.id,
+      @JsonKey(name: '_id') this.id,
       this.name,
       final List<Image>? images,
+      final List<Asset>? assets,
       this.status,
       this.activity,
       this.lastUpdated,
@@ -315,6 +330,7 @@ class _$_ProjectModel implements _ProjectModel {
       this.projectModelId,
       final List<User>? users})
       : _images = images,
+        _assets = assets,
         _users = users;
 
   factory _$_ProjectModel.fromJson(Map<String, dynamic> json) =>
@@ -323,6 +339,7 @@ class _$_ProjectModel implements _ProjectModel {
   @override
   final Location? location;
   @override
+  @JsonKey(name: '_id')
   final String? id;
   @override
   final String? name;
@@ -332,6 +349,16 @@ class _$_ProjectModel implements _ProjectModel {
     final value = _images;
     if (value == null) return null;
     if (_images is EqualUnmodifiableListView) return _images;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<Asset>? _assets;
+  @override
+  List<Asset>? get assets {
+    final value = _assets;
+    if (value == null) return null;
+    if (_assets is EqualUnmodifiableListView) return _assets;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
@@ -368,7 +395,7 @@ class _$_ProjectModel implements _ProjectModel {
 
   @override
   String toString() {
-    return 'ProjectModel(location: $location, id: $id, name: $name, images: $images, status: $status, activity: $activity, lastUpdated: $lastUpdated, parentId: $parentId, hasCameras: $hasCameras, hierarchyLevel: $hierarchyLevel, createdAt: $createdAt, updatedAt: $updatedAt, constructionDays: $constructionDays, projectModelId: $projectModelId, users: $users)';
+    return 'ProjectModel(location: $location, id: $id, name: $name, images: $images, assets: $assets, status: $status, activity: $activity, lastUpdated: $lastUpdated, parentId: $parentId, hasCameras: $hasCameras, hierarchyLevel: $hierarchyLevel, createdAt: $createdAt, updatedAt: $updatedAt, constructionDays: $constructionDays, projectModelId: $projectModelId, users: $users)';
   }
 
   @override
@@ -381,6 +408,7 @@ class _$_ProjectModel implements _ProjectModel {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality().equals(other._images, _images) &&
+            const DeepCollectionEquality().equals(other._assets, _assets) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.activity, activity) ||
                 other.activity == activity) &&
@@ -410,6 +438,7 @@ class _$_ProjectModel implements _ProjectModel {
       id,
       name,
       const DeepCollectionEquality().hash(_images),
+      const DeepCollectionEquality().hash(_assets),
       status,
       activity,
       lastUpdated,
@@ -439,9 +468,10 @@ class _$_ProjectModel implements _ProjectModel {
 abstract class _ProjectModel implements ProjectModel {
   const factory _ProjectModel(
       {final Location? location,
-      final String? id,
+      @JsonKey(name: '_id') final String? id,
       final String? name,
       final List<Image>? images,
+      final List<Asset>? assets,
       final String? status,
       final String? activity,
       final DateTime? lastUpdated,
@@ -460,11 +490,14 @@ abstract class _ProjectModel implements ProjectModel {
   @override
   Location? get location;
   @override
+  @JsonKey(name: '_id')
   String? get id;
   @override
   String? get name;
   @override
   List<Image>? get images;
+  @override
+  List<Asset>? get assets;
   @override
   String? get status;
   @override
@@ -490,6 +523,151 @@ abstract class _ProjectModel implements ProjectModel {
   @override
   @JsonKey(ignore: true)
   _$$_ProjectModelCopyWith<_$_ProjectModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Asset _$AssetFromJson(Map<String, dynamic> json) {
+  return _Asset.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Asset {
+  String? get name => throw _privateConstructorUsedError;
+  int? get count => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $AssetCopyWith<Asset> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AssetCopyWith<$Res> {
+  factory $AssetCopyWith(Asset value, $Res Function(Asset) then) =
+      _$AssetCopyWithImpl<$Res, Asset>;
+  @useResult
+  $Res call({String? name, int? count});
+}
+
+/// @nodoc
+class _$AssetCopyWithImpl<$Res, $Val extends Asset>
+    implements $AssetCopyWith<$Res> {
+  _$AssetCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = freezed,
+    Object? count = freezed,
+  }) {
+    return _then(_value.copyWith(
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      count: freezed == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_AssetCopyWith<$Res> implements $AssetCopyWith<$Res> {
+  factory _$$_AssetCopyWith(_$_Asset value, $Res Function(_$_Asset) then) =
+      __$$_AssetCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String? name, int? count});
+}
+
+/// @nodoc
+class __$$_AssetCopyWithImpl<$Res> extends _$AssetCopyWithImpl<$Res, _$_Asset>
+    implements _$$_AssetCopyWith<$Res> {
+  __$$_AssetCopyWithImpl(_$_Asset _value, $Res Function(_$_Asset) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = freezed,
+    Object? count = freezed,
+  }) {
+    return _then(_$_Asset(
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      count: freezed == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_Asset implements _Asset {
+  const _$_Asset({this.name, this.count});
+
+  factory _$_Asset.fromJson(Map<String, dynamic> json) =>
+      _$$_AssetFromJson(json);
+
+  @override
+  final String? name;
+  @override
+  final int? count;
+
+  @override
+  String toString() {
+    return 'Asset(name: $name, count: $count)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_Asset &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.count, count) || other.count == count));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, name, count);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_AssetCopyWith<_$_Asset> get copyWith =>
+      __$$_AssetCopyWithImpl<_$_Asset>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_AssetToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Asset implements Asset {
+  const factory _Asset({final String? name, final int? count}) = _$_Asset;
+
+  factory _Asset.fromJson(Map<String, dynamic> json) = _$_Asset.fromJson;
+
+  @override
+  String? get name;
+  @override
+  int? get count;
+  @override
+  @JsonKey(ignore: true)
+  _$$_AssetCopyWith<_$_Asset> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
