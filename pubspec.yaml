@@ -76,7 +76,16 @@ dependencies:
   dots_indicator: 3.0.0
   # https://pub.dev/packages/shimmer
   shimmer: 3.0.0
+  # https://pub.dev/packages/blurrycontainer
   blurrycontainer: 1.0.2
+  # https://pub.dev/packages/shared_preferences
+  shared_preferences: 2.2.0
+  # https://pub.dev/packages?q=get_it
+  get_it: 7.6.0
+  # https://pub.dev/packages/http
+  http: 0.13.5
+  # https://pub.dev/packages/intl/changelog
+  intl: 0.18.0
 
 dev_dependencies:
   flutter_test:

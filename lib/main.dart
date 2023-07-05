@@ -9,11 +9,14 @@ import 'package:progresscenter_app_v4/src/core/theme/theme_const.dart';
 
 import 'src/base/base_consumer_state.dart';
 import 'src/core/route/go_router_provider.dart';
+import 'src/core/shared_pref/locator.dart';
 import 'src/core/utils/helper.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await setup();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+  
 
   runApp(const ProviderScope(child: const MyApp()));
 }

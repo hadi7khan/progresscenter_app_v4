@@ -231,7 +231,7 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                             invalidUser = false;
                           });
                           await ref
-                              .watch(signInProvider.notifier)
+                              .read(signInProvider.notifier)
                               .signIn(data)
                               .then((value) {
                             print(value.toString());

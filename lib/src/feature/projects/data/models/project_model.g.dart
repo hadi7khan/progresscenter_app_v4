@@ -11,10 +11,13 @@ _$_ProjectModel _$$_ProjectModelFromJson(Map<String, dynamic> json) =>
       location: json['location'] == null
           ? null
           : Location.fromJson(json['location'] as Map<String, dynamic>),
-      id: json['id'] as String?,
+      id: json['_id'] as String?,
       name: json['name'] as String?,
       images: (json['images'] as List<dynamic>?)
           ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      assets: (json['assets'] as List<dynamic>?)
+          ?.map((e) => Asset.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: json['status'] as String?,
       activity: json['activity'] as String?,
@@ -40,9 +43,10 @@ _$_ProjectModel _$$_ProjectModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_ProjectModelToJson(_$_ProjectModel instance) =>
     <String, dynamic>{
       'location': instance.location,
-      'id': instance.id,
+      '_id': instance.id,
       'name': instance.name,
       'images': instance.images,
+      'assets': instance.assets,
       'status': instance.status,
       'activity': instance.activity,
       'lastUpdated': instance.lastUpdated?.toIso8601String(),
@@ -54,6 +58,16 @@ Map<String, dynamic> _$$_ProjectModelToJson(_$_ProjectModel instance) =>
       'constructionDays': instance.constructionDays,
       'projectModelId': instance.projectModelId,
       'users': instance.users,
+    };
+
+_$_Asset _$$_AssetFromJson(Map<String, dynamic> json) => _$_Asset(
+      name: json['name'] as String?,
+      count: json['count'] as int?,
+    );
+
+Map<String, dynamic> _$$_AssetToJson(_$_Asset instance) => <String, dynamic>{
+      'name': instance.name,
+      'count': instance.count,
     };
 
 _$_Image _$$_ImageFromJson(Map<String, dynamic> json) => _$_Image(

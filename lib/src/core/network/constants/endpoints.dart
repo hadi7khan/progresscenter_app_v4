@@ -25,8 +25,16 @@ class Endpoints {
 
   //---------------------------- Projects ---------------------------------------
 
-  static projectListUrl(token) {
+  static projectListUrl() {
     return '$baseUrl/api/v4/projects';
+  }
+
+  static projectByIdUrl(id) {
+    return '$baseUrl/api/v4/projects/$id/';
+  }
+
+  static cameraListUrl(id) {
+    return '$baseUrl/api/v4/projects/$id/cameras';
   }
 
   // receiveTimeout

@@ -21,7 +21,7 @@ class SignInController extends StateNotifier<SignInState> {
       state = state.copyWith(isSubmitting: false, errorMessage: l.message);
     }, (r) {
       state = state.copyWith(
-          isSubmitting: false, successMessage: 'Forgot password.');
+          isSubmitting: false, successMessage: 'Sign In.');
     });
   }
 }
