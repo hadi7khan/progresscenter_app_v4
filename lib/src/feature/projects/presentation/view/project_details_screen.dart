@@ -367,7 +367,7 @@ class _ProjectDetailsScreenState
 enum AssetType {
   TIMELAPSE("TIMELAPSE", 0),
   DRONE_FOOTAGE("DRONE_FOOTAGE", 1),
-  CCTV_VIEW("CCTV_VIEW", 2),
+  CAMERA_CCTV("CAMERA_CCTV", 2),
   CAMERA_360("CAMERA_360", 3),
   SITE_GALLERY("SITE_GALLERY", 4),
   EQUIPMENT_TRACKERS("EQUIPMENT_TRACKERS", 5),
@@ -442,7 +442,7 @@ Widget buildAsset(BuildContext context, index, assetName, count, projectId, proj
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400)),
           trailing: Icon(Icons.arrow_forward_ios, color: Helper.textColor400));
-    case AssetType.CCTV_VIEW:
+    case AssetType.CAMERA_CCTV:
       return ListTile(
           onTap: () {
             context.push('/cctv', extra: {"projectId": projectId, "projectName": projectName});
@@ -565,7 +565,7 @@ String assetTypeToString(AssetType assetType) {
       return 'Timepalse';
     case AssetType.DRONE_FOOTAGE:
       return 'Drone Footage';
-    case AssetType.CCTV_VIEW:
+    case AssetType.CAMERA_CCTV:
       return 'Cctv View';
     case AssetType.CAMERA_360:
       return '360° Cameras';

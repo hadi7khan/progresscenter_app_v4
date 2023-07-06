@@ -42,6 +42,7 @@ class _TimelapseScreenState extends BaseConsumerState<TimelapseScreen> {
               data: (data) {
                 return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -128,10 +129,10 @@ class _TimelapseScreenState extends BaseConsumerState<TimelapseScreen> {
                         separatorBuilder: (context, index) {
                           return SizedBox(height: 16.h);
                         },
+                        physics: BouncingScrollPhysics(),
                         shrinkWrap: true,
                         padding: EdgeInsets.zero,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: data.length,
+                        itemCount: 5,
                         itemBuilder: ((context, index) {
                           return Container(
                             margin: EdgeInsets.zero,
@@ -175,50 +176,15 @@ class _TimelapseScreenState extends BaseConsumerState<TimelapseScreen> {
                                               );
                                             },
                                           ))
-                                      : SizedBox(),
-                                      // CarouselSlider.builder(
-                                      //   itemCount: 1,
-                                      //   options: CarouselOptions(
-                                      //       height: 284.h,
-                                      //       viewportFraction: 1,
-                                      //       initialPage: 0,
-                                      //       autoPlay: false,
-                                      //       enlargeCenterPage: false,
-                                      //       autoPlayCurve: Curves.fastOutSlowIn,
-                                      //       scrollDirection: Axis.horizontal,
-                                      //       onPageChanged: (index, reason) {
-                                      //         // setState(() {
-                                      //         //   _currentIndex = index;
-                                      //         // });
-                                      //       }),
-                                      //   itemBuilder: (BuildContext context,
-                                      //           int itemIndex,
-                                      //           int pageViewIndex) =>
-                                      //       Container(
-                                      //           width: double.infinity,
-                                      //           margin: EdgeInsets.only(
-                                      //               bottom: 15.h),
-                                      //           decoration: BoxDecoration(
-                                      //             borderRadius:
-                                      //                 BorderRadius.circular(
-                                      //                     16.r),
-                                      //             color: Color.fromRGBO(
-                                      //                 235, 235, 235, 1),
-                                      //           ),
-                                      //           child:
-                                      //               // data[index].images!.isNotEmpty
-                                      //               //     ?
-                                      //               ClipRRect(
-                                      //                   borderRadius:
-                                      //                       BorderRadius
-                                      //                           .circular(16.r),
-                                      //                   child: Image.network(
-                                      //                     "https://placekitten.com/640/360",
-                                      //                     fit: BoxFit.cover,
-                                      //                   ))
-                                      //           // : SizedBox(),
-                                      //           ),
-                                      // ),
+                                      : ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(16.r),
+                                          child:Image.asset(
+                                                  'assets/images/error_image.jpeg',
+                                                  fit: BoxFit.cover,
+                                                  height: 284.h,
+                                                ),
+                                           ),
                                       Positioned(
                                         top: 16,
                                         left: 16,
@@ -239,7 +205,7 @@ class _TimelapseScreenState extends BaseConsumerState<TimelapseScreen> {
                                                   color: Colors.white,
                                                 ),
                                                 SizedBox(width: 4.w),
-                                                Text("9:00AM · 12 Jun 23",
+                                                Text(data[index].lastUpdated != null ?showDateTimeString(data[index].lastUpdated, 'h:mma · dd MMM yy') : "N/A",
                                                     style: TextStyle(
                                                         color: Colors.white,
                                                         fontWeight:
@@ -318,9 +284,9 @@ class _TimelapseScreenState extends BaseConsumerState<TimelapseScreen> {
                                                       //   height: 6.h,
                                                       // ),
                                                       Text(
-                                                        "Installed ·", 
-                                                            // showDate(data[index]
-                                                            //     .installationDate),
+                                                        "Installed · " +
+                                                            showDate(data[index]
+                                                                .installationDate, 'dd MMM yyyy'),
                                                         style: TextStyle(
                                                           fontSize: 14.sp,
                                                           fontWeight:
@@ -385,11 +351,19 @@ class _TimelapseScreenState extends BaseConsumerState<TimelapseScreen> {
   }
 }
 
-showDate(date) {
+showDateTimeString(date, dateFormat) {
+  
+
+  // Format the DateTime object into the desired format
+  String formattedDate = DateFormat(dateFormat).format(date);
+  return formattedDate;
+}
+
+showDate(date, dateFormat) {
   // Parse the installationDate string into a DateTime object
   DateTime parsedDate = DateTime.parse(date);
 
   // Format the DateTime object into the desired format
-  String formattedDate = DateFormat('yyyy-MM-dd').format(parsedDate);
+  String formattedDate = DateFormat(dateFormat).format(parsedDate);
   return formattedDate;
 }

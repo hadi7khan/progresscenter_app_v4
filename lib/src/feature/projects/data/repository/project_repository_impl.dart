@@ -57,7 +57,7 @@ class ProjectRepositoryImpl implements ProjectRepository {
   @override
   Future<Either<Failure, List<CameraModel>>> cameraList(id) async {
     try {
-      final result = await projectDataSource.projectList();
+      final result = await projectDataSource.cameraList(id);
       return Right(
           (result as List).map((e) => CameraModel.fromJson(e)).toList());
     } on DioError catch (e) {
