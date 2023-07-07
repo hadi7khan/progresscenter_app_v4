@@ -10,6 +10,7 @@ const String timelapseRoute = 'timelapse';
 const String dronefootageRoute = 'dronefootage';
 const String cctvRoute = 'cctv';
 const String camera360Route = 'camera360';
+const String siteGalleryRoute = 'sitegallery';
 
 
 const String noInternetRoute = 'noInternet';

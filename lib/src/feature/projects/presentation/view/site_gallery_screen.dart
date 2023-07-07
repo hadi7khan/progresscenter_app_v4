@@ -1,5 +1,3 @@
-import 'package:blurrycontainer/blurrycontainer.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,41 +7,42 @@ import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/drone_footage_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/site_gallery_controller.dart';
 
-class DroneFootageScreen extends ConsumerStatefulWidget {
+class SiteGalleryScreen extends ConsumerStatefulWidget {
   final String projectId;
   final String projectName;
-  const DroneFootageScreen({
+  const SiteGalleryScreen({
     super.key,
     required this.projectId,
     required this.projectName,
   });
 
   @override
-  ConsumerState<DroneFootageScreen> createState() => _DroneFootageScreenState();
+  ConsumerState<SiteGalleryScreen> createState() => _DroneFootageScreenState();
 }
 
-class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
+class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref
-          .read(droneFootageControllerProvider.notifier)
-          .getDroneFootage(widget.projectId);
+          .read(siteGalleryControllerProvider.notifier)
+          .getSiteGallery(widget.projectId);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final droneFootageData = ref.watch(
-        droneFootageControllerProvider.select((value) => value.droneFootages));
+    final siteGalleryData = ref.watch(
+        siteGalleryControllerProvider.select((value) => value.siteGallery));
     return Scaffold(
         body: SafeArea(
       child: SingleChildScrollView(
           child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-        child: droneFootageData.when(
+        child: siteGalleryData.when(
           data: (data) {
             return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,36 +157,34 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
                                 fit: StackFit.loose,
                                 alignment: Alignment.center,
                                 children: [
-                                  data[index].coverImageUrl != null
+                                  data[index].coverImage != null
                                       ? ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(16.r),
                                           child: Stack(
                                               alignment: Alignment.center,
                                               children: [
-                                                Image.network(
-                                                  data[index].coverImageUrl!,
-                                                  height: 284.h,
-                                                  fit: BoxFit.cover,
-                                                  errorBuilder: (BuildContext
-                                                          context,
-                                                      Object exception,
-                                                      StackTrace? stackTrace) {
-                                                    return ClipRRect(
-                                                      child: Image.asset(
-                                                        'assets/images/error_image.jpeg',
+                                                data[index].type == "IMAGE"
+                                                    ? Image.network(
+                                                        "https://placekitten.com/640/360",
+                                                        height: 284.h,
                                                         fit: BoxFit.cover,
-                                                      ),
-                                                    );
-                                                  },
-                                                ),
-                                                Positioned(
-                                                    top: 83,
-                                                    child: Icon(
-                                                        Icons
-                                                            .play_circle_outline_outlined,
-                                                        color: Colors.white,
-                                                        size: 44))
+                                                        errorBuilder:
+                                                            (BuildContext
+                                                                    context,
+                                                                Object
+                                                                    exception,
+                                                                StackTrace?
+                                                                    stackTrace) {
+                                                          return ClipRRect(
+                                                            child: Image.asset(
+                                                              'assets/images/error_image.jpeg',
+                                                              fit: BoxFit.cover,
+                                                            ),
+                                                          );
+                                                        },
+                                                      )
+                                                    : SizedBox(),
                                               ]))
                                       : ClipRRect(
                                           borderRadius:

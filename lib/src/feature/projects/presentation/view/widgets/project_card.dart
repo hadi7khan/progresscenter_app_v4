@@ -73,8 +73,11 @@ class _ProjectCardState extends State<ProjectCard> {
                           fit: BoxFit.cover,
                           errorBuilder: (BuildContext context, Object exception,
                               StackTrace? stackTrace) {
-                            return ClipRRect(child: Image.asset('assets/images/error_image.jpeg',
-                            fit: BoxFit.cover,),);
+                            return ClipRRect(
+                              child: Image.asset(
+                                  'assets/images/error_image.jpeg',
+                                  fit: BoxFit.cover),
+                            );
                           },
                         ))
                     : SizedBox(),
