@@ -11,8 +11,11 @@ final projectDataSourceProvider =
 
 abstract class ProjectDataSource {
   Future projectList({searchText = ''});
-  Future cameraList(String id);
   Future projectById(String id);
+  Future cameraList(String id);
+  Future cctvCameraList(String id);
+  Future droneFootageList(String id);
+  Future siteGalleryList(String id);
 }
 
 class ProjectDataSourceImpl implements ProjectDataSource {
@@ -42,10 +45,40 @@ class ProjectDataSourceImpl implements ProjectDataSource {
       return ServerException();
     }
   }
+
+  @override
+  Future cameraList(id) async {
+    final response = await dioClient.get(Endpoints.cameraListUrl(id));
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      return ServerException();
+    }
+  }
+
+  @override
+  Future cctvCameraList(String id) async {
+    final response = await dioClient.get(Endpoints.cctvCameraListUrl(id));
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      return ServerException();
+    }
+  }
+
+  @override
+  Future droneFootageList(String id) async {
+    final response = await dioClient.get(Endpoints.droneFootageListUrl(id));
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      return ServerException();
+    }
+  }
   
   @override
-  Future cameraList(id) async{
-    final response = await dioClient.get(Endpoints.cameraListUrl(id));
+  Future siteGalleryList(String id) async{
+    final response = await dioClient.get(Endpoints.siteGalleryListUrl(id));
     if (response.statusCode == 200) {
       return response.data;
     } else {

@@ -7,7 +7,8 @@ import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 
 class Camera360Screen extends StatefulWidget {
   final String projectId;
-  const Camera360Screen({super.key, required this.projectId});
+  final String projectName;
+  const Camera360Screen({super.key, required this.projectId, required this.projectName});
 
   @override
   State<Camera360Screen> createState() => _Camera360ScreenState();

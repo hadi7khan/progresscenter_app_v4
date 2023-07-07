@@ -37,6 +37,18 @@ class Endpoints {
     return '$baseUrl/api/v4/projects/$id/cameras';
   }
 
+  static cctvCameraListUrl(id) {
+    return '$baseUrl/api/v4/projects/$id/camera-cctvs';
+  }
+
+  static droneFootageListUrl(id) {
+    return '$baseUrl/api/v4/projects/$id/drone-footages';
+  }
+
+  static siteGalleryListUrl(id) {
+    return '$baseUrl/api/v4/projects/$id/site-gallery';
+  }
+
   // receiveTimeout
   static const int receiveTimeout = 15000;
 

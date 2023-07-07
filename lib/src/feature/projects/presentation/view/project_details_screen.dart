@@ -501,7 +501,7 @@ Widget buildAsset(BuildContext context, index, assetName, count, projectId, proj
     case AssetType.SITE_GALLERY:
       return ListTile(
           onTap: () {
-            context.push('/camera360', extra: {"projectId": projectId, "projectName": projectName});
+            context.push('/sitegallery', extra: {"projectId": projectId, "projectName": projectName});
           },
           dense: true,
           minVerticalPadding: 0,

@@ -16,6 +16,7 @@ import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/cct
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/drone_footage_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/project_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/projects_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/site_gallery_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/timelapse_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/teams_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/timeline/presentation/view/timeline_details_screen.dart';
@@ -160,7 +161,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             key: state.pageKey,
             child: ProjectDetailsScreen(
               key: state.pageKey,
-              label: 'details', projectId: args['projectId'], projectName: args['projectName'],
+              label: 'details',
+              projectId: args['projectId'],
+              projectName: args['projectName'],
             ),
           );
         },
@@ -174,8 +177,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return NoTransitionPage(
             key: state.pageKey,
             child: TimelapseScreen(
-              key: state.pageKey, projectId: args['projectId'], projectName: args['projectName']
-            ),
+                key: state.pageKey,
+                projectId: args['projectId'],
+                projectName: args['projectName']),
           );
         },
       ),
@@ -188,7 +192,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return NoTransitionPage(
             key: state.pageKey,
             child: DroneFootageScreen(
-              key: state.pageKey, projectId: args['projectId'],
+              key: state.pageKey,
+              projectId: args['projectId'],
+              projectName: args['projectName']
             ),
           );
         },
@@ -202,8 +208,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return NoTransitionPage(
             key: state.pageKey,
             child: CCTVScreen(
-              key: state.pageKey, projectId: args['projectId'],
-            ),
+                key: state.pageKey,
+                projectId: args['projectId'],
+                projectName: args['projectName']),
           );
         },
       ),
@@ -216,7 +223,25 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return NoTransitionPage(
             key: state.pageKey,
             child: Camera360Screen(
-              key: state.pageKey, projectId: args['projectId'],
+              key: state.pageKey,
+              projectId: args['projectId'],
+              projectName: args['projectName']
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/sitegallery',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: siteGalleryRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: SiteGalleryScreen(
+              key: state.pageKey,
+              projectId: args['projectId'],
+              projectName: args['projectName']
             ),
           );
         },

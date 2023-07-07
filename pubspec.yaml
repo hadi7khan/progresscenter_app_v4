@@ -65,6 +65,7 @@ dependencies:
   flutter_form_builder: 9.0.0
   # https://pub.dev/packages/form_builder_validators
   form_builder_validators: 9.0.0
+  # https://pub.dev/packages/page_transition
   page_transition: 2.0.9
   # https://pub.dev/packages/fluttertoast
   fluttertoast: 8.2.2
@@ -86,6 +87,10 @@ dependencies:
   http: 0.13.5
   # https://pub.dev/packages/intl/changelog
   intl: 0.18.0
+  # https://pub.dev/packages/video_player
+  video_player: 2.7.0
+  # https://pub.dev/packages/chewie
+  chewie: 1.6.0+1
 
 dev_dependencies:
   flutter_test:

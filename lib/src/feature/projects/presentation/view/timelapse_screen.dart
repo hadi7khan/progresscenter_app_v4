@@ -132,7 +132,7 @@ class _TimelapseScreenState extends BaseConsumerState<TimelapseScreen> {
                         physics: BouncingScrollPhysics(),
                         shrinkWrap: true,
                         padding: EdgeInsets.zero,
-                        itemCount: 5,
+                        itemCount: data.length,
                         itemBuilder: ((context, index) {
                           return Container(
                             margin: EdgeInsets.zero,
@@ -157,34 +157,36 @@ class _TimelapseScreenState extends BaseConsumerState<TimelapseScreen> {
                                     alignment: Alignment.center,
                                     children: [
                                       data[index].latestImage != null
-                                          ?
-                                      ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(16.r),
-                                          child: Image.network(
-                                            data[index].latestImage!.urlThumb,
-                                            height: 284.h,
-                                            fit: BoxFit.cover,
-                                            errorBuilder: (BuildContext context,
-                                                Object exception,
-                                                StackTrace? stackTrace) {
-                                              return ClipRRect(
-                                                child: Image.asset(
-                                                  'assets/images/error_image.jpeg',
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              );
-                                            },
-                                          ))
-                                      : ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(16.r),
-                                          child:Image.asset(
-                                                  'assets/images/error_image.jpeg',
-                                                  fit: BoxFit.cover,
-                                                  height: 284.h,
-                                                ),
-                                           ),
+                                          ? ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(16.r),
+                                              child: Image.network(
+                                                data[index]
+                                                    .latestImage!
+                                                    .urlThumb,
+                                                height: 284.h,
+                                                fit: BoxFit.cover,
+                                                errorBuilder: (BuildContext
+                                                        context,
+                                                    Object exception,
+                                                    StackTrace? stackTrace) {
+                                                  return ClipRRect(
+                                                    child: Image.asset(
+                                                      'assets/images/error_image.jpeg',
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  );
+                                                },
+                                              ))
+                                          : ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(16.r),
+                                              child: Image.asset(
+                                                'assets/images/error_image.jpeg',
+                                                fit: BoxFit.cover,
+                                                height: 284.h,
+                                              ),
+                                            ),
                                       Positioned(
                                         top: 16,
                                         left: 16,
@@ -205,7 +207,14 @@ class _TimelapseScreenState extends BaseConsumerState<TimelapseScreen> {
                                                   color: Colors.white,
                                                 ),
                                                 SizedBox(width: 4.w),
-                                                Text(data[index].lastUpdated != null ?showDateTimeString(data[index].lastUpdated, 'h:mma · dd MMM yy') : "N/A",
+                                                Text(
+                                                    data[index].lastUpdated !=
+                                                            null
+                                                        ? showDateTimeString(
+                                                            data[index]
+                                                                .lastUpdated,
+                                                            'h:mma · dd MMM yy')
+                                                        : "N/A",
                                                     style: TextStyle(
                                                         color: Colors.white,
                                                         fontWeight:
@@ -285,8 +294,10 @@ class _TimelapseScreenState extends BaseConsumerState<TimelapseScreen> {
                                                       // ),
                                                       Text(
                                                         "Installed · " +
-                                                            showDate(data[index]
-                                                                .installationDate, 'dd MMM yyyy'),
+                                                            showDate(
+                                                                data[index]
+                                                                    .installationDate,
+                                                                'dd MMM yyyy'),
                                                         style: TextStyle(
                                                           fontSize: 14.sp,
                                                           fontWeight:
@@ -352,8 +363,6 @@ class _TimelapseScreenState extends BaseConsumerState<TimelapseScreen> {
 }
 
 showDateTimeString(date, dateFormat) {
-  
-
   // Format the DateTime object into the desired format
   String formattedDate = DateFormat(dateFormat).format(date);
   return formattedDate;
