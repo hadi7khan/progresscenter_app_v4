@@ -1,6 +1,7 @@
 // Stateful nested navigation based on:
 // https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/stateful_shell_route.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
@@ -29,16 +30,42 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
       body: navigationShell,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: navigationShell.currentIndex,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-              label: 'Timeline', icon: Icon(Icons.calendar_today_outlined)),
+              label: 'Timeline',
+              activeIcon: SvgPicture.asset(
+                'assets/images/timeline.svg',
+                color: Helper.primary,
+              ),
+              icon: SvgPicture.asset('assets/images/timeline.svg')),
           BottomNavigationBarItem(
-              label: 'Docs', icon: Icon(Icons.article_outlined)),
+              label: 'Docs',
+              activeIcon: SvgPicture.asset(
+                'assets/images/docs.svg',
+                color: Helper.primary,
+              ),
+              icon: SvgPicture.asset('assets/images/docs.svg')),
           BottomNavigationBarItem(
-              label: 'Projects', icon: Icon(Icons.width_normal_outlined)),
-          BottomNavigationBarItem(label: 'Team', icon: Icon(Icons.person_4)),
+              label: 'Projects',
+              activeIcon: SvgPicture.asset(
+                'assets/images/projects.svg',
+                color: Helper.primary,
+              ),
+              icon: SvgPicture.asset('assets/images/projects.svg', color: Helper.textColor700,)),
           BottomNavigationBarItem(
-              label: 'Settings', icon: Icon(Icons.settings)),
+              label: 'Team',
+              activeIcon: SvgPicture.asset(
+                'assets/images/teams.svg',
+                color: Helper.primary,
+              ),
+              icon: SvgPicture.asset('assets/images/teams.svg')),
+          BottomNavigationBarItem(
+              label: 'Settings',
+              activeIcon: SvgPicture.asset(
+                'assets/images/profile.svg',
+                color: Helper.primary,
+              ),
+              icon: SvgPicture.asset('assets/images/profile.svg')),
         ],
         onTap: _goBranch,
       ),

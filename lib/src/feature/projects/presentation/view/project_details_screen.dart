@@ -562,7 +562,7 @@ Widget buildAsset(BuildContext context, index, assetName, count, projectId, proj
 String assetTypeToString(AssetType assetType) {
   switch (assetType) {
     case AssetType.TIMELAPSE:
-      return 'Timepalse';
+      return 'TimeLapse';
     case AssetType.DRONE_FOOTAGE:
       return 'Drone Footage';
     case AssetType.CAMERA_CCTV:
