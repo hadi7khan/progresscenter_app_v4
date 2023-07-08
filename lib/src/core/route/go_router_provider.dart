@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/main.dart';
 import 'package:progresscenter_app_v4/src/common/error/no_internet_connection_screen.dart';
+import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
+import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/forgot_password/change_password_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/forgot_password/forgot_password_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/onboarding_screen.dart';
@@ -30,17 +32,35 @@ final _shellNavigatorAKey = GlobalKey<NavigatorState>(debugLabel: 'shellA');
 final _shellNavigatorBKey = GlobalKey<NavigatorState>(debugLabel: 'shellB');
 final _shellNavigatorCKey = GlobalKey<NavigatorState>(debugLabel: 'shellC');
 final _shellNavigatorDKey = GlobalKey<NavigatorState>(debugLabel: 'shellD');
+final _prefsLocator = getIt.get<SharedPreferenceHelper>();
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   final notifier = ref.read(goRouterNotifierProvider);
   return GoRouter(
-    initialLocation: '/projects',
+    initialLocation: '/',
     // * Passing a navigatorKey causes an issue on hot reload:
     // * https://github.com/flutter/flutter/issues/113757#issuecomment-1518421380
     // * However it's still necessary otherwise the navigator pops back to
     // * root on hot reload
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
+    redirect: (context, state){
+       // if the user is not logged in, they need to login
+      final hasToken =  _prefsLocator.getUserToken();
+      // final bool loggingIn = state.subloc == '/login';
+      if (hasToken.isEmpty) {
+        return '/signin';
+      }
+
+      // if the user is logged in but still on the login page, send them to
+      // the home page
+      if (hasToken.isNotEmpty) {
+        return '/projects';
+      }
+
+      // no need to redirect at all
+      return null;
+    },
     routes: [
       // Stateful navigation based on:
       // https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/stateful_shell_route.dart
