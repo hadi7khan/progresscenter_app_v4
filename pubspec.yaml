@@ -91,6 +91,10 @@ dependencies:
   video_player: 2.7.0
   # https://pub.dev/packages/chewie
   chewie: 1.6.0+1
+  # https://pub.dev/packages/dotted_border
+  dotted_border: 2.0.0+3
+  # https://pub.dev/packages/staggered_grid_view_flutter
+  staggered_grid_view_flutter: ^0.0.4
 
 dev_dependencies:
   flutter_test:

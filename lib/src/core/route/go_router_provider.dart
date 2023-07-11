@@ -13,9 +13,12 @@ import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/sign_in
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/verify_email_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/bottom_navigation/view/bottom_navigation.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/docs_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/add_member_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/camera_360.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/cctv_view_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/drone_footage_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/edit_project_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/project_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/projects_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/site_gallery_screen.dart';
@@ -37,30 +40,30 @@ final _prefsLocator = getIt.get<SharedPreferenceHelper>();
 final goRouterProvider = Provider<GoRouter>((ref) {
   final notifier = ref.read(goRouterNotifierProvider);
   return GoRouter(
-    initialLocation: '/',
+    initialLocation: '/projects',
     // * Passing a navigatorKey causes an issue on hot reload:
     // * https://github.com/flutter/flutter/issues/113757#issuecomment-1518421380
     // * However it's still necessary otherwise the navigator pops back to
     // * root on hot reload
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
-    redirect: (context, state){
-       // if the user is not logged in, they need to login
-      final hasToken =  _prefsLocator.getUserToken();
-      // final bool loggingIn = state.subloc == '/login';
-      if (hasToken.isEmpty) {
-        return '/signin';
-      }
+    // redirect: (context, state){
+    //    // if the user is not logged in, they need to login
+    //   // final hasToken =  _prefsLocator.getUserToken();
+    //   // final bool loggingIn = state.subloc == '/login';
+    //   // if (hasToken.isEmpty) {
+    //   //   return '/signin';
+    //   // }
 
-      // if the user is logged in but still on the login page, send them to
-      // the home page
-      if (hasToken.isNotEmpty) {
-        return '/projects';
-      }
+    //   // if the user is logged in but still on the login page, send them to
+    //   // the home page
+    //   // if (hasToken.isNotEmpty) {
+    //   //   return '/projects';
+    //   // }
 
-      // no need to redirect at all
-      return null;
-    },
+    //   // no need to redirect at all
+    //   return null;
+    // },
     routes: [
       // Stateful navigation based on:
       // https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/stateful_shell_route.dart
@@ -212,10 +215,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return NoTransitionPage(
             key: state.pageKey,
             child: DroneFootageScreen(
-              key: state.pageKey,
-              projectId: args['projectId'],
-              projectName: args['projectName']
-            ),
+                key: state.pageKey,
+                projectId: args['projectId'],
+                projectName: args['projectName']),
           );
         },
       ),
@@ -243,10 +245,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return NoTransitionPage(
             key: state.pageKey,
             child: Camera360Screen(
-              key: state.pageKey,
-              projectId: args['projectId'],
-              projectName: args['projectName']
-            ),
+                key: state.pageKey,
+                projectId: args['projectId'],
+                projectName: args['projectName']),
           );
         },
       ),
@@ -259,10 +260,33 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return NoTransitionPage(
             key: state.pageKey,
             child: SiteGalleryScreen(
-              key: state.pageKey,
-              projectId: args['projectId'],
-              projectName: args['projectName']
-            ),
+                key: state.pageKey,
+                projectId: args['projectId'],
+                projectName: args['projectName']),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/editproject',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: editProjectRoute,
+        pageBuilder: (context, state) {
+          ProjectModel model = state.extra as ProjectModel;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: EditProjectScreen(key: state.pageKey, data: model),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/addmember',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: addMemberRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: AddMemberScreen(key: state.pageKey, projectId: args['projectId'],),
           );
         },
       ),

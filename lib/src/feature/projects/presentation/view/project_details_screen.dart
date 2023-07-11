@@ -228,7 +228,8 @@ class _ProjectDetailsScreenState
                                         ),
                                         TextButton(
                                             onPressed: () {
-                                              // context.push(widget.detailsPath, extra: {"projectId": "projectId", "projectName": data[index].name!});
+                                              context.push('/editproject',
+                                                  extra: data);
                                             },
                                             style: ButtonStyle(
                                                 shape:
@@ -344,7 +345,9 @@ class _ProjectDetailsScreenState
                                   index,
                                   AssetType.values
                                       .byName(data.assets![index].name!),
-                                  data.assets![index].count, widget.projectId, widget.projectName);
+                                  data.assets![index].count,
+                                  widget.projectId,
+                                  widget.projectName);
                             }),
                       ),
                     ]);
@@ -383,13 +386,15 @@ List assetItems = AssetType.values.map((assetType) {
   return Text(assetTypeToString(assetType));
 }).toList();
 
-Widget buildAsset(BuildContext context, index, assetName, count, projectId, projectName) {
+Widget buildAsset(
+    BuildContext context, index, assetName, count, projectId, projectName) {
   print(assetName);
   switch (assetName) {
     case AssetType.TIMELAPSE:
       return ListTile(
           onTap: () {
-            context.push('/timelapse', extra: {"projectId": projectId, "projectName": projectName});
+            context.push('/timelapse',
+                extra: {"projectId": projectId, "projectName": projectName});
           },
           dense: true,
           minVerticalPadding: 0,
@@ -417,7 +422,8 @@ Widget buildAsset(BuildContext context, index, assetName, count, projectId, proj
     case AssetType.DRONE_FOOTAGE:
       return ListTile(
           onTap: () {
-            context.push('/dronefootage', extra: {"projectId": projectId, "projectName": projectName});
+            context.push('/dronefootage',
+                extra: {"projectId": projectId, "projectName": projectName});
           },
           dense: true,
           minVerticalPadding: 0,
@@ -445,7 +451,8 @@ Widget buildAsset(BuildContext context, index, assetName, count, projectId, proj
     case AssetType.CAMERA_CCTV:
       return ListTile(
           onTap: () {
-            context.push('/cctv', extra: {"projectId": projectId, "projectName": projectName});
+            context.push('/cctv',
+                extra: {"projectId": projectId, "projectName": projectName});
           },
           dense: true,
           minVerticalPadding: 0,
@@ -473,7 +480,8 @@ Widget buildAsset(BuildContext context, index, assetName, count, projectId, proj
     case AssetType.CAMERA_360:
       return ListTile(
           onTap: () {
-            context.push('/camera360', extra: {"projectId": projectId, "projectName": projectName});
+            context.push('/camera360',
+                extra: {"projectId": projectId, "projectName": projectName});
           },
           dense: true,
           minVerticalPadding: 0,
@@ -501,7 +509,8 @@ Widget buildAsset(BuildContext context, index, assetName, count, projectId, proj
     case AssetType.SITE_GALLERY:
       return ListTile(
           onTap: () {
-            context.push('/sitegallery', extra: {"projectId": projectId, "projectName": projectName});
+            context.push('/sitegallery',
+                extra: {"projectId": projectId, "projectName": projectName});
           },
           dense: true,
           minVerticalPadding: 0,
@@ -529,7 +538,8 @@ Widget buildAsset(BuildContext context, index, assetName, count, projectId, proj
     case AssetType.EQUIPMENT_TRACKERS:
       return ListTile(
           onTap: () {
-            context.push('/camera360', extra: {"projectId": projectId, "projectName": projectName});
+            context.push('/camera360',
+                extra: {"projectId": projectId, "projectName": projectName});
           },
           dense: true,
           minVerticalPadding: 0,
