@@ -193,7 +193,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       onPressed: () {
                         if (_fbKey.currentState!.saveAndValidate()) {
                           context.push('/password',
-                              extra: {"email": _controller.text.toLowerCase()});
+                              extra: {"email": _controller.text.trim().toLowerCase()});
                         }
                       },
                     ),
