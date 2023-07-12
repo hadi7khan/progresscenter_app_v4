@@ -16,6 +16,8 @@ abstract class ProjectDataSource {
   Future cctvCameraList(String id);
   Future droneFootageList(String id);
   Future siteGalleryList(String id);
+  Future userleanList();
+  Future inviteMembers(data, id);
 }
 
 class ProjectDataSourceImpl implements ProjectDataSource {
@@ -75,10 +77,30 @@ class ProjectDataSourceImpl implements ProjectDataSource {
       return ServerException();
     }
   }
-  
+
   @override
-  Future siteGalleryList(String id) async{
+  Future siteGalleryList(String id) async {
     final response = await dioClient.get(Endpoints.siteGalleryListUrl(id));
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      return ServerException();
+    }
+  }
+
+  @override
+  Future userleanList() async {
+    final response = await dioClient.get(Endpoints.userleanListUrl());
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      return ServerException();
+    }
+  }
+
+  @override
+  Future inviteMembers(data, id) async {
+    final response = await dioClient.post(Endpoints.inviteMemberUrl(id), data: data);
     if (response.statusCode == 200) {
       return response.data;
     } else {

@@ -11,6 +11,7 @@ import 'package:progresscenter_app_v4/src/feature/projects/data/models/cctv_came
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/drone_footage_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/site_gallery_model.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/domain/project_repository.dart';
 
 final projectProvider = Provider.autoDispose<ProjectRepositoryImpl>(
@@ -111,6 +112,36 @@ class ProjectRepositoryImpl implements ProjectRepository {
       final result = await projectDataSource.siteGalleryList(id);
       return Right(
           (result as List).map((e) => SiteGalleryModel.fromJson(e)).toList());
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e);
+      print(errorMessage.toString());
+      rethrow;
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<UserLeanModel>>> userleanList() async {
+    try {
+      final result = await projectDataSource.userleanList();
+      return Right(
+          (result as List).map((e) => UserLeanModel.fromJson(e)).toList());
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e);
+      print(errorMessage.toString());
+      rethrow;
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
+  
+  @override
+  Future<Either<Failure, dynamic>> inviteMenbers(data, id) async{
+    try {
+      final result = await projectDataSource.inviteMembers(data, id);
+      print("result: " + result.toString());
+      return Right(result);
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
       print(errorMessage.toString());

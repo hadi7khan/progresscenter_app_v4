@@ -46,6 +46,7 @@ class _ProjectCardState extends State<ProjectCard> {
               options: CarouselOptions(
                   height: 284.h,
                   viewportFraction: 1,
+                  aspectRatio: 16/9,
                   initialPage: 0,
                   autoPlay: false,
                   enlargeCenterPage: true,

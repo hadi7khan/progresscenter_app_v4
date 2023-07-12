@@ -94,7 +94,11 @@ dependencies:
   # https://pub.dev/packages/dotted_border
   dotted_border: 2.0.0+3
   # https://pub.dev/packages/staggered_grid_view_flutter
-  staggered_grid_view_flutter: ^0.0.4
+  staggered_grid_view_flutter: 0.0.4
+  # https://pub.dev/packages/flutter_typeahead
+  flutter_typeahead: 4.6.2
+  # https://pub.dev/packages/dropdown_textfield
+  dropdown_textfield: 1.0.8
 
 dev_dependencies:
   flutter_test:

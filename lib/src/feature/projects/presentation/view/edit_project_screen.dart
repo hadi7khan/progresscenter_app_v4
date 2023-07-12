@@ -10,8 +10,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart'
     as model;
-import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
-import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 
 class EditProjectScreen extends StatefulWidget {
   final model.ProjectModel data;
@@ -102,7 +100,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
           child: Stack(children: [
             Container(
                 // height: 90.h,
-                // width: double.infinity,
+                width: double.infinity,
                 decoration: BoxDecoration(
                     // image: DecorationImage(
                     //     image: NetworkImage(
@@ -476,9 +474,8 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                           ),
                           InkWell(
                             onTap: () {
-                              context.push('/addmember', extra: {
-                                "projectId": widget.data.id
-                              });
+                              context.push('/addmember',
+                                  extra: {"projectId": widget.data.id});
                             },
                             child: Text(
                               "Add members",
@@ -611,114 +608,79 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 10.w
-                        ),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            color: _isSelected
-                                ? Helper.widgetBackground
-                                : Colors.white),
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          onTap: () {
-                            setState(() {
-                              _isSelected = true;
-                            });
-                          },
-                          leading: Text(
+                      InkWell(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.r),
+                              color: Colors.white),
+                          child: Text(
                             'Take Photo',
                             style: TextStyle(
                                 color: Helper.baseBlack,
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w500),
                           ),
-                          trailing: SvgPicture.asset('assets/images/check.svg'),
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 10.w
-                        ),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            color: _isSelected
-                                ? Helper.widgetBackground
-                                : Colors.white),
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          selectedTileColor: Helper.widgetBackground,
-                          tileColor: Colors.white,
-                          onTap: () {
-                            setState(() {
-                              _isSelected = true;
-                            });
-                          },
-                          leading: Text(
+                      InkWell(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.r),
+                              color: Colors.white),
+                          child: Text(
                             'Choose Photo',
                             style: TextStyle(
                                 color: Helper.baseBlack,
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w500),
                           ),
-                          trailing: SvgPicture.asset('assets/images/check.svg'),
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 10.w
-                        ),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            color: _isSelected
-                                ? Helper.widgetBackground
-                                : Colors.white),
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          selectedTileColor: Helper.widgetBackground,
-                          tileColor: Colors.white,
-                          onTap: () {
-                            setState(() {
-                              _isSelected = true;
-                            });
-                          },
-                          leading: Text(
+                      InkWell(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.r),
+                              color: Colors.white),
+                          child: Text(
                             'Browse from files',
                             style: TextStyle(
                                 color: Helper.baseBlack,
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w500),
                           ),
-                          trailing: SvgPicture.asset('assets/images/check.svg'),
                         ),
                       ),
                       SizedBox(height: 20.h),
                       Container(
-                    height: 52.h,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      child: Text(
-                        "Cancel",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500),
-                        // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                        height: 52.h,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          child: Text(
+                            "Cancel",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500),
+                            // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                          ),
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll(
+                                  _changeState
+                                      ? Helper.primary
+                                      : Helper.baseBlack),
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                ),
+                              )),
+                          onPressed: () {
+                            context.pop();
+                          },
+                        ),
                       ),
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(
-                              _changeState ? Helper.primary : Helper.baseBlack),
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.r),
-                            ),
-                          )),
-                      onPressed: () {
-                        context.pop();
-                      },
-                    ),
-                  ),
                     ],
                   ),
                 ],

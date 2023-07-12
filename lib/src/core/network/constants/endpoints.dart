@@ -49,6 +49,20 @@ class Endpoints {
     return '$baseUrl/api/v4/projects/$id/site-gallery';
   }
 
+  static userleanListUrl() {
+    return '$baseUrl/api/v4/users/lean';
+  }
+
+  static inviteMemberUrl(id) {
+    return '$baseUrl/api/v4/projects/$id/invite';
+  }
+
+  //---------------------------- Teams ---------------------------------------
+
+  static teamListUrl() {
+    return '$baseUrl/api/v4/teams';
+  }
+
   // receiveTimeout
   static const int receiveTimeout = 15000;
 
