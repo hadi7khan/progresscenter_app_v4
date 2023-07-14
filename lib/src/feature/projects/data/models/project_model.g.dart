@@ -115,7 +115,7 @@ _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
           ?.map((e) => e as String)
           .toList(),
       userId: json['userId'] as String?,
-      dpUrl: json['dpUrl'] as String?,
+      dpUrl: json['dpUrl'] as String? ?? "",
     );
 
 Map<String, dynamic> _$$_UserToJson(_$_User instance) => <String, dynamic>{

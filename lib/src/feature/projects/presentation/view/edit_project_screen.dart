@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
+import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart'
     as model;
@@ -128,7 +129,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
     if (carouselChildren.length < 4) {
       carouselChildren.add(InkWell(
         onTap: () {
-          _showBottomSheet(context);
+          _showBottomSheet(context, widget.data.id!);
         },
         child: DottedBorder(
           color: Helper.baseBlack.withOpacity(0.15), //color of dotted/dash line
@@ -503,45 +504,52 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                             borderRadius: BorderRadius.circular(12.r),
                           ),
                           child: ListTile(
-                            leading: ClipRRect(
-                              borderRadius: BorderRadius.circular(200.r),
-                              child: widget.data.users![index].dp != null
-                                  ? Image.network(
-                                      width: 32.w,
-                                      height: 32.h,
-                                      widget.data.users![index].dpUrl!,
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (BuildContext context,
-                                          Object exception,
-                                          StackTrace? stackTrace) {
-                                        return ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(200.r),
-                                          child: Image.asset(
-                                              'assets/images/error_image.jpeg',
-                                              fit: BoxFit.cover),
-                                        );
-                                      },
-                                    )
-                                  : Hero(
-                                      tag: "profile name",
-                                      child: Container(
-                                          width: 32.w,
-                                          height: 32.h,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: _getColor(widget.data
-                                                .users![index].preset!.color!),
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                                _getNameInitials(widget
-                                                    .data.users![index].name!),
-                                                style: TextStyle(
-                                                    color: Colors.white)),
-                                          )),
-                                    ),
+                            leading: AvatarWidget(
+                              dpUrl: widget.data.users![index].dp != null ? widget.data.users![index].dpUrl : "",
+                              name: widget.data.users![index].name!,
+                              size: 32.h,
+                              backgroundColor:
+                                  widget.data.users![index].preset!.color!,
                             ),
+                            // ClipRRect(
+                            //   borderRadius: BorderRadius.circular(200.r),
+                            //   child: widget.data.users![index].dp != null
+                            //       ? Image.network(
+                            //           width: 32.w,
+                            //           height: 32.h,
+                            //           widget.data.users![index].dpUrl!,
+                            //           fit: BoxFit.cover,
+                            //           errorBuilder: (BuildContext context,
+                            //               Object exception,
+                            //               StackTrace? stackTrace) {
+                            //             return ClipRRect(
+                            //               borderRadius:
+                            //                   BorderRadius.circular(200.r),
+                            //               child: Image.asset(
+                            //                   'assets/images/error_image.jpeg',
+                            //                   fit: BoxFit.cover),
+                            //             );
+                            //           },
+                            //         )
+                            //       : Hero(
+                            //           tag: "profile name",
+                            //           child: Container(
+                            //               width: 32.w,
+                            //               height: 32.h,
+                            //               decoration: BoxDecoration(
+                            //                 shape: BoxShape.circle,
+                            //                 color: _getColor(widget.data
+                            //                     .users![index].preset!.color!),
+                            //               ),
+                            //               child: Center(
+                            //                 child: Text(
+                            //                     _getNameInitials(widget
+                            //                         .data.users![index].name!),
+                            //                     style: TextStyle(
+                            //                         color: Colors.white)),
+                            //               )),
+                            //         ),
+                            // ),
                             title: Text(
                               widget.data.users![index].name!,
                               style: TextStyle(
@@ -582,36 +590,40 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                                                 children: [
                                                   RichText(
                                                     text: TextSpan(
-                                                      text: "Are you sure you want to remove ",
+                                                      text:
+                                                          "Are you sure you want to remove ",
                                                       style: TextStyle(
-                                                        fontSize: 14.sp,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: Helper
-                                                            .textColor500),
+                                                          fontSize: 14.sp,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: Helper
+                                                              .textColor500),
                                                       children: [
                                                         TextSpan(
-                                                          text: '\"' +widget
-                                                            .data
-                                                            .users![index]
-                                                            .name! + '\"',
-                                                          style: TextStyle(
-                                                            fontSize: 14.sp,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: Helper
-                                                            .baseBlack
-                                                          ),
-                                                        ),
-                                                        TextSpan(
-                                                          text: ' from this project?',
+                                                          text: '\"' +
+                                                              widget
+                                                                  .data
+                                                                  .users![index]
+                                                                  .name! +
+                                                              '\"',
                                                           style: TextStyle(
                                                               fontSize: 14.sp,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: Helper
-                                                            .textColor500
-                                                          ),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: Helper
+                                                                  .baseBlack),
+                                                        ),
+                                                        TextSpan(
+                                                          text:
+                                                              ' from this project?',
+                                                          style: TextStyle(
+                                                              fontSize: 14.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: Helper
+                                                                  .textColor500),
                                                         ),
                                                       ],
                                                     ),
@@ -625,7 +637,12 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                                           actions: [
                                             TextButton(
                                               onPressed: () async {
-                                                Service().revokeMember(widget.data.id, widget.data.users![index].id).then((value) {
+                                                Service()
+                                                    .revokeMember(
+                                                        widget.data.id,
+                                                        widget.data
+                                                            .users![index].id)
+                                                    .then((value) {
                                                   context.pop();
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(const SnackBar(
@@ -634,9 +651,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                                                           content: Text(
                                                               "Member Revoked")));
                                                 });
-                                                setState(() {
-                                                  
-                                                });
+                                                setState(() {});
                                               },
                                               style: TextButton.styleFrom(
                                                   padding: const EdgeInsets
@@ -712,7 +727,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
     );
   }
 
-  _showBottomSheet(context) {
+  _showBottomSheet(context, id) {
     return showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,

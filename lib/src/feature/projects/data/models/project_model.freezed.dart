@@ -1068,7 +1068,7 @@ mixin _$User {
   String? get dp => throw _privateConstructorUsedError;
   List<String>? get projects => throw _privateConstructorUsedError;
   String? get userId => throw _privateConstructorUsedError;
-  String? get dpUrl => throw _privateConstructorUsedError;
+  String get dpUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1088,7 +1088,7 @@ abstract class $UserCopyWith<$Res> {
       String? dp,
       List<String>? projects,
       String? userId,
-      String? dpUrl});
+      String dpUrl});
 
   $PresetCopyWith<$Res>? get preset;
 }
@@ -1113,7 +1113,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? dp = freezed,
     Object? projects = freezed,
     Object? userId = freezed,
-    Object? dpUrl = freezed,
+    Object? dpUrl = null,
   }) {
     return _then(_value.copyWith(
       preset: freezed == preset
@@ -1144,10 +1144,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String?,
-      dpUrl: freezed == dpUrl
+      dpUrl: null == dpUrl
           ? _value.dpUrl
           : dpUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ) as $Val);
   }
 
@@ -1178,7 +1178,7 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       String? dp,
       List<String>? projects,
       String? userId,
-      String? dpUrl});
+      String dpUrl});
 
   @override
   $PresetCopyWith<$Res>? get preset;
@@ -1200,7 +1200,7 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
     Object? dp = freezed,
     Object? projects = freezed,
     Object? userId = freezed,
-    Object? dpUrl = freezed,
+    Object? dpUrl = null,
   }) {
     return _then(_$_User(
       preset: freezed == preset
@@ -1231,10 +1231,10 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String?,
-      dpUrl: freezed == dpUrl
+      dpUrl: null == dpUrl
           ? _value.dpUrl
           : dpUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -1250,7 +1250,7 @@ class _$_User implements _User {
       this.dp,
       final List<String>? projects,
       this.userId,
-      this.dpUrl})
+      this.dpUrl = ""})
       : _projects = projects;
 
   factory _$_User.fromJson(Map<String, dynamic> json) => _$$_UserFromJson(json);
@@ -1278,7 +1278,8 @@ class _$_User implements _User {
   @override
   final String? userId;
   @override
-  final String? dpUrl;
+  @JsonKey()
+  final String dpUrl;
 
   @override
   String toString() {
@@ -1328,7 +1329,7 @@ abstract class _User implements User {
       final String? dp,
       final List<String>? projects,
       final String? userId,
-      final String? dpUrl}) = _$_User;
+      final String dpUrl}) = _$_User;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
 
@@ -1347,7 +1348,7 @@ abstract class _User implements User {
   @override
   String? get userId;
   @override
-  String? get dpUrl;
+  String get dpUrl;
   @override
   @JsonKey(ignore: true)
   _$$_UserCopyWith<_$_User> get copyWith => throw _privateConstructorUsedError;

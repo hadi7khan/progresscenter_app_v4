@@ -79,7 +79,7 @@ class User with _$User {
     String? dp,
     List<String>? projects,
     String? userId,
-    String? dpUrl,
+    @Default("") String dpUrl,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
