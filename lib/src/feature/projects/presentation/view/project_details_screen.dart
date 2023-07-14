@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
+import 'package:progresscenter_app_v4/src/common/widgets/avatar_group.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_by_id_controller.dart';
@@ -68,7 +69,9 @@ class _ProjectDetailsScreenState
                 //   }
                 // }
                 // List<Map<String, dynamic>> filteredLinks = links.where((row) => assetMap[row['identifier']] != null).toList();
-                filteredLinks = links.where((link) => assetMap.containsKey(link['identifier'])).toList();
+                filteredLinks = links
+                    .where((link) => assetMap.containsKey(link['identifier']))
+                    .toList();
 
                 // for (var link in links) {
                 //   if (assetMap.containsKey(link['identifier'])) {
@@ -188,6 +191,30 @@ class _ProjectDetailsScreenState
                                                 fontSize: 12.sp)),
                                       ],
                                     )),
+                              ),
+                              Positioned(
+                                top: 20,
+                                right: 20,
+                                child: BlurryContainer(
+                                  // width: 150,
+                                  height: 30,
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 4.h, horizontal: 4.w),
+                                  blur: 3,
+                                  borderRadius: BorderRadius.circular(30.r),
+                                  color: Colors.white.withOpacity(0.3),
+                                  child: AvatarGroupWidget(
+                                    avatars: data.users!.map((user) {
+                                      return {
+                                        'dpUrl': user.dp != null ? user.dpUrl : "",
+                                        'name': user.name,
+                                        'backgroundColor': user.preset!.color,
+                                      };
+                                    }).toList(),
+                                    size: 22.h,
+                                    max: 3,
+                                  ),
+                                ),
                               ),
                               // data[index].images!.isNotEmpty
                               //     ?
@@ -396,7 +423,10 @@ class _ProjectDetailsScreenState
                                           fontSize: 16.sp,
                                           fontWeight: FontWeight.w500),
                                     ),
-                                    subtitle: Text(assetMap[e['identifier']].toString() + " " + e['countText'],
+                                    subtitle: Text(
+                                        assetMap[e['identifier']].toString() +
+                                            " " +
+                                            e['countText'],
                                         style: TextStyle(
                                             color: Helper.baseBlack
                                                 .withOpacity(0.5),
