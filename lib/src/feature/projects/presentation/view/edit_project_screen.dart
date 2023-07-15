@@ -34,10 +34,16 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
   XFile? _image;
   var color;
   bool _isSelected = false;
+  double _progress = 0.0;
 
-  Future<void> _pickImage() async {
+  calculateProgress(double sentBytes) {
+    print("sentBytes--------------" + sentBytes.toString());
+    return sentBytes;
+  }
+
+  Future<void> _pickImage(ImageSource source) async {
     final pickedFile = await _picker.pickImage(
-      source: ImageSource.gallery,
+      source: source,
       maxWidth: 1024,
       maxHeight: 1024,
       imageQuality: 80,
@@ -52,6 +58,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
       setState(() {
         _image = file;
       });
+      print("image path" + _image!.path.toString());
     }
   }
 
@@ -75,6 +82,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
     });
   }
 
+// method to get background color of avatar
   _getColor(
     String color,
   ) {
@@ -82,6 +90,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
     return Color(int.parse(color));
   }
 
+//method to get initials of name passed
   _getNameInitials(String name) {
     var buffer = StringBuffer();
     var split = name.split(' ');
@@ -92,13 +101,15 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
     return buffer.toString();
   }
 
+//method to show carousels
   _getChildren() {
     List<Widget> carouselChildren = widget.data.images!.map((e) {
       var index = widget.data.images!.indexOf(e);
-      print("image index" + index.toString());
+      print("image id" + widget.data.images![index].id.toString());
       return InkWell(
-          onTap: () {
-            // _showBottomSheet(context);
+          onLongPress: () {
+            _showDeleteBottomSheet(
+                context, widget.data.id!, widget.data.images![index].id);
           },
           child: Stack(children: [
             Container(
@@ -129,7 +140,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
     if (carouselChildren.length < 4) {
       carouselChildren.add(InkWell(
         onTap: () {
-          _showBottomSheet(context, widget.data.id!);
+          _showBottomSheet(context, widget.data.id!, _progress);
         },
         child: DottedBorder(
           color: Helper.baseBlack.withOpacity(0.15), //color of dotted/dash line
@@ -161,16 +172,6 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        // appBar: AppBar(
-        //   centerTitle: true,
-        //   title: Text(
-        //     "Edit project",
-        //     style: TextStyle(
-        //         color: Helper.baseBlack,
-        //         fontSize: 18.sp,
-        //         fontWeight: FontWeight.w500),
-        //   ),
-        // ),
         body: SafeArea(
             child: SingleChildScrollView(
           child: Padding(
@@ -388,82 +389,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                         crossAxisSpacing: 15.w,
                         childAspectRatio: 16 / 9,
                         padding: const EdgeInsets.all(4),
-                        // staggeredTiles: widget.data.images!.map((e) {
-                        //   return StaggeredTile.count(
-                        //       widget.data.images!.length == 0
-                        //           ? widget.data.images!.length == 2
-                        //               ? 4
-                        //               : 4
-                        //           : 2,
-                        //       1);
-                        // }).toList(),
-                        // staggeredTiles: [
-                        //   StaggeredTile.count(2, 1),
-                        //   StaggeredTile.count(2, 1),
-                        //   StaggeredTile.count(
-                        //       widget.data.images!.length == 2 ? 4 : 2, 1),
-                        //   StaggeredTile.count(2, 1),
-                        // ],
-                        children: _getChildren()
-
-                        // ...widget.data.images!.map((e) {
-                        //   var index = widget.data.images!.indexOf(e);
-                        //   print("image index" + index.toString());
-                        //   return InkWell(
-                        //       onTap: () {
-                        //         _pickImage;
-                        //       },
-                        //       child: Stack(children: [
-                        //         Container(
-                        //             // height: 90.h,
-                        //             // width: double.infinity,
-                        //             decoration: BoxDecoration(
-                        //                 // image: DecorationImage(
-                        //                 //     image: NetworkImage(
-                        //                 //         widget.data.images![index].url!),
-                        //                 //     fit: BoxFit.cover),
-                        //                 color: Helper.widgetBackground,
-                        //                 borderRadius:
-                        //                     BorderRadius.circular(12.r)),
-                        //             child: ClipRRect(
-                        //               borderRadius:
-                        //                   BorderRadius.circular(12.r),
-                        //               child: Image.network(
-                        //                   widget.data.images![index].url!,
-                        //                   fit: BoxFit.fill),
-                        //             )),
-                        //              Center(
-                        //               child: SvgPicture.asset(
-                        //                   'assets/images/image-x.svg'),
-                        //             ),
-                        //       ]));
-                        // }).toList(),
-                        //  widget.data.images!.length < 4 ? DottedBorder(
-                        //     color: Helper.baseBlack
-                        //         .withOpacity(0.15), //color of dotted/dash line
-                        //     strokeWidth: 3, //thickness of dash/dots
-                        //     padding: EdgeInsets.zero,
-                        //     borderType: BorderType.RRect,
-                        //     radius: Radius.circular(12.r),
-                        //     dashPattern: [6, 6],
-                        //     child: InkWell(
-                        //       onTap: () {
-                        //         _pickImage;
-                        //       },
-                        //       child: Container(
-                        //           height: 90.h,
-                        //           width: double.infinity,
-                        //           decoration: BoxDecoration(
-                        //               color: Helper.widgetBackground,
-                        //               borderRadius:
-                        //                   BorderRadius.circular(12.r)),
-                        //           child: Center(
-                        //             child: SvgPicture.asset(
-                        //                 'assets/images/image-plus.svg'),
-                        //           )),
-                        //     ),
-                        //   ): SizedBox(),
-                        ),
+                        children: _getChildren()),
                     SizedBox(height: 28.h),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -505,51 +431,14 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                           ),
                           child: ListTile(
                             leading: AvatarWidget(
-                              dpUrl: widget.data.users![index].dp != null ? widget.data.users![index].dpUrl : "",
+                              dpUrl: widget.data.users![index].dp != null
+                                  ? widget.data.users![index].dpUrl
+                                  : "",
                               name: widget.data.users![index].name!,
                               size: 32.h,
                               backgroundColor:
                                   widget.data.users![index].preset!.color!,
                             ),
-                            // ClipRRect(
-                            //   borderRadius: BorderRadius.circular(200.r),
-                            //   child: widget.data.users![index].dp != null
-                            //       ? Image.network(
-                            //           width: 32.w,
-                            //           height: 32.h,
-                            //           widget.data.users![index].dpUrl!,
-                            //           fit: BoxFit.cover,
-                            //           errorBuilder: (BuildContext context,
-                            //               Object exception,
-                            //               StackTrace? stackTrace) {
-                            //             return ClipRRect(
-                            //               borderRadius:
-                            //                   BorderRadius.circular(200.r),
-                            //               child: Image.asset(
-                            //                   'assets/images/error_image.jpeg',
-                            //                   fit: BoxFit.cover),
-                            //             );
-                            //           },
-                            //         )
-                            //       : Hero(
-                            //           tag: "profile name",
-                            //           child: Container(
-                            //               width: 32.w,
-                            //               height: 32.h,
-                            //               decoration: BoxDecoration(
-                            //                 shape: BoxShape.circle,
-                            //                 color: _getColor(widget.data
-                            //                     .users![index].preset!.color!),
-                            //               ),
-                            //               child: Center(
-                            //                 child: Text(
-                            //                     _getNameInitials(widget
-                            //                         .data.users![index].name!),
-                            //                     style: TextStyle(
-                            //                         color: Colors.white)),
-                            //               )),
-                            //         ),
-                            // ),
                             title: Text(
                               widget.data.users![index].name!,
                               style: TextStyle(
@@ -727,7 +616,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
     );
   }
 
-  _showBottomSheet(context, id) {
+  _showBottomSheet(context, id, progress) {
     return showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -768,7 +657,28 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       InkWell(
+                        onTap: () async {
+                          // calculateProgress(0);
+                          _pickImage(ImageSource.camera).then((value) async {
+                            await Service()
+                                .uploadPhoto(widget.data.id!, _image!.path,
+                                    calculateProgress)
+                                .then((value) {
+                              setState(() {
+                                _progress = progress;
+                                print("progress" + _progress.toString());
+                              });
+                              print("progress" + _progress.toString());
+                              context.pop();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      backgroundColor: Colors.green,
+                                      content: Text("Image Uploaded")));
+                            });
+                          });
+                        },
                         child: Container(
+                          width: double.infinity,
                           padding: EdgeInsets.symmetric(
                               horizontal: 10.w, vertical: 16.h),
                           decoration: BoxDecoration(
@@ -784,7 +694,27 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                         ),
                       ),
                       InkWell(
+                        onTap: () {
+                          _pickImage(ImageSource.gallery).then((value) async {
+                            await await Service()
+                                .uploadPhoto(widget.data.id!, _image!.path,
+                                    calculateProgress)
+                                .then((value) {
+                              setState(() {
+                                _progress = progress;
+                                print("progress" + _progress.toString());
+                              });
+                              print("progress" + _progress.toString());
+                              context.pop();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      backgroundColor: Colors.green,
+                                      content: Text("Image Uploaded")));
+                            });
+                          });
+                        },
                         child: Container(
+                          width: double.infinity,
                           padding: EdgeInsets.symmetric(
                               horizontal: 10.w, vertical: 16.h),
                           decoration: BoxDecoration(
@@ -800,7 +730,27 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                         ),
                       ),
                       InkWell(
+                        onTap: () {
+                          _pickImage(ImageSource.gallery).then((value) async {
+                            await Service()
+                                .uploadPhoto(widget.data.id!, _image!.path,
+                                    calculateProgress)
+                                .then((value) {
+                              setState(() {
+                                _progress = progress;
+                                print("progress" + _progress.toString());
+                              });
+                              print("progress" + _progress.toString());
+                              context.pop();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      backgroundColor: Colors.green,
+                                      content: Text("Image Uploaded")));
+                            });
+                          });
+                        },
                         child: Container(
+                          width: double.infinity,
                           padding: EdgeInsets.symmetric(
                               horizontal: 10.w, vertical: 16.h),
                           decoration: BoxDecoration(
@@ -843,6 +793,120 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                           },
                         ),
                       ),
+                    ],
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  _showDeleteBottomSheet(context, projectId, imageId) {
+    return showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16.r),
+                    topRight: Radius.circular(16.r)),
+                color: Colors.white,
+              ),
+              height: 200.h,
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Delete',
+                        style: TextStyle(
+                            color: Helper.errorColor,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20.h),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Are you sure you want to delete this image? ",
+                        style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                            color: Helper.textColor500),
+                      ),
+                      SizedBox(height: 20.h),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            TextButton(
+                              onPressed: () async {
+                                Service()
+                                    .deleteImage(projectId, imageId)
+                                    .then((value) {
+                                  context.pop();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          backgroundColor: Colors.red,
+                                          content: Text("Image Deleted")));
+                                });
+                                setState(() {});
+                              },
+                              style: TextButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 11),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                  ),
+                                  backgroundColor: Helper.errorColor,
+                                  fixedSize: Size.infinite),
+                              child: const Text(
+                                "Delete",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                context.pop();
+                              },
+                              style: TextButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 11),
+                                  backgroundColor: Colors.white,
+                                  side: BorderSide(color: Helper.textColor300),
+                                  fixedSize: Size.infinite),
+                              child: Text(
+                                "Cancel",
+                                style: TextStyle(
+                                    color: Helper.textColor500,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ]),
                     ],
                   ),
                 ],
