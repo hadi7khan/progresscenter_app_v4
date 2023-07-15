@@ -61,6 +61,14 @@ class Endpoints {
     return '$baseUrl/api/v4/projects/$projectId/revoke/$userId';
   }
 
+  static uploadImageUrl(projectId) {
+    return '$baseUrl/api/v4/projects/$projectId/images';
+  }
+
+  static deleteImageUrl(projectId, imageId) {
+    return '$baseUrl/api/v4/projects/$projectId/images/$imageId';
+  }
+
   //---------------------------- Teams ---------------------------------------
 
   static teamListUrl() {

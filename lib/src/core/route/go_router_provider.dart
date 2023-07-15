@@ -40,7 +40,7 @@ final _prefsLocator = getIt.get<SharedPreferenceHelper>();
 final goRouterProvider = Provider<GoRouter>((ref) {
   final notifier = ref.read(goRouterNotifierProvider);
   return GoRouter(
-    initialLocation: '/projects',
+    initialLocation: '/',
     // * Passing a navigatorKey causes an issue on hot reload:
     // * https://github.com/flutter/flutter/issues/113757#issuecomment-1518421380
     // * However it's still necessary otherwise the navigator pops back to
