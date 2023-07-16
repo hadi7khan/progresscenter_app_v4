@@ -19,7 +19,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
       padding: EdgeInsets.zero,
       // height: 264.h,
       decoration: BoxDecoration(
-        color: Colors.grey,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(16.r),
       ),
       child: Stack(
@@ -42,7 +42,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                           return ClipRRect(
                             child: Image.asset(
                               'assets/images/error_image.jpeg',
-                              fit: BoxFit.cover,
+                              fit: BoxFit.fill,
                             ),
                           );
                         },
@@ -77,6 +77,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                       children: [
                         Text(
                           widget.data.name!,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w500,
