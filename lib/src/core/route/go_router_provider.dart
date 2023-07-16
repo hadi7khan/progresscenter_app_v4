@@ -16,8 +16,8 @@ import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/docs_sc
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/add_member_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/camera_360.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/cctv_view_screen.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/drone_footage_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/cctv_view/presentation/view/cctv_view_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/view/drone_footage_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/edit_project_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/project_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/projects_screen.dart';
@@ -286,7 +286,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
           return NoTransitionPage(
             key: state.pageKey,
-            child: AddMemberScreen(key: state.pageKey, projectId: args['projectId'],),
+            child: AddMemberScreen(
+              key: state.pageKey,
+              projectId: args['projectId'],
+            ),
           );
         },
       ),

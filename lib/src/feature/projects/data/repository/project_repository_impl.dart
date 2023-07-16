@@ -6,9 +6,6 @@ import 'package:fpdart/fpdart.dart';
 import 'package:progresscenter_app_v4/src/core/network/dio_exception.dart';
 import 'package:progresscenter_app_v4/src/core/network/failure.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/datasource/project_datasource.dart';
-import 'package:progresscenter_app_v4/src/feature/camera/data/model/camera_model.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/data/models/cctv_camera_model.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/data/models/drone_footage_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/site_gallery_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean_model.dart';
@@ -21,7 +18,7 @@ final projectProvider = Provider.autoDispose<ProjectRepositoryImpl>(
   },
 );
 
-class ProjectRepositoryImpl implements CameraRepository {
+class ProjectRepositoryImpl implements ProjectRepository {
   final ProjectDataSource projectDataSource;
   ProjectRepositoryImpl({
     required this.projectDataSource,
@@ -58,37 +55,7 @@ class ProjectRepositoryImpl implements CameraRepository {
     }
   }
 
-  @override
-  Future<Either<Failure, List<CctvCameraModel>>> cctvCameraList(
-      String id) async {
-    try {
-      final result = await projectDataSource.cctvCameraList(id);
-      return Right(
-          (result as List).map((e) => CctvCameraModel.fromJson(e)).toList());
-    } on DioError catch (e) {
-      final errorMessage = DioExceptions.fromDioError(e);
-      print(errorMessage.toString());
-      rethrow;
-    } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<DroneFootageModel>>> droneFootageList(
-      String id) async {
-    try {
-      final result = await projectDataSource.droneFootageList(id);
-      return Right(
-          (result as List).map((e) => DroneFootageModel.fromJson(e)).toList());
-    } on DioError catch (e) {
-      final errorMessage = DioExceptions.fromDioError(e);
-      print(errorMessage.toString());
-      rethrow;
-    } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
-    }
-  }
+  
 
   @override
   Future<Either<Failure, List<SiteGalleryModel>>> siteGalleryList(

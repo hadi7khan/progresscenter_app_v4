@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/data/models/drone_footage_model.dart';
+import 'package:progresscenter_app_v4/src/feature/drone_footage/data/model/drone_footage_model.dart';
 
 part 'drone_footage_state.freezed.dart';
 

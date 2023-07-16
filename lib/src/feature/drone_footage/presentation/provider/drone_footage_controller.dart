@@ -1,16 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/data/repository/project_repository_impl.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/presentation/state/drone_footage_state.dart';
+import 'package:progresscenter_app_v4/src/feature/drone_footage/data/repository/drone_footage_repository_impl.dart';
+import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/state/drone_footage_state.dart';
 
 final droneFootageControllerProvider = StateNotifierProvider.autoDispose<
     DroneFootageController, DroneFootageState>((ref) {
-  final projectService = ref.watch(projectProvider);
-  return DroneFootageController(const DroneFootageState(), projectService);
+  final droneFootageService = ref.watch(droneFootageProvider);
+  return DroneFootageController(const DroneFootageState(), droneFootageService);
 });
 
 class DroneFootageController extends StateNotifier<DroneFootageState> {
   DroneFootageController(super.state, this.service);
-  final ProjectRepositoryImpl service;
+  final DroneFootageRepositoryImpl service;
 
   void getDroneFootage(id) async {
     state = state.copyWith(isFetching: true);
