@@ -22,7 +22,7 @@ import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/edi
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/project_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/projects_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/site_gallery_screen.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/timelapse_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/camera/presentation/view/camera_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/teams_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/timeline/presentation/view/timeline_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/timeline/presentation/view/timeline_screen.dart';
@@ -192,14 +192,14 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         },
       ),
       GoRoute(
-        path: '/timelapse',
+        path: '/camera',
         parentNavigatorKey: _rootNavigatorKey,
-        name: timelapseRoute,
+        name: cameraRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
           return NoTransitionPage(
             key: state.pageKey,
-            child: TimelapseScreen(
+            child: CameraScreen(
                 key: state.pageKey,
                 projectId: args['projectId'],
                 projectName: args['projectName']),

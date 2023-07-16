@@ -498,7 +498,7 @@ List filteredLinks = [];
 List links = [
   {
     'content': 'TimeLapse',
-    'to': '/timelapse',
+    'to': '/camera',
     'identifier': AssetType.TIMELAPSE.name,
     'icon': 'assets/images/timelapse.svg',
     'countText': 'Cameras active'
