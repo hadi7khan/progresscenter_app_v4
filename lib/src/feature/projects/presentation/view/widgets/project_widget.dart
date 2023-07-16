@@ -10,6 +10,7 @@ import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/widgets/project_card.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProjectWidget extends ConsumerStatefulWidget {
   final String detailsPath;
@@ -45,7 +46,7 @@ class _ProjectWidgetState extends BaseConsumerState<ProjectWidget> {
           physics: NeverScrollableScrollPhysics(),
           itemCount: data.length,
           itemBuilder: ((context, index) {
-            return ProjectCard(index: index,project: data[index]);
+            return ProjectCard(index: index, project: data[index]);
           }),
         );
       },
@@ -53,8 +54,30 @@ class _ProjectWidgetState extends BaseConsumerState<ProjectWidget> {
         return const Text("Failed to load Projects",
             style: TextStyle(color: Helper.errorColor));
       },
-      loading: () => const Center(
-        child: CircularProgressIndicator.adaptive(),
+      loading: () => Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+        child: ListView.separated(
+          separatorBuilder: (context, index) {
+            return SizedBox(height: 16.h);
+          },
+          shrinkWrap: true,
+          padding: EdgeInsets.zero,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: 2,
+          itemBuilder: ((context, index) {
+            return Container(
+              margin: EdgeInsets.zero,
+              padding: EdgeInsets.zero,
+              height: 264.h,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16.r),
+              ),
+            );
+          }),
+        ),
+        
       ),
     );
   }

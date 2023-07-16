@@ -1,16 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/data/repository/project_repository_impl.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/presentation/state/camera_state.dart';
+import 'package:progresscenter_app_v4/src/feature/camera/data/repository/camera_repository_impl.dart';
+import 'package:progresscenter_app_v4/src/feature/camera/presentation/state/camera_state.dart';
 
 final cameraControllerProvider =
     StateNotifierProvider.autoDispose<CameraController, CameraState>((ref) {
-  final projectService = ref.watch(projectProvider);
-  return CameraController(const CameraState(), projectService);
+  final cameraService = ref.watch(cameraProvider);
+  return CameraController(const CameraState(), cameraService);
 });
 
 class CameraController extends StateNotifier<CameraState> {
   CameraController(super.state, this.service);
-  final ProjectRepositoryImpl service;
+  final CameraRepositoryImpl service;
 
   void getCameras(id) async {
     state = state.copyWith(isFetching: true);
