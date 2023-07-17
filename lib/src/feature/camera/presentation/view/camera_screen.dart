@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/camera/presentation/provider/camera_controller.dart';
 
@@ -150,24 +150,25 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                               itemCount: data.length,
                               itemBuilder: ((context, index) {
                                 return ListViewWidget(data: data[index]);
-                                }),
+                              }),
                             )
                           : GridView.builder(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
-                              padding:  EdgeInsets.zero,
+                              padding: EdgeInsets.zero,
                               gridDelegate:
                                   SliverGridDelegateWithMaxCrossAxisExtent(
                                       maxCrossAxisExtent: 160.w,
                                       mainAxisSpacing: 15.h,
                                       crossAxisSpacing: 15.w,
                                       childAspectRatio: 16 / 9,
-                                      mainAxisExtent: 152.h
-                                     ),
+                                      mainAxisExtent: 152.h),
                               itemCount: data.length,
                               itemBuilder: ((context, index) {
-                                return GridViewWidget(data: data[index],);
-                                }),
+                                return GridViewWidget(
+                                  data: data[index],
+                                );
+                              }),
                             ),
                     ]);
               },
@@ -175,8 +176,11 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                 return const Text("Failed to load Timelapse",
                     style: TextStyle(color: Helper.errorColor));
               },
-              loading: () => const Center(
-                child: CircularProgressIndicator.adaptive(),
+              loading: () => Column(
+                children: [
+                  SizedBox(height: 44,),
+                  LoadingCardListScreen(),
+                ],
               ),
             )),
       ),

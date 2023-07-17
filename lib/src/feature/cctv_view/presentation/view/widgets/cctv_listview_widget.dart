@@ -40,8 +40,8 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
                 borderRadius: BorderRadius.circular(16.r),
                 child: Image.asset(
                   'assets/images/error_image.jpeg',
-                  fit: BoxFit.cover,
-                  height: 284.h,
+                  fit: BoxFit.fill,
+                  height: 264.h,
                 ),
               ),
         Positioned(

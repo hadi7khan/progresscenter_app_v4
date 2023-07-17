@@ -2,6 +2,7 @@ import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 
@@ -21,7 +22,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
       padding: EdgeInsets.zero,
       height: 264.h,
       decoration: BoxDecoration(
-        color: Colors.grey,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(16.r),
       ),
       child: Stack(
@@ -51,12 +52,10 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                       ),
                     ))
                 : ClipRRect(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(16.r),
-                        topRight: Radius.circular(16.r)),
+                    borderRadius: BorderRadius.circular(16.r),
                     child: Image.asset(
                       'assets/images/error_image.jpeg',
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill,
                       height: 264.h,
                     ),
                   ),
@@ -159,7 +158,10 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                         ),
                         TextButton(
                             onPressed: () {
-                              // context.push('/details', extra: {"projectId": "projectId", "projectName": widget.data.name!});
+                              context.push('/cameradetails', extra: {
+                                "projectId": "projectId",
+                                "projectName": widget.data.name!
+                              });
                             },
                             style: ButtonStyle(
                                 shape: MaterialStateProperty.all(

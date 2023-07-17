@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/sekeleton.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_group.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:blurrycontainer/blurrycontainer.dart';
@@ -139,36 +140,39 @@ class _ProjectDetailsScreenState
                                 itemBuilder: (BuildContext context,
                                         int itemIndex, int pageViewIndex) =>
                                     Container(
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(16.r),
+                                    color: Color.fromRGBO(235, 235, 235, 1),
+                                  ),
+                                  child: data.images!.isNotEmpty
+                                      ? ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(16.r),
-                                          color:
-                                              Color.fromRGBO(235, 235, 235, 1),
+                                          child: Image.network(
+                                            data.images![itemIndex].url!,
+                                            fit: BoxFit.fill,
+                                            errorBuilder: (BuildContext context,
+                                                Object exception,
+                                                StackTrace? stackTrace) {
+                                              return ClipRRect(
+                                                child: Image.asset(
+                                                  'assets/images/error_image.jpeg',
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              );
+                                            },
+                                          ))
+                                      : ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(16.r),
+                                          child: Image.asset(
+                                            'assets/images/error_image.jpeg',
+                                            fit: BoxFit.fill,
+                                            height: 264.h,
+                                          ),
                                         ),
-                                        child:
-                                            // data[index].images!.isNotEmpty
-                                            //     ?
-                                            ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(16.r),
-                                                child: Image.network(
-                                                  data.images![itemIndex].url!,
-                                                  fit: BoxFit.cover,
-                                                  errorBuilder: (BuildContext
-                                                          context,
-                                                      Object exception,
-                                                      StackTrace? stackTrace) {
-                                                    return ClipRRect(
-                                                      child: Image.asset(
-                                                        'assets/images/error_image.jpeg',
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    );
-                                                  },
-                                                ))
-                                        // : SizedBox(),
-                                        ),
+                                ),
                               ),
                               Positioned(
                                 top: 20,
@@ -206,7 +210,8 @@ class _ProjectDetailsScreenState
                                   child: AvatarGroupWidget(
                                     avatars: data.users!.map((user) {
                                       return {
-                                        'dpUrl': user.dp != null ? user.dpUrl : "",
+                                        'dpUrl':
+                                            user.dp != null ? user.dpUrl : "",
                                         'name': user.name,
                                         'backgroundColor': user.preset!.color,
                                       };
@@ -219,7 +224,7 @@ class _ProjectDetailsScreenState
                               // data[index].images!.isNotEmpty
                               //     ?
                               Positioned(
-                                top: 158.h,
+                                top: 150.h,
                                 child: Padding(
                                     padding: const EdgeInsets.only(bottom: 12),
                                     child: DotsIndicator(
@@ -443,47 +448,236 @@ class _ProjectDetailsScreenState
                           }).toList(),
                         ]),
                       ),
-                      // Container(
-                      //   padding: EdgeInsets.symmetric(
-                      //       horizontal: 16.w, vertical: 5.h),
-                      //   decoration: BoxDecoration(
-                      //       color: Color.fromRGBO(
-                      //         246,
-                      //         246,
-                      //         246,
-                      //         1,
-                      //       ),
-                      //       borderRadius: BorderRadius.circular(12.r)),
-                      //   child: ListView.separated(
-                      //       physics: NeverScrollableScrollPhysics(),
-                      //       shrinkWrap: true,
-                      //       itemCount: data.assets!.length,
-                      //       separatorBuilder: (cont, index) {
-                      //         return Divider(
-                      //           thickness: 1,
-                      //           color: Helper.baseBlack.withOpacity(0.04),
-                      //         );
-                      //       },
-                      //       itemBuilder: (cont, index) {
-                      //         return buildAsset(
-                      //             context,
-                      //             index,
-                      //             AssetType.values
-                      //                 .byName(data.assets![index].name!),
-                      //             data.assets![index].count,
-                      //             widget.projectId,
-                      //             widget.projectName);
-                      //       }),
-                      // ),
                     ]);
               },
               error: (err, _) {
                 return const Text("Failed to load Project details",
                     style: TextStyle(color: Helper.errorColor));
               },
-              loading: () => const Center(
-                child: CircularProgressIndicator.adaptive(),
-              ),
+              loading: () => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 44.h),
+                    Container(
+                      margin: EdgeInsets.zero,
+                      padding: EdgeInsets.zero,
+                      height: 264.h,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16.r),
+                      ),
+                      child: Stack(
+                          fit: StackFit.loose,
+                          alignment: Alignment.topCenter,
+                          children: [
+                            Positioned.fill(
+                              // top: 0,
+                              // left: 0,
+                              child: Align(
+                                alignment: Alignment.topCenter,
+                                child: CarouselSlider.builder(
+                                  itemCount: 1,
+                                  options: CarouselOptions(
+                                      // height: 198.h,
+                                      viewportFraction: 1,
+                                      aspectRatio: 16 / 9,
+                                      initialPage: 0,
+                                      autoPlay: false,
+                                      enlargeCenterPage: true,
+                                      autoPlayCurve: Curves.fastOutSlowIn,
+                                      scrollDirection: Axis.horizontal,
+                                      onPageChanged: (index, reason) {
+                                        setState(() {
+                                          _currentIndex = index;
+                                        });
+                                      }),
+                                  itemBuilder: (BuildContext context,
+                                          int itemIndex, int pageViewIndex) =>
+                                      Container(
+                                          width: double.infinity,
+                                          margin: EdgeInsets.zero,
+                                          padding: EdgeInsets.zero,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(16.r),
+                                            color: Color.fromRGBO(
+                                                235, 235, 235, 1),
+                                          ),
+                                          child: Skeleton(
+                                            variant: "rectangular",
+                                            borderRadius: 16.r,
+                                          )),
+                                ),
+                              ),
+                            ),
+                            Positioned.fill(
+                              bottom: 7,
+                              // left: 20,
+                              child: Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Container(
+                                    height: 88.h,
+                                    width: double.infinity,
+                                    margin: EdgeInsets.zero,
+                                    padding: EdgeInsets.all(20.w),
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(15.r),
+                                        color:
+                                            Color.fromRGBO(246, 246, 246, 1)),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Skeleton(
+                                                variant: 'text',
+                                                width: 80.w,
+                                                height: 15.h,
+                                                borderRadius: 8.r),
+                                            SizedBox(
+                                              height: 6.h,
+                                            ),
+                                            Skeleton(
+                                              variant: 'text',
+                                              width: 60.w,
+                                              height: 10.h,
+                                              borderRadius: 8.r,
+                                            ),
+                                          ],
+                                        ),
+                                        Skeleton(
+                                          variant: 'rectangular',
+                                          borderRadius: 8.r,
+                                          width: 50.w,
+                                          height: 30.h,
+                                        ),
+                                      ],
+                                    )),
+                              ),
+                            ),
+                          ]),
+                    ),
+                    SizedBox(height: 12.h),
+                    SizedBox(
+                      height: 58.h,
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              padding: EdgeInsets.all(8.w),
+                              decoration: BoxDecoration(
+                                  color: Color.fromRGBO(
+                                    246,
+                                    246,
+                                    246,
+                                    1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(12.r)),
+                              child: Row(
+                                children: [
+                                  Skeleton(
+                                    variant: 'rectangular',
+                                    borderRadius: 12.r,
+                                    width: 30.w,
+                                    height: 30.h,
+                                  ),
+                                  SizedBox(
+                                    width: 8.w,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Skeleton(
+                                        variant: 'text',
+                                        borderRadius: 8.r,
+                                        width: 20.w,
+                                        height: 10.h,
+                                      ),
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                      Skeleton(
+                                        variant: 'text',
+                                        borderRadius: 8.r,
+                                        width: 50.w,
+                                        height: 10.h,
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return SizedBox(width: 12.w);
+                          },
+                          itemCount: 3),
+                    ),
+                    SizedBox(
+                      height: 24.h,
+                    ),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16.w, vertical: 5.h),
+                      decoration: BoxDecoration(
+                          color: Color.fromRGBO(
+                            246,
+                            246,
+                            246,
+                            1,
+                          ),
+                          borderRadius: BorderRadius.circular(12.r)),
+                      child: Column(children: [
+                        ...[1, 2, 3, 4, 5, 6].map((e) {
+                          return Column(
+                            children: [
+                              ListTile(
+                                dense: true,
+                                minVerticalPadding: 0,
+                                // visualDensity: VisualDensity(vertical: ,),
+                                contentPadding: EdgeInsets.zero,
+                                leading: Skeleton(
+                                  variant: 'rectangular',
+                                  borderRadius: 8.r,
+                                  width: 20.w,
+                                  height: 20.h,
+                                ),
+                                title: Skeleton(
+                                  variant: 'text',
+                                  borderRadius: 8.r,
+                                  width: 40.w,
+                                  height: 10.h,
+                                ),
+                                subtitle: Skeleton(
+                                  variant: 'text',
+                                  borderRadius: 8.r,
+                                  width: 50.w,
+                                  height: 10.h,
+                                ),
+                                trailing: Skeleton(
+                                  variant: 'rectangular',
+                                  borderRadius: 8.r,
+                                  width: 20.w,
+                                  height: 20.h,
+                                ),
+                              ),
+                              Divider(
+                                thickness: 1,
+                                color: Helper.baseBlack.withOpacity(0.04),
+                              )
+                            ],
+                          );
+                        }).toList(),
+                      ]),
+                    ),
+                  ]),
             ),
           ),
         ),

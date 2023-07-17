@@ -107,7 +107,7 @@ class _ProjectCardState extends State<ProjectCard> {
         ),
         widget.project.images!.isNotEmpty
             ? Positioned(
-                top: 158.h,
+                top: 150.h,
                 child: Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: DotsIndicator(
