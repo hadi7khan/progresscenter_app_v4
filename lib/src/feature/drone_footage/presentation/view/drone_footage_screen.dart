@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/provider/drone_footage_controller.dart';
 
@@ -177,8 +178,11 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
             return const Text("Failed to load Drone Footages",
                 style: TextStyle(color: Helper.errorColor));
           },
-          loading: () => const Center(
-            child: CircularProgressIndicator.adaptive(),
+          loading: () => Column(
+            children: [
+              SizedBox(height: 44,),
+              LoadingCardListScreen(),
+            ],
           ),
         ),
       )),

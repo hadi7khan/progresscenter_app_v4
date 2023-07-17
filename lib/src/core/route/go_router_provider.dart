@@ -12,6 +12,7 @@ import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/passwor
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/sign_in_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/verify_email_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/bottom_navigation/view/bottom_navigation.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/camera_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/docs_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/add_member_screen.dart';
@@ -206,6 +207,23 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           );
         },
       ),
+      // --------------------------Camera Details Route--------------------------
+      GoRoute(
+        path: '/cameradetails',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: cameraDetailsRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: CameraDetailsSreen(
+                key: state.pageKey,
+                projectId: args['projectId'],
+                projectName: args['projectName']),
+          );
+        },
+      ),
+      // ------------------------------------------------------------------------
       GoRoute(
         path: '/dronefootage',
         parentNavigatorKey: _rootNavigatorKey,

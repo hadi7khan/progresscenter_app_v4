@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,6 +12,7 @@ import 'package:progresscenter_app_v4/src/core/theme/theme_const.dart';
 import 'src/base/base_consumer_state.dart';
 import 'src/core/route/go_router_provider.dart';
 import 'src/core/shared_pref/locator.dart';
+import 'src/core/shared_pref/shared_preference_helper.dart';
 import 'src/core/utils/helper.dart';
 
 void main() async{
@@ -65,6 +68,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final _prefsLocator = getIt.get<SharedPreferenceHelper>();
   @override
   void initState() {
     super.initState();
@@ -73,11 +77,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   navigateInitialRoute() async {
     Future.delayed(const Duration(milliseconds: 1500), () async {
-      // Navigator.pushReplacement(
-      //     context,
-      //     PageTransition(
-      //         child: OnBordingScreen(), type: PageTransitionType.rightToLeft));
-      context.pushReplacement('/onbording');
+    _prefsLocator == "" ?  context.pushReplacement('/onbording') : context.pushReplacement('/projects');
     });
   }
 
