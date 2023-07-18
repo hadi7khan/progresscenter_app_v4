@@ -55,12 +55,16 @@ class _ProjectDetailsScreenState
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
             child: projectByIdData.when(
               data: (data) {
+                print("this is the assetMap before loop" + assetMap.toString());
                 for (var asset in data.assets!) {
+                  
                   String name = asset.name!;
                   int count = asset.count!;
                   assetMap[name] = count;
-                  print("this is the assetMap" + assetMap.toString());
+                  
                 }
+                print("this is the assetMap" + assetMap.toString());
+                print("this is data assests" + data.assets.toString());
                 // for (var link in links) {
                 //   var identifier = link['identifier'];
                 //   var name = link['content'];

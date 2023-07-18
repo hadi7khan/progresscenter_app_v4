@@ -15,6 +15,7 @@ class Helper {
   static Color headerBackground = const Color.fromRGBO(248, 249, 251, 1);
   static Color widgetBackground = const Color.fromRGBO(246, 246, 246, 1);
   static Color baseBlack = const Color.fromRGBO(0, 0, 0, 1);
+  static Color iconColor = const Color.fromRGBO(75, 87, 104, 1);
   static const successColor = Color.fromARGB(255, 20, 160, 25);
   static const successColor300 = Color.fromRGBO(108, 233, 166, 1);
   static const errorColor = Color.fromRGBO(240, 68, 56, 1);
