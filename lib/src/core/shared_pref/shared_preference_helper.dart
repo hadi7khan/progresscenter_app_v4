@@ -15,6 +15,9 @@ class SharedPreferenceHelper {
     final userToken = prefs.getString(token);
     return userToken!;
   }
+  //  bool containsToken() {
+  //   return prefs.containsKey(tokenKey) && prefs.getString(tokenKey) != null;
+  // }
 
   Future logout() async {
   await prefs.remove('token');

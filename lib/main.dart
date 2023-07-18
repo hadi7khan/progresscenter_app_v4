@@ -77,7 +77,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
   navigateInitialRoute() async {
     Future.delayed(const Duration(milliseconds: 1500), () async {
-    _prefsLocator == "" ?  context.pushReplacement('/onbording') : context.pushReplacement('/projects');
+      // final token = _prefsLocator.prefs.toString();
+      context.pushReplacement('/onbording');
+      // if(token != ""){
+      //   context.go('/projects');
+        
+      // }else{
+      //   context.pushReplacement('/onbording');
+      // }
+    // _prefsLocator  ?  context.pushReplacement('/onbording') : context.go('/projects');
     });
   }
 
