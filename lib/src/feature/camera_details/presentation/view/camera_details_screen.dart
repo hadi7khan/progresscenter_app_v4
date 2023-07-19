@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/bottom_navigation/view/camera_view_bottom_nav.dart';
 
 class CameraDetailsSreen extends StatefulWidget {
   final String projectId;
@@ -25,6 +26,7 @@ class _CameraDetailsSreenState extends State<CameraDetailsSreen> {
   @override
   void initState() {
     super.initState();
+    getDaysInMonth();
   }
 
   List<DateTime> getDaysInMonth() {
@@ -155,7 +157,6 @@ class _CameraDetailsSreenState extends State<CameraDetailsSreen> {
                     left: 16,
                     child: InkWell(
                       onTap: () {
-                        getDaysInMonth();
                         _showDateBottomSheet(context);
                       },
                       child: BlurryContainer(
@@ -254,129 +255,194 @@ class _CameraDetailsSreenState extends State<CameraDetailsSreen> {
                         );
                       })),
                 ),
-                EasyDateTimeLine(
-                  timeLineProps: EasyTimeLineProps(),
-                  initialDate: DateTime.now(),
-                  dayProps: EasyDayProps(
-                    width: 42.w,
-                    height: 54.h,
-                    dayStructure: DayStructure.dayNumDayStr,
-                    activeBorderRadius: 6.r,
-                    activeDayStrStyle: TextStyle(
-                        color: Helper.baseBlack,
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.w400),
-                    activeDayNumStyle: TextStyle(
-                        color: Helper.baseBlack,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600),
-                    inactiveDayStrStyle: TextStyle(
-                        color: Helper.baseBlack,
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.w400),
-                    inactiveDayNumStyle: TextStyle(
-                        color: Helper.baseBlack,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600),
-                    inactiveDayDecoration: BoxDecoration(
-                      border: Border.all(style: BorderStyle.none),
-                    ),
-                    activeDayDecoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6.r),
-                      border: Border.all(
-                        width: 1,
-                        color: Helper.baseBlack.withOpacity(0.06),
-                      ),
-                    ),
-                  ),
-                  headerProps: EasyHeaderProps(
-                      showHeader: false,
-                      showSelectedDate: false,
-                      monthPickerType: MonthPickerType.dropDown,
-                      selectedDateFormat:
-                          SelectedDateFormat.fullDateMonthAsStrDY),
-                  onDateChange: (selectedDate) {
-                    //[selectedDate] the new date selected.
-                  },
-                  // itemBuilder: (context, dayNumber, dayName, monthName, fullDate, isSelected) => ,
-                ),
                 SizedBox(
-                  height: 45.h,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: daysInMonth.length,
-                    itemBuilder: (context, index) {
-                      final day = daysInMonth[index];
-                      final formattedDay =
-                          DateFormat.EEEE().format(day);
-                          final formattedDate =
-                          DateFormat.d().format(day);
+                  height: 74.h,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 10.w, vertical: 14.h),
+                          child: Text(
+                            "- NOV -",
+                            style: TextStyle(
+                                fontSize: 10.sp,
+                                fontWeight: FontWeight.w700,
+                                color: Helper.baseBlack.withOpacity(0.3)),
+                          )),
+                      Expanded(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          physics: BouncingScrollPhysics(),
+                          itemCount: daysInMonth.length,
+                          itemBuilder: (context, index) {
+                            final day = daysInMonth[index];
+                            final formattedDay = DateFormat.EEEE().format(day);
+                            final formattedDate = DateFormat.d().format(day);
+                            final isSelected = index == _selectedIndex;
 
-                      return  Container(
-                        
-                        child: Column(
-                          children: [
-                          Text(formattedDate),
-                          Text(formattedDay)
-                        ],),
-                      );
-                    
-                    },
+                            if (index == -1) {
+                              return Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 10.w, vertical: 24.h),
+                                  child: Text(
+                                    "- NOV -",
+                                    style: TextStyle(
+                                        fontSize: 6.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color:
+                                            Helper.baseBlack.withOpacity(0.3)),
+                                  ));
+                            }
+                            return InkWell(
+                              onTap: () {
+                                setState(() {
+                                  _selectedIndex =
+                                      index; // Update the selected index when an item is tapped
+                                });
+                              },
+                              child: Container(
+                                margin: EdgeInsets.zero,
+                                padding: EdgeInsets.zero,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: isSelected
+                                        ? Helper.baseBlack.withOpacity(0.06)
+                                        : Colors.transparent,
+                                    width: 1, // Set the border width
+                                  ),
+                                  borderRadius: BorderRadius.circular(6.r),
+                                ),
+                                child: Stack(children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10.w, vertical: 12.h),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          formattedDate,
+                                          style: TextStyle(
+                                              color: Helper.baseBlack,
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        Text(
+                                          formattedDay
+                                              .substring(0, 3)
+                                              .toUpperCase(),
+                                          style: TextStyle(
+                                              color: Helper.baseBlack,
+                                              fontSize: 10.sp,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  isSelected
+                                      ? Positioned.fill(
+                                          // top: -2,
+                                          child: Align(
+                                            alignment: Alignment.topCenter,
+                                            child: Container(
+                                              height: 4.h,
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 5.w),
+                                              decoration: BoxDecoration(
+                                                color: Helper.primary,
+                                                borderRadius: BorderRadius.only(
+                                                    bottomLeft:
+                                                        Radius.circular(4.r),
+                                                    bottomRight:
+                                                        Radius.circular(4.r)),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      : SizedBox(),
+                                ]),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 )
               ]),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: (_selectedIndex != -1) ? _selectedIndex : 0,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-        // selectedItemColor: (_selectedIndex != -1) ? Helper.textColor700 : Helper.primary,
-        items: [
-          BottomNavigationBarItem(
-              label: 'LiveLapse',
-              activeIcon: SvgPicture.asset(
-                'assets/images/video-recorder.svg',
-                color: Helper.primary,
+      bottomNavigationBar: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: () {
+                context.push('/livelapse', extra: {
+                  "projectId": widget.projectId,
+                  "projectName": widget.projectName
+                });
+              },
+              child: IconBottomBar(
+                icon: 'assets/images/video-recorder.svg',
+                selected: true,
+                text: 'LiveLapse',
               ),
-              icon: SvgPicture.asset('assets/images/video-recorder.svg')),
-          BottomNavigationBarItem(
-              label: 'Slider',
-              activeIcon: SvgPicture.asset(
-                'assets/images/sliders.svg',
-                color: Helper.primary,
+            ),
+            InkWell(
+              onTap: () {
+                context.push('/details', extra: {
+                  "projectId": " widget.project.id",
+                  "projectName": "widget.project.name"
+                });
+              },
+              child: IconBottomBar(
+                icon: 'assets/images/sliders.svg',
+                selected: true,
+                text: 'Slider',
               ),
-              icon: SvgPicture.asset('assets/images/sliders.svg')),
-          BottomNavigationBarItem(
-              label: 'Compare',
-              activeIcon: SvgPicture.asset(
-                'assets/images/rows.svg',
-                color: Helper.primary,
+            ),
+            InkWell(
+              onTap: () {
+                context.push('/details', extra: {
+                  "projectId": " widget.project.id",
+                  "projectName": "widget.project.name"
+                });
+              },
+              child: IconBottomBar(
+                icon: 'assets/images/rows.svg',
+                selected: true,
+                text: 'Compare',
               ),
-              icon: SvgPicture.asset(
-                'assets/images/rows.svg',
-                color: Helper.textColor700,
-              )),
-          BottomNavigationBarItem(
-              label: 'Split View',
-              activeIcon: SvgPicture.asset(
-                'assets/images/layout-left.svg',
-                color: Helper.primary,
+            ),
+            InkWell(
+              onTap: () {
+                context.push('/details', extra: {
+                  "projectId": " widget.project.id",
+                  "projectName": "widget.project.name"
+                });
+              },
+              child: IconBottomBar(
+                icon: 'assets/images/layout-left.svg',
+                selected: true,
+                text: 'Split View',
               ),
-              icon: SvgPicture.asset('assets/images/layout-left.svg')),
-          BottomNavigationBarItem(
-              label: 'Report',
-              activeIcon: SvgPicture.asset(
-                'assets/images/file-download.svg',
-                color: Helper.primary,
+            ),
+            InkWell(
+              onTap: () {
+                context.push('/details', extra: {
+                  "projectId": " widget.project.id",
+                  "projectName": "widget.project.name"
+                });
+              },
+              child: IconBottomBar(
+                icon: 'assets/images/file-download.svg',
+                selected: true,
+                text: 'Report',
               ),
-              icon: SvgPicture.asset('assets/images/file-download.svg')),
-        ],
-      ),
+            )
+          ]),
     );
   }
 }

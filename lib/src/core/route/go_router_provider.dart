@@ -14,6 +14,7 @@ import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/verify_
 import 'package:progresscenter_app_v4/src/feature/bottom_navigation/view/bottom_navigation.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/camera_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/docs_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/livelapse_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/add_member_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/camera_360.dart';
@@ -223,6 +224,82 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           );
         },
       ),
+      GoRoute(
+        path: '/livelapse',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: livelapseRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: LivelapseScreen(
+                key: state.pageKey,
+                projectId: args['projectId'],
+                projectName: args['projectName']),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/slider',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: sliderRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: LivelapseScreen(
+                key: state.pageKey,
+                projectId: args['projectId'],
+                projectName: args['projectName']),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/compare',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: compareRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: LivelapseScreen(
+                key: state.pageKey,
+                projectId: args['projectId'],
+                projectName: args['projectName']),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/splitview',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: splitviewRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: LivelapseScreen(
+                key: state.pageKey,
+                projectId: args['projectId'],
+                projectName: args['projectName']),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/report',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: reportRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: LivelapseScreen(
+                key: state.pageKey,
+                projectId: args['projectId'],
+                projectName: args['projectName']),
+          );
+        },
+      ),
+
       // ------------------------------------------------------------------------
       GoRoute(
         path: '/dronefootage',
