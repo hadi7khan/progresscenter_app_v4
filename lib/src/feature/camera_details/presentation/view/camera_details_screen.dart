@@ -20,7 +20,7 @@ class CameraDetailsSreen extends StatefulWidget {
 }
 
 class _CameraDetailsSreenState extends State<CameraDetailsSreen> {
-  int _selectedIndex = -1;
+  int _selectedIndex = 0;
   List<DateTime> daysInMonth = [];
 
   @override
@@ -392,7 +392,7 @@ class _CameraDetailsSreenState extends State<CameraDetailsSreen> {
             ),
             InkWell(
               onTap: () {
-                context.push('/details', extra: {
+                context.push('/slider', extra: {
                   "projectId": " widget.project.id",
                   "projectName": "widget.project.name"
                 });
@@ -405,7 +405,7 @@ class _CameraDetailsSreenState extends State<CameraDetailsSreen> {
             ),
             InkWell(
               onTap: () {
-                context.push('/details', extra: {
+                context.push('/compare', extra: {
                   "projectId": " widget.project.id",
                   "projectName": "widget.project.name"
                 });
@@ -418,7 +418,7 @@ class _CameraDetailsSreenState extends State<CameraDetailsSreen> {
             ),
             InkWell(
               onTap: () {
-                context.push('/details', extra: {
+                context.push('/splitview', extra: {
                   "projectId": " widget.project.id",
                   "projectName": "widget.project.name"
                 });
@@ -431,7 +431,7 @@ class _CameraDetailsSreenState extends State<CameraDetailsSreen> {
             ),
             InkWell(
               onTap: () {
-                context.push('/details', extra: {
+                context.push('/report', extra: {
                   "projectId": " widget.project.id",
                   "projectName": "widget.project.name"
                 });

@@ -13,6 +13,7 @@ import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/sign_in
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/verify_email_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/bottom_navigation/view/bottom_navigation.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/camera_details_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/compare/presentation/view/compare_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/docs_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/livelapse_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
@@ -25,6 +26,9 @@ import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/pro
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/projects_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/site_gallery_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/camera/presentation/view/camera_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/report/presentation/view/report_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/slider/presentation/view/slider_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/splitview/presentation/view/splitview_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/teams_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/timeline/presentation/view/timeline_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/timeline/presentation/view/timeline_screen.dart';
@@ -247,7 +251,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
           return NoTransitionPage(
             key: state.pageKey,
-            child: LivelapseScreen(
+            child: SliderScreen(
                 key: state.pageKey,
                 projectId: args['projectId'],
                 projectName: args['projectName']),
@@ -262,7 +266,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
           return NoTransitionPage(
             key: state.pageKey,
-            child: LivelapseScreen(
+            child: CompareScreen(
                 key: state.pageKey,
                 projectId: args['projectId'],
                 projectName: args['projectName']),
@@ -277,7 +281,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
           return NoTransitionPage(
             key: state.pageKey,
-            child: LivelapseScreen(
+            child: SplitviewScreen(
                 key: state.pageKey,
                 projectId: args['projectId'],
                 projectName: args['projectName']),
@@ -292,7 +296,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
           return NoTransitionPage(
             key: state.pageKey,
-            child: LivelapseScreen(
+            child: ReportScreen(
                 key: state.pageKey,
                 projectId: args['projectId'],
                 projectName: args['projectName']),
