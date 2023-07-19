@@ -14,6 +14,11 @@ const String siteGalleryRoute = 'sitegallery';
 const String editProjectRoute = 'editproject';
 const String addMemberRoute = 'addmember';
 const String cameraDetailsRoute = 'cameradetails';
+const String livelapseRoute = 'livelapse';
+const String sliderRoute = 'slider';
+const String compareRoute = 'comapare';
+const String splitviewRoute = 'splitview';
+const String reportRoute = 'report';
 
 
 const String noInternetRoute = 'noInternet';
