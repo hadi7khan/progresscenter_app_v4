@@ -1,31 +1,49 @@
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
-import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/bottom_navigation/view/camera_view_bottom_nav.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/camera_by_id_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/images_by_cam_id_controller.dart';
 
-class CameraDetailsSreen extends StatefulWidget {
+class CameraDetailsSreen extends ConsumerStatefulWidget {
   final String projectId;
   final String projectName;
-  const CameraDetailsSreen(
-      {super.key, required this.projectId, required this.projectName});
+  final String cameraId;
+  const CameraDetailsSreen({
+    super.key,
+    required this.projectId,
+    required this.projectName,
+    required this.cameraId,
+  });
 
   @override
-  State<CameraDetailsSreen> createState() => _CameraDetailsSreenState();
+  ConsumerState<CameraDetailsSreen> createState() => _CameraDetailsSreenState();
 }
 
-class _CameraDetailsSreenState extends State<CameraDetailsSreen> {
+class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
   int _selectedIndex = 0;
   List<DateTime> daysInMonth = [];
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref
+          .read(cameraByIdControllerProvider.notifier)
+          .getCameraById(widget.projectId, widget.cameraId);
+    });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref
+          .read(imagesByCamIdControllerProvider.notifier)
+          .getIagesByCamId(widget.projectId, widget.cameraId);
+    });
     getDaysInMonth();
   }
 
@@ -72,6 +90,10 @@ class _CameraDetailsSreenState extends State<CameraDetailsSreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cameraByIdData = ref.watch(
+        cameraByIdControllerProvider.select((value) => value.cameraById));
+    final imagesByCameraIdData = ref.watch(
+        imagesByCamIdControllerProvider.select((value) => value.imagesByCamId));
     return Scaffold(
       backgroundColor: Color.fromRGBO(247, 247, 247, 1),
       appBar: PreferredSize(
@@ -86,37 +108,46 @@ class _CameraDetailsSreenState extends State<CameraDetailsSreen> {
               'assets/images/arrow-left.svg',
             ),
             leadingWidth: 24,
-            title: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "Timelapse Camera",
-                    style: TextStyle(
-                        color: Helper.baseBlack,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  Row(
+            title: cameraByIdData.when(
+              data: (cameraData) {
+                return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        "Camera name",
+                        "Timelapse Camera",
                         style: TextStyle(
-                            color: Helper.baseBlack.withOpacity(0.5),
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400),
+                            color: Helper.baseBlack,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w500),
                       ),
-                      SizedBox(
-                        width: 6.w,
-                      ),
-                      SvgPicture.asset('assets/images/chevron-down.svg'),
-                    ],
-                  )
-                ]),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Text(
+                            cameraData.name!,
+                            style: TextStyle(
+                                color: Helper.baseBlack.withOpacity(0.5),
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          SizedBox(
+                            width: 6.w,
+                          ),
+                          SvgPicture.asset('assets/images/chevron-down.svg'),
+                        ],
+                      )
+                    ]);
+              },
+              error: (err, _) {
+                return const Text("Error",
+                    style: TextStyle(color: Helper.errorColor));
+              },
+              loading: () => CircularProgressIndicator(),
+            ),
             actions: [
               SvgPicture.asset('assets/images/dots-vertical.svg'),
             ],
@@ -126,251 +157,254 @@ class _CameraDetailsSreenState extends State<CameraDetailsSreen> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                SizedBox(
-                  height: 72.h,
-                ),
-                Stack(children: [
-                  AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: Image.network(
-                      "https://dzcod3r4qkmhl.cloudfront.net/6699/previews/20191224145446.jpg",
-                      width: double.infinity,
-                      // height: 210.h,
-                      fit: BoxFit.fill,
-                      errorBuilder: (BuildContext context, Object exception,
-                          StackTrace? stackTrace) {
-                        return ClipRRect(
-                          child: Image.asset(
-                            'assets/images/error_image.jpeg',
-                            fit: BoxFit.cover,
-                          ),
-                        );
-                      },
-                    ),
+            child: imagesByCameraIdData.when(
+          data: (imagesData) {
+            return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  SizedBox(
+                    height: 72.h,
                   ),
-                  Positioned(
-                    top: 16,
-                    left: 16,
-                    child: InkWell(
-                      onTap: () {
-                        _showDateBottomSheet(context);
-                      },
-                      child: BlurryContainer(
-                          blur: 3,
-                          padding: EdgeInsets.symmetric(
-                              vertical: 6.h, horizontal: 8.w),
-                          borderRadius: BorderRadius.circular(30.r),
-                          color: Colors.white.withOpacity(0.1),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/images/timeline.svg',
-                                height: 16.h,
-                                width: 16.w,
-                                color: Colors.white,
-                              ),
-                              SizedBox(width: 4.w),
-                              Text("03 June, 2023",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 12.sp)),
-                            ],
-                          )),
-                    ),
-                  ),
-                  Positioned(
-                    top: 16,
-                    right: 16,
-                    child: BlurryContainer(
-                      blur: 3,
-                      padding:
-                          EdgeInsets.symmetric(vertical: 6.h, horizontal: 8.w),
-                      borderRadius: BorderRadius.circular(30.r),
-                      color: Colors.white.withOpacity(0.1),
-                      child: SvgPicture.asset(
-                        'assets/images/expand.svg',
-                        height: 16.h,
-                        width: 16.w,
-                        color: Colors.white,
+                  Stack(children: [
+                    AspectRatio(
+                      aspectRatio: 16 / 9,
+                      child: Image.network(
+                        imagesData.images![0].urlPreview!,
+                        width: double.infinity,
+                        // height: 210.h,
+                        fit: BoxFit.fill,
+                        errorBuilder: (BuildContext context, Object exception,
+                            StackTrace? stackTrace) {
+                          return ClipRRect(
+                            child: Image.asset(
+                              'assets/images/error_image.jpeg',
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        },
                       ),
                     ),
-                  ),
-                ]),
-                SizedBox(height: 6.h),
-                SizedBox(
-                  height: 73.h,
-                  child: ListView.separated(
-                      separatorBuilder: (context, builder) {
-                        return SizedBox(
-                          width: 2.w,
-                        );
-                      },
-                      itemCount: 15,
-                      shrinkWrap: true,
-                      physics: BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: ((context, index) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 4.w, vertical: 2.h),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
+                    Positioned(
+                      top: 16,
+                      left: 16,
+                      child: InkWell(
+                        onTap: () {
+                          _showDateBottomSheet(context, imagesData.startDate!, imagesData.endDate!);
+                        },
+                        child: BlurryContainer(
+                            blur: 3,
+                            padding: EdgeInsets.symmetric(
+                                vertical: 6.h, horizontal: 8.w),
+                            borderRadius: BorderRadius.circular(30.r),
+                            color: Colors.white.withOpacity(0.1),
+                            child: Row(
                               children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(4.r),
-                                  child: Image.network(
-                                    "https://dzcod3r4qkmhl.cloudfront.net/6699/thumbs/20191224145446.jpg",
-                                    width: 44.w,
-                                    height: 44.h,
-                                    fit: BoxFit.fill,
-                                    errorBuilder: (BuildContext context,
-                                        Object exception,
-                                        StackTrace? stackTrace) {
-                                      return ClipRRect(
-                                        child: Image.asset(
-                                          'assets/images/error_image.jpeg',
-                                          fit: BoxFit.cover,
-                                        ),
-                                      );
-                                    },
-                                  ),
+                                SvgPicture.asset(
+                                  'assets/images/timeline.svg',
+                                  height: 16.h,
+                                  width: 16.w,
+                                  color: Colors.white,
                                 ),
-                                SizedBox(
-                                  height: 6.h,
-                                ),
-                                Text(
-                                  "1:30 PM",
-                                  style: TextStyle(
-                                      color: Helper.textColor700,
-                                      fontSize: 8.sp,
-                                      fontWeight: FontWeight.w500),
-                                )
-                              ]),
-                        );
-                      })),
-                ),
-                SizedBox(
-                  height: 74.h,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 10.w, vertical: 14.h),
-                          child: Text(
-                            "- NOV -",
-                            style: TextStyle(
-                                fontSize: 10.sp,
-                                fontWeight: FontWeight.w700,
-                                color: Helper.baseBlack.withOpacity(0.3)),
-                          )),
-                      Expanded(
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          physics: BouncingScrollPhysics(),
-                          itemCount: daysInMonth.length,
-                          itemBuilder: (context, index) {
-                            final day = daysInMonth[index];
-                            final formattedDay = DateFormat.EEEE().format(day);
-                            final formattedDate = DateFormat.d().format(day);
-                            final isSelected = index == _selectedIndex;
-
-                            if (index == -1) {
-                              return Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 10.w, vertical: 24.h),
-                                  child: Text(
-                                    "- NOV -",
+                                SizedBox(width: 4.w),
+                                Text("03 June, 2023",
                                     style: TextStyle(
-                                        fontSize: 6.sp,
-                                        fontWeight: FontWeight.w700,
-                                        color:
-                                            Helper.baseBlack.withOpacity(0.3)),
-                                  ));
-                            }
-                            return InkWell(
-                              onTap: () {
-                                setState(() {
-                                  _selectedIndex =
-                                      index; // Update the selected index when an item is tapped
-                                });
-                              },
-                              child: Container(
-                                margin: EdgeInsets.zero,
-                                padding: EdgeInsets.zero,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: isSelected
-                                        ? Helper.baseBlack.withOpacity(0.06)
-                                        : Colors.transparent,
-                                    width: 1, // Set the border width
-                                  ),
-                                  borderRadius: BorderRadius.circular(6.r),
-                                ),
-                                child: Stack(children: [
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10.w, vertical: 12.h),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          formattedDate,
-                                          style: TextStyle(
-                                              color: Helper.baseBlack,
-                                              fontSize: 16.sp,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                        Text(
-                                          formattedDay
-                                              .substring(0, 3)
-                                              .toUpperCase(),
-                                          style: TextStyle(
-                                              color: Helper.baseBlack,
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  isSelected
-                                      ? Positioned.fill(
-                                          // top: -2,
-                                          child: Align(
-                                            alignment: Alignment.topCenter,
-                                            child: Container(
-                                              height: 4.h,
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 5.w),
-                                              decoration: BoxDecoration(
-                                                color: Helper.primary,
-                                                borderRadius: BorderRadius.only(
-                                                    bottomLeft:
-                                                        Radius.circular(4.r),
-                                                    bottomRight:
-                                                        Radius.circular(4.r)),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      : SizedBox(),
-                                ]),
-                              ),
-                            );
-                          },
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12.sp)),
+                              ],
+                            )),
+                      ),
+                    ),
+                    Positioned(
+                      top: 16,
+                      right: 16,
+                      child: BlurryContainer(
+                        blur: 3,
+                        padding: EdgeInsets.symmetric(
+                            vertical: 6.h, horizontal: 8.w),
+                        borderRadius: BorderRadius.circular(30.r),
+                        color: Colors.white.withOpacity(0.1),
+                        child: SvgPicture.asset(
+                          'assets/images/expand.svg',
+                          height: 16.h,
+                          width: 16.w,
+                          color: Colors.white,
                         ),
                       ),
-                    ],
+                    ),
+                  ]),
+                  SizedBox(height: 6.h),
+                  SizedBox(
+                    height: 73.h,
+                    child: ListView.separated(
+                        separatorBuilder: (context, builder) {
+                          return SizedBox(
+                            width: 2.w,
+                          );
+                        },
+                        itemCount: imagesData.images!.length,
+                        shrinkWrap: true,
+                        physics: BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: ((context, index) {
+                         String formattedTime = DateFormat("hh:mm a").format(DateTime.fromMillisecondsSinceEpoch(int.parse(imagesData
+                                  .images![index].datetime!))).toString();
+                          return Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 4.w, vertical: 2.h),
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(4.r),
+                                    child: Image.network(
+                                      imagesData.images![index].urlThumb!,
+                                      width: 44.w,
+                                      height: 44.h,
+                                      fit: BoxFit.fill,
+                                      errorBuilder: (BuildContext context,
+                                          Object exception,
+                                          StackTrace? stackTrace) {
+                                        return ClipRRect(
+                                          child: Image.asset(
+                                            'assets/images/error_image.jpeg',
+                                            width: 44.w,
+                                            height: 44.h,
+                                            fit: BoxFit.fill,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 6.h,
+                                  ),
+                                  Text(
+                                    formattedTime,
+                                    style: TextStyle(
+                                        color: Helper.textColor700,
+                                        fontSize: 8.sp,
+                                        fontWeight: FontWeight.w500),
+                                  )
+                                ]),
+                          );
+                        })),
                   ),
-                )
-              ]),
-        ),
+                  SizedBox(
+                    height: 74.h,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10.w, vertical: 14.h),
+                            child: Text(
+                              "- NOV -",
+                              style: TextStyle(
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: Helper.baseBlack.withOpacity(0.3)),
+                            )),
+                        Expanded(
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            physics: BouncingScrollPhysics(),
+                            itemCount: daysInMonth.length,
+                            itemBuilder: (context, index) {
+                              final day = daysInMonth[index];
+                              final formattedDay =
+                                  DateFormat.EEEE().format(day);
+                              final formattedDate = DateFormat.d().format(day);
+                              final isSelected = index == _selectedIndex;
+
+                              return InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    _selectedIndex =
+                                        index; // Update the selected index when an item is tapped
+                                  });
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.zero,
+                                  padding: EdgeInsets.zero,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: isSelected
+                                          ? Helper.baseBlack.withOpacity(0.06)
+                                          : Colors.transparent,
+                                      width: 1, // Set the border width
+                                    ),
+                                    borderRadius: BorderRadius.circular(6.r),
+                                  ),
+                                  child: Stack(children: [
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10.w, vertical: 12.h),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            formattedDate,
+                                            style: TextStyle(
+                                                color: Helper.baseBlack,
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                          Text(
+                                            formattedDay
+                                                .substring(0, 3)
+                                                .toUpperCase(),
+                                            style: TextStyle(
+                                                color: Helper.baseBlack,
+                                                fontSize: 10.sp,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    isSelected
+                                        ? Positioned.fill(
+                                            // top: -2,
+                                            child: Align(
+                                              alignment: Alignment.topCenter,
+                                              child: Container(
+                                                height: 4.h,
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 5.w),
+                                                decoration: BoxDecoration(
+                                                  color: Helper.primary,
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                          bottomLeft:
+                                                              Radius.circular(
+                                                                  4.r),
+                                                          bottomRight:
+                                                              Radius.circular(
+                                                                  4.r)),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        : SizedBox(),
+                                  ]),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ]);
+          },
+          error: (err, _) {
+            return const Text("Failed to fetch images data",
+                style: TextStyle(color: Helper.errorColor));
+          },
+          loading: () => Center(child: CircularProgressIndicator()),
+        )),
       ),
       bottomNavigationBar: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -447,7 +481,7 @@ class _CameraDetailsSreenState extends State<CameraDetailsSreen> {
   }
 }
 
-_showDateBottomSheet(context) {
+_showDateBottomSheet(context, String startDate, String endDate) {
   return showModalBottomSheet(
     isScrollControlled: true,
     context: context,
@@ -480,7 +514,10 @@ _showDateBottomSheet(context) {
               ],
             ),
             CalendarDatePicker2(
-              config: CalendarDatePicker2Config(),
+              config: CalendarDatePicker2Config(
+                lastDate: DateTime.parse(endDate),
+                firstDate: DateTime.parse(startDate),
+              ),
               value: [],
             ),
             // SizedBox(height: 20.h),
