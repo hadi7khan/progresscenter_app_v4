@@ -224,7 +224,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             child: CameraDetailsSreen(
                 key: state.pageKey,
                 projectId: args['projectId'],
-                projectName: args['projectName']),
+                projectName: args['projectName'],
+                cameraId: args['cameraId'],
+                ),
           );
         },
       ),

@@ -69,6 +69,15 @@ class Endpoints {
     return '$baseUrl/api/v4/projects/$projectId/images/$imageId';
   }
 
+  //---------------------------- Camera Details ---------------------------------------
+
+  static CameraByIdUrl(projectId, cameraId) {
+    return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId';
+  }
+
+  static imagesByCameraIdUrl(projectId, cameraId) {
+    return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/images';
+  }
   //---------------------------- Teams ---------------------------------------
 
   static teamListUrl() {

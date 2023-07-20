@@ -159,8 +159,9 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                         TextButton(
                             onPressed: () {
                               context.push('/cameradetails', extra: {
-                                "projectId": "projectId",
-                                "projectName": widget.data.name!
+                                "projectId": widget.data.project,
+                                "projectName": widget.data.name!,
+                                "cameraId": widget.data.id,
                               });
                             },
                             style: ButtonStyle(
