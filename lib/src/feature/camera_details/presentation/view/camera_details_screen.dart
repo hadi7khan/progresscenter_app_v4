@@ -11,6 +11,7 @@ import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/bottom_navigation/view/camera_view_bottom_nav.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/camera_by_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/images_by_cam_id_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/selected_imagedata_provider.dart';
 
 class CameraDetailsSreen extends ConsumerStatefulWidget {
   final String projectId;
@@ -29,6 +30,7 @@ class CameraDetailsSreen extends ConsumerStatefulWidget {
 
 class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
   int _selectedIndex = 0;
+  int _selectedImageIndex = 0;
   List<DateTime> daysInMonth = [];
 
   @override
@@ -94,6 +96,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
         cameraByIdControllerProvider.select((value) => value.cameraById));
     final imagesByCameraIdData = ref.watch(
         imagesByCamIdControllerProvider.select((value) => value.imagesByCamId));
+    final selectedImageData = ref.watch(selectedImageDataProvider);
     return Scaffold(
       backgroundColor: Color.fromRGBO(247, 247, 247, 1),
       appBar: PreferredSize(
@@ -156,255 +159,312 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
         ),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-            child: imagesByCameraIdData.when(
-          data: (imagesData) {
-            return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  SizedBox(
-                    height: 72.h,
-                  ),
-                  Stack(children: [
-                    AspectRatio(
-                      aspectRatio: 16 / 9,
-                      child: Image.network(
-                        imagesData.images![0].urlPreview!,
-                        width: double.infinity,
-                        // height: 210.h,
-                        fit: BoxFit.fill,
-                        errorBuilder: (BuildContext context, Object exception,
-                            StackTrace? stackTrace) {
-                          return ClipRRect(
-                            child: Image.asset(
-                              'assets/images/error_image.jpeg',
-                              fit: BoxFit.cover,
-                            ),
-                          );
-                        },
-                      ),
+        child: Consumer(builder: (context, ref, child) {
+          print("state printed" + selectedImageData.toString());
+          return SingleChildScrollView(
+              child: imagesByCameraIdData.when(
+            data: (imagesData) {
+              return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    SizedBox(
+                      height: 72.h,
                     ),
-                    Positioned(
-                      top: 16,
-                      left: 16,
-                      child: InkWell(
-                        onTap: () {
-                          _showDateBottomSheet(context, imagesData.startDate!, imagesData.endDate!);
-                        },
-                        child: BlurryContainer(
-                            blur: 3,
-                            padding: EdgeInsets.symmetric(
-                                vertical: 6.h, horizontal: 8.w),
-                            borderRadius: BorderRadius.circular(30.r),
-                            color: Colors.white.withOpacity(0.1),
-                            child: Row(
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/images/timeline.svg',
-                                  height: 16.h,
-                                  width: 16.w,
-                                  color: Colors.white,
-                                ),
-                                SizedBox(width: 4.w),
-                                Text("03 June, 2023",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 12.sp)),
-                              ],
-                            )),
-                      ),
-                    ),
-                    Positioned(
-                      top: 16,
-                      right: 16,
-                      child: BlurryContainer(
-                        blur: 3,
-                        padding: EdgeInsets.symmetric(
-                            vertical: 6.h, horizontal: 8.w),
-                        borderRadius: BorderRadius.circular(30.r),
-                        color: Colors.white.withOpacity(0.1),
-                        child: SvgPicture.asset(
-                          'assets/images/expand.svg',
-                          height: 16.h,
-                          width: 16.w,
-                          color: Colors.white,
+                    Stack(children: [
+                      AspectRatio(
+                        aspectRatio: 16 / 9,
+                        child: Image.network(
+                          selectedImageData == null
+                              ? imagesData.images![0].urlPreview!
+                              : selectedImageData.urlPreview!,
+                          width: double.infinity,
+                          // height: 210.h,
+                          fit: BoxFit.fill,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value: (loadingProgress != null)
+                                    ? (loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!)
+                                    : 0,
+                              ),
+                            );
+                          },
+                          errorBuilder: (BuildContext context, Object exception,
+                              StackTrace? stackTrace) {
+                            return ClipRRect(
+                              child: Image.asset(
+                                'assets/images/error_image.jpeg',
+                                fit: BoxFit.cover,
+                              ),
+                            );
+                          },
                         ),
                       ),
-                    ),
-                  ]),
-                  SizedBox(height: 6.h),
-                  SizedBox(
-                    height: 73.h,
-                    child: ListView.separated(
-                        separatorBuilder: (context, builder) {
-                          return SizedBox(
-                            width: 2.w,
-                          );
-                        },
-                        itemCount: imagesData.images!.length,
-                        shrinkWrap: true,
-                        physics: BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: ((context, index) {
-                         String formattedTime = DateFormat("hh:mm a").format(DateTime.fromMillisecondsSinceEpoch(int.parse(imagesData
-                                  .images![index].datetime!))).toString();
-                          return Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 4.w, vertical: 2.h),
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
+                      Positioned(
+                        top: 16,
+                        left: 16,
+                        child: InkWell(
+                          onTap: () {
+                            _showDateBottomSheet(context, imagesData.startDate!,
+                                imagesData.endDate!);
+                          },
+                          child: BlurryContainer(
+                              blur: 3,
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 6.h, horizontal: 8.w),
+                              borderRadius: BorderRadius.circular(30.r),
+                              color: Colors.white.withOpacity(0.1),
+                              child: Row(
                                 children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(4.r),
-                                    child: Image.network(
-                                      imagesData.images![index].urlThumb!,
-                                      width: 44.w,
-                                      height: 44.h,
-                                      fit: BoxFit.fill,
-                                      errorBuilder: (BuildContext context,
-                                          Object exception,
-                                          StackTrace? stackTrace) {
-                                        return ClipRRect(
-                                          child: Image.asset(
-                                            'assets/images/error_image.jpeg',
+                                  SvgPicture.asset(
+                                    'assets/images/timeline.svg',
+                                    height: 16.h,
+                                    width: 16.w,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(width: 4.w),
+                                  Text("03 June, 2023",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 12.sp)),
+                                ],
+                              )),
+                        ),
+                      ),
+                      Positioned(
+                        top: 16,
+                        right: 16,
+                        child: BlurryContainer(
+                          blur: 3,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 6.h, horizontal: 8.w),
+                          borderRadius: BorderRadius.circular(30.r),
+                          color: Colors.white.withOpacity(0.1),
+                          child: SvgPicture.asset(
+                            'assets/images/expand.svg',
+                            height: 16.h,
+                            width: 16.w,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ]),
+                    SizedBox(height: 6.h),
+                    SizedBox(
+                      height: 73.h,
+                      child: ListView.separated(
+                          separatorBuilder: (context, builder) {
+                            return SizedBox(
+                              width: 2.w,
+                            );
+                          },
+                          itemCount: imagesData.images!.length,
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: ((context, index) {
+                            String formattedTime = DateFormat("hh:mm a")
+                                .format(DateTime.fromMillisecondsSinceEpoch(
+                                    int.parse(
+                                        imagesData.images![index].datetime!)))
+                                .toString();
+                            return InkWell(
+                              onTap: () {
+                                setState(() {
+                                  _selectedImageIndex =
+                                      index; 
+                                });
+                                final imageData = ImageData(
+                                  name: imagesData.images![index].name,
+                                  dateTime: imagesData.images![index].datetime,
+                                  camera: imagesData.images![index].camera,
+                                  id: imagesData.images![index].id,
+                                  urlPreview:
+                                      imagesData.images![index].urlPreview,
+                                );
+
+                                ref
+                                    .read(selectedImageDataProvider.notifier)
+                                    .setImageData(imageData);
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 4.w, vertical: 2.h),
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.zero,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(6.r),
+                                          border: _selectedImageIndex == index
+                                              ? Border.all(
+                                                  color: Helper.primary,
+                                                  width: 2.w,
+                                                )
+                                              : Border.all(
+                                                width: 2.w,
+                                                  color: Colors.transparent),
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(4.r),
+                                          child: Image.network(
+                                            imagesData.images![index].urlThumb!,
                                             width: 44.w,
                                             height: 44.h,
                                             fit: BoxFit.fill,
+                                            errorBuilder: (BuildContext context,
+                                                Object exception,
+                                                StackTrace? stackTrace) {
+                                              return ClipRRect(
+                                                child: Image.asset(
+                                                  'assets/images/error_image.jpeg',
+                                                  width: 44.w,
+                                                  height: 44.h,
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              );
+                                            },
                                           ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 6.h,
-                                  ),
-                                  Text(
-                                    formattedTime,
-                                    style: TextStyle(
-                                        color: Helper.textColor700,
-                                        fontSize: 8.sp,
-                                        fontWeight: FontWeight.w500),
-                                  )
-                                ]),
-                          );
-                        })),
-                  ),
-                  SizedBox(
-                    height: 74.h,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10.w, vertical: 14.h),
-                            child: Text(
-                              "- NOV -",
-                              style: TextStyle(
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.w700,
-                                  color: Helper.baseBlack.withOpacity(0.3)),
-                            )),
-                        Expanded(
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            physics: BouncingScrollPhysics(),
-                            itemCount: daysInMonth.length,
-                            itemBuilder: (context, index) {
-                              final day = daysInMonth[index];
-                              final formattedDay =
-                                  DateFormat.EEEE().format(day);
-                              final formattedDate = DateFormat.d().format(day);
-                              final isSelected = index == _selectedIndex;
-
-                              return InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    _selectedIndex =
-                                        index; // Update the selected index when an item is tapped
-                                  });
-                                },
-                                child: Container(
-                                  margin: EdgeInsets.zero,
-                                  padding: EdgeInsets.zero,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: isSelected
-                                          ? Helper.baseBlack.withOpacity(0.06)
-                                          : Colors.transparent,
-                                      width: 1, // Set the border width
-                                    ),
-                                    borderRadius: BorderRadius.circular(6.r),
-                                  ),
-                                  child: Stack(children: [
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 10.w, vertical: 12.h),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            formattedDate,
-                                            style: TextStyle(
-                                                color: Helper.baseBlack,
-                                                fontSize: 16.sp,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                          Text(
-                                            formattedDay
-                                                .substring(0, 3)
-                                                .toUpperCase(),
-                                            style: TextStyle(
-                                                color: Helper.baseBlack,
-                                                fontSize: 10.sp,
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                        ],
+                                        ),
                                       ),
+                                      SizedBox(
+                                        height: 6.h,
+                                      ),
+                                      Text(
+                                        formattedTime,
+                                        style: TextStyle(
+                                            color: Helper.textColor700,
+                                            fontSize: 8.sp,
+                                            fontWeight: FontWeight.w500),
+                                      )
+                                    ]),
+                              ),
+                            );
+                          })),
+                    ),
+                    SizedBox(
+                      height: 74.h,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10.w, vertical: 14.h),
+                              child: Text(
+                                "- NOV -",
+                                style: TextStyle(
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.w700,
+                                    color: Helper.baseBlack.withOpacity(0.3)),
+                              )),
+                          Expanded(
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              physics: BouncingScrollPhysics(),
+                              itemCount: daysInMonth.length,
+                              itemBuilder: (context, index) {
+                                final day = daysInMonth[index];
+                                final formattedDay =
+                                    DateFormat.EEEE().format(day);
+                                final formattedDate =
+                                    DateFormat.d().format(day);
+                                final isSelected = index == _selectedIndex;
+
+                                return InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      _selectedIndex =
+                                          index; // Update the selected index when an item is tapped
+                                    });
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.zero,
+                                    padding: EdgeInsets.zero,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: isSelected
+                                            ? Helper.baseBlack.withOpacity(0.06)
+                                            : Colors.transparent,
+                                        width: 1, // Set the border width
+                                      ),
+                                      borderRadius: BorderRadius.circular(6.r),
                                     ),
-                                    isSelected
-                                        ? Positioned.fill(
-                                            // top: -2,
-                                            child: Align(
-                                              alignment: Alignment.topCenter,
-                                              child: Container(
-                                                height: 4.h,
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 5.w),
-                                                decoration: BoxDecoration(
-                                                  color: Helper.primary,
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                          bottomLeft:
-                                                              Radius.circular(
-                                                                  4.r),
-                                                          bottomRight:
-                                                              Radius.circular(
-                                                                  4.r)),
+                                    child: Stack(children: [
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10.w, vertical: 12.h),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              formattedDate,
+                                              style: TextStyle(
+                                                  color: Helper.baseBlack,
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                            Text(
+                                              formattedDay
+                                                  .substring(0, 3)
+                                                  .toUpperCase(),
+                                              style: TextStyle(
+                                                  color: Helper.baseBlack,
+                                                  fontSize: 10.sp,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      isSelected
+                                          ? Positioned.fill(
+                                              // top: -2,
+                                              child: Align(
+                                                alignment: Alignment.topCenter,
+                                                child: Container(
+                                                  height: 4.h,
+                                                  margin: EdgeInsets.symmetric(
+                                                      horizontal: 5.w),
+                                                  decoration: BoxDecoration(
+                                                    color: Helper.primary,
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                    4.r),
+                                                            bottomRight: Radius
+                                                                .circular(4.r)),
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          )
-                                        : SizedBox(),
-                                  ]),
-                                ),
-                              );
-                            },
+                                            )
+                                          : SizedBox(),
+                                    ]),
+                                  ),
+                                );
+                              },
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  )
-                ]);
-          },
-          error: (err, _) {
-            return const Text("Failed to fetch images data",
-                style: TextStyle(color: Helper.errorColor));
-          },
-          loading: () => Center(child: CircularProgressIndicator()),
-        )),
+                        ],
+                      ),
+                    )
+                  ]);
+            },
+            error: (err, _) {
+              return const Text("Failed to fetch images data",
+                  style: TextStyle(color: Helper.errorColor));
+            },
+            loading: () => Center(child: CircularProgressIndicator()),
+          ));
+        }),
       ),
       bottomNavigationBar: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
