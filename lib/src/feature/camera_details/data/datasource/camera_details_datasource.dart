@@ -10,7 +10,7 @@ final cameraDataSourceProvider =
 });
 
 abstract class CameraDetailsDataSource {
-  Future imagesByCameraId(String projectId, String cameraId);
+  Future imagesByCameraId(String projectId, String cameraId, {searchDate = ''});
   Future cameraById(String projectId, String cameraId);
 }
 
@@ -32,9 +32,9 @@ class CameraDetailsDataSourceImpl implements CameraDetailsDataSource {
   }
 
   @override
-  Future imagesByCameraId(String projectId, String cameraId) async {
+  Future imagesByCameraId(String projectId, String cameraId, {searchDate = ''}) async {
     final response =
-        await dioClient.get(Endpoints.imagesByCameraIdUrl(projectId, cameraId));
+        await dioClient.get(Endpoints.imagesByCameraIdUrl(projectId, cameraId, searchDate: searchDate));
     if (response.statusCode == 200) {
       return response.data;
     } else {

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,11 +13,11 @@ import 'src/core/shared_pref/locator.dart';
 import 'src/core/shared_pref/shared_preference_helper.dart';
 import 'src/core/utils/helper.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setup();
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
-  
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+      overlays: SystemUiOverlay.values);
 
   runApp(const ProviderScope(child: const MyApp()));
 }
@@ -77,15 +75,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
   navigateInitialRoute() async {
     Future.delayed(const Duration(milliseconds: 1500), () async {
-      // final token = _prefsLocator.prefs.toString();
+      bool hasToken = _prefsLocator.containsToken();
       context.pushReplacement('/onbording');
-      // if(token != ""){
-      //   context.go('/projects');
-        
-      // }else{
-      //   context.pushReplacement('/onbording');
-      // }
-    // _prefsLocator  ?  context.pushReplacement('/onbording') : context.go('/projects');
+      if (!hasToken) {
+        context.pushReplacement('/onbording');
+      } else {
+        context.go('/projects');
+      }
+      // _prefsLocator.userToken != null  ? context.go('/projects')   : context.pushReplacement('/onbording');
     });
   }
 

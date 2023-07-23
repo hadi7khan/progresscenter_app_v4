@@ -75,8 +75,8 @@ class Endpoints {
     return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId';
   }
 
-  static imagesByCameraIdUrl(projectId, cameraId) {
-    return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/images';
+  static imagesByCameraIdUrl(projectId, cameraId, {searchDate = ''}) {
+    return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/images?date=$searchDate';
   }
   //---------------------------- Teams ---------------------------------------
 

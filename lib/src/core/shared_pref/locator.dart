@@ -11,7 +11,7 @@ final Dio _dio = Dio();
 Future<void> setup() async {
   final _prefs = await SharedPreferences.getInstance();
   getIt.registerSingleton<SharedPreferenceHelper>(
-    SharedPreferenceHelper(prefs: _prefs),
+    SharedPreferenceHelper(userToken: _prefs, prefs: _prefs),
   );
   getIt.registerSingleton<DioClient>(DioClient( _dio));
 }
