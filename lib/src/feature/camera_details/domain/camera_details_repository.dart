@@ -5,7 +5,7 @@ import 'package:progresscenter_app_v4/src/feature/camera_details/data/model/imag
 
 abstract class CameraDetailsRepository {
   Future<Either<Failure, ImagesByCameraIdModel>> imagesByCameraId(
-      String projectId, String cameraId);
+      String projectId, String cameraId, {String searchDate = ''});
   Future<Either<Failure, CameraByIdModel>> cameraById(
       String projectId, String cameraId);
 }

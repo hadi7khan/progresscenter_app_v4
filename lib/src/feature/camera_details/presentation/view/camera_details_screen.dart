@@ -32,37 +32,40 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
   int _selectedIndex = 0;
   int _selectedImageIndex = 0;
   List<DateTime> daysInMonth = [];
+  String _selectedDate = '';
+  String _searchDate = '';
+  DateTime currentMonth = DateTime.now();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref
-          .read(cameraByIdControllerProvider.notifier)
-          .getCameraById(widget.projectId, widget.cameraId);
+      ref.read(cameraByIdControllerProvider.notifier).getCameraById(
+            widget.projectId,
+            widget.cameraId,
+          );
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref
-          .read(imagesByCamIdControllerProvider.notifier)
-          .getIagesByCamId(widget.projectId, widget.cameraId);
+      ref.read(imagesByCamIdControllerProvider.notifier).getIagesByCamId(
+          widget.projectId, widget.cameraId,
+          searchDate: _searchDate);
     });
-    getDaysInMonth();
+    DateTime _currentMonth = DateTime.now();
+    getDaysInMonth(_currentMonth);
   }
 
-  List<DateTime> getDaysInMonth() {
-    final dateTime = DateTime.now();
-    final firstDayOfMonth = DateTime(dateTime.year, dateTime.month, 1);
-    final lastDayOfMonth = DateTime(dateTime.year, dateTime.month + 1, 0);
+  List<DateTime> getDaysInMonth(currentMonth) {
+    print("datetime format" + currentMonth.toString());
+    final firstDayOfMonth = DateTime(currentMonth.year, currentMonth.month, 1);
+    final lastDayOfMonth =
+        DateTime(currentMonth.year, currentMonth.month + 1, 0);
 
     print(firstDayOfMonth.toString());
     print(lastDayOfMonth.toString());
     // final daysInMonth = <DateTime>[];
     for (var i = firstDayOfMonth.day; i <= lastDayOfMonth.day; i++) {
-      print("month days" + daysInMonth.toString());
-      daysInMonth.add(DateTime(dateTime.year, dateTime.month, i));
-      print("month days" + daysInMonth.toString());
+      daysInMonth.add(DateTime(currentMonth.year, currentMonth.month, i));
     }
-    print("month days" + daysInMonth.toString());
 
     return daysInMonth;
   }
@@ -112,6 +115,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
             ),
             leadingWidth: 24,
             title: cameraByIdData.when(
+              skipLoadingOnRefresh: false,
+              skipLoadingOnReload: false,
               data: (cameraData) {
                 return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -209,8 +214,15 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                         left: 16,
                         child: InkWell(
                           onTap: () {
-                            _showDateBottomSheet(context, imagesData.startDate!,
-                                imagesData.endDate!);
+                            _showDateBottomSheet(
+                                context,
+                                imagesData.startDate!,
+                                imagesData.endDate!,
+                                _selectedDate,
+                                widget.cameraId,
+                                widget.projectId,
+                                ref,
+                                currentMonth);
                           },
                           child: BlurryContainer(
                               blur: 3,
@@ -276,8 +288,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                             return InkWell(
                               onTap: () {
                                 setState(() {
-                                  _selectedImageIndex =
-                                      index; 
+                                  _selectedImageIndex = index;
                                 });
                                 final imageData = ImageData(
                                   name: imagesData.images![index].name,
@@ -310,7 +321,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                                                   width: 2.w,
                                                 )
                                               : Border.all(
-                                                width: 2.w,
+                                                  width: 2.w,
                                                   color: Colors.transparent),
                                         ),
                                         child: ClipRRect(
@@ -386,6 +397,18 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                                       _selectedIndex =
                                           index; // Update the selected index when an item is tapped
                                     });
+                                    print(day.toString());
+                                    // DateTime date =
+                                    //     DateTime.parse(value[0].toString());
+                                    _searchDate =
+                                        DateFormat("yyyyMMdd").format(day);
+                                        print("month list date" + _searchDate);
+                                    ref
+                                        .watch(imagesByCamIdControllerProvider
+                                            .notifier)
+                                        .getIagesByCamId(
+                                            widget.projectId, widget.cameraId,
+                                            searchDate: _searchDate);
                                   },
                                   child: Container(
                                     margin: EdgeInsets.zero,
@@ -539,76 +562,103 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
           ]),
     );
   }
-}
 
-_showDateBottomSheet(context, String startDate, String endDate) {
-  return showModalBottomSheet(
-    isScrollControlled: true,
-    context: context,
-    backgroundColor: Colors.transparent,
-    builder: (context) => Wrap(children: [
-      Container(
-        padding: EdgeInsets.only(top: 28.h, left: 20.w, right: 20.w),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r)),
-          color: Colors.white,
-        ),
-        // height: MediaQuery.of(context).size.height * 1.6,
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'Select Date',
-                  style: TextStyle(
-                      color: Helper.baseBlack,
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500),
-                ),
-              ],
-            ),
-            CalendarDatePicker2(
-              config: CalendarDatePicker2Config(
-                lastDate: DateTime.parse(endDate),
-                firstDate: DateTime.parse(startDate),
+  _showDateBottomSheet(
+      context,
+      String startDate,
+      String endDate,
+      String selectedDate,
+      String cameraId,
+      String projectId,
+      WidgetRef ref,
+      DateTime currentMonth) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Wrap(children: [
+        Container(
+          padding: EdgeInsets.only(top: 28.h, left: 20.w, right: 20.w),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r)),
+            color: Colors.white,
+          ),
+          // height: MediaQuery.of(context).size.height * 1.6,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Select Date',
+                    style: TextStyle(
+                        color: Helper.baseBlack,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
               ),
-              value: [],
-            ),
-            // SizedBox(height: 20.h),
-            Container(
-              height: 52.h,
-              width: double.infinity,
-              margin: EdgeInsets.only(bottom: 10.h),
-              child: ElevatedButton(
-                child: Text(
-                  "Done",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500),
-                  // currentIndex == contents.length - 1 ? "Continue" : "Next"
+              CalendarDatePicker2(
+                config: CalendarDatePicker2Config(
+                  lastDate: DateTime.parse(endDate),
+                  firstDate: DateTime.parse(startDate),
                 ),
-                style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Helper.primary),
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                    )),
-                onPressed: () {
-                  context.pop();
+                value: [],
+                onValueChanged: (value) {
+                  print(value.toString());
+                  DateTime date = DateTime.parse(value[0].toString());
+                  selectedDate = DateFormat("yyyyMMdd").format(date);
+                  print("selectedDate " + selectedDate);
+                  currentMonth = value[0]!;
                 },
               ),
-            ),
-          ],
+              // SizedBox(height: 20.h),
+              Container(
+                height: 52.h,
+                width: double.infinity,
+                margin: EdgeInsets.only(bottom: 10.h),
+                child: ElevatedButton(
+                  child: Text(
+                    "Done",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500),
+                    // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                  ),
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Helper.primary),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                      )),
+                  onPressed: () {
+                    print(selectedDate);
+                    //         ref
+                    // .read(imagesByCamIdControllerProvider.notifier)
+                    // .getIagesByCamId(projectId, cameraId, searchDate: selectedDate );
+                    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                      ref
+                          .read(imagesByCamIdControllerProvider.notifier)
+                          .getIagesByCamId(projectId, cameraId,
+                              searchDate: selectedDate);
+                    });
+                    getDaysInMonth(currentMonth);
+                    context.pop();
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-    ]),
-  );
+      ]),
+    );
+  }
 }

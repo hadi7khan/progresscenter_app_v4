@@ -41,10 +41,10 @@ class CameraDetailsRepositoryImpl implements CameraDetailsRepository {
 
   @override
   Future<Either<Failure, ImagesByCameraIdModel>> imagesByCameraId(
-      String projectId, String cameraId) async {
+      String projectId, String cameraId, {String searchDate = ''}) async {
     try {
       final result =
-          await cameraDetailsDataSource.imagesByCameraId(projectId, cameraId);
+          await cameraDetailsDataSource.imagesByCameraId(projectId, cameraId, searchDate: searchDate);
       return Right((ImagesByCameraIdModel.fromJson(result)));
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
