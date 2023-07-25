@@ -3,6 +3,8 @@
     <application
         android:label="progresscenter_app_v4"
         android:name="${applicationName}"
+        android:hardwareAccelerated="true"
+        android:largeHeap="true" 
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

@@ -211,7 +211,7 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
                 ]);
               },
               error: (err, _) {
-                return const Text("Failed to fetch images data",
+                return const Text("Failed to fetch livelapse",
                     style: TextStyle(color: Helper.errorColor));
               },
               loading: () => Center(child: CircularProgressIndicator()),
