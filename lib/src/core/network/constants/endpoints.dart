@@ -84,6 +84,18 @@ class Endpoints {
     return '$baseUrl/api/v4/teams';
   }
 
+  //---------------------------- Livelapse ---------------------------------------
+
+  static livelapseListUrl(projectId, cameraId) {
+    return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/live-lapses';
+  }
+
+  //---------------------------- Progress Slider ---------------------------------------
+
+  static progressSliderUrl(projectId, cameraId) {
+    return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/progress-slider';
+  }
+
   // receiveTimeout
   static const int receiveTimeout = 15000;
 

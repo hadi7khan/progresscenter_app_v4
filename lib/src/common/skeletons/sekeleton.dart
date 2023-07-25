@@ -18,7 +18,7 @@ class _SkeletonState extends State<Skeleton> {
   Widget build(BuildContext context) {
     if (widget.variant == 'text') {
       return Shimmer.fromColors(
-        baseColor: Colors.grey[200]!,
+        baseColor: Colors.grey[100]!,
         highlightColor: Colors.grey[200]!,
         child: Container(
           width: widget.width,
@@ -32,7 +32,7 @@ class _SkeletonState extends State<Skeleton> {
       );
     } else if (widget.variant == 'circular') {
       return Shimmer.fromColors(
-        baseColor: Colors.grey[200]!,
+        baseColor: Colors.grey[100]!,
         highlightColor: Colors.grey[200]!,
         child: Container(
           width: widget.width,
@@ -44,7 +44,7 @@ class _SkeletonState extends State<Skeleton> {
       );
     } else if (widget.variant == 'rectangular') {
       return Shimmer.fromColors(
-        baseColor: Colors.grey[200]!,
+        baseColor: Colors.grey[100]!,
         highlightColor: Colors.grey[200]!,
         child: Container(
           width: widget.width,

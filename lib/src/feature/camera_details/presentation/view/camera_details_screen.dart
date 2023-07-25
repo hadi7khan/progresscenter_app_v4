@@ -402,7 +402,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                                     //     DateTime.parse(value[0].toString());
                                     _searchDate =
                                         DateFormat("yyyyMMdd").format(day);
-                                        print("month list date" + _searchDate);
+                                    print("month list date" + _searchDate);
                                     ref
                                         .watch(imagesByCamIdControllerProvider
                                             .notifier)
@@ -485,7 +485,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
               return const Text("Failed to fetch images data",
                   style: TextStyle(color: Helper.errorColor));
             },
-            loading: () => Center(child: CircularProgressIndicator()),
+            loading: () => Center(child: CircularProgressIndicator()
+            ),
           ));
         }),
       ),
@@ -498,7 +499,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
               onTap: () {
                 context.push('/livelapse', extra: {
                   "projectId": widget.projectId,
-                  "projectName": widget.projectName
+                  "projectName": widget.projectName,
+                  "cameraId": widget.cameraId
                 });
               },
               child: IconBottomBar(
@@ -510,8 +512,9 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
             InkWell(
               onTap: () {
                 context.push('/slider', extra: {
-                  "projectId": " widget.project.id",
-                  "projectName": "widget.project.name"
+                  "projectId": widget.projectId,
+                  "projectName": widget.projectName,
+                  "cameraId": widget.cameraId
                 });
               },
               child: IconBottomBar(
@@ -523,8 +526,9 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
             InkWell(
               onTap: () {
                 context.push('/compare', extra: {
-                  "projectId": " widget.project.id",
-                  "projectName": "widget.project.name"
+                  "projectId": widget.projectId,
+                  "projectName": widget.projectName,
+                  "cameraId": widget.cameraId
                 });
               },
               child: IconBottomBar(
@@ -536,8 +540,9 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
             InkWell(
               onTap: () {
                 context.push('/splitview', extra: {
-                  "projectId": " widget.project.id",
-                  "projectName": "widget.project.name"
+                  "projectId": widget.projectId,
+                  "projectName": widget.projectName,
+                  "cameraId": widget.cameraId
                 });
               },
               child: IconBottomBar(
@@ -549,8 +554,9 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
             InkWell(
               onTap: () {
                 context.push('/report', extra: {
-                  "projectId": " widget.project.id",
-                  "projectName": "widget.project.name"
+                  "projectId": widget.projectId,
+                  "projectName": widget.projectName,
+                  "cameraId": widget.cameraId
                 });
               },
               child: IconBottomBar(
