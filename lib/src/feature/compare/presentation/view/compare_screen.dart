@@ -5,9 +5,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
-import 'package:progresscenter_app_v4/src/feature/compare/presentation/provider/compare_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/compare/presentation/provider/compare1_provider.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/selected_imagedata_provider.dart';
+import 'package:progresscenter_app_v4/src/feature/compare/presentation/provider/compare1_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/compare/presentation/provider/compare2_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/compare/presentation/provider/compare2provider.dart';
 
 class CompareScreen extends ConsumerStatefulWidget {
   final String projectId;
@@ -15,49 +20,86 @@ class CompareScreen extends ConsumerStatefulWidget {
   final String cameraId;
 
   const CompareScreen(
-      {super.key,required this.cameraId,  required this.projectId, required this.projectName});
+      {super.key,
+      required this.cameraId,
+      required this.projectId,
+      required this.projectName});
 
   @override
   ConsumerState<CompareScreen> createState() => _CompareScreenState();
 }
 
 class _CompareScreenState extends BaseConsumerState<CompareScreen> {
-  String _searchDate = '';
-  List<DateTime> daysInMonth = [];
+  String _searchDate1 = '';
+  String _searchDate2 = '';
+  // List<DateTime> compare1Days = [];
+  // List<DateTime> compare2Days = [];
+  String _selectedDate1 = '';
+  String _selectedDate2 = '';
+  // DateTime compare1Month = DateTime.now();
+  // DateTime compare2Month = DateTime.now();
+  int _selectedImageIndex1 = 0;
+  int _selectedImageIndex2 = 0;
 
   @override
   void initState() {
     super.initState();
-    
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref.read(compareControllerProvider.notifier).getIagesByCamId(
+      ref.read(compare1ControllerProvider.notifier).getIagesByCamId(
           widget.projectId, widget.cameraId,
-          searchDate: _searchDate);
+          searchDate: _searchDate1);
     });
-    DateTime _currentMonth = DateTime.now();
-    getDaysInMonth(_currentMonth);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref.read(compare2ControllerProvider.notifier).getIagesByCamId(
+          widget.projectId, widget.cameraId,
+          searchDate: _searchDate1);
+    });
+    // DateTime _currentMonth = DateTime.now();
+    // getCompare1Month(_currentMonth);
+    // getCompare2Month(_currentMonth);
   }
 
-  List<DateTime> getDaysInMonth(currentMonth) {
-    print("datetime format" + currentMonth.toString());
-    final firstDayOfMonth = DateTime(currentMonth.year, currentMonth.month, 1);
-    final lastDayOfMonth =
-        DateTime(currentMonth.year, currentMonth.month + 1, 0);
+  // List<DateTime> getCompare1Month(currentMonth) {
+  //   print("datetime format" + currentMonth.toString());
+  //   final firstDayOfMonth = DateTime(currentMonth.year, currentMonth.month, 1);
+  //   final lastDayOfMonth =
+  //       DateTime(currentMonth.year, currentMonth.month + 1, 0);
 
-    print(firstDayOfMonth.toString());
-    print(lastDayOfMonth.toString());
-    // final daysInMonth = <DateTime>[];
-    for (var i = firstDayOfMonth.day; i <= lastDayOfMonth.day; i++) {
-      daysInMonth.add(DateTime(currentMonth.year, currentMonth.month, i));
-    }
+  //   print(firstDayOfMonth.toString());
+  //   print(lastDayOfMonth.toString());
+  //   // final daysInMonth = <DateTime>[];
+  //   for (var i = firstDayOfMonth.day; i <= lastDayOfMonth.day; i++) {
+  //     compare1Days.add(DateTime(currentMonth.year, currentMonth.month, i));
+  //   }
 
-    return daysInMonth;
-  }
+  //   return compare1Days;
+  // }
+
+  // List<DateTime> getCompare2Month(currentMonth) {
+  //   print("datetime format" + currentMonth.toString());
+  //   final firstDayOfMonth = DateTime(currentMonth.year, currentMonth.month, 1);
+  //   final lastDayOfMonth =
+  //       DateTime(currentMonth.year, currentMonth.month + 1, 0);
+
+  //   print(firstDayOfMonth.toString());
+  //   print(lastDayOfMonth.toString());
+  //   // final daysInMonth = <DateTime>[];
+  //   for (var i = firstDayOfMonth.day; i <= lastDayOfMonth.day; i++) {
+  //     compare2Days.add(DateTime(currentMonth.year, currentMonth.month, i));
+  //   }
+
+  //   return compare2Days;
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final compareCameraData = ref.watch(
-        compareControllerProvider.select((value) => value.imagesByCamId));
+    final compareCameraData1 = ref.watch(
+        compare1ControllerProvider.select((value) => value.imagesByCamId));
+    final selectedCompareData1 = ref.watch(compare1DataProvider);
+    final compareCameraData2 = ref.watch(
+        compare2ControllerProvider.select((value) => value.imagesByCamId));
+    final selectedCompareData2 = ref.watch(compare2DataProvider);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.h),
@@ -67,7 +109,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
             centerTitle: true,
             automaticallyImplyLeading: false,
             leading: InkWell(
-              onTap: (){
+              onTap: () {
                 context.pop();
               },
               child: SvgPicture.asset(
@@ -95,217 +137,381 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
             padding: EdgeInsets.symmetric(vertical: 12.h),
             child: Column(
               children: [
-                Stack(children: [
-                  AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: Image.network(
-                      "https://dzcod3r4qkmhl.cloudfront.net/6699/previews/20191224145446.jpg",
-                      width: double.infinity,
-                      // height: 210.h,
-                      fit: BoxFit.fill,
-                      errorBuilder: (BuildContext context, Object exception,
-                          StackTrace? stackTrace) {
-                        return ClipRRect(
-                          child: Image.asset(
-                            'assets/images/error_image.jpeg',
-                            fit: BoxFit.cover,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  Positioned(
-                    top: 16,
-                    left: 16,
-                    child: InkWell(
-                      onTap: () {
-                        _showDateBottomSheet(context);
-                      },
-                      child: BlurryContainer(
-                          blur: 3,
-                          padding: EdgeInsets.symmetric(
-                              vertical: 6.h, horizontal: 8.w),
-                          borderRadius: BorderRadius.circular(30.r),
-                          color: Colors.white.withOpacity(0.1),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/images/timeline.svg',
-                                height: 16.h,
-                                width: 16.w,
-                                color: Colors.white,
+                compareCameraData1.when(
+                  data: (cameraData1) {
+                    return Consumer(builder: (context, ref, child) {
+                      return Column(children: [
+                        Stack(children: [
+                          AspectRatio(
+                            aspectRatio: 16 / 9,
+                            child: Image.network(
+                              selectedCompareData1 == null
+                                  ? cameraData1.images![0].urlPreview!
+                                  : selectedCompareData1.urlPreview!,
+                              width: double.infinity,
+                              fit: BoxFit.fill,
+                              loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value: (loadingProgress != null)
+                                    ? (loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!)
+                                    : 0,
                               ),
-                              SizedBox(width: 4.w),
-                              Text("03 June, 2023",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 12.sp)),
-                            ],
-                          )),
-                    ),
-                  ),
-                ]),
-                SizedBox(height: 6.h),
-                SizedBox(
-                  height: 73.h,
-                  child: ListView.separated(
-                      separatorBuilder: (context, builder) {
-                        return SizedBox(
-                          width: 2.w,
-                        );
-                      },
-                      itemCount: 15,
-                      shrinkWrap: true,
-                      physics: BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: ((context, index) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 4.w, vertical: 2.h),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(4.r),
-                                  child: Image.network(
-                                    "https://dzcod3r4qkmhl.cloudfront.net/6699/thumbs/20191224145446.jpg",
-                                    width: 44.w,
-                                    height: 44.h,
-                                    fit: BoxFit.fill,
-                                    errorBuilder: (BuildContext context,
-                                        Object exception,
-                                        StackTrace? stackTrace) {
-                                      return ClipRRect(
-                                        child: Image.asset(
-                                          'assets/images/error_image.jpeg',
-                                          fit: BoxFit.cover,
-                                        ),
-                                      );
-                                    },
+                            );
+                          },
+                              errorBuilder: (BuildContext context,
+                                  Object exception, StackTrace? stackTrace) {
+                                return ClipRRect(
+                                  child: Image.asset(
+                                    'assets/images/error_image.jpeg',
+                                    fit: BoxFit.cover,
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 6.h,
-                                ),
-                                Text(
-                                  "1:30 PM",
-                                  style: TextStyle(
-                                      color: Helper.textColor700,
-                                      fontSize: 8.sp,
-                                      fontWeight: FontWeight.w500),
-                                )
-                              ]),
-                        );
-                      })),
+                                );
+                              },
+                            ),
+                          ),
+                          Positioned(
+                            top: 16,
+                            left: 16,
+                            child: InkWell(
+                              onTap: () {
+                                _showCompare1BottomSheet(
+                                    context,
+                                    cameraData1.startDate!,
+                                    cameraData1.endDate!,
+                                    _selectedDate1,
+                                    widget.cameraId,
+                                    widget.projectId,
+                                    ref,
+                                    );
+                              },
+                              child: BlurryContainer(
+                                  blur: 3,
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 6.h, horizontal: 8.w),
+                                  borderRadius: BorderRadius.circular(30.r),
+                                  color: Colors.white.withOpacity(0.1),
+                                  child: Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                        'assets/images/timeline.svg',
+                                        height: 16.h,
+                                        width: 16.w,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(width: 4.w),
+                                      Text("03 June, 2023",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 12.sp)),
+                                    ],
+                                  )),
+                            ),
+                          ),
+                        ]),
+                        SizedBox(height: 6.h),
+                        SizedBox(
+                          height: 73.h,
+                          child: ListView.separated(
+                              separatorBuilder: (context, builder) {
+                                return SizedBox(
+                                  width: 2.w,
+                                );
+                              },
+                              itemCount: cameraData1.images!.length,
+                              shrinkWrap: true,
+                              physics: BouncingScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: ((context, index) {
+                                String formattedTime = DateFormat("hh:mm a")
+                                    .format(DateTime.fromMillisecondsSinceEpoch(
+                                        int.parse(cameraData1
+                                            .images![index].datetime!)))
+                                    .toString();
+                                return InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      _selectedImageIndex1 = index;
+                                    });
+                                    final imageData = ImageData(
+                                      name: cameraData1.images![index].name,
+                                      dateTime:
+                                          cameraData1.images![index].datetime,
+                                      camera: cameraData1.images![index].camera,
+                                      id: cameraData1.images![index].id,
+                                      urlPreview:
+                                          cameraData1.images![index].urlPreview,
+                                    );
+
+                                    ref
+                                        .read(compare1DataProvider.notifier)
+                                        .setImageData(imageData);
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 4.w, vertical: 2.h),
+                                    child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.zero,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(6.r),
+                                              border: _selectedImageIndex1 ==
+                                                      index
+                                                  ? Border.all(
+                                                      color: Helper.primary,
+                                                      width: 2.w,
+                                                    )
+                                                  : Border.all(
+                                                      width: 2.w,
+                                                      color:
+                                                          Colors.transparent),
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(4.r),
+                                              child: Image.network(
+                                                cameraData1
+                                                    .images![index].urlThumb!,
+                                                width: 44.w,
+                                                height: 44.h,
+                                                fit: BoxFit.fill,
+                                                errorBuilder: (BuildContext
+                                                        context,
+                                                    Object exception,
+                                                    StackTrace? stackTrace) {
+                                                  return ClipRRect(
+                                                    child: Image.asset(
+                                                      'assets/images/error_image.jpeg',
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 6.h,
+                                          ),
+                                          Text(
+                                            formattedTime,
+                                            style: TextStyle(
+                                                color: Helper.textColor700,
+                                                fontSize: 8.sp,
+                                                fontWeight: FontWeight.w500),
+                                          )
+                                        ]),
+                                  ),
+                                );
+                              })),
+                        ),
+                      ]);
+                    });
+                  },
+                  error: (err, _) {
+                    return const Text("Failed to fetch cameras",
+                        style: TextStyle(color: Helper.errorColor));
+                  },
+                  loading: () => Center(child: CircularProgressIndicator()),
                 ),
                 SizedBox(height: 24.h),
-                Stack(children: [
-                  AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: Image.network(
-                      "https://dzcod3r4qkmhl.cloudfront.net/6699/previews/20191224145446.jpg",
-                      width: double.infinity,
-                      // height: 210.h,
-                      fit: BoxFit.fill,
-                      errorBuilder: (BuildContext context, Object exception,
-                          StackTrace? stackTrace) {
-                        return ClipRRect(
-                          child: Image.asset(
-                            'assets/images/error_image.jpeg',
-                            fit: BoxFit.cover,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  Positioned(
-                    top: 16,
-                    left: 16,
-                    child: InkWell(
-                      onTap: () {
-                        _showDateBottomSheet(context);
-                      },
-                      child: BlurryContainer(
-                          blur: 3,
-                          padding: EdgeInsets.symmetric(
-                              vertical: 6.h, horizontal: 8.w),
-                          borderRadius: BorderRadius.circular(30.r),
-                          color: Colors.white.withOpacity(0.1),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/images/timeline.svg',
-                                height: 16.h,
-                                width: 16.w,
-                                color: Colors.white,
+
+// ----------------------------compare division----------------------
+
+                compareCameraData2.when(
+                  data: (cameraData2) {
+                    return Consumer(builder: (context, ref, child) {
+                      return Column(children: [
+                        Stack(children: [
+                          AspectRatio(
+                            aspectRatio: 16 / 9,
+                            child: Image.network(
+                              selectedCompareData2 == null
+                                  ? cameraData2.images![0].urlPreview!
+                                  : selectedCompareData2.urlPreview!,
+                              width: double.infinity,
+                              // height: 210.h,
+                              fit: BoxFit.fill,
+                              loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value: (loadingProgress != null)
+                                    ? (loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!)
+                                    : 0,
                               ),
-                              SizedBox(width: 4.w),
-                              Text("03 June, 2023",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 12.sp)),
-                            ],
-                          )),
-                    ),
-                  ),
-                ]),
-                SizedBox(height: 6.h),
-                SizedBox(
-                  height: 73.h,
-                  child: ListView.separated(
-                      separatorBuilder: (context, builder) {
-                        return SizedBox(
-                          width: 2.w,
-                        );
-                      },
-                      itemCount: 15,
-                      shrinkWrap: true,
-                      physics: BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: ((context, index) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 4.w, vertical: 2.h),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(4.r),
-                                  child: Image.network(
-                                    "https://dzcod3r4qkmhl.cloudfront.net/6699/thumbs/20191224145446.jpg",
-                                    width: 44.w,
-                                    height: 44.h,
-                                    fit: BoxFit.fill,
-                                    errorBuilder: (BuildContext context,
-                                        Object exception,
-                                        StackTrace? stackTrace) {
-                                      return ClipRRect(
-                                        child: Image.asset(
-                                          'assets/images/error_image.jpeg',
-                                          fit: BoxFit.cover,
-                                        ),
-                                      );
-                                    },
+                            );
+                          },
+                              errorBuilder: (BuildContext context,
+                                  Object exception, StackTrace? stackTrace) {
+                                return ClipRRect(
+                                  child: Image.asset(
+                                    'assets/images/error_image.jpeg',
+                                    fit: BoxFit.cover,
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 6.h,
-                                ),
-                                Text(
-                                  "1:30 PM",
-                                  style: TextStyle(
-                                      color: Helper.textColor700,
-                                      fontSize: 8.sp,
-                                      fontWeight: FontWeight.w500),
-                                )
-                              ]),
-                        );
-                      })),
-                ),
+                                );
+                              },
+                            ),
+                          ),
+                          Positioned(
+                            top: 16,
+                            left: 16,
+                            child: InkWell(
+                              onTap: () {
+                                _showCompare2BottomSheet(
+                                            context,
+                                            cameraData2.startDate!,
+                                            cameraData2.endDate!,
+                                            _selectedDate2,
+                                            widget.cameraId,
+                                            widget.projectId,
+                                            ref,
+                                            );
+                              },
+                              child: BlurryContainer(
+                                  blur: 3,
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 6.h, horizontal: 8.w),
+                                  borderRadius: BorderRadius.circular(30.r),
+                                  color: Colors.white.withOpacity(0.1),
+                                  child: Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                        'assets/images/timeline.svg',
+                                        height: 16.h,
+                                        width: 16.w,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(width: 4.w),
+                                      Text("03 June, 2023",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 12.sp)),
+                                    ],
+                                  )),
+                            ),
+                          ),
+                        ]),
+                        SizedBox(height: 6.h),
+                        SizedBox(
+                          height: 73.h,
+                          child: ListView.separated(
+                              separatorBuilder: (context, builder) {
+                                return SizedBox(
+                                  width: 2.w,
+                                );
+                              },
+                              itemCount: cameraData2.images!.length,
+                              shrinkWrap: true,
+                              physics: BouncingScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: ((context, index) {
+                                String formattedTime = DateFormat("hh:mm a")
+                                    .format(DateTime.fromMillisecondsSinceEpoch(
+                                        int.parse(cameraData2
+                                            .images![index].datetime!)))
+                                    .toString();
+                                return InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      _selectedImageIndex2 = index;
+                                    });
+                                    final imageData = ImageData(
+                                      name: cameraData2.images![index].name,
+                                      dateTime:
+                                          cameraData2.images![index].datetime,
+                                      camera: cameraData2.images![index].camera,
+                                      id: cameraData2.images![index].id,
+                                      urlPreview:
+                                          cameraData2.images![index].urlPreview,
+                                    );
+
+                                    ref
+                                        .read(compare2DataProvider.notifier)
+                                        .setImageData(imageData);
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 4.w, vertical: 2.h),
+                                    child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.zero,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(6.r),
+                                              border: _selectedImageIndex2 ==
+                                                      index
+                                                  ? Border.all(
+                                                      color: Helper.primary,
+                                                      width: 2.w,
+                                                    )
+                                                  : Border.all(
+                                                      width: 2.w,
+                                                      color:
+                                                          Colors.transparent),
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(4.r),
+                                              child: Image.network(
+                                                cameraData2
+                                                    .images![index].urlThumb!,
+                                                width: 44.w,
+                                                height: 44.h,
+                                                fit: BoxFit.fill,
+                                                errorBuilder: (BuildContext
+                                                        context,
+                                                    Object exception,
+                                                    StackTrace? stackTrace) {
+                                                  return ClipRRect(
+                                                    child: Image.asset(
+                                                      'assets/images/error_image.jpeg',
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 6.h,
+                                          ),
+                                          Text(
+                                            formattedTime,
+                                            style: TextStyle(
+                                                color: Helper.textColor700,
+                                                fontSize: 8.sp,
+                                                fontWeight: FontWeight.w500),
+                                          )
+                                        ]),
+                                  ),
+                                );
+                              })),
+                        ),
+                      ]);
+                    });
+                  },
+                  error: (err, _) {
+                    return const Text("Failed to fetch cameras",
+                        style: TextStyle(color: Helper.errorColor));
+                  },
+                  loading: () => Center(child: CircularProgressIndicator()),
+                )
               ],
             ),
           ),
@@ -313,74 +519,202 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
       ),
     );
   }
-}
 
-_showDateBottomSheet(context) {
-  return showModalBottomSheet(
-    isScrollControlled: true,
-    context: context,
-    backgroundColor: Colors.transparent,
-    builder: (context) => Wrap(children: [
-      Container(
-        padding: EdgeInsets.only(top: 28.h, left: 20.w, right: 20.w),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r)),
-          color: Colors.white,
-        ),
-        // height: MediaQuery.of(context).size.height * 1.6,
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'Image 1 Date',
-                  style: TextStyle(
-                      color: Helper.baseBlack,
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500),
+  _showCompare1BottomSheet(
+      context,
+      String startDate,
+      String endDate,
+      String selectedDate,
+      String cameraId,
+      String projectId,
+      WidgetRef ref,
+      ) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Wrap(children: [
+        Container(
+          padding: EdgeInsets.only(top: 28.h, left: 20.w, right: 20.w),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r)),
+            color: Colors.white,
+          ),
+          // height: MediaQuery.of(context).size.height * 1.6,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Image 1 Date',
+                    style: TextStyle(
+                        color: Helper.baseBlack,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              CalendarDatePicker2(
+                config: CalendarDatePicker2Config(
+                  lastDate: DateTime.parse(endDate),
+                  firstDate: DateTime.parse(startDate),
                 ),
-              ],
-            ),
-            CalendarDatePicker2(
-              config: CalendarDatePicker2Config(),
-              value: [],
-            ),
-            // SizedBox(height: 20.h),
-            Container(
-              height: 52.h,
-              width: double.infinity,
-              margin: EdgeInsets.only(bottom: 10.h),
-              child: ElevatedButton(
-                child: Text(
-                  "Done",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500),
-                  // currentIndex == contents.length - 1 ? "Continue" : "Next"
-                ),
-                style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Helper.primary),
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                    )),
-                onPressed: () {
-                  context.pop();
+                value: [],
+                onValueChanged: (value) {
+                  print(value.toString());
+                  DateTime date = DateTime.parse(value[0].toString());
+                  selectedDate = DateFormat("yyyyMMdd").format(date);
+                  print("selectedDate " + selectedDate);
+                  
                 },
               ),
-            ),
-          ],
+              // SizedBox(height: 20.h),
+              Container(
+                height: 52.h,
+                width: double.infinity,
+                margin: EdgeInsets.only(bottom: 10.h),
+                child: ElevatedButton(
+                  child: Text(
+                    "Done",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500),
+                    // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                  ),
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Helper.primary),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                      )),
+                  onPressed: () {
+                    print(selectedDate);
+                    //         ref
+                    // .read(imagesByCamIdControllerProvider.notifier)
+                    // .getIagesByCamId(projectId, cameraId, searchDate: selectedDate );
+                    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                      ref
+                          .read(compare1ControllerProvider.notifier)
+                          .getIagesByCamId(projectId, cameraId,
+                              searchDate: selectedDate);
+                    });
+                    // getCompare1Month(currentMonth);
+                    context.pop();
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-    ]),
-  );
-}
+      ]),
+    );
+  }
 
+  _showCompare2BottomSheet(
+      context,
+      String startDate,
+      String endDate,
+      String selectedDate,
+      String cameraId,
+      String projectId,
+      WidgetRef ref,
+      ) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Wrap(children: [
+        Container(
+          padding: EdgeInsets.only(top: 28.h, left: 20.w, right: 20.w),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r)),
+            color: Colors.white,
+          ),
+          // height: MediaQuery.of(context).size.height * 1.6,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Image 1 Date',
+                    style: TextStyle(
+                        color: Helper.baseBlack,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              CalendarDatePicker2(
+                config: CalendarDatePicker2Config(
+                  lastDate: DateTime.parse(endDate),
+                  firstDate: DateTime.parse(startDate),
+                ),
+                value: [],
+                onValueChanged: (value) {
+                  print(value.toString());
+                  DateTime date = DateTime.parse(value[0].toString());
+                  selectedDate = DateFormat("yyyyMMdd").format(date);
+                  print("selectedDate " + selectedDate);
+                  
+                },
+              ),
+              // SizedBox(height: 20.h),
+              Container(
+                height: 52.h,
+                width: double.infinity,
+                margin: EdgeInsets.only(bottom: 10.h),
+                child: ElevatedButton(
+                  child: Text(
+                    "Done",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500),
+                    // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                  ),
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Helper.primary),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                      )),
+                  onPressed: () {
+                    print(selectedDate);
+                    //         ref
+                    // .read(imagesByCamIdControllerProvider.notifier)
+                    // .getIagesByCamId(projectId, cameraId, searchDate: selectedDate );
+                    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                      ref
+                          .read(compare2ControllerProvider.notifier)
+                          .getIagesByCamId(projectId, cameraId,
+                              searchDate: selectedDate);
+                    });
+                    // getCompare2Month(currentMonth);
+                    context.pop();
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ]),
+    );
+  }
+}

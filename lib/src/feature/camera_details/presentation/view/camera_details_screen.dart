@@ -50,11 +50,29 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
           widget.projectId, widget.cameraId,
           searchDate: _searchDate);
     });
-    DateTime _currentMonth = DateTime.now();
-    getDaysInMonth(_currentMonth);
+    // DateTime _currentMonth = DateTime.now();
+    // getDaysInMonth(_currentMonth);
   }
 
-  List<DateTime> getDaysInMonth(currentMonth) {
+  List<DateTime> getDaysInMonth(currentMonth, bool isString) {
+    daysInMonth = [];
+    // final currentMonth = DateTime.parse(month);
+    if(isString){
+      final month = DateTime.parse(currentMonth);
+      print("datetime format" + month.toString());
+    final firstDayOfMonth = DateTime(month.year, month.month, 1);
+    final lastDayOfMonth =
+        DateTime(month.year, month.month + 1, 0);
+
+    print(firstDayOfMonth.toString());
+    print(lastDayOfMonth.toString());
+    // final daysInMonth = <DateTime>[];
+    for (var i = firstDayOfMonth.day; i <= lastDayOfMonth.day; i++) {
+      daysInMonth.add(DateTime(month.year, month.month, i));
+    }
+
+    return daysInMonth;
+    }
     print("datetime format" + currentMonth.toString());
     final firstDayOfMonth = DateTime(currentMonth.year, currentMonth.month, 1);
     final lastDayOfMonth =
@@ -120,6 +138,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
             ),
             leadingWidth: 24,
             title: cameraByIdData.when(
+              
               skipLoadingOnRefresh: false,
               skipLoadingOnReload: false,
               data: (cameraData) {
@@ -174,6 +193,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
           return SingleChildScrollView(
               child: imagesByCameraIdData.when(
             data: (imagesData) {
+              getDaysInMonth(imagesData.endDate, true);
               return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
@@ -661,7 +681,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                           .getIagesByCamId(projectId, cameraId,
                               searchDate: selectedDate);
                     });
-                    getDaysInMonth(currentMonth);
+                    getDaysInMonth(currentMonth, false);
                     context.pop();
                   },
                 ),
