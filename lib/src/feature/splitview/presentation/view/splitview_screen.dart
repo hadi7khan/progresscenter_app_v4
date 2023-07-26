@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 
 class SplitviewScreen extends StatefulWidget {
@@ -25,8 +26,13 @@ class _SplitviewScreenState extends State<SplitviewScreen> {
             centerTitle: true,
             automaticallyImplyLeading: false,
             // titleSpacing: 12.0.w,
-            leading: SvgPicture.asset(
-              'assets/images/arrow-left.svg',
+            leading: InkWell(
+              onTap: (){
+                context.pop();
+              },
+              child: SvgPicture.asset(
+                'assets/images/arrow-left.svg',
+              ),
             ),
             leadingWidth: 24,
             title: Column(

@@ -275,7 +275,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             child: CompareScreen(
                 key: state.pageKey,
                 projectId: args['projectId'],
-                projectName: args['projectName']),
+                projectName: args['projectName'],
+                cameraId: args['cameraId'],
+                ),
           );
         },
       ),

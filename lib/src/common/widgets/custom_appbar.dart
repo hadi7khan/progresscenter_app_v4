@@ -24,8 +24,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         }),
         Column(children: [
           Text("Timelapse Camera"),
+          Text("17 Jul 2019 - 18 Aug 2019 "),
           
         ],),
+        IconButton(icon: Icon(Icons.arrow_back_rounded),
+        onPressed: () {
+          context.pop();
+        }),
         
     ],);
     }

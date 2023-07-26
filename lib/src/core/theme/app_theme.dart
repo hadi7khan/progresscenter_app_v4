@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
@@ -23,6 +24,7 @@ mixin AppThemeMixin {
   );
 
   lightTheme() {
+    
     final lightTheme = ThemeData(
       primarySwatch: primarySwatch,
       brightness: Brightness.light,
@@ -31,6 +33,7 @@ mixin AppThemeMixin {
       fontFamily: 'Inter',
       useMaterial3: true,
       appBarTheme: AppBarTheme(
+        systemOverlayStyle: SystemUiOverlayStyle.light,
           iconTheme: const IconThemeData(color: Colors.black),
           toolbarTextStyle: TextStyle(color: Helper.secondary),
           backgroundColor: Colors.transparent,
