@@ -110,8 +110,13 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
             centerTitle: true,
             automaticallyImplyLeading: false,
             titleSpacing: 0.0,
-            leading: SvgPicture.asset(
-              'assets/images/arrow-left.svg',
+            leading: InkWell(
+              onTap: (){
+                context.pop();
+              },
+              child: SvgPicture.asset(
+                'assets/images/arrow-left.svg',
+              ),
             ),
             leadingWidth: 24,
             title: cameraByIdData.when(

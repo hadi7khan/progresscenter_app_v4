@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
@@ -68,8 +70,13 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
             surfaceTintColor: Colors.white,
             automaticallyImplyLeading: false,
             titleSpacing: 12.0.w,
-            leading: SvgPicture.asset(
-              'assets/images/arrow-left.svg',
+            leading: InkWell(
+              onTap: (){
+                context.pop();
+              },
+              child: SvgPicture.asset(
+                'assets/images/arrow-left.svg',
+              ),
             ),
             leadingWidth: 24,
             title: Text(

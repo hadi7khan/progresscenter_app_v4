@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/data/exception.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
@@ -135,8 +136,13 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
           child: AppBar(
             centerTitle: true,
             automaticallyImplyLeading: false,
-            leading: SvgPicture.asset(
-              'assets/images/arrow-left.svg',
+            leading: InkWell(
+              onTap: (){
+                context.pop();
+              },
+              child: SvgPicture.asset(
+                'assets/images/arrow-left.svg',
+              ),
             ),
             leadingWidth: 24,
             title: Text(

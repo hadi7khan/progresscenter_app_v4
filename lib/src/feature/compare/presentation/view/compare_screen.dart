@@ -1,25 +1,63 @@
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/compare/presentation/provider/compare_controller.dart';
 
-class CompareScreen extends StatefulWidget {
+class CompareScreen extends ConsumerStatefulWidget {
   final String projectId;
   final String projectName;
+  final String cameraId;
 
   const CompareScreen(
-      {super.key, required this.projectId, required this.projectName});
+      {super.key,required this.cameraId,  required this.projectId, required this.projectName});
 
   @override
-  State<CompareScreen> createState() => _CompareScreenState();
+  ConsumerState<CompareScreen> createState() => _CompareScreenState();
 }
 
-class _CompareScreenState extends State<CompareScreen> {
+class _CompareScreenState extends BaseConsumerState<CompareScreen> {
+  String _searchDate = '';
+  List<DateTime> daysInMonth = [];
+
+  @override
+  void initState() {
+    super.initState();
+    
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref.read(compareControllerProvider.notifier).getIagesByCamId(
+          widget.projectId, widget.cameraId,
+          searchDate: _searchDate);
+    });
+    DateTime _currentMonth = DateTime.now();
+    getDaysInMonth(_currentMonth);
+  }
+
+  List<DateTime> getDaysInMonth(currentMonth) {
+    print("datetime format" + currentMonth.toString());
+    final firstDayOfMonth = DateTime(currentMonth.year, currentMonth.month, 1);
+    final lastDayOfMonth =
+        DateTime(currentMonth.year, currentMonth.month + 1, 0);
+
+    print(firstDayOfMonth.toString());
+    print(lastDayOfMonth.toString());
+    // final daysInMonth = <DateTime>[];
+    for (var i = firstDayOfMonth.day; i <= lastDayOfMonth.day; i++) {
+      daysInMonth.add(DateTime(currentMonth.year, currentMonth.month, i));
+    }
+
+    return daysInMonth;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final compareCameraData = ref.watch(
+        compareControllerProvider.select((value) => value.imagesByCamId));
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70.h),
@@ -28,8 +66,13 @@ class _CompareScreenState extends State<CompareScreen> {
           child: AppBar(
             centerTitle: true,
             automaticallyImplyLeading: false,
-            leading: SvgPicture.asset(
-              'assets/images/arrow-left.svg',
+            leading: InkWell(
+              onTap: (){
+                context.pop();
+              },
+              child: SvgPicture.asset(
+                'assets/images/arrow-left.svg',
+              ),
             ),
             leadingWidth: 24,
             title: Text(
