@@ -155,6 +155,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
 
                             return Center(
                               child: CircularProgressIndicator(
+                                color: Helper.primary,
                                 value: (loadingProgress != null)
                                     ? (loadingProgress.cumulativeBytesLoaded /
                                         loadingProgress.expectedTotalBytes!)
@@ -345,6 +346,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
 
                             return Center(
                               child: CircularProgressIndicator(
+                                color: Helper.primary,
                                 value: (loadingProgress != null)
                                     ? (loadingProgress.cumulativeBytesLoaded /
                                         loadingProgress.expectedTotalBytes!)

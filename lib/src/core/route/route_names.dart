@@ -19,6 +19,7 @@ const String sliderRoute = 'slider';
 const String compareRoute = 'comapare';
 const String splitviewRoute = 'splitview';
 const String reportRoute = 'report';
+const String createLivelapseRoute = 'createlivelapse';
 
 
 const String noInternetRoute = 'noInternet';

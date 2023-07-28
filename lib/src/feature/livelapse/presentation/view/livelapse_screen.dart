@@ -71,7 +71,7 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
             automaticallyImplyLeading: false,
             titleSpacing: 12.0.w,
             leading: InkWell(
-              onTap: (){
+              onTap: () {
                 context.pop();
               },
               child: SvgPicture.asset(
@@ -89,7 +89,15 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
             actions: [
               SvgPicture.asset('assets/images/sort.svg'),
               SizedBox(width: 12.w),
-              SvgPicture.asset('assets/images/plus.svg'),
+              InkWell(
+                  onTap: () {
+                    context.push('/createlivelapse', extra: {
+                      "projectId": widget.projectId,
+                      "projectName": widget.projectName,
+                      "cameraId": widget.cameraId
+                    });
+                  },
+                  child: SvgPicture.asset('assets/images/plus.svg')),
             ],
             actionsIconTheme: IconThemeData(color: Helper.iconColor),
           ),
@@ -145,18 +153,25 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
                                               Positioned(
                                                   top: 26,
                                                   child: Container(
-                                                    padding: EdgeInsets.only(left: 7.w , top: 5.45.h, bottom: 5.45.h, right: 5.w),
-                                                    height: 24.h, 
+                                                    padding: EdgeInsets.only(
+                                                        left: 7.w,
+                                                        top: 5.45.h,
+                                                        bottom: 5.45.h,
+                                                        right: 5.w),
+                                                    height: 24.h,
                                                     width: 24.w,
                                                     decoration: BoxDecoration(
-                                                      color: Colors.white.withOpacity(0.3),
-                                                      borderRadius: BorderRadius.circular(24.r)
-                                                    ),
+                                                        color: Colors.white
+                                                            .withOpacity(0.3),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    24.r)),
                                                     child: SvgPicture.asset(
                                                       // height: 13,
                                                       // width: 13,
-                                                          'assets/images/icon_after.svg',
-                                                        ),
+                                                      'assets/images/icon_after.svg',
+                                                    ),
                                                   ))
                                             ]))
                                     : ClipRRect(

@@ -15,6 +15,7 @@ import 'package:progresscenter_app_v4/src/feature/bottom_navigation/view/bottom_
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/camera_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/compare/presentation/view/compare_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/docs_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/create_livelapse_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/livelapse_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/add_member_screen.dart';
@@ -222,31 +223,30 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return NoTransitionPage(
             key: state.pageKey,
             child: CameraDetailsSreen(
-                key: state.pageKey,
-                projectId: args['projectId'],
-                projectName: args['projectName'],
-                cameraId: args['cameraId'],
-                ),
+              key: state.pageKey,
+              projectId: args['projectId'],
+              projectName: args['projectName'],
+              cameraId: args['cameraId'],
+            ),
           );
         },
       ),
       GoRoute(
-        path: '/livelapse',
-        parentNavigatorKey: _rootNavigatorKey,
-        name: livelapseRoute,
-        pageBuilder: (context, state) {
-          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
-          return NoTransitionPage(
-            key: state.pageKey,
-            child: LivelapseScreen(
+          path: '/livelapse',
+          parentNavigatorKey: _rootNavigatorKey,
+          name: livelapseRoute,
+          pageBuilder: (context, state) {
+            Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+            return NoTransitionPage(
+              key: state.pageKey,
+              child: LivelapseScreen(
                 key: state.pageKey,
                 projectId: args['projectId'],
                 projectName: args['projectName'],
                 cameraId: args['cameraId'],
-                ),
-          );
-        },
-      ),
+              ),
+            );
+          },),
       GoRoute(
         path: '/slider',
         parentNavigatorKey: _rootNavigatorKey,
@@ -256,11 +256,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return NoTransitionPage(
             key: state.pageKey,
             child: SliderScreen(
-                key: state.pageKey,
-                projectId: args['projectId'],
-                projectName: args['projectName'],
-                cameraId: args['cameraId'],
-                ),
+              key: state.pageKey,
+              projectId: args['projectId'],
+              projectName: args['projectName'],
+              cameraId: args['cameraId'],
+            ),
           );
         },
       ),
@@ -273,11 +273,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return NoTransitionPage(
             key: state.pageKey,
             child: CompareScreen(
-                key: state.pageKey,
-                projectId: args['projectId'],
-                projectName: args['projectName'],
-                cameraId: args['cameraId'],
-                ),
+              key: state.pageKey,
+              projectId: args['projectId'],
+              projectName: args['projectName'],
+              cameraId: args['cameraId'],
+            ),
           );
         },
       ),
@@ -311,6 +311,23 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           );
         },
       ),
+      GoRoute(
+              path: '/createlivelapse',
+              parentNavigatorKey: _rootNavigatorKey,
+              name: createLivelapseRoute,
+              pageBuilder: (context, state) {
+                Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+                return NoTransitionPage(
+                  key: state.pageKey,
+                  child: CreateLivelapseScreen(
+                    key: state.pageKey,
+                    projectId: args['projectId'],
+                    projectName: args['projectName'],
+                    cameraId: args['cameraId'],
+                  ),
+                );
+              },
+            ),
 
       // ------------------------------------------------------------------------
       GoRoute(
