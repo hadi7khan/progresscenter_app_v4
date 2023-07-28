@@ -216,6 +216,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
 
                             return Center(
                               child: CircularProgressIndicator(
+                                color: Helper.primary,
                                 value: (loadingProgress != null)
                                     ? (loadingProgress.cumulativeBytesLoaded /
                                         loadingProgress.expectedTotalBytes!)

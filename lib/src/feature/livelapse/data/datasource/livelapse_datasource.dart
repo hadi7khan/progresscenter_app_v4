@@ -11,6 +11,8 @@ final livelapseSourceProvider =
 
 abstract class LivelapseDataSource {
   Future livelapseList(String projectId, String cameraId);
+  Future createBasicLivelapse(String projectId, String cameraId, data);
+  Future createAdvancedLivelapse(String projectId, String cameraId, data);
 }
 
 class LivelapseDataSourceImpl implements LivelapseDataSource {
@@ -23,6 +25,28 @@ class LivelapseDataSourceImpl implements LivelapseDataSource {
   Future livelapseList(String projectId, String cameraId) async {
     final response =
         await dioClient.get(Endpoints.livelapseListUrl(projectId, cameraId));
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      return ServerException();
+    }
+  }
+
+  @override
+  Future createBasicLivelapse(String projectId, String cameraId, data) async {
+    final response = await dioClient
+        .post(Endpoints.createBasicLivelapseUrl(projectId, cameraId), data: data);
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      return ServerException();
+    }
+  }
+
+  @override
+  Future createAdvancedLivelapse(String projectId, String cameraId, data) async {
+    final response = await dioClient
+        .post(Endpoints.createAdvancedLivelapseUrl(projectId, cameraId), data: data);
     if (response.statusCode == 200) {
       return response.data;
     } else {

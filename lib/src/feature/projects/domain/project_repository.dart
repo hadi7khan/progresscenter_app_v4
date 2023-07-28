@@ -9,6 +9,6 @@ abstract class ProjectRepository {
   Future<Either<Failure, ProjectModel>> projectById(String id);
   Future<Either<Failure, List<SiteGalleryModel>>> siteGalleryList(String id);
   Future<Either<Failure, List<UserLeanModel>>> userleanList();
-  Future<Either<Failure, dynamic>> inviteMenbers(data, id);
+  Future<Either<Failure, dynamic>> inviteMembers(data, id);
   
 }

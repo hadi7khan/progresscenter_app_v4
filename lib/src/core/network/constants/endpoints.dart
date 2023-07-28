@@ -90,6 +90,14 @@ class Endpoints {
     return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/live-lapses';
   }
 
+  static createBasicLivelapseUrl(projectId, cameraId) {
+    return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/live-lapses/basic';
+  }
+
+  static createAdvancedLivelapseUrl(projectId, cameraId) {
+    return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/live-lapses/advanced';
+  }
+
   //---------------------------- Progress Slider ---------------------------------------
 
   static progressSliderUrl(projectId, cameraId) {
