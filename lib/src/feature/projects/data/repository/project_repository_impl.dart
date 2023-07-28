@@ -89,7 +89,7 @@ class ProjectRepositoryImpl implements ProjectRepository {
   }
   
   @override
-  Future<Either<Failure, dynamic>> inviteMenbers(data, id) async{
+  Future<Either<Failure, dynamic>> inviteMembers(data, id) async{
     try {
       final result = await projectDataSource.inviteMembers(data, id);
       print("result: " + result.toString());

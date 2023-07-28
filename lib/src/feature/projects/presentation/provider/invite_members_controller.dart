@@ -17,7 +17,7 @@ class InviteMembersController extends StateNotifier<InviteMembersState> {
   Future inviteMember(data, id) async {
     print("data passed to controller" + data.toString());
     state = state.copyWith(isLoading: true);
-    final result = await service.inviteMenbers(data, id);
+    final result = await service.inviteMembers(data, id);
     // return result;
     // if (!mounted) return;
     var valueee = await result.fold((l) {

@@ -1,6 +1,9 @@
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 
 class AdvancedTabview extends StatefulWidget {
@@ -42,26 +45,31 @@ class _AdvancedTabviewState extends State<AdvancedTabview> {
                           fontWeight: FontWeight.w500),
                     ),
                     SizedBox(height: 8.h),
-                    Container(
-                      decoration: BoxDecoration(
-                        border:
-                            Border.all(width: 1, color: Helper.textColor300),
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      child: ListTile(
-                        leading: SvgPicture.asset('assets/images/image.svg',
-                            color: Helper.textColor500),
-                        title: Text(
-                          "1 image",
-                          style: TextStyle(
-                              color: Helper.textColor500,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w500),
+                    InkWell(
+                      onTap: () {
+                        _showImageBottomSheet(context);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border:
+                              Border.all(width: 1, color: Helper.textColor300),
+                          borderRadius: BorderRadius.circular(8.r),
                         ),
-                        trailing: SvgPicture.asset(
-                          'assets/images/chevron-down.svg',
-                          color: Helper.textColor500,
-                          width: 24,
+                        child: ListTile(
+                          leading: SvgPicture.asset('assets/images/image.svg',
+                              color: Helper.textColor500),
+                          title: Text(
+                            "1 image",
+                            style: TextStyle(
+                                color: Helper.textColor500,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          trailing: SvgPicture.asset(
+                            'assets/images/chevron-down.svg',
+                            color: Helper.textColor500,
+                            width: 24,
+                          ),
                         ),
                       ),
                     ),
@@ -74,26 +82,32 @@ class _AdvancedTabviewState extends State<AdvancedTabview> {
                           fontWeight: FontWeight.w500),
                     ),
                     SizedBox(height: 8.h),
-                    Container(
-                      decoration: BoxDecoration(
-                        border:
-                            Border.all(width: 1, color: Helper.textColor300),
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      child: ListTile(
-                        leading: SvgPicture.asset('assets/images/calendar.svg',
-                            color: Helper.textColor500),
-                        title: Text(
-                          "31 Mar, 2023 - 21 Apr, 2023",
-                          style: TextStyle(
-                              color: Helper.textColor500,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w500),
+                    InkWell(
+                      onTap: () {
+                        _showStartDateBottomSheet(context, "23", "22", "233");
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border:
+                              Border.all(width: 1, color: Helper.textColor300),
+                          borderRadius: BorderRadius.circular(8.r),
                         ),
-                        trailing: SvgPicture.asset(
-                          'assets/images/chevron-down.svg',
-                          color: Helper.textColor500,
-                          width: 24,
+                        child: ListTile(
+                          leading: SvgPicture.asset(
+                              'assets/images/calendar.svg',
+                              color: Helper.textColor500),
+                          title: Text(
+                            "31 Mar, 2023 - 21 Apr, 2023",
+                            style: TextStyle(
+                                color: Helper.textColor500,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          trailing: SvgPicture.asset(
+                            'assets/images/chevron-down.svg',
+                            color: Helper.textColor500,
+                            width: 24,
+                          ),
                         ),
                       ),
                     ),
@@ -106,26 +120,31 @@ class _AdvancedTabviewState extends State<AdvancedTabview> {
                           fontWeight: FontWeight.w500),
                     ),
                     SizedBox(height: 8.h),
-                    Container(
-                      decoration: BoxDecoration(
-                        border:
-                            Border.all(width: 1, color: Helper.textColor300),
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      child: ListTile(
-                        leading: SvgPicture.asset('assets/images/quality.svg',
-                            color: Helper.textColor500),
-                        title: Text(
-                          "Select Quality",
-                          style: TextStyle(
-                              color: Helper.textColor500,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w500),
+                    InkWell(
+                      onTap: () {
+                        _showQualityBottomSheet(context);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border:
+                              Border.all(width: 1, color: Helper.textColor300),
+                          borderRadius: BorderRadius.circular(8.r),
                         ),
-                        trailing: SvgPicture.asset(
-                          'assets/images/chevron-down.svg',
-                          color: Helper.textColor500,
-                          width: 24,
+                        child: ListTile(
+                          leading: SvgPicture.asset('assets/images/quality.svg',
+                              color: Helper.textColor500),
+                          title: Text(
+                            "Select Quality",
+                            style: TextStyle(
+                                color: Helper.textColor500,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          trailing: SvgPicture.asset(
+                            'assets/images/chevron-down.svg',
+                            color: Helper.textColor500,
+                            width: 24,
+                          ),
                         ),
                       ),
                     ),
@@ -159,9 +178,11 @@ class _AdvancedTabviewState extends State<AdvancedTabview> {
                             fontWeight: FontWeight.w500),
                       ),
                       trailing: Switch.adaptive(
+                          trackOutlineColor:
+                              MaterialStateProperty.all(Colors.transparent),
                           inactiveTrackColor:
                               Color.fromRGBO(120, 120, 128, 0.16),
-                          activeColor: Helper.switchActiveColor,
+                          activeTrackColor: Helper.switchActiveColor,
                           thumbColor: MaterialStateProperty.all(Colors.white),
                           value: _timeStamp,
                           onChanged: (value) {
@@ -187,7 +208,11 @@ class _AdvancedTabviewState extends State<AdvancedTabview> {
                             fontWeight: FontWeight.w500),
                       ),
                       trailing: Switch.adaptive(
-                          activeColor: Helper.switchActiveColor,
+                          trackOutlineColor:
+                              MaterialStateProperty.all(Colors.transparent),
+                          inactiveTrackColor:
+                              Color.fromRGBO(120, 120, 128, 0.16),
+                          activeTrackColor: Helper.switchActiveColor,
                           thumbColor: MaterialStateProperty.all(Colors.white),
                           value: _stability,
                           onChanged: (value) {
@@ -213,7 +238,11 @@ class _AdvancedTabviewState extends State<AdvancedTabview> {
                             fontWeight: FontWeight.w500),
                       ),
                       trailing: Switch.adaptive(
-                          activeColor: Helper.switchActiveColor,
+                          trackOutlineColor:
+                              MaterialStateProperty.all(Colors.transparent),
+                          inactiveTrackColor:
+                              Color.fromRGBO(120, 120, 128, 0.16),
+                          activeTrackColor: Helper.switchActiveColor,
                           thumbColor: MaterialStateProperty.all(Colors.white),
                           value: _dustyImages,
                           onChanged: (value) {
@@ -236,7 +265,7 @@ class _AdvancedTabviewState extends State<AdvancedTabview> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ListTile(
-                      contentPadding: EdgeInsets.zero,
+                        contentPadding: EdgeInsets.zero,
                         title: Text(
                           "Add Logo",
                           style: TextStyle(
@@ -262,7 +291,7 @@ class _AdvancedTabviewState extends State<AdvancedTabview> {
                           ),
                         )),
                     ListTile(
-                      contentPadding: EdgeInsets.zero,
+                        contentPadding: EdgeInsets.zero,
                         title: Text(
                           "Add music",
                           style: TextStyle(
@@ -406,6 +435,461 @@ class _AdvancedTabviewState extends State<AdvancedTabview> {
                   // });
                 },
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _showImageBottomSheet(context) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16.r),
+              topRight: Radius.circular(16.r)),
+          color: Colors.white,
+        ),
+        height: 510.h,
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'Select Duration',
+                  style: TextStyle(
+                      color: Helper.baseBlack,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+            SizedBox(height: 20.h),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InkWell(
+                  onTap: () async {},
+                  child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 10.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: Colors.white),
+                    child: Text(
+                      '1 Image',
+                      style: TextStyle(
+                          color: Helper.baseBlack,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 10.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: Colors.white),
+                    child: Text(
+                      '3 Image',
+                      style: TextStyle(
+                          color: Helper.baseBlack,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 10.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: Colors.white),
+                    child: Text(
+                      '5 Image',
+                      style: TextStyle(
+                          color: Helper.baseBlack,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 10.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: Colors.white),
+                    child: Text(
+                      '10 Image',
+                      style: TextStyle(
+                          color: Helper.baseBlack,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 10.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: Colors.white),
+                    child: Text(
+                      '15 Image',
+                      style: TextStyle(
+                          color: Helper.baseBlack,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 10.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: Colors.white),
+                    child: Text(
+                      '20 Image',
+                      style: TextStyle(
+                          color: Helper.baseBlack,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Container(
+                  height: 52.h,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500),
+                      // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                    ),
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll(Helper.baseBlack),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                        )),
+                    onPressed: () {
+                      context.pop();
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _showStartDateBottomSheet(
+    context,
+    String startDate,
+    String endDate,
+    String selectedDate,
+  ) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Wrap(children: [
+        Container(
+          padding: EdgeInsets.only(top: 28.h, left: 20.w, right: 20.w),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r)),
+            color: Colors.white,
+          ),
+          // height: MediaQuery.of(context).size.height * 1.6,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Select Start Date',
+                    style: TextStyle(
+                        color: Helper.baseBlack,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              CalendarDatePicker2(
+                config: CalendarDatePicker2Config(
+                    // lastDate: DateTime.parse(endDate),
+                    // firstDate: DateTime.parse(startDate),
+                    ),
+                value: [],
+                onValueChanged: (value) {
+                  print(value.toString());
+                  DateTime date = DateTime.parse(value[0].toString());
+                  selectedDate = DateFormat("yyyyMMdd").format(date);
+                  print("selectedDate " + selectedDate);
+                },
+              ),
+              // SizedBox(height: 20.h),
+              Container(
+                height: 52.h,
+                width: double.infinity,
+                margin: EdgeInsets.only(bottom: 10.h),
+                child: ElevatedButton(
+                  child: Text(
+                    "Done",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500),
+                    // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                  ),
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Helper.primary),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                      )),
+                  onPressed: () {
+                    print(selectedDate);
+                    context.pop();
+                    _showEndDateBottomSheet(context, "23", "22", "233");
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ]),
+    );
+  }
+
+  _showEndDateBottomSheet(
+    context,
+    String startDate,
+    String endDate,
+    String selectedDate,
+  ) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Wrap(children: [
+        Container(
+          padding: EdgeInsets.only(top: 28.h, left: 20.w, right: 20.w),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r)),
+            color: Colors.white,
+          ),
+          // height: MediaQuery.of(context).size.height * 1.6,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Select End Date',
+                    style: TextStyle(
+                        color: Helper.baseBlack,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              CalendarDatePicker2(
+                config: CalendarDatePicker2Config(
+                    // lastDate: DateTime.parse(endDate),
+                    // firstDate: DateTime.parse(startDate),
+                    ),
+                value: [],
+                onValueChanged: (value) {
+                  print(value.toString());
+                  DateTime date = DateTime.parse(value[0].toString());
+                  selectedDate = DateFormat("yyyyMMdd").format(date);
+                  print("selectedDate " + selectedDate);
+                },
+              ),
+              // SizedBox(height: 20.h),
+              Container(
+                height: 52.h,
+                width: double.infinity,
+                margin: EdgeInsets.only(bottom: 10.h),
+                child: ElevatedButton(
+                  child: Text(
+                    "Done",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500),
+                    // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                  ),
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Helper.primary),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                      )),
+                  onPressed: () {
+                    print(selectedDate);
+
+                    context.pop();
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ]),
+    );
+  }
+
+  _showQualityBottomSheet(context) {
+    return showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16.r),
+              topRight: Radius.circular(16.r)),
+          color: Colors.white,
+        ),
+        height: 288.h,
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'Select Quality',
+                  style: TextStyle(
+                      color: Helper.baseBlack,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+            SizedBox(height: 20.h),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InkWell(
+                  onTap: () async {},
+                  child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 10.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: Colors.white),
+                    child: Text(
+                      'Standard definition - 1280x720',
+                      style: TextStyle(
+                          color: Helper.baseBlack,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {},
+                  child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 10.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: Colors.white),
+                    child: Text(
+                      'High Definition - 1920x1080',
+                      style: TextStyle(
+                          color: Helper.baseBlack,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Container(
+                  height: 52.h,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500),
+                      // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                    ),
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll(Helper.baseBlack),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                        )),
+                    onPressed: () {
+                      context.pop();
+                    },
+                  ),
+                ),
+              ],
             ),
           ],
         ),

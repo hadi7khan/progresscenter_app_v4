@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 
-class BasicTabView extends StatefulWidget {
+class BasicTabView extends ConsumerStatefulWidget {
   final String projectId;
   final String cameraId;
   const BasicTabView(
       {super.key, required this.projectId, required this.cameraId});
 
   @override
-  State<BasicTabView> createState() => _BasicTabViewState();
+  ConsumerState<BasicTabView> createState() => _BasicTabViewState();
 }
 
-class _BasicTabViewState extends State<BasicTabView> {
-  bool _timeStamp = true;
-  bool _stability = true;
-  bool _dustyImages = true;
+class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
+  bool _timeStamp = false;
+  bool _stability = false;
+  bool _dustyImages = false;
+  String _duration = "1 Day";
+  String _quality = "Select Quality";
+  bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -42,26 +48,31 @@ class _BasicTabViewState extends State<BasicTabView> {
                           fontWeight: FontWeight.w500),
                     ),
                     SizedBox(height: 8.h),
-                    Container(
-                      decoration: BoxDecoration(
-                        border:
-                            Border.all(width: 1, color: Helper.textColor300),
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      child: ListTile(
-                        leading: SvgPicture.asset('assets/images/clock.svg',
-                            color: Helper.textColor500),
-                        title: Text(
-                          "30 Days",
-                          style: TextStyle(
-                              color: Helper.textColor500,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w500),
+                    InkWell(
+                      onTap: () {
+                        _showDurationBottomSheet(context);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border:
+                              Border.all(width: 1, color: Helper.textColor300),
+                          borderRadius: BorderRadius.circular(8.r),
                         ),
-                        trailing: SvgPicture.asset(
-                          'assets/images/chevron-down.svg',
-                          color: Helper.textColor500,
-                          width: 24,
+                        child: ListTile(
+                          leading: SvgPicture.asset('assets/images/clock.svg',
+                              color: Helper.textColor500),
+                          title: Text(
+                            _duration,
+                            style: TextStyle(
+                                color: Helper.textColor500,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          trailing: SvgPicture.asset(
+                            'assets/images/chevron-down.svg',
+                            color: Helper.textColor500,
+                            width: 24,
+                          ),
                         ),
                       ),
                     ),
@@ -74,26 +85,31 @@ class _BasicTabViewState extends State<BasicTabView> {
                           fontWeight: FontWeight.w500),
                     ),
                     SizedBox(height: 8.h),
-                    Container(
-                      decoration: BoxDecoration(
-                        border:
-                            Border.all(width: 1, color: Helper.textColor300),
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      child: ListTile(
-                        leading: SvgPicture.asset('assets/images/quality.svg',
-                            color: Helper.textColor500),
-                        title: Text(
-                          "Select Quality",
-                          style: TextStyle(
-                              color: Helper.textColor500,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w500),
+                    InkWell(
+                      onTap: () {
+                        _showQualityBottomSheet(context);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border:
+                              Border.all(width: 1, color: Helper.textColor300),
+                          borderRadius: BorderRadius.circular(8.r),
                         ),
-                        trailing: SvgPicture.asset(
-                          'assets/images/chevron-down.svg',
-                          color: Helper.textColor500,
-                          width: 24,
+                        child: ListTile(
+                          leading: SvgPicture.asset('assets/images/quality.svg',
+                              color: Helper.textColor500),
+                          title: Text(
+                            _quality,
+                            style: TextStyle(
+                                color: Helper.textColor500,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          trailing: SvgPicture.asset(
+                            'assets/images/chevron-down.svg',
+                            color: Helper.textColor500,
+                            width: 24,
+                          ),
                         ),
                       ),
                     ),
@@ -127,9 +143,11 @@ class _BasicTabViewState extends State<BasicTabView> {
                             fontWeight: FontWeight.w500),
                       ),
                       trailing: Switch.adaptive(
+                          trackOutlineColor:
+                              MaterialStateProperty.all(Colors.transparent),
                           inactiveTrackColor:
                               Color.fromRGBO(120, 120, 128, 0.16),
-                          activeColor: Helper.switchActiveColor,
+                          activeTrackColor: Helper.switchActiveColor,
                           thumbColor: MaterialStateProperty.all(Colors.white),
                           value: _timeStamp,
                           onChanged: (value) {
@@ -155,7 +173,11 @@ class _BasicTabViewState extends State<BasicTabView> {
                             fontWeight: FontWeight.w500),
                       ),
                       trailing: Switch.adaptive(
-                          activeColor: Helper.switchActiveColor,
+                          trackOutlineColor:
+                              MaterialStateProperty.all(Colors.transparent),
+                          inactiveTrackColor:
+                              Color.fromRGBO(120, 120, 128, 0.16),
+                          activeTrackColor: Helper.switchActiveColor,
                           thumbColor: MaterialStateProperty.all(Colors.white),
                           value: _stability,
                           onChanged: (value) {
@@ -181,7 +203,11 @@ class _BasicTabViewState extends State<BasicTabView> {
                             fontWeight: FontWeight.w500),
                       ),
                       trailing: Switch.adaptive(
-                          activeColor: Helper.switchActiveColor,
+                          trackOutlineColor:
+                              MaterialStateProperty.all(Colors.transparent),
+                          inactiveTrackColor:
+                              Color.fromRGBO(120, 120, 128, 0.16),
+                          activeTrackColor: Helper.switchActiveColor,
                           thumbColor: MaterialStateProperty.all(Colors.white),
                           value: _dustyImages,
                           onChanged: (value) {
@@ -255,6 +281,380 @@ class _BasicTabViewState extends State<BasicTabView> {
                   // });
                 },
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _showDurationBottomSheet(context) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r)),
+          color: Colors.white,
+        ),
+        height: 560.h,
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'Select Duration',
+                  style: TextStyle(
+                      color: Helper.baseBlack,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+            SizedBox(height: 20.h),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InkWell(
+                  onTap: () async {
+                    setState(() {
+                      _duration = "1 Day";
+                    });
+                    context.pop();
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: Colors.white),
+                    child: Text(
+                      '1 Day',
+                      style: TextStyle(
+                          color: Helper.baseBlack,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      _duration = "5 Days";
+                    });
+                    context.pop();
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: Colors.white),
+                    child: Text(
+                      '5 Days',
+                      style: TextStyle(
+                          color: Helper.baseBlack,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      _duration = "15 Days";
+                    });
+                    context.pop();
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: Colors.white),
+                    child: Text(
+                      '15 Days',
+                      style: TextStyle(
+                          color: Helper.baseBlack,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      _duration = "30 Days";
+                    });
+                    context.pop();
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: Colors.white),
+                    child: Text(
+                      '30 Days',
+                      style: TextStyle(
+                          color: Helper.baseBlack,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      _duration = "3 Months";
+                    });
+                    context.pop();
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: Colors.white),
+                    child: Text(
+                      '3 Months',
+                      style: TextStyle(
+                          color: Helper.baseBlack,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      _duration = "6 Months";
+                    });
+                    context.pop();
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: Colors.white),
+                    child: Text(
+                      '6 Months',
+                      style: TextStyle(
+                          color: Helper.baseBlack,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      _duration = "1 Year";
+                    });
+                    context.pop();
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: Colors.white),
+                    child: Text(
+                      '1 Year',
+                      style: TextStyle(
+                          color: Helper.baseBlack,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Container(
+                  height: 52.h,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500),
+                      // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                    ),
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll(Helper.baseBlack),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                        )),
+                    onPressed: () {
+                      // setState(() {
+                      //       _isLoading = true;
+                      //     });
+                      //     Map<String, dynamic> data = {
+                      //       "quality": _quality,
+                      //       "days": _duration,
+                      //       "hasTimestamp": _timeStamp,
+                      //       "hasAiBlending": _stability,
+                      //       "filterBlurryImages": _dustyImages
+                      //     };
+                      //     print(data.toString());
+                      //     await ref
+                      //         .watch(inviteMembersProvider.notifier)
+                      //         .inviteMember(data, widget.projectId)
+                      //         .then((value) async {
+                      //       value.fold((failure) {
+                      //         print("errorrrrrr");
+                      //       }, (data) {
+                      //         // final token = data['token'];
+                      //         // context.push('/verifyEmail',
+                      //         //     extra: {"token": token});
+                      //         context.pop();
+                      //           Utils.toastSuccessMessage(
+                      //           "Member Added",);
+                      //       });
+
+                      //       setState(() {
+                      //         _isLoading = false;
+                      //       });
+                      //     });
+                      // context.pop();
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _showQualityBottomSheet(context) {
+    return showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r)),
+          color: Colors.white,
+        ),
+        height: 288.h,
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'Select Quality',
+                  style: TextStyle(
+                      color: Helper.baseBlack,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+            SizedBox(height: 20.h),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InkWell(
+                  onTap: () async {
+                    setState(() {
+                      _quality = "Standard definitions";
+                    });
+                    context.pop();
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: Colors.white),
+                    child: Text(
+                      'Standard definition - 1280x720',
+                      style: TextStyle(
+                          color: Helper.baseBlack,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      _quality = "High Definition";
+                    });
+                    context.pop();
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: Colors.white),
+                    child: Text(
+                      'High Definition - 1920x1080',
+                      style: TextStyle(
+                          color: Helper.baseBlack,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Container(
+                  height: 52.h,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500),
+                      // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                    ),
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll(Helper.baseBlack),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                        )),
+                    onPressed: () {
+                      context.pop();
+                    },
+                  ),
+                ),
+              ],
             ),
           ],
         ),

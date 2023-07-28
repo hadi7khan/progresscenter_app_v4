@@ -47,7 +47,7 @@ class _CreateLivelapseScreenState extends State<CreateLivelapseScreen> {
                     borderRadius: BorderRadius.circular(100.r),
                   ),
                   child: TabBar(
-                    indicatorSize: TabBarIndicatorSize.label,
+                    indicatorSize: TabBarIndicatorSize.tab,
                     dividerColor: Colors.transparent,
                     indicator: BoxDecoration(
                         borderRadius: BorderRadius.circular(30.r),
