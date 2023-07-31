@@ -36,7 +36,7 @@ class _IconBottomBarState extends State<IconBottomBar> {
             style: TextStyle(
               color:  Helper.textColor700,
               fontSize: 11.sp,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
             ),
           )
         ],

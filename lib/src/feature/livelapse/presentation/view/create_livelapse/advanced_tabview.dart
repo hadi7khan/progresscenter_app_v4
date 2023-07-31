@@ -30,6 +30,8 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
   bool _stability = false;
   bool _dustyImages = false;
   bool _isLoading = false;
+  String _selectedStartDate = '';
+  String _selectedEndDate = '';
   String _images = "1";
   String _showImages = "1 Image";
   String _showQuality = "Select Quality";
@@ -181,7 +183,8 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     SizedBox(height: 8.h),
                     InkWell(
                       onTap: () {
-                        _showStartDateBottomSheet(context, "23", "22", "233");
+                        _showStartDateBottomSheet(context, "23", "22",
+                            _selectedStartDate, _selectedEndDate);
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -363,23 +366,8 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                   children: [
                     ListTile(
                         onTap: () {
-                          _pickLogo(ImageSource.gallery).then((value) async {
-                            // await Service()
-                            //     .uploadPhoto(widget.data.id!, _image!.path,
-                            //         calculateProgress)
-                            //     .then((value) {
-                            //   setState(() {
-                            //     _progress = progress;
-                            //     print("progress" + _progress.toString());
-                            //   });
-                            //   print("progress" + _progress.toString());
-                            //   context.pop();
-                            //   ScaffoldMessenger.of(context).showSnackBar(
-                            //       const SnackBar(
-                            //           backgroundColor: Colors.green,
-                            //           content: Text("Image Uploaded")));
-                            // });
-                          });
+                          _showBottomSheet(
+                              context, "progress", true, false, false);
                         },
                         contentPadding: EdgeInsets.zero,
                         title: Text(
@@ -448,7 +436,8 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                         )),
                     ListTile(
                       onTap: () {
-                        _pickStartSlide(ImageSource.gallery);
+                        _showBottomSheet(
+                            context, "progress", false, true, false);
                       },
                       contentPadding: EdgeInsets.zero,
                       title: Text(
@@ -492,7 +481,8 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     ),
                     ListTile(
                       onTap: () {
-                        _pickEndSlide(ImageSource.gallery);
+                        _showBottomSheet(
+                            context, "progress", false, false, true);
                       },
                       contentPadding: EdgeInsets.zero,
                       title: Text(
@@ -546,7 +536,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                         color: Colors.white,
                       )
                     : Text(
-                        "Create livelapse",
+                        "Create LiveLapse",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 16.sp,
@@ -562,8 +552,8 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     )),
                 onPressed: () async {
                   FormData? formData = FormData.fromMap({
-                    "startDate": "20191124",
-                    "endDate": "20191224",
+                    "startDate": _selectedStartDate,
+                    "endDate": _selectedEndDate,
                     "startTime": "",
                     "endTime": "",
                     "imagesPerDay": _images,
@@ -572,9 +562,12 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     "hasAiBlending": _stability,
                     "filterBlurryImages": _dustyImages,
                   });
-                  formData.files.add(MapEntry("logo", await MultipartFile.fromFile(_logo!.path)));
-                  formData.files.add(MapEntry("startingSlide", await MultipartFile.fromFile(_startSlide!.path)));
-                  formData.files.add(MapEntry("endingSlide", await MultipartFile.fromFile(_startSlide!.path)));
+                  formData.files.add(MapEntry(
+                      "logo", await MultipartFile.fromFile(_logo!.path)));
+                  formData.files.add(MapEntry("startingSlide",
+                      await MultipartFile.fromFile(_startSlide!.path)));
+                  formData.files.add(MapEntry("endingSlide",
+                      await MultipartFile.fromFile(_startSlide!.path)));
                   setState(() {
                     _isLoading = true;
                   });
@@ -605,6 +598,171 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                   });
                 },
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _showBottomSheet(
+      context, progress, bool logo, bool startSlide, bool endSlide) {
+    return showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r)),
+          color: Colors.white,
+        ),
+        height: 340.h,
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'Upload Media',
+                  style: TextStyle(
+                      color: Helper.baseBlack,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+            SizedBox(height: 20.h),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InkWell(
+                  onTap: () async {
+                    if (logo) {
+                      _pickLogo(ImageSource.camera).then((value) {
+                        context.pop();
+                      });
+                    } else if (startSlide) {
+                      _pickStartSlide(ImageSource.camera).then((value) {
+                        context.pop();
+                      });
+                    } else {
+                      _pickEndSlide(ImageSource.camera).then((value) {
+                        context.pop();
+                      });
+                    }
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: Colors.white),
+                    child: Text(
+                      'Take Photo',
+                      style: TextStyle(
+                          color: Helper.baseBlack,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    if (logo) {
+                      _pickLogo(ImageSource.gallery).then((value) {
+                        context.pop();
+                      });
+                    } else if (startSlide) {
+                      _pickStartSlide(ImageSource.gallery).then((value) {
+                        context.pop();
+                      });
+                    } else {
+                      _pickEndSlide(ImageSource.gallery).then((value) {
+                        context.pop();
+                      });
+                    }
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: Colors.white),
+                    child: Text(
+                      'Choose Photo',
+                      style: TextStyle(
+                          color: Helper.baseBlack,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    if (logo) {
+                      _pickLogo(ImageSource.gallery).then((value) {
+                        context.pop();
+                      });
+                    } else if (startSlide) {
+                      _pickStartSlide(ImageSource.gallery).then((value) {
+                        context.pop();
+                      });
+                    } else {
+                      _pickEndSlide(ImageSource.gallery).then((value) {
+                        context.pop();
+                      });
+                    }
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: Colors.white),
+                    child: Text(
+                      'Browse from files',
+                      style: TextStyle(
+                          color: Helper.baseBlack,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Container(
+                  height: 52.h,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500),
+                      // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                    ),
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll(Helper.baseBlack),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                        )),
+                    onPressed: () {
+                      context.pop();
+                    },
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -825,12 +983,8 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
     );
   }
 
-  _showStartDateBottomSheet(
-    context,
-    String startDate,
-    String endDate,
-    String selectedDate,
-  ) {
+  _showStartDateBottomSheet(context, String startDate, String endDate,
+      String selectedStartDate, String selectedEndDate) {
     return showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -872,8 +1026,8 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                 onValueChanged: (value) {
                   print(value.toString());
                   DateTime date = DateTime.parse(value[0].toString());
-                  selectedDate = DateFormat("yyyyMMdd").format(date);
-                  print("selectedDate " + selectedDate);
+                  selectedStartDate = DateFormat("yyyyMMdd").format(date);
+                  print("selectedDate " + selectedStartDate);
                 },
               ),
               // SizedBox(height: 20.h),
@@ -898,9 +1052,10 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                         ),
                       )),
                   onPressed: () {
-                    print(selectedDate);
+                    _selectedStartDate = selectedStartDate;
                     context.pop();
-                    _showEndDateBottomSheet(context, "23", "22", "233");
+                    _showEndDateBottomSheet(
+                        context, "23", "22", selectedEndDate);
                   },
                 ),
               ),
@@ -915,7 +1070,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
     context,
     String startDate,
     String endDate,
-    String selectedDate,
+    String selectedEndDate,
   ) {
     return showModalBottomSheet(
       isScrollControlled: true,
@@ -958,8 +1113,8 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                 onValueChanged: (value) {
                   print(value.toString());
                   DateTime date = DateTime.parse(value[0].toString());
-                  selectedDate = DateFormat("yyyyMMdd").format(date);
-                  print("selectedDate " + selectedDate);
+                  selectedEndDate = DateFormat("yyyyMMdd").format(date);
+                  print("selectedDate " + selectedEndDate);
                 },
               ),
               // SizedBox(height: 20.h),
@@ -984,8 +1139,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                         ),
                       )),
                   onPressed: () {
-                    print(selectedDate);
-
+                    _selectedEndDate = selectedEndDate;
                     context.pop();
                   },
                 ),

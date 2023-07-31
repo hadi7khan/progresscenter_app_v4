@@ -3,10 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
+import 'package:progresscenter_app_v4/src/core/network/constants/endpoints.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/provider/basic_livelapse_controller.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class BasicTabView extends ConsumerStatefulWidget {
   final String projectId;
@@ -27,6 +30,70 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
   String _showQuality = "Select Quality";
   String _quality = "SD";
   bool _isLoading = false;
+  double _progressBar = 0.0;
+  IO.Socket? socket;
+
+  @override
+  void initState() {
+    super.initState();
+    // initSocket();
+  }
+
+  initSocket(String livelapseId) {
+    socket = IO.io(Endpoints.baseUrl, <String, dynamic>{
+      'autoConnect': true,
+      'transports': ['websocket'],
+    });
+    // socket.connect();
+    socket!.onConnect((_) {
+      print('Connection established');
+      socket!.emit('joinRoom', "livelapse:$livelapseId");
+      // socket!.on("livelapse:progress", (livelapseId, data, progress) => null);
+
+      socket!.on('livelapse:progress', (data) {
+        print("progress" + data.toString());
+        print("operation" + data["operation"].toString());
+        setState(() {
+          _progressBar = double.parse(data["progress"].toString());
+        });
+        // progressTabCtx.updateItem(itemData._id, { text: operation, progress: progress });
+      });
+
+      socket!.on('livelapse:completed', (data) {
+        print("completed" + data.toString());
+        // progressTabCtx.updateItem(itemData._id, { text: operation, progress: progress });
+      });
+      socket!.on('livelapse:errored', (data) {
+        print("errored" + data.toString());
+        // progressTabCtx.updateItem(itemData._id, { text: operation, progress: progress });
+      });
+
+      // socket.on('livelapse:completed', ({ livelapseId }) => {
+      //     progressTabCtx.updateItem(itemData._id, {
+      //         text: 'Generated Successfully',
+      //         progress: 100,
+      //         isCompleted: true,
+      //     });
+
+      //     // queryClient.invalidateQueries({ queryKey: ['liveLapses', project._id, camera._id] });
+
+      //     socket.off();
+      // });
+
+      // socket.on('livelapse:errored', ({ livelapseId }) => {
+      //     progressTabCtx.updateItem(itemData._id, { text: 'Failed to Generate', progress: 100, isErrored: true });
+
+      //     // queryClient.invalidateQueries({ queryKey: ['liveLapses', project._id, camera._id] });
+
+      //     socket.off();
+      // });
+    });
+    // socket!.destroy();
+    socket!.onDisconnect((_) => print('Connection Disconnection'));
+    socket!.onConnectError((err) => print(err));
+    socket!.onError((err) => print(err));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -232,7 +299,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                         color: Colors.white,
                       )
                     : Text(
-                        "Create livelapse",
+                        "Create LiveLapse",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 16.sp,
@@ -263,7 +330,12 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                       .then((value) async {
                     value.fold((failure) {
                       print("errorrrrrr");
-                    }, (data) {});
+                    }, (res) {
+                      print("response data" + res.toString());
+                      initSocket(res["_id"]);
+                      _showProgressBottomSheet(context, _progressBar);
+                      
+                    });
                     Utils.toastSuccessMessage("Livelapse Created");
 
                     setState(() {
@@ -646,6 +718,141 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                   child: ElevatedButton(
                     child: Text(
                       "Cancel",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500),
+                      // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                    ),
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll(Helper.baseBlack),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                        )),
+                    onPressed: () {
+                      context.pop();
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _showProgressBottomSheet(context, double progress) {
+    return showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r)),
+          color: Colors.white,
+        ),
+        height: 288.h,
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'Generating LiveLapse',
+                  style: TextStyle(
+                      color: Helper.baseBlack,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+            SizedBox(height: 20.h),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  isThreeLine: true,
+                  leading: Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 6.w, vertical: 6.h),
+                    width: 32.w,
+                    height: 32.h,
+                    decoration: BoxDecoration(
+                        color: Color.fromRGBO(229, 240, 255, 1),
+                        borderRadius: BorderRadius.circular(32.r),
+                        border: Border.all(
+                            color: Color.fromRGBO(245, 249, 255, 1),
+                            width: 4.w)),
+                    child: SvgPicture.asset(
+                      'assets/images/film.svg',
+                    ),
+                  ),
+                  title: Text(
+                    "Camera 2 - The Bridges.mp4",
+                    style: TextStyle(
+                        color: Helper.textColor700,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "Fetching images",
+                          style: TextStyle(
+                              color: Helper.textColor600,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400),
+                        ),
+                        SizedBox(height: 10.h),
+                        Row(mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(4.r),
+                            child: LinearPercentIndicator(
+                              width: 210.w,
+                              fillColor: Helper.textColor300,
+                              backgroundColor: Helper.textColor300,
+                              progressColor: Helper.primary,
+                              padding: EdgeInsets.zero,
+                              curve: Curves.easeInOut,
+                              barRadius: Radius.circular(4.r),
+                              lineHeight: 8.h,
+                              percent: progress,
+                            ),
+                          ),
+                          Text(
+                            "0" + "%",
+                            style: TextStyle(
+                                color: Helper.textColor700,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500),
+                          )
+                        ])
+                      ]),
+                  trailing: SvgPicture.asset(
+                    'assets/images/checkbox_base.svg',
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Container(
+                  height: 52.h,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    child: Text(
+                      "Close",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,
