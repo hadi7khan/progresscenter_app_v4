@@ -4,7 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
+import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/provider/basic_livelapse_controller.dart';
 
 class BasicTabView extends ConsumerStatefulWidget {
   final String projectId;
@@ -20,8 +22,10 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
   bool _timeStamp = false;
   bool _stability = false;
   bool _dustyImages = false;
-  String _duration = "1 Day";
-  String _quality = "Select Quality";
+  String _duration = "1";
+  String _showDuration = "1 Day";
+  String _showQuality = "Select Quality";
+  String _quality = "SD";
   bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
@@ -62,7 +66,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                           leading: SvgPicture.asset('assets/images/clock.svg',
                               color: Helper.textColor500),
                           title: Text(
-                            _duration,
+                            _showDuration,
                             style: TextStyle(
                                 color: Helper.textColor500,
                                 fontSize: 14.sp,
@@ -99,7 +103,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                           leading: SvgPicture.asset('assets/images/quality.svg',
                               color: Helper.textColor500),
                           title: Text(
-                            _quality,
+                            _showQuality,
                             style: TextStyle(
                                 color: Helper.textColor500,
                                 fontSize: 14.sp,
@@ -223,20 +227,18 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
               height: 52.h,
               width: double.infinity,
               child: ElevatedButton(
-                child:
-                    // isLoading
-                    //     ? CircularProgressIndicator(
-                    //         color: Colors.white,
-                    //       )
-                    //     :
-                    Text(
-                  "Create livelapse",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500),
-                  // currentIndex == contents.length - 1 ? "Continue" : "Next"
-                ),
+                child: _isLoading
+                    ? CircularProgressIndicator(
+                        color: Colors.white,
+                      )
+                    : Text(
+                        "Create livelapse",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500),
+                        // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                      ),
                 style: ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(Helper.primary),
                     shape: MaterialStateProperty.all(
@@ -245,40 +247,40 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                       ),
                     )),
                 onPressed: () async {
-                  // if (_fbKey.currentState!.saveAndValidate()) {
-                  //   setState(() {
-                  //     isLoading = true;
-                  //   });
-                  //   Map<String, dynamic> data = {
-                  //     "email": _verifyemailcontroller.text.toLowerCase(),
-                  //   };
-                  //   await ref
-                  //       .watch(forgotPasswordProvider.notifier)
-                  //       .forgotPass(data)
-                  //       .then((value) async {
-                  //     value.fold((failure) {
-                  //       print("errorrrrrr");
-                  //     }, (data) {
-                  //       final token = data['token'];
-                  //       context.push('/verifyEmail',
-                  //           extra: {"token": token});
-                  //     });
+                  setState(() {
+                    _isLoading = true;
+                  });
+                  Map<String, dynamic> data = {
+                    "days": _duration,
+                    "quality": _quality,
+                    "hasTimestamp": _timeStamp,
+                    "hasAiBlending": _stability,
+                    "filterBlurryImages": _dustyImages,
+                  };
+                  await ref
+                      .watch(basicLivelapseProvider.notifier)
+                      .basicLivelapse(widget.projectId, widget.cameraId, data)
+                      .then((value) async {
+                    value.fold((failure) {
+                      print("errorrrrrr");
+                    }, (data) {});
+                    Utils.toastSuccessMessage("Livelapse Created");
 
-                  //     setState(() {
-                  //       isLoading = false;
-                  //     });
+                    setState(() {
+                      _isLoading = false;
+                    });
+                  });
+                  // .onError((error, stackTrace) {
+                  //   Utils.flushBarErrorMessage(
+                  //       "Error", context);
+                  //   setState(() {
+                  //     isLoading = false;
                   //   });
-                  //   // .onError((error, stackTrace) {
-                  //   //   Utils.flushBarErrorMessage(
-                  //   //       "Error", context);
-                  //   //   setState(() {
-                  //   //     isLoading = false;
-                  //   //   });
-                  //   // });
-                  // }
-                  // setState(() {
-                  //   isLoading = false;
                   // });
+
+                  setState(() {
+                    _isLoading = false;
+                  });
                 },
               ),
             ),
@@ -326,7 +328,8 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                 InkWell(
                   onTap: () async {
                     setState(() {
-                      _duration = "1 Day";
+                      _duration = "1";
+                      _showDuration = "1 Day";
                     });
                     context.pop();
                   },
@@ -349,7 +352,8 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                 InkWell(
                   onTap: () {
                     setState(() {
-                      _duration = "5 Days";
+                      _duration = "5";
+                      _showDuration = "5 Days";
                     });
                     context.pop();
                   },
@@ -372,7 +376,8 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                 InkWell(
                   onTap: () {
                     setState(() {
-                      _duration = "15 Days";
+                      _duration = "15";
+                      _showDuration = "15 Days";
                     });
                     context.pop();
                   },
@@ -395,7 +400,8 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                 InkWell(
                   onTap: () {
                     setState(() {
-                      _duration = "30 Days";
+                      _duration = "30";
+                      _showDuration = "30  Days";
                     });
                     context.pop();
                   },
@@ -418,7 +424,8 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                 InkWell(
                   onTap: () {
                     setState(() {
-                      _duration = "3 Months";
+                      _duration = "90";
+                      _showDuration = "3 Months";
                     });
                     context.pop();
                   },
@@ -441,7 +448,8 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                 InkWell(
                   onTap: () {
                     setState(() {
-                      _duration = "6 Months";
+                      _duration = "180";
+                      _showDuration = "6 Months";
                     });
                     context.pop();
                   },
@@ -464,7 +472,8 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                 InkWell(
                   onTap: () {
                     setState(() {
-                      _duration = "1 Year";
+                      _duration = "365";
+                      _showDuration = "1 Year";
                     });
                     context.pop();
                   },
@@ -585,7 +594,8 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                 InkWell(
                   onTap: () async {
                     setState(() {
-                      _quality = "Standard definitions";
+                      _showQuality = "Standard definitions";
+                      _quality = "SD";
                     });
                     context.pop();
                   },
@@ -608,7 +618,8 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                 InkWell(
                   onTap: () {
                     setState(() {
-                      _quality = "High Definition";
+                      _showQuality = "High Definition";
+                      _quality = "HD";
                     });
                     context.pop();
                   },

@@ -142,36 +142,39 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                     return Consumer(builder: (context, ref, child) {
                       return Column(children: [
                         Stack(children: [
-                          AspectRatio(
-                            aspectRatio: 16 / 9,
-                            child: Image.network(
-                              selectedCompareData1 == null
-                                  ? cameraData1.images![0].urlPreview!
-                                  : selectedCompareData1.urlPreview!,
-                              width: double.infinity,
-                              fit: BoxFit.fill,
-                              loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-
-                            return Center(
-                              child: CircularProgressIndicator(
-                                color: Helper.primary,
-                                value: (loadingProgress != null)
-                                    ? (loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!)
-                                    : 0,
+                          Container(
+                            color: Helper.textColor300,
+                            child: AspectRatio(
+                              aspectRatio: 16 / 9,
+                              child: Image.network(
+                                selectedCompareData1 == null
+                                    ? cameraData1.images![0].urlPreview!
+                                    : selectedCompareData1.urlPreview!,
+                                width: double.infinity,
+                                fit: BoxFit.fill,
+                                loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                          
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  color: Helper.primary,
+                                  value: (loadingProgress != null)
+                                      ? (loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!)
+                                      : 0,
+                                ),
+                              );
+                            },
+                                errorBuilder: (BuildContext context,
+                                    Object exception, StackTrace? stackTrace) {
+                                  return ClipRRect(
+                                    child: Image.asset(
+                                      'assets/images/error_image.jpeg',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  );
+                                },
                               ),
-                            );
-                          },
-                              errorBuilder: (BuildContext context,
-                                  Object exception, StackTrace? stackTrace) {
-                                return ClipRRect(
-                                  child: Image.asset(
-                                    'assets/images/error_image.jpeg',
-                                    fit: BoxFit.cover,
-                                  ),
-                                );
-                              },
                             ),
                           ),
                           Positioned(
@@ -332,37 +335,40 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                     return Consumer(builder: (context, ref, child) {
                       return Column(children: [
                         Stack(children: [
-                          AspectRatio(
-                            aspectRatio: 16 / 9,
-                            child: Image.network(
-                              selectedCompareData2 == null
-                                  ? cameraData2.images![0].urlPreview!
-                                  : selectedCompareData2.urlPreview!,
-                              width: double.infinity,
-                              // height: 210.h,
-                              fit: BoxFit.fill,
-                              loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-
-                            return Center(
-                              child: CircularProgressIndicator(
-                                color: Helper.primary,
-                                value: (loadingProgress != null)
-                                    ? (loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!)
-                                    : 0,
+                          Container(
+                            color: Helper.textColor300,
+                            child: AspectRatio(
+                              aspectRatio: 16 / 9,
+                              child: Image.network(
+                                selectedCompareData2 == null
+                                    ? cameraData2.images![0].urlPreview!
+                                    : selectedCompareData2.urlPreview!,
+                                width: double.infinity,
+                                // height: 210.h,
+                                fit: BoxFit.fill,
+                                loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                          
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  color: Helper.primary,
+                                  value: (loadingProgress != null)
+                                      ? (loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!)
+                                      : 0,
+                                ),
+                              );
+                            },
+                                errorBuilder: (BuildContext context,
+                                    Object exception, StackTrace? stackTrace) {
+                                  return ClipRRect(
+                                    child: Image.asset(
+                                      'assets/images/error_image.jpeg',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  );
+                                },
                               ),
-                            );
-                          },
-                              errorBuilder: (BuildContext context,
-                                  Object exception, StackTrace? stackTrace) {
-                                return ClipRRect(
-                                  child: Image.asset(
-                                    'assets/images/error_image.jpeg',
-                                    fit: BoxFit.cover,
-                                  ),
-                                );
-                              },
                             ),
                           ),
                           Positioned(

@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/data/repository/livelapse_repo_impl.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/state/advanced_livelapse_state.dart';
 
-final basicLivelapseProvider = StateNotifierProvider.autoDispose<
+final advancedLivelapseProvider = StateNotifierProvider.autoDispose<
     AdvancedLivelapseController, AdvancedLivelapseState>(
   (ref) {
     final livelapseService = ref.watch(livelapseProvider);
