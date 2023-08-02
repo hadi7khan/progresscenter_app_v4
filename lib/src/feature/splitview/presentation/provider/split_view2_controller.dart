@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/data/repository/camera_details_repo_impl.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/state/images_by_cam_id_state.dart';
 
-final compare2ControllerProvider = StateNotifierProvider.autoDispose<
+final splitView2ControllerProvider = StateNotifierProvider.autoDispose<
     ImagesByCamIdController, ImagesByCamIdState>((ref) {
   final cameraService = ref.watch(cameraDetailsProvider);
   return ImagesByCamIdController(const ImagesByCamIdState(), cameraService);
@@ -14,7 +14,8 @@ class ImagesByCamIdController extends StateNotifier<ImagesByCamIdState> {
 
   void getImagesByCamId(projectId, cameraId, {searchDate = ''}) async {
     state = state.copyWith(isFetching: true);
-    final result = await service.imagesByCameraId(projectId, cameraId, searchDate: searchDate);
+    final result = await service.imagesByCameraId(projectId, cameraId,
+        searchDate: searchDate);
 
     result.fold((l) {
       // error handle

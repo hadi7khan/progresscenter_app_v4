@@ -106,7 +106,10 @@ dependencies:
   cached_network_image: 3.2.3
   # https://pub.dev/packages/socket_io_client
   socket_io_client: 2.0.3
+  # https://pub.dev/packages/percent_indicator
   percent_indicator: 4.2.3
+  # https://pub.dev/packages/image_compare_slider
+  image_compare_slider: 2.7.0
 
 dev_dependencies:
   flutter_test:

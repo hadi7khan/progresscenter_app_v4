@@ -33,12 +33,8 @@ class CompareScreen extends ConsumerStatefulWidget {
 class _CompareScreenState extends BaseConsumerState<CompareScreen> {
   String _searchDate1 = '';
   String _searchDate2 = '';
-  // List<DateTime> compare1Days = [];
-  // List<DateTime> compare2Days = [];
   String _selectedDate1 = '';
   String _selectedDate2 = '';
-  // DateTime compare1Month = DateTime.now();
-  // DateTime compare2Month = DateTime.now();
   int _selectedImageIndex1 = 0;
   int _selectedImageIndex2 = 0;
 
@@ -47,51 +43,16 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref.read(compare1ControllerProvider.notifier).getIagesByCamId(
+      ref.read(compare1ControllerProvider.notifier).getImagesByCamId(
           widget.projectId, widget.cameraId,
           searchDate: _searchDate1);
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref.read(compare2ControllerProvider.notifier).getIagesByCamId(
+      ref.read(compare2ControllerProvider.notifier).getImagesByCamId(
           widget.projectId, widget.cameraId,
           searchDate: _searchDate1);
     });
-    // DateTime _currentMonth = DateTime.now();
-    // getCompare1Month(_currentMonth);
-    // getCompare2Month(_currentMonth);
   }
-
-  // List<DateTime> getCompare1Month(currentMonth) {
-  //   print("datetime format" + currentMonth.toString());
-  //   final firstDayOfMonth = DateTime(currentMonth.year, currentMonth.month, 1);
-  //   final lastDayOfMonth =
-  //       DateTime(currentMonth.year, currentMonth.month + 1, 0);
-
-  //   print(firstDayOfMonth.toString());
-  //   print(lastDayOfMonth.toString());
-  //   // final daysInMonth = <DateTime>[];
-  //   for (var i = firstDayOfMonth.day; i <= lastDayOfMonth.day; i++) {
-  //     compare1Days.add(DateTime(currentMonth.year, currentMonth.month, i));
-  //   }
-
-  //   return compare1Days;
-  // }
-
-  // List<DateTime> getCompare2Month(currentMonth) {
-  //   print("datetime format" + currentMonth.toString());
-  //   final firstDayOfMonth = DateTime(currentMonth.year, currentMonth.month, 1);
-  //   final lastDayOfMonth =
-  //       DateTime(currentMonth.year, currentMonth.month + 1, 0);
-
-  //   print(firstDayOfMonth.toString());
-  //   print(lastDayOfMonth.toString());
-  //   // final daysInMonth = <DateTime>[];
-  //   for (var i = firstDayOfMonth.day; i <= lastDayOfMonth.day; i++) {
-  //     compare2Days.add(DateTime(currentMonth.year, currentMonth.month, i));
-  //   }
-
-  //   return compare2Days;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -328,7 +289,10 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                     return const Text("Failed to fetch cameras",
                         style: TextStyle(color: Helper.errorColor));
                   },
-                  loading: () => LoadingCamDetails(showCalendarList: false, topPadding: 0,),
+                  loading: () => LoadingCamDetails(
+                    showCalendarList: false,
+                    topPadding: 0,
+                  ),
                 ),
                 SizedBox(height: 24.h),
 
@@ -525,7 +489,8 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                     return const Text("Failed to fetch cameras",
                         style: TextStyle(color: Helper.errorColor));
                   },
-                  loading: () => LoadingCamDetails(showCalendarList: false, topPadding: 0),
+                  loading: () =>
+                      LoadingCamDetails(showCalendarList: false, topPadding: 0),
                 )
               ],
             ),
@@ -618,7 +583,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                       ref
                           .read(compare1ControllerProvider.notifier)
-                          .getIagesByCamId(projectId, cameraId,
+                          .getImagesByCamId(projectId, cameraId,
                               searchDate: selectedDate);
                     });
                     // getCompare1Month(currentMonth);
@@ -716,7 +681,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                       ref
                           .read(compare2ControllerProvider.notifier)
-                          .getIagesByCamId(projectId, cameraId,
+                          .getImagesByCamId(projectId, cameraId,
                               searchDate: selectedDate);
                     });
                     // getCompare2Month(currentMonth);
