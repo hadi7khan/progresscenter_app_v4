@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,6 +13,20 @@ import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/provider/basic_livelapse_controller.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
+final progressBarProvider = StateProvider<double>((ref) => 0.0);
+
+class ProgressNotifier extends ChangeNotifier {
+  double bar = 0.0;
+  void addProgress(progress) {
+    bar = progress;
+    notifyListeners();
+  }
+}
+
+final progressProvider = ChangeNotifierProvider<ProgressNotifier>((ref) {
+  return ProgressNotifier();
+});
+
 class BasicTabView extends ConsumerStatefulWidget {
   final String projectId;
   final String cameraId;
@@ -22,6 +38,8 @@ class BasicTabView extends ConsumerStatefulWidget {
 }
 
 class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
+  PersistentBottomSheetController? _controller; // <------ Instance variable
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _timeStamp = false;
   bool _stability = false;
   bool _dustyImages = false;
@@ -53,46 +71,49 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
       socket!.on('livelapse:progress', (data) {
         print("progress" + data.toString());
         print("operation" + data["operation"].toString());
-        setState(() {
+        // ref.read(progressBarProvider.notifier).state = data["progress"].toDouble();
+        // ref.read(progressBarProvider.notifier).state++;
+        // setState(() {
+        //   _progressBar = double.parse(data["progress"].toString());
+        // });
+        _controller!.setState!(() {
           _progressBar = double.parse(data["progress"].toString());
         });
+        ref
+            .read(progressProvider.notifier)
+            .addProgress(data["progress"].toDouble());
+
         // progressTabCtx.updateItem(itemData._id, { text: operation, progress: progress });
       });
 
       socket!.on('livelapse:completed', (data) {
         print("completed" + data.toString());
+        socket!.disconnect();
+        socket!.dispose();
+
         // progressTabCtx.updateItem(itemData._id, { text: operation, progress: progress });
       });
       socket!.on('livelapse:errored', (data) {
         print("errored" + data.toString());
+        socket!.disconnect();
+        socket!.dispose();
         // progressTabCtx.updateItem(itemData._id, { text: operation, progress: progress });
       });
-
-      // socket.on('livelapse:completed', ({ livelapseId }) => {
-      //     progressTabCtx.updateItem(itemData._id, {
-      //         text: 'Generated Successfully',
-      //         progress: 100,
-      //         isCompleted: true,
-      //     });
-
-      //     // queryClient.invalidateQueries({ queryKey: ['liveLapses', project._id, camera._id] });
-
-      //     socket.off();
-      // });
-
-      // socket.on('livelapse:errored', ({ livelapseId }) => {
-      //     progressTabCtx.updateItem(itemData._id, { text: 'Failed to Generate', progress: 100, isErrored: true });
-
-      //     // queryClient.invalidateQueries({ queryKey: ['liveLapses', project._id, camera._id] });
-
-      //     socket.off();
-      // });
     });
+    // socket!.disconnect();
+    // socket!.dispose();
     // socket!.destroy();
     socket!.onDisconnect((_) => print('Connection Disconnection'));
     socket!.onConnectError((err) => print(err));
     socket!.onError((err) => print(err));
   }
+
+  // @override
+  // void dispose() {
+  //   socket!.disconnect();
+  //   socket!.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -333,8 +354,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                     }, (res) {
                       print("response data" + res.toString());
                       initSocket(res["_id"]);
-                      _showProgressBottomSheet(context, _progressBar);
-                      
+                      _showProgressBottomSheet(context, ref);
                     });
                     Utils.toastSuccessMessage("Livelapse Created");
 
@@ -745,138 +765,295 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
     );
   }
 
-  _showProgressBottomSheet(context, double progress) {
-    return showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r)),
-          color: Colors.white,
-        ),
-        height: 288.h,
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'Generating LiveLapse',
-                  style: TextStyle(
-                      color: Helper.baseBlack,
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500),
-                ),
-              ],
-            ),
-            SizedBox(height: 20.h),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  isThreeLine: true,
-                  leading: Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 6.w, vertical: 6.h),
-                    width: 32.w,
-                    height: 32.h,
-                    decoration: BoxDecoration(
-                        color: Color.fromRGBO(229, 240, 255, 1),
-                        borderRadius: BorderRadius.circular(32.r),
-                        border: Border.all(
-                            color: Color.fromRGBO(245, 249, 255, 1),
-                            width: 4.w)),
-                    child: SvgPicture.asset(
-                      'assets/images/film.svg',
-                    ),
-                  ),
-                  title: Text(
-                    "Camera 2 - The Bridges.mp4",
+  calculateProgress(double sentBytes) {
+    print("sentBytes--------------" + sentBytes.toString());
+    _progressBar = sentBytes;
+    return sentBytes;
+  }
+
+  _showProgressBottomSheet(context, WidgetRef ref) async {
+    _controller =
+        await Scaffold.of(context).showBottomSheet((BuildContext context) {
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r)),
+            color: Colors.white,
+          ),
+          height: 270.h,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Generating LiveLapse',
                     style: TextStyle(
-                        color: Helper.textColor700,
-                        fontSize: 14,
+                        color: Helper.baseBlack,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w500),
                   ),
-                  subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          "Fetching images",
-                          style: TextStyle(
-                              color: Helper.textColor600,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400),
-                        ),
-                        SizedBox(height: 10.h),
-                        Row(mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                         children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(4.r),
-                            child: LinearPercentIndicator(
-                              width: 210.w,
-                              fillColor: Helper.textColor300,
-                              backgroundColor: Helper.textColor300,
-                              progressColor: Helper.primary,
-                              padding: EdgeInsets.zero,
-                              curve: Curves.easeInOut,
-                              barRadius: Radius.circular(4.r),
-                              lineHeight: 8.h,
-                              percent: progress,
-                            ),
-                          ),
-                          Text(
-                            "0" + "%",
-                            style: TextStyle(
-                                color: Helper.textColor700,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500),
-                          )
-                        ])
-                      ]),
-                  trailing: SvgPicture.asset(
-                    'assets/images/checkbox_base.svg',
-                  ),
-                ),
-                SizedBox(height: 20.h),
-                Container(
-                  height: 52.h,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    child: Text(
-                      "Close",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500),
-                      // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                ],
+              ),
+              SizedBox(height: 20.h),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    isThreeLine: true,
+                    leading: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 6.w, vertical: 6.h),
+                      width: 32.w,
+                      height: 32.h,
+                      decoration: BoxDecoration(
+                          color: Color.fromRGBO(229, 240, 255, 1),
+                          borderRadius: BorderRadius.circular(32.r),
+                          border: Border.all(
+                              color: Color.fromRGBO(245, 249, 255, 1),
+                              width: 4.w)),
+                      child: SvgPicture.asset(
+                        'assets/images/film.svg',
+                      ),
                     ),
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(Helper.baseBlack),
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.r),
+                    title: Text(
+                      "Camera 2 - The Bridges.mp4",
+                      style: TextStyle(
+                          color: Helper.textColor700,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Fetching images",
+                            style: TextStyle(
+                                color: Helper.textColor600,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400),
                           ),
-                        )),
-                    onPressed: () {
-                      context.pop();
-                    },
+                          SizedBox(height: 10.h),
+                          Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(4.r),
+                                  child: LinearPercentIndicator(
+                                      width: 210.w,
+                                      fillColor: Helper.textColor300,
+                                      backgroundColor: Helper.textColor300,
+                                      progressColor: Helper.primary,
+                                      padding: EdgeInsets.zero,
+                                      curve: Curves.easeInOut,
+                                      barRadius: Radius.circular(4.r),
+                                      lineHeight: 8.h,
+                                      percent: _progressBar / 100),
+                                ),
+                                Text(
+                                  "${(_progressBar).toInt()}%",
+                                  style: TextStyle(
+                                      color: Helper.textColor700,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
+                                )
+                              ])
+                        ]),
+                    trailing: _progressBar == 100.0
+                        ? SvgPicture.asset(
+                            'assets/images/checkbox_base.svg',
+                          )
+                        : SizedBox(),
                   ),
-                ),
-              ],
-            ),
-          ],
+                  SizedBox(height: 20.h),
+                  Container(
+                    height: 52.h,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      child: Text(
+                        "Close",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500),
+                        // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                      ),
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(Helper.baseBlack),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                          )),
+                      onPressed: () {
+                        context.pop();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
+    // return showModalBottomSheet(
+    //     context: context,
+    //     backgroundColor: Colors.transparent,
+    //     builder: (context) {
+    //       return Consumer(builder: (context, watch, child) {
+    //         // final progress = ref.watch(progressBarProvider.notifier).state;
+    //         final progress = ref.watch(progressProvider).bar;
+    //         print("progresssss in bottom sheet" + progress.toString());
+    //         return StatefulBuilder(
+    //             builder: (BuildContext cntx, StateSetter setState) {
+    //           setState(() {});
+    //           return Container(
+    //             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
+    //             decoration: BoxDecoration(
+    //               borderRadius: BorderRadius.only(
+    //                   topLeft: Radius.circular(16.r),
+    //                   topRight: Radius.circular(16.r)),
+    //               color: Colors.white,
+    //             ),
+    //             height: 270.h,
+    //             width: MediaQuery.of(context).size.width,
+    //             child: Column(
+    //               crossAxisAlignment: CrossAxisAlignment.start,
+    //               children: [
+    //                 Row(
+    //                   mainAxisAlignment: MainAxisAlignment.center,
+    //                   crossAxisAlignment: CrossAxisAlignment.center,
+    //                   children: [
+    //                     Text(
+    //                       'Generating LiveLapse',
+    //                       style: TextStyle(
+    //                           color: Helper.baseBlack,
+    //                           fontSize: 18.sp,
+    //                           fontWeight: FontWeight.w500),
+    //                     ),
+    //                   ],
+    //                 ),
+    //                 SizedBox(height: 20.h),
+    //                 Column(
+    //                   mainAxisAlignment: MainAxisAlignment.start,
+    //                   crossAxisAlignment: CrossAxisAlignment.start,
+    //                   children: [
+    //                     ListTile(
+    //                       contentPadding: EdgeInsets.zero,
+    //                       isThreeLine: true,
+    //                       leading: Container(
+    //                         padding: EdgeInsets.symmetric(
+    //                             horizontal: 6.w, vertical: 6.h),
+    //                         width: 32.w,
+    //                         height: 32.h,
+    //                         decoration: BoxDecoration(
+    //                             color: Color.fromRGBO(229, 240, 255, 1),
+    //                             borderRadius: BorderRadius.circular(32.r),
+    //                             border: Border.all(
+    //                                 color: Color.fromRGBO(245, 249, 255, 1),
+    //                                 width: 4.w)),
+    //                         child: SvgPicture.asset(
+    //                           'assets/images/film.svg',
+    //                         ),
+    //                       ),
+    //                       title: Text(
+    //                         "Camera 2 - The Bridges.mp4",
+    //                         style: TextStyle(
+    //                             color: Helper.textColor700,
+    //                             fontSize: 14,
+    //                             fontWeight: FontWeight.w500),
+    //                       ),
+    //                       subtitle: Column(
+    //                           crossAxisAlignment: CrossAxisAlignment.start,
+    //                           mainAxisSize: MainAxisSize.min,
+    //                           children: [
+    //                             Text(
+    //                               "Fetching images",
+    //                               style: TextStyle(
+    //                                   color: Helper.textColor600,
+    //                                   fontSize: 14,
+    //                                   fontWeight: FontWeight.w400),
+    //                             ),
+    //                             SizedBox(height: 10.h),
+    //                             Row(
+    //                                 mainAxisSize: MainAxisSize.max,
+    //                                 mainAxisAlignment:
+    //                                     MainAxisAlignment.spaceBetween,
+    //                                 children: [
+    //                                   ClipRRect(
+    //                                     borderRadius:
+    //                                         BorderRadius.circular(4.r),
+    //                                     child: LinearPercentIndicator(
+    //                                         width: 210.w,
+    //                                         fillColor: Helper.textColor300,
+    //                                         backgroundColor:
+    //                                             Helper.textColor300,
+    //                                         progressColor: Helper.primary,
+    //                                         padding: EdgeInsets.zero,
+    //                                         curve: Curves.easeInOut,
+    //                                         barRadius: Radius.circular(4.r),
+    //                                         lineHeight: 8.h,
+    //                                         percent: progress / 100),
+    //                                   ),
+    //                                   Text(
+    //                                     "${(_progressBar).toInt()}%",
+    //                                     style: TextStyle(
+    //                                         color: Helper.textColor700,
+    //                                         fontSize: 14,
+    //                                         fontWeight: FontWeight.w500),
+    //                                   )
+    //                                 ])
+    //                           ]),
+    //                       trailing: SvgPicture.asset(
+    //                         'assets/images/checkbox_base.svg',
+    //                       ),
+    //                     ),
+    //                     SizedBox(height: 20.h),
+    //                     Container(
+    //                       height: 52.h,
+    //                       width: double.infinity,
+    //                       child: ElevatedButton(
+    //                         child: Text(
+    //                           "Close",
+    //                           style: TextStyle(
+    //                               color: Colors.white,
+    //                               fontSize: 16,
+    //                               fontWeight: FontWeight.w500),
+    //                           // currentIndex == contents.length - 1 ? "Continue" : "Next"
+    //                         ),
+    //                         style: ButtonStyle(
+    //                             backgroundColor:
+    //                                 MaterialStatePropertyAll(Helper.baseBlack),
+    //                             shape: MaterialStateProperty.all(
+    //                               RoundedRectangleBorder(
+    //                                 borderRadius: BorderRadius.circular(8.r),
+    //                               ),
+    //                             )),
+    //                         onPressed: () {
+    //                           context.pop();
+    //                         },
+    //                       ),
+    //                     ),
+    //                   ],
+    //                 ),
+    //               ],
+    //             ),
+    //           );
+    //         });
+    //       });
+    //     });
   }
 }
