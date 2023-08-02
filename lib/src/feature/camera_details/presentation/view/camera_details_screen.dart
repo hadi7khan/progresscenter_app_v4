@@ -48,7 +48,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
           );
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref.read(imagesByCamIdControllerProvider.notifier).getIagesByCamId(
+      ref.read(imagesByCamIdControllerProvider.notifier).getImagesByCamId(
           widget.projectId, widget.cameraId,
           searchDate: _searchDate);
     });
@@ -59,21 +59,20 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
   List<DateTime> getDaysInMonth(currentMonth, bool isString) {
     daysInMonth = [];
     // final currentMonth = DateTime.parse(month);
-    if(isString){
+    if (isString) {
       final month = DateTime.parse(currentMonth);
       print("datetime format" + month.toString());
-    final firstDayOfMonth = DateTime(month.year, month.month, 1);
-    final lastDayOfMonth =
-        DateTime(month.year, month.month + 1, 0);
+      final firstDayOfMonth = DateTime(month.year, month.month, 1);
+      final lastDayOfMonth = DateTime(month.year, month.month + 1, 0);
 
-    print(firstDayOfMonth.toString());
-    print(lastDayOfMonth.toString());
-    // final daysInMonth = <DateTime>[];
-    for (var i = firstDayOfMonth.day; i <= lastDayOfMonth.day; i++) {
-      daysInMonth.add(DateTime(month.year, month.month, i));
-    }
+      print(firstDayOfMonth.toString());
+      print(lastDayOfMonth.toString());
+      // final daysInMonth = <DateTime>[];
+      for (var i = firstDayOfMonth.day; i <= lastDayOfMonth.day; i++) {
+        daysInMonth.add(DateTime(month.year, month.month, i));
+      }
 
-    return daysInMonth;
+      return daysInMonth;
     }
     print("datetime format" + currentMonth.toString());
     final firstDayOfMonth = DateTime(currentMonth.year, currentMonth.month, 1);
@@ -131,7 +130,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
             automaticallyImplyLeading: false,
             titleSpacing: 0.0,
             leading: InkWell(
-              onTap: (){
+              onTap: () {
                 context.pop();
               },
               child: SvgPicture.asset(
@@ -140,7 +139,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
             ),
             leadingWidth: 24,
             title: cameraByIdData.when(
-              
               skipLoadingOnRefresh: false,
               skipLoadingOnReload: false,
               data: (cameraData) {
@@ -183,7 +181,11 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
               loading: () => LoadingAppBar(),
             ),
             actions: [
-              SvgPicture.asset('assets/images/dots-vertical.svg'),
+              InkWell(
+                  onTap: () {
+                    _showCameraBottomSheet(context);
+                  },
+                  child: SvgPicture.asset('assets/images/dots-vertical.svg')),
             ],
             actionsIconTheme: IconThemeData(color: Helper.iconColor),
           ),
@@ -217,7 +219,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                             fit: BoxFit.fill,
                             loadingBuilder: (context, child, loadingProgress) {
                               if (loadingProgress == null) return child;
-                      
+
                               return Center(
                                 child: CircularProgressIndicator(
                                   color: Helper.primary,
@@ -228,8 +230,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                                 ),
                               );
                             },
-                            errorBuilder: (BuildContext context, Object exception,
-                                StackTrace? stackTrace) {
+                            errorBuilder: (BuildContext context,
+                                Object exception, StackTrace? stackTrace) {
                               return ClipRRect(
                                 child: Image.asset(
                                   'assets/images/error_image.jpeg',
@@ -437,7 +439,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                                     ref
                                         .watch(imagesByCamIdControllerProvider
                                             .notifier)
-                                        .getIagesByCamId(
+                                        .getImagesByCamId(
                                             widget.projectId, widget.cameraId,
                                             searchDate: _searchDate);
                                   },
@@ -516,7 +518,10 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
               return const Text("Failed to fetch images data",
                   style: TextStyle(color: Helper.errorColor));
             },
-            loading: () => LoadingCamDetails(showCalendarList: true, topPadding: 72.h,),
+            loading: () => LoadingCamDetails(
+              showCalendarList: true,
+              topPadding: 72.h,
+            ),
           ));
         }),
       ),
@@ -596,6 +601,306 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
               ),
             )
           ]),
+    );
+  }
+
+  _showCameraBottomSheet(context) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r)),
+          color: Colors.white,
+        ),
+        height: 620.h,
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Column(children: [
+                  Text(
+                    'Camera name',
+                    style: TextStyle(
+                        color: Helper.baseBlack,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  Text(
+                    '25℃ Sunny, Hyderabad, India',
+                    style: TextStyle(
+                        color: Color.fromRGBO(127, 127, 127, 0.5),
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w400),
+                  ),
+                  Text(
+                    '10-07-2023, 12:30 PM',
+                    style: TextStyle(
+                        color: Color.fromRGBO(127, 127, 127, 0.5),
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w400),
+                  ),
+                ])
+              ],
+            ),
+            SizedBox(height: 24.h),
+            Column(
+              
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InkWell(
+                  onTap: () async {
+                    // setState(() {
+                    //   _images = "1";
+                    //   _showImages = "1 Image";
+                    // });
+                    context.pop();
+                  },
+                  child: Container(
+                    height: 44.h,
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: Container(
+                        decoration: BoxDecoration(
+                          color: Helper.bottomIconBack,
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        padding: EdgeInsets.all(8.w),
+                          child: SvgPicture.asset(
+                        'assets/images/download.svg',
+                        // width: 44.w,
+                        // height: 44.h,
+                        fit: BoxFit.cover,
+                        colorFilter: ColorFilter.mode(Helper.primary,  BlendMode.srcIn)
+                      )),
+                      title: Text(
+                        'Download',
+                        style: TextStyle(
+                            color: Helper.baseBlack,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 24.h),
+                InkWell(
+                  onTap: () async {
+                    // setState(() {
+                    //   _images = "1";
+                    //   _showImages = "1 Image";
+                    // });
+                    context.pop();
+                  },
+                  child: Container(
+                    height: 44.h,
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: Container(
+                        decoration: BoxDecoration(
+                          color: Helper.bottomIconBack,
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        padding: EdgeInsets.all(8.w),
+                          child: SvgPicture.asset(
+                        'assets/images/share.svg',
+                        // width: 44.w,
+                        // height: 44.h,
+                        fit: BoxFit.cover,
+                        colorFilter: ColorFilter.mode(Helper.primary,  BlendMode.srcIn)
+                      )),
+                      title: Text(
+                        'Share',
+                        style: TextStyle(
+                            color: Helper.baseBlack,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 24.h),
+                InkWell(
+                  onTap: () async {
+                    // setState(() {
+                    //   _images = "1";
+                    //   _showImages = "1 Image";
+                    // });
+                    context.pop();
+                  },
+                  child: Container(
+                    height: 44.h,
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: Container(
+                        decoration: BoxDecoration(
+                          color: Helper.bottomIconBack,
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        padding: EdgeInsets.all(8.w),
+                          child: SvgPicture.asset(
+                        'assets/images/message.svg',
+                        // width: 44.w,
+                        // height: 44.h,
+                        fit: BoxFit.cover,
+                        colorFilter: ColorFilter.mode(Helper.primary,  BlendMode.srcIn)
+                      )),
+                      title: Text(
+                        'Comment',
+                        style: TextStyle(
+                            color: Helper.baseBlack,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 24.h),
+                InkWell(
+                  onTap: () async {
+                    // setState(() {
+                    //   _images = "1";
+                    //   _showImages = "1 Image";
+                    // });
+                    context.pop();
+                  },
+                  child: Container(
+                    height: 44.h,
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: Container(
+                        decoration: BoxDecoration(
+                          color: Helper.bottomIconBack,
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        padding: EdgeInsets.all(8.w),
+                          child: SvgPicture.asset(
+                        'assets/images/ai.svg',
+                        width: 24.w,
+                        height: 24.h,
+                        fit: BoxFit.cover,
+                        colorFilter: ColorFilter.mode(Helper.primary,  BlendMode.srcIn)
+                      )),
+                      title: Text(
+                        'AI Insights',
+                        style: TextStyle(
+                            color: Helper.baseBlack,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 24.h),
+                InkWell(
+                  onTap: () async {
+                    // setState(() {
+                    //   _images = "1";
+                    //   _showImages = "1 Image";
+                    // });
+                    context.pop();
+                  },
+                  child: Container(
+                    height: 44.h,
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: Container(
+                        decoration: BoxDecoration(
+                          color: Helper.bottomIconBack,
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        padding: EdgeInsets.all(8.w),
+                          child: SvgPicture.asset(
+                        'assets/images/camera.svg',
+                        // width: 44.w,
+                        // height: 44.h,
+                        fit: BoxFit.cover,
+                        colorFilter: ColorFilter.mode(Helper.primary,  BlendMode.srcIn)
+                      )),
+                      title: Text(
+                        'Image quality',
+                        style: TextStyle(
+                            color: Helper.baseBlack,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 24.h),
+                InkWell(
+                  onTap: () async {
+                    // setState(() {
+                    //   _images = "1";
+                    //   _showImages = "1 Image";
+                    // });
+                    context.pop();
+                  },
+                  child: Container(
+                    height: 44.h,
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: Container(
+                        decoration: BoxDecoration(
+                          color: Helper.bottomIconBack,
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        padding: EdgeInsets.all(8.w),
+                          child: SvgPicture.asset(
+                        'assets/images/camera-flash.svg',
+                        // width: 44.w,
+                        // height: 44.h,
+                        fit: BoxFit.cover,
+                        colorFilter: ColorFilter.mode(Helper.primary,  BlendMode.srcIn)
+                      )),
+                      title: Text(
+                        'Default view',
+                        style: TextStyle(
+                            color: Helper.baseBlack,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 24.h),
+                Container(
+                  height: 52.h,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500),
+                      // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                    ),
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll(Helper.baseBlack),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                        )),
+                    onPressed: () {
+                      context.pop();
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -683,7 +988,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                       ref
                           .read(imagesByCamIdControllerProvider.notifier)
-                          .getIagesByCamId(projectId, cameraId,
+                          .getImagesByCamId(projectId, cameraId,
                               searchDate: selectedDate);
                     });
                     getDaysInMonth(currentMonth, false);

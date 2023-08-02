@@ -232,21 +232,22 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         },
       ),
       GoRoute(
-          path: '/livelapse',
-          parentNavigatorKey: _rootNavigatorKey,
-          name: livelapseRoute,
-          pageBuilder: (context, state) {
-            Map<String, dynamic> args = state.extra as Map<String, dynamic>;
-            return NoTransitionPage(
+        path: '/livelapse',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: livelapseRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: LivelapseScreen(
               key: state.pageKey,
-              child: LivelapseScreen(
-                key: state.pageKey,
-                projectId: args['projectId'],
-                projectName: args['projectName'],
-                cameraId: args['cameraId'],
-              ),
-            );
-          },),
+              projectId: args['projectId'],
+              projectName: args['projectName'],
+              cameraId: args['cameraId'],
+            ),
+          );
+        },
+      ),
       GoRoute(
         path: '/slider',
         parentNavigatorKey: _rootNavigatorKey,
@@ -290,9 +291,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return NoTransitionPage(
             key: state.pageKey,
             child: SplitviewScreen(
-                key: state.pageKey,
-                projectId: args['projectId'],
-                projectName: args['projectName']),
+              key: state.pageKey,
+              projectId: args['projectId'],
+              projectName: args['projectName'],
+              cameraId: args['cameraId'],
+            ),
           );
         },
       ),
@@ -312,22 +315,22 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         },
       ),
       GoRoute(
-              path: '/createlivelapse',
-              parentNavigatorKey: _rootNavigatorKey,
-              name: createLivelapseRoute,
-              pageBuilder: (context, state) {
-                Map<String, dynamic> args = state.extra as Map<String, dynamic>;
-                return NoTransitionPage(
-                  key: state.pageKey,
-                  child: CreateLivelapseScreen(
-                    key: state.pageKey,
-                    projectId: args['projectId'],
-                    projectName: args['projectName'],
-                    cameraId: args['cameraId'],
-                  ),
-                );
-              },
+        path: '/createlivelapse',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: createLivelapseRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: CreateLivelapseScreen(
+              key: state.pageKey,
+              projectId: args['projectId'],
+              projectName: args['projectName'],
+              cameraId: args['cameraId'],
             ),
+          );
+        },
+      ),
 
       // ------------------------------------------------------------------------
       GoRoute(

@@ -25,4 +25,6 @@ class Helper {
   static const tabBarBackground = Color.fromRGBO(231, 231, 232, 1);
   static const svgBackground = Color.fromRGBO(242, 244, 247, 1);
   static const fillsBackground = Color.fromRGBO(118, 118, 128, 0.12);
+  static const bottomIconBack = Color.fromRGBO(235, 243, 255, 1);
+
 }
