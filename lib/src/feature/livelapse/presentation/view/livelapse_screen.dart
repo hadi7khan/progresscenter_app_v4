@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/loading_livelapse_list.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/provider/livelapse_controller.dart';
 
@@ -236,7 +237,7 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
                 return const Text("Failed to fetch livelapse",
                     style: TextStyle(color: Helper.errorColor));
               },
-              loading: () => Center(child: CircularProgressIndicator()),
+              loading: () => LoadingLivelapseList()
             ),
           ),
         ),

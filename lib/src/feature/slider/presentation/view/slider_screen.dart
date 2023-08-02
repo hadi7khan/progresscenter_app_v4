@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/data/exception.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/loading_slider.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/slider/presentation/provider/progress_slider_controller.dart';
 import 'package:http/http.dart' as http;
@@ -44,7 +45,7 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
     DateTime starttime = DateTime.now();
     await Future.wait(imageUrls.map((url) async {
       final index = imageUrls.indexOf(url);
-      
+
       final response = await client.get(
         Uri.parse(url),
         headers: {"Content-Type": "'application/octet-stream'"},
@@ -137,7 +138,7 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
             centerTitle: true,
             automaticallyImplyLeading: false,
             leading: InkWell(
-              onTap: (){
+              onTap: () {
                 context.pop();
               },
               child: SvgPicture.asset(
@@ -172,11 +173,9 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
                 return Column(
                   children: [
                     imageBytesList.isNotEmpty
-                          ?
-                    AspectRatio(
-                      aspectRatio: 16 / 9,
-                      child:  Image.memory(
-                              
+                        ? AspectRatio(
+                            aspectRatio: 16 / 9,
+                            child: Image.memory(
                               // imageBytesList.isNotEmpty ?
                               // currentBytes!,
                               imageBytesList[currentslider],
@@ -195,39 +194,40 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
                               //   );
                               // },
                             )
-                          // : ClipRRect(
-                          //     child: Image.asset(
-                          //       'assets/images/error_image.jpeg',
-                          //       fit: BoxFit.cover,
-                          //     ),
-                          //   ),
-                    ): Center(child: CircularProgressIndicator()),
+                            // : ClipRRect(
+                            //     child: Image.asset(
+                            //       'assets/images/error_image.jpeg',
+                            //       fit: BoxFit.cover,
+                            //     ),
+                            //   ),
+                            )
+                        : Center(child: CircularProgressIndicator()),
                     imageBytesList.isNotEmpty
-                          ?
-                    SliderTheme(
-                      data: SliderThemeData(
-                        activeTickMarkColor: Colors.transparent,
-                        inactiveTickMarkColor: Colors.transparent,
-                        disabledInactiveTickMarkColor: Colors.grey,
-                        activeTrackColor: Helper.primary,
-                        thumbColor: Colors.white,
-                      ),
-                      child: Slider.adaptive(
-                        min: 0,
-                        max: data.length.toDouble() - 1,
-                        divisions: data.length - 1,
-                        value: currentslider.toDouble(),
-                        onChanged: (value) {
-                          setState(() {
-                            // _currentSliderValue = value;
-                            // currentBytes = imageBytesList[value.round()];
-                            currentslider = value.round();
-                            print(value.toString());
-                          });
-                          // setState(() {});
-                        },
-                      ),
-                    ) : SizedBox(),
+                        ? SliderTheme(
+                            data: SliderThemeData(
+                              activeTickMarkColor: Colors.transparent,
+                              inactiveTickMarkColor: Colors.transparent,
+                              disabledInactiveTickMarkColor: Colors.grey,
+                              activeTrackColor: Helper.primary,
+                              thumbColor: Colors.white,
+                            ),
+                            child: Slider.adaptive(
+                              min: 0,
+                              max: data.length.toDouble() - 1,
+                              divisions: data.length - 1,
+                              value: currentslider.toDouble(),
+                              onChanged: (value) {
+                                setState(() {
+                                  // _currentSliderValue = value;
+                                  // currentBytes = imageBytesList[value.round()];
+                                  currentslider = value.round();
+                                  print(value.toString());
+                                });
+                                // setState(() {});
+                              },
+                            ),
+                          )
+                        : SizedBox(),
                   ],
                 );
               },
@@ -235,7 +235,7 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
                 return const Text("Failed to fetch slider data",
                     style: TextStyle(color: Helper.errorColor));
               },
-              loading: () => Center(child: CircularProgressIndicator()),
+              loading: () => LoadingSlider(),
             ),
           ),
         ),

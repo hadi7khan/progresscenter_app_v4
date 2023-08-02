@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/loading_cam_details.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/compare/presentation/provider/compare1_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/selected_imagedata_provider.dart';
@@ -124,9 +125,9 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w500),
             ),
-            actions: [
-              SvgPicture.asset('assets/images/download.svg'),
-            ],
+            // actions: [
+            //   SvgPicture.asset('assets/images/download.svg'),
+            // ],
             actionsIconTheme: IconThemeData(color: Helper.iconColor),
           ),
         ),
@@ -152,19 +153,22 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                                     : selectedCompareData1.urlPreview!,
                                 width: double.infinity,
                                 fit: BoxFit.fill,
-                                loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
-                          
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  color: Helper.primary,
-                                  value: (loadingProgress != null)
-                                      ? (loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!)
-                                      : 0,
-                                ),
-                              );
-                            },
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                  if (loadingProgress == null) return child;
+
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      color: Helper.primary,
+                                      value: (loadingProgress != null)
+                                          ? (loadingProgress
+                                                  .cumulativeBytesLoaded /
+                                              loadingProgress
+                                                  .expectedTotalBytes!)
+                                          : 0,
+                                    ),
+                                  );
+                                },
                                 errorBuilder: (BuildContext context,
                                     Object exception, StackTrace? stackTrace) {
                                   return ClipRRect(
@@ -183,14 +187,14 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                             child: InkWell(
                               onTap: () {
                                 _showCompare1BottomSheet(
-                                    context,
-                                    cameraData1.startDate!,
-                                    cameraData1.endDate!,
-                                    _selectedDate1,
-                                    widget.cameraId,
-                                    widget.projectId,
-                                    ref,
-                                    );
+                                  context,
+                                  cameraData1.startDate!,
+                                  cameraData1.endDate!,
+                                  _selectedDate1,
+                                  widget.cameraId,
+                                  widget.projectId,
+                                  ref,
+                                );
                               },
                               child: BlurryContainer(
                                   blur: 3,
@@ -324,7 +328,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                     return const Text("Failed to fetch cameras",
                         style: TextStyle(color: Helper.errorColor));
                   },
-                  loading: () => Center(child: CircularProgressIndicator()),
+                  loading: () => LoadingCamDetails(showCalendarList: false, topPadding: 0,),
                 ),
                 SizedBox(height: 24.h),
 
@@ -346,19 +350,22 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                                 width: double.infinity,
                                 // height: 210.h,
                                 fit: BoxFit.fill,
-                                loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
-                          
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  color: Helper.primary,
-                                  value: (loadingProgress != null)
-                                      ? (loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!)
-                                      : 0,
-                                ),
-                              );
-                            },
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                  if (loadingProgress == null) return child;
+
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      color: Helper.primary,
+                                      value: (loadingProgress != null)
+                                          ? (loadingProgress
+                                                  .cumulativeBytesLoaded /
+                                              loadingProgress
+                                                  .expectedTotalBytes!)
+                                          : 0,
+                                    ),
+                                  );
+                                },
                                 errorBuilder: (BuildContext context,
                                     Object exception, StackTrace? stackTrace) {
                                   return ClipRRect(
@@ -377,14 +384,14 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                             child: InkWell(
                               onTap: () {
                                 _showCompare2BottomSheet(
-                                            context,
-                                            cameraData2.startDate!,
-                                            cameraData2.endDate!,
-                                            _selectedDate2,
-                                            widget.cameraId,
-                                            widget.projectId,
-                                            ref,
-                                            );
+                                  context,
+                                  cameraData2.startDate!,
+                                  cameraData2.endDate!,
+                                  _selectedDate2,
+                                  widget.cameraId,
+                                  widget.projectId,
+                                  ref,
+                                );
                               },
                               child: BlurryContainer(
                                   blur: 3,
@@ -518,7 +525,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                     return const Text("Failed to fetch cameras",
                         style: TextStyle(color: Helper.errorColor));
                   },
-                  loading: () => Center(child: CircularProgressIndicator()),
+                  loading: () => LoadingCamDetails(showCalendarList: false, topPadding: 0),
                 )
               ],
             ),
@@ -529,14 +536,14 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
   }
 
   _showCompare1BottomSheet(
-      context,
-      String startDate,
-      String endDate,
-      String selectedDate,
-      String cameraId,
-      String projectId,
-      WidgetRef ref,
-      ) {
+    context,
+    String startDate,
+    String endDate,
+    String selectedDate,
+    String cameraId,
+    String projectId,
+    WidgetRef ref,
+  ) {
     return showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -580,7 +587,6 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                   DateTime date = DateTime.parse(value[0].toString());
                   selectedDate = DateFormat("yyyyMMdd").format(date);
                   print("selectedDate " + selectedDate);
-                  
                 },
               ),
               // SizedBox(height: 20.h),
@@ -628,14 +634,14 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
   }
 
   _showCompare2BottomSheet(
-      context,
-      String startDate,
-      String endDate,
-      String selectedDate,
-      String cameraId,
-      String projectId,
-      WidgetRef ref,
-      ) {
+    context,
+    String startDate,
+    String endDate,
+    String selectedDate,
+    String cameraId,
+    String projectId,
+    WidgetRef ref,
+  ) {
     return showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -679,7 +685,6 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                   DateTime date = DateTime.parse(value[0].toString());
                   selectedDate = DateFormat("yyyyMMdd").format(date);
                   print("selectedDate " + selectedDate);
-                  
                 },
               ),
               // SizedBox(height: 20.h),
