@@ -7,6 +7,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/loading_app_bar.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/loading_cam_details.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/bottom_navigation/view/camera_view_bottom_nav.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/camera_by_id_controller.dart';
@@ -178,7 +180,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                 return const Text("Error",
                     style: TextStyle(color: Helper.errorColor));
               },
-              loading: () => CircularProgressIndicator(),
+              loading: () => LoadingAppBar(),
             ),
             actions: [
               SvgPicture.asset('assets/images/dots-vertical.svg'),
@@ -514,8 +516,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
               return const Text("Failed to fetch images data",
                   style: TextStyle(color: Helper.errorColor));
             },
-            loading: () => Center(child: CircularProgressIndicator()
-            ),
+            loading: () => LoadingCamDetails(showCalendarList: true, topPadding: 72.h,),
           ));
         }),
       ),
