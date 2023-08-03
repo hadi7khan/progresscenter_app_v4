@@ -1,3 +1,5 @@
+import 'package:blurrycontainer/blurrycontainer.dart';
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -35,6 +37,15 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
   String _selectedDate2 = '';
   int _selectedImageIndex1 = 0;
   int _selectedImageIndex2 = 0;
+
+  showDate(String date) {
+    // Parse the endDate string into a DateTime object
+    DateTime parsedDate = DateTime.parse(date);
+
+    // Format the DateTime object into the desired format
+    String formattedDate = DateFormat('dd MMM yyyy').format(parsedDate);
+    return formattedDate;
+  }
 
   @override
   void initState() {
@@ -120,77 +131,174 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
+          physics: NeverScrollableScrollPhysics(),
           child: splitViewData2.when(
             data: (data2) {
               return Padding(
                 padding: EdgeInsets.symmetric(vertical: 150.h),
                 child: splitViewData1.when(
                   data: (data1) {
+                    final aspectRatio = data1.images![0].resolution!.width! /
+                        data1.images![0].resolution!.height!;
+                    print("aspectRatio$aspectRatio");
                     return Column(
                       children: [
-                        ImageCompareSlider(
-                          dividerColor: Helper.primary,
-                          handlePosition: 0.96,
-                          fillHandle: true,
-                          itemOne: Image.network(
-                            selectedSplitViewData1 == null
-                                ? data1.images![0].urlPreview!
-                                : selectedSplitViewData1.urlPreview!,
-                            width: double.infinity,
-                            // height: 210.h,
-                            fit: BoxFit.fill,
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
+                        Stack(children: [
+                          Container(
+                            height:
+                                MediaQuery.of(context).size.width / aspectRatio,
+                            child: ImageCompareSlider(
+                              // handleFollowsPosition: true,
+                              dividerColor: Helper.primary,
+                              handleColor: Colors.white,
+                              handlePosition: 0.96,
+                              fillHandle: true,
+                              itemOne: Image.network(
+                                selectedSplitViewData1 == null
+                                    ? data1.images![0].urlPreview!
+                                    : selectedSplitViewData1.urlPreview!,
+                                width: double.infinity,
+                                // height: 210.h,
+                                fit: BoxFit.fill,
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      color: Helper.primary,
+                                      value: (loadingProgress != null)
+                                          ? (loadingProgress
+                                                  .cumulativeBytesLoaded /
+                                              loadingProgress
+                                                  .expectedTotalBytes!)
+                                          : 0,
+                                    ),
+                                  );
+                                },
+                                errorBuilder: (BuildContext context,
+                                    Object exception, StackTrace? stackTrace) {
+                                  return ClipRRect(
+                                    child: Image.asset(
+                                      'assets/images/error_image.jpeg',
+                                      fit: BoxFit.fill,
+                                    ),
+                                  );
+                                },
+                              ),
+                              itemTwo: Image.network(
+                                selectedSplitViewData2 == null
+                                    ? data2.images![0].urlPreview!
+                                    : selectedSplitViewData2.urlPreview!,
+                                width: double.infinity,
+                                // height: 210.h,
+                                fit: BoxFit.fill,
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                  if (loadingProgress == null) return child;
 
-                              return CircularProgressIndicator(
-                                color: Helper.primary,
-                                value: (loadingProgress != null)
-                                    ? (loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!)
-                                    : 0,
-                              );
-                            },
-                            errorBuilder: (BuildContext context,
-                                Object exception, StackTrace? stackTrace) {
-                              return ClipRRect(
-                                child: Image.asset(
-                                  'assets/images/error_image.jpeg',
-                                  fit: BoxFit.fill,
-                                ),
-                              );
-                            },
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      color: Helper.primary,
+                                      value: (loadingProgress != null)
+                                          ? (loadingProgress
+                                                  .cumulativeBytesLoaded /
+                                              loadingProgress
+                                                  .expectedTotalBytes!)
+                                          : 0,
+                                    ),
+                                  );
+                                },
+                                errorBuilder: (BuildContext context,
+                                    Object exception, StackTrace? stackTrace) {
+                                  return ClipRRect(
+                                    child: Image.asset(
+                                      'assets/images/error_image.jpeg',
+                                      fit: BoxFit.fill,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
                           ),
-                          itemTwo: Image.network(
-                            selectedSplitViewData2 == null
-                                ? data2.images![0].urlPreview!
-                                : selectedSplitViewData2.urlPreview!,
-                            width: double.infinity,
-                            // height: 210.h,
-                            fit: BoxFit.fill,
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
-
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  color: Helper.primary,
-                                  value: (loadingProgress != null)
-                                      ? (loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!)
-                                      : 0,
-                                ),
-                              );
-                            },
-                            errorBuilder: (BuildContext context,
-                                Object exception, StackTrace? stackTrace) {
-                              return ClipRRect(
-                                child: Image.asset(
-                                  'assets/images/error_image.jpeg',
-                                  fit: BoxFit.fill,
-                                ),
-                              );
-                            },
+                          Positioned(
+                            top: 16,
+                            left: 16,
+                            child: InkWell(
+                              onTap: () {
+                                _showSplitView1BottomSheet(
+                                  context,
+                                  data1.startDate!,
+                                  data1.endDate!,
+                                  _selectedDate1,
+                                  widget.cameraId,
+                                  widget.projectId,
+                                  ref,
+                                );
+                              },
+                              child: BlurryContainer(
+                                  blur: 3,
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 6.h, horizontal: 8.w),
+                                  borderRadius: BorderRadius.circular(30.r),
+                                  color: Colors.white.withOpacity(0.1),
+                                  child: Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                        'assets/images/timeline.svg',
+                                        height: 16.h,
+                                        width: 16.w,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(width: 4.w),
+                                      Text(showDate(data1.endDate!),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 12.sp)),
+                                    ],
+                                  )),
+                            ),
                           ),
-                        ),
+                          Positioned(
+                            top: 16,
+                            right: 16,
+                            child: InkWell(
+                              onTap: () {
+                                _showSplitView2BottomSheet(
+                                  context,
+                                  data1.startDate!,
+                                  data1.endDate!,
+                                  _selectedDate1,
+                                  widget.cameraId,
+                                  widget.projectId,
+                                  ref,
+                                );
+                              },
+                              child: BlurryContainer(
+                                  blur: 3,
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 6.h, horizontal: 8.w),
+                                  borderRadius: BorderRadius.circular(30.r),
+                                  color: Colors.white.withOpacity(0.1),
+                                  child: Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                        'assets/images/timeline.svg',
+                                        height: 16.h,
+                                        width: 16.w,
+                                        color: Colors.white,
+                                      ),
+                                      SizedBox(width: 4.w),
+                                      Text(showDate(data2.endDate!),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 12.sp)),
+                                    ],
+                                  )),
+                            ),
+                          ),
+                        ]),
                         SizedBox(height: 6.h),
                         SizedBox(
                           height: 73.h,
@@ -205,11 +313,14 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                               physics: BouncingScrollPhysics(),
                               scrollDirection: Axis.horizontal,
                               itemBuilder: ((context, index) {
-                                String formattedTime = DateFormat("hh:mm a")
-                                    .format(DateTime.fromMillisecondsSinceEpoch(
-                                        int.parse(
-                                            data1.images![index].datetime!)))
-                                    .toString();
+                                String dateWithT = data1
+                                        .images![index].datetime!
+                                        .substring(0, 8) +
+                                    'T' +
+                                    data1.images![index].datetime!.substring(8);
+                                DateTime dateTime = DateTime.parse(dateWithT);
+                                final String formattedTime =
+                                    DateFormat('h:mm a').format(dateTime);
                                 return InkWell(
                                   onTap: () {
                                     setState(() {
@@ -304,11 +415,14 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                               physics: BouncingScrollPhysics(),
                               scrollDirection: Axis.horizontal,
                               itemBuilder: ((context, index) {
-                                String formattedTime = DateFormat("hh:mm a")
-                                    .format(DateTime.fromMillisecondsSinceEpoch(
-                                        int.parse(
-                                            data2.images![index].datetime!)))
-                                    .toString();
+                                String dateWithT = data2
+                                        .images![index].datetime!
+                                        .substring(0, 8) +
+                                    'T' +
+                                    data2.images![index].datetime!.substring(8);
+                                DateTime dateTime = DateTime.parse(dateWithT);
+                                final String formattedTime =
+                                    DateFormat('h:mm a').format(dateTime);
                                 return InkWell(
                                   onTap: () {
                                     setState(() {
@@ -407,6 +521,198 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  _showSplitView1BottomSheet(
+    context,
+    String startDate,
+    String endDate,
+    String selectedDate,
+    String cameraId,
+    String projectId,
+    WidgetRef ref,
+  ) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Wrap(children: [
+        Container(
+          padding: EdgeInsets.only(top: 28.h, left: 20.w, right: 20.w),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r)),
+            color: Colors.white,
+          ),
+          // height: MediaQuery.of(context).size.height * 1.6,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Split 1 Image Date',
+                    style: TextStyle(
+                        color: Helper.baseBlack,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              CalendarDatePicker2(
+                config: CalendarDatePicker2Config(
+                  lastDate: DateTime.parse(endDate),
+                  firstDate: DateTime.parse(startDate),
+                  selectedDayHighlightColor: Helper.primary,
+                ),
+                value: [],
+                onValueChanged: (value) {
+                  print(value.toString());
+                  DateTime date = DateTime.parse(value[0].toString());
+                  selectedDate = DateFormat("yyyyMMdd").format(date);
+                  print("selectedDate " + selectedDate);
+                },
+              ),
+              // SizedBox(height: 20.h),
+              Container(
+                height: 52.h,
+                width: double.infinity,
+                margin: EdgeInsets.only(bottom: 10.h),
+                child: ElevatedButton(
+                  child: Text(
+                    "Done",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500),
+                    // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                  ),
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Helper.primary),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                      )),
+                  onPressed: () {
+                    print(selectedDate);
+                    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                      ref
+                          .read(splitView1ControllerProvider.notifier)
+                          .getImagesByCamId(projectId, cameraId,
+                              searchDate: selectedDate);
+                    });
+                    showDate(endDate);
+                    context.pop();
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ]),
+    );
+  }
+
+  _showSplitView2BottomSheet(
+    context,
+    String startDate,
+    String endDate,
+    String selectedDate,
+    String cameraId,
+    String projectId,
+    WidgetRef ref,
+  ) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Wrap(children: [
+        Container(
+          padding: EdgeInsets.only(top: 28.h, left: 20.w, right: 20.w),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r)),
+            color: Colors.white,
+          ),
+          // height: MediaQuery.of(context).size.height * 1.6,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Split 2 Image Date',
+                    style: TextStyle(
+                        color: Helper.baseBlack,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              CalendarDatePicker2(
+                config: CalendarDatePicker2Config(
+                  lastDate: DateTime.parse(endDate),
+                  firstDate: DateTime.parse(startDate),
+                  selectedDayHighlightColor: Helper.primary,
+                ),
+                value: [],
+                onValueChanged: (value) {
+                  print(value.toString());
+                  DateTime date = DateTime.parse(value[0].toString());
+                  selectedDate = DateFormat("yyyyMMdd").format(date);
+                  print("selectedDate " + selectedDate);
+                },
+              ),
+              // SizedBox(height: 20.h),
+              Container(
+                height: 52.h,
+                width: double.infinity,
+                margin: EdgeInsets.only(bottom: 10.h),
+                child: ElevatedButton(
+                  child: Text(
+                    "Done",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500),
+                    // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                  ),
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Helper.primary),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                      )),
+                  onPressed: () {
+                    print(selectedDate);
+                    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                      ref
+                          .read(splitView2ControllerProvider.notifier)
+                          .getImagesByCamId(projectId, cameraId,
+                              searchDate: selectedDate);
+                    });
+                    showDate(endDate);
+                    context.pop();
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ]),
     );
   }
 }

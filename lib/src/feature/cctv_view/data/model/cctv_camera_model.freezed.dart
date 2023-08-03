@@ -22,6 +22,7 @@ CctvCameraModel _$CctvCameraModelFromJson(Map<String, dynamic> json) {
 mixin _$CctvCameraModel {
   Details? get details => throw _privateConstructorUsedError;
   Location? get location => throw _privateConstructorUsedError;
+  @JsonKey(name: '_id')
   String? get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get installationDate => throw _privateConstructorUsedError;
@@ -51,7 +52,7 @@ abstract class $CctvCameraModelCopyWith<$Res> {
   $Res call(
       {Details? details,
       Location? location,
-      String? id,
+      @JsonKey(name: '_id') String? id,
       String? name,
       String? installationDate,
       String? status,
@@ -211,7 +212,7 @@ abstract class _$$_CctvCameraModelCopyWith<$Res>
   $Res call(
       {Details? details,
       Location? location,
-      String? id,
+      @JsonKey(name: '_id') String? id,
       String? name,
       String? installationDate,
       String? status,
@@ -331,7 +332,7 @@ class _$_CctvCameraModel implements _CctvCameraModel {
   const _$_CctvCameraModel(
       {this.details,
       this.location,
-      this.id,
+      @JsonKey(name: '_id') this.id,
       this.name,
       this.installationDate,
       this.status,
@@ -353,6 +354,7 @@ class _$_CctvCameraModel implements _CctvCameraModel {
   @override
   final Location? location;
   @override
+  @JsonKey(name: '_id')
   final String? id;
   @override
   final String? name;
@@ -452,7 +454,7 @@ abstract class _CctvCameraModel implements CctvCameraModel {
   const factory _CctvCameraModel(
       {final Details? details,
       final Location? location,
-      final String? id,
+      @JsonKey(name: '_id') final String? id,
       final String? name,
       final String? installationDate,
       final String? status,
@@ -474,6 +476,7 @@ abstract class _CctvCameraModel implements CctvCameraModel {
   @override
   Location? get location;
   @override
+  @JsonKey(name: '_id')
   String? get id;
   @override
   String? get name;

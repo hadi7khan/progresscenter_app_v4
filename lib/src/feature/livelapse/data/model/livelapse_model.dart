@@ -15,7 +15,7 @@ String livelapseModelToJson(List<LivelapseModel> data) =>
 class LivelapseModel with _$LivelapseModel {
   const factory LivelapseModel({
     Options? options,
-    String? id,
+    @JsonKey(name: '_id') String? id,
     String? name,
     String? quality,
     String? filepath,

@@ -22,6 +22,7 @@ CameraModel _$CameraModelFromJson(Map<String, dynamic> json) {
 mixin _$CameraModel {
   Details? get details => throw _privateConstructorUsedError;
   Location? get location => throw _privateConstructorUsedError;
+  @JsonKey(name: '_id')
   String? get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get installationDate => throw _privateConstructorUsedError;
@@ -55,7 +56,7 @@ abstract class $CameraModelCopyWith<$Res> {
   $Res call(
       {Details? details,
       Location? location,
-      String? id,
+      @JsonKey(name: '_id') String? id,
       String? name,
       String? installationDate,
       String? status,
@@ -252,7 +253,7 @@ abstract class _$$_CameraModelCopyWith<$Res>
   $Res call(
       {Details? details,
       Location? location,
-      String? id,
+      @JsonKey(name: '_id') String? id,
       String? name,
       String? installationDate,
       String? status,
@@ -398,7 +399,7 @@ class _$_CameraModel implements _CameraModel {
   const _$_CameraModel(
       {this.details,
       this.location,
-      this.id,
+      @JsonKey(name: '_id') this.id,
       this.name,
       this.installationDate,
       this.status,
@@ -425,6 +426,7 @@ class _$_CameraModel implements _CameraModel {
   @override
   final Location? location;
   @override
+  @JsonKey(name: '_id')
   final String? id;
   @override
   final String? name;
@@ -554,7 +556,7 @@ abstract class _CameraModel implements CameraModel {
   const factory _CameraModel(
       {final Details? details,
       final Location? location,
-      final String? id,
+      @JsonKey(name: '_id') final String? id,
       final String? name,
       final String? installationDate,
       final String? status,
@@ -580,6 +582,7 @@ abstract class _CameraModel implements CameraModel {
   @override
   Location? get location;
   @override
+  @JsonKey(name: '_id')
   String? get id;
   @override
   String? get name;

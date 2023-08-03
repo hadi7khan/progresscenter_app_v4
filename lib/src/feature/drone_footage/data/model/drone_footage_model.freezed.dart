@@ -22,6 +22,7 @@ DroneFootageModel _$DroneFootageModelFromJson(Map<String, dynamic> json) {
 mixin _$DroneFootageModel {
   Location? get location => throw _privateConstructorUsedError;
   Details? get details => throw _privateConstructorUsedError;
+  @JsonKey(name: '_id')
   String? get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get takenAtDate => throw _privateConstructorUsedError;
@@ -50,7 +51,7 @@ abstract class $DroneFootageModelCopyWith<$Res> {
   $Res call(
       {Location? location,
       Details? details,
-      String? id,
+      @JsonKey(name: '_id') String? id,
       String? name,
       String? takenAtDate,
       String? takenAtTime,
@@ -204,7 +205,7 @@ abstract class _$$_DroneFootageModelCopyWith<$Res>
   $Res call(
       {Location? location,
       Details? details,
-      String? id,
+      @JsonKey(name: '_id') String? id,
       String? name,
       String? takenAtDate,
       String? takenAtTime,
@@ -318,7 +319,7 @@ class _$_DroneFootageModel implements _DroneFootageModel {
   const _$_DroneFootageModel(
       {this.location,
       this.details,
-      this.id,
+      @JsonKey(name: '_id') this.id,
       this.name,
       this.takenAtDate,
       this.takenAtTime,
@@ -339,6 +340,7 @@ class _$_DroneFootageModel implements _DroneFootageModel {
   @override
   final Details? details;
   @override
+  @JsonKey(name: '_id')
   final String? id;
   @override
   final String? name;
@@ -435,7 +437,7 @@ abstract class _DroneFootageModel implements DroneFootageModel {
   const factory _DroneFootageModel(
       {final Location? location,
       final Details? details,
-      final String? id,
+      @JsonKey(name: '_id') final String? id,
       final String? name,
       final String? takenAtDate,
       final String? takenAtTime,
@@ -456,6 +458,7 @@ abstract class _DroneFootageModel implements DroneFootageModel {
   @override
   Details? get details;
   @override
+  @JsonKey(name: '_id')
   String? get id;
   @override
   String? get name;

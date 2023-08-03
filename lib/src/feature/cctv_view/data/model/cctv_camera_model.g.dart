@@ -14,7 +14,7 @@ _$_CctvCameraModel _$$_CctvCameraModelFromJson(Map<String, dynamic> json) =>
       location: json['location'] == null
           ? null
           : Location.fromJson(json['location'] as Map<String, dynamic>),
-      id: json['id'] as String?,
+      id: json['_id'] as String?,
       name: json['name'] as String?,
       installationDate: json['installationDate'] as String?,
       status: json['status'] as String?,
@@ -42,7 +42,7 @@ Map<String, dynamic> _$$_CctvCameraModelToJson(_$_CctvCameraModel instance) =>
     <String, dynamic>{
       'details': instance.details,
       'location': instance.location,
-      'id': instance.id,
+      '_id': instance.id,
       'name': instance.name,
       'installationDate': instance.installationDate,
       'status': instance.status,

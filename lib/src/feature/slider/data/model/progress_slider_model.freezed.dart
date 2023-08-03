@@ -23,6 +23,7 @@ mixin _$ProgressSliderModel {
   String? get name => throw _privateConstructorUsedError;
   String? get date => throw _privateConstructorUsedError;
   String? get time => throw _privateConstructorUsedError;
+  @JsonKey(name: '_id')
   String? get id => throw _privateConstructorUsedError;
   String? get camera => throw _privateConstructorUsedError;
   String? get url4K => throw _privateConstructorUsedError;
@@ -45,7 +46,7 @@ abstract class $ProgressSliderModelCopyWith<$Res> {
       {String? name,
       String? date,
       String? time,
-      String? id,
+      @JsonKey(name: '_id') String? id,
       String? camera,
       String? url4K,
       String? urlPreview,
@@ -123,7 +124,7 @@ abstract class _$$_ProgressSliderModelCopyWith<$Res>
       {String? name,
       String? date,
       String? time,
-      String? id,
+      @JsonKey(name: '_id') String? id,
       String? camera,
       String? url4K,
       String? urlPreview,
@@ -194,7 +195,7 @@ class _$_ProgressSliderModel implements _ProgressSliderModel {
       {this.name,
       this.date,
       this.time,
-      this.id,
+      @JsonKey(name: '_id') this.id,
       this.camera,
       this.url4K,
       this.urlPreview,
@@ -210,6 +211,7 @@ class _$_ProgressSliderModel implements _ProgressSliderModel {
   @override
   final String? time;
   @override
+  @JsonKey(name: '_id')
   final String? id;
   @override
   final String? camera;
@@ -267,7 +269,7 @@ abstract class _ProgressSliderModel implements ProgressSliderModel {
       {final String? name,
       final String? date,
       final String? time,
-      final String? id,
+      @JsonKey(name: '_id') final String? id,
       final String? camera,
       final String? url4K,
       final String? urlPreview,
@@ -283,6 +285,7 @@ abstract class _ProgressSliderModel implements ProgressSliderModel {
   @override
   String? get time;
   @override
+  @JsonKey(name: '_id')
   String? get id;
   @override
   String? get camera;

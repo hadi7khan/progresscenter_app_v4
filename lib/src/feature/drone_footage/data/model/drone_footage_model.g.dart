@@ -14,7 +14,7 @@ _$_DroneFootageModel _$$_DroneFootageModelFromJson(Map<String, dynamic> json) =>
       details: json['details'] == null
           ? null
           : Details.fromJson(json['details'] as Map<String, dynamic>),
-      id: json['id'] as String?,
+      id: json['_id'] as String?,
       name: json['name'] as String?,
       takenAtDate: json['takenAtDate'] as String?,
       takenAtTime: json['takenAtTime'] as String?,
@@ -39,7 +39,7 @@ Map<String, dynamic> _$$_DroneFootageModelToJson(
     <String, dynamic>{
       'location': instance.location,
       'details': instance.details,
-      'id': instance.id,
+      '_id': instance.id,
       'name': instance.name,
       'takenAtDate': instance.takenAtDate,
       'takenAtTime': instance.takenAtTime,

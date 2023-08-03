@@ -19,7 +19,7 @@ class CameraModel with _$CameraModel {
   const factory CameraModel({
     Details? details,
     Location? location,
-    String? id,
+    @JsonKey(name: '_id') String? id,
     String? name,
     String? installationDate,
     String? status,

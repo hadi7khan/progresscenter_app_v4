@@ -16,7 +16,7 @@ class CctvCameraModel with _$CctvCameraModel {
   const factory CctvCameraModel({
     Details? details,
     Location? location,
-    String? id,
+    @JsonKey(name: '_id') String? id,
     String? name,
     String? installationDate,
     String? status,

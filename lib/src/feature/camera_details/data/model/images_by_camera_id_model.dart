@@ -26,7 +26,7 @@ class ImagesByCameraIdModel with _$ImagesByCameraIdModel {
 class Image with _$Image {
   const factory Image({
     Resolution? resolution,
-    String? id,
+    @JsonKey(name: '_id') String? id,
     String? name,
     String? date,
     String? time,
