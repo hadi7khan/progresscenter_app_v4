@@ -37,6 +37,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
   String _selectedDate = '';
   String _searchDate = '';
   DateTime currentMonth = DateTime.now();
+  String showMonth = "JAN";
 
   @override
   void initState() {
@@ -87,6 +88,16 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
     }
 
     return daysInMonth;
+  }
+
+  showDate(String date) {
+    // Parse the endDate string into a DateTime object
+    DateTime parsedDate = DateTime.parse(date);
+
+    // Format the DateTime object into the desired format
+    String formattedDate = DateFormat('dd MMM yyyy').format(parsedDate);
+    showMonth = DateFormat.MMM().format(parsedDate).toUpperCase();
+    return formattedDate;
   }
 
   // static int getDaysInMonth(int year, int month) {
@@ -272,7 +283,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                                     color: Colors.white,
                                   ),
                                   SizedBox(width: 4.w),
-                                  Text("03 June, 2023",
+                                  Text(showDate(imagesData.endDate!),
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w500,
@@ -404,7 +415,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                               padding: EdgeInsets.symmetric(
                                   horizontal: 10.w, vertical: 14.h),
                               child: Text(
-                                "- NOV -",
+                                "- $showMonth -",
                                 style: TextStyle(
                                     fontSize: 10.sp,
                                     fontWeight: FontWeight.w700,
@@ -652,7 +663,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
             ),
             SizedBox(height: 24.h),
             Column(
-              
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InkWell(
@@ -668,18 +678,17 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                     child: ListTile(
                       contentPadding: EdgeInsets.zero,
                       leading: Container(
-                        decoration: BoxDecoration(
-                          color: Helper.bottomIconBack,
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        padding: EdgeInsets.all(8.w),
-                          child: SvgPicture.asset(
-                        'assets/images/download.svg',
-                        // width: 44.w,
-                        // height: 44.h,
-                        fit: BoxFit.cover,
-                        colorFilter: ColorFilter.mode(Helper.primary,  BlendMode.srcIn)
-                      )),
+                          decoration: BoxDecoration(
+                            color: Helper.bottomIconBack,
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          padding: EdgeInsets.all(8.w),
+                          child: SvgPicture.asset('assets/images/download.svg',
+                              // width: 44.w,
+                              // height: 44.h,
+                              fit: BoxFit.cover,
+                              colorFilter: ColorFilter.mode(
+                                  Helper.primary, BlendMode.srcIn))),
                       title: Text(
                         'Download',
                         style: TextStyle(
@@ -704,18 +713,17 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                     child: ListTile(
                       contentPadding: EdgeInsets.zero,
                       leading: Container(
-                        decoration: BoxDecoration(
-                          color: Helper.bottomIconBack,
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        padding: EdgeInsets.all(8.w),
-                          child: SvgPicture.asset(
-                        'assets/images/share.svg',
-                        // width: 44.w,
-                        // height: 44.h,
-                        fit: BoxFit.cover,
-                        colorFilter: ColorFilter.mode(Helper.primary,  BlendMode.srcIn)
-                      )),
+                          decoration: BoxDecoration(
+                            color: Helper.bottomIconBack,
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          padding: EdgeInsets.all(8.w),
+                          child: SvgPicture.asset('assets/images/share.svg',
+                              // width: 44.w,
+                              // height: 44.h,
+                              fit: BoxFit.cover,
+                              colorFilter: ColorFilter.mode(
+                                  Helper.primary, BlendMode.srcIn))),
                       title: Text(
                         'Share',
                         style: TextStyle(
@@ -740,18 +748,17 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                     child: ListTile(
                       contentPadding: EdgeInsets.zero,
                       leading: Container(
-                        decoration: BoxDecoration(
-                          color: Helper.bottomIconBack,
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        padding: EdgeInsets.all(8.w),
-                          child: SvgPicture.asset(
-                        'assets/images/message.svg',
-                        // width: 44.w,
-                        // height: 44.h,
-                        fit: BoxFit.cover,
-                        colorFilter: ColorFilter.mode(Helper.primary,  BlendMode.srcIn)
-                      )),
+                          decoration: BoxDecoration(
+                            color: Helper.bottomIconBack,
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          padding: EdgeInsets.all(8.w),
+                          child: SvgPicture.asset('assets/images/message.svg',
+                              // width: 44.w,
+                              // height: 44.h,
+                              fit: BoxFit.cover,
+                              colorFilter: ColorFilter.mode(
+                                  Helper.primary, BlendMode.srcIn))),
                       title: Text(
                         'Comment',
                         style: TextStyle(
@@ -776,18 +783,17 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                     child: ListTile(
                       contentPadding: EdgeInsets.zero,
                       leading: Container(
-                        decoration: BoxDecoration(
-                          color: Helper.bottomIconBack,
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        padding: EdgeInsets.all(8.w),
-                          child: SvgPicture.asset(
-                        'assets/images/ai.svg',
-                        width: 24.w,
-                        height: 24.h,
-                        fit: BoxFit.cover,
-                        colorFilter: ColorFilter.mode(Helper.primary,  BlendMode.srcIn)
-                      )),
+                          decoration: BoxDecoration(
+                            color: Helper.bottomIconBack,
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          padding: EdgeInsets.all(8.w),
+                          child: SvgPicture.asset('assets/images/ai.svg',
+                              width: 24.w,
+                              height: 24.h,
+                              fit: BoxFit.cover,
+                              colorFilter: ColorFilter.mode(
+                                  Helper.primary, BlendMode.srcIn))),
                       title: Text(
                         'AI Insights',
                         style: TextStyle(
@@ -812,18 +818,17 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                     child: ListTile(
                       contentPadding: EdgeInsets.zero,
                       leading: Container(
-                        decoration: BoxDecoration(
-                          color: Helper.bottomIconBack,
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        padding: EdgeInsets.all(8.w),
-                          child: SvgPicture.asset(
-                        'assets/images/camera.svg',
-                        // width: 44.w,
-                        // height: 44.h,
-                        fit: BoxFit.cover,
-                        colorFilter: ColorFilter.mode(Helper.primary,  BlendMode.srcIn)
-                      )),
+                          decoration: BoxDecoration(
+                            color: Helper.bottomIconBack,
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          padding: EdgeInsets.all(8.w),
+                          child: SvgPicture.asset('assets/images/camera.svg',
+                              // width: 44.w,
+                              // height: 44.h,
+                              fit: BoxFit.cover,
+                              colorFilter: ColorFilter.mode(
+                                  Helper.primary, BlendMode.srcIn))),
                       title: Text(
                         'Image quality',
                         style: TextStyle(
@@ -848,18 +853,18 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                     child: ListTile(
                       contentPadding: EdgeInsets.zero,
                       leading: Container(
-                        decoration: BoxDecoration(
-                          color: Helper.bottomIconBack,
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        padding: EdgeInsets.all(8.w),
+                          decoration: BoxDecoration(
+                            color: Helper.bottomIconBack,
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          padding: EdgeInsets.all(8.w),
                           child: SvgPicture.asset(
-                        'assets/images/camera-flash.svg',
-                        // width: 44.w,
-                        // height: 44.h,
-                        fit: BoxFit.cover,
-                        colorFilter: ColorFilter.mode(Helper.primary,  BlendMode.srcIn)
-                      )),
+                              'assets/images/camera-flash.svg',
+                              // width: 44.w,
+                              // height: 44.h,
+                              fit: BoxFit.cover,
+                              colorFilter: ColorFilter.mode(
+                                  Helper.primary, BlendMode.srcIn))),
                       title: Text(
                         'Default view',
                         style: TextStyle(
@@ -949,6 +954,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                 config: CalendarDatePicker2Config(
                   lastDate: DateTime.parse(endDate),
                   firstDate: DateTime.parse(startDate),
+                  selectedDayHighlightColor: Helper.primary,
                 ),
                 value: [],
                 onValueChanged: (value) {
@@ -992,6 +998,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                               searchDate: selectedDate);
                     });
                     getDaysInMonth(currentMonth, false);
+                    showDate(endDate);
                     context.pop();
                   },
                 ),

@@ -54,6 +54,15 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
     });
   }
 
+  showDate(String date) {
+    // Parse the endDate string into a DateTime object
+    DateTime parsedDate = DateTime.parse(date);
+
+    // Format the DateTime object into the desired format
+    String formattedDate = DateFormat('dd MMM yyyy').format(parsedDate);
+    return formattedDate;
+  }
+
   @override
   Widget build(BuildContext context) {
     final compareCameraData1 = ref.watch(
@@ -172,7 +181,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                                         color: Colors.white,
                                       ),
                                       SizedBox(width: 4.w),
-                                      Text("03 June, 2023",
+                                      Text(showDate(cameraData1.endDate!),
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,
@@ -372,7 +381,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                                         color: Colors.white,
                                       ),
                                       SizedBox(width: 4.w),
-                                      Text("03 June, 2023",
+                                      Text(showDate(cameraData2.endDate!),
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,
@@ -545,6 +554,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                 config: CalendarDatePicker2Config(
                   lastDate: DateTime.parse(endDate),
                   firstDate: DateTime.parse(startDate),
+                  selectedDayHighlightColor: Helper.primary,
                 ),
                 value: [],
                 onValueChanged: (value) {
@@ -643,6 +653,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                 config: CalendarDatePicker2Config(
                   lastDate: DateTime.parse(endDate),
                   firstDate: DateTime.parse(startDate),
+                  selectedDayHighlightColor: Helper.primary,
                 ),
                 value: [],
                 onValueChanged: (value) {

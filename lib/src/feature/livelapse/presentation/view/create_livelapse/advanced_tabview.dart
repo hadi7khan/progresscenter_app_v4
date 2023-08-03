@@ -1401,7 +1401,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                 ),
                 CalendarDatePicker2(
                   config: CalendarDatePicker2Config(
-
+                    selectedDayHighlightColor: Helper.primary,
                       // lastDate: DateTime.parse(endDate),
                       // firstDate: DateTime.parse(startDate),
                       ),
@@ -1540,6 +1540,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                   ),
                   CalendarDatePicker2(
                     config: CalendarDatePicker2Config(
+                      selectedDayHighlightColor: Helper.primary,
                         // lastDate: DateTime.parse(endDate),
                         // firstDate: DateTime.parse(startDate),
                         ),
