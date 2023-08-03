@@ -1,6 +1,7 @@
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -38,6 +39,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
   String _searchDate = '';
   DateTime currentMonth = DateTime.now();
   String showMonth = "JAN";
+  // StateSetter? bottomSheetState;
 
   @override
   void initState() {
@@ -257,8 +259,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                         top: 16,
                         left: 16,
                         child: InkWell(
-                          onTap: () {
-                            _showDateBottomSheet(
+                          onTap: () async {
+                            await _showDateBottomSheet(
                                 context,
                                 imagesData.startDate!,
                                 imagesData.endDate!,
@@ -267,6 +269,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                                 widget.projectId,
                                 ref,
                                 currentMonth);
+                            setState(() {});
                           },
                           child: BlurryContainer(
                               blur: 3,
@@ -295,17 +298,23 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                       Positioned(
                         top: 16,
                         right: 16,
-                        child: BlurryContainer(
-                          blur: 3,
-                          padding: EdgeInsets.symmetric(
-                              vertical: 6.h, horizontal: 8.w),
-                          borderRadius: BorderRadius.circular(30.r),
-                          color: Colors.white.withOpacity(0.1),
-                          child: SvgPicture.asset(
-                            'assets/images/expand.svg',
-                            height: 16.h,
-                            width: 16.w,
-                            color: Colors.white,
+                        child: InkWell(
+                          onTap: () {
+                            SystemChrome.setPreferredOrientations(
+                                [DeviceOrientation.landscapeRight]);
+                          },
+                          child: BlurryContainer(
+                            blur: 3,
+                            padding: EdgeInsets.symmetric(
+                                vertical: 6.h, horizontal: 8.w),
+                            borderRadius: BorderRadius.circular(30.r),
+                            color: Colors.white.withOpacity(0.1),
+                            child: SvgPicture.asset(
+                              'assets/images/expand.svg',
+                              height: 16.h,
+                              width: 16.w,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
@@ -324,11 +333,15 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                           physics: BouncingScrollPhysics(),
                           scrollDirection: Axis.horizontal,
                           itemBuilder: ((context, index) {
-                            String formattedTime = DateFormat("hh:mm a")
-                                .format(DateTime.fromMillisecondsSinceEpoch(
-                                    int.parse(
-                                        imagesData.images![index].datetime!)))
-                                .toString();
+                            String dateWithT = imagesData
+                                    .images![index].datetime!
+                                    .substring(0, 8) +
+                                'T' +
+                                imagesData.images![index].datetime!
+                                    .substring(8);
+                            DateTime dateTime = DateTime.parse(dateWithT);
+                            final String formattedTime =
+                                DateFormat('h:mm a').format(dateTime);
                             return InkWell(
                               onTap: () {
                                 setState(() {
@@ -923,89 +936,96 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
       context: context,
       backgroundColor: Colors.transparent,
       builder: (context) => Wrap(children: [
-        Container(
-          padding: EdgeInsets.only(top: 28.h, left: 20.w, right: 20.w),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16.r),
-                topRight: Radius.circular(16.r)),
-            color: Colors.white,
-          ),
-          // height: MediaQuery.of(context).size.height * 1.6,
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Select Date',
-                    style: TextStyle(
-                        color: Helper.baseBlack,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500),
-                  ),
-                ],
-              ),
-              CalendarDatePicker2(
-                config: CalendarDatePicker2Config(
-                  lastDate: DateTime.parse(endDate),
-                  firstDate: DateTime.parse(startDate),
-                  selectedDayHighlightColor: Helper.primary,
+        StatefulBuilder(builder: (context, StateSetter modalState) {
+          // bottomSheetState = modalState;
+          return Container(
+            padding: EdgeInsets.only(top: 28.h, left: 20.w, right: 20.w),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16.r),
+                  topRight: Radius.circular(16.r)),
+              color: Colors.white,
+            ),
+            // height: MediaQuery.of(context).size.height * 1.6,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Select Date',
+                      style: TextStyle(
+                          color: Helper.baseBlack,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
                 ),
-                value: [],
-                onValueChanged: (value) {
-                  print(value.toString());
-                  DateTime date = DateTime.parse(value[0].toString());
-                  selectedDate = DateFormat("yyyyMMdd").format(date);
-                  print("selectedDate " + selectedDate);
-                  currentMonth = value[0]!;
-                },
-              ),
-              // SizedBox(height: 20.h),
-              Container(
-                height: 52.h,
-                width: double.infinity,
-                margin: EdgeInsets.only(bottom: 10.h),
-                child: ElevatedButton(
-                  child: Text(
-                    "Done",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500),
-                    // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                CalendarDatePicker2(
+                  config: CalendarDatePicker2Config(
+                    lastDate: DateTime.parse(endDate),
+                    firstDate: DateTime.parse(startDate),
+                    selectedDayHighlightColor: Helper.primary,
                   ),
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Helper.primary),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                      )),
-                  onPressed: () {
-                    print(selectedDate);
-                    //         ref
-                    // .read(imagesByCamIdControllerProvider.notifier)
-                    // .getIagesByCamId(projectId, cameraId, searchDate: selectedDate );
-                    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                      ref
-                          .read(imagesByCamIdControllerProvider.notifier)
-                          .getImagesByCamId(projectId, cameraId,
-                              searchDate: selectedDate);
-                    });
-                    getDaysInMonth(currentMonth, false);
-                    showDate(endDate);
-                    context.pop();
+                  value: [],
+                  onValueChanged: (value) {
+                    print(value.toString());
+                    DateTime date = DateTime.parse(value[0].toString());
+                    selectedDate = DateFormat("yyyyMMdd").format(date);
+                    print("selectedDate " + selectedDate);
+                    currentMonth = value[0]!;
                   },
                 ),
-              ),
-            ],
-          ),
-        ),
+                // SizedBox(height: 20.h),
+                Container(
+                  height: 52.h,
+                  width: double.infinity,
+                  margin: EdgeInsets.only(bottom: 10.h),
+                  child: ElevatedButton(
+                    child: Text(
+                      "Done",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500),
+                      // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                    ),
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll(Helper.primary),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                        )),
+                    onPressed: () {
+                      print(selectedDate);
+                      //         ref
+                      // .read(imagesByCamIdControllerProvider.notifier)
+                      // .getIagesByCamId(projectId, cameraId, searchDate: selectedDate );
+                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                        ref
+                            .read(imagesByCamIdControllerProvider.notifier)
+                            .getImagesByCamId(projectId, cameraId,
+                                searchDate: selectedDate);
+                      });
+
+                      context.pop();
+                      setState(() {
+                        getDaysInMonth(currentMonth, false);
+                        showDate(endDate);
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
+        }),
       ]),
     );
   }

@@ -8,18 +8,18 @@ import 'theme_const.dart';
 
 mixin AppThemeMixin {
   static const MaterialColor primarySwatch = MaterialColor(
-    0xff6366F1,
+    0xff0052CC,
     <int, Color>{
-      50: Color.fromRGBO(99, 102, 241, 1), //10%
-      100: Color.fromRGBO(99, 102, 241, 0.9), //20%
-      200: Color.fromRGBO(99, 102, 241, 0.8), //30%
-      300: Color.fromRGBO(99, 102, 241, 0.7), //40%
-      400: Color.fromRGBO(99, 102, 241, 0.6), //50%
-      500: Color.fromRGBO(99, 102, 241, 0.5), //60%
-      600: Color.fromRGBO(99, 102, 241, 0.4), //70%
-      700: Color.fromRGBO(99, 102, 241, 0.3), //80%
-      800: Color.fromRGBO(99, 102, 241, 0.2), //90%
-      900: Color.fromRGBO(99, 102, 241, 0.1), //100%
+      50: Color.fromRGBO(0, 82, 204, 1), //10%
+      100: Color.fromRGBO(0, 82, 204, 0.9), //20%
+      200: Color.fromRGBO(0, 82, 204, 0.8), //30%
+      300: Color.fromRGBO(0, 82, 204, 0.7), //40%
+      400: Color.fromRGBO(0, 82, 204, 0.6), //50%
+      500: Color.fromRGBO(0, 82, 204, 0.5), //60%
+      600: Color.fromRGBO(0, 82, 204, 0.4), //70%
+      700: Color.fromRGBO(0, 82, 204, 0.3), //80%
+      800: Color.fromRGBO(0, 82, 204, 0.2), //90%
+      900: Color.fromRGBO(0, 82, 204, 0.1), //100%
     },
   );
 

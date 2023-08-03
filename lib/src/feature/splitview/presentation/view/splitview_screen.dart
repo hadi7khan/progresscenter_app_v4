@@ -138,76 +138,86 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                 padding: EdgeInsets.symmetric(vertical: 150.h),
                 child: splitViewData1.when(
                   data: (data1) {
+                    final aspectRatio = data1.images![0].resolution!.width! /
+                        data1.images![0].resolution!.height!;
+                    print("aspectRatio$aspectRatio");
                     return Column(
                       children: [
                         Stack(children: [
-                          ImageCompareSlider(
-                            dividerColor: Helper.primary,
-                            handleColor: Colors.white,
-                            handlePosition: 0.96,
-                            fillHandle: true,
-                            itemOne: Image.network(
-                              selectedSplitViewData1 == null
-                                  ? data1.images![0].urlPreview!
-                                  : selectedSplitViewData1.urlPreview!,
-                              width: double.infinity,
-                              // height: 210.h,
-                              fit: BoxFit.fill,
-                              loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    color: Helper.primary,
-                                    value: (loadingProgress != null)
-                                        ? (loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!)
-                                        : 0,
-                                  ),
-                                );
-                              },
-                              errorBuilder: (BuildContext context,
-                                  Object exception, StackTrace? stackTrace) {
-                                return ClipRRect(
-                                  child: Image.asset(
-                                    'assets/images/error_image.jpeg',
-                                    fit: BoxFit.fill,
-                                  ),
-                                );
-                              },
-                            ),
-                            itemTwo: Image.network(
-                              selectedSplitViewData2 == null
-                                  ? data2.images![0].urlPreview!
-                                  : selectedSplitViewData2.urlPreview!,
-                              width: double.infinity,
-                              // height: 210.h,
-                              fit: BoxFit.fill,
-                              loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                if (loadingProgress == null) return child;
+                          Container(
+                            height:
+                                MediaQuery.of(context).size.width / aspectRatio,
+                            child: ImageCompareSlider(
+                              // handleFollowsPosition: true,
+                              dividerColor: Helper.primary,
+                              handleColor: Colors.white,
+                              handlePosition: 0.96,
+                              fillHandle: true,
+                              itemOne: Image.network(
+                                selectedSplitViewData1 == null
+                                    ? data1.images![0].urlPreview!
+                                    : selectedSplitViewData1.urlPreview!,
+                                width: double.infinity,
+                                // height: 210.h,
+                                fit: BoxFit.fill,
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      color: Helper.primary,
+                                      value: (loadingProgress != null)
+                                          ? (loadingProgress
+                                                  .cumulativeBytesLoaded /
+                                              loadingProgress
+                                                  .expectedTotalBytes!)
+                                          : 0,
+                                    ),
+                                  );
+                                },
+                                errorBuilder: (BuildContext context,
+                                    Object exception, StackTrace? stackTrace) {
+                                  return ClipRRect(
+                                    child: Image.asset(
+                                      'assets/images/error_image.jpeg',
+                                      fit: BoxFit.fill,
+                                    ),
+                                  );
+                                },
+                              ),
+                              itemTwo: Image.network(
+                                selectedSplitViewData2 == null
+                                    ? data2.images![0].urlPreview!
+                                    : selectedSplitViewData2.urlPreview!,
+                                width: double.infinity,
+                                // height: 210.h,
+                                fit: BoxFit.fill,
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                  if (loadingProgress == null) return child;
 
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    color: Helper.primary,
-                                    value: (loadingProgress != null)
-                                        ? (loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!)
-                                        : 0,
-                                  ),
-                                );
-                              },
-                              errorBuilder: (BuildContext context,
-                                  Object exception, StackTrace? stackTrace) {
-                                return ClipRRect(
-                                  child: Image.asset(
-                                    'assets/images/error_image.jpeg',
-                                    fit: BoxFit.fill,
-                                  ),
-                                );
-                              },
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      color: Helper.primary,
+                                      value: (loadingProgress != null)
+                                          ? (loadingProgress
+                                                  .cumulativeBytesLoaded /
+                                              loadingProgress
+                                                  .expectedTotalBytes!)
+                                          : 0,
+                                    ),
+                                  );
+                                },
+                                errorBuilder: (BuildContext context,
+                                    Object exception, StackTrace? stackTrace) {
+                                  return ClipRRect(
+                                    child: Image.asset(
+                                      'assets/images/error_image.jpeg',
+                                      fit: BoxFit.fill,
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                           ),
                           Positioned(
@@ -303,11 +313,14 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                               physics: BouncingScrollPhysics(),
                               scrollDirection: Axis.horizontal,
                               itemBuilder: ((context, index) {
-                                String formattedTime = DateFormat("hh:mm a")
-                                    .format(DateTime.fromMillisecondsSinceEpoch(
-                                        int.parse(
-                                            data1.images![index].datetime!)))
-                                    .toString();
+                                String dateWithT = data1
+                                        .images![index].datetime!
+                                        .substring(0, 8) +
+                                    'T' +
+                                    data1.images![index].datetime!.substring(8);
+                                DateTime dateTime = DateTime.parse(dateWithT);
+                                final String formattedTime =
+                                    DateFormat('h:mm a').format(dateTime);
                                 return InkWell(
                                   onTap: () {
                                     setState(() {
@@ -402,11 +415,14 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                               physics: BouncingScrollPhysics(),
                               scrollDirection: Axis.horizontal,
                               itemBuilder: ((context, index) {
-                                String formattedTime = DateFormat("hh:mm a")
-                                    .format(DateTime.fromMillisecondsSinceEpoch(
-                                        int.parse(
-                                            data2.images![index].datetime!)))
-                                    .toString();
+                                String dateWithT = data2
+                                        .images![index].datetime!
+                                        .substring(0, 8) +
+                                    'T' +
+                                    data2.images![index].datetime!.substring(8);
+                                DateTime dateTime = DateTime.parse(dateWithT);
+                                final String formattedTime =
+                                    DateFormat('h:mm a').format(dateTime);
                                 return InkWell(
                                   onTap: () {
                                     setState(() {

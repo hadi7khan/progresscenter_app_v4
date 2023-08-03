@@ -13,7 +13,7 @@ class DroneFootageModel with _$DroneFootageModel {
     const factory DroneFootageModel({
         Location? location,
         Details? details,
-        String? id,
+        @JsonKey(name: '_id') String? id,
         String? name,
         String? takenAtDate,
         String? takenAtTime,

@@ -11,7 +11,7 @@ _$_LivelapseModel _$$_LivelapseModelFromJson(Map<String, dynamic> json) =>
       options: json['options'] == null
           ? null
           : Options.fromJson(json['options'] as Map<String, dynamic>),
-      id: json['id'] as String?,
+      id: json['_id'] as String?,
       name: json['name'] as String?,
       quality: json['quality'] as String?,
       filepath: json['filepath'] as String?,
@@ -42,7 +42,7 @@ _$_LivelapseModel _$$_LivelapseModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_LivelapseModelToJson(_$_LivelapseModel instance) =>
     <String, dynamic>{
       'options': instance.options,
-      'id': instance.id,
+      '_id': instance.id,
       'name': instance.name,
       'quality': instance.quality,
       'filepath': instance.filepath,

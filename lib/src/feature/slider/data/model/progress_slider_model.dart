@@ -17,7 +17,7 @@ class ProgressSliderModel with _$ProgressSliderModel {
     String? name,
     String? date,
     String? time,
-    String? id,
+    @JsonKey(name: '_id') String? id,
     String? camera,
     String? url4K,
     String? urlPreview,

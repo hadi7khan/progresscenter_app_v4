@@ -206,6 +206,7 @@ Image _$ImageFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Image {
   Resolution? get resolution => throw _privateConstructorUsedError;
+  @JsonKey(name: '_id')
   String? get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get date => throw _privateConstructorUsedError;
@@ -231,7 +232,7 @@ abstract class $ImageCopyWith<$Res> {
   @useResult
   $Res call(
       {Resolution? resolution,
-      String? id,
+      @JsonKey(name: '_id') String? id,
       String? name,
       String? date,
       String? time,
@@ -351,7 +352,7 @@ abstract class _$$_ImageCopyWith<$Res> implements $ImageCopyWith<$Res> {
   @useResult
   $Res call(
       {Resolution? resolution,
-      String? id,
+      @JsonKey(name: '_id') String? id,
       String? name,
       String? date,
       String? time,
@@ -453,7 +454,7 @@ class __$$_ImageCopyWithImpl<$Res> extends _$ImageCopyWithImpl<$Res, _$_Image>
 class _$_Image implements _Image {
   const _$_Image(
       {this.resolution,
-      this.id,
+      @JsonKey(name: '_id') this.id,
       this.name,
       this.date,
       this.time,
@@ -472,6 +473,7 @@ class _$_Image implements _Image {
   @override
   final Resolution? resolution;
   @override
+  @JsonKey(name: '_id')
   final String? id;
   @override
   final String? name;
@@ -562,7 +564,7 @@ class _$_Image implements _Image {
 abstract class _Image implements Image {
   const factory _Image(
       {final Resolution? resolution,
-      final String? id,
+      @JsonKey(name: '_id') final String? id,
       final String? name,
       final String? date,
       final String? time,
@@ -580,6 +582,7 @@ abstract class _Image implements Image {
   @override
   Resolution? get resolution;
   @override
+  @JsonKey(name: '_id')
   String? get id;
   @override
   String? get name;

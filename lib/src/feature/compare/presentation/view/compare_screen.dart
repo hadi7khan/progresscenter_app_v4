@@ -205,11 +205,15 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                               physics: BouncingScrollPhysics(),
                               scrollDirection: Axis.horizontal,
                               itemBuilder: ((context, index) {
-                                String formattedTime = DateFormat("hh:mm a")
-                                    .format(DateTime.fromMillisecondsSinceEpoch(
-                                        int.parse(cameraData1
-                                            .images![index].datetime!)))
-                                    .toString();
+                                String dateWithT = cameraData1
+                                        .images![index].datetime!
+                                        .substring(0, 8) +
+                                    'T' +
+                                    cameraData1.images![index].datetime!
+                                        .substring(8);
+                                DateTime dateTime = DateTime.parse(dateWithT);
+                                final String formattedTime =
+                                    DateFormat('h:mm a').format(dateTime);
                                 return InkWell(
                                   onTap: () {
                                     setState(() {
@@ -405,11 +409,15 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                               physics: BouncingScrollPhysics(),
                               scrollDirection: Axis.horizontal,
                               itemBuilder: ((context, index) {
-                                String formattedTime = DateFormat("hh:mm a")
-                                    .format(DateTime.fromMillisecondsSinceEpoch(
-                                        int.parse(cameraData2
-                                            .images![index].datetime!)))
-                                    .toString();
+                                String dateWithT = cameraData2
+                                        .images![index].datetime!
+                                        .substring(0, 8) +
+                                    'T' +
+                                    cameraData2.images![index].datetime!
+                                        .substring(8);
+                                DateTime dateTime = DateTime.parse(dateWithT);
+                                final String formattedTime =
+                                    DateFormat('h:mm a').format(dateTime);
                                 return InkWell(
                                   onTap: () {
                                     setState(() {

@@ -28,7 +28,7 @@ _$_Image _$$_ImageFromJson(Map<String, dynamic> json) => _$_Image(
       resolution: json['resolution'] == null
           ? null
           : Resolution.fromJson(json['resolution'] as Map<String, dynamic>),
-      id: json['id'] as String?,
+      id: json['_id'] as String?,
       name: json['name'] as String?,
       date: json['date'] as String?,
       time: json['time'] as String?,
@@ -48,7 +48,7 @@ _$_Image _$$_ImageFromJson(Map<String, dynamic> json) => _$_Image(
 
 Map<String, dynamic> _$$_ImageToJson(_$_Image instance) => <String, dynamic>{
       'resolution': instance.resolution,
-      'id': instance.id,
+      '_id': instance.id,
       'name': instance.name,
       'date': instance.date,
       'time': instance.time,

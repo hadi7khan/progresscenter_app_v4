@@ -21,6 +21,7 @@ LivelapseModel _$LivelapseModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$LivelapseModel {
   Options? get options => throw _privateConstructorUsedError;
+  @JsonKey(name: '_id')
   String? get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get quality => throw _privateConstructorUsedError;
@@ -56,7 +57,7 @@ abstract class $LivelapseModelCopyWith<$Res> {
   @useResult
   $Res call(
       {Options? options,
-      String? id,
+      @JsonKey(name: '_id') String? id,
       String? name,
       String? quality,
       String? filepath,
@@ -239,7 +240,7 @@ abstract class _$$_LivelapseModelCopyWith<$Res>
   @useResult
   $Res call(
       {Options? options,
-      String? id,
+      @JsonKey(name: '_id') String? id,
       String? name,
       String? quality,
       String? filepath,
@@ -393,7 +394,7 @@ class __$$_LivelapseModelCopyWithImpl<$Res>
 class _$_LivelapseModel implements _LivelapseModel {
   const _$_LivelapseModel(
       {this.options,
-      this.id,
+      @JsonKey(name: '_id') this.id,
       this.name,
       this.quality,
       this.filepath,
@@ -421,6 +422,7 @@ class _$_LivelapseModel implements _LivelapseModel {
   @override
   final Options? options;
   @override
+  @JsonKey(name: '_id')
   final String? id;
   @override
   final String? name;
@@ -556,7 +558,7 @@ class _$_LivelapseModel implements _LivelapseModel {
 abstract class _LivelapseModel implements LivelapseModel {
   const factory _LivelapseModel(
       {final Options? options,
-      final String? id,
+      @JsonKey(name: '_id') final String? id,
       final String? name,
       final String? quality,
       final String? filepath,
@@ -583,6 +585,7 @@ abstract class _LivelapseModel implements LivelapseModel {
   @override
   Options? get options;
   @override
+  @JsonKey(name: '_id')
   String? get id;
   @override
   String? get name;
