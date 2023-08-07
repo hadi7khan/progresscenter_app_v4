@@ -17,6 +17,10 @@ import 'package:progresscenter_app_v4/src/feature/splitview/presentation/provide
 import 'package:progresscenter_app_v4/src/feature/splitview/presentation/view/widgets/date1_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/splitview/presentation/view/widgets/date2_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/splitview/presentation/view/widgets/images1_widget.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/data/model/images_by_camera_id_model.dart'
+    as model;
+
+import 'widgets/image2_widget.dart';
 
 class SplitviewScreen extends ConsumerStatefulWidget {
   final String projectId;
@@ -46,6 +50,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
   String formattedDate2 = '';
   String formattedTime1 = "";
   String formattedTime2 = "";
+  late model.Image imageData;
 
   changeTime1(String time) {
     print("showtime1 called" + time);
@@ -56,10 +61,10 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
   }
 
   changeTime2(String time) {
-    print("showtime1 called" + time);
+    print("showtime2 called" + time);
     String dateWithT = time.substring(0, 8) + 'T' + time.substring(8);
     DateTime dateTime = DateTime.parse(dateWithT);
-    formattedTime1 = DateFormat('h:mm a').format(dateTime);
+    formattedTime2 = DateFormat('h:mm a').format(dateTime);
     return formattedTime2;
   }
 
@@ -178,13 +183,20 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                   data: (data1) {
                     final aspectRatio = data1.images![0].resolution!.width! /
                         data1.images![0].resolution!.height!;
-
+                    print("aspectRatio$aspectRatio");
+                    if (selectedSplitViewData1 == null) {
+                      changeTime1(data1.images![0].datetime!);
+                    }else{
+                      changeTime1(selectedSplitViewData1.dateTime!);
+                    }
+                    if (selectedSplitViewData2 == null) {
+                      changeTime2(data2.images![0].datetime!);
+                    }else{
+                      changeTime2(selectedSplitViewData2.dateTime!);
+                    }
                     showDate1(data1.images![0].date!);
                     showDate2(data2.images![0].date!);
-                    changeTime1(data1.images![0].datetime!);
-                    changeTime2(data2.images![0].datetime!);
 
-                    print("aspectRatio$aspectRatio");
                     return Column(
                       children: [
                         Stack(children: [
@@ -413,8 +425,19 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                               BorderRadius.circular(8.r)),
                                     ),
                                     onPressed: () async {
-                                      _selectImage2BottomSheet(context, data2,
-                                          _selectedImageIndex2, ref);
+                                      showModalBottomSheet(
+                                          isScrollControlled: true,
+                                          context: context,
+                                          backgroundColor: Colors.transparent,
+                                          builder: (context) => Images2Widget(
+                                                selectedImageIndex:
+                                                    _selectedImageIndex1,
+                                                data: data2,
+                                                ref: ref,
+                                                changeTime: changeTime1,
+                                              ));
+                                      // _selectImage2BottomSheet(context, data2,
+                                      //     _selectedImageIndex2, ref);
                                     },
                                   ),
                                 )

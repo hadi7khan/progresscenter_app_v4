@@ -84,6 +84,10 @@ class Endpoints {
     return '$baseUrl/api/v4/teams';
   }
 
+  static userListUrl(){
+    return '$baseUrl/api/v4/users/';
+  }
+
   //---------------------------- Livelapse ---------------------------------------
 
   static livelapseListUrl(projectId, cameraId) {
