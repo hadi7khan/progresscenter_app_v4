@@ -17,7 +17,7 @@ final teamProvider = Provider.autoDispose<TeamRepositoryImpl>(
 );
 
 class TeamRepositoryImpl implements TeamRepository {
-  final TeamDataSource teamDataSource;
+  final DocsDataSource teamDataSource;
   TeamRepositoryImpl({
     required this.teamDataSource,
   });

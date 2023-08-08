@@ -5,15 +5,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 
-class TeamCard extends StatefulWidget {
-  final teamData;
-  const TeamCard({super.key, required this.teamData});
+class DocsCard extends StatefulWidget {
+  final docsData;
+  const DocsCard({super.key, required this.docsData});
 
   @override
-  State<TeamCard> createState() => _TeamCardState();
+  State<DocsCard> createState() => _DocsCardState();
 }
 
-class _TeamCardState extends State<TeamCard> {
+class _DocsCardState extends State<DocsCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,21 +22,30 @@ class _TeamCardState extends State<TeamCard> {
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: ListTile(
-        leading: AvatarWidget(
-          dpUrl: widget.teamData.dp != null ? widget.teamData.dpUrl : "",
-          name: widget.teamData.name,
-          backgroundColor: widget.teamData.preset.color,
-          size: 32,
+        leading: Container(
+          padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 7.h),
+          decoration: BoxDecoration(
+              color: Color.fromRGBO(217, 217, 217, 1),
+              borderRadius: BorderRadius.circular(4.r)),
+          child: Text(
+             widget.docsData.files[0].path.split('.').last.toUpperCase(),
+            style: TextStyle(
+                color: Helper.textColor600,
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w500),
+          ),
         ),
         title: Text(
-          widget.teamData.name,
+          widget.docsData.name,
           style: TextStyle(
               color: Helper.textColor700,
               fontSize: 14.sp,
               fontWeight: FontWeight.w600),
         ),
         subtitle: Text(
-          widget.teamData.designation != null ? widget.teamData.designation : "N/A",
+          widget.docsData.files != null
+              ? "uploaded by " + widget.docsData.files[0].uploadedBy.name
+              : "N/A",
           style: TextStyle(
               color: Helper.textColor600,
               fontSize: 12.sp,

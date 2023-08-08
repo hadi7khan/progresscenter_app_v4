@@ -51,7 +51,7 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
                 'assets/images/projects.svg',
                 color: Helper.primary,
               ),
-              icon: SvgPicture.asset('assets/images/projects.svg', color: Helper.textColor700,)),
+              icon: SvgPicture.asset('assets/images/projects.svg')),
           BottomNavigationBarItem(
               label: 'Team',
               activeIcon: SvgPicture.asset(
@@ -60,12 +60,12 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
               ),
               icon: SvgPicture.asset('assets/images/teams.svg')),
           BottomNavigationBarItem(
-              label: 'Settings',
+              label: 'Support',
               activeIcon: SvgPicture.asset(
-                'assets/images/profile.svg',
+                'assets/images/headphones.svg',
                 color: Helper.primary,
               ),
-              icon: SvgPicture.asset('assets/images/profile.svg')),
+              icon: SvgPicture.asset('assets/images/headphones.svg')),
         ],
         onTap: _goBranch,
       ),
