@@ -4,23 +4,23 @@ import 'package:progresscenter_app_v4/src/core/network/constants/endpoints.dart'
 import 'package:progresscenter_app_v4/src/core/network/dio_client.dart';
 import 'package:progresscenter_app_v4/src/core/providers/dio_provider.dart';
 
-final teamDataSourceProvider = Provider.autoDispose<DocsDataSource>((ref) {
-  return TeamDataSourceImpl(dioClient: ref.watch(dioClientProvider));
+final docsDataSourceProvider = Provider.autoDispose<DocsDataSource>((ref) {
+  return DocDataSourceImpl(dioClient: ref.watch(dioClientProvider));
 });
 
 abstract class DocsDataSource {
-  Future userList({searchText = ''});
+  Future docList({searchText = ''});
 }
 
-class TeamDataSourceImpl implements DocsDataSource {
+class DocDataSourceImpl implements DocsDataSource {
   final DioClient dioClient;
-  TeamDataSourceImpl({
+  DocDataSourceImpl({
     required this.dioClient,
   });
 
   @override
-  Future userList({searchText = ''}) async {
-    final response = await dioClient.get(Endpoints.userListUrl());
+  Future docList({searchText = ''}) async {
+    final response = await dioClient.get(Endpoints.docListUrl());
     if (response.statusCode == 200) {
       return response.data;
     } else {

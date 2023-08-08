@@ -4,31 +4,30 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
-import 'package:progresscenter_app_v4/src/feature/team/presentation/provider/user_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/docs/presentation/provider/docs_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/widgets/docs_card.dart';
 
-import 'team_card.dart';
-
-class TeamWidget extends ConsumerStatefulWidget {
-  const TeamWidget({super.key});
+class DocsWidget extends ConsumerStatefulWidget {
+  const DocsWidget({super.key});
 
   @override
-  ConsumerState<TeamWidget> createState() => _TeamWidgetState();
+  ConsumerState<DocsWidget> createState() => _TeamWidgetState();
 }
 
-class _TeamWidgetState extends BaseConsumerState<TeamWidget> {
+class _TeamWidgetState extends BaseConsumerState<DocsWidget> {
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref.read(teamControllerProvider.notifier).getUser();
+      ref.read(docsControllerProvider.notifier).getDocs();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final teamData =
-        ref.watch(teamControllerProvider.select((value) => value.users));
-    return teamData.when(
+    final docsData =
+        ref.watch(docsControllerProvider.select((value) => value.docs));
+    return docsData.when(
       data: (data) {
         return ListView.separated(
           separatorBuilder: (context, index) {
@@ -39,12 +38,12 @@ class _TeamWidgetState extends BaseConsumerState<TeamWidget> {
           physics: BouncingScrollPhysics(),
           itemCount: data.length,
           itemBuilder: ((context, index) {
-            return TeamCard(teamData: data[index]);
+            return DocsCard(docsData: data[index]);
           }),
         );
       },
       error: (err, _) {
-        return const Text("Failed to load Projects",
+        return const Text("Failed to load Docs",
             style: TextStyle(color: Helper.errorColor));
       },
       loading: () => LoadingCardListScreen(),

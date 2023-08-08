@@ -84,8 +84,14 @@ class Endpoints {
     return '$baseUrl/api/v4/teams';
   }
 
-  static userListUrl(){
+  static userListUrl() {
     return '$baseUrl/api/v4/users/';
+  }
+
+  //---------------------------- Documents ---------------------------------------
+
+  static docListUrl() {
+    return '$baseUrl/api/v4/documents';
   }
 
   //---------------------------- Livelapse ---------------------------------------

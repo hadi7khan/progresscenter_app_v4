@@ -20,7 +20,7 @@ class UserController extends StateNotifier<UserState> {
       // error handle
       state = state.copyWith(isFetching: false, errorMessage: l.message);
     }, (r) {
-      state = state.copyWith(isFetching: false, userlean: AsyncValue.data(r));
+      state = state.copyWith(isFetching: false, users: AsyncValue.data(r));
     });
   }
 }
