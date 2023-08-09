@@ -5,9 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:progresscenter_app_v4/src/core/network/dio_exception.dart';
 import 'package:progresscenter_app_v4/src/core/network/failure.dart';
-import 'package:progresscenter_app_v4/src/feature/progressline/data/datasource/progress_line_datasource.dart';
-import 'package:progresscenter_app_v4/src/feature/progressline/data/model/progress_line_model.dart';
-import 'package:progresscenter_app_v4/src/feature/progressline/domain/progress_line_repository.dart';
+import 'package:progresscenter_app_v4/src/feature/progressline/data/datasource/progressline_datasource.dart';
+import 'package:progresscenter_app_v4/src/feature/progressline/data/model/progressline_model.dart';
+import 'package:progresscenter_app_v4/src/feature/progressline/domain/progressline_repository.dart';
 
 final progresslineProvider = Provider.autoDispose<ProgresslineRepositoryImpl>(
   (ref) {

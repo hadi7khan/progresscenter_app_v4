@@ -6,7 +6,8 @@ import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 
 class FeedCard extends StatefulWidget {
-  const FeedCard({super.key});
+  final progresslineData;
+  const FeedCard({super.key, required this.progresslineData});
 
   @override
   State<FeedCard> createState() => _FeedCardState();
@@ -34,13 +35,15 @@ class _FeedCardState extends State<FeedCard> {
         children: [
           ListTile(
             leading: AvatarWidget(
-              dpUrl: "",
-              name: "HADI",
-              backgroundColor: "#0F9555",
+              dpUrl: widget.progresslineData.user.dpUrl != null
+                  ? widget.progresslineData.user.dpUrl
+                  : "",
+              name: widget.progresslineData.user.name,
+              backgroundColor: widget.progresslineData.user.preset.color,
               size: 24,
             ),
             title: Text(
-              "Olivia Rhye",
+              widget.progresslineData.user.name,
               style: TextStyle(
                   color: Helper.textColor900,
                   fontSize: 16.sp,
@@ -69,7 +72,7 @@ class _FeedCardState extends State<FeedCard> {
                       child: AspectRatio(
                         aspectRatio: 1.5,
                         child: Image.network(
-                          "https://placekitten.com/640/360",
+                          widget.progresslineData.url,
                           // height: 284.h,
                           fit: BoxFit.fill,
                           errorBuilder: (BuildContext context, Object exception,
@@ -105,19 +108,26 @@ class _FeedCardState extends State<FeedCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ListTile(
+                          horizontalTitleGap: 8.w,
+                          dense: true,
                           visualDensity:
                               VisualDensity(horizontal: 0, vertical: -4),
                           contentPadding: EdgeInsets.zero,
-                          leading: SvgPicture.asset('assets/images/eye.svg'),
+                          leading: Container(
+                            padding: EdgeInsets.all(4.w),
+                            child: SvgPicture.asset('assets/images/eye.svg',
+                            width: 24.w,
+                            ),
+                          ),
                           title: Text(
-                            "12",
+                            widget.progresslineData.viewedBy.length.toString(),
                             style: TextStyle(
                                 color: Helper.textColor600,
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w500),
                           ),
                           trailing: Text(
-                            "18 comments",
+                            widget.progresslineData.comments.length.toString() + " comments",
                             style: TextStyle(
                                 color: Helper.primary,
                                 fontSize: 14.sp,
@@ -125,6 +135,7 @@ class _FeedCardState extends State<FeedCard> {
                           ),
                         ),
                         ListTile(
+                          horizontalTitleGap: 8.w,
                           contentPadding: EdgeInsets.zero,
                           dense: true,
                           visualDensity:
@@ -176,7 +187,8 @@ class _FeedCardState extends State<FeedCard> {
                               suffixIcon: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 3.w),
                                 child: IconButton(
-                                  icon: SvgPicture.asset('assets/images/send.svg'),
+                                  icon: SvgPicture.asset(
+                                      'assets/images/send.svg'),
                                   onPressed: () {
                                     setState(() {
                                       // _controller.clear();

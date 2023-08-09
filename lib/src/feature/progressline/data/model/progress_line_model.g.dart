@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'progress_line_model.dart';
+part of 'progressline_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
