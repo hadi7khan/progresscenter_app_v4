@@ -32,7 +32,7 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
         currentIndex: navigationShell.currentIndex,
         items: [
           BottomNavigationBarItem(
-              label: 'Timeline',
+              label: 'Feed',
               activeIcon: SvgPicture.asset(
                 'assets/images/timeline.svg',
                 color: Helper.primary,

@@ -17,6 +17,8 @@ import 'package:progresscenter_app_v4/src/feature/compare/presentation/view/comp
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/docs_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/create_livelapse_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/livelapse_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/timeline_details_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/timeline_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/add_member_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/camera_360.dart';
@@ -31,8 +33,6 @@ import 'package:progresscenter_app_v4/src/feature/report/presentation/view/repor
 import 'package:progresscenter_app_v4/src/feature/slider/presentation/view/slider_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/splitview/presentation/view/splitview_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/teams_screen.dart';
-import 'package:progresscenter_app_v4/src/feature/timeline/presentation/view/timeline_details_screen.dart';
-import 'package:progresscenter_app_v4/src/feature/timeline/presentation/view/timeline_screen.dart';
 
 import 'notifier/go_router_notifier.dart';
 import 'route_names.dart';
@@ -86,7 +86,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: '/timeline',
                 pageBuilder: (context, state) => const NoTransitionPage(
-                  child: TimelineScreen(
+                  child: FeedScreen(
                       label: 'Timeline', detailsPath: '/timeline/details'),
                 ),
                 routes: [

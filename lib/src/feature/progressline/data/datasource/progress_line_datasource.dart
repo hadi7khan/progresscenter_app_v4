@@ -4,23 +4,24 @@ import 'package:progresscenter_app_v4/src/core/network/constants/endpoints.dart'
 import 'package:progresscenter_app_v4/src/core/network/dio_client.dart';
 import 'package:progresscenter_app_v4/src/core/providers/dio_provider.dart';
 
-final teamDataSourceProvider = Provider.autoDispose<TeamDataSource>((ref) {
-  return TeamDataSourceImpl(dioClient: ref.watch(dioClientProvider));
+final progresslineDataSourceProvider =
+    Provider.autoDispose<ProgresslineDataSource>((ref) {
+  return ProgresslineDataSourceImpl(dioClient: ref.watch(dioClientProvider));
 });
 
-abstract class TeamDataSource {
-  Future userList({searchText = ''});
+abstract class ProgresslineDataSource {
+  Future progressLine({searchText = ''});
 }
 
-class TeamDataSourceImpl implements TeamDataSource {
+class ProgresslineDataSourceImpl implements ProgresslineDataSource {
   final DioClient dioClient;
-  TeamDataSourceImpl({
+  ProgresslineDataSourceImpl({
     required this.dioClient,
   });
 
   @override
-  Future userList({searchText = ''}) async {
-    final response = await dioClient.get(Endpoints.userListUrl());
+  Future progressLine({searchText = ''}) async {
+    final response = await dioClient.get(Endpoints.progressLineUrl());
     if (response.statusCode == 200) {
       return response.data;
     } else {
