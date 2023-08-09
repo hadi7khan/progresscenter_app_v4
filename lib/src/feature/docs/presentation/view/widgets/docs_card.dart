@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 
 class DocsCard extends StatefulWidget {
@@ -28,7 +26,7 @@ class _DocsCardState extends State<DocsCard> {
               color: Color.fromRGBO(217, 217, 217, 1),
               borderRadius: BorderRadius.circular(4.r)),
           child: Text(
-             widget.docsData.files[0].path.split('.').last.toUpperCase(),
+            widget.docsData.files[0].path.split('.').last.toUpperCase(),
             style: TextStyle(
                 color: Helper.textColor600,
                 fontSize: 12.sp,

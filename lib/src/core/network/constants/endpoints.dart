@@ -94,6 +94,16 @@ class Endpoints {
     return '$baseUrl/api/v4/documents';
   }
 
+  //---------------------------- ProgressLine ---------------------------------------
+
+  static progressLineUrl() {
+    return '$baseUrl/api/v4/progress-line';
+  }
+
+  static postCommentUrl(progressLineId) {
+    return '$baseUrl/api/v4/progress-line/$progressLineId/comments';
+  }
+
   //---------------------------- Livelapse ---------------------------------------
 
   static livelapseListUrl(projectId, cameraId) {
