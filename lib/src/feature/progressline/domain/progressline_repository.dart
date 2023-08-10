@@ -4,4 +4,5 @@ import 'package:progresscenter_app_v4/src/feature/progressline/data/model/progre
 
 abstract class ProgresslineRepository {
   Future<Either<Failure, List<ProgressLineModel>>> progressLine();
+  Future<Either<Failure, dynamic>> postComment(String id, data);
 }
