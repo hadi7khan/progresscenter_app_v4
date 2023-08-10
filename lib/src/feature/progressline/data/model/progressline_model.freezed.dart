@@ -20,6 +20,7 @@ ProgressLineModel _$ProgressLineModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ProgressLineModel {
+  @JsonKey(name: '_id')
   String? get id => throw _privateConstructorUsedError;
   String? get caption => throw _privateConstructorUsedError;
   String? get file => throw _privateConstructorUsedError;
@@ -46,7 +47,7 @@ abstract class $ProgressLineModelCopyWith<$Res> {
       _$ProgressLineModelCopyWithImpl<$Res, ProgressLineModel>;
   @useResult
   $Res call(
-      {String? id,
+      {@JsonKey(name: '_id') String? id,
       String? caption,
       String? file,
       String? mediaType,
@@ -175,7 +176,7 @@ abstract class _$$_ProgressLineModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? id,
+      {@JsonKey(name: '_id') String? id,
       String? caption,
       String? file,
       String? mediaType,
@@ -275,7 +276,7 @@ class __$$_ProgressLineModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_ProgressLineModel implements _ProgressLineModel {
   const _$_ProgressLineModel(
-      {this.id,
+      {@JsonKey(name: '_id') this.id,
       this.caption,
       this.file,
       this.mediaType,
@@ -294,6 +295,7 @@ class _$_ProgressLineModel implements _ProgressLineModel {
       _$$_ProgressLineModelFromJson(json);
 
   @override
+  @JsonKey(name: '_id')
   final String? id;
   @override
   final String? caption;
@@ -395,7 +397,7 @@ class _$_ProgressLineModel implements _ProgressLineModel {
 
 abstract class _ProgressLineModel implements ProgressLineModel {
   const factory _ProgressLineModel(
-      {final String? id,
+      {@JsonKey(name: '_id') final String? id,
       final String? caption,
       final String? file,
       final String? mediaType,
@@ -412,6 +414,7 @@ abstract class _ProgressLineModel implements ProgressLineModel {
       _$_ProgressLineModel.fromJson;
 
   @override
+  @JsonKey(name: '_id')
   String? get id;
   @override
   String? get caption;

@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'dart:convert';
 
-part 'progress_line_model.freezed.dart';
-part 'progress_line_model.g.dart';
+part 'progressline_model.freezed.dart';
+part 'progressline_model.g.dart';
 
 List<ProgressLineModel> progressLineModelFromJson(String str) =>
     List<ProgressLineModel>.from(
@@ -14,7 +14,7 @@ String progressLineModelToJson(List<ProgressLineModel> data) =>
 @freezed
 class ProgressLineModel with _$ProgressLineModel {
   const factory ProgressLineModel({
-    String? id,
+    @JsonKey(name: '_id') String? id,
     String? caption,
     String? file,
     String? mediaType,

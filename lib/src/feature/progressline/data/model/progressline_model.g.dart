@@ -8,7 +8,7 @@ part of 'progressline_model.dart';
 
 _$_ProgressLineModel _$$_ProgressLineModelFromJson(Map<String, dynamic> json) =>
     _$_ProgressLineModel(
-      id: json['id'] as String?,
+      id: json['_id'] as String?,
       caption: json['caption'] as String?,
       file: json['file'] as String?,
       mediaType: json['mediaType'] as String?,
@@ -37,7 +37,7 @@ _$_ProgressLineModel _$$_ProgressLineModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_ProgressLineModelToJson(
         _$_ProgressLineModel instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      '_id': instance.id,
       'caption': instance.caption,
       'file': instance.file,
       'mediaType': instance.mediaType,
