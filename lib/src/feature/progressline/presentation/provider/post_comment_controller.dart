@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/data/repository/progressline_repo_impl.dart';
-import 'package:progresscenter_app_v4/src/feature/progressline/presentation/state/comment_state.dart';
+import 'package:progresscenter_app_v4/src/feature/progressline/presentation/state/post_comment_state.dart';
 
 final postCommentProvider =
     StateNotifierProvider.autoDispose<PostCommentController, PostCommentState>(

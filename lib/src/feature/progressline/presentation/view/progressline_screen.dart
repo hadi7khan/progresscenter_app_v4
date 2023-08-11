@@ -8,7 +8,8 @@ import 'widgets/feed_widget.dart';
 class ProgresslineScreen extends StatefulWidget {
   final String label;
   final String detailsPath;
-  const ProgresslineScreen({super.key, required this.label, required this.detailsPath});
+  const ProgresslineScreen(
+      {super.key, required this.label, required this.detailsPath});
 
   @override
   State<ProgresslineScreen> createState() => _ProgresslineScreenState();
@@ -18,10 +19,11 @@ class _ProgresslineScreenState extends State<ProgresslineScreen> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         body: SafeArea(
             child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
