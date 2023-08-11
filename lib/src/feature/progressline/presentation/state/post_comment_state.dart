@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'comment_state.freezed.dart';
+part 'post_comment_state.freezed.dart';
 
 @freezed
 class PostCommentState with _$PostCommentState {

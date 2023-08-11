@@ -12,6 +12,7 @@ final progresslineDataSourceProvider =
 abstract class ProgresslineDataSource {
   Future progressLine({searchText = ''});
   Future postComment(String id, data);
+  Future comments(String id);
 }
 
 class ProgresslineDataSourceImpl implements ProgresslineDataSource {
@@ -34,6 +35,16 @@ class ProgresslineDataSourceImpl implements ProgresslineDataSource {
   Future postComment(String id, data) async {
     final response =
         await dioClient.post(Endpoints.postCommentUrl(id), data: data);
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      return ServerException();
+    }
+  }
+
+  @override
+  Future comments(String id) async {
+    final response = await dioClient.get(Endpoints.commentsUrl(id));
     if (response.statusCode == 200) {
       return response.data;
     } else {

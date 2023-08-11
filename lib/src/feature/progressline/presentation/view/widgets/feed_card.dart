@@ -8,6 +8,8 @@ import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/post_comment_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/progressline_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/widgets/comments_widget.dart';
 
 class FeedCard extends ConsumerStatefulWidget {
   final progresslineData;
@@ -41,6 +43,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
           // mainAxisSize: MainAxisSize.max,
           children: [
             ListTile(
+              horizontalTitleGap: 8.w,
               leading: AvatarWidget(
                 dpUrl: widget.progresslineData.user.dpUrl != null
                     ? widget.progresslineData.user.dpUrl
@@ -135,14 +138,26 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w500),
                             ),
-                            trailing: Text(
-                              widget.progresslineData.comments.length
-                                      .toString() +
-                                  " comments",
-                              style: TextStyle(
-                                  color: Helper.primary,
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500),
+                            trailing: InkWell(
+                              onTap: () {
+                                showModalBottomSheet(
+                                    useRootNavigator: true,
+                                    isScrollControlled: true,
+                                    context: context,
+                                    backgroundColor: Colors.transparent,
+                                    builder: (context) => CommentsWidget(
+                                        progresslineId:
+                                            widget.progresslineData.id));
+                              },
+                              child: Text(
+                                widget.progresslineData.comments.length
+                                        .toString() +
+                                    " comments",
+                                style: TextStyle(
+                                    color: Helper.primary,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500),
+                              ),
                             ),
                           ),
                           ListTile(
@@ -211,7 +226,9 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                       };
                                       if (_fbKey.currentState!
                                           .saveAndValidate()) {
-                                            print("id passed" + widget.progresslineData.id.toString());
+                                        print("id passed" +
+                                            widget.progresslineData.id
+                                                .toString());
                                         await ref
                                             .watch(postCommentProvider.notifier)
                                             .postComment(
@@ -221,9 +238,14 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                           value.fold((failure) {
                                             print("errorrrrrr");
                                           }, (res) {
+                                            ref
+                                                .watch(
+                                                    progresslineControllerProvider
+                                                        .notifier)
+                                                .getProgressline();
                                             print("response data" +
                                                 res.toString());
-                                                _controller.clear();
+                                            _controller.clear();
                                             // _showProgressBottomSheet(context, ref);
                                           });
                                           Utils.toastSuccessMessage(
