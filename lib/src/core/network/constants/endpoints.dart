@@ -88,6 +88,12 @@ class Endpoints {
     return '$baseUrl/api/v4/users/';
   }
 
+   //---------------------------- Support ---------------------------------------
+
+  static supportListUrl() {
+    return '$baseUrl/api/v4/support-tickets';
+  }
+
   //---------------------------- Documents ---------------------------------------
 
   static docListUrl() {

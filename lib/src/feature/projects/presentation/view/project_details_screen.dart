@@ -231,7 +231,7 @@ class _ProjectDetailsScreenState
                                 top: 150.h,
                                 child: Padding(
                                     padding: const EdgeInsets.only(bottom: 12),
-                                    child: DotsIndicator(
+                                    child: data.images!.length >0 ? DotsIndicator(
                                       dotsCount: data.images!.length,
                                       position: _currentIndex != null
                                           ? _currentIndex!
@@ -248,7 +248,8 @@ class _ProjectDetailsScreenState
                                           size: Size(6, 6),
                                           activeSize: Size(8, 8),
                                           spacing: EdgeInsets.only(right: 6.w)),
-                                    )),
+                                    ): SizedBox()
+                                    ),
                               ),
                               // : SizedBox(),
                               Positioned.fill(

@@ -126,6 +126,8 @@ class _CCTVScreenState extends BaseConsumerState<CCTVScreen> {
                                     },
                                     shrinkWrap: true,
                                     padding: EdgeInsets.zero,
+                                    cacheExtent: 6,
+                                    addAutomaticKeepAlives: true,
                                     physics: NeverScrollableScrollPhysics(),
                                     itemCount: data.length,
                                     itemBuilder: ((context, index) {

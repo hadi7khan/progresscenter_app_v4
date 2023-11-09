@@ -105,6 +105,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
               children: [
                 InkWell(
                   onTap: () async {
+                    context.push('/addUser');
                     context.pop();
                   },
                   child: Container(

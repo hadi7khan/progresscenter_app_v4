@@ -85,33 +85,39 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
                     color: Color.fromRGBO(246, 246, 246, 1)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: MainAxisSize.max,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.data.name!,
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Helper.baseBlack,
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.5.w,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            widget.data.name!,
+                            softWrap: true,
+                            style: TextStyle(
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w500,
+                              overflow: TextOverflow.ellipsis,
+                              color: Helper.baseBlack,
+                            ),
                           ),
-                        ),
-                        // SizedBox(
-                        //   height: 6.h,
-                        // ),
-                        Text(
-                          "Installed · " +
-                              showDate(
-                                  widget.data.installationDate, 'dd MMM yyyy'),
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400,
-                            color: Helper.baseBlack.withOpacity(0.5),
+                          // SizedBox(
+                          //   height: 6.h,
+                          // ),
+                          Text(
+                            "Installed · " +
+                                showDate(
+                                    widget.data.installationDate, 'dd MMM yyyy'),
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
+                              color: Helper.baseBlack.withOpacity(0.5),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     TextButton(
                         onPressed: () {
