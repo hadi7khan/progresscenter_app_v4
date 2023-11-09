@@ -20,6 +20,7 @@ const String compareRoute = 'comapare';
 const String splitviewRoute = 'splitview';
 const String reportRoute = 'report';
 const String createLivelapseRoute = 'createlivelapse';
+const String addUserRoute = 'addUser';
 
 
 const String noInternetRoute = 'noInternet';

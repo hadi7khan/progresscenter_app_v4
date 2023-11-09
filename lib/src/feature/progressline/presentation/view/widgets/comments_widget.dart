@@ -8,8 +8,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
+import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/comments_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/post_comment_controller.dart';
 
 class CommentsWidget extends ConsumerStatefulWidget {
   final progresslineId;
@@ -39,12 +41,13 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
         ref.watch(commentsControllerProvider.select((value) => value.comments));
     return FormBuilder(
       key: _fbKey,
-      child: Wrap(
-        children:[ Container(
+      child: Wrap(children: [
+        Container(
           padding: EdgeInsets.only(top: 28.h, left: 20.w, right: 20.w),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r)),
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r)),
             color: Colors.white,
           ),
           // height: MediaQuery.of(context).size.height * 0.6,
@@ -67,171 +70,169 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                 ],
               ),
               commentsData.when(
-              data: (data) {
-                return SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.4,
-                  child: ListView.separated(
-                    separatorBuilder: (context, index) {
-                      return SizedBox(height: 16.h);
-                    },
-                    shrinkWrap: true,
-                    padding: EdgeInsets.zero,
-                    physics: AlwaysScrollableScrollPhysics(),
-                    itemCount: data.length,
-                    itemBuilder: ((context, index) {
-                      return ListTile(
-                        horizontalTitleGap: 8.w,
-                        dense: true,
-                        visualDensity:
-                            VisualDensity(horizontal: 0, vertical: -4),
-                        contentPadding: EdgeInsets.zero,
-                        leading: AvatarWidget(
-                          dpUrl: data[index].user!.dpUrl != null
-                              ? data[index].user!.dpUrl!
-                              : "",
-                          name: data[index].user!.name!,
-                          backgroundColor: data[index].user!.preset!.color!,
-                          size: 32,
-                        ),
-                        title: Text(
-                          data[index].user!.name!,
-                          style: TextStyle(
-                              color: Helper.textColor600,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        subtitle: Text(
-                          data[index].body!,
-                          style: TextStyle(
-                              color: Helper.textColor600,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      );
-                    }),
-                  ),
-                );
-              },
-              error: (err, _) {
-                return const Text("Failed to load Comments",
-                    style: TextStyle(color: Helper.errorColor));
-              },
-              loading: () => CircularProgressIndicator(),
+                data: (data) {
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    child: ListView.separated(
+                      separatorBuilder: (context, index) {
+                        return SizedBox(height: 16.h);
+                      },
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      physics: AlwaysScrollableScrollPhysics(),
+                      itemCount: data.length,
+                      itemBuilder: ((context, index) {
+                        return ListTile(
+                          horizontalTitleGap: 8.w,
+                          dense: true,
+                          visualDensity:
+                              VisualDensity(horizontal: 0, vertical: -4),
+                          contentPadding: EdgeInsets.zero,
+                          leading: AvatarWidget(
+                            dpUrl: data[index].user!.dpUrl != null
+                                ? data[index].user!.dpUrl!
+                                : "",
+                            name: data[index].user!.name!,
+                            backgroundColor: data[index].user!.preset!.color!,
+                            size: 32,
+                          ),
+                          title: Text(
+                            data[index].user!.name!,
+                            style: TextStyle(
+                                color: Helper.textColor600,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          subtitle: Text(
+                            data[index].body!,
+                            style: TextStyle(
+                                color: Helper.textColor600,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        );
+                      }),
+                    ),
+                  );
+                },
+                error: (err, _) {
+                  return const Text("Failed to load Comments",
+                      style: TextStyle(color: Helper.errorColor));
+                },
+                loading: () => CircularProgressIndicator(),
               ),
               SizedBox(
-              height: 64.h,
-              child: ListTile(
-                horizontalTitleGap: 8.w,
-                contentPadding: EdgeInsets.zero,
-                dense: true,
-                visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                leading: AvatarWidget(
-                  dpUrl: "",
-                  name: "HADI",
-                  backgroundColor: "#0F9555",
-                  size: 32,
-                ),
-                title: FormBuilderTextField(
-                  name: 'comment',
-                  controller: _controller,
-                  onChanged: (text) {
-                    // setState(() {});
-                    // _changeState = true;
-                  },
-                  onSubmitted: (text) {
-                    setState(() {
-                      // _changeState = true;
-                    });
-                  },
-                  validator: (val) {
-                    // if (_validate && val == null || val!.isEmpty) {
-                    //   return 'Project name is required';
-                    // }
-                    // return null;
-                  },
-                  textInputAction: TextInputAction.done,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w400,
+                height: 64.h,
+                child: ListTile(
+                  horizontalTitleGap: 8.w,
+                  contentPadding: EdgeInsets.zero,
+                  dense: true,
+                  visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                  leading: AvatarWidget(
+                    dpUrl: "",
+                    name: "HADI",
+                    backgroundColor: "#0F9555",
+                    size: 32,
                   ),
-                  textCapitalization: TextCapitalization.none,
-                  keyboardType: TextInputType.name,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  decoration: InputDecoration(
-                    fillColor: Colors.white,
-                    filled: true,
-                    contentPadding: EdgeInsets.symmetric(
-                        vertical: 8.h, horizontal: 12.w),
-                    hintText: "Add comment",
-                    hintStyle: TextStyle(
-                      color: Helper.textColor500,
+                  title: FormBuilderTextField(
+                    name: 'comment',
+                    controller: _controller,
+                    onChanged: (text) {
+                      // setState(() {});
+                      // _changeState = true;
+                    },
+                    onSubmitted: (text) {
+                      setState(() {
+                        // _changeState = true;
+                      });
+                    },
+                    validator: (val) {
+                      // if (_validate && val == null || val!.isEmpty) {
+                      //   return 'Project name is required';
+                      // }
+                      // return null;
+                    },
+                    textInputAction: TextInputAction.done,
+                    style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
                     ),
-                    suffixIcon: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 3.w),
-                      child: IconButton(
-                        icon: SvgPicture.asset('assets/images/send.svg'),
-                        onPressed: () async {
-                          setState(() {
-                            // _controller.clear();
-                            // _changeState = false;
-                          });
-                          Map<String, dynamic> data = {
-                            "comment": _controller.text,
-                          };
-                          if (_fbKey.currentState!.saveAndValidate()) {
-                            // print("id passed" +
-                            //     widget.progresslineData.id.toString());
-                            // await ref
-                            //     .watch(postCommentProvider.notifier)
-                            //     .postComment(widget.progresslineData.id, data)
-                            //     .then((value) async {
-                            //   value.fold((failure) {
-                            //     print("errorrrrrr");
-                            //   }, (res) {
-                            //     ref
-                            //         .watch(
-                            //             progresslineControllerProvider.notifier)
-                            //         .getProgressline();
-                            //     print("response data" + res.toString());
-                            //     _controller.clear();
-                            //     // _showProgressBottomSheet(context, ref);
-                            //   });
-                            //   Utils.toastSuccessMessage("Comment Posted");
-                            // });
-                          }
-                        },
+                    textCapitalization: TextCapitalization.none,
+                    keyboardType: TextInputType.name,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    decoration: InputDecoration(
+                      fillColor: Colors.white,
+                      filled: true,
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
+                      hintText: "Add comment",
+                      hintStyle: TextStyle(
+                        color: Helper.textColor500,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      suffixIcon: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 3.w),
+                        child: IconButton(
+                          icon: SvgPicture.asset('assets/images/send.svg'),
+                          onPressed: () async {
+                            setState(() {
+                              // _controller.clear();
+                              // _changeState = false;
+                            });
+                            Map<String, dynamic> data = {
+                              "comment": _controller.text,
+                            };
+                            if (_fbKey.currentState!.saveAndValidate()) {
+                              print("id passed" +
+                                  widget.progresslineId.toString());
+                              await ref
+                                  .watch(postCommentProvider.notifier)
+                                  .postComment(widget.progresslineId, data)
+                                  .then((value) async {
+                                value.fold((failure) {
+                                  print("errorrrrrr");
+                                }, (res) {
+                                  ref
+                                      .watch(
+                                          commentsControllerProvider.notifier)
+                                      .getComments(widget.progresslineId);
+                                  print("response data" + res.toString());
+                                  _controller.clear();
+                                  // _showProgressBottomSheet(context, ref);
+                                });
+                                Utils.toastSuccessMessage("Comment Posted");
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                      // hintText: widget.control.label,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                        borderSide: BorderSide(color: Helper.textColor300),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                        borderSide: BorderSide(color: Helper.primary),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                        borderSide: const BorderSide(color: Colors.red),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                        borderSide: const BorderSide(color: Colors.red),
                       ),
                     ),
-                    // hintText: widget.control.label,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.r),
-                      borderSide: BorderSide(color: Helper.textColor300),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.r),
-                      borderSide: BorderSide(color: Helper.primary),
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.r),
-                      borderSide: const BorderSide(color: Colors.red),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.r),
-                      borderSide: const BorderSide(color: Colors.red),
-                    ),
+                    onTap: () {},
                   ),
-                  onTap: () {},
                 ),
               ),
-              ),
-              
             ],
           ),
         ),
-        ]
-      ),
+      ]),
     );
   }
 }

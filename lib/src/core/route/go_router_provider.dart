@@ -32,6 +32,8 @@ import 'package:progresscenter_app_v4/src/feature/camera/presentation/view/camer
 import 'package:progresscenter_app_v4/src/feature/report/presentation/view/report_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/slider/presentation/view/slider_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/splitview/presentation/view/splitview_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/support/presentation/view/support_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/team/presentation/view/add_user_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/teams_screen.dart';
 
 import 'notifier/go_router_notifier.dart';
@@ -42,6 +44,7 @@ final _shellNavigatorAKey = GlobalKey<NavigatorState>(debugLabel: 'shellA');
 final _shellNavigatorBKey = GlobalKey<NavigatorState>(debugLabel: 'shellB');
 final _shellNavigatorCKey = GlobalKey<NavigatorState>(debugLabel: 'shellC');
 final _shellNavigatorDKey = GlobalKey<NavigatorState>(debugLabel: 'shellD');
+final _shellNavigatorEKey = GlobalKey<NavigatorState>(debugLabel: 'shellE');
 final _prefsLocator = getIt.get<SharedPreferenceHelper>();
 
 final goRouterProvider = Provider<GoRouter>((ref) {
@@ -150,11 +153,23 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                       label: 'Teams', detailsPath: '/teams/details'),
                 ),
                 routes: [
-                  GoRoute(
-                    path: 'details',
-                    builder: (context, state) =>
-                        const TimelineDetailsScreen(label: 'details'),
-                  ),
+                  
+                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: _shellNavigatorEKey,
+            routes: [
+              // Support
+              GoRoute(
+                path: '/support',
+                pageBuilder: (context, state) => const NoTransitionPage(
+                  child: SupportScreen(
+                      label: 'Support', detailsPath: '/support/details'),
+                ),
+                routes: [
+                  
                 ],
               ),
             ],
@@ -327,6 +342,22 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               projectId: args['projectId'],
               projectName: args['projectName'],
               cameraId: args['cameraId'],
+            ),
+          );
+        },
+      ),
+      // ---------------------------------Teams Route--------------------------------
+
+      GoRoute(
+        path: '/addUser',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: addUserRoute,
+        pageBuilder: (context, state) {
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: AddUserScreen(
+              key: state.pageKey,
+              
             ),
           );
         },
