@@ -99,6 +99,10 @@ class Endpoints {
   static docListUrl() {
     return '$baseUrl/api/v4/documents';
   }
+  
+  static addDocomentUrl(folderId) {
+    return '$baseUrl/api/v4/documents/$folderId/files';
+  }
 
   //---------------------------- ProgressLine ---------------------------------------
 

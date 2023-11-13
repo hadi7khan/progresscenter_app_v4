@@ -13,7 +13,7 @@ String docsModelToJson(List<DocsModel> data) =>
 @freezed
 class DocsModel with _$DocsModel {
   const factory DocsModel({
-    String? id,
+    @JsonKey(name: '_id') String? id,
     String? name,
     CreatedBy? createdBy,
     String? client,
@@ -60,7 +60,7 @@ class FileElement with _$FileElement {
     String? fileSize,
     UploadedBy? uploadedBy,
     List<CreatedBy>? users,
-    String? id,
+    @JsonKey(name: '_id') String? id,
     DateTime? createdAt,
     DateTime? updatedAt,
     String? url,

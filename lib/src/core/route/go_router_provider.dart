@@ -14,6 +14,7 @@ import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/verify_
 import 'package:progresscenter_app_v4/src/feature/bottom_navigation/view/bottom_navigation.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/camera_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/compare/presentation/view/compare_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/add_docs_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/docs_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/create_livelapse_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/livelapse_screen.dart';
@@ -152,9 +153,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                   child: TeamsScreen(
                       label: 'Teams', detailsPath: '/teams/details'),
                 ),
-                routes: [
-                  
-                ],
+                routes: [],
               ),
             ],
           ),
@@ -168,9 +167,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                   child: SupportScreen(
                       label: 'Support', detailsPath: '/support/details'),
                 ),
-                routes: [
-                  
-                ],
+                routes: [],
               ),
             ],
           ),
@@ -357,7 +354,24 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             key: state.pageKey,
             child: AddUserScreen(
               key: state.pageKey,
-              
+            ),
+          );
+        },
+      ),
+
+      // ---------------------------------Documents--------------------------------
+
+      GoRoute(
+        path: '/addDocs',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: addDocsRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: AddDocsScreen(
+              key: state.pageKey,
+              category: args['category'],
             ),
           );
         },
