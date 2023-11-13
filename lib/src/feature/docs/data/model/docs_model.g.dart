@@ -7,7 +7,7 @@ part of 'docs_model.dart';
 // **************************************************************************
 
 _$_DocsModel _$$_DocsModelFromJson(Map<String, dynamic> json) => _$_DocsModel(
-      id: json['id'] as String?,
+      id: json['_id'] as String?,
       name: json['name'] as String?,
       createdBy: json['createdBy'] == null
           ? null
@@ -26,7 +26,7 @@ _$_DocsModel _$$_DocsModelFromJson(Map<String, dynamic> json) => _$_DocsModel(
 
 Map<String, dynamic> _$$_DocsModelToJson(_$_DocsModel instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      '_id': instance.id,
       'name': instance.name,
       'createdBy': instance.createdBy,
       'client': instance.client,
@@ -79,7 +79,7 @@ _$_FileElement _$$_FileElementFromJson(Map<String, dynamic> json) =>
       users: (json['users'] as List<dynamic>?)
           ?.map((e) => CreatedBy.fromJson(e as Map<String, dynamic>))
           .toList(),
-      id: json['id'] as String?,
+      id: json['_id'] as String?,
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -96,7 +96,7 @@ Map<String, dynamic> _$$_FileElementToJson(_$_FileElement instance) =>
       'fileSize': instance.fileSize,
       'uploadedBy': instance.uploadedBy,
       'users': instance.users,
-      'id': instance.id,
+      '_id': instance.id,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
       'url': instance.url,

@@ -29,18 +29,19 @@ class _TeamWidgetState extends BaseConsumerState<DocsWidget> {
         ref.watch(docsControllerProvider.select((value) => value.docs));
     return docsData.when(
       data: (data) {
-        return ListView.separated(
-          separatorBuilder: (context, index) {
-            return SizedBox(height: 16.h);
-          },
-          shrinkWrap: true,
-          padding: EdgeInsets.zero,
-          physics: BouncingScrollPhysics(),
-          itemCount: data.length,
-          itemBuilder: ((context, index) {
-            return DocsCard(docsData: data[index]);
-          }),
-        );
+        return DocsCard(docsData: data[0]);
+        // return ListView.separated(
+        //   separatorBuilder: (context, index) {
+        //     return SizedBox(height: 16.h);
+        //   },
+        //   shrinkWrap: true,
+        //   padding: EdgeInsets.zero,
+        //   physics: BouncingScrollPhysics(),
+        //   itemCount: data.length,
+        //   itemBuilder: ((context, index) {
+        //     return DocsCard(docsData: data[index]);
+        //   }),
+        // );
       },
       error: (err, _) {
         return const Text("Failed to load Docs",

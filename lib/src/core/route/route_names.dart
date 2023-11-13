@@ -21,6 +21,7 @@ const String splitviewRoute = 'splitview';
 const String reportRoute = 'report';
 const String createLivelapseRoute = 'createlivelapse';
 const String addUserRoute = 'addUser';
+const String addDocsRoute = 'addDocs';
 
 
 const String noInternetRoute = 'noInternet';

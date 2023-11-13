@@ -20,6 +20,7 @@ DocsModel _$DocsModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$DocsModel {
+  @JsonKey(name: '_id')
   String? get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   CreatedBy? get createdBy => throw _privateConstructorUsedError;
@@ -40,7 +41,7 @@ abstract class $DocsModelCopyWith<$Res> {
       _$DocsModelCopyWithImpl<$Res, DocsModel>;
   @useResult
   $Res call(
-      {String? id,
+      {@JsonKey(name: '_id') String? id,
       String? name,
       CreatedBy? createdBy,
       String? client,
@@ -125,7 +126,7 @@ abstract class _$$_DocsModelCopyWith<$Res> implements $DocsModelCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String? id,
+      {@JsonKey(name: '_id') String? id,
       String? name,
       CreatedBy? createdBy,
       String? client,
@@ -193,7 +194,7 @@ class __$$_DocsModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_DocsModel implements _DocsModel {
   const _$_DocsModel(
-      {this.id,
+      {@JsonKey(name: '_id') this.id,
       this.name,
       this.createdBy,
       this.client,
@@ -206,6 +207,7 @@ class _$_DocsModel implements _DocsModel {
       _$$_DocsModelFromJson(json);
 
   @override
+  @JsonKey(name: '_id')
   final String? id;
   @override
   final String? name;
@@ -271,7 +273,7 @@ class _$_DocsModel implements _DocsModel {
 
 abstract class _DocsModel implements DocsModel {
   const factory _DocsModel(
-      {final String? id,
+      {@JsonKey(name: '_id') final String? id,
       final String? name,
       final CreatedBy? createdBy,
       final String? client,
@@ -283,6 +285,7 @@ abstract class _DocsModel implements DocsModel {
       _$_DocsModel.fromJson;
 
   @override
+  @JsonKey(name: '_id')
   String? get id;
   @override
   String? get name;
@@ -741,6 +744,7 @@ mixin _$FileElement {
   String? get fileSize => throw _privateConstructorUsedError;
   UploadedBy? get uploadedBy => throw _privateConstructorUsedError;
   List<CreatedBy>? get users => throw _privateConstructorUsedError;
+  @JsonKey(name: '_id')
   String? get id => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
@@ -764,7 +768,7 @@ abstract class $FileElementCopyWith<$Res> {
       String? fileSize,
       UploadedBy? uploadedBy,
       List<CreatedBy>? users,
-      String? id,
+      @JsonKey(name: '_id') String? id,
       DateTime? createdAt,
       DateTime? updatedAt,
       String? url});
@@ -862,7 +866,7 @@ abstract class _$$_FileElementCopyWith<$Res>
       String? fileSize,
       UploadedBy? uploadedBy,
       List<CreatedBy>? users,
-      String? id,
+      @JsonKey(name: '_id') String? id,
       DateTime? createdAt,
       DateTime? updatedAt,
       String? url});
@@ -942,7 +946,7 @@ class _$_FileElement implements _FileElement {
       this.fileSize,
       this.uploadedBy,
       final List<CreatedBy>? users,
-      this.id,
+      @JsonKey(name: '_id') this.id,
       this.createdAt,
       this.updatedAt,
       this.url})
@@ -970,6 +974,7 @@ class _$_FileElement implements _FileElement {
   }
 
   @override
+  @JsonKey(name: '_id')
   final String? id;
   @override
   final DateTime? createdAt;
@@ -1038,7 +1043,7 @@ abstract class _FileElement implements FileElement {
       final String? fileSize,
       final UploadedBy? uploadedBy,
       final List<CreatedBy>? users,
-      final String? id,
+      @JsonKey(name: '_id') final String? id,
       final DateTime? createdAt,
       final DateTime? updatedAt,
       final String? url}) = _$_FileElement;
@@ -1057,6 +1062,7 @@ abstract class _FileElement implements FileElement {
   @override
   List<CreatedBy>? get users;
   @override
+  @JsonKey(name: '_id')
   String? get id;
   @override
   DateTime? get createdAt;
