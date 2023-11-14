@@ -50,4 +50,19 @@ class DocsRepositoryImpl implements DocsRepository {
       return const Left(ConnectionFailure('Failed to connect to the network'));
     }
   }
+
+  @override
+  Future<Either<Failure, dynamic>> createDocumentFolder(data) async{
+    try {
+      final result = await docsDataSource.createDocumentFolder(data);
+      print("result: " + result.toString());
+      return Right(result);
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e);
+      print(errorMessage.toString());
+      rethrow;
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
 }

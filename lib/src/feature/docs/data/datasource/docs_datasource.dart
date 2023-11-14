@@ -11,6 +11,7 @@ final docsDataSourceProvider = Provider.autoDispose<DocsDataSource>((ref) {
 abstract class DocsDataSource {
   Future docList({searchText = ''});
   Future addDocument(folderId, data);
+  Future createDocumentFolder(data);
 }
 
 class DocDataSourceImpl implements DocsDataSource {
@@ -33,6 +34,16 @@ class DocDataSourceImpl implements DocsDataSource {
   Future addDocument(folderId, data) async {
     final response =
         await dioClient.post(Endpoints.addDocomentUrl(folderId), data: data);
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      return ServerException();
+    }
+  }
+
+  @override
+  Future createDocumentFolder(data) async {
+    final response = await dioClient.post(Endpoints.docListUrl(), data: data);
     if (response.statusCode == 200) {
       return response.data;
     } else {

@@ -15,6 +15,8 @@ class DocsWidget extends ConsumerStatefulWidget {
 }
 
 class _TeamWidgetState extends BaseConsumerState<DocsWidget> {
+  List filesData = [];
+  int indx = 0;
   @override
   void initState() {
     super.initState();
@@ -29,19 +31,25 @@ class _TeamWidgetState extends BaseConsumerState<DocsWidget> {
         ref.watch(docsControllerProvider.select((value) => value.docs));
     return docsData.when(
       data: (data) {
-        return DocsCard(docsData: data[0]);
-        // return ListView.separated(
-        //   separatorBuilder: (context, index) {
-        //     return SizedBox(height: 16.h);
-        //   },
-        //   shrinkWrap: true,
-        //   padding: EdgeInsets.zero,
-        //   physics: BouncingScrollPhysics(),
-        //   itemCount: data.length,
-        //   itemBuilder: ((context, index) {
-        //     return DocsCard(docsData: data[index]);
-        //   }),
-        // );
+        data.map((map) {
+          indx = filesData.indexOf(map);
+          print("indxxxxx"+indx.toString());
+          return {filesData.add(map.files)};
+        }).toList();
+        print(filesData.length.toString());
+        
+        return ListView.separated(
+          separatorBuilder: (context, index) {
+            return SizedBox(height: 16.h);
+          },
+          shrinkWrap: true,
+          padding: EdgeInsets.zero,
+          physics: BouncingScrollPhysics(),
+          itemCount: filesData.length,
+          itemBuilder: ((context, index) {
+            return DocsCard(docsData: filesData[index], index: index);
+          }),
+        );
       },
       error: (err, _) {
         return const Text("Failed to load Docs",

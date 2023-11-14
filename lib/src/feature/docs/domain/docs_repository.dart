@@ -4,6 +4,6 @@ import 'package:progresscenter_app_v4/src/feature/docs/data/model/docs_model.dar
 
 abstract class DocsRepository {
   Future<Either<Failure, List<DocsModel>>> docList();
-  Future<Either<Failure, dynamic>> addDocument(
-      String folderId, data);
+  Future<Either<Failure, dynamic>> addDocument(String folderId, data);
+  Future<Either<Failure, dynamic>> createDocumentFolder(data);
 }
