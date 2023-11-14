@@ -4,6 +4,7 @@ class Helper {
   static Color primary = const Color.fromRGBO(0, 82, 204, 1);
   static Color secondary = const Color.fromRGBO(1, 1, 1, 1);
   static Color blendmode = const Color.fromRGBO(71, 71, 71, 1);
+  static Color neutral500 = const Color.fromRGBO(73, 73, 73, 1);
   static Color textColor900 = const Color(0xFF101828);
   static Color textColor800 = const Color.fromRGBO(29, 41, 57, 1);
   static Color textColor700 = const Color.fromRGBO(52, 64, 84, 1);

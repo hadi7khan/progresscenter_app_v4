@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
+import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dart';
+import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/docs/presentation/provider/create_doc_folder_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/provider/docs_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/widgets/docs_widget.dart';
 
@@ -18,6 +22,7 @@ class DocsScreen extends ConsumerStatefulWidget {
 }
 
 class _DocsScreenState extends BaseConsumerState<DocsScreen> {
+  TextEditingController _categoryController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -136,7 +141,7 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
               children: [
                 InkWell(
                   onTap: () async {
-                    context.push('/addDocs',extra: {"category": categoryList});
+                    context.push('/addDocs', extra: {"category": categoryList});
                     context.pop();
                   },
                   child: Container(
@@ -158,6 +163,7 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                 InkWell(
                   onTap: () {
                     context.pop();
+                    _showCategoryBottomSheet(context);
                   },
                   child: Container(
                     width: double.infinity,
@@ -175,6 +181,162 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                     ),
                   ),
                 ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _showCategoryBottomSheet(context) {
+    return showModalBottomSheet(
+      context: context,
+      useRootNavigator: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 28.h),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r)),
+          color: Colors.white,
+        ),
+        height: 238.h,
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'Add new category',
+                  style: TextStyle(
+                      color: Helper.baseBlack,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+            SizedBox(height: 20.h),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomInputWidget(
+                  title: "Category name",
+                  formField: FormBuilderTextField(
+                    name: '_category',
+                    controller: _categoryController,
+                    // focusNode: focusNode,
+                    validator: (val) {
+                      if (val == null || val.isEmpty) {
+                        return 'Category is required';
+                      }
+                      return null;
+                    },
+                    textInputAction: TextInputAction.done,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    textCapitalization: TextCapitalization.none,
+                    keyboardType: TextInputType.name,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 10.h, horizontal: 14.w),
+                      hintText: "Enter name",
+                      hintStyle: TextStyle(
+                        color: Helper.textColor500,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      // hintText: widget.control.label,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                        borderSide: BorderSide(color: Helper.textColor300),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                        borderSide: BorderSide(color: Helper.primary),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                        borderSide: const BorderSide(color: Colors.red),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                        borderSide: const BorderSide(color: Colors.red),
+                      ),
+                    ),
+                    onTap: () {},
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      TextButton(
+                        onPressed: () async {
+                          context.pop();
+                        },
+                        style: TextButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 11),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                            backgroundColor: Colors.white,
+                            fixedSize: Size.infinite),
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(
+                              color: Helper.neutral500,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          Map<String, dynamic> data = {
+                              "name": _categoryController.text,
+                            };
+                          await ref
+                              .watch(createDocFolderProvider.notifier)
+                              .createDocFolder(data)
+                              .then((value) async {
+                            value.fold((failure) {
+                              print("errorrrrrr");
+                            }, (res) {
+                              ref
+                                  .watch(docsControllerProvider.notifier)
+                                  .getDocs();
+                                  _categoryController.clear();
+                            });
+                            Utils.toastSuccessMessage("Category added");
+                          });
+                          context.pop();
+                        },
+                        style: TextButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 11),
+                            backgroundColor: Helper.primary,
+                            side: BorderSide(color: Helper.textColor300),
+                            fixedSize: Size.infinite),
+                        child: Text(
+                          "Confirm",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ]),
               ],
             ),
           ],
