@@ -26,7 +26,23 @@ class SupportRepositoryImpl implements SupportRepository {
   Future<Either<Failure, List<SupportModel>>> supportList() async {
     try {
       final result = await supportDataSource.supportList();
-      return Right((result as List).map((e) => SupportModel.fromJson(e)).toList());
+      return Right(
+          (result as List).map((e) => SupportModel.fromJson(e)).toList());
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e);
+      print(errorMessage.toString());
+      rethrow;
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> createTicket(data) async {
+    try {
+      final result = await supportDataSource.createTicket(data);
+      print("result: " + result.toString());
+      return Right(result);
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
       print(errorMessage.toString());

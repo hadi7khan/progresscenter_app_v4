@@ -96,242 +96,131 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("category passeed" + widget.category.toString());
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70.h),
-        child: Padding(
-          padding: EdgeInsets.only(right: 20.w, left: 20.w),
-          child: AppBar(
-            surfaceTintColor: Colors.white,
-            automaticallyImplyLeading: false,
-            centerTitle: true,
-            titleSpacing: 12.0.w,
-            leading: InkWell(
-              onTap: () {
-                context.pop();
-              },
-              child: SvgPicture.asset(
-                'assets/images/close-x.svg',
+    print("category passed" + widget.category.toString());
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(70.h),
+          child: Padding(
+            padding: EdgeInsets.only(right: 20.w, left: 20.w),
+            child: AppBar(
+              surfaceTintColor: Colors.white,
+              automaticallyImplyLeading: false,
+              centerTitle: true,
+              titleSpacing: 12.0.w,
+              leading: InkWell(
+                onTap: () {
+                  context.pop();
+                },
+                child: SvgPicture.asset(
+                  'assets/images/close-x.svg',
+                ),
               ),
+              leadingWidth: 12,
+              title: Text(
+                "Add document",
+                style: TextStyle(
+                    color: Helper.baseBlack,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w500),
+              ),
+              actionsIconTheme: IconThemeData(color: Helper.iconColor),
             ),
-            leadingWidth: 12,
-            title: Text(
-              "Add document",
-              style: TextStyle(
-                  color: Helper.baseBlack,
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w500),
-            ),
-            actionsIconTheme: IconThemeData(color: Helper.iconColor),
           ),
         ),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
-            child: FormBuilder(
-              key: _fbKey,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 126.h,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Helper.textColor300),
-                          borderRadius: BorderRadius.circular(12.r)),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          FaIcon(
-                            FontAwesomeIcons.image,
-                            color: Colors.grey.shade400,
-                            size: 30,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 12.0),
-                            child: RichText(
-                              textAlign: TextAlign.center,
-                              text: TextSpan(
-                                text: '',
-                                children: <TextSpan>[
-                                  TextSpan(
-                                      text: 'Upload file',
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = _pickDoc,
-                                      style: TextStyle(
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w600,
-                                          color: Helper.primary)),
-                                ],
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+              child: FormBuilder(
+                key: _fbKey,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 126.h,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Helper.textColor300),
+                            borderRadius: BorderRadius.circular(12.r)),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            FaIcon(
+                              FontAwesomeIcons.image,
+                              color: Colors.grey.shade400,
+                              size: 30,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 12.0),
+                              child: RichText(
+                                textAlign: TextAlign.center,
+                                text: TextSpan(
+                                  text: '',
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text: 'Upload file',
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = _pickDoc,
+                                        style: TextStyle(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w600,
+                                            color: Helper.primary)),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          Text(
-                            "PDF, PNG or JPG (max size 5 MB)",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12.sp,
-                                color: Helper.textColor600),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 32.h),
-                    CustomInputWidget(
-                      title: "Full name",
-                      formField: FormBuilderTextField(
-                        name: '_name',
-                        controller: _nameController,
-                        // focusNode: focusNode,
-
-                        validator: (val) {
-                          if (val == null || val.isEmpty) {
-                            return 'Name is required';
-                          }
-                          return null;
-                        },
-                        textInputAction: TextInputAction.done,
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w400,
+                            Text(
+                              "PDF, PNG or JPG (max size 5 MB)",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12.sp,
+                                  color: Helper.textColor600),
+                            )
+                          ],
                         ),
-                        textCapitalization: TextCapitalization.none,
-                        keyboardType: TextInputType.name,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.h, horizontal: 14.w),
-                          hintText: "Enter name",
-                          hintStyle: TextStyle(
-                            color: Helper.textColor500,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          // hintText: widget.control.label,
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.r),
-                            borderSide: BorderSide(color: Helper.textColor300),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.r),
-                            borderSide: BorderSide(color: Helper.primary),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.r),
-                            borderSide: const BorderSide(color: Colors.red),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.r),
-                            borderSide: const BorderSide(color: Colors.red),
-                          ),
-                        ),
-                        onTap: () {},
                       ),
-                    ),
-                    SizedBox(height: 12.h),
-                    CustomInputWidget(
-                      title: "Category",
-                      formField: FormBuilderDropdown(
-                        name: "roles",
-                        dropdownColor: Colors.white,
-                        icon: SizedBox(),
-                        decoration: InputDecoration(
-                          // labelText: 'Training',
-                          hintText: "Select a category",
-                          hintStyle: TextStyle(
-                            color: Helper.textColor500,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.h, horizontal: 14.w),
-                          suffixIcon: Padding(
-                            padding: EdgeInsets.only(right: 14.w),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                // Icon(Icons.help_outline, color: Helper.textColor500, size: 18),
-                                SizedBox(
-                                  width: 5.w,
-                                ),
-                                Icon(Icons.keyboard_arrow_down_outlined,
-                                    color: Helper.textColor500)
-                              ],
-                            ),
-                          ),
-
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.r),
-                            borderSide: BorderSide(color: Helper.textColor300),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.r),
-                            borderSide: BorderSide(color: Helper.primary),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.r),
-                            borderSide: const BorderSide(color: Colors.red),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.r),
-                            borderSide: const BorderSide(color: Colors.red),
-                          ),
-                          // filled: true,
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            _categorySelected = value!["_id"];
-                          });
-                          print("roleselected" + _categorySelected);
-                        },
-                        items: (widget.category as List<Map<String, dynamic>>)
-                            .map((e) {
-                          return DropdownMenuItem(
-                            value: e,
-                            child: Text(
-                              e["name"],
-                              style: const TextStyle(color: Colors.black),
-                            ),
-                            onTap: () {},
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                    SizedBox(height: 12.h),
-                    CustomInputWidget(
-                      title: "Users",
-                      formField: TypeAheadFormField<UserLeanModel>(
-                        textFieldConfiguration: TextFieldConfiguration(
-                          controller: _usersController,
-                          onSubmitted: (value) {
-                            setState(() {
-                              if (value.isNotEmpty) {
-                                print("value selected" + value.toString());
-                                _selectedUsers.add(value);
-                                _usersController.clear();
-                              }
-                            });
+                      SizedBox(height: 32.h),
+                      CustomInputWidget(
+                        title: "Full name",
+                        formField: FormBuilderTextField(
+                          name: '_name',
+                          controller: _nameController,
+                          // focusNode: focusNode,
+    
+                          validator: (val) {
+                            if (val == null || val.isEmpty) {
+                              return 'Name is required';
+                            }
+                            return null;
                           },
+                          textInputAction: TextInputAction.done,
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          textCapitalization: TextCapitalization.none,
+                          keyboardType: TextInputType.name,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.symmetric(
                                 vertical: 10.h, horizontal: 14.w),
-                            hintText: "Search or add here",
+                            hintText: "Enter name",
                             hintStyle: TextStyle(
                               color: Helper.textColor500,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w400,
                             ),
+                            // hintText: widget.control.label,
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.r),
-                              borderSide:
-                                  BorderSide(color: Helper.textColor300),
+                              borderSide: BorderSide(color: Helper.textColor300),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.r),
@@ -346,190 +235,306 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                               borderSide: const BorderSide(color: Colors.red),
                             ),
                           ),
+                          onTap: () {},
                         ),
-                        suggestionsCallback: (pattern) async {
-                          if (pattern != null && pattern.length > 0) {
-                            return _myCustomList.where((user) => user.name!
-                                .toLowerCase()
-                                .contains(pattern.trim().toLowerCase()));
-                          } else {
-                            return [];
-                          }
-                        },
-                        itemBuilder: (context, UserLeanModel user) {
-                          return ListTile(
-                            leading: ClipRRect(
-                              borderRadius: BorderRadius.circular(200.r),
-                              child: user.dp != null
-                                  ? Image.network(
-                                      width: 32.w,
-                                      height: 32.h,
-                                      user.dpUrl!,
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (BuildContext context,
-                                          Object exception,
-                                          StackTrace? stackTrace) {
-                                        return ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(200.r),
-                                          child: Image.asset(
-                                              'assets/images/error_image.jpeg',
-                                              fit: BoxFit.cover),
-                                        );
-                                      },
-                                    )
-                                  : Hero(
-                                      tag: "profile name",
-                                      child: Container(
-                                          width: 32.w,
-                                          height: 32.h,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color:
-                                                _getColor(user.preset!.color!),
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                                _getNameInitials(user.name!),
-                                                style: TextStyle(
-                                                    color: Colors.white)),
-                                          )),
-                                    ),
-                            ),
-                            title: Text(
-                              user.name!,
-                              style: TextStyle(
-                                  color: Helper.textColor700,
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            subtitle: Text(
-                              user.email!,
-                              style: TextStyle(
-                                  color: Helper.textColor600,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                          );
-                        },
-                        onSuggestionSelected: (team) {
-                          // Do something with the selected user
-                          // print('Selected user: ${user.email}');
-                          print("value selected" + team.toString());
-                          setState(() {
-                            _selectedUsers.add(team.email.toString());
-                            _selectedUserIds.add(team.id.toString());
-                            _usersController.clear();
-                          });
-                        },
-                        noItemsFoundBuilder: (value) {
-                          return SizedBox();
-                        },
                       ),
-                    ),
-                    SizedBox(height: 10.h),
-                    Wrap(
-                      alignment: WrapAlignment.start,
-                      spacing: 5.w,
-                      children: _selectedUsers.toSet().map((suggestion) {
-                        return Chip(
-                          label: Text(suggestion),
-                          labelStyle: TextStyle(
+                      SizedBox(height: 12.h),
+                      CustomInputWidget(
+                        title: "Category",
+                        formField: FormBuilderDropdown(
+                          name: "roles",
+                          dropdownColor: Colors.white,
+                          icon: SizedBox(),
+                          decoration: InputDecoration(
+                            // labelText: 'Training',
+                            hintText: "Select a category",
+                            hintStyle: TextStyle(
                               color: Helper.textColor500,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w500),
-                          onDeleted: () {
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10.h, horizontal: 14.w),
+                            suffixIcon: Padding(
+                              padding: EdgeInsets.only(right: 14.w),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  // Icon(Icons.help_outline, color: Helper.textColor500, size: 18),
+                                  SizedBox(
+                                    width: 5.w,
+                                  ),
+                                  Icon(Icons.keyboard_arrow_down_outlined,
+                                      color: Helper.textColor500)
+                                ],
+                              ),
+                            ),
+    
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: BorderSide(color: Helper.textColor300),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: BorderSide(color: Helper.primary),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
+                            // filled: true,
+                          ),
+                          onChanged: (value) {
                             setState(() {
-                              _selectedUsers.remove(suggestion);
+                              _categorySelected = value!["_id"];
+                            });
+                            print("roleselected" + _categorySelected);
+                          },
+                          items: (widget.category as List<Map<String, dynamic>>)
+                              .map((e) {
+                            return DropdownMenuItem(
+                              value: e,
+                              child: Text(
+                                e["name"],
+                                style: const TextStyle(color: Colors.black),
+                              ),
+                              onTap: () {},
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                      SizedBox(height: 12.h),
+                      CustomInputWidget(
+                        title: "Users",
+                        formField: TypeAheadFormField<UserLeanModel>(
+                          textFieldConfiguration: TextFieldConfiguration(
+                            controller: _usersController,
+                            onSubmitted: (value) {
+                              setState(() {
+                                if (value.isNotEmpty) {
+                                  print("value selected" + value.toString());
+                                  _selectedUsers.add(value);
+                                  _usersController.clear();
+                                }
+                              });
+                            },
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 10.h, horizontal: 14.w),
+                              hintText: "Search or add here",
+                              hintStyle: TextStyle(
+                                color: Helper.textColor500,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                                borderSide:
+                                    BorderSide(color: Helper.textColor300),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                                borderSide: BorderSide(color: Helper.primary),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                                borderSide: const BorderSide(color: Colors.red),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                                borderSide: const BorderSide(color: Colors.red),
+                              ),
+                            ),
+                          ),
+                          suggestionsCallback: (pattern) async {
+                            if (pattern != null && pattern.length > 0) {
+                              return _myCustomList.where((user) => user.name!
+                                  .toLowerCase()
+                                  .contains(pattern.trim().toLowerCase()));
+                            } else {
+                              return [];
+                            }
+                          },
+                          itemBuilder: (context, UserLeanModel user) {
+                            return ListTile(
+                              leading: ClipRRect(
+                                borderRadius: BorderRadius.circular(200.r),
+                                child: user.dp != null
+                                    ? Image.network(
+                                        width: 32.w,
+                                        height: 32.h,
+                                        user.dpUrl!,
+                                        fit: BoxFit.cover,
+                                        errorBuilder: (BuildContext context,
+                                            Object exception,
+                                            StackTrace? stackTrace) {
+                                          return ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(200.r),
+                                            child: Image.asset(
+                                                'assets/images/error_image.jpeg',
+                                                fit: BoxFit.cover),
+                                          );
+                                        },
+                                      )
+                                    : Hero(
+                                        tag: "profile name",
+                                        child: Container(
+                                            width: 32.w,
+                                            height: 32.h,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color:
+                                                  _getColor(user.preset!.color!),
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                  _getNameInitials(user.name!),
+                                                  style: TextStyle(
+                                                      color: Colors.white)),
+                                            )),
+                                      ),
+                              ),
+                              title: Text(
+                                user.name!,
+                                style: TextStyle(
+                                    color: Helper.textColor700,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              subtitle: Text(
+                                user.email!,
+                                style: TextStyle(
+                                    color: Helper.textColor600,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            );
+                          },
+                          onSuggestionSelected: (team) {
+                            // Do something with the selected user
+                            // print('Selected user: ${user.email}');
+                            print("value selected" + team.toString());
+                            setState(() {
+                              _selectedUsers.add(team.email.toString());
+                              _selectedUserIds.add(team.id.toString());
+                              _usersController.clear();
                             });
                           },
-                          deleteIcon: SvgPicture.asset(
-                            'assets/images/close-x.svg',
-                            color: Helper.textColor500,
-                          ),
-                          side: BorderSide.none,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.r)),
-                          backgroundColor: Helper.widgetBackground,
-                        );
-                      }).toList(),
-                    ),
-                    SizedBox(height: 12.h),
-                  ]),
+                          noItemsFoundBuilder: (value) {
+                            return SizedBox();
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 10.h),
+                      Wrap(
+                        alignment: WrapAlignment.start,
+                        spacing: 5.w,
+                        children: _selectedUsers.toSet().map((suggestion) {
+                          return Chip(
+                            label: Text(suggestion),
+                            labelStyle: TextStyle(
+                                color: Helper.textColor500,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w500),
+                            onDeleted: () {
+                              setState(() {
+                                _selectedUsers.remove(suggestion);
+                              });
+                            },
+                            deleteIcon: SvgPicture.asset(
+                              'assets/images/close-x.svg',
+                              color: Helper.textColor500,
+                            ),
+                            side: BorderSide.none,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.r)),
+                            backgroundColor: Helper.widgetBackground,
+                          );
+                        }).toList(),
+                      ),
+                      SizedBox(height: 12.h),
+                    ]),
+              ),
             ),
           ),
         ),
-      ),
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-        color: Colors.white,
-        alignment: Alignment.center,
-        height: 76.h,
-        child: Container(
-          height: 52.h,
-          width: double.infinity,
-          child: ElevatedButton(
-            child: Text(
-              "Upload",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500),
-              // currentIndex == contents.length - 1 ? "Continue" : "Next"
-            ),
-            style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(
-                    _nameController.text.isNotEmpty &&
-                            _selectedUserIds.isNotEmpty
-                        ? Helper.primary
-                        : Helper.blendmode),
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                )),
-            onPressed: () async {
-              FormData? formData = FormData.fromMap({
-                "name": _nameController.text,
-              });
-              if (_fbKey.currentState!.saveAndValidate() &&
-                  _selectedUserIds.isNotEmpty &&
-                  _nameController.text.isNotEmpty) {
-                    formData.fields..add(MapEntry('course_features', jsonEncode(_selectedUserIds)));
-                if (_doc != null) {
-                  formData.files.add(MapEntry(
-                      "file", await MultipartFile.fromFile(_doc!.path)));
-                }
-                setState(() {
-                  _isLoading = true;
+        bottomNavigationBar: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+          color: Colors.white,
+          alignment: Alignment.center,
+          height: 76.h,
+          child: Container(
+            height: 52.h,
+            width: double.infinity,
+            child: ElevatedButton(
+              child: Text(
+                "Upload",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500),
+                // currentIndex == contents.length - 1 ? "Continue" : "Next"
+              ),
+              style: ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(
+                      _nameController.text.isNotEmpty &&
+                              _selectedUserIds.isNotEmpty
+                          ? Helper.primary
+                          : Helper.blendmode),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                  )),
+              onPressed: () async {
+                FormData? formData = FormData.fromMap({
+                  "name": _nameController.text,
                 });
-                await ref
-                    .watch(addDocProvider.notifier)
-                    .addDocument(_categorySelected, formData)
-                    .then((value) async {
-                  value.fold((failure) {
-                    print("errorrrrrr");
-                  }, (data) {
-                    Utils.toastSuccessMessage(
-                      "Document Added",
-                    );
-                  });
-
+                if (_fbKey.currentState!.saveAndValidate() &&
+                    _selectedUserIds.isNotEmpty &&
+                    _nameController.text.isNotEmpty) {
+                      formData.fields..add(MapEntry('course_features', jsonEncode(_selectedUserIds)));
+                  if (_doc != null) {
+                    formData.files.add(MapEntry(
+                        "file", await MultipartFile.fromFile(_doc!.path)));
+                  }
                   setState(() {
-                    _isLoading = false;
+                    _isLoading = true;
                   });
-                });
-                // .onError((error, stackTrace) {
-                //   Utils.flushBarErrorMessage(
-                //       "Error", context);
-                //   setState(() {
-                //     isLoading = false;
-                //   });
-                // });
-                // _showBottomSheet(
-                //     context, _emailController.text, selectedTeams);
-              }
-            },
+                  await ref
+                      .watch(addDocProvider.notifier)
+                      .addDocument(_categorySelected, formData)
+                      .then((value) async {
+                    value.fold((failure) {
+                      print("errorrrrrr");
+                    }, (data) {
+                      Utils.toastSuccessMessage(
+                        "Document Added",
+                      );
+                    });
+    
+                    setState(() {
+                      _isLoading = false;
+                    });
+                  });
+                  // .onError((error, stackTrace) {
+                  //   Utils.flushBarErrorMessage(
+                  //       "Error", context);
+                  //   setState(() {
+                  //     isLoading = false;
+                  //   });
+                  // });
+                  // _showBottomSheet(
+                  //     context, _emailController.text, selectedTeams);
+                }
+              },
+            ),
           ),
         ),
       ),

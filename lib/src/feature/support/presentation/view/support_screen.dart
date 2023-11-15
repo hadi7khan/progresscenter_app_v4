@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/support/presentation/view/widgets/support_widget.dart';
 
@@ -38,7 +39,7 @@ class _SupportScreenState extends State<SupportScreen> {
                       SizedBox(width: 12.w),
                       InkWell(
                           onTap: () {
-                            // _showUserBottomSheet(context);
+                            context.push('/createTicket');
                           },
                           child: SvgPicture.asset('assets/images/plus.svg')),
                     ],
