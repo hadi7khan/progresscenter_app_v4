@@ -22,6 +22,7 @@ const String reportRoute = 'report';
 const String createLivelapseRoute = 'createlivelapse';
 const String addUserRoute = 'addUser';
 const String addDocsRoute = 'addDocs';
+const String createTicketRoute = 'createTicket';
 
 
 const String noInternetRoute = 'noInternet';

@@ -33,6 +33,7 @@ import 'package:progresscenter_app_v4/src/feature/camera/presentation/view/camer
 import 'package:progresscenter_app_v4/src/feature/report/presentation/view/report_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/slider/presentation/view/slider_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/splitview/presentation/view/splitview_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/support/presentation/view/create_ticket_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/support/presentation/view/support_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/add_user_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/teams_screen.dart';
@@ -353,6 +354,22 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return NoTransitionPage(
             key: state.pageKey,
             child: AddUserScreen(
+              key: state.pageKey,
+            ),
+          );
+        },
+      ),
+
+      // ---------------------------------Support Route--------------------------------
+
+      GoRoute(
+        path: '/createTicket',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: createTicketRoute,
+        pageBuilder: (context, state) {
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: CreateTicketScreen(
               key: state.pageKey,
             ),
           );
