@@ -15,6 +15,7 @@ abstract class ProjectDataSource {
   Future siteGalleryList(String id);
   Future userleanList();
   Future inviteMembers(data, id);
+  Future projectLeanList({searchText = ''});
 }
 
 class ProjectDataSourceImpl implements ProjectDataSource {
@@ -45,8 +46,6 @@ class ProjectDataSourceImpl implements ProjectDataSource {
     }
   }
 
-  
-
   @override
   Future siteGalleryList(String id) async {
     final response = await dioClient.get(Endpoints.siteGalleryListUrl(id));
@@ -69,7 +68,18 @@ class ProjectDataSourceImpl implements ProjectDataSource {
 
   @override
   Future inviteMembers(data, id) async {
-    final response = await dioClient.post(Endpoints.inviteMemberUrl(id), data: data);
+    final response =
+        await dioClient.post(Endpoints.inviteMemberUrl(id), data: data);
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      return ServerException();
+    }
+  }
+
+  @override
+  Future projectLeanList({searchText = ''}) async {
+    final response = await dioClient.get(Endpoints.projectLeanListUrl());
     if (response.statusCode == 200) {
       return response.data;
     } else {

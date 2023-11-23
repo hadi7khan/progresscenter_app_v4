@@ -10,6 +10,7 @@ final teamDataSourceProvider = Provider.autoDispose<TeamDataSource>((ref) {
 
 abstract class TeamDataSource {
   Future userList({searchText = ''});
+  Future createUser(data);
 }
 
 class TeamDataSourceImpl implements TeamDataSource {
@@ -21,6 +22,17 @@ class TeamDataSourceImpl implements TeamDataSource {
   @override
   Future userList({searchText = ''}) async {
     final response = await dioClient.get(Endpoints.userListUrl());
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      return ServerException();
+    }
+  }
+  
+  @override
+  Future createUser(data) async{
+    final response =
+        await dioClient.post(Endpoints.userListUrl(), data: data);
     if (response.statusCode == 200) {
       return response.data;
     } else {
