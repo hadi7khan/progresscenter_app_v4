@@ -4,4 +4,5 @@ import 'package:progresscenter_app_v4/src/feature/team/data/model/user_model.dar
 
 abstract class TeamRepository {
   Future<Either<Failure, List<UserModel>>> userList();
+  Future<Either<Failure, dynamic>> createUser(data);
 }

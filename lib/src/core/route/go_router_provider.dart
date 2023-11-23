@@ -36,6 +36,7 @@ import 'package:progresscenter_app_v4/src/feature/splitview/presentation/view/sp
 import 'package:progresscenter_app_v4/src/feature/support/presentation/view/create_ticket_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/support/presentation/view/support_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/add_user_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/team/presentation/view/add_user_screen2.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/teams_screen.dart';
 
 import 'notifier/go_router_notifier.dart';
@@ -355,6 +356,22 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             key: state.pageKey,
             child: AddUserScreen(
               key: state.pageKey,
+            ),
+          );
+        },
+      ),
+
+      GoRoute(
+        path: '/addUser2',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: addUserRoute2,
+        pageBuilder: (context, state) {
+          final args = state.extra ;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: AddUserScreen2(
+              key: state.pageKey,
+              data: args!
             ),
           );
         },

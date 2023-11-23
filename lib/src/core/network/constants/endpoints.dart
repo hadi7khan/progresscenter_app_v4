@@ -29,6 +29,10 @@ class Endpoints {
     return '$baseUrl/api/v4/projects';
   }
 
+  static projectLeanListUrl() {
+    return '$baseUrl/api/v4/projects/lean';
+  }
+
   static projectByIdUrl(id) {
     return '$baseUrl/api/v4/projects/$id/';
   }
@@ -88,7 +92,7 @@ class Endpoints {
     return '$baseUrl/api/v4/users/';
   }
 
-   //---------------------------- Support ---------------------------------------
+  //---------------------------- Support ---------------------------------------
 
   static supportListUrl() {
     return '$baseUrl/api/v4/support-tickets';
@@ -99,7 +103,7 @@ class Endpoints {
   static docListUrl() {
     return '$baseUrl/api/v4/documents';
   }
-  
+
   static addDocomentUrl(folderId) {
     return '$baseUrl/api/v4/documents/$folderId/files';
   }
