@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:progresscenter_app_v4/src/common/data/extension.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 
@@ -30,6 +31,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
   String _selectedDate = '';
   String _countryDialCode = "+93";
   String _countryCode = "af";
+  final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
 
   @override
   void initState() {
@@ -82,359 +84,364 @@ class _AddUserScreenState extends State<AddUserScreen> {
           child: SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
-              child: Column(
-                children: [
-                  CustomInputWidget(
-                    title: "Full name",
-                    formField: FormBuilderTextField(
-                      name: '_name',
-                      controller: _nameController,
-                      // focusNode: focusNode,
-
-                      validator: (val) {
-                        if (val == null || val.isEmpty) {
-                          return 'Name is required';
-                        }
-                        return null;
-                      },
-                      textInputAction: TextInputAction.done,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      textCapitalization: TextCapitalization.none,
-                      keyboardType: TextInputType.name,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.h, horizontal: 14.w),
-                        hintText: "Enter name",
-                        hintStyle: TextStyle(
-                          color: Helper.textColor500,
+              child: FormBuilder(
+                key: _fbKey,
+                child: Column(
+                  children: [
+                    CustomInputWidget(
+                      title: "Full name",
+                      formField: FormBuilderTextField(
+                        name: '_name',
+                        controller: _nameController,
+                        // focusNode: focusNode,
+              
+                        validator: (val) {
+                          if (val == null || val.isEmpty) {
+                            return 'Name is required';
+                          }
+                          return null;
+                        },
+                        textInputAction: TextInputAction.next,
+                        style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w400,
                         ),
-                        // hintText: widget.control.label,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide(color: Helper.textColor300),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide(color: Helper.primary),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: const BorderSide(color: Colors.red),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: const BorderSide(color: Colors.red),
-                        ),
-                      ),
-                      onTap: () {},
-                    ),
-                  ),
-                  SizedBox(height: 12.h),
-                  CustomInputWidget(
-                    title: "Email",
-                    formField: FormBuilderTextField(
-                      name: 'email',
-                      controller: _emailController,
-                      // focusNode: focusNode,
-
-                      validator: (val) {
-                        if (val == null || val.isEmpty) {
-                          return 'Email is required';
-                        }
-                        return null;
-                      },
-                      textInputAction: TextInputAction.done,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      textCapitalization: TextCapitalization.none,
-                      keyboardType: TextInputType.name,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.h, horizontal: 14.w),
-                        hintText: "Enter email",
-                        hintStyle: TextStyle(
-                          color: Helper.textColor500,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        // hintText: widget.control.label,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide(color: Helper.textColor300),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide(color: Helper.primary),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: const BorderSide(color: Colors.red),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: const BorderSide(color: Colors.red),
-                        ),
-                      ),
-                      onTap: () {},
-                    ),
-                  ),
-                  SizedBox(height: 12.h),
-                  CustomInputWidget(
-                    title: "User name",
-                    formField: FormBuilderTextField(
-                      name: 'user_name',
-                      controller: _userNameController,
-                      // focusNode: focusNode,
-
-                      validator: (val) {
-                        if (val == null || val.isEmpty) {
-                          return 'User name is required';
-                        }
-                        return null;
-                      },
-                      textInputAction: TextInputAction.done,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      textCapitalization: TextCapitalization.none,
-                      keyboardType: TextInputType.name,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.h, horizontal: 14.w),
-                        hintText: "Enter username",
-                        hintStyle: TextStyle(
-                          color: Helper.textColor500,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        // hintText: widget.control.label,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide(color: Helper.textColor300),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide(color: Helper.primary),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: const BorderSide(color: Colors.red),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: const BorderSide(color: Colors.red),
-                        ),
-                      ),
-                      onTap: () {},
-                    ),
-                  ),
-                  SizedBox(height: 12.h),
-                  CustomInputWidget(
-                    title: "Date of birth",
-                    formField: InkWell(
-                      onTap: () {
-                        _showStartDateBottomSheet(context, _selectedDate);
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 10.h, horizontal: 14.w),
-                        decoration: BoxDecoration(
-                          border:
-                              Border.all(width: 1, color: Helper.textColor300),
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          dense: true,
-                          minVerticalPadding: 0,
-                          visualDensity: VisualDensity(vertical: -4),
-                          title: Text(
-                            "02/01/1997",
-                            style: TextStyle(
-                                color: Helper.textColor500,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w400),
-                          ),
-                          trailing: SvgPicture.asset(
-                            'assets/images/dob.svg',
+                        textCapitalization: TextCapitalization.none,
+                        keyboardType: TextInputType.name,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.h, horizontal: 14.w),
+                          hintText: "Enter name",
+                          hintStyle: TextStyle(
                             color: Helper.textColor500,
-                            width: 24,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          // hintText: widget.control.label,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: BorderSide(color: Helper.textColor300),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: BorderSide(color: Helper.primary),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: const BorderSide(color: Colors.red),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: const BorderSide(color: Colors.red),
                           ),
                         ),
+                        onTap: () {},
                       ),
                     ),
-                  ),
-                  SizedBox(height: 12.h),
-                  CustomInputWidget(
-                    title: "Mobile number",
-                    formField: FormBuilderTextField(
-                      controller: _numberController,
-                      keyboardType: TextInputType.name,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      decoration: InputDecoration(
-                        hintText: 'Enter number',
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: CountryCodePicker(
-                            onChanged: (CountryCode countryCode) {
-                              _countryDialCode = countryCode.dialCode!;
-                              _countryCode = countryCode.code!;
-                              print(_countryCode.toString());
-                            },
-                            // initialSelection: countryDialCode,
-                            // favorite: [countryDialCode!],
-                            showDropDownButton: true,
-                            padding: EdgeInsets.zero,
-                            showFlagMain: true,
-                            hideMainText: true,
-                            dialogSize: Size(
-                                MediaQuery.of(context).size.width * 0.3,
-                                MediaQuery.of(context).size.height * 0.5),
-                            dialogBackgroundColor: Theme.of(context).cardColor,
-                            flagWidth: 22,
-                          ),
-                        ),
-                        // filled: true,
-                        border: OutlineInputBorder(),
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                        ),
-                      ),
-                      name: 'phone',
-                    ),
-                  ),
-                  SizedBox(height: 12.h),
-                  CustomInputWidget(
-                    title: "Designation",
-                    formField: FormBuilderTextField(
-                      name: 'designation',
-                      controller: _designationController,
-                      // focusNode: focusNode,
-
-                      validator: (val) {
-                        if (val == null || val.isEmpty) {
-                          return 'Designation is required';
-                        }
-                        return null;
-                      },
-                      textInputAction: TextInputAction.done,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      textCapitalization: TextCapitalization.none,
-                      keyboardType: TextInputType.name,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.h, horizontal: 14.w),
-                        hintText: "Enter designation",
-                        hintStyle: TextStyle(
-                          color: Helper.textColor500,
+                    SizedBox(height: 12.h),
+                    CustomInputWidget(
+                      title: "Email",
+                      formField: FormBuilderTextField(
+                        name: 'email',
+                        controller: _emailController,
+                        // focusNode: focusNode,
+              
+                        validator: (val) {
+                          if (val == null || val.isEmpty) {
+                            return 'Email is required';
+                          }
+                          if (!val.isValidEmail)
+                        return 'Enter valid email';
+                          return null;
+                        },
+                        textInputAction: TextInputAction.next,
+                        style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w400,
                         ),
-                        // hintText: widget.control.label,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide(color: Helper.textColor300),
+                        textCapitalization: TextCapitalization.none,
+                        keyboardType: TextInputType.name,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.h, horizontal: 14.w),
+                          hintText: "Enter email",
+                          hintStyle: TextStyle(
+                            color: Helper.textColor500,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          // hintText: widget.control.label,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: BorderSide(color: Helper.textColor300),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: BorderSide(color: Helper.primary),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: const BorderSide(color: Colors.red),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: const BorderSide(color: Colors.red),
+                          ),
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide(color: Helper.primary),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: const BorderSide(color: Colors.red),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: const BorderSide(color: Colors.red),
-                        ),
+                        onTap: () {},
                       ),
-                      onTap: () {},
                     ),
-                  ),
-                  SizedBox(height: 12.h),
-                  CustomInputWidget(
-                    title: "Access Type",
-                    formField: FormBuilderDropdown(
-                      name: "roles",
-                      dropdownColor: Colors.white,
-                      icon: SizedBox(),
-                      decoration: InputDecoration(
-                        // labelText: 'Training',
-                        hintText: "Select roles",
-                        hintStyle: TextStyle(
-                          color: Helper.textColor500,
+                    SizedBox(height: 12.h),
+                    CustomInputWidget(
+                      title: "User name",
+                      formField: FormBuilderTextField(
+                        name: 'user_name',
+                        controller: _userNameController,
+                        // focusNode: focusNode,
+              
+                        validator: (val) {
+                          if (val == null || val.isEmpty) {
+                            return 'User name is required';
+                          }
+                          return null;
+                        },
+                        textInputAction: TextInputAction.next,
+                        style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w400,
                         ),
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.h, horizontal: 14.w),
-                        suffixIcon: Padding(
-                          padding: EdgeInsets.only(right: 14.w),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                width: 5.w,
-                              ),
-                              Icon(Icons.keyboard_arrow_down_outlined,
-                                  color: Helper.textColor500)
-                            ],
+                        textCapitalization: TextCapitalization.none,
+                        keyboardType: TextInputType.name,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.h, horizontal: 14.w),
+                          hintText: "Enter username",
+                          hintStyle: TextStyle(
+                            color: Helper.textColor500,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          // hintText: widget.control.label,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: BorderSide(color: Helper.textColor300),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: BorderSide(color: Helper.primary),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: const BorderSide(color: Colors.red),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: const BorderSide(color: Colors.red),
                           ),
                         ),
-
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide(color: Helper.textColor300),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide(color: Helper.primary),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: const BorderSide(color: Colors.red),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: const BorderSide(color: Colors.red),
-                        ),
-                        // filled: true,
+                        onTap: () {},
                       ),
-                      onChanged: (value) {
-                        setState(() {
-                          _roleSelected = value!;
-                        });
-                      },
-                      items: _roles.map((e) {
-                        return DropdownMenuItem<String>(
-                          value: e,
-                          child: Text(
-                            e,
-                            style: const TextStyle(color: Colors.black),
-                          ),
-                          onTap: () {},
-                        );
-                      }).toList(),
                     ),
-                  ),
-                  SizedBox(height: 12.h),
-                ],
+                    SizedBox(height: 12.h),
+                    CustomInputWidget(
+                      title: "Date of birth",
+                      formField: InkWell(
+                        onTap: () {
+                          _showStartDateBottomSheet(context, _selectedDate);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10.h, horizontal: 14.w),
+                          decoration: BoxDecoration(
+                            border:
+                                Border.all(width: 1, color: Helper.textColor300),
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          child: ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            dense: true,
+                            minVerticalPadding: 0,
+                            visualDensity: VisualDensity(vertical: -4),
+                            title: Text(
+                              "02/01/1997",
+                              style: TextStyle(
+                                  color: Helper.textColor500,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                            trailing: SvgPicture.asset(
+                              'assets/images/dob.svg',
+                              color: Helper.textColor500,
+                              width: 24,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 12.h),
+                    CustomInputWidget(
+                      title: "Mobile number",
+                      formField: FormBuilderTextField(
+                        controller: _numberController,
+                        keyboardType: TextInputType.name,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        decoration: InputDecoration(
+                          hintText: 'Enter number',
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: CountryCodePicker(
+                              onChanged: (CountryCode countryCode) {
+                                _countryDialCode = countryCode.dialCode!;
+                                _countryCode = countryCode.code!;
+                                print(_countryCode.toString());
+                              },
+                              // initialSelection: countryDialCode,
+                              // favorite: [countryDialCode!],
+                              showDropDownButton: true,
+                              padding: EdgeInsets.zero,
+                              showFlagMain: true,
+                              hideMainText: true,
+                              dialogSize: Size(
+                                  MediaQuery.of(context).size.width * 0.3,
+                                  MediaQuery.of(context).size.height * 0.5),
+                              dialogBackgroundColor: Theme.of(context).cardColor,
+                              flagWidth: 22,
+                            ),
+                          ),
+                          // filled: true,
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 16,
+                          ),
+                        ),
+                        name: 'phone',
+                      ),
+                    ),
+                    SizedBox(height: 12.h),
+                    CustomInputWidget(
+                      title: "Designation",
+                      formField: FormBuilderTextField(
+                        name: 'designation',
+                        controller: _designationController,
+                        // focusNode: focusNode,
+              
+                        // validator: (val) {
+                        //   if (val == null || val.isEmpty) {
+                        //     return 'Designation is required';
+                        //   }
+                        //   return null;
+                        // },
+                        textInputAction: TextInputAction.done,
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        textCapitalization: TextCapitalization.none,
+                        keyboardType: TextInputType.name,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.h, horizontal: 14.w),
+                          hintText: "Enter designation",
+                          hintStyle: TextStyle(
+                            color: Helper.textColor500,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          // hintText: widget.control.label,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: BorderSide(color: Helper.textColor300),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: BorderSide(color: Helper.primary),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: const BorderSide(color: Colors.red),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: const BorderSide(color: Colors.red),
+                          ),
+                        ),
+                        onTap: () {},
+                      ),
+                    ),
+                    SizedBox(height: 12.h),
+                    CustomInputWidget(
+                      title: "Access Type",
+                      formField: FormBuilderDropdown(
+                        name: "roles",
+                        dropdownColor: Colors.white,
+                        icon: SizedBox(),
+                        decoration: InputDecoration(
+                          // labelText: 'Training',
+                          hintText: "Select roles",
+                          hintStyle: TextStyle(
+                            color: Helper.textColor500,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.h, horizontal: 14.w),
+                          suffixIcon: Padding(
+                            padding: EdgeInsets.only(right: 14.w),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                  width: 5.w,
+                                ),
+                                Icon(Icons.keyboard_arrow_down_outlined,
+                                    color: Helper.textColor500)
+                              ],
+                            ),
+                          ),
+              
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: BorderSide(color: Helper.textColor300),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: BorderSide(color: Helper.primary),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: const BorderSide(color: Colors.red),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.r),
+                            borderSide: const BorderSide(color: Colors.red),
+                          ),
+                          // filled: true,
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            _roleSelected = value!;
+                          });
+                        },
+                        items: _roles.map((e) {
+                          return DropdownMenuItem<String>(
+                            value: e,
+                            child: Text(
+                              e,
+                              style: const TextStyle(color: Colors.black),
+                            ),
+                            onTap: () {},
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    SizedBox(height: 12.h),
+                  ],
+                ),
               ),
             ),
           ),
@@ -485,8 +492,10 @@ class _AddUserScreenState extends State<AddUserScreen> {
                         },
                         "dob": _selectedDate
                       };
-                      context.push('/addUser2', extra: data);
+                      if(_fbKey.currentState!.saveAndValidate()){
+                        context.push('/addUser2', extra: data);
                       print("data passed to screen 2"+ data.toString());
+                      }
                     },
                     style: TextButton.styleFrom(
                         shape: RoundedRectangleBorder(

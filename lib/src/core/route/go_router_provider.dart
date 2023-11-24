@@ -37,6 +37,7 @@ import 'package:progresscenter_app_v4/src/feature/support/presentation/view/crea
 import 'package:progresscenter_app_v4/src/feature/support/presentation/view/support_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/add_user_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/add_user_screen2.dart';
+import 'package:progresscenter_app_v4/src/feature/team/presentation/view/invite_bymail_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/teams_screen.dart';
 
 import 'notifier/go_router_notifier.dart';
@@ -366,12 +367,23 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: _rootNavigatorKey,
         name: addUserRoute2,
         pageBuilder: (context, state) {
-          final args = state.extra ;
+          final args = state.extra;
           return NoTransitionPage(
             key: state.pageKey,
-            child: AddUserScreen2(
+            child: AddUserScreen2(key: state.pageKey, data: args!),
+          );
+        },
+      ),
+
+      GoRoute(
+        path: '/inviteByMail',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: inviteByMailRoute,
+        pageBuilder: (context, state) {
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: InviteByMailScreen(
               key: state.pageKey,
-              data: args!
             ),
           );
         },
