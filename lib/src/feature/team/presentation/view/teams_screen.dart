@@ -126,6 +126,7 @@ class _TeamsScreenState extends State<TeamsScreen> {
                 ),
                 InkWell(
                   onTap: () {
+                    context.push('/inviteByMail');
                     context.pop();
                   },
                   child: Container(

@@ -2,17 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_lean_model.dart';
 
-final projectHierarchyProvider = Provider<ProjectHierarchySelection>((ref) {
-  // Initialize your ProjectHierarchySelection instance here
-  return ProjectHierarchySelection(
-    projects: [], // Add your projects here
-    selectedIds: [],
-    onSelectedIdsChange: (ids) {
-      // Handle selected IDs change if needed
-    },
-  );
-});
-
 class ProjectHierarchySelection {
   List<ProjectLeanModel> projects = [];
   List<String> selectedIds;

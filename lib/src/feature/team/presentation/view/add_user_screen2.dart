@@ -39,6 +39,7 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
   Map<String, bool> switchValues = {};
   List<String> selectedIds = [];
   bool isExpanded = false;
+  final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
 
   @override
   void initState() {
@@ -50,13 +51,6 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
       });
     });
     print("data received in screen 2" + widget.data.toString());
-
-    // this.projectHierarchySelection = new ProjectHierarchySelection(
-    //     projects: [],
-    //     selectedIds: [],
-    //     onSelectedIdsChange: (projectIds) {
-    //       setState(() {});
-    //     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(projectleanControllerProvider.notifier).getProjectLean();
     });
@@ -186,7 +180,6 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
 
   @override
   Widget build(BuildContext context) {
-    final projectHierarchy = ref.watch(projectHierarchyProvider);
     final projectData = ref.watch(
         projectleanControllerProvider.select((value) => value.projectlean));
 
@@ -226,175 +219,185 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
         ),
         body: SafeArea(
           child: SingleChildScrollView(
-            child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
-                child: projectData.when(
-                  data: (data) {
-                    // Update the projects in ProjectHierarchySelection
-                    projectHierarchySelection = ProjectHierarchySelection(
-                      projects: data,
-                      selectedIds: selectedIds,
-                      onSelectedIdsChange: (ids) {
-                        // Handle selected IDs change if needed
-                        setState(() {
-                          selectedIds = ids;
-                        });
-                      },
-                    );
-                    print("data populated-----------------" +
-                        projectHierarchySelection!.projects.toString());
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomInputWidget(
-                          title: "Team",
-                          formField: TypeAheadFormField(
-                            textFieldConfiguration: TextFieldConfiguration(
-                              controller: _teamsController,
-                              onSubmitted: (value) {
+            child: FormBuilder(
+              key: _fbKey,
+              child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+                  child: projectData.when(
+                    data: (data) {
+                      // Update the projects in ProjectHierarchySelection
+                      projectHierarchySelection = ProjectHierarchySelection(
+                        projects: data,
+                        selectedIds: selectedIds,
+                        onSelectedIdsChange: (ids) {
+                          // Handle selected IDs change if needed
+                          setState(() {
+                            selectedIds = ids;
+                          });
+                        },
+                      );
+                      print("data populated-----------------" +
+                          projectHierarchySelection!.projects.toString());
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomInputWidget(
+                            title: "Team",
+                            formField: TypeAheadFormField(
+                              textFieldConfiguration: TextFieldConfiguration(
+                                controller: _teamsController,
+                                onSubmitted: (value) {
+                                  setState(() {
+                                    if (value.isNotEmpty) {
+                                      _selectedTeams.add(value);
+                                      _teamsController.clear();
+                                    }
+                                  });
+                                },
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 10.h, horizontal: 14.w),
+                                  hintText: "Search or add here",
+                                  hintStyle: TextStyle(
+                                    color: Helper.textColor500,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                    borderSide:
+                                        BorderSide(color: Helper.textColor300),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                    borderSide: BorderSide(color: Helper.primary),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                    borderSide:
+                                        const BorderSide(color: Colors.red),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                    borderSide:
+                                        const BorderSide(color: Colors.red),
+                                  ),
+                                ),
+                              ),
+                              suggestionsCallback: (pattern) async {
+                                if (pattern != null && pattern.length > 0) {
+                                  return _teamList.where((name) => name
+                                      .toLowerCase()
+                                      .contains(pattern.trim().toLowerCase()));
+                                } else {
+                                  return [];
+                                }
+                              },
+                              itemBuilder: (context, team) {
+                                return ListTile(
+                                    minVerticalPadding: 0,
+                                    dense: true,
+                                    title: Text(
+                                      team.toString(),
+                                      style: TextStyle(
+                                          color: Helper.textColor700,
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w600),
+                                    ));
+                              },
+                              onSuggestionSelected: (team) {
+                                // Do something with the selected user
+                                // print('Selected user: ${user.email}');
                                 setState(() {
-                                  if (value.isNotEmpty) {
-                                    _selectedTeams.add(value);
-                                    _teamsController.clear();
-                                  }
+                                  _selectedTeams.add(team.toString());
+                                  _teamsController.clear();
                                 });
+                              },
+                              noItemsFoundBuilder: (value) {
+                                return SizedBox();
+                              },
+                            ),
+                          ),
+                          SizedBox(height: 10.h),
+                          Wrap(
+                            spacing: 5.w,
+                            children: _selectedTeams.toSet().map((suggestion) {
+                              return Chip(
+                                label: Text(suggestion),
+                                labelStyle: TextStyle(
+                                    color: Helper.textColor500,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w500),
+                                onDeleted: () {
+                                  setState(() {
+                                    _selectedTeams.remove(suggestion);
+                                  });
+                                },
+                                deleteIcon: SvgPicture.asset(
+                                  'assets/images/close-x.svg',
+                                  color: Helper.textColor500,
+                                ),
+                                side: BorderSide.none,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.r)),
+                                backgroundColor: Helper.widgetBackground,
+                              );
+                            }).toList(),
+                          ),
+                          SizedBox(height: 12.h),
+                          CustomInputWidget(
+                            title: "Time Zone",
+                            formField: FormBuilderDropdown(
+                              name: 'timezone',
+                              items: timezoneList,
+                              validator: (val) {
+                                
+                                if (val == null || _selectedTimezone == '') {
+                                  return 'Timezone is required';
+                                }
+                                return null;
                               },
                               decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 10.h, horizontal: 14.w),
-                                hintText: "Search or add here",
-                                hintStyle: TextStyle(
-                                  color: Helper.textColor500,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w400,
+                                hintText: "Select Timezone",
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
                                 ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  borderSide:
-                                      BorderSide(color: Helper.textColor300),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  borderSide: BorderSide(color: Helper.primary),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  borderSide:
-                                      const BorderSide(color: Colors.red),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  borderSide:
-                                      const BorderSide(color: Colors.red),
-                                ),
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 16),
                               ),
-                            ),
-                            suggestionsCallback: (pattern) async {
-                              if (pattern != null && pattern.length > 0) {
-                                return _teamList.where((name) => name
-                                    .toLowerCase()
-                                    .contains(pattern.trim().toLowerCase()));
-                              } else {
-                                return [];
-                              }
-                            },
-                            itemBuilder: (context, team) {
-                              return ListTile(
-                                  minVerticalPadding: 0,
-                                  dense: true,
-                                  title: Text(
-                                    team.toString(),
-                                    style: TextStyle(
-                                        color: Helper.textColor700,
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w600),
-                                  ));
-                            },
-                            onSuggestionSelected: (team) {
-                              // Do something with the selected user
-                              // print('Selected user: ${user.email}');
-                              setState(() {
-                                _selectedTeams.add(team.toString());
-                                _teamsController.clear();
-                              });
-                            },
-                            noItemsFoundBuilder: (value) {
-                              return SizedBox();
-                            },
-                          ),
-                        ),
-                        SizedBox(height: 10.h),
-                        Wrap(
-                          spacing: 5.w,
-                          children: _selectedTeams.toSet().map((suggestion) {
-                            return Chip(
-                              label: Text(suggestion),
-                              labelStyle: TextStyle(
-                                  color: Helper.textColor500,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w500),
-                              onDeleted: () {
+                              onChanged: (value) {
                                 setState(() {
-                                  _selectedTeams.remove(suggestion);
+                                  _selectedTimezone = value;
+                                  print(_selectedTimezone.toString());
                                 });
                               },
-                              deleteIcon: SvgPicture.asset(
-                                'assets/images/close-x.svg',
-                                color: Helper.textColor500,
-                              ),
-                              side: BorderSide.none,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.r)),
-                              backgroundColor: Helper.widgetBackground,
-                            );
-                          }).toList(),
-                        ),
-                        SizedBox(height: 12.h),
-                        CustomInputWidget(
-                          title: "Time Zone",
-                          formField: FormBuilderDropdown(
-                            name: 'timezone',
-                            items: timezoneList,
-                            decoration: InputDecoration(
-                              hintText: "Select Timezone",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                              ),
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 16),
                             ),
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedTimezone = value;
-                                print(_selectedTimezone.toString());
-                              });
-                            },
                           ),
-                        ),
-                        SizedBox(height: 16.h),
-                        Text(
-                          "Assigned Projects",
-                          style: TextStyle(
-                              color: Helper.textColor700,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        SizedBox(height: 16.h),
-                        // Display the hierarchical structure
-                        if (projectHierarchySelection != null)
-                          _buildProjectTree(
-                              projectHierarchySelection!.projects, null),
-                      ],
-                    );
-                  },
-                  error: (err, _) {
-                    return const Text("Failed to load Projects",
-                        style: TextStyle(color: Helper.errorColor));
-                  },
-                  loading: () => LoadingCardListScreen(),
-                )),
+                          SizedBox(height: 16.h),
+                          Text(
+                            "Assigned Projects",
+                            style: TextStyle(
+                                color: Helper.textColor700,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          SizedBox(height: 16.h),
+                          // Display the hierarchical structure
+                          if (projectHierarchySelection != null)
+                            _buildProjectTree(
+                                projectHierarchySelection!.projects, null),
+                        ],
+                      );
+                    },
+                    error: (err, _) {
+                      return const Text("Failed to load Projects",
+                          style: TextStyle(color: Helper.errorColor));
+                    },
+                    loading: () => LoadingCardListScreen(),
+                  )),
+            ),
           ),
         ),
         bottomNavigationBar: Container(
@@ -438,12 +441,14 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
                         "preferences": {"timezone": _selectedTimezone}
                       };
                       print(data.toString());
-                      await ref
+                      if(_fbKey.currentState!.saveAndValidate()){
+                        await ref
                           .watch(createUserProvider.notifier)
                           .createUser(data)
                           .then((value) async {
                         value.fold((failure) {
                           print("errorrrrrr");
+                          Utils.flushBarErrorMessage("Something went wrong", context);
                         }, (res) {
                           // ref
                           //     .watch(docsControllerProvider.notifier)
@@ -451,7 +456,8 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
                         });
                         Utils.toastSuccessMessage("User created");
                       });
-                      context.pop();
+                      // context.pop();
+                      }
                     },
                     style: TextButton.styleFrom(
                         shape: RoundedRectangleBorder(

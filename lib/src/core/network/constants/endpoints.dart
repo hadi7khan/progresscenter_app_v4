@@ -92,6 +92,10 @@ class Endpoints {
     return '$baseUrl/api/v4/users/';
   }
 
+  static inviteByMailUrl() {
+    return '$baseUrl/api/v4/invitation-requests';
+  }
+
   //---------------------------- Support ---------------------------------------
 
   static supportListUrl() {
