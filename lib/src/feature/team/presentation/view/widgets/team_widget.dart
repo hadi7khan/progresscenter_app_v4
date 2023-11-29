@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
@@ -39,12 +41,17 @@ class _TeamWidgetState extends BaseConsumerState<TeamWidget> {
           physics: BouncingScrollPhysics(),
           itemCount: data.length,
           itemBuilder: ((context, index) {
-            return TeamCard(teamData: data[index]);
+            return InkWell(
+                onTap: () {
+                  context
+                      .push('/userProfile', extra: {"userId": data[index].id});
+                },
+                child: TeamCard(teamData: data[index]));
           }),
         );
       },
       error: (err, _) {
-        return const Text("Failed to load Projects",
+        return const Text("Failed to load teams",
             style: TextStyle(color: Helper.errorColor));
       },
       loading: () => LoadingCardListScreen(),

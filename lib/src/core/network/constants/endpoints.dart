@@ -96,6 +96,26 @@ class Endpoints {
     return '$baseUrl/api/v4/invitation-requests';
   }
 
+  static userProfileUrl(userId) {
+    return '$baseUrl/api/v4/users/$userId';
+  }
+
+  static tagsUrl(userId) {
+    return '$baseUrl/api/v4/users/$userId/tags';
+  }
+
+  static roleUrl(userId) {
+    return '$baseUrl/api/v4/users/$userId/role';
+  }
+
+  static statusUrl(userId) {
+    return '$baseUrl/api/v4/users/$userId/status';
+  }
+  
+  static projectsUrl(userId) {
+    return '$baseUrl/api/v4/users/$userId/projects';
+  }
+
   //---------------------------- Support ---------------------------------------
 
   static supportListUrl() {

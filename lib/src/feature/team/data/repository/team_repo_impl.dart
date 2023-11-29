@@ -7,6 +7,7 @@ import 'package:progresscenter_app_v4/src/core/network/dio_exception.dart';
 import 'package:progresscenter_app_v4/src/core/network/failure.dart';
 import 'package:progresscenter_app_v4/src/feature/team/data/datasource/team_datasource.dart';
 import 'package:progresscenter_app_v4/src/feature/team/data/model/user_model.dart';
+import 'package:progresscenter_app_v4/src/feature/team/data/model/user_profile_model.dart';
 import 'package:progresscenter_app_v4/src/feature/team/domain/team_repository.dart';
 
 final teamProvider = Provider.autoDispose<TeamRepositoryImpl>(
@@ -50,13 +51,27 @@ class TeamRepositoryImpl implements TeamRepository {
       return const Left(ConnectionFailure('Failed to connect to the network'));
     }
   }
-  
+
   @override
-  Future<Either<Failure, dynamic>> inviteByMail(data) async{
+  Future<Either<Failure, dynamic>> inviteByMail(data) async {
     try {
       final result = await teamDataSource.inviteByMail(data);
       print("result: " + result.toString());
       return Right(result);
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e);
+      print(errorMessage.toString());
+      rethrow;
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserProfileModel>> userProfile(userId) async {
+    try {
+      final result = await teamDataSource.userProfile(userId);
+      return  Right((UserProfileModel.fromJson(result)));
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
       print(errorMessage.toString());
