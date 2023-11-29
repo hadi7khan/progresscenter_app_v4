@@ -24,6 +24,7 @@ const String addUserRoute = 'addUser';
 const String addUserRoute2 = 'addUser2';
 const String inviteByMailRoute = 'inviteByMail';
 const String addDocsRoute = 'addDocs';
+const String userProfileRoute = 'userProfile';
 const String createTicketRoute = 'createTicket';
 
 

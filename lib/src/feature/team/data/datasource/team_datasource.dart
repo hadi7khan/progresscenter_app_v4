@@ -12,6 +12,7 @@ abstract class TeamDataSource {
   Future userList({searchText = ''});
   Future createUser(data);
   Future inviteByMail(data);
+  Future userProfile(userId);
 }
 
 class TeamDataSourceImpl implements TeamDataSource {
@@ -44,6 +45,16 @@ class TeamDataSourceImpl implements TeamDataSource {
   Future inviteByMail(data) async {
     final response =
         await dioClient.post(Endpoints.inviteByMailUrl(), data: data);
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      return ServerException();
+    }
+  }
+
+  @override
+  Future userProfile(userId) async {
+    final response = await dioClient.get(Endpoints.userProfileUrl(userId));
     if (response.statusCode == 200) {
       return response.data;
     } else {

@@ -35,7 +35,7 @@ class _TeamWidgetState extends BaseConsumerState<FeedWidget> {
       shrinkWrap: true,
       padding: EdgeInsets.zero,
       physics: BouncingScrollPhysics(),
-      itemCount: 10,
+      itemCount: data.length,
       itemBuilder: ((context, index) {
         return FeedCard(progresslineData: data[index]);
       }),

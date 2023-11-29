@@ -120,4 +120,84 @@ class Service {
       throw Exception(e.toString());
     }
   }
+
+  // method to update role for a specific user
+  Future roleChange(userId, data) async {
+    var putData = json.encode(data);
+    print("put data" + data.toString());
+    final client = http.Client();
+    final response = await client.put(Uri.parse(Endpoints.roleUrl(userId)),
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+        },
+        body: putData);
+    print(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print("role updated");
+      return response.body;
+    } else {
+      throw Exception('Failed to fetch user list');
+    }
+  }
+
+  // method to update tags for a specific user
+  Future teamChange(userId, data) async {
+    var putData = json.encode(data);
+    print("put data" + data.toString());
+    final client = http.Client();
+    final response = await client.put(Uri.parse(Endpoints.tagsUrl(userId)),
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+        },
+        body: putData);
+    print(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print("team updated");
+      return response.body;
+    } else {
+      throw Exception('Failed to fetch user list');
+    }
+  }
+
+  // method to update staus for a specific user
+  Future statusChange(userId, data) async {
+    var putData = json.encode(data);
+    print("put data" + data.toString());
+    final client = http.Client();
+    final response = await client.put(Uri.parse(Endpoints.statusUrl(userId)),
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+        },
+        body: putData);
+    print(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print("status updated");
+      return response.body;
+    } else {
+      throw Exception('Failed to fetch user list');
+    }
+  }
+
+    // method to update projects for a specific user
+  Future assignProjectChange(userId, data) async {
+    var putData = json.encode(data);
+    print("put data" + data.toString());
+    final client = http.Client();
+    final response = await client.put(Uri.parse(Endpoints.projectsUrl(userId)),
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+        },
+        body: putData);
+    print(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print("projects updated");
+      return response.body;
+    } else {
+      throw Exception('Failed to fetch user list');
+    }
+  }
 }
