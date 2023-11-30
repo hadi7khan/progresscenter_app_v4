@@ -3,6 +3,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
@@ -10,6 +11,8 @@ import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/post_comment_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/progressline_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/widgets/comments_widget.dart';
+import 'package:timezone/data/latest.dart';
+import 'package:timezone/timezone.dart';
 
 class FeedCard extends ConsumerStatefulWidget {
   final progresslineData;
@@ -22,6 +25,58 @@ class FeedCard extends ConsumerStatefulWidget {
 class _FeedCardState extends BaseConsumerState<FeedCard> {
   TextEditingController _controller = TextEditingController();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+
+  @override
+  void initState() {
+    super.initState();
+    initializeTimeZones();
+  }
+
+  String formatTimeDifference(DateTime date,
+      {String? timezone, bool showSuffix = true}) {
+    Duration difference = DateTime.now().toUtc().difference(date.toUtc());
+
+    if (timezone != null) {
+      // You may need to use a different time zone package depending on your requirements
+      // This example assumes you're using the 'timezone' package.
+      // Ensure you add the 'timezone' package to your pubspec.yaml file.
+      // Also, make sure to initialize the time zone database using initializeTimeZones().
+
+      // For example:
+      // initializeTimeZones();
+      // setLocalLocation(getLocation(timezone));
+
+      // Convert the date to the specified time zone
+      DateTime convertedDate = TZDateTime.from(date, getLocation(timezone));
+
+      // Uncomment the lines above and modify them according to your project's requirements.
+
+      // Update the 'difference' variable with the converted date
+      difference = DateTime.now().toUtc().difference(convertedDate.toUtc());
+    }
+
+    String timeAgo = DateFormat().add_yMMMMd().add_jm().format(date);
+
+    if (difference.inSeconds < 60) {
+      return '${difference.inSeconds}s ago';
+    } else if (difference.inMinutes < 60) {
+      return '${difference.inMinutes} min ago';
+    } else if (difference.inHours < 24) {
+      return '${difference.inHours} hr ago';
+    } else if (difference.inDays < 7) {
+      return '${difference.inDays} days ago';
+    } else if (difference.inDays < 30) {
+      final weeks = (difference.inDays / 7).floor();
+      return '$weeks week${weeks == 1 ? '' : 's'} ago';
+    } else if (difference.inDays < 365) {
+      final months = (difference.inDays / 30).floor();
+      return '$months month${months == 1 ? '' : 's'} ago';
+    } else {
+      final years = (difference.inDays / 365).floor();
+      return '$years year${years == 1 ? '' : 's'} ago';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = (MediaQuery.of(context).size.width - (2 * 20)) / 1.5;
@@ -60,7 +115,13 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                     fontWeight: FontWeight.w500),
               ),
               trailing: Text(
-                "11 min ago",
+                widget.progresslineData.user.lastActive != null
+                    ? formatTimeDifference(
+                        widget.progresslineData.user.lastActive!,
+                        timezone:
+                            'Asia/Kolkata', // Replace with the actual time zone
+                      )
+                    : "-",
                 style: TextStyle(
                     color: Helper.textColor600,
                     fontSize: 16.sp,
@@ -242,7 +303,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                                 .watch(
                                                     progresslineControllerProvider
                                                         .notifier)
-                                                .getProgressline();
+                                                .getProgressline(widget.progresslineData.project.projectId);
                                             print("response data" +
                                                 res.toString());
                                             _controller.clear();

@@ -111,7 +111,7 @@ class Endpoints {
   static statusUrl(userId) {
     return '$baseUrl/api/v4/users/$userId/status';
   }
-  
+
   static projectsUrl(userId) {
     return '$baseUrl/api/v4/users/$userId/projects';
   }
@@ -134,8 +134,12 @@ class Endpoints {
 
   //---------------------------- ProgressLine ---------------------------------------
 
-  static progressLineUrl() {
-    return '$baseUrl/api/v4/progress-line';
+  static progressLineProjectsUrl() {
+    return '$baseUrl/api/v4/progress-line/projects';
+  }
+
+  static progressLineUrl(projectId) {
+    return '$baseUrl/api/v4/progress-line/projects/$projectId';
   }
 
   static postCommentUrl(progressLineId) {
