@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/load_comments_widget.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
@@ -82,6 +83,8 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                       physics: AlwaysScrollableScrollPhysics(),
                       itemCount: data.length,
                       itemBuilder: ((context, index) {
+                        // Reverse the order of the list
+                        final reversedIndex = data.length - 1 - index;
                         return ListTile(
                           horizontalTitleGap: 8.w,
                           dense: true,
@@ -89,22 +92,22 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                               VisualDensity(horizontal: 0, vertical: -4),
                           contentPadding: EdgeInsets.zero,
                           leading: AvatarWidget(
-                            dpUrl: data[index].user!.dpUrl != null
-                                ? data[index].user!.dpUrl!
+                            dpUrl: data[reversedIndex].user!.dpUrl != null
+                                ? data[reversedIndex].user!.dpUrl!
                                 : "",
-                            name: data[index].user!.name!,
-                            backgroundColor: data[index].user!.preset!.color!,
+                            name: data[reversedIndex].user!.name!,
+                            backgroundColor: data[reversedIndex].user!.preset!.color!,
                             size: 32,
                           ),
                           title: Text(
-                            data[index].user!.name!,
+                            data[reversedIndex].user!.name!,
                             style: TextStyle(
                                 color: Helper.textColor600,
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w500),
                           ),
                           subtitle: Text(
-                            data[index].body!,
+                            data[reversedIndex].body!,
                             style: TextStyle(
                                 color: Helper.textColor600,
                                 fontSize: 14.sp,
@@ -119,7 +122,7 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                   return const Text("Failed to load Comments",
                       style: TextStyle(color: Helper.errorColor));
                 },
-                loading: () => CircularProgressIndicator(),
+                loading: () => LoadCommentsWidget(),
               ),
               SizedBox(
                 height: 64.h,

@@ -12,9 +12,9 @@ class ProgresslineController extends StateNotifier<ProgressLineState> {
   ProgresslineController(super.state, this.service);
   final ProgresslineRepositoryImpl service;
 
-  Future getProgressline() async {
+  Future getProgressline(projectId) async {
     state = state.copyWith(isFetching: true);
-    final result = await service.progressLine();
+    final result = await service.progressLine(projectId);
     if (!mounted) return;
     result.fold((l) {
       // error handle

@@ -24,9 +24,9 @@ class ProgresslineRepositoryImpl implements ProgresslineRepository {
   });
 
   @override
-  Future<Either<Failure, List<ProgressLineModel>>> progressLine() async {
+  Future<Either<Failure, List<ProgressLineModel>>> progressLine(projectId) async {
     try {
-      final result = await progresslineDataSource.progressLine();
+      final result = await progresslineDataSource.progressLine(projectId);
       return Right(
           (result as List).map((e) => ProgressLineModel.fromJson(e)).toList());
     } on DioError catch (e) {

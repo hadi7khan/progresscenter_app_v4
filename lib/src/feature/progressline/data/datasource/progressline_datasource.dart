@@ -10,7 +10,7 @@ final progresslineDataSourceProvider =
 });
 
 abstract class ProgresslineDataSource {
-  Future progressLine({searchText = ''});
+  Future progressLine(projectId,{searchText = ''});
   Future postComment(String id, data);
   Future comments(String id);
 }
@@ -22,8 +22,8 @@ class ProgresslineDataSourceImpl implements ProgresslineDataSource {
   });
 
   @override
-  Future progressLine({searchText = ''}) async {
-    final response = await dioClient.get(Endpoints.progressLineUrl());
+  Future progressLine(projectId, {searchText = ''}) async {
+    final response = await dioClient.get(Endpoints.progressLineUrl(projectId));
     if (response.statusCode == 200) {
       return response.data;
     } else {

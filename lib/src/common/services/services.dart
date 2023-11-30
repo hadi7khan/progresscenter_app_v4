@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:progresscenter_app_v4/src/core/network/constants/endpoints.dart';
 import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
 import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
+import 'package:progresscenter_app_v4/src/feature/progressline/data/model/progressline_project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,6 +13,22 @@ typedef ProgressCallback = void Function(double progress);
 
 class Service {
   final _prefsLocator = getIt.get<SharedPreferenceHelper>();
+
+  //method to fetch progressline project list with minimum data
+  Future<List<ProgresslineProjectModel>> progresslineProjectsList() async {
+    final client = http.Client();
+    final response =
+        await client.get(Uri.parse(Endpoints.progressLineProjectsUrl()), headers: {
+      "content-type": "application/json",
+      "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+    });
+    if (response.statusCode == 200) {
+      final jsonList = json.decode(response.body) as List<dynamic>;
+      return jsonList.map((json) => ProgresslineProjectModel.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to fetch progressline project list');
+    }
+  }
 
   //method to fetch user list with minimum data
   Future<List<UserLeanModel>> fetchUserList() async {

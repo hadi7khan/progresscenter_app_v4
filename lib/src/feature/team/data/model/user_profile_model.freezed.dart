@@ -247,11 +247,11 @@ class __$$_UserProfileModelCopyWithImpl<$Res>
           : designation // ignore: cast_nullable_to_non_nullable
               as String,
       tags: null == tags
-          ? _value._tags
+          ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>,
       projects: null == projects
-          ? _value._projects
+          ? _value.projects
           : projects // ignore: cast_nullable_to_non_nullable
               as List<String>,
       lastActive: freezed == lastActive
@@ -279,12 +279,10 @@ class _$_UserProfileModel implements _UserProfileModel {
       required this.status,
       this.dp = "",
       required this.designation,
-      required final List<String> tags,
-      required final List<String> projects,
+      required this.tags,
+      required this.projects,
       this.lastActive,
-      this.dpUrl = ""})
-      : _tags = tags,
-        _projects = projects;
+      this.dpUrl = ""});
 
   factory _$_UserProfileModel.fromJson(Map<String, dynamic> json) =>
       _$$_UserProfileModelFromJson(json);
@@ -309,22 +307,10 @@ class _$_UserProfileModel implements _UserProfileModel {
   final String dp;
   @override
   final String designation;
-  final List<String> _tags;
   @override
-  List<String> get tags {
-    if (_tags is EqualUnmodifiableListView) return _tags;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_tags);
-  }
-
-  final List<String> _projects;
+  final List<String> tags;
   @override
-  List<String> get projects {
-    if (_projects is EqualUnmodifiableListView) return _projects;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_projects);
-  }
-
+  final List<String> projects;
   @override
   final DateTime? lastActive;
   @override
@@ -352,8 +338,8 @@ class _$_UserProfileModel implements _UserProfileModel {
             (identical(other.dp, dp) || other.dp == dp) &&
             (identical(other.designation, designation) ||
                 other.designation == designation) &&
-            const DeepCollectionEquality().equals(other._tags, _tags) &&
-            const DeepCollectionEquality().equals(other._projects, _projects) &&
+            const DeepCollectionEquality().equals(other.tags, tags) &&
+            const DeepCollectionEquality().equals(other.projects, projects) &&
             (identical(other.lastActive, lastActive) ||
                 other.lastActive == lastActive) &&
             (identical(other.dpUrl, dpUrl) || other.dpUrl == dpUrl));
@@ -372,8 +358,8 @@ class _$_UserProfileModel implements _UserProfileModel {
       status,
       dp,
       designation,
-      const DeepCollectionEquality().hash(_tags),
-      const DeepCollectionEquality().hash(_projects),
+      const DeepCollectionEquality().hash(tags),
+      const DeepCollectionEquality().hash(projects),
       lastActive,
       dpUrl);
 
