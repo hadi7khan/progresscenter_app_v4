@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_mentions/flutter_mentions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
+import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
+import 'package:progresscenter_app_v4/src/common/widgets/mention_input_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/post_comment_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/progressline_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/widgets/comments_widget.dart';
+import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/widgets/viewed_by_widget.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean_model.dart';
 import 'package:timezone/data/latest.dart';
 import 'package:timezone/timezone.dart';
 
@@ -25,33 +30,104 @@ class FeedCard extends ConsumerStatefulWidget {
 class _FeedCardState extends BaseConsumerState<FeedCard> {
   TextEditingController _controller = TextEditingController();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+  List<UserLeanModel> _myCustomList = [];
+  GlobalKey<FlutterMentionsState> key = GlobalKey<FlutterMentionsState>();
 
   @override
   void initState() {
     super.initState();
     initializeTimeZones();
+    Service().fetchUserList().then((users) {
+      setState(() {
+        _myCustomList = users;
+      });
+      print("users----" + _myCustomList.toString());
+    });
   }
+
+  List<Map<String, dynamic>> getMentionsList() {
+    return _myCustomList.map((user) {
+      return {
+        'id': user.id.toString(),
+        'display': user.name,
+        'dpUrl': user.dpUrl != null ? user.dpUrl : "",
+        'dp': user.dp != null ? user.dp : "",
+        'color': user.preset!.color,
+        'trigger': '@', // or any other trigger character you want
+      };
+    }).toList();
+  }
+
+  Map<String, dynamic> getCommentData() {
+    final commentText = key.currentState!.controller!.text;
+
+    // Replace mentions in the text
+    final replacedText = replaceMentionsInText(_myCustomList, commentText);
+
+    return {
+      "comment": replacedText,
+    };
+  }
+
+  String replaceMentionsInText(List<UserLeanModel> users, String text) {
+    String replacedText = text;
+
+    // Sort users by the length of their names in descending order
+    users.sort((a, b) => b.name!.length.compareTo(a.name!.length));
+
+    for (final user in users) {
+      final mention = "@${user.name}";
+
+      // Replace mentions with user id
+      replacedText =
+          replacedText.replaceAll(mention, "@[${user.name}](user:${user.id})");
+    }
+
+    return replacedText;
+  }
+
+//  Map<String, dynamic> getCommentData() {
+//     final commentText = key.currentState!.controller!.text;
+//     final mentionsList = getMentionsList();
+
+//     // Extract user mentions and format the comment
+//     final formattedComment = commentText.replaceAllMapped(
+//       // RegExp(r"@(\S+)"),
+//       RegExp(
+  // r"@([^\s]+(?: [^\s]+)?)\s*|$"),
+//       // RegExp(r"@([^\s]+(?: [^\s]+)?)"),   // Match non-whitespace characters for the entire username
+//       (match) {
+//         final username = match.group(1) ?? match.group(2);
+//         // final username = match.group(1);
+//         print("username" + username.toString());
+//         final mention = mentionsList.firstWhere(
+//           (mention) =>
+//               mention['display'].replaceAll(" ", "").toLowerCase() ==
+//               username!.replaceAll(" ", "").toLowerCase(),
+//           orElse: () => <String, String>{'id': '', 'display': ''},
+//         );
+
+//         if (mention['id'].isNotEmpty) {
+//           // User found, format the mention with "user" key
+//           return "@[${mention['display']}](user:${mention['id']})";
+//         } else {
+//           // User not found, keep the original mention
+//           return match.group(0)!;
+//         }
+//       },
+//     );
+
+//     return {
+//       "comment": formattedComment,
+//     };
+//   }
 
   String formatTimeDifference(DateTime date,
       {String? timezone, bool showSuffix = true}) {
     Duration difference = DateTime.now().toUtc().difference(date.toUtc());
 
     if (timezone != null) {
-      // You may need to use a different time zone package depending on your requirements
-      // This example assumes you're using the 'timezone' package.
-      // Ensure you add the 'timezone' package to your pubspec.yaml file.
-      // Also, make sure to initialize the time zone database using initializeTimeZones().
-
-      // For example:
-      // initializeTimeZones();
-      // setLocalLocation(getLocation(timezone));
-
-      // Convert the date to the specified time zone
       DateTime convertedDate = TZDateTime.from(date, getLocation(timezone));
-
-      // Uncomment the lines above and modify them according to your project's requirements.
-
-      // Update the 'difference' variable with the converted date
       difference = DateTime.now().toUtc().difference(convertedDate.toUtc());
     }
 
@@ -184,11 +260,23 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                             visualDensity:
                                 VisualDensity(horizontal: 0, vertical: -4),
                             contentPadding: EdgeInsets.zero,
-                            leading: Container(
-                              padding: EdgeInsets.all(4.w),
-                              child: SvgPicture.asset(
-                                'assets/images/eye.svg',
-                                width: 24.w,
+                            leading: InkWell(
+                              onTap: () {
+                                showModalBottomSheet(
+                                    useRootNavigator: true,
+                                    isScrollControlled: true,
+                                    context: context,
+                                    backgroundColor: Colors.transparent,
+                                    builder: (context) => ViewedByWidget(
+                                    data: widget.progresslineData.viewedBy)
+                                    );
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(4.w),
+                                child: SvgPicture.asset(
+                                  'assets/images/eye.svg',
+                                  width: 24.w,
+                                ),
                               ),
                             ),
                             title: Text(
@@ -206,9 +294,15 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                     isScrollControlled: true,
                                     context: context,
                                     backgroundColor: Colors.transparent,
-                                    builder: (context) => CommentsWidget(
-                                        progresslineId:
-                                            widget.progresslineData.id));
+                                    builder: (context) => Padding(
+                                          padding: EdgeInsets.only(
+                                              bottom: MediaQuery.of(context)
+                                                  .viewInsets
+                                                  .bottom),
+                                          child: CommentsWidget(
+                                              progresslineId:
+                                                  widget.progresslineData.id),
+                                        ));
                               },
                               child: Text(
                                 widget.progresslineData.comments.length
@@ -233,33 +327,57 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                               backgroundColor: "#0F9555",
                               size: 32,
                             ),
-                            title: FormBuilderTextField(
-                              name: 'comment',
-                              controller: _controller,
-                              onChanged: (text) {
-                                // setState(() {});
-                                // _changeState = true;
-                              },
-                              onSubmitted: (text) {
-                                setState(() {
-                                  // _changeState = true;
-                                });
-                              },
-                              validator: (val) {
-                                // if (_validate && val == null || val!.isEmpty) {
-                                //   return 'Project name is required';
-                                // }
-                                // return null;
-                              },
-                              textInputAction: TextInputAction.done,
+                            title: FlutterMentions(
+                              key: key,
+                              suggestionPosition: SuggestionPosition.Top,
+                              maxLines: 5,
+                              minLines: 1,
+                              mentions: [
+                                Mention(
+                                  trigger: "@",
+                                  suggestionBuilder: (data) {
+                                    print("builder data" + data.toString());
+                                    return Container(
+                                      margin: EdgeInsets.all(10),
+                                      width: MediaQuery.of(context).size.width,
+                                      padding: EdgeInsets.all(10.0),
+                                      child: ListTile(
+                                        horizontalTitleGap: 8.w,
+                                        dense: true,
+                                        visualDensity: VisualDensity(
+                                            horizontal: 0, vertical: -4),
+                                        contentPadding: EdgeInsets.zero,
+                                        leading: AvatarWidget(
+                                          dpUrl: data['dpUrl'] != null
+                                              ? data['dpUrl']
+                                              : "",
+                                          name: data['display'],
+                                          backgroundColor: data['color'],
+                                          size: 24,
+                                        ),
+                                        title: Text(
+                                          data['display'],
+                                          style: TextStyle(
+                                              color: Helper.textColor900,
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  style: TextStyle(
+                                      color: Helper.primary,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14.sp),
+                                  data: getMentionsList(),
+                                )
+                              ],
                               style: TextStyle(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              textCapitalization: TextCapitalization.none,
-                              keyboardType: TextInputType.name,
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                                  color: Helper.textColor600,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14.sp),
+                              suggestionListDecoration:
+                                  BoxDecoration(color: Colors.white),
                               decoration: InputDecoration(
                                 fillColor: Colors.white,
                                 filled: true,
@@ -282,9 +400,8 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                         // _controller.clear();
                                         // _changeState = false;
                                       });
-                                      Map<String, dynamic> data = {
-                                        "comment": _controller.text,
-                                      };
+                                      Map<String, dynamic> data =
+                                          getCommentData();
                                       if (_fbKey.currentState!
                                           .saveAndValidate()) {
                                         print("id passed" +
@@ -303,11 +420,14 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                                 .watch(
                                                     progresslineControllerProvider
                                                         .notifier)
-                                                .getProgressline(widget.progresslineData.project.projectId);
+                                                .getProgressline(widget
+                                                    .progresslineData
+                                                    .project
+                                                    .projectId);
                                             print("response data" +
                                                 res.toString());
-                                            _controller.clear();
-                                            // _showProgressBottomSheet(context, ref);
+                                            key.currentState!.controller!
+                                                .clear();
                                           });
                                           Utils.toastSuccessMessage(
                                               "Comment Posted");
@@ -337,7 +457,6 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                       const BorderSide(color: Colors.red),
                                 ),
                               ),
-                              onTap: () {},
                             ),
                           ),
                         ],
