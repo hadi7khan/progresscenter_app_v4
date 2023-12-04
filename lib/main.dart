@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mentions/flutter_mentions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -39,20 +40,22 @@ class _MyAppState extends BaseConsumerState<MyApp> with AppThemeMixin {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) {
-          return MaterialApp.router(
-            debugShowCheckedModeBanner: false,
-            routerDelegate: goRouter.routerDelegate,
-            routeInformationParser: goRouter.routeInformationParser,
-            routeInformationProvider: goRouter.routeInformationProvider,
-            title: 'ProgressCenter',
-            theme: lightTheme(),
-            darkTheme: darkTheme(),
-            themeMode: currentTheme(kLight),
-            // theme: ThemeData(
-            //   splashColor: Colors.transparent,
-            //   fontFamily: 'Inter',
-            //   useMaterial3: true,
-            // ),
+          return Portal(
+            child: MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              routerDelegate: goRouter.routerDelegate,
+              routeInformationParser: goRouter.routeInformationParser,
+              routeInformationProvider: goRouter.routeInformationProvider,
+              title: 'ProgressCenter',
+              theme: lightTheme(),
+              darkTheme: darkTheme(),
+              themeMode: currentTheme(kLight),
+              // theme: ThemeData(
+              //   splashColor: Colors.transparent,
+              //   fontFamily: 'Inter',
+              //   useMaterial3: true,
+              // ),
+            ),
           );
         });
   }
