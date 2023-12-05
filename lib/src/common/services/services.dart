@@ -114,7 +114,24 @@ class Service {
       print("file deleted");
       return response.body;
     } else {
-      throw Exception('Failed to delete image');
+      throw Exception('Failed to delete file');
+    }
+  }
+
+  // method to delete file
+  Future deleteUser(userId) async {
+    final client = http.Client();
+    final response = await client
+        .delete(Uri.parse(Endpoints.userProfileUrl(userId)), headers: {
+      "content-type": "application/json",
+      "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+    });
+    print(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print("user deleted");
+      return response.body;
+    } else {
+      throw Exception('Failed to delete user');
     }
   }
 

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
@@ -65,7 +67,7 @@ class _DocsCardState extends BaseConsumerState<DocsCard> {
                       'Download',
                       style: TextStyle(
                           color: Helper.baseBlack,
-                          fontSize: 16.sp,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w500),
                     ),
                   ),
@@ -75,7 +77,7 @@ class _DocsCardState extends BaseConsumerState<DocsCard> {
                       'Delete',
                       style: TextStyle(
                           color: Helper.errorColor,
-                          fontSize: 16.sp,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w500),
                     ),
                   ),
@@ -83,12 +85,115 @@ class _DocsCardState extends BaseConsumerState<DocsCard> {
                 onSelected: (value) {
                   print(value.toString());
                   if (value == 'delete') {
-                    Service()
-                        .deleteFile(widget.docsData['fileId'])
-                        .then((value) {
-                      Utils.flushBarErrorMessage("File deleted", context);
-                      ref.watch(docsControllerProvider.notifier).getDocs();
-                    });
+                    showDialog(
+                      context: context,
+                      builder: ((context) {
+                        return FormBuilder(
+                          child: AlertDialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14.r),
+                            ),
+                            content: StatefulBuilder(builder:
+                                (BuildContext context, StateSetter setState) {
+                              return SingleChildScrollView(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    RichText(
+                                      text: TextSpan(
+                                        text: "The following file ",
+                                        style: TextStyle(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w500,
+                                            color: Helper.textColor500),
+                                        children: [
+                                          TextSpan(
+                                            text: '\"' +
+                                                widget.docsData['fileName'] +
+                                                '\"',
+                                            style: TextStyle(
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w500,
+                                                color: Helper.baseBlack),
+                                          ),
+                                          TextSpan(
+                                            text: ' will be deleted.',
+                                            style: TextStyle(
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w500,
+                                                color: Helper.textColor500),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
+                            actionsPadding: const EdgeInsets.only(
+                                left: 32, bottom: 32, right: 32),
+                            actions: [
+                              TextButton(
+                                onPressed: () async {
+                                  Service()
+                                      .deleteFile(widget.docsData['fileId'])
+                                      .then((value) {
+                                      context.pop();
+                                    Utils.flushBarErrorMessage(
+                                        "File deleted", context);
+                                    ref
+                                        .watch(docsControllerProvider.notifier)
+                                        .getDocs();
+                                  });
+                                  
+                                  setState(() {});
+                                },
+                                style: TextButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 11),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.r),
+                                    ),
+                                    backgroundColor: Helper.errorColor,
+                                    fixedSize: Size.infinite),
+                                child: const Text(
+                                  "Delete",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  context.pop();
+                                },
+                                style: TextButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.r),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 11),
+                                    backgroundColor: Colors.white,
+                                    side:
+                                        BorderSide(color: Helper.textColor300),
+                                    fixedSize: Size.infinite),
+                                child: Text(
+                                  "Cancel",
+                                  style: TextStyle(
+                                      color: Helper.textColor500,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                            ],
+                            actionsAlignment: MainAxisAlignment.center,
+                          ),
+                        );
+                      }),
+                    );
                   } else if (value == 'download') {
                     // Handle download action
                     print('Download option selected');
