@@ -8,7 +8,8 @@ import 'package:progresscenter_app_v4/src/feature/docs/presentation/provider/doc
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/widgets/docs_card.dart';
 
 class DocsWidget extends ConsumerStatefulWidget {
-  const DocsWidget({super.key});
+  final files;
+  const DocsWidget({super.key, this.files});
 
   @override
   ConsumerState<DocsWidget> createState() => _TeamWidgetState();
@@ -17,27 +18,33 @@ class DocsWidget extends ConsumerStatefulWidget {
 class _TeamWidgetState extends BaseConsumerState<DocsWidget> {
   List filesData = [];
   int indx = 0;
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref.read(docsControllerProvider.notifier).getDocs();
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+  //     ref.read(docsControllerProvider.notifier).getDocs();
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final docsData =
-        ref.watch(docsControllerProvider.select((value) => value.docs));
-    return docsData.when(
-      data: (data) {
-        data.map((map) {
-          indx = filesData.indexOf(map);
-          print("indxxxxx"+indx.toString());
-          return {filesData.add(map.files)};
-        }).toList();
-        print(filesData.length.toString());
-        
+    // final docsData =
+    //     ref.watch(docsControllerProvider.select((value) => value.docs));
+    // return docsData.when(
+    //   data: (data) {
+        // filesData = [];
+        // print("dataaaaa"+data.toString());
+        // data.map((map) {
+        //   indx = filesData.indexOf(map);
+        //   print("indxxxxx"+indx.toString());
+        //   return {filesData.add(map.files)};
+        // }).toList();
+        // print(filesData.length.toString());
+        // final allFiles = data
+        //     .where((document) => document.files != null)
+        //     .expand((document) => document.files!)
+        //     .toList();
+
         return ListView.separated(
           separatorBuilder: (context, index) {
             return SizedBox(height: 16.h);
@@ -45,17 +52,18 @@ class _TeamWidgetState extends BaseConsumerState<DocsWidget> {
           shrinkWrap: true,
           padding: EdgeInsets.zero,
           physics: BouncingScrollPhysics(),
-          itemCount: filesData.length,
+          itemCount: widget.files.length,
           itemBuilder: ((context, index) {
-            return DocsCard(docsData: filesData[index], index: index);
+            final file = widget.files[index];
+            return DocsCard(docsData: file, index: index);
           }),
         );
-      },
-      error: (err, _) {
-        return const Text("Failed to load Docs",
-            style: TextStyle(color: Helper.errorColor));
-      },
-      loading: () => LoadingCardListScreen(),
-    );
+      // },
+      // error: (err, _) {
+      //   return const Text("Failed to load Docs",
+      //       style: TextStyle(color: Helper.errorColor));
+      // },
+      // loading: () => LoadingCardListScreen(),
+    // );
   }
 }

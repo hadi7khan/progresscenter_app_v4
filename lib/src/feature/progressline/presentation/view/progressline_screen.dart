@@ -66,6 +66,7 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
                         SizedBox(width: 12.w),
                         PopupMenuButton(
                           icon: SvgPicture.asset('assets/images/sort.svg'),
+                           position: PopupMenuPosition.under,
                           itemBuilder: (BuildContext context) {
                             return _progresslineProjects.map((project) {
                               return PopupMenuItem(

@@ -17,14 +17,16 @@ class Service {
   //method to fetch progressline project list with minimum data
   Future<List<ProgresslineProjectModel>> progresslineProjectsList() async {
     final client = http.Client();
-    final response =
-        await client.get(Uri.parse(Endpoints.progressLineProjectsUrl()), headers: {
+    final response = await client
+        .get(Uri.parse(Endpoints.progressLineProjectsUrl()), headers: {
       "content-type": "application/json",
       "Authorization": "Bearer " + _prefsLocator.getUserToken(),
     });
     if (response.statusCode == 200) {
       final jsonList = json.decode(response.body) as List<dynamic>;
-      return jsonList.map((json) => ProgresslineProjectModel.fromJson(json)).toList();
+      return jsonList
+          .map((json) => ProgresslineProjectModel.fromJson(json))
+          .toList();
     } else {
       throw Exception('Failed to fetch progressline project list');
     }
@@ -93,6 +95,23 @@ class Service {
     print(response.statusCode.toString());
     if (response.statusCode == 200) {
       print("image deleted");
+      return response.body;
+    } else {
+      throw Exception('Failed to delete image');
+    }
+  }
+
+  // method to delete file
+  Future deleteFile(fileId) async {
+    final client = http.Client();
+    final response = await client
+        .delete(Uri.parse(Endpoints.deleteFileUrl(fileId)), headers: {
+      "content-type": "application/json",
+      "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+    });
+    print(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print("file deleted");
       return response.body;
     } else {
       throw Exception('Failed to delete image');
@@ -198,7 +217,7 @@ class Service {
     }
   }
 
-    // method to update projects for a specific user
+  // method to update projects for a specific user
   Future assignProjectChange(userId, data) async {
     var putData = json.encode(data);
     print("put data" + data.toString());

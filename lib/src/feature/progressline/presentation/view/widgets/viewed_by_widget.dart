@@ -65,7 +65,7 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                         widget.data[index].name!,
                         style: TextStyle(
                             color: Helper.baseBlack,
-                            fontSize: 18.sp,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w600),
                       ),
                     );
