@@ -23,6 +23,9 @@ class DocsScreen extends ConsumerStatefulWidget {
 
 class _DocsScreenState extends BaseConsumerState<DocsScreen> {
   TextEditingController _categoryController = TextEditingController();
+  List<Map<String, dynamic>> categoryList = [];
+  String? selectedDocumentId;
+  List<String> documentNames = [];
   @override
   void initState() {
     super.initState();
@@ -31,7 +34,6 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
     });
   }
 
-  List<Map<String, dynamic>> categoryList = [];
   @override
   Widget build(BuildContext context) {
     final docsData =
@@ -51,7 +53,47 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                   'name': map.name,
                 };
               }).toList();
-              print("mapped data " + categoryList.toString());
+
+              // Get the list of files from all documents
+              final allFiles = data
+                  .where((document) =>
+                      document.files != null && document.id!.isNotEmpty)
+                  .expand((document) => document.files!
+                      .map<Map<String, dynamic>>(
+                        (file) => {
+                          'documentId': document.id,
+                          'fileId': file.id,
+                          'name': file.name,
+                          'path': file.path,
+                          'uploadedBy': file.uploadedBy?.name ?? '',
+                        },
+                      )
+                      .toList())
+                  .toList();
+              print("allFiles " + allFiles.toString());
+
+              // Map file IDs to be equal to folder IDs
+              final filesWithFolderId = allFiles.map((file) {
+                print("filesWithFolderIdData " + file.toString());
+                return {
+                  'folderId': file['documentId'], // Using document ID as fileId
+                  'fileName': file['name'],
+                  'path': file['path'],
+                  'uploadedBy': file['uploadedBy'] ?? '',
+                  'fileId': file['fileId']
+                };
+              }).toList();
+              print("filesWithFolderId " + filesWithFolderId.toString());
+
+              // Filter files based on the selected document
+              final filteredFiles = selectedDocumentId != null
+                  ? filesWithFolderId
+                      .where((file) => file['folderId'] == selectedDocumentId)
+                      .toList()
+                  : filesWithFolderId; // Show all files initially
+
+              print("filteredFiles " + filteredFiles.toString());
+
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -63,7 +105,39 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                         children: [
                           SvgPicture.asset('assets/images/search.svg'),
                           SizedBox(width: 12.w),
-                          SvgPicture.asset('assets/images/sort.svg'),
+                          PopupMenuButton(
+                            icon: SvgPicture.asset('assets/images/sort.svg'),
+                            position: PopupMenuPosition.under,
+                            itemBuilder: (BuildContext context) {
+                              return data.map((folder) {
+                                return PopupMenuItem(
+                                    value: folder
+                                        .id, // Use a unique identifier for each item
+                                    child: ListTile(
+                                      horizontalTitleGap: 8.w,
+                                      dense: true,
+                                      visualDensity: VisualDensity(
+                                          horizontal: 0, vertical: -4),
+                                      contentPadding: EdgeInsets.zero,
+                                      title: Text(
+                                        folder.name!,
+                                        style: TextStyle(
+                                            color: Helper.baseBlack,
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ));
+                              }).toList();
+                            },
+                            onSelected: (value) {
+                              print(value.toString());
+                              setState(() {
+                                selectedDocumentId = value!;
+                                print(
+                                    "selectedDocumentId: $selectedDocumentId");
+                              });
+                            },
+                          ),
                           SizedBox(width: 12.w),
                           InkWell(
                               onTap: () {
@@ -89,7 +163,7 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                     ],
                   ),
                   SizedBox(height: 16.h),
-                  DocsWidget(),
+                  DocsWidget(files: filteredFiles),
                 ],
               );
             },
@@ -301,8 +375,8 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                       TextButton(
                         onPressed: () async {
                           Map<String, dynamic> data = {
-                              "name": _categoryController.text,
-                            };
+                            "name": _categoryController.text,
+                          };
                           await ref
                               .watch(createDocFolderProvider.notifier)
                               .createDocFolder(data)
@@ -313,7 +387,7 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                               ref
                                   .watch(docsControllerProvider.notifier)
                                   .getDocs();
-                                  _categoryController.clear();
+                              _categoryController.clear();
                             });
                             Utils.toastSuccessMessage("Category added");
                           });
