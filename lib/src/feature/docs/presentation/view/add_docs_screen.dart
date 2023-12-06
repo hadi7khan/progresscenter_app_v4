@@ -18,6 +18,7 @@ import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dar
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/provider/add_doc_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/docs/presentation/provider/docs_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean_model.dart';
 
 class AddDocsScreen extends ConsumerStatefulWidget {
@@ -40,6 +41,9 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
   final ImagePicker _picker = ImagePicker();
   XFile? _doc;
   String? _docBase64;
+  String? fileName;
+  String? fileSizeString;
+  XFile? pickedFile;
 
   @override
   void initState() {
@@ -53,7 +57,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
   }
 
   Future<void> _pickDoc() async {
-    final pickedFile = await _picker.pickImage(
+    pickedFile = await _picker.pickImage(
       source: ImageSource.gallery,
       maxWidth: 1024,
       maxHeight: 1024,
@@ -61,18 +65,33 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
     );
 
     if (pickedFile != null) {
-      final file = XFile(pickedFile.path);
-      final bytes = await pickedFile.readAsBytes();
+      final file = XFile(pickedFile!.path);
+      final bytes = await pickedFile!.readAsBytes();
       setState(() {
         _docBase64 = base64Encode(bytes);
+        _doc = file;
       });
-      if (await file.length() > 1000000) {
+    
+      // Get file name
+      fileName = _doc!.path.split('/').last;
+
+      // Check file size
+      final fileSize = await file.length();
+      if (fileSize > 1000000) {
         // The file is too large, show an error message
         return;
       }
-      setState(() {
-        _doc = file;
-      });
+
+      // Convert file size to KB or MB
+
+      if (fileSize < 1024) {
+        fileSizeString = '$fileSize bytes';
+      } else if (fileSize < 1024 * 1024) {
+        fileSizeString = '${(fileSize / 1024).toStringAsFixed(2)} KB';
+      } else {
+        fileSizeString = '${(fileSize / (1024 * 1024)).toStringAsFixed(2)} MB';
+      }
+
       print("image path" + _doc!.path.toString());
     }
   }
@@ -158,7 +177,8 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                               size: 30,
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 12.0),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 12.0),
                               child: RichText(
                                 textAlign: TextAlign.center,
                                 text: TextSpan(
@@ -186,6 +206,50 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                           ],
                         ),
                       ),
+                      SizedBox(height: 10.h),
+                      pickedFile != null
+                          ? Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 14, vertical: 12),
+                              height: 72,
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: Helper.textColor300),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width * 0.5,
+                                      child: Text(fileName!,
+                                      overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              color: Helper.baseBlack,
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w600)),
+                                    ),
+                                    Text(fileSizeString!,
+                                      overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              color: Helper.textColor400,
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w600)),
+                                    InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            pickedFile == null;
+                                          });
+                                          setState((){});
+                                        },
+                                        child: SvgPicture.asset(
+                                            width: 15,
+                                            height: 15,
+                                            'assets/images/close-x.svg')),
+                                  ]),
+                            )
+                          : const SizedBox(),
                       SizedBox(height: 32.h),
                       CustomInputWidget(
                         title: "Full name",
@@ -193,7 +257,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                           name: '_name',
                           controller: _nameController,
                           // focusNode: focusNode,
-    
+
                           validator: (val) {
                             if (val == null || val.isEmpty) {
                               return 'Name is required';
@@ -220,7 +284,8 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                             // hintText: widget.control.label,
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.r),
-                              borderSide: BorderSide(color: Helper.textColor300),
+                              borderSide:
+                                  BorderSide(color: Helper.textColor300),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.r),
@@ -270,10 +335,11 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                                 ],
                               ),
                             ),
-    
+
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.r),
-                              borderSide: BorderSide(color: Helper.textColor300),
+                              borderSide:
+                                  BorderSide(color: Helper.textColor300),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.r),
@@ -389,8 +455,8 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                                             height: 32.h,
                                             decoration: BoxDecoration(
                                               shape: BoxShape.circle,
-                                              color:
-                                                  _getColor(user.preset!.color!),
+                                              color: _getColor(
+                                                  user.preset!.color!),
                                             ),
                                             child: Center(
                                               child: Text(
@@ -484,6 +550,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
               style: ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(
                       _nameController.text.isNotEmpty &&
+                              _doc != null &&
                               _selectedUserIds.isNotEmpty
                           ? Helper.primary
                           : Helper.blendmode),
@@ -498,8 +565,11 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                 });
                 if (_fbKey.currentState!.saveAndValidate() &&
                     _selectedUserIds.isNotEmpty &&
-                    _nameController.text.isNotEmpty) {
-                      formData.fields..add(MapEntry('course_features', jsonEncode(_selectedUserIds)));
+                    _nameController.text.isNotEmpty &&
+                    _doc != null) {
+                  formData.fields
+                    ..add(MapEntry(
+                        'course_features', jsonEncode(_selectedUserIds)));
                   if (_doc != null) {
                     formData.files.add(MapEntry(
                         "file", await MultipartFile.fromFile(_doc!.path)));
@@ -514,11 +584,13 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                     value.fold((failure) {
                       print("errorrrrrr");
                     }, (data) {
+                      context.pop();
+                      ref.watch(docsControllerProvider.notifier).getDocs();
                       Utils.toastSuccessMessage(
                         "Document Added",
                       );
                     });
-    
+
                     setState(() {
                       _isLoading = false;
                     });

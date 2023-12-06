@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/loading_docs_list.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
@@ -171,7 +173,7 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
               return const Text("Failed to load Docs",
                   style: TextStyle(color: Helper.errorColor));
             },
-            loading: () => SizedBox(),
+            loading: () => LoadingDocsList(),
           ),
         ),
       )),

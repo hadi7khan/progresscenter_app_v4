@@ -11,7 +11,8 @@ import 'package:progresscenter_app_v4/src/feature/team/presentation/provider/use
 import 'team_card.dart';
 
 class TeamWidget extends ConsumerStatefulWidget {
-  const TeamWidget({super.key});
+  final teamData;
+  const TeamWidget({super.key, this.teamData});
 
   @override
   ConsumerState<TeamWidget> createState() => _TeamWidgetState();
@@ -21,17 +22,17 @@ class _TeamWidgetState extends BaseConsumerState<TeamWidget> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref.read(teamControllerProvider.notifier).getUser();
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   ref.read(teamControllerProvider.notifier).getUser();
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
-    final teamData =
-        ref.watch(teamControllerProvider.select((value) => value.users));
-    return teamData.when(
-      data: (data) {
+    // final teamData =
+    //     ref.watch(teamControllerProvider.select((value) => value.users));
+    // return teamData.when(
+    //   data: (data) {
         return ListView.separated(
           separatorBuilder: (context, index) {
             return SizedBox(height: 16.h);
@@ -39,22 +40,24 @@ class _TeamWidgetState extends BaseConsumerState<TeamWidget> {
           shrinkWrap: true,
           padding: EdgeInsets.zero,
           physics: BouncingScrollPhysics(),
-          itemCount: data.length,
+          itemCount: widget.teamData.length,
           itemBuilder: ((context, index) {
+            final user = widget.teamData[index];
+            print("user---"+ user.toString());
             return InkWell(
                 onTap: () {
                   context
-                      .push('/userProfile', extra: {"userId": data[index].id});
+                      .push('/userProfile', extra: {"userId": user.id});
                 },
-                child: TeamCard(teamData: data[index]));
+                child: TeamCard(teamData: user));
           }),
         );
-      },
-      error: (err, _) {
-        return const Text("Failed to load teams",
-            style: TextStyle(color: Helper.errorColor));
-      },
-      loading: () => LoadingCardListScreen(),
-    );
+    //   },
+    //   error: (err, _) {
+    //     return const Text("Failed to load teams",
+    //         style: TextStyle(color: Helper.errorColor));
+    //   },
+    //   loading: () => LoadingCardListScreen(),
+    // );
   }
 }
