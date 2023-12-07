@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,7 +7,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
-import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/loading_add_user2.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
@@ -222,7 +221,8 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
             child: FormBuilder(
               key: _fbKey,
               child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
                   child: projectData.when(
                     data: (data) {
                       // Update the projects in ProjectHierarchySelection
@@ -270,7 +270,8 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8.r),
-                                    borderSide: BorderSide(color: Helper.primary),
+                                    borderSide:
+                                        BorderSide(color: Helper.primary),
                                   ),
                                   focusedErrorBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8.r),
@@ -351,7 +352,6 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
                               name: 'timezone',
                               items: timezoneList,
                               validator: (val) {
-                                
                                 if (val == null || _selectedTimezone == '') {
                                   return 'Timezone is required';
                                 }
@@ -395,7 +395,7 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
                       return const Text("Failed to load Projects",
                           style: TextStyle(color: Helper.errorColor));
                     },
-                    loading: () => LoadingCardListScreen(),
+                    loading: () => LoadingAddUser2(),
                   )),
             ),
           ),
@@ -441,22 +441,23 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
                         "preferences": {"timezone": _selectedTimezone}
                       };
                       print(data.toString());
-                      if(_fbKey.currentState!.saveAndValidate()){
+                      if (_fbKey.currentState!.saveAndValidate()) {
                         await ref
-                          .watch(createUserProvider.notifier)
-                          .createUser(data)
-                          .then((value) async {
-                        value.fold((failure) {
-                          print("errorrrrrr");
-                          Utils.flushBarErrorMessage("Something went wrong", context);
-                        }, (res) {
-                          // ref
-                          //     .watch(docsControllerProvider.notifier)
-                          //     .getDocs();
+                            .watch(createUserProvider.notifier)
+                            .createUser(data)
+                            .then((value) async {
+                          value.fold((failure) {
+                            print("errorrrrrr");
+                            Utils.flushBarErrorMessage(
+                                "Something went wrong", context);
+                          }, (res) {
+                            // ref
+                            //     .watch(docsControllerProvider.notifier)
+                            //     .getDocs();
+                          });
+                          Utils.toastSuccessMessage("User created");
                         });
-                        Utils.toastSuccessMessage("User created");
-                      });
-                      // context.pop();
+                        // context.pop();
                       }
                     },
                     style: TextButton.styleFrom(

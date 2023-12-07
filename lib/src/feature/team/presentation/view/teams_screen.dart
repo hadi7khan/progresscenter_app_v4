@@ -69,37 +69,44 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                           children: [
                             SvgPicture.asset('assets/images/search.svg'),
                             SizedBox(width: 12.w),
-                            PopupMenuButton(
-                              icon: SvgPicture.asset('assets/images/sort.svg'),
-                              position: PopupMenuPosition.under,
-                              itemBuilder: (BuildContext context) {
-                                return _teamList.map((team) {
-                                  return PopupMenuItem(
-                                      value:
-                                          team, // Use a unique identifier for each item
-                                      child: ListTile(
-                                        horizontalTitleGap: 8.w,
-                                        dense: true,
-                                        visualDensity: VisualDensity(
-                                            horizontal: 0, vertical: -4),
-                                        contentPadding: EdgeInsets.zero,
-                                        title: Text(
-                                          team,
-                                          style: TextStyle(
-                                              color: Helper.baseBlack,
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ));
-                                }).toList();
-                              },
-                              onSelected: (value) {
-                                print(value.toString());
-                                setState(() {
-                                  _selectedTeam = value == 'All' ? null : value;
-                                  print("selectedTeam: $_selectedTeam");
-                                });
-                              },
+                            ConstrainedBox(
+                            constraints: new BoxConstraints(
+                              maxHeight: 30.h,
+                              maxWidth: 30.w,
+                            ),
+                              child: PopupMenuButton(
+                                padding: EdgeInsets.zero,
+                                icon: SvgPicture.asset('assets/images/sort.svg'),
+                                position: PopupMenuPosition.under,
+                                itemBuilder: (BuildContext context) {
+                                  return _teamList.map((team) {
+                                    return PopupMenuItem(
+                                        value:
+                                            team, // Use a unique identifier for each item
+                                        child: ListTile(
+                                          horizontalTitleGap: 8.w,
+                                          dense: true,
+                                          visualDensity: VisualDensity(
+                                              horizontal: 0, vertical: -4),
+                                          contentPadding: EdgeInsets.zero,
+                                          title: Text(
+                                            team,
+                                            style: TextStyle(
+                                                color: Helper.baseBlack,
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ));
+                                  }).toList();
+                                },
+                                onSelected: (value) {
+                                  print(value.toString());
+                                  setState(() {
+                                    _selectedTeam = value == 'All' ? null : value;
+                                    print("selectedTeam: $_selectedTeam");
+                                  });
+                                },
+                              ),
                             ),
                             SizedBox(width: 12.w),
                             InkWell(

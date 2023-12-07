@@ -30,7 +30,7 @@ class _SupportCardState extends State<SupportCard> {
           child: SvgPicture.asset('assets/images/ticket.svg'),
         ),
         title: Text(
-         "ID #"+ widget.supportData.id,
+          "ID #" + widget.supportData.id,
           style: TextStyle(
               color: Helper.textColor700,
               fontSize: 14.sp,
@@ -43,9 +43,22 @@ class _SupportCardState extends State<SupportCard> {
               fontSize: 12.sp,
               fontWeight: FontWeight.w400),
         ),
-        trailing: SvgPicture.asset('assets/images/dots-vertical.svg'),
+        trailing: Container(
+          padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
+          decoration: BoxDecoration(
+            color: widget.supportData.status == "OPEN" ? Helper.errorColor.withOpacity(0.1): Helper.successColor.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(8.r),
+          ),
+          child: Text(
+            widget.supportData.status,
+            maxLines: 1,
+            style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 12,
+                color: widget.supportData.status == "OPEN" ? Helper.errorColor: Helper.successColor),
+          ),
+        ),
       ),
     );
-    
   }
 }
