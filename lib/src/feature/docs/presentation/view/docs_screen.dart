@@ -107,38 +107,45 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                         children: [
                           SvgPicture.asset('assets/images/search.svg'),
                           SizedBox(width: 12.w),
-                          PopupMenuButton(
-                            icon: SvgPicture.asset('assets/images/sort.svg'),
-                            position: PopupMenuPosition.under,
-                            itemBuilder: (BuildContext context) {
-                              return data.map((folder) {
-                                return PopupMenuItem(
-                                    value: folder
-                                        .id, // Use a unique identifier for each item
-                                    child: ListTile(
-                                      horizontalTitleGap: 8.w,
-                                      dense: true,
-                                      visualDensity: VisualDensity(
-                                          horizontal: 0, vertical: -4),
-                                      contentPadding: EdgeInsets.zero,
-                                      title: Text(
-                                        folder.name!,
-                                        style: TextStyle(
-                                            color: Helper.baseBlack,
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ));
-                              }).toList();
-                            },
-                            onSelected: (value) {
-                              print(value.toString());
-                              setState(() {
-                                selectedDocumentId = value!;
-                                print(
-                                    "selectedDocumentId: $selectedDocumentId");
-                              });
-                            },
+                          ConstrainedBox(
+                            constraints: new BoxConstraints(
+                              maxHeight: 30.h,
+                              maxWidth: 30.w,
+                            ),
+                            child: PopupMenuButton(
+                              padding: EdgeInsets.zero,
+                              icon: SvgPicture.asset('assets/images/sort.svg'),
+                              position: PopupMenuPosition.under,
+                              itemBuilder: (BuildContext context) {
+                                return data.map((folder) {
+                                  return PopupMenuItem(
+                                      value: folder
+                                          .id, // Use a unique identifier for each item
+                                      child: ListTile(
+                                        horizontalTitleGap: 8.w,
+                                        dense: true,
+                                        visualDensity: VisualDensity(
+                                            horizontal: 0, vertical: -4),
+                                        contentPadding: EdgeInsets.zero,
+                                        title: Text(
+                                          folder.name!,
+                                          style: TextStyle(
+                                              color: Helper.baseBlack,
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ));
+                                }).toList();
+                              },
+                              onSelected: (value) {
+                                print(value.toString());
+                                setState(() {
+                                  selectedDocumentId = value;
+                                  print(
+                                      "selectedDocumentId: $selectedDocumentId");
+                                });
+                              },
+                            ),
                           ),
                           SizedBox(width: 12.w),
                           InkWell(
@@ -270,152 +277,157 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
       context: context,
       useRootNavigator: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => Container(
-        padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 28.h),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r)),
-          color: Colors.white,
-        ),
-        height: 238.h,
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'Add new category',
-                  style: TextStyle(
-                      color: Helper.baseBlack,
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500),
-                ),
-              ],
-            ),
-            SizedBox(height: 20.h),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomInputWidget(
-                  title: "Category name",
-                  formField: FormBuilderTextField(
-                    name: '_category',
-                    controller: _categoryController,
-                    // focusNode: focusNode,
-                    validator: (val) {
-                      if (val == null || val.isEmpty) {
-                        return 'Category is required';
-                      }
-                      return null;
-                    },
-                    textInputAction: TextInputAction.done,
+      builder: (context) => Padding(
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: Container(
+          padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 28.h),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r)),
+            color: Colors.white,
+          ),
+          height: 238.h,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Add new category',
                     style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    textCapitalization: TextCapitalization.none,
-                    keyboardType: TextInputType.name,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(
-                          vertical: 10.h, horizontal: 14.w),
-                      hintText: "Enter name",
-                      hintStyle: TextStyle(
-                        color: Helper.textColor500,
+                        color: Helper.baseBlack,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20.h),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomInputWidget(
+                    title: "Category name",
+                    formField: FormBuilderTextField(
+                      name: '_category',
+                      controller: _categoryController,
+                      // focusNode: focusNode,
+                      validator: (val) {
+                        if (val == null || val.isEmpty) {
+                          return 'Category is required';
+                        }
+                        return null;
+                      },
+                      textInputAction: TextInputAction.done,
+                      style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w400,
                       ),
-                      // hintText: widget.control.label,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                        borderSide: BorderSide(color: Helper.textColor300),
+                      textCapitalization: TextCapitalization.none,
+                      keyboardType: TextInputType.name,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.h, horizontal: 14.w),
+                        hintText: "Enter name",
+                        hintStyle: TextStyle(
+                          color: Helper.textColor500,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        // hintText: widget.control.label,
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                          borderSide: BorderSide(color: Helper.textColor300),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                          borderSide: BorderSide(color: Helper.primary),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                          borderSide: const BorderSide(color: Colors.red),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                          borderSide: const BorderSide(color: Colors.red),
+                        ),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                        borderSide: BorderSide(color: Helper.primary),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                        borderSide: const BorderSide(color: Colors.red),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                        borderSide: const BorderSide(color: Colors.red),
-                      ),
+                      onTap: () {},
                     ),
-                    onTap: () {},
                   ),
-                ),
-                SizedBox(height: 20.h),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      TextButton(
-                        onPressed: () async {
-                          context.pop();
-                        },
-                        style: TextButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 11),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.r),
-                            ),
-                            backgroundColor: Colors.white,
-                            fixedSize: Size.infinite),
-                        child: Text(
-                          "Cancel",
-                          style: TextStyle(
-                              color: Helper.neutral500,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500),
+                  SizedBox(height: 20.h),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        TextButton(
+                          onPressed: () async {
+                            context.pop();
+                          },
+                          style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 11),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              backgroundColor: Colors.white,
+                              fixedSize: Size.infinite),
+                          child: Text(
+                            "Cancel",
+                            style: TextStyle(
+                                color: Helper.neutral500,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
                         ),
-                      ),
-                      TextButton(
-                        onPressed: () async {
-                          Map<String, dynamic> data = {
-                            "name": _categoryController.text,
-                          };
-                          await ref
-                              .watch(createDocFolderProvider.notifier)
-                              .createDocFolder(data)
-                              .then((value) async {
-                            value.fold((failure) {
-                              print("errorrrrrr");
-                            }, (res) {
-                              ref
-                                  .watch(docsControllerProvider.notifier)
-                                  .getDocs();
-                              _categoryController.clear();
+                        TextButton(
+                          onPressed: () async {
+                            Map<String, dynamic> data = {
+                              "name": _categoryController.text,
+                            };
+                            await ref
+                                .watch(createDocFolderProvider.notifier)
+                                .createDocFolder(data)
+                                .then((value) async {
+                              value.fold((failure) {
+                                print("errorrrrrr");
+                              }, (res) {
+                                ref
+                                    .watch(docsControllerProvider.notifier)
+                                    .getDocs();
+                                _categoryController.clear();
+                              });
+                              Utils.toastSuccessMessage("Category added");
                             });
-                            Utils.toastSuccessMessage("Category added");
-                          });
-                          context.pop();
-                        },
-                        style: TextButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.r),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 11),
-                            backgroundColor: Helper.primary,
-                            side: BorderSide(color: Helper.textColor300),
-                            fixedSize: Size.infinite),
-                        child: Text(
-                          "Confirm",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500),
+                            context.pop();
+                          },
+                          style: TextButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 11),
+                              backgroundColor: Helper.primary,
+                              side: BorderSide(color: Helper.textColor300),
+                              fixedSize: Size.infinite),
+                          child: Text(
+                            "Confirm",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
                         ),
-                      ),
-                    ]),
-              ],
-            ),
-          ],
+                      ]),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

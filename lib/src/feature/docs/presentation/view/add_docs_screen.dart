@@ -71,7 +71,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
         _docBase64 = base64Encode(bytes);
         _doc = file;
       });
-    
+
       // Get file name
       fileName = _doc!.path.split('/').last;
 
@@ -121,6 +121,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.h),
           child: Padding(
@@ -152,6 +153,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
         ),
         body: SafeArea(
           child: SingleChildScrollView(
+            reverse: true,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
               child: FormBuilder(
@@ -218,30 +220,32 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                                 border: Border.all(color: Helper.textColor300),
                               ),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     SizedBox(
-                                      width: MediaQuery.of(context).size.width * 0.5,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.5,
                                       child: Text(fileName!,
-                                      overflow: TextOverflow.ellipsis,
+                                          overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
                                               color: Helper.baseBlack,
                                               fontSize: 16.sp,
                                               fontWeight: FontWeight.w600)),
                                     ),
                                     Text(fileSizeString!,
-                                      overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              color: Helper.textColor400,
-                                              fontSize: 16.sp,
-                                              fontWeight: FontWeight.w600)),
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            color: Helper.textColor400,
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w600)),
                                     InkWell(
                                         onTap: () {
                                           setState(() {
                                             pickedFile == null;
                                           });
-                                          setState((){});
+                                          setState(() {});
                                         },
                                         child: SvgPicture.asset(
                                             width: 15,
@@ -375,126 +379,133 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                         ),
                       ),
                       SizedBox(height: 12.h),
-                      CustomInputWidget(
-                        title: "Users",
-                        formField: TypeAheadFormField<UserLeanModel>(
-                          textFieldConfiguration: TextFieldConfiguration(
-                            controller: _usersController,
-                            onSubmitted: (value) {
-                              setState(() {
-                                if (value.isNotEmpty) {
-                                  print("value selected" + value.toString());
-                                  _selectedUsers.add(value);
-                                  _usersController.clear();
-                                }
-                              });
-                            },
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 10.h, horizontal: 14.w),
-                              hintText: "Search or add here",
-                              hintStyle: TextStyle(
-                                color: Helper.textColor500,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8.r),
-                                borderSide:
-                                    BorderSide(color: Helper.textColor300),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8.r),
-                                borderSide: BorderSide(color: Helper.primary),
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8.r),
-                                borderSide: const BorderSide(color: Colors.red),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8.r),
-                                borderSide: const BorderSide(color: Colors.red),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: CustomInputWidget(
+                          title: "Users",
+                          formField: TypeAheadFormField<UserLeanModel>(
+                            textFieldConfiguration: TextFieldConfiguration(
+                              controller: _usersController,
+                              onSubmitted: (value) {
+                                setState(() {
+                                  if (value.isNotEmpty) {
+                                    print("value selected" + value.toString());
+                                    _selectedUsers.add(value);
+                                    _usersController.clear();
+                                  }
+                                });
+                              },
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 10.h, horizontal: 14.w),
+                                hintText: "Search or add here",
+                                hintStyle: TextStyle(
+                                  color: Helper.textColor500,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                  borderSide:
+                                      BorderSide(color: Helper.textColor300),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                  borderSide: BorderSide(color: Helper.primary),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                  borderSide:
+                                      const BorderSide(color: Colors.red),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                  borderSide:
+                                      const BorderSide(color: Colors.red),
+                                ),
                               ),
                             ),
+                            suggestionsCallback: (pattern) async {
+                              if (pattern != null && pattern.length > 0) {
+                                return _myCustomList.where((user) => user.name!
+                                    .toLowerCase()
+                                    .contains(pattern.trim().toLowerCase()));
+                              } else {
+                                return [];
+                              }
+                            },
+                            itemBuilder: (context, UserLeanModel user) {
+                              return ListTile(
+                                leading: ClipRRect(
+                                  borderRadius: BorderRadius.circular(200.r),
+                                  child: user.dp != null
+                                      ? Image.network(
+                                          width: 32.w,
+                                          height: 32.h,
+                                          user.dpUrl!,
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (BuildContext context,
+                                              Object exception,
+                                              StackTrace? stackTrace) {
+                                            return ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(200.r),
+                                              child: Image.asset(
+                                                  'assets/images/error_image.jpeg',
+                                                  fit: BoxFit.cover),
+                                            );
+                                          },
+                                        )
+                                      : Hero(
+                                          tag: "profile name",
+                                          child: Container(
+                                              width: 32.w,
+                                              height: 32.h,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: _getColor(
+                                                    user.preset!.color!),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                    _getNameInitials(
+                                                        user.name!),
+                                                    style: TextStyle(
+                                                        color: Colors.white)),
+                                              )),
+                                        ),
+                                ),
+                                title: Text(
+                                  user.name!,
+                                  style: TextStyle(
+                                      color: Helper.textColor700,
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                subtitle: Text(
+                                  user.email!,
+                                  style: TextStyle(
+                                      color: Helper.textColor600,
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              );
+                            },
+                            onSuggestionSelected: (team) {
+                              // Do something with the selected user
+                              // print('Selected user: ${user.email}');
+                              print("value selected" + team.toString());
+                              setState(() {
+                                _selectedUsers.add(team.email.toString());
+                                _selectedUserIds.add(team.id.toString());
+                                _usersController.clear();
+                              });
+                            },
+                            noItemsFoundBuilder: (value) {
+                              return SizedBox();
+                            },
                           ),
-                          suggestionsCallback: (pattern) async {
-                            if (pattern != null && pattern.length > 0) {
-                              return _myCustomList.where((user) => user.name!
-                                  .toLowerCase()
-                                  .contains(pattern.trim().toLowerCase()));
-                            } else {
-                              return [];
-                            }
-                          },
-                          itemBuilder: (context, UserLeanModel user) {
-                            return ListTile(
-                              leading: ClipRRect(
-                                borderRadius: BorderRadius.circular(200.r),
-                                child: user.dp != null
-                                    ? Image.network(
-                                        width: 32.w,
-                                        height: 32.h,
-                                        user.dpUrl!,
-                                        fit: BoxFit.cover,
-                                        errorBuilder: (BuildContext context,
-                                            Object exception,
-                                            StackTrace? stackTrace) {
-                                          return ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(200.r),
-                                            child: Image.asset(
-                                                'assets/images/error_image.jpeg',
-                                                fit: BoxFit.cover),
-                                          );
-                                        },
-                                      )
-                                    : Hero(
-                                        tag: "profile name",
-                                        child: Container(
-                                            width: 32.w,
-                                            height: 32.h,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: _getColor(
-                                                  user.preset!.color!),
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                  _getNameInitials(user.name!),
-                                                  style: TextStyle(
-                                                      color: Colors.white)),
-                                            )),
-                                      ),
-                              ),
-                              title: Text(
-                                user.name!,
-                                style: TextStyle(
-                                    color: Helper.textColor700,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              subtitle: Text(
-                                user.email!,
-                                style: TextStyle(
-                                    color: Helper.textColor600,
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w400),
-                              ),
-                            );
-                          },
-                          onSuggestionSelected: (team) {
-                            // Do something with the selected user
-                            // print('Selected user: ${user.email}');
-                            print("value selected" + team.toString());
-                            setState(() {
-                              _selectedUsers.add(team.email.toString());
-                              _selectedUserIds.add(team.id.toString());
-                              _usersController.clear();
-                            });
-                          },
-                          noItemsFoundBuilder: (value) {
-                            return SizedBox();
-                          },
                         ),
                       ),
                       SizedBox(height: 10.h),

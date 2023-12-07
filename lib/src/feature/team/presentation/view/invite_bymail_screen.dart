@@ -9,7 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/data/extension.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
-import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/loading_invite_mail.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
@@ -461,7 +461,7 @@ class _InviteByMailScreenState extends BaseConsumerState<InviteByMailScreen> {
                     return const Text("Failed to load Projects",
                         style: TextStyle(color: Helper.errorColor));
                   },
-                  loading: () => LoadingCardListScreen(),
+                  loading: () => LoadingInviteMail(),
                 )),
           ),
         ),

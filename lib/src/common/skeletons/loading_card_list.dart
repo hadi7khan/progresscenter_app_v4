@@ -20,7 +20,7 @@ class _LoadingCardListScreenState extends State<LoadingCardListScreen> {
       shrinkWrap: true,
       padding: EdgeInsets.zero,
       physics: NeverScrollableScrollPhysics(),
-      itemCount: 4,
+      itemCount: 10,
       itemBuilder: ((context, index) {
         return Container(
           margin: EdgeInsets.zero,

@@ -30,6 +30,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
   String _roleSelected = "";
   String _selectedDate = '';
   String _countryDialCode = "+93";
+  String? _showDate;
   String _countryCode = "af";
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
 
@@ -94,7 +95,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                         name: '_name',
                         controller: _nameController,
                         // focusNode: focusNode,
-              
+
                         validator: (val) {
                           if (val == null || val.isEmpty) {
                             return 'Name is required';
@@ -146,13 +147,12 @@ class _AddUserScreenState extends State<AddUserScreen> {
                         name: 'email',
                         controller: _emailController,
                         // focusNode: focusNode,
-              
+
                         validator: (val) {
                           if (val == null || val.isEmpty) {
                             return 'Email is required';
                           }
-                          if (!val.isValidEmail)
-                        return 'Enter valid email';
+                          if (!val.isValidEmail) return 'Enter valid email';
                           return null;
                         },
                         textInputAction: TextInputAction.next,
@@ -200,7 +200,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                         name: 'user_name',
                         controller: _userNameController,
                         // focusNode: focusNode,
-              
+
                         validator: (val) {
                           if (val == null || val.isEmpty) {
                             return 'User name is required';
@@ -256,8 +256,8 @@ class _AddUserScreenState extends State<AddUserScreen> {
                           padding: EdgeInsets.symmetric(
                               vertical: 10.h, horizontal: 14.w),
                           decoration: BoxDecoration(
-                            border:
-                                Border.all(width: 1, color: Helper.textColor300),
+                            border: Border.all(
+                                width: 1, color: Helper.textColor300),
                             borderRadius: BorderRadius.circular(8.r),
                           ),
                           child: ListTile(
@@ -266,7 +266,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                             minVerticalPadding: 0,
                             visualDensity: VisualDensity(vertical: -4),
                             title: Text(
-                              "02/01/1997",
+                              _showDate != null ? _showDate! : "select date",
                               style: TextStyle(
                                   color: Helper.textColor500,
                                   fontSize: 16.sp,
@@ -286,7 +286,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                       title: "Mobile number",
                       formField: FormBuilderTextField(
                         controller: _numberController,
-                        keyboardType: TextInputType.name,
+                        keyboardType: TextInputType.number,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         decoration: InputDecoration(
                           hintText: 'Enter number',
@@ -307,7 +307,8 @@ class _AddUserScreenState extends State<AddUserScreen> {
                               dialogSize: Size(
                                   MediaQuery.of(context).size.width * 0.3,
                                   MediaQuery.of(context).size.height * 0.5),
-                              dialogBackgroundColor: Theme.of(context).cardColor,
+                              dialogBackgroundColor:
+                                  Theme.of(context).cardColor,
                               flagWidth: 22,
                             ),
                           ),
@@ -327,7 +328,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                         name: 'designation',
                         controller: _designationController,
                         // focusNode: focusNode,
-              
+
                         // validator: (val) {
                         //   if (val == null || val.isEmpty) {
                         //     return 'Designation is required';
@@ -403,7 +404,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                               ],
                             ),
                           ),
-              
+
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.r),
                             borderSide: BorderSide(color: Helper.textColor300),
@@ -492,9 +493,9 @@ class _AddUserScreenState extends State<AddUserScreen> {
                         },
                         "dob": _selectedDate
                       };
-                      if(_fbKey.currentState!.saveAndValidate()){
+                      if (_fbKey.currentState!.saveAndValidate()) {
                         context.push('/addUser2', extra: data);
-                      print("data passed to screen 2"+ data.toString());
+                        print("data passed to screen 2" + data.toString());
                       }
                     },
                     style: TextButton.styleFrom(
@@ -566,7 +567,9 @@ class _AddUserScreenState extends State<AddUserScreen> {
                     print(value.toString());
                     DateTime date = DateTime.parse(value[0].toString());
                     selectedStartDate = DateFormat("yyyyMMdd").format(date);
+                    _showDate = DateFormat('dd MMM yyyy').format(date);
                     print("selectedDate " + selectedStartDate);
+                    print("showDate " + _showDate!);
                   },
                 ),
                 Divider(
