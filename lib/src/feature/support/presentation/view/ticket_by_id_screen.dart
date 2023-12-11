@@ -11,6 +11,7 @@ import 'package:progresscenter_app_v4/src/common/skeletons/loading_user_profile.
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/support/data/model/ticket_replies_model.dart';
+import 'package:progresscenter_app_v4/src/feature/support/presentation/provider/post_ticket_reply_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/support/presentation/provider/ticket_by_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/support/presentation/provider/ticket_replies_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/support/presentation/view/widgets/chat_message_widget.dart';
@@ -27,6 +28,7 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
   TextEditingController _controller = TextEditingController();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   List<TicketRepliesModel> groupedReplies = [];
+  ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -228,10 +230,11 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
                             ),
                             child: ListView.builder(
                               itemCount: groupedReplies.length,
+                              controller: _scrollController,
                               itemBuilder: (context, index) {
                                 return ChatMessageWidget(
                                   message: groupedReplies[index].message,
-                                  userType: groupedReplies[index].userType,
+                                  userType: groupedReplies[index].userType!,
                                   userName: groupedReplies[index].user.name!,
                                   dpUrl:
                                       groupedReplies[index].userType == 'User'
@@ -253,102 +256,118 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
               ),
             ),
           ),
-          bottomNavigationBar: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 20.w,
-            ),
-            color: Colors.white,
-            alignment: Alignment.center,
-            height: 72.h,
-            child: ListTile(
-              horizontalTitleGap: 8.w,
-              contentPadding: EdgeInsets.zero,
-              dense: true,
-              visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-              leading: AvatarWidget(
-                dpUrl: "",
-                name: "HADI",
-                backgroundColor: "#0F9555",
-                size: 32,
+          bottomNavigationBar: Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: 20.w,
               ),
-              title: FormBuilderTextField(
-                name: 'support',
-                controller: _controller,
-                onChanged: (value) {},
-                onSubmitted: (text) {},
-                validator: (val) {},
-                textInputAction: TextInputAction.done,
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w400,
+              color: Colors.white,
+              alignment: Alignment.center,
+              height: 72.h,
+              child: ListTile(
+                horizontalTitleGap: 8.w,
+                contentPadding: EdgeInsets.zero,
+                dense: true,
+                visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                leading: AvatarWidget(
+                  dpUrl: "",
+                  name: "HADI",
+                  backgroundColor: "#0F9555",
+                  size: 32,
                 ),
-                textCapitalization: TextCapitalization.none,
-                keyboardType: TextInputType.name,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                decoration: InputDecoration(
-                  fillColor: Colors.white,
-                  filled: true,
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
-                  hintText: "Type message here...",
-                  hintStyle: TextStyle(
-                    color: Helper.textColor500,
+                title: FormBuilderTextField(
+                  name: 'support',
+                  controller: _controller,
+                  onChanged: (value) {},
+                  onSubmitted: (text) {},
+                  validator: (val) {},
+                  textInputAction: TextInputAction.done,
+                  style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w400,
                   ),
-                  suffixIcon: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 3.w),
-                    child: IconButton(
-                      icon: SvgPicture.asset('assets/images/send.svg'),
-                      onPressed: () async {
-                        setState(() {
-                          // _controller.clear();
-                          // _changeState = false;
-                        });
-                        Map<String, dynamic> data = {
-                          "message": _controller.text,
-                        };
-                        if (_fbKey.currentState!.saveAndValidate()) {
-                          // print("id passed" + widget.progresslineId.toString());
-                          // await ref
-                          //     .watch(postCommentProvider.notifier)
-                          //     .postComment(widget.progresslineId, data)
-                          //     .then((value) async {
-                          //   value.fold((failure) {
-                          //     print("errorrrrrr");
-                          //   }, (res) {
-                          //     ref
-                          //         .watch(commentsControllerProvider.notifier)
-                          //         .getComments(widget.progresslineId);
-                          //     print("response data" + res.toString());
-                          //     _controller.clear();
-                          //     // _showProgressBottomSheet(context, ref);
-                          //   });
-                          //   Utils.toastSuccessMessage("Comment Posted");
-                          // });
-                        }
-                      },
+                  textCapitalization: TextCapitalization.none,
+                  keyboardType: TextInputType.name,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    filled: true,
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
+                    hintText: "Type message here...",
+                    hintStyle: TextStyle(
+                      color: Helper.textColor500,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    suffixIcon: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 3.w),
+                      child: IconButton(
+                        icon: SvgPicture.asset('assets/images/send.svg'),
+                        onPressed: () async {
+                          setState(() {
+                            // _controller.clear();
+                            // _changeState = false;
+                          });
+                          Map<String, dynamic> data = {
+                            "message": _controller.text,
+                          };
+                          if (_controller.text.isNotEmpty) {
+                            await ref
+                                .watch(postTicketReplyProvider.notifier)
+                                .postTicketReply(widget.ticketId, data)
+                                .then((value) async {
+                              value.fold((failure) {
+                                print("errorrrrrr");
+                              }, (res) {
+                                TicketRepliesModel ticketReply =
+                                    TicketRepliesModel.fromJson(res);
+                                // Create a new instance with updated userType
+                                ticketReply =
+                                    ticketReply.copyWith(userType: 'User');
+                                groupedReplies.add(ticketReply);
+                                _controller.clear();
+                                setState(() {});
+                                // Use either jumpTo or animateTo to scroll to the last index
+                                // _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+                                WidgetsBinding.instance
+                                    .addPostFrameCallback((_) {
+                                  // Scroll to the last index
+                                  _scrollController.animateTo(
+                                    _scrollController.position.maxScrollExtent,
+                                    duration: Duration(milliseconds: 500),
+                                    curve: Curves.easeInOut,
+                                  );
+                                });
+                                print("response data" + res.toString());
+                              });
+                            });
+                          }
+                        },
+                      ),
+                    ),
+                    // hintText: widget.control.label,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                      borderSide: BorderSide(color: Helper.textColor300),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                      borderSide: BorderSide(color: Helper.primary),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                      borderSide: const BorderSide(color: Colors.red),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                      borderSide: const BorderSide(color: Colors.red),
                     ),
                   ),
-                  // hintText: widget.control.label,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                    borderSide: BorderSide(color: Helper.textColor300),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                    borderSide: BorderSide(color: Helper.primary),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                    borderSide: const BorderSide(color: Colors.red),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                    borderSide: const BorderSide(color: Colors.red),
-                  ),
+                  onTap: () {},
                 ),
-                onTap: () {},
               ),
             ),
           ),

@@ -82,4 +82,19 @@ class SupportRepositoryImpl implements SupportRepository {
       return const Left(ConnectionFailure('Failed to connect to the network'));
     }
   }
+  
+  @override
+  Future<Either<Failure, dynamic>> postTicketReply(String ticketId, data) async{
+    try {
+      final result = await supportDataSource.postTicketReply(ticketId, data);
+      print("result: " + result.toString());
+      return Right(result);
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e);
+      print(errorMessage.toString());
+      rethrow;
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
 }

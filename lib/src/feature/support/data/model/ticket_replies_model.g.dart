@@ -15,7 +15,7 @@ _$_TicketRepliesModel _$$_TicketRepliesModelFromJson(
       supportTicket: json['supportTicket'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
-      userType: json['userType'] as String,
+      userType: json['userType'] as String?,
     );
 
 Map<String, dynamic> _$$_TicketRepliesModelToJson(

@@ -14,6 +14,7 @@ abstract class SupportDataSource {
   Future createTicket(data);
   Future ticketById(ticketId);
   Future ticketReplies(ticketId);
+  Future postTicketReply(ticketId, data);
 }
 
 class SupportDataSourceImpl implements SupportDataSource {
@@ -52,10 +53,21 @@ class SupportDataSourceImpl implements SupportDataSource {
       return ServerException();
     }
   }
-  
+
   @override
-  Future ticketReplies(ticketId) async{
+  Future ticketReplies(ticketId) async {
     final response = await dioClient.get(Endpoints.ticketRepliesUrl(ticketId));
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      return ServerException();
+    }
+  }
+
+  @override
+  Future postTicketReply(ticketId, data) async {
+    final response =
+        await dioClient.post(Endpoints.ticketRepliesUrl(ticketId), data: data);
     if (response.statusCode == 200) {
       return response.data;
     } else {

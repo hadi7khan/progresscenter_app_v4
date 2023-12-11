@@ -27,7 +27,7 @@ mixin _$TicketRepliesModel {
   String get supportTicket => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
-  String get userType => throw _privateConstructorUsedError;
+  String? get userType => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -48,7 +48,7 @@ abstract class $TicketRepliesModelCopyWith<$Res> {
       String supportTicket,
       DateTime createdAt,
       DateTime updatedAt,
-      String userType});
+      String? userType});
 
   $UserCopyWith<$Res> get user;
 }
@@ -72,7 +72,7 @@ class _$TicketRepliesModelCopyWithImpl<$Res, $Val extends TicketRepliesModel>
     Object? supportTicket = null,
     Object? createdAt = null,
     Object? updatedAt = null,
-    Object? userType = null,
+    Object? userType = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -99,10 +99,10 @@ class _$TicketRepliesModelCopyWithImpl<$Res, $Val extends TicketRepliesModel>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      userType: null == userType
+      userType: freezed == userType
           ? _value.userType
           : userType // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 
@@ -130,7 +130,7 @@ abstract class _$$_TicketRepliesModelCopyWith<$Res>
       String supportTicket,
       DateTime createdAt,
       DateTime updatedAt,
-      String userType});
+      String? userType});
 
   @override
   $UserCopyWith<$Res> get user;
@@ -153,7 +153,7 @@ class __$$_TicketRepliesModelCopyWithImpl<$Res>
     Object? supportTicket = null,
     Object? createdAt = null,
     Object? updatedAt = null,
-    Object? userType = null,
+    Object? userType = freezed,
   }) {
     return _then(_$_TicketRepliesModel(
       id: freezed == id
@@ -180,10 +180,10 @@ class __$$_TicketRepliesModelCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      userType: null == userType
+      userType: freezed == userType
           ? _value.userType
           : userType // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -198,7 +198,7 @@ class _$_TicketRepliesModel implements _TicketRepliesModel {
       required this.supportTicket,
       required this.createdAt,
       required this.updatedAt,
-      required this.userType});
+      this.userType});
 
   factory _$_TicketRepliesModel.fromJson(Map<String, dynamic> json) =>
       _$$_TicketRepliesModelFromJson(json);
@@ -217,7 +217,7 @@ class _$_TicketRepliesModel implements _TicketRepliesModel {
   @override
   final DateTime updatedAt;
   @override
-  final String userType;
+  final String? userType;
 
   @override
   String toString() {
@@ -270,7 +270,7 @@ abstract class _TicketRepliesModel implements TicketRepliesModel {
       required final String supportTicket,
       required final DateTime createdAt,
       required final DateTime updatedAt,
-      required final String userType}) = _$_TicketRepliesModel;
+      final String? userType}) = _$_TicketRepliesModel;
 
   factory _TicketRepliesModel.fromJson(Map<String, dynamic> json) =
       _$_TicketRepliesModel.fromJson;
@@ -289,7 +289,7 @@ abstract class _TicketRepliesModel implements TicketRepliesModel {
   @override
   DateTime get updatedAt;
   @override
-  String get userType;
+  String? get userType;
   @override
   @JsonKey(ignore: true)
   _$$_TicketRepliesModelCopyWith<_$_TicketRepliesModel> get copyWith =>

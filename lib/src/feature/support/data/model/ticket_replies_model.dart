@@ -20,7 +20,7 @@ class TicketRepliesModel with _$TicketRepliesModel {
     required String supportTicket,
     required DateTime createdAt,
     required DateTime updatedAt,
-    required String userType,
+    String? userType,
   }) = _TicketRepliesModel;
 
   factory TicketRepliesModel.fromJson(Map<String, dynamic> json) =>
