@@ -7,6 +7,8 @@ import 'package:progresscenter_app_v4/src/core/network/dio_exception.dart';
 import 'package:progresscenter_app_v4/src/core/network/failure.dart';
 import 'package:progresscenter_app_v4/src/feature/support/data/datasource/support_datasource.dart';
 import 'package:progresscenter_app_v4/src/feature/support/data/model/support_model.dart';
+import 'package:progresscenter_app_v4/src/feature/support/data/model/ticket_by_id_model.dart';
+import 'package:progresscenter_app_v4/src/feature/support/data/model/ticket_replies_model.dart';
 import 'package:progresscenter_app_v4/src/feature/support/domain/support_repository.dart';
 
 final supportProvider = Provider.autoDispose<SupportRepositoryImpl>(
@@ -41,6 +43,50 @@ class SupportRepositoryImpl implements SupportRepository {
   Future<Either<Failure, dynamic>> createTicket(data) async {
     try {
       final result = await supportDataSource.createTicket(data);
+      print("result: " + result.toString());
+      return Right(result);
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e);
+      print(errorMessage.toString());
+      rethrow;
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, TicketByIdModel>> ticketBYId(String ticketId) async {
+    try {
+      final result = await supportDataSource.ticketById(ticketId);
+      return Right((TicketByIdModel.fromJson(result)));
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e);
+      print(errorMessage.toString());
+      rethrow;
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
+  
+  @override
+  Future<Either<Failure, List<TicketRepliesModel>>> ticketReplies(String ticketId) async{
+     try {
+      final result = await supportDataSource.ticketReplies(ticketId);
+      return Right(
+          (result as List).map((e) => TicketRepliesModel.fromJson(e)).toList());
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e);
+      print(errorMessage.toString());
+      rethrow;
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
+  
+  @override
+  Future<Either<Failure, dynamic>> postTicketReply(String ticketId, data) async{
+    try {
+      final result = await supportDataSource.postTicketReply(ticketId, data);
       print("result: " + result.toString());
       return Right(result);
     } on DioError catch (e) {

@@ -35,6 +35,7 @@ import 'package:progresscenter_app_v4/src/feature/slider/presentation/view/slide
 import 'package:progresscenter_app_v4/src/feature/splitview/presentation/view/splitview_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/support/presentation/view/create_ticket_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/support/presentation/view/support_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/support/presentation/view/ticket_by_id_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/add_user_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/add_user_screen2.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/invite_bymail_screen.dart';
@@ -417,6 +418,22 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             key: state.pageKey,
             child: CreateTicketScreen(
               key: state.pageKey,
+            ),
+          );
+        },
+      ),
+
+      GoRoute(
+        path: '/ticketById',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: ticketByIdRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: TicketByIdScreen(
+              key: state.pageKey,
+              ticketId: args['ticketId'],
             ),
           );
         },

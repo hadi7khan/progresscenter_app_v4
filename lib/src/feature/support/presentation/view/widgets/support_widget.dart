@@ -1,11 +1,9 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
-import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
-import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
-import 'package:progresscenter_app_v4/src/feature/support/presentation/provider/support_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/support/presentation/view/widgets/support_card.dart';
 
 class SupportWidget extends ConsumerStatefulWidget {
@@ -41,7 +39,13 @@ class _SupportWidgetState extends BaseConsumerState<SupportWidget> {
           itemCount: widget.supportData.length,
           itemBuilder: ((context, index) {
             final data = widget.supportData[index];
-            return SupportCard(supportData: data);
+            return InkWell(
+              onTap: (){
+                context.push('/ticketById', extra: {
+              "ticketId": data.id
+              });
+              },
+              child: SupportCard(supportData: data));
           }),
         );
       // },

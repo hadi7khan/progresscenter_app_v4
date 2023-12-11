@@ -122,6 +122,14 @@ class Endpoints {
     return '$baseUrl/api/v4/support-tickets';
   }
 
+  static ticketByIdUrl(ticketId) {
+    return '$baseUrl/api/v4/support-tickets/$ticketId';
+  }
+
+  static ticketRepliesUrl(ticketId) {
+    return '$baseUrl/api/v4/support-tickets/$ticketId/replies';
+  }
+
   //---------------------------- Documents ---------------------------------------
 
   static docListUrl() {

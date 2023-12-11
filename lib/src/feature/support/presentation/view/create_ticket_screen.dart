@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,8 +22,10 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
   TextEditingController _subjectController = TextEditingController();
   TextEditingController _detailsController = TextEditingController();
   GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
-  String _topicSelected = "";
   bool _isLoading = false;
+  List<String> _topicList = ['Camera Issue', 'Dashboard Issue'];
+  String _topicSelected = 'Camera Issue';
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -77,6 +78,7 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                           name: "topic",
                           dropdownColor: Colors.white,
                           icon: SizedBox(),
+                          initialValue: _topicList[0],
                           decoration: InputDecoration(
                             // labelText: 'Training',
                             hintText: "Select a topic",
@@ -127,7 +129,7 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                               _topicSelected = value!;
                             });
                           },
-                          items: ['Camera Issue', 'Dashboard Issue'].map((e) {
+                          items: _topicList.map((e) {
                             return DropdownMenuItem(
                               value: e,
                               child: Text(
@@ -284,6 +286,7 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                     ),
                   )),
               onPressed: () async {
+                print("topic " + _topicSelected.toString());
                 Map<String, dynamic> data = {
                   "topic": _topicSelected,
                   "subject": _subjectController.text,
