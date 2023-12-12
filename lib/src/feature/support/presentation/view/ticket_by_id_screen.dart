@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/load_ticket_by_id.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_user_profile.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
@@ -51,6 +52,39 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
     });
   }
 
+  List<Map<String, dynamic>> getGroupedReplies() {
+    Map<String, List<TicketRepliesModel>> repliesMap = {};
+
+    for (var reply in groupedReplies) {
+      final dateKey = formatDate(reply.createdAt);
+      if (!repliesMap.containsKey(dateKey)) {
+        repliesMap[dateKey] = [];
+      }
+      repliesMap[dateKey]!.add(reply);
+    }
+
+    return repliesMap.entries
+        .map((entry) => {'date': entry.key, 'replies': entry.value})
+        .toList();
+  }
+
+  String formatDate(DateTime date) {
+    DateTime now = DateTime.now();
+    DateTime yesterday = DateTime.now().subtract(Duration(days: 1));
+
+    if (date.year == now.year &&
+        date.month == now.month &&
+        date.day == now.day) {
+      return 'Today · ${DateFormat('dd MMM').format(date)}';
+    } else if (date.year == yesterday.year &&
+        date.month == yesterday.month &&
+        date.day == yesterday.day) {
+      return 'Yesterday · ${DateFormat('dd MMM').format(date)}';
+    } else {
+      return DateFormat('dd MMM, yy ').format(date);
+    }
+  }
+
   showDateTimeString(date, dateFormat) {
     // Format the DateTime object into the desired format
     String formattedDate = DateFormat(dateFormat).format(date);
@@ -59,6 +93,7 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final repliesData = getGroupedReplies();
     final ticketByIdData =
         ref.watch(ticketControllerProvider.select((value) => value.ticketById));
     final ticketRepliesData = ref.watch(
@@ -221,35 +256,59 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
                     ticketRepliesData.when(
                       data: (data) {
                         return Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * 0.4,
-                            padding: EdgeInsets.all(16.w),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16.r),
-                              color: Colors.white,
-                            ),
-                            child: ListView.builder(
-                              itemCount: groupedReplies.length,
-                              controller: _scrollController,
-                              itemBuilder: (context, index) {
-                                return ChatMessageWidget(
-                                  message: groupedReplies[index].message,
-                                  userType: groupedReplies[index].userType!,
-                                  userName: groupedReplies[index].user.name!,
-                                  dpUrl:
-                                      groupedReplies[index].userType == 'User'
-                                          ? ""
-                                          : groupedReplies[index].user.dpUrl!,
-                                  createdAt: groupedReplies[index].createdAt,
-                                );
-                              },
-                            ));
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.4,
+                          padding: EdgeInsets.all(16.w),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16.r),
+                            color: Colors.white,
+                          ),
+                          child: ListView.builder(
+                            itemCount: repliesData.length,
+                            controller: _scrollController,
+                            itemBuilder: (context, index) {
+                              final date = repliesData[index]['date'];
+                              final replies = repliesData[index]['replies'];
+                              print("replies--------" + replies.toString());
+                              return Column(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 8.h, horizontal: 16.w),
+                                    decoration: BoxDecoration(
+                                        color: Helper.widgetBackground,
+                                        borderRadius:
+                                            BorderRadius.circular(16.r)),
+                                    child: Text(
+                                      date,
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Helper.textColor500,
+                                          fontWeight: FontWeight.w400),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10.h),
+                                  for (var reply in replies)
+                                    ChatMessageWidget(
+                                        message: reply.message,
+                                        userType: reply.userType,
+                                        userName: reply.user.name,
+                                        dpUrl: reply.userType == 'User'
+                                            ? ""
+                                            : reply.user.dpUrl,
+                                        createdAt: reply.createdAt),
+                                ],
+                              );
+                            },
+                          ),
+                        );
                       },
                       error: (err, _) {
                         return const Text("Failed to load Projects",
                             style: TextStyle(color: Helper.errorColor));
                       },
-                      loading: () => LoadingUserProfile(),
+                      loading: () => SizedBox(),
                     )
                   ],
                 ),
@@ -325,8 +384,8 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
                                 TicketRepliesModel ticketReply =
                                     TicketRepliesModel.fromJson(res);
                                 // Create a new instance with updated userType
-                                ticketReply =
-                                    ticketReply.copyWith(userType: 'User');
+                                // ticketReply =
+                                //     ticketReply.copyWith(userType: 'User');
                                 groupedReplies.add(ticketReply);
                                 _controller.clear();
                                 setState(() {});
@@ -377,7 +436,7 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
         return const Text("Failed to load Ticket Info",
             style: TextStyle(color: Helper.errorColor));
       },
-      loading: () => LoadingUserProfile(),
+      loading: () => LoadingTicketById(),
     );
   }
 }

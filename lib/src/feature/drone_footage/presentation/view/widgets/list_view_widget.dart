@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 
@@ -12,6 +13,18 @@ class DroneListViewWidget extends StatefulWidget {
 }
 
 class _DroneListViewWidgetState extends State<DroneListViewWidget> {
+  VlcPlayerController? _videoPlayerController;
+  @override
+  void initState() {
+    super.initState();
+
+    _videoPlayerController = VlcPlayerController.network(
+      widget.data.url,
+      autoPlay: true,
+      options: VlcPlayerOptions(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,7 +37,7 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
       ),
       child:
           Stack(fit: StackFit.loose, alignment: Alignment.topCenter, children: [
-        widget.data.coverImageUrl != null
+        widget.data.url != null
             ? ClipRRect(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(16.r),
@@ -32,18 +45,10 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
                 child: Stack(alignment: Alignment.center, children: [
                   AspectRatio(
                     aspectRatio: 16 / 9,
-                    child: Image.network(
-                      widget.data.coverImageUrl!,
-                      fit: BoxFit.fill,
-                      errorBuilder: (BuildContext context, Object exception,
-                          StackTrace? stackTrace) {
-                        return ClipRRect(
-                          child: Image.asset(
-                            'assets/images/error_image.jpeg',
-                            fit: BoxFit.cover,
-                          ),
-                        );
-                      },
+                    child: VlcPlayer(
+                      controller: _videoPlayerController!,
+                      aspectRatio: 16 / 9,
+                      placeholder: Center(child: CircularProgressIndicator()),
                     ),
                   ),
                   Positioned(
@@ -91,7 +96,7 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
                         //   height: 6.h,
                         // ),
                         Text(
-                          showDate(widget.data.takenAtDate, 'dd MMM yyyy'),
+                          showDate(widget.data.createdAt.toIso8601String(), 'dd MMM yyyy'),
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400,

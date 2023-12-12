@@ -25,16 +25,15 @@ mixin _$DroneFootageModel {
   @JsonKey(name: '_id')
   String? get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
-  String? get takenAtDate => throw _privateConstructorUsedError;
-  String? get takenAtTime => throw _privateConstructorUsedError;
-  String? get coverImage => throw _privateConstructorUsedError;
   String? get reseller => throw _privateConstructorUsedError;
   String? get client => throw _privateConstructorUsedError;
   Project? get project => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   String? get url => throw _privateConstructorUsedError;
-  String? get coverImageUrl => throw _privateConstructorUsedError;
+  String? get path => throw _privateConstructorUsedError;
+  String? get status => throw _privateConstructorUsedError;
+  String? get user => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -53,16 +52,15 @@ abstract class $DroneFootageModelCopyWith<$Res> {
       Details? details,
       @JsonKey(name: '_id') String? id,
       String? name,
-      String? takenAtDate,
-      String? takenAtTime,
-      String? coverImage,
       String? reseller,
       String? client,
       Project? project,
       DateTime? createdAt,
       DateTime? updatedAt,
       String? url,
-      String? coverImageUrl});
+      String? path,
+      String? status,
+      String? user});
 
   $LocationCopyWith<$Res>? get location;
   $DetailsCopyWith<$Res>? get details;
@@ -86,16 +84,15 @@ class _$DroneFootageModelCopyWithImpl<$Res, $Val extends DroneFootageModel>
     Object? details = freezed,
     Object? id = freezed,
     Object? name = freezed,
-    Object? takenAtDate = freezed,
-    Object? takenAtTime = freezed,
-    Object? coverImage = freezed,
     Object? reseller = freezed,
     Object? client = freezed,
     Object? project = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? url = freezed,
-    Object? coverImageUrl = freezed,
+    Object? path = freezed,
+    Object? status = freezed,
+    Object? user = freezed,
   }) {
     return _then(_value.copyWith(
       location: freezed == location
@@ -113,18 +110,6 @@ class _$DroneFootageModelCopyWithImpl<$Res, $Val extends DroneFootageModel>
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      takenAtDate: freezed == takenAtDate
-          ? _value.takenAtDate
-          : takenAtDate // ignore: cast_nullable_to_non_nullable
-              as String?,
-      takenAtTime: freezed == takenAtTime
-          ? _value.takenAtTime
-          : takenAtTime // ignore: cast_nullable_to_non_nullable
-              as String?,
-      coverImage: freezed == coverImage
-          ? _value.coverImage
-          : coverImage // ignore: cast_nullable_to_non_nullable
               as String?,
       reseller: freezed == reseller
           ? _value.reseller
@@ -150,9 +135,17 @@ class _$DroneFootageModelCopyWithImpl<$Res, $Val extends DroneFootageModel>
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String?,
-      coverImageUrl: freezed == coverImageUrl
-          ? _value.coverImageUrl
-          : coverImageUrl // ignore: cast_nullable_to_non_nullable
+      path: freezed == path
+          ? _value.path
+          : path // ignore: cast_nullable_to_non_nullable
+              as String?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -207,16 +200,15 @@ abstract class _$$_DroneFootageModelCopyWith<$Res>
       Details? details,
       @JsonKey(name: '_id') String? id,
       String? name,
-      String? takenAtDate,
-      String? takenAtTime,
-      String? coverImage,
       String? reseller,
       String? client,
       Project? project,
       DateTime? createdAt,
       DateTime? updatedAt,
       String? url,
-      String? coverImageUrl});
+      String? path,
+      String? status,
+      String? user});
 
   @override
   $LocationCopyWith<$Res>? get location;
@@ -241,16 +233,15 @@ class __$$_DroneFootageModelCopyWithImpl<$Res>
     Object? details = freezed,
     Object? id = freezed,
     Object? name = freezed,
-    Object? takenAtDate = freezed,
-    Object? takenAtTime = freezed,
-    Object? coverImage = freezed,
     Object? reseller = freezed,
     Object? client = freezed,
     Object? project = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? url = freezed,
-    Object? coverImageUrl = freezed,
+    Object? path = freezed,
+    Object? status = freezed,
+    Object? user = freezed,
   }) {
     return _then(_$_DroneFootageModel(
       location: freezed == location
@@ -268,18 +259,6 @@ class __$$_DroneFootageModelCopyWithImpl<$Res>
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      takenAtDate: freezed == takenAtDate
-          ? _value.takenAtDate
-          : takenAtDate // ignore: cast_nullable_to_non_nullable
-              as String?,
-      takenAtTime: freezed == takenAtTime
-          ? _value.takenAtTime
-          : takenAtTime // ignore: cast_nullable_to_non_nullable
-              as String?,
-      coverImage: freezed == coverImage
-          ? _value.coverImage
-          : coverImage // ignore: cast_nullable_to_non_nullable
               as String?,
       reseller: freezed == reseller
           ? _value.reseller
@@ -305,9 +284,17 @@ class __$$_DroneFootageModelCopyWithImpl<$Res>
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String?,
-      coverImageUrl: freezed == coverImageUrl
-          ? _value.coverImageUrl
-          : coverImageUrl // ignore: cast_nullable_to_non_nullable
+      path: freezed == path
+          ? _value.path
+          : path // ignore: cast_nullable_to_non_nullable
+              as String?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -321,16 +308,15 @@ class _$_DroneFootageModel implements _DroneFootageModel {
       this.details,
       @JsonKey(name: '_id') this.id,
       this.name,
-      this.takenAtDate,
-      this.takenAtTime,
-      this.coverImage,
       this.reseller,
       this.client,
       this.project,
       this.createdAt,
       this.updatedAt,
       this.url,
-      this.coverImageUrl});
+      this.path,
+      this.status,
+      this.user});
 
   factory _$_DroneFootageModel.fromJson(Map<String, dynamic> json) =>
       _$$_DroneFootageModelFromJson(json);
@@ -345,12 +331,6 @@ class _$_DroneFootageModel implements _DroneFootageModel {
   @override
   final String? name;
   @override
-  final String? takenAtDate;
-  @override
-  final String? takenAtTime;
-  @override
-  final String? coverImage;
-  @override
   final String? reseller;
   @override
   final String? client;
@@ -363,11 +343,15 @@ class _$_DroneFootageModel implements _DroneFootageModel {
   @override
   final String? url;
   @override
-  final String? coverImageUrl;
+  final String? path;
+  @override
+  final String? status;
+  @override
+  final String? user;
 
   @override
   String toString() {
-    return 'DroneFootageModel(location: $location, details: $details, id: $id, name: $name, takenAtDate: $takenAtDate, takenAtTime: $takenAtTime, coverImage: $coverImage, reseller: $reseller, client: $client, project: $project, createdAt: $createdAt, updatedAt: $updatedAt, url: $url, coverImageUrl: $coverImageUrl)';
+    return 'DroneFootageModel(location: $location, details: $details, id: $id, name: $name, reseller: $reseller, client: $client, project: $project, createdAt: $createdAt, updatedAt: $updatedAt, url: $url, path: $path, status: $status, user: $user)';
   }
 
   @override
@@ -380,12 +364,6 @@ class _$_DroneFootageModel implements _DroneFootageModel {
             (identical(other.details, details) || other.details == details) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.takenAtDate, takenAtDate) ||
-                other.takenAtDate == takenAtDate) &&
-            (identical(other.takenAtTime, takenAtTime) ||
-                other.takenAtTime == takenAtTime) &&
-            (identical(other.coverImage, coverImage) ||
-                other.coverImage == coverImage) &&
             (identical(other.reseller, reseller) ||
                 other.reseller == reseller) &&
             (identical(other.client, client) || other.client == client) &&
@@ -395,28 +373,15 @@ class _$_DroneFootageModel implements _DroneFootageModel {
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             (identical(other.url, url) || other.url == url) &&
-            (identical(other.coverImageUrl, coverImageUrl) ||
-                other.coverImageUrl == coverImageUrl));
+            (identical(other.path, path) || other.path == path) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.user, user) || other.user == user));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      location,
-      details,
-      id,
-      name,
-      takenAtDate,
-      takenAtTime,
-      coverImage,
-      reseller,
-      client,
-      project,
-      createdAt,
-      updatedAt,
-      url,
-      coverImageUrl);
+  int get hashCode => Object.hash(runtimeType, location, details, id, name,
+      reseller, client, project, createdAt, updatedAt, url, path, status, user);
 
   @JsonKey(ignore: true)
   @override
@@ -439,16 +404,15 @@ abstract class _DroneFootageModel implements DroneFootageModel {
       final Details? details,
       @JsonKey(name: '_id') final String? id,
       final String? name,
-      final String? takenAtDate,
-      final String? takenAtTime,
-      final String? coverImage,
       final String? reseller,
       final String? client,
       final Project? project,
       final DateTime? createdAt,
       final DateTime? updatedAt,
       final String? url,
-      final String? coverImageUrl}) = _$_DroneFootageModel;
+      final String? path,
+      final String? status,
+      final String? user}) = _$_DroneFootageModel;
 
   factory _DroneFootageModel.fromJson(Map<String, dynamic> json) =
       _$_DroneFootageModel.fromJson;
@@ -463,12 +427,6 @@ abstract class _DroneFootageModel implements DroneFootageModel {
   @override
   String? get name;
   @override
-  String? get takenAtDate;
-  @override
-  String? get takenAtTime;
-  @override
-  String? get coverImage;
-  @override
   String? get reseller;
   @override
   String? get client;
@@ -481,7 +439,11 @@ abstract class _DroneFootageModel implements DroneFootageModel {
   @override
   String? get url;
   @override
-  String? get coverImageUrl;
+  String? get path;
+  @override
+  String? get status;
+  @override
+  String? get user;
   @override
   @JsonKey(ignore: true)
   _$$_DroneFootageModelCopyWith<_$_DroneFootageModel> get copyWith =>
@@ -494,7 +456,6 @@ Details _$DetailsFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Details {
-  String? get resolution => throw _privateConstructorUsedError;
   String? get provider => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -507,7 +468,7 @@ abstract class $DetailsCopyWith<$Res> {
   factory $DetailsCopyWith(Details value, $Res Function(Details) then) =
       _$DetailsCopyWithImpl<$Res, Details>;
   @useResult
-  $Res call({String? resolution, String? provider});
+  $Res call({String? provider});
 }
 
 /// @nodoc
@@ -523,14 +484,9 @@ class _$DetailsCopyWithImpl<$Res, $Val extends Details>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? resolution = freezed,
     Object? provider = freezed,
   }) {
     return _then(_value.copyWith(
-      resolution: freezed == resolution
-          ? _value.resolution
-          : resolution // ignore: cast_nullable_to_non_nullable
-              as String?,
       provider: freezed == provider
           ? _value.provider
           : provider // ignore: cast_nullable_to_non_nullable
@@ -546,7 +502,7 @@ abstract class _$$_DetailsCopyWith<$Res> implements $DetailsCopyWith<$Res> {
       __$$_DetailsCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? resolution, String? provider});
+  $Res call({String? provider});
 }
 
 /// @nodoc
@@ -559,14 +515,9 @@ class __$$_DetailsCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? resolution = freezed,
     Object? provider = freezed,
   }) {
     return _then(_$_Details(
-      resolution: freezed == resolution
-          ? _value.resolution
-          : resolution // ignore: cast_nullable_to_non_nullable
-              as String?,
       provider: freezed == provider
           ? _value.provider
           : provider // ignore: cast_nullable_to_non_nullable
@@ -578,19 +529,17 @@ class __$$_DetailsCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Details implements _Details {
-  const _$_Details({this.resolution, this.provider});
+  const _$_Details({this.provider});
 
   factory _$_Details.fromJson(Map<String, dynamic> json) =>
       _$$_DetailsFromJson(json);
 
   @override
-  final String? resolution;
-  @override
   final String? provider;
 
   @override
   String toString() {
-    return 'Details(resolution: $resolution, provider: $provider)';
+    return 'Details(provider: $provider)';
   }
 
   @override
@@ -598,15 +547,13 @@ class _$_Details implements _Details {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Details &&
-            (identical(other.resolution, resolution) ||
-                other.resolution == resolution) &&
             (identical(other.provider, provider) ||
                 other.provider == provider));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, resolution, provider);
+  int get hashCode => Object.hash(runtimeType, provider);
 
   @JsonKey(ignore: true)
   @override
@@ -623,13 +570,10 @@ class _$_Details implements _Details {
 }
 
 abstract class _Details implements Details {
-  const factory _Details({final String? resolution, final String? provider}) =
-      _$_Details;
+  const factory _Details({final String? provider}) = _$_Details;
 
   factory _Details.fromJson(Map<String, dynamic> json) = _$_Details.fromJson;
 
-  @override
-  String? get resolution;
   @override
   String? get provider;
   @override
