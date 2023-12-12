@@ -35,6 +35,7 @@ class ChatMessageWidget extends StatelessWidget {
       alignment:
           userType == 'User' ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
+        width: MediaQuery.of(context).size.width * 0.7,
         margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         padding: EdgeInsets.all(12.0),
         decoration: BoxDecoration(
