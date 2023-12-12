@@ -16,9 +16,6 @@ _$_DroneFootageModel _$$_DroneFootageModelFromJson(Map<String, dynamic> json) =>
           : Details.fromJson(json['details'] as Map<String, dynamic>),
       id: json['_id'] as String?,
       name: json['name'] as String?,
-      takenAtDate: json['takenAtDate'] as String?,
-      takenAtTime: json['takenAtTime'] as String?,
-      coverImage: json['coverImage'] as String?,
       reseller: json['reseller'] as String?,
       client: json['client'] as String?,
       project: json['project'] == null
@@ -31,7 +28,9 @@ _$_DroneFootageModel _$$_DroneFootageModelFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['updatedAt'] as String),
       url: json['url'] as String?,
-      coverImageUrl: json['coverImageUrl'] as String?,
+      path: json['path'] as String?,
+      status: json['status'] as String?,
+      user: json['user'] as String?,
     );
 
 Map<String, dynamic> _$$_DroneFootageModelToJson(
@@ -41,26 +40,23 @@ Map<String, dynamic> _$$_DroneFootageModelToJson(
       'details': instance.details,
       '_id': instance.id,
       'name': instance.name,
-      'takenAtDate': instance.takenAtDate,
-      'takenAtTime': instance.takenAtTime,
-      'coverImage': instance.coverImage,
       'reseller': instance.reseller,
       'client': instance.client,
       'project': instance.project,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
       'url': instance.url,
-      'coverImageUrl': instance.coverImageUrl,
+      'path': instance.path,
+      'status': instance.status,
+      'user': instance.user,
     };
 
 _$_Details _$$_DetailsFromJson(Map<String, dynamic> json) => _$_Details(
-      resolution: json['resolution'] as String?,
       provider: json['provider'] as String?,
     );
 
 Map<String, dynamic> _$$_DetailsToJson(_$_Details instance) =>
     <String, dynamic>{
-      'resolution': instance.resolution,
       'provider': instance.provider,
     };
 
