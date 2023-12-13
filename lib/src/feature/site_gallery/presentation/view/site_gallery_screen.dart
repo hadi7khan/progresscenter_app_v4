@@ -6,49 +6,49 @@ import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
-import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/provider/drone_footage_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/provider/site_gallery_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/view/widgets/site_gallery_grid_widget.dart';
+import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/view/widgets/site_gallery_list_widget.dart';
 
-import 'widgets/drone_gridview_widget.dart';
-import 'widgets/drone_listview_widget.dart';
-
-class DroneFootageScreen extends ConsumerStatefulWidget {
+class SiteGalleryScreen extends ConsumerStatefulWidget {
   final String projectId;
   final String projectName;
-  const DroneFootageScreen({
+  const SiteGalleryScreen({
     super.key,
     required this.projectId,
     required this.projectName,
   });
 
   @override
-  ConsumerState<DroneFootageScreen> createState() => _DroneFootageScreenState();
+  ConsumerState<SiteGalleryScreen> createState() => _DroneFootageScreenState();
 }
 
-class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
+class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
   bool list = true;
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref
-          .read(droneFootageControllerProvider.notifier)
-          .getDroneFootage(widget.projectId);
+          .read(siteGalleryControllerProvider.notifier)
+          .getSiteGallery(widget.projectId);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final droneFootageData = ref.watch(
-        droneFootageControllerProvider.select((value) => value.droneFootages));
+    final siteGalleryData = ref.watch(
+        siteGalleryControllerProvider.select((value) => value.siteGallery));
     return Scaffold(
         body: SafeArea(
       child: SingleChildScrollView(
           child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-        child: droneFootageData.when(
+        child: siteGalleryData.when(
           data: (data) {
             return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -75,29 +75,6 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
                               fontWeight: FontWeight.w500),
                         )
                       ]),
-                      // ListTile(
-                      //   dense: true,
-                      //   leading: Container(
-                      //       height: 24.h,
-                      //       child: IconButton(
-                      //         padding: EdgeInsets.zero,
-                      //         alignment: Alignment.centerLeft,
-                      //         icon:
-                      //             SvgPicture.asset('assets/images/sort.svg'),
-                      //         onPressed: () => context.pop(),
-                      //       ),
-                      //     ),
-                      //     title:Container(
-                      //       height: 24.h,
-                      //       child: IconButton(
-                      //         padding: EdgeInsets.zero,
-                      //         alignment: Alignment.centerLeft,
-                      //         icon:
-                      //             SvgPicture.asset('assets/images/sort.svg'),
-                      //         onPressed: () => context.pop(),
-                      //       ),
-                      //     ),
-                      // ),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -131,7 +108,7 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
                               padding: EdgeInsets.zero,
                               alignment: Alignment.centerLeft,
                               icon: SvgPicture.asset('assets/images/plus.svg'),
-                              onPressed: () {},
+                              onPressed: () => context.pop(),
                             ),
                           ),
                         ],
@@ -151,7 +128,9 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: data.length,
                           itemBuilder: ((context, index) {
-                            return DroneListViewWidget(data: data[index]);
+                            return SiteGalleryListViewWidget(
+                              data: data[index],
+                            );
                           }),
                         )
                       : GridView.builder(
@@ -167,7 +146,7 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
                                   mainAxisExtent: 152.h),
                           itemCount: data.length,
                           itemBuilder: ((context, index) {
-                            return DroneGridViewWidget(
+                            return SiteGalleryGridViewWidget(
                               data: data[index],
                             );
                           }),
@@ -180,7 +159,9 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
           },
           loading: () => Column(
             children: [
-              SizedBox(height: 44,),
+              SizedBox(
+                height: 44,
+              ),
               LoadingCardListScreen(),
             ],
           ),

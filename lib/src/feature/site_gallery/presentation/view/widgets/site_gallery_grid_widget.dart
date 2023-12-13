@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
-import 'package:progresscenter_app_v4/src/feature/cctv_view/presentation/view/widgets/cctv_widget.dart';
 
-class CctvGridViewWidget extends StatefulWidget {
+class SiteGalleryGridViewWidget extends StatefulWidget {
   final data;
-  const CctvGridViewWidget({super.key, this.data});
+  const SiteGalleryGridViewWidget({super.key, this.data});
 
   @override
-  State<CctvGridViewWidget> createState() => _CctvGridViewWidgetState();
+  State<SiteGalleryGridViewWidget> createState() => _SiteGalleryGridViewWidgetState();
 }
 
-class _CctvGridViewWidgetState extends State<CctvGridViewWidget> {
+class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,16 +23,30 @@ class _CctvGridViewWidgetState extends State<CctvGridViewWidget> {
         borderRadius: BorderRadius.circular(16.r),
       ),
       child:
-          Stack(fit: StackFit.loose, alignment: Alignment.topCenter, children: [
-        widget.data.streamingUrl != null
+          Stack(fit: StackFit.loose, children: [
+        widget.data.type == "IMAGE"
             ? ClipRRect(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(16.r),
                     topRight: Radius.circular(16.r)),
-                child: CCTVWidget(
-                  url: widget.data.streamingUrl,
-                ),
-              )
+                child: Stack(alignment: Alignment.center, children: [
+                   AspectRatio(
+                        aspectRatio: 3 / 2,
+                        child: Image.network(
+                            widget.data.url!,
+                            fit: BoxFit.fill,
+                            errorBuilder: (BuildContext context, Object exception,
+                                StackTrace? stackTrace) {
+                              return ClipRRect(
+                                child: Image.asset(
+                                  'assets/images/error_image.jpeg',
+                                  fit: BoxFit.cover,
+                                ),
+                              );
+                            },
+                          ),
+                      )
+                ]))
             : ClipRRect(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(16.r),
@@ -41,7 +54,7 @@ class _CctvGridViewWidgetState extends State<CctvGridViewWidget> {
                 child: Image.asset(
                   'assets/images/error_image.jpeg',
                   fit: BoxFit.cover,
-                  height: 284.h,
+                  // height: 264.h,
                 ),
               ),
         Positioned.fill(
@@ -63,9 +76,9 @@ class _CctvGridViewWidgetState extends State<CctvGridViewWidget> {
                   children: [
                     Text(
                       widget.data.name!,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 14.sp,
-                        overflow: TextOverflow.ellipsis,
                         fontWeight: FontWeight.w500,
                         color: Helper.baseBlack,
                       ),
@@ -74,9 +87,8 @@ class _CctvGridViewWidgetState extends State<CctvGridViewWidget> {
                     //   height: 6.h,
                     // ),
                     Text(
-                      "Installed · " +
-                          showDate(widget.data.installationDate, 'dd MMM yyyy'),
-                          overflow: TextOverflow.ellipsis,
+                      showDate(widget.data.createdAt!.toIso8601String(),
+                          'dd MMM yyyy'),
                       style: TextStyle(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w400,

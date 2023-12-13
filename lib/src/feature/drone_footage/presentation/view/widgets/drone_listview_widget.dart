@@ -84,19 +84,24 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          widget.data.name!,
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Helper.baseBlack,
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          child: Text(
+                            widget.data.name!,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w500,
+                              color: Helper.baseBlack,
+                            ),
                           ),
                         ),
                         // SizedBox(
                         //   height: 6.h,
                         // ),
                         Text(
-                          showDate(widget.data.createdAt.toIso8601String(), 'dd MMM yyyy'),
+                          showDate(widget.data.createdAt.toIso8601String(),
+                              'dd MMM yyyy'),
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400,

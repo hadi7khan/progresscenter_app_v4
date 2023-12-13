@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
@@ -72,29 +71,6 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                                   fontWeight: FontWeight.w500),
                             )
                           ]),
-                          // ListTile(
-                          //   dense: true,
-                          //   leading: Container(
-                          //       height: 24.h,
-                          //       child: IconButton(
-                          //         padding: EdgeInsets.zero,
-                          //         alignment: Alignment.centerLeft,
-                          //         icon:
-                          //             SvgPicture.asset('assets/images/sort.svg'),
-                          //         onPressed: () => context.pop(),
-                          //       ),
-                          //     ),
-                          //     title:Container(
-                          //       height: 24.h,
-                          //       child: IconButton(
-                          //         padding: EdgeInsets.zero,
-                          //         alignment: Alignment.centerLeft,
-                          //         icon:
-                          //             SvgPicture.asset('assets/images/sort.svg'),
-                          //         onPressed: () => context.pop(),
-                          //       ),
-                          //     ),
-                          // ),
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -107,7 +83,9 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                                   alignment: Alignment.centerLeft,
                                   icon: SvgPicture.asset(
                                       'assets/images/sort.svg'),
-                                  onPressed: () => context.pop(),
+                                  onPressed: (){
+                                    
+                                  },
                                 ),
                               ),
                               Container(
@@ -178,7 +156,9 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
               },
               loading: () => Column(
                 children: [
-                  SizedBox(height: 44,),
+                  SizedBox(
+                    height: 44,
+                  ),
                   LoadingCardListScreen(),
                 ],
               ),
@@ -186,19 +166,4 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
       ),
     ));
   }
-}
-
-showDateTimeString(date, dateFormat) {
-  // Format the DateTime object into the desired format
-  String formattedDate = DateFormat(dateFormat).format(date);
-  return formattedDate;
-}
-
-showDate(date, dateFormat) {
-  // Parse the installationDate string into a DateTime object
-  DateTime parsedDate = DateTime.parse(date);
-
-  // Format the DateTime object into the desired format
-  String formattedDate = DateFormat(dateFormat).format(parsedDate);
-  return formattedDate;
 }

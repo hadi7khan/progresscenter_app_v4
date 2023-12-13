@@ -28,7 +28,7 @@ import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/vie
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/edit_project_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/project_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/projects_screen.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/site_gallery_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/view/site_gallery_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/camera/presentation/view/camera_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/report/presentation/view/report_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/slider/presentation/view/slider_screen.dart';

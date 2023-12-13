@@ -12,7 +12,6 @@ final projectDataSourceProvider =
 abstract class ProjectDataSource {
   Future projectList({searchText = ''});
   Future projectById(String id);
-  Future siteGalleryList(String id);
   Future userleanList();
   Future inviteMembers(data, id);
   Future projectLeanList({searchText = ''});
@@ -39,16 +38,6 @@ class ProjectDataSourceImpl implements ProjectDataSource {
   @override
   Future projectById(String id) async {
     final response = await dioClient.get(Endpoints.projectByIdUrl(id));
-    if (response.statusCode == 200) {
-      return response.data;
-    } else {
-      return ServerException();
-    }
-  }
-
-  @override
-  Future siteGalleryList(String id) async {
-    final response = await dioClient.get(Endpoints.siteGalleryListUrl(id));
     if (response.statusCode == 200) {
       return response.data;
     } else {
