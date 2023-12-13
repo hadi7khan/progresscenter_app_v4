@@ -135,7 +135,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
     return Scaffold(
       backgroundColor: Color.fromRGBO(247, 247, 247, 1),
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70.h),
+        preferredSize: Size.fromHeight(60.h),
         child: Padding(
           padding: EdgeInsets.only(right: 16.w, left: 16.w),
           child: AppBar(
@@ -210,6 +210,29 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
           return SingleChildScrollView(
               child: imagesByCameraIdData.when(
             data: (imagesData) {
+              if (imagesData.images!.isEmpty) {
+                        return Container(
+                          alignment: Alignment.center,
+                          height: MediaQuery.of(context).size.height *0.88.h,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                  'assets/images/illustration.svg'),
+                                  SizedBox(height: 16.h),
+                              Text(
+                                "No Images yet",
+                                style: TextStyle(
+                                    color: Helper.textColor900,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      ;
               getDaysInMonth(imagesData.endDate, true);
               return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -300,8 +323,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                         right: 16,
                         child: InkWell(
                           onTap: () {
-                            SystemChrome.setPreferredOrientations(
-                                [DeviceOrientation.landscapeRight]);
+                            // SystemChrome.setPreferredOrientations(
+                            //     [DeviceOrientation.landscapeRight]);
                           },
                           child: BlurryContainer(
                             blur: 3,
@@ -424,16 +447,30 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 10.w, vertical: 14.h),
-                              child: Text(
-                                "- $showMonth -",
-                                style: TextStyle(
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w700,
-                                    color: Helper.baseBlack.withOpacity(0.3)),
-                              )),
+                          InkWell(
+                            onTap: () async {
+                              await _showDateBottomSheet(
+                                  context,
+                                  imagesData.startDate!,
+                                  imagesData.endDate!,
+                                  _selectedDate,
+                                  widget.cameraId,
+                                  widget.projectId,
+                                  ref,
+                                  currentMonth);
+                              setState(() {});
+                            },
+                            child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 10.w, vertical: 14.h),
+                                child: Text(
+                                  "- $showMonth -",
+                                  style: TextStyle(
+                                      fontSize: 10.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: Helper.baseBlack.withOpacity(0.3)),
+                                )),
+                          ),
                           Expanded(
                             child: ListView.builder(
                               shrinkWrap: true,

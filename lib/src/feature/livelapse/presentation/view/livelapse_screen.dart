@@ -64,7 +64,7 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
         .watch(livelapseControllerProvider.select((value) => value.livelapse));
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70.h),
+        preferredSize: Size.fromHeight(60.h),
         child: Padding(
           padding: EdgeInsets.only(right: 16.w, left: 16.w),
           child: AppBar(
@@ -110,6 +110,29 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
             child: livelapseData.when(
               data: (data) {
+                if (data.isEmpty) {
+                        return Container(
+                          alignment: Alignment.center,
+                          height: MediaQuery.of(context).size.height *0.88.h,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                  'assets/images/illustration.svg'),
+                                  SizedBox(height: 16.h),
+                              Text(
+                                "No Livelapse created",
+                                style: TextStyle(
+                                    color: Helper.textColor900,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      ;
                 return Column(children: [
                   ListView.separated(
                       physics: BouncingScrollPhysics(),

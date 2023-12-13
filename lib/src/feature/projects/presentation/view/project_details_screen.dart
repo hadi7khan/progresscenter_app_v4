@@ -49,19 +49,47 @@ class _ProjectDetailsScreenState
     final projectByIdData = ref.watch(
         projectByIdControllerProvider.select((value) => value.projectDetails));
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(60.h),
+        child: Container(
+          color: Colors.white,
+          child: Padding(
+            padding: EdgeInsets.only(right: 16.w, left: 16.w),
+            child: AppBar(
+                backgroundColor: Colors.white,
+                surfaceTintColor: Colors.white,
+                automaticallyImplyLeading: false,
+                titleSpacing: 12.0.w,
+                leading: InkWell(
+                  onTap: () {
+                    context.pop();
+                  },
+                  child: SvgPicture.asset(
+                    'assets/images/arrow-left.svg',
+                  ),
+                ),
+                leadingWidth: 24,
+                title: Text(
+                  widget.projectName,
+                  style: TextStyle(
+                      color: Helper.baseBlack,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w500),
+                ),),
+          ),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
             child: projectByIdData.when(
               data: (data) {
                 print("this is the assetMap before loop" + assetMap.toString());
                 for (var asset in data.assets!) {
-                  
                   String name = asset.name!;
                   int count = asset.count!;
                   assetMap[name] = count;
-                  
                 }
                 print("this is the assetMap" + assetMap.toString());
                 print("this is data assests" + data.assets.toString());
@@ -89,30 +117,30 @@ class _ProjectDetailsScreenState
                 return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: 24.h,
-                            child: IconButton(
-                              padding: EdgeInsets.zero,
-                              alignment: Alignment.centerLeft,
-                              icon: Icon(
-                                Icons.arrow_back,
-                              ),
-                              onPressed: () => context.pop(),
-                            ),
-                          ),
-                          SizedBox(width: 8.w),
-                          Text(
-                            widget.projectName,
-                            style: TextStyle(
-                                color: Helper.baseBlack,
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.w500),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 24.h),
+                      // Row(
+                      //   children: [
+                      //     Container(
+                      //       height: 24.h,
+                      //       child: IconButton(
+                      //         padding: EdgeInsets.zero,
+                      //         alignment: Alignment.centerLeft,
+                      //         icon: Icon(
+                      //           Icons.arrow_back,
+                      //         ),
+                      //         onPressed: () => context.pop(),
+                      //       ),
+                      //     ),
+                      //     SizedBox(width: 8.w),
+                      //     Text(
+                      //       widget.projectName,
+                      //       style: TextStyle(
+                      //           color: Helper.baseBlack,
+                      //           fontSize: 18.sp,
+                      //           fontWeight: FontWeight.w500),
+                      //     )
+                      //   ],
+                      // ),
+                      // SizedBox(height: 24.h),
                       Container(
                         margin: EdgeInsets.zero,
                         padding: EdgeInsets.zero,
@@ -231,25 +259,30 @@ class _ProjectDetailsScreenState
                                 top: 150.h,
                                 child: Padding(
                                     padding: const EdgeInsets.only(bottom: 12),
-                                    child: data.images!.length >0 ? DotsIndicator(
-                                      dotsCount: data.images!.length,
-                                      position: _currentIndex != null
-                                          ? _currentIndex!
-                                          : 0,
-                                      decorator: DotsDecorator(
-                                          color: Colors.white.withOpacity(0.6),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(6.r)),
-                                          activeColor: Colors.white,
-                                          activeShape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8.r)),
-                                          size: Size(6, 6),
-                                          activeSize: Size(8, 8),
-                                          spacing: EdgeInsets.only(right: 6.w)),
-                                    ): SizedBox()
-                                    ),
+                                    child: data.images!.length > 0
+                                        ? DotsIndicator(
+                                            dotsCount: data.images!.length,
+                                            position: _currentIndex != null
+                                                ? _currentIndex!
+                                                : 0,
+                                            decorator: DotsDecorator(
+                                                color: Colors.white.withOpacity(
+                                                    0.6),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius
+                                                        .circular(6.r)),
+                                                activeColor: Colors.white,
+                                                activeShape:
+                                                    RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.r)),
+                                                size: Size(6, 6),
+                                                activeSize: Size(8, 8),
+                                                spacing: EdgeInsets.only(
+                                                    right: 6.w)),
+                                          )
+                                        : SizedBox()),
                               ),
                               // : SizedBox(),
                               Positioned.fill(
@@ -732,7 +765,7 @@ List links = [
   },
   {
     'content': 'Equipment Trackers',
-    'to': '/camera360',
+    'to': '/equipmentTracker',
     'identifier': AssetType.EQUIPMENT_TRACKERS.name,
     'icon': 'assets/images/drone_footage.svg',
     'countText': 'Equipments'
@@ -910,7 +943,7 @@ Widget buildAsset(
     case AssetType.EQUIPMENT_TRACKERS:
       return ListTile(
           onTap: () {
-            context.push('/camera360',
+            context.push('/equipmentTracker',
                 extra: {"projectId": projectId, "projectName": projectName});
           },
           dense: true,

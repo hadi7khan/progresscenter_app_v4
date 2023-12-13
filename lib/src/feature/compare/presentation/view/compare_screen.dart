@@ -73,7 +73,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
     final selectedCompareData2 = ref.watch(compare2DataProvider);
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70.h),
+        preferredSize: Size.fromHeight(60.h),
         child: Padding(
           padding: EdgeInsets.only(right: 16.w, left: 16.w),
           child: AppBar(
@@ -109,7 +109,31 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
             child: Column(
               children: [
                 compareCameraData1.when(
+                  
                   data: (cameraData1) {
+                    if (cameraData1.images!.isEmpty) {
+                        return Container(
+                          alignment: Alignment.center,
+                          height: MediaQuery.of(context).size.height *0.88.h,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                  'assets/images/illustration.svg'),
+                                  SizedBox(height: 16.h),
+                              Text(
+                                "No Images yet",
+                                style: TextStyle(
+                                    color: Helper.textColor900,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      ;
                     return Consumer(builder: (context, ref, child) {
                       return Column(children: [
                         Stack(children: [
@@ -313,6 +337,29 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
 
                 compareCameraData2.when(
                   data: (cameraData2) {
+                    if (cameraData2.images!.isEmpty) {
+                        return Container(
+                          alignment: Alignment.center,
+                          height: MediaQuery.of(context).size.height *0.88.h,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                  'assets/images/illustration.svg'),
+                                  SizedBox(height: 16.h),
+                              Text(
+                                "No Images yet",
+                                style: TextStyle(
+                                    color: Helper.textColor900,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      ;
                     return Consumer(builder: (context, ref, child) {
                       return Column(children: [
                         Stack(children: [

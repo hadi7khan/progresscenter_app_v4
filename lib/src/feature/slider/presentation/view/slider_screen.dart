@@ -131,7 +131,7 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70.h),
+        preferredSize: Size.fromHeight(60.h),
         child: Padding(
           padding: EdgeInsets.only(right: 16.w, left: 16.w),
           child: AppBar(
@@ -166,9 +166,29 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
             padding: EdgeInsets.symmetric(vertical: 164.h),
             child: progressSliderData.when(
               data: (data) {
-                // if (loading = true) {
-                //   return CircularProgressIndicator();
-                // }
+                if (data.isEmpty) {
+                        return Container(
+                          alignment: Alignment.center,
+                          height: MediaQuery.of(context).size.height *0.88.h,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                  'assets/images/illustration.svg'),
+                                  SizedBox(height: 16.h),
+                              Text(
+                                "No Images yet",
+                                style: TextStyle(
+                                    color: Helper.textColor900,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      ;
 
                 return Column(
                   children: [

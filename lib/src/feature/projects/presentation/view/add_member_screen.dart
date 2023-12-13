@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -89,43 +88,74 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
           FocusScope.of(context).unfocus();
         },
         child: Scaffold(
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(60.h),
+            child: Container(
+              color: Colors.white,
+              child: Padding(
+                padding: EdgeInsets.only(right: 16.w, left: 16.w),
+                child: AppBar(
+                  backgroundColor: Colors.white,
+                  surfaceTintColor: Colors.white,
+                  automaticallyImplyLeading: false,
+                  titleSpacing: 12.0.w,
+                  leading: InkWell(
+                    onTap: () {
+                      context.pop();
+                    },
+                    child: SvgPicture.asset(
+                      'assets/images/arrow-left.svg',
+                    ),
+                  ),
+                  leadingWidth: 24,
+                  title: Text(
+                    "Add member",
+                    style: TextStyle(
+                        color: Helper.baseBlack,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ),
+            ),
+          ),
           body: SafeArea(
               child: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
               child: FormBuilder(
                 key: _fbKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Container(
-                          height: 24.h,
-                          child: IconButton(
-                            padding: EdgeInsets.zero,
-                            alignment: Alignment.centerLeft,
-                            icon: Icon(
-                              Icons.arrow_back,
-                            ),
-                            onPressed: () => context.pop(),
-                          ),
-                        ),
-                        SizedBox(width: 8.w),
-                        Center(
-                          child: Text(
-                            "Add member",
-                            style: TextStyle(
-                                color: Helper.baseBlack,
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(height: 24.h),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.start,
+                    //   mainAxisSize: MainAxisSize.max,
+                    //   children: [
+                    //     Container(
+                    //       height: 24.h,
+                    //       child: IconButton(
+                    //         padding: EdgeInsets.zero,
+                    //         alignment: Alignment.centerLeft,
+                    //         icon: Icon(
+                    //           Icons.arrow_back,
+                    //         ),
+                    //         onPressed: () => context.pop(),
+                    //       ),
+                    //     ),
+                    //     SizedBox(width: 8.w),
+                    //     Center(
+                    //       child: Text(
+                    //         "Add member",
+                    //         style: TextStyle(
+                    //             color: Helper.baseBlack,
+                    //             fontSize: 18.sp,
+                    //             fontWeight: FontWeight.w500),
+                    //       ),
+                    //     )
+                    //   ],
+                    // ),
+                    // SizedBox(height: 24.h),
                     Text(
                       "Email",
                       style: TextStyle(
@@ -327,26 +357,29 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                         // labelText: 'Training',
                         hintText: "Select roles",
                         hintStyle: TextStyle(
-                            color: Helper.textColor500,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
+                          color: Helper.textColor500,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
                         contentPadding: EdgeInsets.symmetric(
                             vertical: 10.h, horizontal: 14.w),
                         suffixIcon: Padding(
-                          padding:  EdgeInsets.only(right: 14.w),
+                          padding: EdgeInsets.only(right: 14.w),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(Icons.help_outline, color: Helper.textColor500, size: 18),
-                              SizedBox(width: 5.w,),
-                              Icon(Icons.keyboard_arrow_down_outlined, color: Helper.textColor500)
-                              
+                              Icon(Icons.help_outline,
+                                  color: Helper.textColor500, size: 18),
+                              SizedBox(
+                                width: 5.w,
+                              ),
+                              Icon(Icons.keyboard_arrow_down_outlined,
+                                  color: Helper.textColor500)
                             ],
                           ),
                         ),
-                        
+
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.r),
                           borderSide: BorderSide(color: Helper.textColor300),
@@ -365,7 +398,7 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                         ),
                         // filled: true,
                       ),
-                      onChanged: (value){
+                      onChanged: (value) {
                         setState(() {
                           _roleSelected = value!;
                         });
@@ -377,9 +410,7 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                             e,
                             style: const TextStyle(color: Colors.black),
                           ),
-                          onTap: () {
-                            
-                          },
+                          onTap: () {},
                         );
                       }).toList(),
                     ),
@@ -513,7 +544,7 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                                 borderRadius: BorderRadius.circular(8.r),
                               ),
                             )),
-                        onPressed: () async{
+                        onPressed: () async {
                           if (_fbKey.currentState!.saveAndValidate() &&
                               _selectedTeams.isNotEmpty &&
                               _emailController.text.isNotEmpty) {
@@ -521,40 +552,41 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                             //   "email": _controller.text.trim().toLowerCase()
                             // });
                             setState(() {
-                            _isLoading = true;
-                          });
-                          Map<String, dynamic> data = {
-                            "email": _emailController.text.toLowerCase(),
-                            "role": _roleSelected.toUpperCase().toString(),
-                            "tags": _selectedTeams
-                          };
-                          print(data.toString());
-                          await ref
-                              .watch(inviteMembersProvider.notifier)
-                              .inviteMember(data, widget.projectId)
-                              .then((value) async {
-                            value.fold((failure) {
-                              print("errorrrrrr");
-                            }, (data) {
-                              // final token = data['token'];
-                              // context.push('/verifyEmail',
-                              //     extra: {"token": token});
-                              context.pop();
+                              _isLoading = true;
+                            });
+                            Map<String, dynamic> data = {
+                              "email": _emailController.text.toLowerCase(),
+                              "role": _roleSelected.toUpperCase().toString(),
+                              "tags": _selectedTeams
+                            };
+                            print(data.toString());
+                            await ref
+                                .watch(inviteMembersProvider.notifier)
+                                .inviteMember(data, widget.projectId)
+                                .then((value) async {
+                              value.fold((failure) {
+                                print("errorrrrrr");
+                              }, (data) {
+                                // final token = data['token'];
+                                // context.push('/verifyEmail',
+                                //     extra: {"token": token});
+                                context.pop();
                                 Utils.toastSuccessMessage(
-                                "Member Added",);
-                            });
+                                  "Member Added",
+                                );
+                              });
 
-                            setState(() {
-                              _isLoading = false;
+                              setState(() {
+                                _isLoading = false;
+                              });
                             });
-                          });
-                          // .onError((error, stackTrace) {
-                          //   Utils.flushBarErrorMessage(
-                          //       "Error", context);
-                          //   setState(() {
-                          //     isLoading = false;
-                          //   });
-                          // });
+                            // .onError((error, stackTrace) {
+                            //   Utils.flushBarErrorMessage(
+                            //       "Error", context);
+                            //   setState(() {
+                            //     isLoading = false;
+                            //   });
+                            // });
                             // _showBottomSheet(
                             //     context, _emailController.text, selectedTeams);
                           }
