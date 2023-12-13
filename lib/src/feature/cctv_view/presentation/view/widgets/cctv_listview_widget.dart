@@ -93,14 +93,18 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            widget.data.name!,
-                            softWrap: true,
-                            style: TextStyle(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w500,
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            child: Text(
+                              widget.data.name!,
                               overflow: TextOverflow.ellipsis,
-                              color: Helper.baseBlack,
+                              softWrap: true,
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w500,
+                                overflow: TextOverflow.ellipsis,
+                                color: Helper.baseBlack,
+                              ),
                             ),
                           ),
                           // SizedBox(

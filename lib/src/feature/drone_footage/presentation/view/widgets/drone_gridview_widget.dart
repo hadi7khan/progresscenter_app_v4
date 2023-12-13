@@ -60,7 +60,9 @@ class _DroneGridViewWidgetState extends State<DroneGridViewWidget> {
                               color: Colors.white, size: 44))
                     ]))
                 : ClipRRect(
-                    borderRadius: BorderRadius.circular(16.r),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(16.r),
+                        topRight: Radius.circular(16.r)),
                     child: Image.asset(
                       'assets/images/error_image.jpeg',
                       fit: BoxFit.fill,

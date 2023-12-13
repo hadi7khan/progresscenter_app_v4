@@ -9,7 +9,7 @@ import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/provider/drone_footage_controller.dart';
 
 import 'widgets/drone_gridview_widget.dart';
-import 'widgets/list_view_widget.dart';
+import 'widgets/drone_listview_widget.dart';
 
 class DroneFootageScreen extends ConsumerStatefulWidget {
   final String projectId;
