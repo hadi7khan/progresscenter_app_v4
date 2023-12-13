@@ -40,84 +40,138 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
     final siteGalleryData = ref.watch(
         siteGalleryControllerProvider.select((value) => value.siteGallery));
     return Scaffold(
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(60.h),
+          child: Container(
+            color: Colors.white,
+            child: Padding(
+              padding: EdgeInsets.only(right: 16.w, left: 16.w),
+              child: AppBar(
+                backgroundColor: Colors.white,
+                surfaceTintColor: Colors.white,
+                automaticallyImplyLeading: false,
+                titleSpacing: 12.0.w,
+                leading: InkWell(
+                  onTap: () {
+                    context.pop();
+                  },
+                  child: SvgPicture.asset(
+                    'assets/images/arrow-left.svg',
+                  ),
+                ),
+                leadingWidth: 24,
+                title: Text(
+                  widget.projectName,
+                  style: TextStyle(
+                      color: Helper.baseBlack,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w500),
+                ),
+                actions: [
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        if (list == true) {
+                          list = false;
+                        } else {
+                          list = true;
+                        }
+                      });
+                    },
+                    child: list
+                        ? SvgPicture.asset('assets/images/grid_view.svg')
+                        : SvgPicture.asset('assets/images/list_view.svg'),
+                  ),
+                  SizedBox(
+                    width: 5.w
+                  ),
+                  InkWell(
+                    child: SvgPicture.asset('assets/images/plus.svg'),
+                    onTap: () {},
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
         body: SafeArea(
       child: SingleChildScrollView(
           child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
         child: siteGalleryData.when(
           data: (data) {
             return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Row(children: [
-                        Container(
-                          height: 24.h,
-                          child: IconButton(
-                            padding: EdgeInsets.zero,
-                            alignment: Alignment.centerLeft,
-                            icon: Icon(
-                              Icons.arrow_back,
-                            ),
-                            onPressed: () => context.pop(),
-                          ),
-                        ),
-                        SizedBox(width: 8.w),
-                        Text(
-                          widget.projectName,
-                          style: TextStyle(
-                              color: Helper.baseBlack,
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w500),
-                        )
-                      ]),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.zero,
-                            height: 24.h,
-                            child: IconButton(
-                              padding: EdgeInsets.zero,
-                              alignment: Alignment.centerLeft,
-                              icon: list
-                                  ? SvgPicture.asset(
-                                      'assets/images/grid_view.svg')
-                                  : SvgPicture.asset(
-                                      'assets/images/list_view.svg'),
-                              onPressed: () {
-                                setState(() {
-                                  if (list == true) {
-                                    list = false;
-                                  } else {
-                                    list = true;
-                                  }
-                                });
-                              },
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.zero,
-                            height: 24.h,
-                            child: IconButton(
-                              padding: EdgeInsets.zero,
-                              alignment: Alignment.centerLeft,
-                              icon: SvgPicture.asset('assets/images/plus.svg'),
-                              onPressed: () => context.pop(),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 24.h,
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   mainAxisSize: MainAxisSize.max,
+                  //   children: [
+                  //     Row(children: [
+                  //       Container(
+                  //         height: 24.h,
+                  //         child: IconButton(
+                  //           padding: EdgeInsets.zero,
+                  //           alignment: Alignment.centerLeft,
+                  //           icon: Icon(
+                  //             Icons.arrow_back,
+                  //           ),
+                  //           onPressed: () => context.pop(),
+                  //         ),
+                  //       ),
+                  //       SizedBox(width: 8.w),
+                  //       Text(
+                  //         widget.projectName,
+                  //         style: TextStyle(
+                  //             color: Helper.baseBlack,
+                  //             fontSize: 18.sp,
+                  //             fontWeight: FontWeight.w500),
+                  //       )
+                  //     ]),
+                  //     Row(
+                  //       mainAxisSize: MainAxisSize.min,
+                  //       mainAxisAlignment: MainAxisAlignment.end,
+                  //       children: [
+                  //         Container(
+                  //           margin: EdgeInsets.zero,
+                  //           height: 24.h,
+                  //           child: IconButton(
+                  //             padding: EdgeInsets.zero,
+                  //             alignment: Alignment.centerLeft,
+                  //             icon: list
+                  //                 ? SvgPicture.asset(
+                  //                     'assets/images/grid_view.svg')
+                  //                 : SvgPicture.asset(
+                  //                     'assets/images/list_view.svg'),
+                  //             onPressed: () {
+                  //               setState(() {
+                  //                 if (list == true) {
+                  //                   list = false;
+                  //                 } else {
+                  //                   list = true;
+                  //                 }
+                  //               });
+                  //             },
+                  //           ),
+                  //         ),
+                  //         Container(
+                  //           margin: EdgeInsets.zero,
+                  //           height: 24.h,
+                  //           child: IconButton(
+                  //             padding: EdgeInsets.zero,
+                  //             alignment: Alignment.centerLeft,
+                  //             icon: SvgPicture.asset('assets/images/plus.svg'),
+                  //             onPressed: () => context.pop(),
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ],
+                  // ),
+                  // SizedBox(
+                  //   height: 24.h,
+                  // ),
                   list
                       ? ListView.separated(
                           separatorBuilder: (context, index) {

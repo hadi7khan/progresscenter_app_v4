@@ -172,43 +172,74 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(60.h),
+          child: Container(
+            color: Colors.white,
+            child: Padding(
+              padding: EdgeInsets.only(right: 16.w, left: 16.w),
+              child: AppBar(
+                backgroundColor: Colors.white,
+                surfaceTintColor: Colors.white,
+                automaticallyImplyLeading: false,
+                titleSpacing: 12.0.w,
+                leading: InkWell(
+                  onTap: () {
+                    context.pop();
+                  },
+                  child: SvgPicture.asset(
+                    'assets/images/arrow-left.svg',
+                  ),
+                ),
+                leadingWidth: 24,
+                title: Text(
+                  "Edit project",
+                  style: TextStyle(
+                      color: Helper.baseBlack,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w500),
+                ),
+              ),
+            ),
+          ),
+        ),
         body: SafeArea(
             child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
             child: FormBuilder(
               key: _fbKey,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Container(
-                          height: 24.h,
-                          child: IconButton(
-                            padding: EdgeInsets.zero,
-                            alignment: Alignment.centerLeft,
-                            icon: Icon(
-                              Icons.arrow_back,
-                            ),
-                            onPressed: () => context.pop(),
-                          ),
-                        ),
-                        SizedBox(width: 8.w),
-                        Center(
-                          child: Text(
-                            "Edit project",
-                            style: TextStyle(
-                                color: Helper.baseBlack,
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(height: 24.h),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.start,
+                    //   mainAxisSize: MainAxisSize.max,
+                    //   children: [
+                    //     Container(
+                    //       height: 24.h,
+                    //       child: IconButton(
+                    //         padding: EdgeInsets.zero,
+                    //         alignment: Alignment.centerLeft,
+                    //         icon: Icon(
+                    //           Icons.arrow_back,
+                    //         ),
+                    //         onPressed: () => context.pop(),
+                    //       ),
+                    //     ),
+                    //     SizedBox(width: 8.w),
+                    //     Center(
+                    //       child: Text(
+                    //         "Edit project",
+                    //         style: TextStyle(
+                    //             color: Helper.baseBlack,
+                    //             fontSize: 18.sp,
+                    //             fontWeight: FontWeight.w500),
+                    //       ),
+                    //     )
+                    //   ],
+                    // ),
+                    // SizedBox(height: 24.h),
                     Text(
                       "Project Name",
                       style: TextStyle(
@@ -544,7 +575,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                                               },
                                               style: TextButton.styleFrom(
                                                   padding: const EdgeInsets
-                                                          .symmetric(
+                                                      .symmetric(
                                                       horizontal: 16,
                                                       vertical: 11),
                                                   shape: RoundedRectangleBorder(
@@ -575,7 +606,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                                                             8.r),
                                                   ),
                                                   padding: const EdgeInsets
-                                                          .symmetric(
+                                                      .symmetric(
                                                       horizontal: 16,
                                                       vertical: 11),
                                                   backgroundColor: Colors.white,

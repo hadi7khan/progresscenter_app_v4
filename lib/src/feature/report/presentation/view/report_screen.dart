@@ -18,7 +18,7 @@ class _ReportScreenState extends State<ReportScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
      appBar:  PreferredSize(
-        preferredSize: Size.fromHeight(70.h),
+        preferredSize: Size.fromHeight(60.h),
         child: Padding(
           padding: EdgeInsets.only(right: 16.w, left: 16.w),
           child: AppBar(
