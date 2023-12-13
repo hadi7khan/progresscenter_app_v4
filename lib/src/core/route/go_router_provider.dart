@@ -26,6 +26,7 @@ import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/cam
 import 'package:progresscenter_app_v4/src/feature/cctv_view/presentation/view/cctv_view_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/view/drone_footage_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/edit_project_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/equipment_tracker_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/project_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/projects_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/view/site_gallery_screen.dart';
@@ -512,6 +513,21 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return NoTransitionPage(
             key: state.pageKey,
             child: SiteGalleryScreen(
+                key: state.pageKey,
+                projectId: args['projectId'],
+                projectName: args['projectName']),
+          );
+        },
+      ),
+       GoRoute(
+        path: '/equipmentTracker',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: equipmentTrackerRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: EquipmentTrackerScreen(
                 key: state.pageKey,
                 projectId: args['projectId'],
                 projectName: args['projectName']),

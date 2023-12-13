@@ -181,6 +181,29 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                 padding: EdgeInsets.symmetric(vertical: 150.h),
                 child: splitViewData1.when(
                   data: (data1) {
+                    if (data1.images!.isEmpty) {
+                        return Container(
+                          alignment: Alignment.center,
+                          // height: MediaQuery.of(context).size.height *0.88.h,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                  'assets/images/illustration.svg'),
+                                  SizedBox(height: 16.h),
+                              Text(
+                                "No Images yet",
+                                style: TextStyle(
+                                    color: Helper.textColor900,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      ;
                     final aspectRatio = data1.images![0].resolution!.width! /
                         data1.images![0].resolution!.height!;
                     print("aspectRatio$aspectRatio");

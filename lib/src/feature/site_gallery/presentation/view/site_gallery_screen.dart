@@ -100,6 +100,29 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
         child: siteGalleryData.when(
           data: (data) {
+            if (data.isEmpty) {
+                        return Container(
+                          alignment: Alignment.center,
+                          height: MediaQuery.of(context).size.height *0.88.h,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                  'assets/images/illustration.svg'),
+                                  SizedBox(height: 16.h),
+                              Text(
+                                "No Site gallery",
+                                style: TextStyle(
+                                    color: Helper.textColor900,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      ;
             return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,

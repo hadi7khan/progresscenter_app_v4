@@ -765,7 +765,7 @@ List links = [
   },
   {
     'content': 'Equipment Trackers',
-    'to': '/camera360',
+    'to': '/equipmentTracker',
     'identifier': AssetType.EQUIPMENT_TRACKERS.name,
     'icon': 'assets/images/drone_footage.svg',
     'countText': 'Equipments'
@@ -943,7 +943,7 @@ Widget buildAsset(
     case AssetType.EQUIPMENT_TRACKERS:
       return ListTile(
           onTap: () {
-            context.push('/camera360',
+            context.push('/equipmentTracker',
                 extra: {"projectId": projectId, "projectName": projectName});
           },
           dense: true,

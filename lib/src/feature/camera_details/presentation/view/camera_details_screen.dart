@@ -210,6 +210,29 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
           return SingleChildScrollView(
               child: imagesByCameraIdData.when(
             data: (imagesData) {
+              if (imagesData.images!.isEmpty) {
+                        return Container(
+                          alignment: Alignment.center,
+                          height: MediaQuery.of(context).size.height *0.88.h,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                  'assets/images/illustration.svg'),
+                                  SizedBox(height: 16.h),
+                              Text(
+                                "No Images yet",
+                                style: TextStyle(
+                                    color: Helper.textColor900,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      ;
               getDaysInMonth(imagesData.endDate, true);
               return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
