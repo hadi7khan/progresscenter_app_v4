@@ -1,17 +1,17 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/data/repository/project_repository_impl.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/presentation/state/site_gallery_state.dart';
+import 'package:progresscenter_app_v4/src/feature/site_gallery/data/repository/site_gallery_impl.dart';
+import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/state/site_gallery_state.dart';
 
 final siteGalleryControllerProvider =
     StateNotifierProvider.autoDispose<SiteGalleryController, SiteGalleryState>(
         (ref) {
-  final projectService = ref.watch(projectProvider);
-  return SiteGalleryController(const SiteGalleryState(), projectService);
+  final siteGalleryService = ref.watch(siteGalleryProvider);
+  return SiteGalleryController(const SiteGalleryState(), siteGalleryService);
 });
 
 class SiteGalleryController extends StateNotifier<SiteGalleryState> {
   SiteGalleryController(super.state, this.service);
-  final ProjectRepositoryImpl service;
+  final SiteGalleryRepositoryImpl service;
 
   void getSiteGallery(id) async {
     state = state.copyWith(isFetching: true);

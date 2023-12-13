@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final siteGalleryModel = siteGalleryModelFromJson(jsonString);
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'dart:convert';
 
@@ -18,13 +14,9 @@ String siteGalleryModelToJson(List<SiteGalleryModel> data) =>
 @freezed
 class SiteGalleryModel with _$SiteGalleryModel {
   const factory SiteGalleryModel({
-    Location? location,
-    String? id,
+    @JsonKey(name: '_id') String? id,
     String? name,
-    String? takenAtDate,
-    String? takenAtTime,
     String? path,
-    String? coverImage,
     String? status,
     String? type,
     String? reseller,
@@ -32,20 +24,10 @@ class SiteGalleryModel with _$SiteGalleryModel {
     String? project,
     DateTime? createdAt,
     DateTime? updatedAt,
+    String? url,
+    String? user,
   }) = _SiteGalleryModel;
 
   factory SiteGalleryModel.fromJson(Map<String, dynamic> json) =>
       _$SiteGalleryModelFromJson(json);
-}
-
-@freezed
-class Location with _$Location {
-  const factory Location({
-    String? name,
-    dynamic latitude,
-    dynamic longitude,
-  }) = _Location;
-
-  factory Location.fromJson(Map<String, dynamic> json) =>
-      _$LocationFromJson(json);
 }

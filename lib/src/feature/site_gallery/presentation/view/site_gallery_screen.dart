@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/site_gallery_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/provider/site_gallery_controller.dart';
 
 class SiteGalleryScreen extends ConsumerStatefulWidget {
   final String projectId;
@@ -125,7 +125,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                             fit: StackFit.loose,
                             alignment: Alignment.topCenter,
                             children: [
-                              data[index].coverImage != null
+                              data[index].type == "IMAGE"
                                   ? ClipRRect(
                                       borderRadius:
                                               BorderRadius.only(topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r)),
@@ -134,7 +134,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                                           children: [
                                             data[index].type == "IMAGE"
                                                 ? Image.network(
-                                                    "https://placekitten.com/640/360",
+                                                     data[index].url!,
                                                    
                                                     fit: BoxFit.fill,
                                                     errorBuilder:
@@ -201,7 +201,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                                               // ),
                                               Text(
                                                 showDate(
-                                                    data[index].takenAtDate,
+                                                    data[index].createdAt!.toIso8601String(),
                                                     'dd MMM yyyy'),
                                                 style: TextStyle(
                                                   fontSize: 14.sp,

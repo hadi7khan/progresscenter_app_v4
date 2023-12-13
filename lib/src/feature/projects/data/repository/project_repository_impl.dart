@@ -8,7 +8,6 @@ import 'package:progresscenter_app_v4/src/core/network/failure.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/datasource/project_datasource.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_lean_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/data/models/site_gallery_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/domain/project_repository.dart';
 
@@ -47,22 +46,6 @@ class ProjectRepositoryImpl implements ProjectRepository {
         id,
       );
       return Right((ProjectModel.fromJson(result)));
-    } on DioError catch (e) {
-      final errorMessage = DioExceptions.fromDioError(e);
-      print(errorMessage.toString());
-      rethrow;
-    } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<SiteGalleryModel>>> siteGalleryList(
-      String id) async {
-    try {
-      final result = await projectDataSource.siteGalleryList(id);
-      return Right(
-          (result as List).map((e) => SiteGalleryModel.fromJson(e)).toList());
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
       print(errorMessage.toString());
