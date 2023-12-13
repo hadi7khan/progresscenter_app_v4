@@ -96,7 +96,8 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
                         //   height: 6.h,
                         // ),
                         Text(
-                          showDate(widget.data.createdAt.toIso8601String(), 'dd MMM yyyy'),
+                          showDate(widget.data.createdAt.toIso8601String(),
+                              'dd MMM yyyy'),
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400,
