@@ -87,7 +87,10 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                   ),
                   InkWell(
                     child: SvgPicture.asset('assets/images/plus.svg'),
-                    onTap: () {},
+                    onTap: () {
+                      context.push('/addSiteGallery',
+                                  extra: {"projectId": widget.projectId, "projectName": widget.projectName});
+                    },
                   ),
                 ],
               ),

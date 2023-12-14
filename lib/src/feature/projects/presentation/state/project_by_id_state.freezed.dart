@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ProjectByIdState {
   bool get isFetching => throw _privateConstructorUsedError;
-  AsyncValue<ProjectModel> get projectDetails =>
+  AsyncValue<ProjectByIdModel> get projectDetails =>
       throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
 
@@ -34,7 +34,7 @@ abstract class $ProjectByIdStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool isFetching,
-      AsyncValue<ProjectModel> projectDetails,
+      AsyncValue<ProjectByIdModel> projectDetails,
       String? errorMessage});
 }
 
@@ -63,7 +63,7 @@ class _$ProjectByIdStateCopyWithImpl<$Res, $Val extends ProjectByIdState>
       projectDetails: null == projectDetails
           ? _value.projectDetails
           : projectDetails // ignore: cast_nullable_to_non_nullable
-              as AsyncValue<ProjectModel>,
+              as AsyncValue<ProjectByIdModel>,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -82,7 +82,7 @@ abstract class _$$_ProjectByIdStateCopyWith<$Res>
   @useResult
   $Res call(
       {bool isFetching,
-      AsyncValue<ProjectModel> projectDetails,
+      AsyncValue<ProjectByIdModel> projectDetails,
       String? errorMessage});
 }
 
@@ -109,7 +109,7 @@ class __$$_ProjectByIdStateCopyWithImpl<$Res>
       projectDetails: null == projectDetails
           ? _value.projectDetails
           : projectDetails // ignore: cast_nullable_to_non_nullable
-              as AsyncValue<ProjectModel>,
+              as AsyncValue<ProjectByIdModel>,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -131,7 +131,7 @@ class _$_ProjectByIdState implements _ProjectByIdState {
   final bool isFetching;
   @override
   @JsonKey()
-  final AsyncValue<ProjectModel> projectDetails;
+  final AsyncValue<ProjectByIdModel> projectDetails;
   @override
   final String? errorMessage;
 
@@ -167,13 +167,13 @@ class _$_ProjectByIdState implements _ProjectByIdState {
 abstract class _ProjectByIdState implements ProjectByIdState {
   const factory _ProjectByIdState(
       {final bool isFetching,
-      final AsyncValue<ProjectModel> projectDetails,
+      final AsyncValue<ProjectByIdModel> projectDetails,
       final String? errorMessage}) = _$_ProjectByIdState;
 
   @override
   bool get isFetching;
   @override
-  AsyncValue<ProjectModel> get projectDetails;
+  AsyncValue<ProjectByIdModel> get projectDetails;
   @override
   String? get errorMessage;
   @override

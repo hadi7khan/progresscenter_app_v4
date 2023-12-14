@@ -10,11 +10,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart'
-    as model;
+import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_by_id_model.dart' as model;
+
 
 class EditProjectScreen extends StatefulWidget {
-  final model.ProjectModel data;
+  final model.ProjectByIdModel data;
   const EditProjectScreen({super.key, required this.data});
 
   @override
@@ -105,11 +105,11 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
   _getChildren() {
     List<Widget> carouselChildren = widget.data.images!.map((e) {
       var index = widget.data.images!.indexOf(e);
-      print("image id" + widget.data.images![index].id.toString());
+      print("image id" + widget.data.images![index].imageId.toString());
       return InkWell(
           onLongPress: () {
             _showDeleteBottomSheet(
-                context, widget.data.id!, widget.data.images![index].id);
+                context, widget.data.id!, widget.data.images![index].imageId);
           },
           child: Stack(children: [
             Container(
@@ -166,7 +166,8 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.data.toString());
+
+    print("data passed" + widget.data.toString());
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -463,7 +464,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                           child: ListTile(
                             leading: AvatarWidget(
                               dpUrl: widget.data.users![index].dp != null
-                                  ? widget.data.users![index].dpUrl
+                                  ? widget.data.users![index].dpUrl!
                                   : "",
                               name: widget.data.users![index].name!,
                               size: 32.h,
@@ -653,183 +654,178 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
       backgroundColor: Colors.transparent,
       builder: (context) => BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16.r),
-                    topRight: Radius.circular(16.r)),
-                color: Colors.white,
-              ),
-              height: 340.h,
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r)),
+            color: Colors.white,
+          ),
+          height: 340.h,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Upload Media',
-                        style: TextStyle(
-                            color: Helper.baseBlack,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20.h),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      InkWell(
-                        onTap: () async {
-                          // calculateProgress(0);
-                          _pickImage(ImageSource.camera).then((value) async {
-                            await Service()
-                                .uploadPhoto(widget.data.id!, _image!.path,
-                                    calculateProgress)
-                                .then((value) {
-                              setState(() {
-                                _progress = progress;
-                                print("progress" + _progress.toString());
-                              });
-                              print("progress" + _progress.toString());
-                              context.pop();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      backgroundColor: Colors.green,
-                                      content: Text("Image Uploaded")));
-                            });
-                          });
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 10.w, vertical: 16.h),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.r),
-                              color: Colors.white),
-                          child: Text(
-                            'Take Photo',
-                            style: TextStyle(
-                                color: Helper.baseBlack,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          _pickImage(ImageSource.gallery).then((value) async {
-                            await await Service()
-                                .uploadPhoto(widget.data.id!, _image!.path,
-                                    calculateProgress)
-                                .then((value) {
-                              setState(() {
-                                _progress = progress;
-                                print("progress" + _progress.toString());
-                              });
-                              print("progress" + _progress.toString());
-                              context.pop();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      backgroundColor: Colors.green,
-                                      content: Text("Image Uploaded")));
-                            });
-                          });
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 10.w, vertical: 16.h),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.r),
-                              color: Colors.white),
-                          child: Text(
-                            'Choose Photo',
-                            style: TextStyle(
-                                color: Helper.baseBlack,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          _pickImage(ImageSource.gallery).then((value) async {
-                            await Service()
-                                .uploadPhoto(widget.data.id!, _image!.path,
-                                    calculateProgress)
-                                .then((value) {
-                              setState(() {
-                                _progress = progress;
-                                print("progress" + _progress.toString());
-                              });
-                              print("progress" + _progress.toString());
-                              context.pop();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      backgroundColor: Colors.green,
-                                      content: Text("Image Uploaded")));
-                            });
-                          });
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 10.w, vertical: 16.h),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.r),
-                              color: Colors.white),
-                          child: Text(
-                            'Browse from files',
-                            style: TextStyle(
-                                color: Helper.baseBlack,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 20.h),
-                      Container(
-                        height: 52.h,
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          child: Text(
-                            "Cancel",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500),
-                            // currentIndex == contents.length - 1 ? "Continue" : "Next"
-                          ),
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStatePropertyAll(
-                                  _changeState
-                                      ? Helper.primary
-                                      : Helper.baseBlack),
-                              shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                ),
-                              )),
-                          onPressed: () {
-                            context.pop();
-                          },
-                        ),
-                      ),
-                    ],
+                  Text(
+                    'Upload Media',
+                    style: TextStyle(
+                        color: Helper.baseBlack,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
-            )
-          ],
+              SizedBox(height: 20.h),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  InkWell(
+                    onTap: () async {
+                      // calculateProgress(0);
+                      _pickImage(ImageSource.camera).then((value) async {
+                        await Service()
+                            .uploadPhoto(widget.data.id!, _image!.path,
+                                calculateProgress)
+                            .then((value) {
+                          setState(() {
+                            _progress = progress;
+                            print("progress" + _progress.toString());
+                          });
+                          print("progress" + _progress.toString());
+                          context.pop();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  backgroundColor: Colors.green,
+                                  content: Text("Image Uploaded")));
+                        });
+                      });
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10.w, vertical: 16.h),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.r),
+                          color: Colors.white),
+                      child: Text(
+                        'Take Photo',
+                        style: TextStyle(
+                            color: Helper.baseBlack,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      _pickImage(ImageSource.gallery).then((value) async {
+                        await await Service()
+                            .uploadPhoto(widget.data.id!, _image!.path,
+                                calculateProgress)
+                            .then((value) {
+                          setState(() {
+                            _progress = progress;
+                            print("progress" + _progress.toString());
+                          });
+                          print("progress" + _progress.toString());
+                          context.pop();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  backgroundColor: Colors.green,
+                                  content: Text("Image Uploaded")));
+                        });
+                      });
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10.w, vertical: 16.h),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.r),
+                          color: Colors.white),
+                      child: Text(
+                        'Choose Photo',
+                        style: TextStyle(
+                            color: Helper.baseBlack,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      _pickImage(ImageSource.gallery).then((value) async {
+                        await Service()
+                            .uploadPhoto(widget.data.id!, _image!.path,
+                                calculateProgress)
+                            .then((value) {
+                          setState(() {
+                            _progress = progress;
+                            print("progress" + _progress.toString());
+                          });
+                          print("progress" + _progress.toString());
+                          context.pop();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  backgroundColor: Colors.green,
+                                  content: Text("Image Uploaded")));
+                        });
+                      });
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10.w, vertical: 16.h),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.r),
+                          color: Colors.white),
+                      child: Text(
+                        'Browse from files',
+                        style: TextStyle(
+                            color: Helper.baseBlack,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
+                  Container(
+                    height: 52.h,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500),
+                        // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                      ),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(
+                              _changeState
+                                  ? Helper.primary
+                                  : Helper.baseBlack),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                          )),
+                      onPressed: () {
+                        context.pop();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -841,109 +837,104 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
       backgroundColor: Colors.transparent,
       builder: (context) => BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16.r),
-                    topRight: Radius.circular(16.r)),
-                color: Colors.white,
-              ),
-              height: 200.h,
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r)),
+            color: Colors.white,
+          ),
+          height: 200.h,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Delete',
-                        style: TextStyle(
-                            color: Helper.errorColor,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20.h),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Are you sure you want to delete this image? ",
-                        style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Helper.textColor500),
-                      ),
-                      SizedBox(height: 20.h),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            TextButton(
-                              onPressed: () async {
-                                Service()
-                                    .deleteImage(projectId, imageId)
-                                    .then((value) {
-                                  context.pop();
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          backgroundColor: Colors.red,
-                                          content: Text("Image Deleted")));
-                                });
-                                setState(() {});
-                              },
-                              style: TextButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 11),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                  ),
-                                  backgroundColor: Helper.errorColor,
-                                  fixedSize: Size.infinite),
-                              child: const Text(
-                                "Delete",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                context.pop();
-                              },
-                              style: TextButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 11),
-                                  backgroundColor: Colors.white,
-                                  side: BorderSide(color: Helper.textColor300),
-                                  fixedSize: Size.infinite),
-                              child: Text(
-                                "Cancel",
-                                style: TextStyle(
-                                    color: Helper.textColor500,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                          ]),
-                    ],
+                  Text(
+                    'Delete',
+                    style: TextStyle(
+                        color: Helper.errorColor,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
-            )
-          ],
+              SizedBox(height: 20.h),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Are you sure you want to delete this image? ",
+                    style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Helper.textColor500),
+                  ),
+                  SizedBox(height: 20.h),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        TextButton(
+                          onPressed: () async {
+                            Service()
+                                .deleteImage(projectId, imageId)
+                                .then((value) {
+                              context.pop();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      backgroundColor: Colors.red,
+                                      content: Text("Image Deleted")));
+                            });
+                            setState(() {});
+                          },
+                          style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 11),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              backgroundColor: Helper.errorColor,
+                              fixedSize: Size.infinite),
+                          child: const Text(
+                            "Delete",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            context.pop();
+                          },
+                          style: TextButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 11),
+                              backgroundColor: Colors.white,
+                              side: BorderSide(color: Helper.textColor300),
+                              fixedSize: Size.infinite),
+                          child: Text(
+                            "Cancel",
+                            style: TextStyle(
+                                color: Helper.textColor500,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ]),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:progresscenter_app_v4/src/core/network/constants/endpoints.dart';
@@ -168,6 +169,42 @@ class Service {
           throw Exception(response.data.toString());
         }
       });
+    } catch (e) {
+      print(e.toString());
+      throw Exception(e.toString());
+    }
+  }
+
+  // method to upload a list of files
+  Future<dynamic> uploadFiles(
+    String id,
+    List<dynamic> filePaths,
+  ) async {
+    Map<String, String> headers = {
+      "Accept": "application/json",
+      'Authorization': "Bearer ${_prefsLocator.getUserToken()}"
+    };
+
+    try {
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(Endpoints.siteGalleryListUrl(id)),
+      );
+      request.headers.addAll(headers);
+      for (int i = 0; i < filePaths.length; i++) {
+        request.files
+            .add(await http.MultipartFile.fromPath('files', filePaths[i]));
+      }
+
+      http.Response response =
+          await http.Response.fromStream(await request.send());
+      log("Result: ${response.body}");
+
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        throw Exception(response.body.toString());
+      }
     } catch (e) {
       print(e.toString());
       throw Exception(e.toString());
