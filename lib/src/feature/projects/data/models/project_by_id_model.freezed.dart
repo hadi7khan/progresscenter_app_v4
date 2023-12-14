@@ -908,7 +908,8 @@ Image _$ImageFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Image {
   String? get name => throw _privateConstructorUsedError;
-  String? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: '_id')
+  String? get imageId => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   String? get url => throw _privateConstructorUsedError;
@@ -925,7 +926,7 @@ abstract class $ImageCopyWith<$Res> {
   @useResult
   $Res call(
       {String? name,
-      String? id,
+      @JsonKey(name: '_id') String? imageId,
       DateTime? createdAt,
       DateTime? updatedAt,
       String? url});
@@ -945,7 +946,7 @@ class _$ImageCopyWithImpl<$Res, $Val extends Image>
   @override
   $Res call({
     Object? name = freezed,
-    Object? id = freezed,
+    Object? imageId = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? url = freezed,
@@ -955,9 +956,9 @@ class _$ImageCopyWithImpl<$Res, $Val extends Image>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      imageId: freezed == imageId
+          ? _value.imageId
+          : imageId // ignore: cast_nullable_to_non_nullable
               as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
@@ -983,7 +984,7 @@ abstract class _$$_ImageCopyWith<$Res> implements $ImageCopyWith<$Res> {
   @useResult
   $Res call(
       {String? name,
-      String? id,
+      @JsonKey(name: '_id') String? imageId,
       DateTime? createdAt,
       DateTime? updatedAt,
       String? url});
@@ -999,7 +1000,7 @@ class __$$_ImageCopyWithImpl<$Res> extends _$ImageCopyWithImpl<$Res, _$_Image>
   @override
   $Res call({
     Object? name = freezed,
-    Object? id = freezed,
+    Object? imageId = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? url = freezed,
@@ -1009,9 +1010,9 @@ class __$$_ImageCopyWithImpl<$Res> extends _$ImageCopyWithImpl<$Res, _$_Image>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      imageId: freezed == imageId
+          ? _value.imageId
+          : imageId // ignore: cast_nullable_to_non_nullable
               as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
@@ -1033,7 +1034,11 @@ class __$$_ImageCopyWithImpl<$Res> extends _$ImageCopyWithImpl<$Res, _$_Image>
 @JsonSerializable()
 class _$_Image implements _Image {
   const _$_Image(
-      {this.name, this.id, this.createdAt, this.updatedAt, this.url});
+      {this.name,
+      @JsonKey(name: '_id') this.imageId,
+      this.createdAt,
+      this.updatedAt,
+      this.url});
 
   factory _$_Image.fromJson(Map<String, dynamic> json) =>
       _$$_ImageFromJson(json);
@@ -1041,7 +1046,8 @@ class _$_Image implements _Image {
   @override
   final String? name;
   @override
-  final String? id;
+  @JsonKey(name: '_id')
+  final String? imageId;
   @override
   final DateTime? createdAt;
   @override
@@ -1051,7 +1057,7 @@ class _$_Image implements _Image {
 
   @override
   String toString() {
-    return 'Image(name: $name, id: $id, createdAt: $createdAt, updatedAt: $updatedAt, url: $url)';
+    return 'Image(name: $name, imageId: $imageId, createdAt: $createdAt, updatedAt: $updatedAt, url: $url)';
   }
 
   @override
@@ -1060,7 +1066,7 @@ class _$_Image implements _Image {
         (other.runtimeType == runtimeType &&
             other is _$_Image &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.id, id) || other.id == id) &&
+            (identical(other.imageId, imageId) || other.imageId == imageId) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -1071,7 +1077,7 @@ class _$_Image implements _Image {
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, name, id, createdAt, updatedAt, url);
+      Object.hash(runtimeType, name, imageId, createdAt, updatedAt, url);
 
   @JsonKey(ignore: true)
   @override
@@ -1090,7 +1096,7 @@ class _$_Image implements _Image {
 abstract class _Image implements Image {
   const factory _Image(
       {final String? name,
-      final String? id,
+      @JsonKey(name: '_id') final String? imageId,
       final DateTime? createdAt,
       final DateTime? updatedAt,
       final String? url}) = _$_Image;
@@ -1100,7 +1106,8 @@ abstract class _Image implements Image {
   @override
   String? get name;
   @override
-  String? get id;
+  @JsonKey(name: '_id')
+  String? get imageId;
   @override
   DateTime? get createdAt;
   @override

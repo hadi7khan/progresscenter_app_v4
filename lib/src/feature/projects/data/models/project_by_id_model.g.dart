@@ -91,7 +91,7 @@ Map<String, dynamic> _$$_AssetToJson(_$_Asset instance) => <String, dynamic>{
 
 _$_Image _$$_ImageFromJson(Map<String, dynamic> json) => _$_Image(
       name: json['name'] as String?,
-      id: json['id'] as String?,
+      imageId: json['_id'] as String?,
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -103,7 +103,7 @@ _$_Image _$$_ImageFromJson(Map<String, dynamic> json) => _$_Image(
 
 Map<String, dynamic> _$$_ImageToJson(_$_Image instance) => <String, dynamic>{
       'name': instance.name,
-      'id': instance.id,
+      '_id': instance.imageId,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
       'url': instance.url,

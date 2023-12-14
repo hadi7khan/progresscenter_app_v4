@@ -105,11 +105,11 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
   _getChildren() {
     List<Widget> carouselChildren = widget.data.images!.map((e) {
       var index = widget.data.images!.indexOf(e);
-      print("image id" + widget.data.images![index].id.toString());
+      print("image id" + widget.data.images![index].imageId.toString());
       return InkWell(
           onLongPress: () {
             _showDeleteBottomSheet(
-                context, widget.data.id!, widget.data.images![index].id);
+                context, widget.data.id!, widget.data.images![index].imageId);
           },
           child: Stack(children: [
             Container(
@@ -166,7 +166,8 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.data.toString());
+
+    print("data passed" + widget.data.toString());
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();

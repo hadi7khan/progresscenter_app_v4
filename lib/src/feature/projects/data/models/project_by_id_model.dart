@@ -63,7 +63,7 @@ class Asset with _$Asset {
 class Image with _$Image {
   const factory Image({
     String? name,
-    String? id,
+    @JsonKey(name: '_id') String? imageId,
     DateTime? createdAt,
     DateTime? updatedAt,
     String? url,

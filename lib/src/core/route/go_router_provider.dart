@@ -30,6 +30,7 @@ import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/edi
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/equipment_tracker_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/project_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/projects_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/view/add_site_gallery_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/view/site_gallery_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/camera/presentation/view/camera_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/report/presentation/view/report_screen.dart';
@@ -505,6 +506,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           );
         },
       ),
+      // ---------------------------------Site Gallery--------------------------------
       GoRoute(
         path: '/sitegallery',
         parentNavigatorKey: _rootNavigatorKey,
@@ -520,7 +522,22 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           );
         },
       ),
-       GoRoute(
+      GoRoute(
+        path: '/addSiteGallery',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: addSiteGalleryRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: AddSiteGalleryScreen(
+                key: state.pageKey,
+                projectId: args['projectId'],
+                projectName: args['projectName']),
+          );
+        },
+      ),
+      GoRoute(
         path: '/equipmentTracker',
         parentNavigatorKey: _rootNavigatorKey,
         name: equipmentTrackerRoute,
