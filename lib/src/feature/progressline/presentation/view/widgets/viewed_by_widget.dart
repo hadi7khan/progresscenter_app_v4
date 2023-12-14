@@ -5,7 +5,8 @@ import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 
 class ViewedByWidget extends StatefulWidget {
   final data;
-  const ViewedByWidget({super.key, this.data});
+  final showText;
+  const ViewedByWidget({super.key, this.data, this.showText});
 
   @override
   State<ViewedByWidget> createState() => _ViewedByWidgetState();
@@ -36,7 +37,7 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      'Viewed By',
+                      widget.showText,
                       style: TextStyle(
                           color: Helper.baseBlack,
                           fontSize: 18.sp,
@@ -65,8 +66,8 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                         widget.data[index].name!,
                         style: TextStyle(
                             color: Helper.baseBlack,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600),
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500),
                       ),
                     );
                     ;

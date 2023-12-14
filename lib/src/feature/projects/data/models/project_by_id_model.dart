@@ -1,38 +1,41 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'dart:convert';
 
-part 'project_model.freezed.dart';
-part 'project_model.g.dart';
+part 'project_by_id_model.freezed.dart';
+part 'project_by_id_model.g.dart';
 
-List<ProjectModel> projectModelFromJson(String str) => List<ProjectModel>.from(
-    json.decode(str).map((x) => ProjectModel.fromJson(x)));
+ProjectByIdModel projectByIdModelFromJson(String str) =>
+    ProjectByIdModel.fromJson(json.decode(str));
 
-String projectModelToJson(List<ProjectModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String? projectByIdModelToJson(ProjectByIdModel data) =>
+    json.encode(data.toJson());
 
 @freezed
-class ProjectModel with _$ProjectModel {
-  const factory ProjectModel({
+class ProjectByIdModel with _$ProjectByIdModel {
+  const factory ProjectByIdModel({
     Location? location,
     @JsonKey(name: '_id') String? id,
     String? name,
-    List<Asset>? images,
+    List<Image>? images,
     String? status,
     List<Asset>? assets,
+    String? activity,
     DateTime? lastUpdated,
     dynamic parentId,
     bool? hasCameras,
     int? hierarchyLevel,
+    String? reseller,
+    String? client,
     DateTime? createdAt,
     DateTime? updatedAt,
     AiStats? aiStats,
     int? constructionDays,
-    String? projectModelId,
+    String? projectByIdModelId,
     List<User>? users,
-  }) = _ProjectModel;
+  }) = _ProjectByIdModel;
 
-  factory ProjectModel.fromJson(Map<String, dynamic> json) =>
-      _$ProjectModelFromJson(json);
+  factory ProjectByIdModel.fromJson(Map<String, dynamic> json) =>
+      _$ProjectByIdModelFromJson(json);
 }
 
 @freezed
@@ -50,14 +53,23 @@ class AiStats with _$AiStats {
 class Asset with _$Asset {
   const factory Asset({
     String? name,
-    String? id,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    String? assetId,
-    String? url,
+    int? count,
   }) = _Asset;
 
   factory Asset.fromJson(Map<String, dynamic> json) => _$AssetFromJson(json);
+}
+
+@freezed
+class Image with _$Image {
+  const factory Image({
+    String? name,
+    String? id,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    String? url,
+  }) = _Image;
+
+  factory Image.fromJson(Map<String, dynamic> json) => _$ImageFromJson(json);
 }
 
 @freezed
@@ -79,8 +91,8 @@ class User with _$User {
     String? id,
     String? name,
     String? email,
+    String? role,
     String? dp,
-    List<String>? projects,
     String? userId,
     String? dpUrl,
   }) = _User;

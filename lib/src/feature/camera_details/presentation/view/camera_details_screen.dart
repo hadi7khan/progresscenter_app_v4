@@ -39,6 +39,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
   String _searchDate = '';
   DateTime currentMonth = DateTime.now();
   String showMonth = "JAN";
+  bool showBottomBar = true;
   // StateSetter? bottomSheetState;
 
   @override
@@ -211,28 +212,29 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
               child: imagesByCameraIdData.when(
             data: (imagesData) {
               if (imagesData.images!.isEmpty) {
-                        return Container(
-                          alignment: Alignment.center,
-                          height: MediaQuery.of(context).size.height *0.88.h,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                  'assets/images/illustration.svg'),
-                                  SizedBox(height: 16.h),
-                              Text(
-                                "No Images yet",
-                                style: TextStyle(
-                                    color: Helper.textColor900,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                      ;
+                showBottomBar = false;
+
+                return Container(
+                  alignment: Alignment.center,
+                  height: MediaQuery.of(context).size.height,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset('assets/images/illustration.svg'),
+                      SizedBox(height: 16.h),
+                      Text(
+                        "No Images yet",
+                        style: TextStyle(
+                            color: Helper.textColor900,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
+                );
+              }
+              ;
               getDaysInMonth(imagesData.endDate, true);
               return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -586,82 +588,84 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
           ));
         }),
       ),
-      bottomNavigationBar: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            InkWell(
-              onTap: () {
-                context.push('/livelapse', extra: {
-                  "projectId": widget.projectId,
-                  "projectName": widget.projectName,
-                  "cameraId": widget.cameraId
-                });
-              },
-              child: IconBottomBar(
-                icon: 'assets/images/video-recorder.svg',
-                selected: true,
-                text: 'LiveLapse',
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                context.push('/slider', extra: {
-                  "projectId": widget.projectId,
-                  "projectName": widget.projectName,
-                  "cameraId": widget.cameraId
-                });
-              },
-              child: IconBottomBar(
-                icon: 'assets/images/sliders.svg',
-                selected: true,
-                text: 'Slider',
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                context.push('/compare', extra: {
-                  "projectId": widget.projectId,
-                  "projectName": widget.projectName,
-                  "cameraId": widget.cameraId
-                });
-              },
-              child: IconBottomBar(
-                icon: 'assets/images/rows.svg',
-                selected: true,
-                text: 'Compare',
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                context.push('/splitview', extra: {
-                  "projectId": widget.projectId,
-                  "projectName": widget.projectName,
-                  "cameraId": widget.cameraId
-                });
-              },
-              child: IconBottomBar(
-                icon: 'assets/images/layout-left.svg',
-                selected: true,
-                text: 'Split View',
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                context.push('/report', extra: {
-                  "projectId": widget.projectId,
-                  "projectName": widget.projectName,
-                  "cameraId": widget.cameraId
-                });
-              },
-              child: IconBottomBar(
-                icon: 'assets/images/file-download.svg',
-                selected: true,
-                text: 'Report',
-              ),
-            )
-          ]),
+      bottomNavigationBar: showBottomBar
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                  InkWell(
+                    onTap: () {
+                      context.push('/livelapse', extra: {
+                        "projectId": widget.projectId,
+                        "projectName": widget.projectName,
+                        "cameraId": widget.cameraId
+                      });
+                    },
+                    child: IconBottomBar(
+                      icon: 'assets/images/video-recorder.svg',
+                      selected: true,
+                      text: 'LiveLapse',
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      context.push('/slider', extra: {
+                        "projectId": widget.projectId,
+                        "projectName": widget.projectName,
+                        "cameraId": widget.cameraId
+                      });
+                    },
+                    child: IconBottomBar(
+                      icon: 'assets/images/sliders.svg',
+                      selected: true,
+                      text: 'Slider',
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      context.push('/compare', extra: {
+                        "projectId": widget.projectId,
+                        "projectName": widget.projectName,
+                        "cameraId": widget.cameraId
+                      });
+                    },
+                    child: IconBottomBar(
+                      icon: 'assets/images/rows.svg',
+                      selected: true,
+                      text: 'Compare',
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      context.push('/splitview', extra: {
+                        "projectId": widget.projectId,
+                        "projectName": widget.projectName,
+                        "cameraId": widget.cameraId
+                      });
+                    },
+                    child: IconBottomBar(
+                      icon: 'assets/images/layout-left.svg',
+                      selected: true,
+                      text: 'Split View',
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      context.push('/report', extra: {
+                        "projectId": widget.projectId,
+                        "projectName": widget.projectName,
+                        "cameraId": widget.cameraId
+                      });
+                    },
+                    child: IconBottomBar(
+                      icon: 'assets/images/file-download.svg',
+                      selected: true,
+                      text: 'Report',
+                    ),
+                  )
+                ])
+          : SizedBox(),
     );
   }
 

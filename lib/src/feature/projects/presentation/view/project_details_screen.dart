@@ -7,12 +7,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/sekeleton.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_group.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:blurrycontainer/blurrycontainer.dart';
+import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/widgets/viewed_by_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_by_id_controller.dart';
+
+class MyListItem {
+  final String svgAsset;
+  final String title;
+  final String subTitle;
+
+  MyListItem({required this.svgAsset, required this.title, required this.subTitle});
+}
 
 class ProjectDetailsScreen extends ConsumerStatefulWidget {
   final String label;
@@ -43,6 +53,11 @@ class _ProjectDetailsScreenState
           .getProjectById(widget.projectId);
     });
   }
+  showDateTimeString(date, dateFormat) {
+    // Format the DateTime object into the desired format
+    String formattedDate = DateFormat(dateFormat).format(date);
+    return formattedDate;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,26 +71,27 @@ class _ProjectDetailsScreenState
           child: Padding(
             padding: EdgeInsets.only(right: 16.w, left: 16.w),
             child: AppBar(
-                backgroundColor: Colors.white,
-                surfaceTintColor: Colors.white,
-                automaticallyImplyLeading: false,
-                titleSpacing: 12.0.w,
-                leading: InkWell(
-                  onTap: () {
-                    context.pop();
-                  },
-                  child: SvgPicture.asset(
-                    'assets/images/arrow-left.svg',
-                  ),
+              backgroundColor: Colors.white,
+              surfaceTintColor: Colors.white,
+              automaticallyImplyLeading: false,
+              titleSpacing: 12.0.w,
+              leading: InkWell(
+                onTap: () {
+                  context.pop();
+                },
+                child: SvgPicture.asset(
+                  'assets/images/arrow-left.svg',
                 ),
-                leadingWidth: 24,
-                title: Text(
-                  widget.projectName,
-                  style: TextStyle(
-                      color: Helper.baseBlack,
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500),
-                ),),
+              ),
+              leadingWidth: 24,
+              title: Text(
+                widget.projectName,
+                style: TextStyle(
+                    color: Helper.baseBlack,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w500),
+              ),
+            ),
           ),
         ),
       ),
@@ -85,6 +101,21 @@ class _ProjectDetailsScreenState
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
             child: projectByIdData.when(
               data: (data) {
+                List<MyListItem> myItems = [
+                  MyListItem(
+                      svgAsset: 'assets/images/updated.svg',
+                      title: 'Last updated',
+                      subTitle: showDateTimeString(data.updatedAt,
+                                    'dd MMM, yy · hh:mm a'),),
+                      MyListItem(
+                      svgAsset: 'assets/images/updated.svg',
+                      title: 'PPE Score',
+                      subTitle: data.aiStats!.ppeScore!.toString()),
+                      MyListItem(
+                      svgAsset: 'assets/images/updated.svg',
+                      title: 'Construction',
+                      subTitle: data.constructionDays.toString() + " days"),
+                ];
                 print("this is the assetMap before loop" + assetMap.toString());
                 for (var asset in data.assets!) {
                   String name = asset.name!;
@@ -231,25 +262,37 @@ class _ProjectDetailsScreenState
                               Positioned(
                                 top: 20,
                                 right: 20,
-                                child: BlurryContainer(
-                                  // width: 150,
-                                  height: 30,
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 4.h, horizontal: 4.w),
-                                  blur: 3,
-                                  borderRadius: BorderRadius.circular(30.r),
-                                  color: Colors.white.withOpacity(0.3),
-                                  child: AvatarGroupWidget(
-                                    avatars: data.users!.map((user) {
-                                      return {
-                                        'dpUrl':
-                                            user.dp != null ? user.dpUrl : "",
-                                        'name': user.name,
-                                        'backgroundColor': user.preset!.color,
-                                      };
-                                    }).toList(),
-                                    size: 22.h,
-                                    max: 3,
+                                child: InkWell(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                        useRootNavigator: true,
+                                        isScrollControlled: true,
+                                        context: context,
+                                        backgroundColor: Colors.transparent,
+                                        builder: (context) => ViewedByWidget(
+                                            data: data.users,
+                                            showText: "Current members"));
+                                  },
+                                  child: BlurryContainer(
+                                    // width: 150,
+                                    height: 30,
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 4.h, horizontal: 4.w),
+                                    blur: 3,
+                                    borderRadius: BorderRadius.circular(30.r),
+                                    color: Colors.white.withOpacity(0.3),
+                                    child: AvatarGroupWidget(
+                                      avatars: data.users!.map((user) {
+                                        return {
+                                          'dpUrl':
+                                              user.dp != null ? user.dpUrl : "",
+                                          'name': user.name,
+                                          'backgroundColor': user.preset!.color,
+                                        };
+                                      }).toList(),
+                                      size: 22.h,
+                                      max: 3,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -367,60 +410,61 @@ class _ProjectDetailsScreenState
                       SizedBox(
                         height: 58.h,
                         child: ListView.separated(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                padding: EdgeInsets.all(8.w),
-                                decoration: BoxDecoration(
-                                    color: Color.fromRGBO(
-                                      246,
-                                      246,
-                                      246,
-                                      1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(12.r)),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.all(5.w),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(12.r)),
-                                      child: SvgPicture.asset(
-                                          'assets/images/updated.svg'),
-                                    ),
-                                    SizedBox(
-                                      width: 8.w,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Updated",
+                          shrinkWrap: true,
+                          itemCount: myItems.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              padding: EdgeInsets.all(8.w),
+                              decoration: BoxDecoration(
+                                  color: Color.fromRGBO(
+                                    246,
+                                    246,
+                                    246,
+                                    1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(12.r)),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(5.w),
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(12.r)),
+                                    child: SvgPicture.asset(
+                                        myItems[index].svgAsset),
+                                  ),
+                                  SizedBox(
+                                    width: 8.w,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        myItems[index].title,
+                                        style: TextStyle(
+                                            color: Helper.baseBlack
+                                                .withOpacity(0.5),
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                      Text(myItems[index].subTitle,
                                           style: TextStyle(
-                                              color: Helper.baseBlack
-                                                  .withOpacity(0.5),
+                                              color: Helper.baseBlack,
                                               fontSize: 14.sp,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                        Text("9:00 AM · 12 Nov 2023",
-                                            style: TextStyle(
-                                                color: Helper.baseBlack,
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w500))
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return SizedBox(width: 12.w);
-                            },
-                            itemCount: 3),
+                                              fontWeight: FontWeight.w500))
+                                    ],
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return SizedBox(width: 12.w);
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: 24.h,

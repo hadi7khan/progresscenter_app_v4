@@ -1,31 +1,34 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'project_model.dart';
+part of 'project_by_id_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ProjectModel _$$_ProjectModelFromJson(Map<String, dynamic> json) =>
-    _$_ProjectModel(
+_$_ProjectByIdModel _$$_ProjectByIdModelFromJson(Map<String, dynamic> json) =>
+    _$_ProjectByIdModel(
       location: json['location'] == null
           ? null
           : Location.fromJson(json['location'] as Map<String, dynamic>),
       id: json['_id'] as String?,
       name: json['name'] as String?,
       images: (json['images'] as List<dynamic>?)
-          ?.map((e) => Asset.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: json['status'] as String?,
       assets: (json['assets'] as List<dynamic>?)
           ?.map((e) => Asset.fromJson(e as Map<String, dynamic>))
           .toList(),
+      activity: json['activity'] as String?,
       lastUpdated: json['lastUpdated'] == null
           ? null
           : DateTime.parse(json['lastUpdated'] as String),
       parentId: json['parentId'],
       hasCameras: json['hasCameras'] as bool?,
       hierarchyLevel: json['hierarchyLevel'] as int?,
+      reseller: json['reseller'] as String?,
+      client: json['client'] as String?,
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -36,13 +39,13 @@ _$_ProjectModel _$$_ProjectModelFromJson(Map<String, dynamic> json) =>
           ? null
           : AiStats.fromJson(json['aiStats'] as Map<String, dynamic>),
       constructionDays: json['constructionDays'] as int?,
-      projectModelId: json['projectModelId'] as String?,
+      projectByIdModelId: json['projectByIdModelId'] as String?,
       users: (json['users'] as List<dynamic>?)
           ?.map((e) => User.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$_ProjectModelToJson(_$_ProjectModel instance) =>
+Map<String, dynamic> _$$_ProjectByIdModelToJson(_$_ProjectByIdModel instance) =>
     <String, dynamic>{
       'location': instance.location,
       '_id': instance.id,
@@ -50,15 +53,18 @@ Map<String, dynamic> _$$_ProjectModelToJson(_$_ProjectModel instance) =>
       'images': instance.images,
       'status': instance.status,
       'assets': instance.assets,
+      'activity': instance.activity,
       'lastUpdated': instance.lastUpdated?.toIso8601String(),
       'parentId': instance.parentId,
       'hasCameras': instance.hasCameras,
       'hierarchyLevel': instance.hierarchyLevel,
+      'reseller': instance.reseller,
+      'client': instance.client,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
       'aiStats': instance.aiStats,
       'constructionDays': instance.constructionDays,
-      'projectModelId': instance.projectModelId,
+      'projectByIdModelId': instance.projectByIdModelId,
       'users': instance.users,
     };
 
@@ -75,6 +81,16 @@ Map<String, dynamic> _$$_AiStatsToJson(_$_AiStats instance) =>
 
 _$_Asset _$$_AssetFromJson(Map<String, dynamic> json) => _$_Asset(
       name: json['name'] as String?,
+      count: json['count'] as int?,
+    );
+
+Map<String, dynamic> _$$_AssetToJson(_$_Asset instance) => <String, dynamic>{
+      'name': instance.name,
+      'count': instance.count,
+    };
+
+_$_Image _$$_ImageFromJson(Map<String, dynamic> json) => _$_Image(
+      name: json['name'] as String?,
       id: json['id'] as String?,
       createdAt: json['createdAt'] == null
           ? null
@@ -82,16 +98,14 @@ _$_Asset _$$_AssetFromJson(Map<String, dynamic> json) => _$_Asset(
       updatedAt: json['updatedAt'] == null
           ? null
           : DateTime.parse(json['updatedAt'] as String),
-      assetId: json['assetId'] as String?,
       url: json['url'] as String?,
     );
 
-Map<String, dynamic> _$$_AssetToJson(_$_Asset instance) => <String, dynamic>{
+Map<String, dynamic> _$$_ImageToJson(_$_Image instance) => <String, dynamic>{
       'name': instance.name,
       'id': instance.id,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
-      'assetId': instance.assetId,
       'url': instance.url,
     };
 
@@ -115,10 +129,8 @@ _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
       id: json['id'] as String?,
       name: json['name'] as String?,
       email: json['email'] as String?,
+      role: json['role'] as String?,
       dp: json['dp'] as String?,
-      projects: (json['projects'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
       userId: json['userId'] as String?,
       dpUrl: json['dpUrl'] as String?,
     );
@@ -128,8 +140,8 @@ Map<String, dynamic> _$$_UserToJson(_$_User instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'email': instance.email,
+      'role': instance.role,
       'dp': instance.dp,
-      'projects': instance.projects,
       'userId': instance.userId,
       'dpUrl': instance.dpUrl,
     };

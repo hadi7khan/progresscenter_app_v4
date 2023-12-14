@@ -20,6 +20,7 @@ import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/cr
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/livelapse_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/timeline_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/progressline_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_by_id_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/add_member_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/camera_360.dart';
@@ -539,7 +540,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: _rootNavigatorKey,
         name: editProjectRoute,
         pageBuilder: (context, state) {
-          ProjectModel model = state.extra as ProjectModel;
+          ProjectByIdModel model = state.extra as ProjectByIdModel;
           return NoTransitionPage(
             key: state.pageKey,
             child: EditProjectScreen(key: state.pageKey, data: model),
