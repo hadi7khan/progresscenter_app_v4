@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
+import 'package:http_parser/http_parser.dart';
 
 import 'package:dio/dio.dart';
 import 'package:progresscenter_app_v4/src/core/network/constants/endpoints.dart';
 import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
 import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
+import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/data/model/progressline_project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean_model.dart';
 import 'package:http/http.dart' as http;
@@ -176,40 +179,63 @@ class Service {
   }
 
   // method to upload a list of files
-  Future<dynamic> uploadFiles(
-    String id,
-    List<dynamic> filePaths,
-  ) async {
+  Future<dynamic> uploadFiles(String projectId, List<String?> filePaths) async {
+    Dio dio = Dio();
+
     Map<String, String> headers = {
-      "Accept": "application/json",
-      'Authorization': "Bearer ${_prefsLocator.getUserToken()}"
+      // "Accept": "application/json",
+      'Authorization': "Bearer ${_prefsLocator.getUserToken()}",
+      "Content-Type": "multipart/form-data"
     };
 
     try {
-      var request = http.MultipartRequest(
-        'POST',
-        Uri.parse(Endpoints.siteGalleryListUrl(id)),
-      );
-      request.headers.addAll(headers);
+      List<MultipartFile> file = [];
+      List<File> files = [];
       for (int i = 0; i < filePaths.length; i++) {
-        request.files
-            .add(await http.MultipartFile.fromPath('files', filePaths[i]));
+        files.add(File(filePaths[i]!));
       }
 
-      http.Response response =
-          await http.Response.fromStream(await request.send());
-      log("Result: ${response.body}");
-
-      if (response.statusCode == 200) {
-        return json.decode(response.body);
-      } else {
-        throw Exception(response.body.toString());
+      FormData formData = FormData();
+      for (int i = 0; i < files.length; i++) {
+        String fileName = filePaths[i]!.split('/').last;
+        formData = FormData.fromMap({});
+        formData.files.add(MapEntry(
+            'files',
+            await MultipartFile.fromFile(
+              filePaths[i]!,
+              filename: fileName,
+              contentType: Helper.getMediaType(fileName),
+            )));
       }
+
+      print("formdata passed " + formData.toString());
+
+      dio.options.headers = headers;
+      dio.options.contentType = Headers.formUrlEncodedContentType;
+
+      await dio
+          .post(
+        Endpoints.siteGalleryListUrl(projectId),
+        data: formData,
+      )
+          .then((response) {
+        print("response body " + response.data.toString());
+        // Check if the response is successful
+        if (response.statusCode == 200) {
+          // Parse the response data
+          final responseData = response.data;
+          return responseData;
+        } else {
+          // Handle error
+          throw Exception("Error uploading files: ${response.statusCode}");
+        }
+      });
     } catch (e) {
       print(e.toString());
-      throw Exception(e.toString());
+      throw Exception("Error uploading files: ${e.toString()}");
     }
   }
+
 
   // method to update role for a specific user
   Future roleChange(userId, data) async {

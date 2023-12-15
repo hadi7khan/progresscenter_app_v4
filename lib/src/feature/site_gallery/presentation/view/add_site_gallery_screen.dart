@@ -4,25 +4,30 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/provider/site_gallery_controller.dart';
 
-class AddSiteGalleryScreen extends StatefulWidget {
+class AddSiteGalleryScreen extends ConsumerStatefulWidget {
   final String projectId;
   final String projectName;
   const AddSiteGalleryScreen(
       {super.key, required this.projectId, required this.projectName});
 
   @override
-  State<AddSiteGalleryScreen> createState() => _AddSiteGalleryScreenState();
+  ConsumerState<AddSiteGalleryScreen> createState() =>
+      _AddSiteGalleryScreenState();
 }
 
-class _AddSiteGalleryScreenState extends State<AddSiteGalleryScreen> {
+class _AddSiteGalleryScreenState
+    extends BaseConsumerState<AddSiteGalleryScreen> {
   FilePickerResult? result;
   bool loader = false;
   List<PlatformFile> docFiles = [];
@@ -158,81 +163,86 @@ class _AddSiteGalleryScreenState extends State<AddSiteGalleryScreen> {
                   ),
                   SizedBox(height: 10.h),
                   docFiles != null
-                      ? ListView.separated(
-                          separatorBuilder: (context, index) {
-                            return SizedBox(height: 6.h);
-                          },
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            PlatformFile file = docFiles[index];
-                            return Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 8.w, vertical: 8.h),
-                              // height: 72.h,
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(color: Helper.textColor300),
-                              ),
-                              child: ListTile(
-                                key: ValueKey(index),
-                                horizontalTitleGap: 8.w,
-                                // dense: true,
-                                visualDensity: VisualDensity(
-                                    horizontal: 0, vertical: -4.h),
-                                contentPadding: EdgeInsets.zero,
-                                leading: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 6.w, vertical: 6.h),
-                                  width: 32.w,
-                                  height: 32.h,
-                                  decoration: BoxDecoration(
-                                      color: Color.fromRGBO(229, 240, 255, 1),
-                                      borderRadius: BorderRadius.circular(32.r),
-                                      border: Border.all(
-                                          color:
-                                              Color.fromRGBO(245, 249, 255, 1),
-                                          width: 4.w)),
-                                  child: SvgPicture.asset(
-                                    'assets/images/film.svg',
+                      ? Expanded(
+                          child: ListView.separated(
+                            separatorBuilder: (context, index) {
+                              return SizedBox(height: 6.h);
+                            },
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              PlatformFile file = docFiles[index];
+                              return Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 8.w, vertical: 8.h),
+                                // height: 72.h,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  border:
+                                      Border.all(color: Helper.textColor300),
+                                ),
+                                child: ListTile(
+                                  key: ValueKey(index),
+                                  horizontalTitleGap: 8.w,
+                                  // dense: true,
+                                  // visualDensity: VisualDensity(
+                                  //     horizontal: 0, vertical: -4.h),
+                                  contentPadding: EdgeInsets.zero,
+                                  leading: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 6.w, vertical: 6.h),
+                                    width: 32.w,
+                                    height: 32.h,
+                                    decoration: BoxDecoration(
+                                        color: Color.fromRGBO(229, 240, 255, 1),
+                                        borderRadius:
+                                            BorderRadius.circular(32.r),
+                                        border: Border.all(
+                                            color: Color.fromRGBO(
+                                                245, 249, 255, 1),
+                                            width: 4.w)),
+                                    child: SvgPicture.asset(
+                                      'assets/images/film.svg',
+                                    ),
+                                  ),
+                                  title: Text(file.name,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: Helper.baseBlack,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w600)),
+                                  subtitle: Text(
+                                      "${_formatFileSize(file.size)}",
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: Helper.textColor400,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w600)),
+                                  // subtitle: file.extension?.toLowerCase() == 'mp4'
+                                  //     ? SizedBox()
+                                  //     : Image.file(
+                                  //         File(file.path!),
+                                  //         height: 50,
+                                  //         width: 50,
+                                  //         fit: BoxFit.cover,
+                                  //       ),
+                                  trailing: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        docFiles.removeAt(index);
+                                      });
+                                    },
+                                    child: SvgPicture.asset(
+                                      'assets/images/close-x.svg',
+                                    ),
                                   ),
                                 ),
-                                title: Text(file.name,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: Helper.baseBlack,
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w600)),
-                                subtitle: Text("${_formatFileSize(file.size)}",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: Helper.textColor400,
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w600)),
-                                // subtitle: file.extension?.toLowerCase() == 'mp4'
-                                //     ? SizedBox()
-                                //     : Image.file(
-                                //         File(file.path!),
-                                //         height: 50,
-                                //         width: 50,
-                                //         fit: BoxFit.cover,
-                                //       ),
-                                trailing: InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      docFiles.removeAt(index);
-                                    });
-                                  },
-                                  child: SvgPicture.asset(
-                                    'assets/images/close-x.svg',
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                          itemCount: docFiles.length,
+                              );
+                            },
+                            itemCount: docFiles.length,
+                          ),
                         )
                       : SizedBox(),
                   // pickedFile != null
@@ -320,16 +330,20 @@ class _AddSiteGalleryScreenState extends State<AddSiteGalleryScreen> {
                 //       "file", await MultipartFile.fromFile(docFiles[0].path!)));
                 // }
 
-                Service()
+                await Service()
                     .uploadFiles(
-                      widget.projectId,
-                      result!.paths.map((path) => path).toList(),
-                    )
+                  widget.projectId,
+                  result!.paths.map((path) => path).toList(),
+                )
                     .then((value) {
-                      Utils.toastSuccessMessage(
-                        "Site Gallery Added",
-                      );
-                    });
+                  context.pop();
+                  Utils.toastSuccessMessage(
+                    "Site Gallery Added",
+                  );
+                  ref
+                      .watch(siteGalleryControllerProvider.notifier)
+                      .getSiteGallery(widget.projectId);
+                });
               },
             ),
           ),
