@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
 
 class Helper {
   static Color primary = const Color.fromRGBO(0, 82, 204, 1);
@@ -28,5 +30,19 @@ class Helper {
   static const fillsBackground = Color.fromRGBO(118, 118, 128, 0.12);
   static const bottomIconBack = Color.fromRGBO(235, 243, 255, 1);
   static const cardBackground = Color.fromRGBO(246, 246, 246, 1);
+
+  static getMediaType(String filename) {
+    var contentType; 
+    if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
+      contentType = MediaType('image', 'jpeg');
+    } else if (filename.endsWith('.png')) {
+      contentType = MediaType('image', 'png');
+    } else if (filename.endsWith('.gif')) {
+      contentType = MediaType('image', 'gif');
+    } else if (filename.endsWith('.pdf')) {
+      contentType = MediaType('application', 'pdf');
+    }
+    return contentType;
+  }
 
 }

@@ -110,7 +110,7 @@ class _ProjectDetailsScreenState
                       MyListItem(
                       svgAsset: 'assets/images/updated.svg',
                       title: 'PPE Score',
-                      subTitle: data.aiStats!.ppeScore!.toString()),
+                      subTitle: data.aiStats != null ?data.aiStats!.ppeScore !.toString(): "N/A"),
                       MyListItem(
                       svgAsset: 'assets/images/updated.svg',
                       title: 'Construction',
