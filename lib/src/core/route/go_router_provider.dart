@@ -16,6 +16,9 @@ import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/vi
 import 'package:progresscenter_app_v4/src/feature/compare/presentation/view/compare_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/add_docs_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/docs_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/view/add_video_file_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/view/add_vimeo_video_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/view/add_youtube_video_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/create_livelapse_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/livelapse_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/timeline_details_screen.dart';
@@ -460,7 +463,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         },
       ),
 
-      // ------------------------------------------------------------------------
+      // ---------------------------------Drone Footage--------------------------------
       GoRoute(
         path: '/dronefootage',
         parentNavigatorKey: _rootNavigatorKey,
@@ -470,6 +473,51 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return NoTransitionPage(
             key: state.pageKey,
             child: DroneFootageScreen(
+                key: state.pageKey,
+                projectId: args['projectId'],
+                projectName: args['projectName']),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/addFileVideo',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: addFileVideoRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: AddFileVideoScreen(
+                key: state.pageKey,
+                projectId: args['projectId'],
+                projectName: args['projectName']),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/addVimeoVideo',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: addVimeoVideoRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: AddVimeoVideoScreen(
+                key: state.pageKey,
+                projectId: args['projectId'],
+                projectName: args['projectName']),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/addYoutubeVideo',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: addYoutubeVideoRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: AddYoutubeVideoScreen(
                 key: state.pageKey,
                 projectId: args['projectId'],
                 projectName: args['projectName']),

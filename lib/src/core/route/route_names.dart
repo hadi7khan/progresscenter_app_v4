@@ -8,6 +8,9 @@ const String onbordingRoute = 'onbording';
 const String projectDetailRoute = 'details';
 const String cameraRoute = 'camera';
 const String dronefootageRoute = 'dronefootage';
+const String addFileVideoRoute = 'addFileVideo';
+const String addVimeoVideoRoute = 'addVimeoVideo';
+const String addYoutubeVideoRoute = 'addYoutubeVideo';
 const String cctvRoute = 'cctv';
 const String camera360Route = 'camera360';
 const String siteGalleryRoute = 'sitegallery';
@@ -29,6 +32,5 @@ const String addDocsRoute = 'addDocs';
 const String userProfileRoute = 'userProfile';
 const String createTicketRoute = 'createTicket';
 const String ticketByIdRoute = 'ticketById';
-
 
 const String noInternetRoute = 'noInternet';
