@@ -45,6 +45,8 @@ class Endpoints {
     return '$baseUrl/api/v4/projects/$id/camera-cctvs';
   }
 
+  //---------------------------- Drone Footage ---------------------------------------
+
   static droneFootageListUrl(id) {
     return '$baseUrl/api/v4/projects/$id/drone-footages';
   }
