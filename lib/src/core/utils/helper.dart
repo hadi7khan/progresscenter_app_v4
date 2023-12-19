@@ -32,7 +32,7 @@ class Helper {
   static const cardBackground = Color.fromRGBO(246, 246, 246, 1);
 
   static getMediaType(String filename) {
-    var contentType; 
+    var contentType;
     if (filename.endsWith('.jpg') || filename.endsWith('.jpeg')) {
       contentType = MediaType('image', 'jpeg');
     } else if (filename.endsWith('.png')) {
@@ -41,8 +41,9 @@ class Helper {
       contentType = MediaType('image', 'gif');
     } else if (filename.endsWith('.pdf')) {
       contentType = MediaType('application', 'pdf');
+    } else if (filename.endsWith('.mp4')) {
+      contentType = MediaType('video', 'mp4');
     }
     return contentType;
   }
-
 }

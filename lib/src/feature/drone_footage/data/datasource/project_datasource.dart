@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:progresscenter_app_v4/src/common/data/exception.dart';
 import 'package:progresscenter_app_v4/src/core/network/constants/endpoints.dart';
@@ -13,7 +14,7 @@ abstract class DroneFootageDataSource {
   Future droneFootageList(String id);
   Future addYouTubeVideo(String projectId, data);
   Future addVimeoVideo(String projectId, data);
-  Future addFileVideo(String projectId, data);
+  Future addFileVideo(String projectId, FormData data);
 }
 
 class DroneFootageDataSourceImpl implements DroneFootageDataSource {
@@ -35,7 +36,7 @@ class DroneFootageDataSourceImpl implements DroneFootageDataSource {
   @override
   Future addFileVideo(String projectId, data) async {
     final response = await dioClient
-        .post(Endpoints.droneFootageListUrl(projectId), data: data);
+        .post(Endpoints.addFileVideoUrl(projectId), data: data);
     if (response.statusCode == 200) {
       return response.data;
     } else {

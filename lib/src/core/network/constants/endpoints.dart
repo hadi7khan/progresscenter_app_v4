@@ -51,6 +51,10 @@ class Endpoints {
     return '$baseUrl/api/v4/projects/$id/drone-footages';
   }
 
+  static addFileVideoUrl(id) {
+    return '$baseUrl/api/v4/projects/$id/drone-footages/progress-center';
+  }
+
   static siteGalleryListUrl(id) {
     return '$baseUrl/api/v4/projects/$id/site-gallery';
   }

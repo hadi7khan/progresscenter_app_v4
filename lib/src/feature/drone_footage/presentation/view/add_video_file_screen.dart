@@ -1,15 +1,26 @@
+import 'dart:ui';
+
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dart';
+import 'package:progresscenter_app_v4/src/core/network/constants/endpoints.dart';
+import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/provider/add_file_video_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/provider/drone_footage_controller.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
-class AddFileVideoScreen extends StatefulWidget {
+class AddFileVideoScreen extends ConsumerStatefulWidget {
   final String projectId;
   final String projectName;
   const AddFileVideoScreen({
@@ -19,10 +30,11 @@ class AddFileVideoScreen extends StatefulWidget {
   });
 
   @override
-  State<AddFileVideoScreen> createState() => _AddFileVideoScreenState();
+  ConsumerState<AddFileVideoScreen> createState() => _AddFileVideoScreenState();
 }
 
-class _AddFileVideoScreenState extends State<AddFileVideoScreen> {
+class _AddFileVideoScreenState extends BaseConsumerState<AddFileVideoScreen> {
+  PersistentBottomSheetController? _controller; // <------ Instance variable
   TextEditingController _nameController = TextEditingController();
   TextEditingController _locationController = TextEditingController();
   FilePickerResult? result;
@@ -232,8 +244,8 @@ class _AddFileVideoScreenState extends State<AddFileVideoScreen> {
                                             result = await FilePicker.platform
                                                 .pickFiles(
                                               allowMultiple: false,
-                                              type: FileType.custom,
-                                              allowedExtensions: ['mp4'],
+                                              type: FileType.video,
+                                              // allowedExtensions: ['mp4'],
                                             );
                                             if (result != null) {
                                               _file = result!.files.first;
@@ -364,23 +376,45 @@ class _AddFileVideoScreenState extends State<AddFileVideoScreen> {
                   ),
                   TextButton(
                     onPressed: () async {
-                      // Map<String, dynamic> data = {
-                      //   "name": _nameController.text,
-                      //   "email": _emailController.text,
-                      //   "username": _userNameController.text,
-                      //   "role": _roleSelected.toUpperCase(),
-                      //   "designation": _designationController.text,
-                      //   "phone": {
-                      //     "countryCode": _countryCode.toLowerCase(),
-                      //     "dialCode": _countryDialCode,
-                      //     "number": _numberController.text
-                      //   },
-                      //   "dob": _selectedDate
-                      // };
-                      // if (_fbKey.currentState!.saveAndValidate()) {
-                      //   context.push('/addUser2', extra: data);
-                      //   print("data passed to screen 2" + data.toString());
-                      // }
+                      FormData? formData = FormData.fromMap({
+                        "name": _nameController.text,
+                        "details": {
+                          "provider": "PROGRESSCENTER",
+                        },
+                        "type": 0,
+                        "location": {
+                          "name": _locationController.text,
+                        },
+                      });
+                      if (_file != null) {
+                        String fileName = _file!.path!.split('/').last;
+                        formData.files.add(
+                          MapEntry(
+                            "file",
+                            await MultipartFile.fromFile(
+                              _file!.path!,
+                              contentType: Helper.getMediaType(fileName),
+                            ),
+                          ),
+                        );
+                      }
+                      await ref
+                          .watch(addFileVideoControllerProvider.notifier)
+                          .addFileVideo(widget.projectId, formData)
+                          .then((value) async {
+                        value.fold((failure) {
+                          print("errorrrrrr");
+                        }, (res) {
+                          print("response data" + res.toString());
+                        });
+                        context.pop();
+
+                        Utils.toastSuccessMessage("Livelapse Created");
+                        ref
+                            .watch(droneFootageControllerProvider.notifier)
+                            .getDroneFootage(widget.projectId);
+                        context.pop();
+                      });
                     },
                     style: TextButton.styleFrom(
                         shape: RoundedRectangleBorder(
