@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dart';
+import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/provider/add_youtube_video_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/provider/drone_footage_controller.dart';
 
-class AddYoutubeVideoScreen extends StatefulWidget {
+class AddYoutubeVideoScreen extends ConsumerStatefulWidget {
   final String projectId;
   final String projectName;
   const AddYoutubeVideoScreen({
@@ -16,14 +21,21 @@ class AddYoutubeVideoScreen extends StatefulWidget {
   });
 
   @override
-  State<AddYoutubeVideoScreen> createState() => _AddYoutubeVideoScreenState();
+  ConsumerState<AddYoutubeVideoScreen> createState() =>
+      _AddYoutubeVideoScreenState();
 }
 
-class _AddYoutubeVideoScreenState extends State<AddYoutubeVideoScreen> {
+class _AddYoutubeVideoScreenState
+    extends BaseConsumerState<AddYoutubeVideoScreen> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _locationController = TextEditingController();
   TextEditingController _urlController = TextEditingController();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+
+  // Regular expression for a YouTube link
+  RegExp regExp = RegExp(
+    r'^https?:\/\/(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})',
+  );
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -79,164 +91,166 @@ class _AddYoutubeVideoScreenState extends State<AddYoutubeVideoScreen> {
                       ),
                       SizedBox(height: 20.h),
                       CustomInputWidget(
-                            title: "Name",
-                            formField: FormBuilderTextField(
-                              name: '_name',
-                              controller: _nameController,
-                              // focusNode: focusNode,
-                        
-                              validator: (val) {
-                                if (val == null || val.isEmpty) {
-                                  return 'Name is required';
-                                }
-                                return null;
-                              },
-                              textInputAction: TextInputAction.done,
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              textCapitalization: TextCapitalization.none,
-                              keyboardType: TextInputType.name,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 10.h, horizontal: 14.w),
-                                hintText: "Enter name",
-                                hintStyle: TextStyle(
-                                  color: Helper.textColor500,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                // hintText: widget.control.label,
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  borderSide:
-                                      BorderSide(color: Helper.textColor300),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  borderSide: BorderSide(color: Helper.primary),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  borderSide: const BorderSide(color: Colors.red),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  borderSide: const BorderSide(color: Colors.red),
-                                ),
-                              ),
-                              onTap: () {},
+                        title: "Name",
+                        formField: FormBuilderTextField(
+                          name: '_name',
+                          controller: _nameController,
+                          // focusNode: focusNode,
+
+                          validator: (val) {
+                            if (val == null || val.isEmpty) {
+                              return 'Name is required';
+                            }
+                            return null;
+                          },
+                          textInputAction: TextInputAction.done,
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          textCapitalization: TextCapitalization.none,
+                          keyboardType: TextInputType.name,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10.h, horizontal: 14.w),
+                            hintText: "Enter name",
+                            hintStyle: TextStyle(
+                              color: Helper.textColor500,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            // hintText: widget.control.label,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide:
+                                  BorderSide(color: Helper.textColor300),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: BorderSide(color: Helper.primary),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: const BorderSide(color: Colors.red),
                             ),
                           ),
-                          SizedBox(height: 12.h),
-                          CustomInputWidget(
-                            title: "Location",
-                            formField: FormBuilderTextField(
-                              name: '_location',
-                              controller: _locationController,
-                              // focusNode: focusNode,
-                        
-                              validator: (val) {
-                                if (val == null || val.isEmpty) {
-                                  return 'Location is required';
-                                }
-                                return null;
-                              },
-                              textInputAction: TextInputAction.done,
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              textCapitalization: TextCapitalization.none,
-                              keyboardType: TextInputType.name,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 10.h, horizontal: 14.w),
-                                hintText: "Enter location",
-                                hintStyle: TextStyle(
-                                  color: Helper.textColor500,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                // hintText: widget.control.label,
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  borderSide:
-                                      BorderSide(color: Helper.textColor300),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  borderSide: BorderSide(color: Helper.primary),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  borderSide: const BorderSide(color: Colors.red),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  borderSide: const BorderSide(color: Colors.red),
-                                ),
-                              ),
-                              onTap: () {},
+                          onTap: () {},
+                        ),
+                      ),
+                      SizedBox(height: 12.h),
+                      CustomInputWidget(
+                        title: "Location",
+                        formField: FormBuilderTextField(
+                          name: '_location',
+                          controller: _locationController,
+                          // focusNode: focusNode,
+
+                          validator: (val) {
+                            if (val == null || val.isEmpty) {
+                              return 'Location is required';
+                            }
+                            return null;
+                          },
+                          textInputAction: TextInputAction.done,
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          textCapitalization: TextCapitalization.none,
+                          keyboardType: TextInputType.name,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10.h, horizontal: 14.w),
+                            hintText: "Enter location",
+                            hintStyle: TextStyle(
+                              color: Helper.textColor500,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            // hintText: widget.control.label,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide:
+                                  BorderSide(color: Helper.textColor300),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: BorderSide(color: Helper.primary),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: const BorderSide(color: Colors.red),
                             ),
                           ),
-                          SizedBox(height: 12.h),
-                          CustomInputWidget(
-                            title: "YouTube Url",
-                            formField: FormBuilderTextField(
-                              name: '_url',
-                              controller: _urlController,
-                              // focusNode: focusNode,
-                        
-                              validator: (val) {
-                                if (val == null || val.isEmpty) {
-                                  return 'Url is required';
-                                }
-                                return null;
-                              },
-                              textInputAction: TextInputAction.done,
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              textCapitalization: TextCapitalization.none,
-                              keyboardType: TextInputType.name,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 10.h, horizontal: 14.w),
-                                hintText: "Enter url",
-                                hintStyle: TextStyle(
-                                  color: Helper.textColor500,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                // hintText: widget.control.label,
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  borderSide:
-                                      BorderSide(color: Helper.textColor300),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  borderSide: BorderSide(color: Helper.primary),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  borderSide: const BorderSide(color: Colors.red),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  borderSide: const BorderSide(color: Colors.red),
-                                ),
-                              ),
-                              onTap: () {},
+                          onTap: () {},
+                        ),
+                      ),
+                      SizedBox(height: 12.h),
+                      CustomInputWidget(
+                        title: "YouTube Url",
+                        formField: FormBuilderTextField(
+                          name: '_url',
+                          controller: _urlController,
+                          // focusNode: focusNode,
+                          validator: (val) {
+                            if (val == null || val.isEmpty) {
+                              return 'Url is required';
+                            }
+                            if (!regExp.hasMatch(val)) {
+                              return 'Invalid YouTube URL';
+                            }
+                            return null;
+                          },
+                          textInputAction: TextInputAction.done,
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          textCapitalization: TextCapitalization.none,
+                          keyboardType: TextInputType.name,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10.h, horizontal: 14.w),
+                            hintText: "Enter url",
+                            hintStyle: TextStyle(
+                              color: Helper.textColor500,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            // hintText: widget.control.label,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide:
+                                  BorderSide(color: Helper.textColor300),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: BorderSide(color: Helper.primary),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: const BorderSide(color: Colors.red),
                             ),
                           ),
-                          SizedBox(height: 12.h),
+                          onTap: () {},
+                        ),
+                      ),
+                      SizedBox(height: 12.h),
                     ]),
               ),
             ),
@@ -278,7 +292,7 @@ class _AddYoutubeVideoScreenState extends State<AddYoutubeVideoScreen> {
                       Map<String, dynamic> data = {
                         "name": _nameController.text,
                         "details": {
-                          "provider": "VIMEO",
+                          "provider": "YOUTUBE",
                         },
                         "location": {
                           "name": _locationController.text,
@@ -286,8 +300,23 @@ class _AddYoutubeVideoScreenState extends State<AddYoutubeVideoScreen> {
                         "url": _urlController.text
                       };
                       if (_fbKey.currentState!.saveAndValidate()) {
-                        context.push('/addUser2', extra: data);
-                        print("data passed to screen 2" + data.toString());
+                        await ref
+                            .watch(addYoutubeVideoControllerProvider.notifier)
+                            .addYoutubeVideo(widget.projectId, data)
+                            .then((value) async {
+                          value.fold((failure) {
+                            print("errorrrrrr");
+                          }, (res) {});
+                          context.pop();
+                          Utils.toastSuccessMessage("Drone Footage added");
+                          ref
+                              .watch(droneFootageControllerProvider.notifier)
+                              .getDroneFootage(widget.projectId);
+                              context.pop();
+                          // setState(() {
+                          //   _isLoading = false;
+                          // });
+                        });
                       }
                     },
                     style: TextButton.styleFrom(
