@@ -208,8 +208,9 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: data.length,
                           itemBuilder: ((context, index) {
+                            final reversedIndex = data.length - 1 - index;
                             return SiteGalleryListViewWidget(
-                              data: data[index],
+                              data: data[reversedIndex],
                             );
                           }),
                         )
@@ -226,8 +227,9 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                                   mainAxisExtent: 152.h),
                           itemCount: data.length,
                           itemBuilder: ((context, index) {
+                            final reversedIndex = data.length - 1 - index;
                             return SiteGalleryGridViewWidget(
-                              data: data[index],
+                              data: data[reversedIndex],
                             );
                           }),
                         )
