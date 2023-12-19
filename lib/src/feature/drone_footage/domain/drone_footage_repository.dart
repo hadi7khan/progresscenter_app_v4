@@ -4,4 +4,7 @@ import 'package:progresscenter_app_v4/src/feature/drone_footage/data/model/drone
 
 abstract class DroneFootageRepository {
   Future<Either<Failure, List<DroneFootageModel>>> droneFootageList(String id);
+  Future<Either<Failure, dynamic>> addYoutubeVideo(projectId, data);
+  Future<Either<Failure, dynamic>> addVimeoVideo(projectId, data);
+  Future<Either<Failure, dynamic>> addFileVideo(projectId, data);
 }

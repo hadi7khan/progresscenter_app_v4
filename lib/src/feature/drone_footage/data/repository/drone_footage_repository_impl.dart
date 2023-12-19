@@ -37,4 +37,51 @@ class DroneFootageRepositoryImpl implements DroneFootageRepository {
       return const Left(ConnectionFailure('Failed to connect to the network'));
     }
   }
+
+  @override
+  Future<Either<Failure, dynamic>> addFileVideo(projectId, data) async {
+    try {
+      final result = await droneFootageDataSource.addFileVideo(projectId, data);
+      print("result: " + result.toString());
+      return Right(result);
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e);
+      print(errorMessage.toString());
+      rethrow;
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> addVimeoVideo(projectId, data) async {
+    try {
+      final result =
+          await droneFootageDataSource.addVimeoVideo(projectId, data);
+      print("result: " + result.toString());
+      return Right(result);
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e);
+      print(errorMessage.toString());
+      rethrow;
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> addYoutubeVideo(projectId, data) async {
+    try {
+      final result =
+          await droneFootageDataSource.addYouTubeVideo(projectId, data);
+      print("result: " + result.toString());
+      return Right(result);
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e);
+      print(errorMessage.toString());
+      rethrow;
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
 }

@@ -92,7 +92,7 @@ class _AddSiteGalleryScreenState
                   Text(
                     "You can add upto 25 files (photos or videos) at a time from here",
                     style: TextStyle(
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w400,
                         fontSize: 16.sp,
                         color: Helper.textColor600),
                   ),

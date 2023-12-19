@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
+import 'package:progresscenter_app_v4/src/common/widgets/add_drone_container.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/provider/drone_footage_controller.dart';
 
@@ -83,12 +84,12 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
                         ? SvgPicture.asset('assets/images/grid_view.svg')
                         : SvgPicture.asset('assets/images/list_view.svg'),
                   ),
-                  SizedBox(
-                    width: 5.w
-                  ),
+                  SizedBox(width: 5.w),
                   InkWell(
                     child: SvgPicture.asset('assets/images/plus.svg'),
-                    onTap: () {},
+                    onTap: () {
+                      _showDroneFootageBottomSheet(context);
+                    },
                   ),
                 ],
               ),
@@ -102,123 +103,30 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
             child: droneFootageData.when(
               data: (data) {
                 if (data.isEmpty) {
-                        return Container(
-                          alignment: Alignment.center,
-                          height: MediaQuery.of(context).size.height *0.88.h,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                  'assets/images/illustration.svg'),
-                                  SizedBox(height: 16.h),
-                              Text(
-                                "No Drone footage",
-                                style: TextStyle(
-                                    color: Helper.textColor900,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                      ;
+                  return Container(
+                    alignment: Alignment.center,
+                    height: MediaQuery.of(context).size.height * 0.88.h,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset('assets/images/illustration.svg'),
+                        SizedBox(height: 16.h),
+                        Text(
+                          "No Drone footage",
+                          style: TextStyle(
+                              color: Helper.textColor900,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                ;
                 return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   mainAxisSize: MainAxisSize.max,
-                      //   children: [
-                      //     Row(children: [
-                      //       Container(
-                      //         height: 24.h,
-                      //         child: IconButton(
-                      //           padding: EdgeInsets.zero,
-                      //           alignment: Alignment.centerLeft,
-                      //           icon: Icon(
-                      //             Icons.arrow_back,
-                      //           ),
-                      //           onPressed: () => context.pop(),
-                      //         ),
-                      //       ),
-                      //       SizedBox(width: 8.w),
-                      //       Text(
-                      //         widget.projectName,
-                      //         style: TextStyle(
-                      //             color: Helper.baseBlack,
-                      //             fontSize: 18.sp,
-                      //             fontWeight: FontWeight.w500),
-                      //       )
-                      //     ]),
-                      //     // ListTile(
-                      //     //   dense: true,
-                      //     //   leading: Container(
-                      //     //       height: 24.h,
-                      //     //       child: IconButton(
-                      //     //         padding: EdgeInsets.zero,
-                      //     //         alignment: Alignment.centerLeft,
-                      //     //         icon:
-                      //     //             SvgPicture.asset('assets/images/sort.svg'),
-                      //     //         onPressed: () => context.pop(),
-                      //     //       ),
-                      //     //     ),
-                      //     //     title:Container(
-                      //     //       height: 24.h,
-                      //     //       child: IconButton(
-                      //     //         padding: EdgeInsets.zero,
-                      //     //         alignment: Alignment.centerLeft,
-                      //     //         icon:
-                      //     //             SvgPicture.asset('assets/images/sort.svg'),
-                      //     //         onPressed: () => context.pop(),
-                      //     //       ),
-                      //     //     ),
-                      //     // ),
-                      //     Row(
-                      //       mainAxisSize: MainAxisSize.min,
-                      //       mainAxisAlignment: MainAxisAlignment.end,
-                      //       children: [
-                      //         Container(
-                      //           margin: EdgeInsets.zero,
-                      //           height: 24.h,
-                      //           child: IconButton(
-                      //             padding: EdgeInsets.zero,
-                      //             alignment: Alignment.centerLeft,
-                      //             icon: list
-                      //                 ? SvgPicture.asset(
-                      //                     'assets/images/grid_view.svg')
-                      //                 : SvgPicture.asset(
-                      //                     'assets/images/list_view.svg'),
-                      //             onPressed: () {
-                      //               setState(() {
-                      //                 if (list == true) {
-                      //                   list = false;
-                      //                 } else {
-                      //                   list = true;
-                      //                 }
-                      //               });
-                      //             },
-                      //           ),
-                      //         ),
-                      //         Container(
-                      //           margin: EdgeInsets.zero,
-                      //           height: 24.h,
-                      //           child: IconButton(
-                      //             padding: EdgeInsets.zero,
-                      //             alignment: Alignment.centerLeft,
-                      //             icon: SvgPicture.asset(
-                      //                 'assets/images/plus.svg'),
-                      //             onPressed: () {},
-                      //           ),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ],
-                      // ),
-                      // SizedBox(
-                      //   height: 24.h,
-                      // ),
                       list
                           ? ListView.separated(
                               separatorBuilder: (context, index) {
@@ -267,5 +175,89 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
             ),
           )),
         ));
+  }
+
+  _showDroneFootageBottomSheet(context) {
+    return showModalBottomSheet(
+      context: context,
+      useRootNavigator: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 28.h),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r)),
+          color: Colors.white,
+        ),
+        height: MediaQuery.of(context).size.height * 0.7,
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'Add Drone Footage',
+                  style: TextStyle(
+                      color: Helper.baseBlack,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+            SizedBox(height: 20.h),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InkWell(
+                  onTap: (){
+                    context.push('/addFileVideo', extra: {
+                      "projectId": widget.projectId,
+                      "projectName": widget.projectName
+                    });
+                  },
+                  child: AddDroneContainer(
+                    svgPath: 'assets/images/file.svg',
+                    title: "Upload Video",
+                    subTitle: "Use this to upload an Mp4 file directly",
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                InkWell(
+                   onTap: (){
+                    context.push('/addVimeoVideo', extra: {
+                      "projectId": widget.projectId,
+                      "projectName": widget.projectName
+                    });
+                  },
+                  child: AddDroneContainer(
+                    svgPath: 'assets/images/vimeo.svg',
+                    title: "From Vimeo",
+                    subTitle: "Use this to add a video from Vimeo",
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                InkWell(
+                  onTap: (){
+                    context.push('/addYoutubeVideo', extra: {
+                      "projectId": widget.projectId,
+                      "projectName": widget.projectName
+                    });
+                  },
+                  child: AddDroneContainer(
+                    svgPath: 'assets/images/youtube.svg',
+                    title: "From YouTube",
+                    subTitle: "Use this to add a video from YouTube",
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
