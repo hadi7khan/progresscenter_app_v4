@@ -137,7 +137,8 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
                               physics: NeverScrollableScrollPhysics(),
                               itemCount: data.length,
                               itemBuilder: ((context, index) {
-                                return DroneListViewWidget(data: data[index]);
+                                final reversedIndex = data.length - 1 - index;
+                                return DroneListViewWidget(data: data[reversedIndex]);
                               }),
                             )
                           : GridView.builder(
@@ -153,8 +154,9 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
                                       mainAxisExtent: 152.h),
                               itemCount: data.length,
                               itemBuilder: ((context, index) {
+                                final reversedIndex = data.length - 1 - index;
                                 return DroneGridViewWidget(
-                                  data: data[index],
+                                  data: data[reversedIndex],
                                 );
                               }),
                             )

@@ -217,6 +217,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               label: 'details',
               projectId: args['projectId'],
               projectName: args['projectName'],
+              projectImages: args['projectImages'],
+              projectLocation: args['projectLocation'],
+              // projectUsers: args['projectUsers']
             ),
           );
         },

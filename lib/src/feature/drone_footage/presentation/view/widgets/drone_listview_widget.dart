@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:intl/intl.dart';
+import 'package:pod_player/pod_player.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:vimeo_player_flutter/vimeo_player_flutter.dart';
+import 'package:vimeo_video_player_custom/vimeo_video_player_custom.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class DroneListViewWidget extends StatefulWidget {
   final data;
@@ -14,6 +19,11 @@ class DroneListViewWidget extends StatefulWidget {
 
 class _DroneListViewWidgetState extends State<DroneListViewWidget> {
   VlcPlayerController? _videoPlayerController;
+  YoutubePlayerController? _youtubeController;
+  // WebViewController? _vimeoController;
+  String videoId = "";
+  PodPlayerController? controller;
+
   @override
   void initState() {
     super.initState();
@@ -23,10 +33,41 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
       autoPlay: true,
       options: VlcPlayerOptions(),
     );
+    // videoId = YoutubePlayer.convertUrlToId(url);
+    _youtubeController = YoutubePlayerController(
+      initialVideoId: YoutubePlayer.convertUrlToId(widget.data.url) ?? '',
+      flags: YoutubePlayerFlags(
+        hideControls: true,
+        autoPlay: false,
+        mute: false,
+        disableDragSeek: true,
+      ),
+    );
+
+    controller = PodPlayerController(
+      playVideoFrom: PlayVideoFrom.network(
+        widget.data.url,
+      ),
+      podPlayerConfig: const PodPlayerConfig(
+      autoPlay: true,
+      isLooping: false,
+      videoQualityPriority: [720, 360]
+    )
+    )..initialise();
+  }
+
+  String extractVimeoVideoId(String videoUrl) {
+    // Example URL: https://vimeo.com/VIDEO_ID
+    RegExp regExp = RegExp(r'vimeo\.com\/(\d+)');
+    Match? match = regExp.firstMatch(videoUrl);
+    return match?.group(1) ?? '';
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.data.details.provider == "VIMEO") {
+      String videoId = extractVimeoVideoId(widget.data.url);
+    }
     return Container(
       margin: EdgeInsets.zero,
       padding: EdgeInsets.zero,
@@ -45,11 +86,30 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
                 child: Stack(alignment: Alignment.center, children: [
                   AspectRatio(
                     aspectRatio: 16 / 9,
-                    child: VlcPlayer(
-                      controller: _videoPlayerController!,
-                      aspectRatio: 16 / 9,
-                      placeholder: Center(child: CircularProgressIndicator()),
-                    ),
+                    child: widget.data.details.provider == "PROGRESSCENTER"
+                        ? VlcPlayer(
+                            controller: _videoPlayerController!,
+                            aspectRatio: 16 / 9,
+                            placeholder:
+                                Center(child: CircularProgressIndicator()),
+                          )
+                        : widget.data.details.provider == "YOUTUBE"
+                            ? YoutubePlayer(
+                                controller: _youtubeController!,
+                              )
+                            : PodVideoPlayer(
+                                controller: controller!,
+                                // videoThumbnail: const DecorationImage(
+                                //   /// load from asset: AssetImage('asset_path')
+                                //   image: NetworkImage(
+                                //     'https://images.unsplash.com/photo-1569317002804-ab77bcf1bce4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dW5zcGxhc2h8ZW58MHx8MHx8&w=1000&q=80',
+                                //   ),
+                                //   fit: BoxFit.cover,
+                                // ),
+                              ),
+                    // VimeoVideoPlayer(
+                    //     url: widget.data.url,
+                    //   ),
                   ),
                   Positioned(
                       top: 83,
