@@ -35,7 +35,7 @@ class _ProjectWidgetState extends BaseConsumerState<ProjectWidget> {
       data: (data) {
         return ListView.separated(
           separatorBuilder: (context, index) {
-            return SizedBox(height: 16.h);
+            return SizedBox(height: 30.h);
           },
           shrinkWrap: true,
           padding: EdgeInsets.zero,
