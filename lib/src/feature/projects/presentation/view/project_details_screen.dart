@@ -14,6 +14,9 @@ import 'package:progresscenter_app_v4/src/common/widgets/avatar_group.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/widgets/viewed_by_widget.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_by_id_model.dart'
+    as model;
+import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_by_id_controller.dart';
 
 class MyListItem {
@@ -31,6 +34,7 @@ class ProjectDetailsScreen extends ConsumerStatefulWidget {
   final String projectName;
   final projectImages;
   final projectLocation;
+  final projectUsers;
   const ProjectDetailsScreen({
     super.key,
     required this.label,
@@ -38,6 +42,7 @@ class ProjectDetailsScreen extends ConsumerStatefulWidget {
     required this.projectName,
     required this.projectImages,
     required this.projectLocation,
+    required this.projectUsers,
   });
 
   @override
@@ -48,6 +53,7 @@ class ProjectDetailsScreen extends ConsumerStatefulWidget {
 class _ProjectDetailsScreenState
     extends BaseConsumerState<ProjectDetailsScreen> {
   int? _currentIndex;
+  model.ProjectByIdModel? projectByIdData;
 
   @override
   void initState() {
@@ -67,6 +73,7 @@ class _ProjectDetailsScreenState
 
   @override
   Widget build(BuildContext context) {
+    print("users passed" + widget.projectUsers.toString());
     final projectByIdData = ref.watch(
         projectByIdControllerProvider.select((value) => value.projectDetails));
     return Scaffold(
@@ -104,30 +111,31 @@ class _ProjectDetailsScreenState
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 margin: EdgeInsets.zero,
                 padding: EdgeInsets.zero,
-                height: MediaQuery.of(context).size.width - 2 * 20.w,
+                height: MediaQuery.of(context).size.width * 0.7,
+                width: double.infinity,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   // borderRadius: BorderRadius.circular(16.r),
                 ),
                 child: Stack(
-                    fit: StackFit.loose,
+                    fit: StackFit.expand,
                     alignment: Alignment.topCenter,
                     children: [
                       CarouselSlider.builder(
                         itemCount: widget.projectImages.length,
                         options: CarouselOptions(
                             // height: 284.h,
-                            aspectRatio: 16 / 9,
-                            viewportFraction: 1/1,
+                            viewportFraction: 1,
+                            aspectRatio: 1 / 1,
                             initialPage: 0,
                             autoPlay: false,
-                            enlargeCenterPage: true,
+                            // enlargeCenterPage: true,
                             autoPlayCurve: Curves.fastOutSlowIn,
                             scrollDirection: Axis.horizontal,
                             onPageChanged: (index, reason) {
@@ -147,19 +155,19 @@ class _ProjectDetailsScreenState
                               ? ClipRRect(
                                   // borderRadius: BorderRadius.circular(16.r),
                                   child: Image.network(
-                                    widget.projectImages![itemIndex].url!,
-                                    fit: BoxFit.fill,
-                                    errorBuilder: (BuildContext context,
-                                        Object exception,
-                                        StackTrace? stackTrace) {
-                                      return ClipRRect(
-                                        child: Image.asset(
-                                          'assets/images/error_image.jpeg',
-                                          fit: BoxFit.fill,
-                                        ),
-                                      );
-                                    },
-                                  ))
+                                  widget.projectImages![itemIndex].url!,
+                                  fit: BoxFit.fill,
+                                  errorBuilder: (BuildContext context,
+                                      Object exception,
+                                      StackTrace? stackTrace) {
+                                    return ClipRRect(
+                                      child: Image.asset(
+                                        'assets/images/error_image.jpeg',
+                                        fit: BoxFit.fill,
+                                      ),
+                                    );
+                                  },
+                                ))
                               : ClipRRect(
                                   // borderRadius: BorderRadius.circular(16.r),
                                   child: Image.asset(
@@ -174,59 +182,76 @@ class _ProjectDetailsScreenState
                         top: 20,
                         left: 20,
                         child: BlurryContainer(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 6.h, horizontal: 8.w),
+                            height: 30,
+                            padding: EdgeInsets.only(
+                                top: 3.h, bottom: 3.h, left: 6.w, right: 0),
                             blur: 3,
                             borderRadius: BorderRadius.circular(30.r),
-                            color: Colors.white.withOpacity(0.1),
-                            child: Row(
-                              children: [
-                                SvgPicture.asset('assets/images/ai.svg'),
-                                SizedBox(width: 4.w),
-                                Text("AI enhanced",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 12.sp)),
-                              ],
+                            color: Colors.white,
+                            child: InkWell(
+                                onTap: () {
+                                  context.pop();
+                                },
+                                child: Icon(Icons.arrow_back_ios,
+                                    color: Helper.iconColor, size: 24.0,),),),
+                      ),
+                      Positioned(
+                        top: 20,
+                        right: 100,
+                        child: BlurryContainer(
+                            height: 30,
+                            padding: EdgeInsets.symmetric(
+                                vertical: 6.h, horizontal: 6.w),
+                            blur: 3,
+                            borderRadius: BorderRadius.circular(20.r),
+                            color: Colors.white,
+                            child: InkWell(
+                              onTap: () {
+                                context.push('/editproject',
+                                    extra: projectByIdData.value);
+                              },
+                              child: SvgPicture.asset(
+                                  'assets/images/edit_square.svg',
+                                  color: Helper.iconColor),
                             )),
                       ),
-                      // Positioned(
-                      //   top: 20,
-                      //   right: 20,
-                      //   child: InkWell(
-                      //     onTap: () {
-                      //       showModalBottomSheet(
-                      //           useRootNavigator: true,
-                      //           isScrollControlled: true,
-                      //           context: context,
-                      //           backgroundColor: Colors.transparent,
-                      //           builder: (context) => ViewedByWidget(
-                      //               data: widget.projectDetails.users,
-                      //               showText: "Current members"));
-                      //     },
-                      //     child: BlurryContainer(
-                      //       // width: 150,
-                      //       height: 30,
-                      //       padding: EdgeInsets.symmetric(
-                      //           vertical: 4.h, horizontal: 4.w),
-                      //       blur: 3,
-                      //       borderRadius: BorderRadius.circular(30.r),
-                      //       color: Colors.white.withOpacity(0.3),
-                      //       child: AvatarGroupWidget(
-                      //         avatars: widget.projectDetails.users!.map((user) {
-                      //           return {
-                      //             'dpUrl': user.dp != null ? user.dpUrl : "",
-                      //             'name': user.name,
-                      //             'backgroundColor': user.preset!.color,
-                      //           };
-                      //         }).toList(),
-                      //         size: 22.h,
-                      //         max: 3,
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
+                      Positioned(
+                        top: 20,
+                        right: 20,
+                        child: InkWell(
+                          onTap: () {
+                            showModalBottomSheet(
+                                useRootNavigator: true,
+                                isScrollControlled: true,
+                                context: context,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) => ViewedByWidget(
+                                    data: widget.projectUsers,
+                                    showText: "Current members"));
+                          },
+                          child: BlurryContainer(
+                            // width: 150,
+                            height: 30,
+                            padding: EdgeInsets.symmetric(
+                                vertical: 4.h, horizontal: 4.w),
+                            blur: 3,
+                            borderRadius: BorderRadius.circular(30.r),
+                            color: Colors.white.withOpacity(0.3),
+                            child: AvatarGroupWidget(
+                              avatars: (widget.projectUsers as List<User>)
+                                  .map((user) {
+                                return {
+                                  'dpUrl': user.dp != null ? user.dpUrl : "",
+                                  'name': user.name,
+                                  'backgroundColor': user.preset!.color,
+                                };
+                              }).toList(),
+                              size: 22.h,
+                              max: 3,
+                            ),
+                          ),
+                        ),
+                      ),
                       // data[index].images!.isNotEmpty
                       //     ?
                       Positioned(
@@ -235,8 +260,7 @@ class _ProjectDetailsScreenState
                             padding: const EdgeInsets.only(bottom: 12),
                             child: widget.projectImages!.length > 0
                                 ? DotsIndicator(
-                                    dotsCount:
-                                        widget.projectImages!.length,
+                                    dotsCount: widget.projectImages!.length,
                                     position: _currentIndex != null
                                         ? _currentIndex!
                                         : 0,
@@ -256,113 +280,39 @@ class _ProjectDetailsScreenState
                                 : SizedBox()),
                       ),
                       // : SizedBox(),
-                      // Positioned.fill(
-                      //   bottom: 7,
-                      //   // left: 20,
-                      //   child: Align(
-                      //     alignment: Alignment.bottomCenter,
-                      //     child: Container(
-                      //         height: 88.h,
-                      //         width: double.infinity,
-                      //         margin: EdgeInsets.zero,
-                      //         padding: EdgeInsets.all(20.w),
-                      //         decoration: BoxDecoration(
-                      //             borderRadius: BorderRadius.circular(15.r),
-                      //             color: Color.fromRGBO(246, 246, 246, 1)),
-                      //         child: Row(
-                      //           mainAxisAlignment:
-                      //               MainAxisAlignment.spaceBetween,
-                      //           mainAxisSize: MainAxisSize.min,
-                      //           children: [
-                      //             Column(
-                      //               crossAxisAlignment:
-                      //                   CrossAxisAlignment.start,
-                      //               children: [
-                      //                 Text(
-                      //                   widget.projectName,
-                      //                   style: TextStyle(
-                      //                     fontSize: 18.sp,
-                      //                     fontWeight: FontWeight.w500,
-                      //                     color: Helper.baseBlack,
-                      //                   ),
-                      //                 ),
-                      //                 // SizedBox(
-                      //                 //   height: 6.h,
-                      //                 // ),
-                      //                 Text(
-                      //                   widget.projectLocation!,
-                      //                   style: TextStyle(
-                      //                     fontSize: 14.sp,
-                      //                     fontWeight: FontWeight.w400,
-                      //                     color:
-                      //                         Helper.baseBlack.withOpacity(0.5),
-                      //                   ),
-                      //                 ),
-                      //               ],
-                      //             ),
-                      //             TextButton(
-                      //                 onPressed: () {
-                      //                   context.push('/editproject',
-                      //                       extra: data);
-                      //                 },
-                      //                 style: ButtonStyle(
-                      //                     shape:
-                      //                         MaterialStateProperty.all(
-                      //                             RoundedRectangleBorder(
-                      //                       borderRadius:
-                      //                           BorderRadius.circular(
-                      //                               8.r),
-                      //                     )),
-                      //                     backgroundColor:
-                      //                         MaterialStateProperty.all(
-                      //                             Colors.white)),
-                      //                 child: Text(
-                      //                   "Edit",
-                      //                   style: TextStyle(
-                      //                       color: Helper.baseBlack,
-                      //                       fontSize: 14.sp,
-                      //                       letterSpacing: 0,
-                      //                       wordSpacing: 0,
-                      //                       fontWeight:
-                      //                           FontWeight.w600),
-                      //                 ))
-                      //           ],
-                      //         )),
-                      //   ),
-                      // ),
                     ]),
               ),
               SizedBox(
-              height: 10.h,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.projectName,
-                  style: TextStyle(
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Helper.baseBlack,
+                height: 10.h,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.projectName,
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w500,
+                      color: Helper.baseBlack,
+                    ),
                   ),
-                ),
-                // SizedBox(
-                //   height: 6.h,
-                // ),
-                Text(
-                  widget.projectLocation!,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
-                    color: Helper.baseBlack.withOpacity(0.5),
+                  Text(
+                    widget.projectLocation!,
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                      color: Helper.baseBlack.withOpacity(0.5),
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
                 child: projectByIdData.when(
                   data: (data) {
+                    projectByIdData == data;
+                    print("project id data passed" +
+                        projectByIdData.value.toString());
                     List<MyListItem> myItems = [
                       MyListItem(
                         svgAsset: 'assets/images/updated.svg',
@@ -415,257 +365,257 @@ class _ProjectDetailsScreenState
                     return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            margin: EdgeInsets.zero,
-                            padding: EdgeInsets.zero,
-                            height: 264.h,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(16.r),
-                            ),
-                            child: Stack(
-                                fit: StackFit.loose,
-                                alignment: Alignment.topCenter,
-                                children: [
-                                  CarouselSlider.builder(
-                                    itemCount: data.images!.length,
-                                    options: CarouselOptions(
-                                        // height: 284.h,
-                                        aspectRatio: 16 / 9,
-                                        viewportFraction: 1,
-                                        initialPage: 0,
-                                        autoPlay: false,
-                                        enlargeCenterPage: true,
-                                        autoPlayCurve: Curves.fastOutSlowIn,
-                                        scrollDirection: Axis.horizontal,
-                                        onPageChanged: (index, reason) {
-                                          setState(() {
-                                            _currentIndex = index;
-                                          });
-                                        }),
-                                    itemBuilder: (BuildContext context,
-                                            int itemIndex, int pageViewIndex) =>
-                                        Container(
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(16.r),
-                                        color: Color.fromRGBO(235, 235, 235, 1),
-                                      ),
-                                      child: data.images!.isNotEmpty
-                                          ? ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(16.r),
-                                              child: Image.network(
-                                                data.images![itemIndex].url!,
-                                                fit: BoxFit.fill,
-                                                errorBuilder: (BuildContext
-                                                        context,
-                                                    Object exception,
-                                                    StackTrace? stackTrace) {
-                                                  return ClipRRect(
-                                                    child: Image.asset(
-                                                      'assets/images/error_image.jpeg',
-                                                      fit: BoxFit.fill,
-                                                    ),
-                                                  );
-                                                },
-                                              ))
-                                          : ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(16.r),
-                                              child: Image.asset(
-                                                'assets/images/error_image.jpeg',
-                                                fit: BoxFit.fill,
-                                                height: 264.h,
-                                              ),
-                                            ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    top: 20,
-                                    left: 20,
-                                    child: BlurryContainer(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 6.h, horizontal: 8.w),
-                                        blur: 3,
-                                        borderRadius:
-                                            BorderRadius.circular(30.r),
-                                        color: Colors.white.withOpacity(0.1),
-                                        child: Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                                'assets/images/ai.svg'),
-                                            SizedBox(width: 4.w),
-                                            Text("AI enhanced",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 12.sp)),
-                                          ],
-                                        )),
-                                  ),
-                                  Positioned(
-                                    top: 20,
-                                    right: 20,
-                                    child: InkWell(
-                                      onTap: () {
-                                        showModalBottomSheet(
-                                            useRootNavigator: true,
-                                            isScrollControlled: true,
-                                            context: context,
-                                            backgroundColor: Colors.transparent,
-                                            builder: (context) =>
-                                                ViewedByWidget(
-                                                    data: data.users,
-                                                    showText:
-                                                        "Current members"));
-                                      },
-                                      child: BlurryContainer(
-                                        // width: 150,
-                                        height: 30,
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 4.h, horizontal: 4.w),
-                                        blur: 3,
-                                        borderRadius:
-                                            BorderRadius.circular(30.r),
-                                        color: Colors.white.withOpacity(0.3),
-                                        child: AvatarGroupWidget(
-                                          avatars: data.users!.map((user) {
-                                            return {
-                                              'dpUrl': user.dp != null
-                                                  ? user.dpUrl
-                                                  : "",
-                                              'name': user.name,
-                                              'backgroundColor':
-                                                  user.preset!.color,
-                                            };
-                                          }).toList(),
-                                          size: 22.h,
-                                          max: 3,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  // data[index].images!.isNotEmpty
-                                  //     ?
-                                  Positioned(
-                                    top: 150.h,
-                                    child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 12),
-                                        child: data.images!.length > 0
-                                            ? DotsIndicator(
-                                                dotsCount: data.images!.length,
-                                                position: _currentIndex != null
-                                                    ? _currentIndex!
-                                                    : 0,
-                                                decorator: DotsDecorator(
-                                                    color: Colors.white
-                                                        .withOpacity(0.6),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        6.r)),
-                                                    activeColor: Colors.white,
-                                                    activeShape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.r)),
-                                                    size: Size(6, 6),
-                                                    activeSize: Size(8, 8),
-                                                    spacing: EdgeInsets.only(
-                                                        right: 6.w)),
-                                              )
-                                            : SizedBox()),
-                                  ),
-                                  // : SizedBox(),
-                                  Positioned.fill(
-                                    bottom: 7,
-                                    // left: 20,
-                                    child: Align(
-                                      alignment: Alignment.bottomCenter,
-                                      child: Container(
-                                          height: 88.h,
-                                          width: double.infinity,
-                                          margin: EdgeInsets.zero,
-                                          padding: EdgeInsets.all(20.w),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(15.r),
-                                              color: Color.fromRGBO(
-                                                  246, 246, 246, 1)),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    data.name!,
-                                                    style: TextStyle(
-                                                      fontSize: 18.sp,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Helper.baseBlack,
-                                                    ),
-                                                  ),
-                                                  // SizedBox(
-                                                  //   height: 6.h,
-                                                  // ),
-                                                  Text(
-                                                    data.location!.name!,
-                                                    style: TextStyle(
-                                                      fontSize: 14.sp,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      color: Helper.baseBlack
-                                                          .withOpacity(0.5),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              TextButton(
-                                                  onPressed: () {
-                                                    context.push('/editproject',
-                                                        extra: data);
-                                                  },
-                                                  style: ButtonStyle(
-                                                      shape: MaterialStateProperty
-                                                          .all(
-                                                              RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8.r),
-                                                      )),
-                                                      backgroundColor:
-                                                          MaterialStateProperty
-                                                              .all(Colors
-                                                                  .white)),
-                                                  child: Text(
-                                                    "Edit",
-                                                    style: TextStyle(
-                                                        color: Helper.baseBlack,
-                                                        fontSize: 14.sp,
-                                                        letterSpacing: 0,
-                                                        wordSpacing: 0,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ))
-                                            ],
-                                          )),
-                                    ),
-                                  ),
-                                ]),
-                          ),
-                          SizedBox(height: 12.h),
+                          // Container(
+                          //   margin: EdgeInsets.zero,
+                          //   padding: EdgeInsets.zero,
+                          //   height: 264.h,
+                          //   decoration: BoxDecoration(
+                          //     color: Colors.white,
+                          //     borderRadius: BorderRadius.circular(16.r),
+                          //   ),
+                          //   child: Stack(
+                          //       fit: StackFit.loose,
+                          //       alignment: Alignment.topCenter,
+                          //       children: [
+                          //         CarouselSlider.builder(
+                          //           itemCount: data.images!.length,
+                          //           options: CarouselOptions(
+                          //               // height: 284.h,
+                          //               aspectRatio: 16 / 9,
+                          //               viewportFraction: 1,
+                          //               initialPage: 0,
+                          //               autoPlay: false,
+                          //               enlargeCenterPage: true,
+                          //               autoPlayCurve: Curves.fastOutSlowIn,
+                          //               scrollDirection: Axis.horizontal,
+                          //               onPageChanged: (index, reason) {
+                          //                 setState(() {
+                          //                   _currentIndex = index;
+                          //                 });
+                          //               }),
+                          //           itemBuilder: (BuildContext context,
+                          //                   int itemIndex, int pageViewIndex) =>
+                          //               Container(
+                          //             width: double.infinity,
+                          //             decoration: BoxDecoration(
+                          //               borderRadius:
+                          //                   BorderRadius.circular(16.r),
+                          //               color: Color.fromRGBO(235, 235, 235, 1),
+                          //             ),
+                          //             child: data.images!.isNotEmpty
+                          //                 ? ClipRRect(
+                          //                     borderRadius:
+                          //                         BorderRadius.circular(16.r),
+                          //                     child: Image.network(
+                          //                       data.images![itemIndex].url!,
+                          //                       fit: BoxFit.fill,
+                          //                       errorBuilder: (BuildContext
+                          //                               context,
+                          //                           Object exception,
+                          //                           StackTrace? stackTrace) {
+                          //                         return ClipRRect(
+                          //                           child: Image.asset(
+                          //                             'assets/images/error_image.jpeg',
+                          //                             fit: BoxFit.fill,
+                          //                           ),
+                          //                         );
+                          //                       },
+                          //                     ))
+                          //                 : ClipRRect(
+                          //                     borderRadius:
+                          //                         BorderRadius.circular(16.r),
+                          //                     child: Image.asset(
+                          //                       'assets/images/error_image.jpeg',
+                          //                       fit: BoxFit.fill,
+                          //                       height: 264.h,
+                          //                     ),
+                          //                   ),
+                          //           ),
+                          //         ),
+                          //         Positioned(
+                          //           top: 20,
+                          //           left: 20,
+                          //           child: BlurryContainer(
+                          //               padding: EdgeInsets.symmetric(
+                          //                   vertical: 6.h, horizontal: 8.w),
+                          //               blur: 3,
+                          //               borderRadius:
+                          //                   BorderRadius.circular(30.r),
+                          //               color: Colors.white.withOpacity(0.1),
+                          //               child: Row(
+                          //                 children: [
+                          //                   SvgPicture.asset(
+                          //                       'assets/images/ai.svg'),
+                          //                   SizedBox(width: 4.w),
+                          //                   Text("AI enhanced",
+                          //                       style: TextStyle(
+                          //                           color: Colors.white,
+                          //                           fontWeight: FontWeight.w500,
+                          //                           fontSize: 12.sp)),
+                          //                 ],
+                          //               )),
+                          //         ),
+                          //         Positioned(
+                          //           top: 20,
+                          //           right: 20,
+                          //           child: InkWell(
+                          //             onTap: () {
+                          //               showModalBottomSheet(
+                          //                   useRootNavigator: true,
+                          //                   isScrollControlled: true,
+                          //                   context: context,
+                          //                   backgroundColor: Colors.transparent,
+                          //                   builder: (context) =>
+                          //                       ViewedByWidget(
+                          //                           data: data.users,
+                          //                           showText:
+                          //                               "Current members"));
+                          //             },
+                          //             child: BlurryContainer(
+                          //               // width: 150,
+                          //               height: 30,
+                          //               padding: EdgeInsets.symmetric(
+                          //                   vertical: 4.h, horizontal: 4.w),
+                          //               blur: 3,
+                          //               borderRadius:
+                          //                   BorderRadius.circular(30.r),
+                          //               color: Colors.white.withOpacity(0.3),
+                          //               child: AvatarGroupWidget(
+                          //                 avatars: data.users!.map((user) {
+                          //                   return {
+                          //                     'dpUrl': user.dp != null
+                          //                         ? user.dpUrl
+                          //                         : "",
+                          //                     'name': user.name,
+                          //                     'backgroundColor':
+                          //                         user.preset!.color,
+                          //                   };
+                          //                 }).toList(),
+                          //                 size: 22.h,
+                          //                 max: 3,
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         ),
+                          //         // data[index].images!.isNotEmpty
+                          //         //     ?
+                          //         Positioned(
+                          //           top: 150.h,
+                          //           child: Padding(
+                          //               padding:
+                          //                   const EdgeInsets.only(bottom: 12),
+                          //               child: data.images!.length > 0
+                          //                   ? DotsIndicator(
+                          //                       dotsCount: data.images!.length,
+                          //                       position: _currentIndex != null
+                          //                           ? _currentIndex!
+                          //                           : 0,
+                          //                       decorator: DotsDecorator(
+                          //                           color: Colors.white
+                          //                               .withOpacity(0.6),
+                          //                           shape:
+                          //                               RoundedRectangleBorder(
+                          //                                   borderRadius:
+                          //                                       BorderRadius
+                          //                                           .circular(
+                          //                                               6.r)),
+                          //                           activeColor: Colors.white,
+                          //                           activeShape:
+                          //                               RoundedRectangleBorder(
+                          //                                   borderRadius:
+                          //                                       BorderRadius
+                          //                                           .circular(
+                          //                                               8.r)),
+                          //                           size: Size(6, 6),
+                          //                           activeSize: Size(8, 8),
+                          //                           spacing: EdgeInsets.only(
+                          //                               right: 6.w)),
+                          //                     )
+                          //                   : SizedBox()),
+                          //         ),
+                          //         // : SizedBox(),
+                          //         Positioned.fill(
+                          //           bottom: 7,
+                          //           // left: 20,
+                          //           child: Align(
+                          //             alignment: Alignment.bottomCenter,
+                          //             child: Container(
+                          //                 height: 88.h,
+                          //                 width: double.infinity,
+                          //                 margin: EdgeInsets.zero,
+                          //                 padding: EdgeInsets.all(20.w),
+                          //                 decoration: BoxDecoration(
+                          //                     borderRadius:
+                          //                         BorderRadius.circular(15.r),
+                          //                     color: Color.fromRGBO(
+                          //                         246, 246, 246, 1)),
+                          //                 child: Row(
+                          //                   mainAxisAlignment:
+                          //                       MainAxisAlignment.spaceBetween,
+                          //                   mainAxisSize: MainAxisSize.min,
+                          //                   children: [
+                          //                     Column(
+                          //                       crossAxisAlignment:
+                          //                           CrossAxisAlignment.start,
+                          //                       children: [
+                          //                         Text(
+                          //                           data.name!,
+                          //                           style: TextStyle(
+                          //                             fontSize: 18.sp,
+                          //                             fontWeight:
+                          //                                 FontWeight.w500,
+                          //                             color: Helper.baseBlack,
+                          //                           ),
+                          //                         ),
+                          //                         // SizedBox(
+                          //                         //   height: 6.h,
+                          //                         // ),
+                          //                         Text(
+                          //                           data.location!.name!,
+                          //                           style: TextStyle(
+                          //                             fontSize: 14.sp,
+                          //                             fontWeight:
+                          //                                 FontWeight.w400,
+                          //                             color: Helper.baseBlack
+                          //                                 .withOpacity(0.5),
+                          //                           ),
+                          //                         ),
+                          //                       ],
+                          //                     ),
+                          //                     TextButton(
+                          //                         onPressed: () {
+                          //                           context.push('/editproject',
+                          //                               extra: data);
+                          //                         },
+                          //                         style: ButtonStyle(
+                          //                             shape: MaterialStateProperty
+                          //                                 .all(
+                          //                                     RoundedRectangleBorder(
+                          //                               borderRadius:
+                          //                                   BorderRadius
+                          //                                       .circular(8.r),
+                          //                             )),
+                          //                             backgroundColor:
+                          //                                 MaterialStateProperty
+                          //                                     .all(Colors
+                          //                                         .white)),
+                          //                         child: Text(
+                          //                           "Edit",
+                          //                           style: TextStyle(
+                          //                               color: Helper.baseBlack,
+                          //                               fontSize: 14.sp,
+                          //                               letterSpacing: 0,
+                          //                               wordSpacing: 0,
+                          //                               fontWeight:
+                          //                                   FontWeight.w600),
+                          //                         ))
+                          //                   ],
+                          //                 )),
+                          //           ),
+                          //         ),
+                          //       ]),
+                          // ),
+                          // SizedBox(height: 12.h),
                           SizedBox(
                             height: 58.h,
                             child: ListView.separated(

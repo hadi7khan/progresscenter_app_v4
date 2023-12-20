@@ -57,21 +57,18 @@ class _AvatarGroupWidgetState extends State<AvatarGroupWidget> {
           width: widget.size,
           height: widget.size,
           left: calculateOverlay(widget.max!),
-          child: Hero(
-            tag: "profile name",
-            child: Container(
-                width: widget.size,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
+          child: Container(
+              width: widget.size,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
+              ),
+              child: Center(
+                child: Text(
+                  (avatarsLength! - maxCount!).toString(),
+                  style: TextStyle(color:Helper.textColor700, fontSize: 12.sp, fontWeight: FontWeight.w500),
                 ),
-                child: Center(
-                  child: Text(
-                    (avatarsLength! - maxCount!).toString(),
-                    style: TextStyle(color:Helper.textColor700, fontSize: 12.sp, fontWeight: FontWeight.w500),
-                  ),
-                )),
-          ),
+              )),
         ),
       );
     }

@@ -28,7 +28,7 @@ class _ProjectCardState extends State<ProjectCard> {
           "projectName": widget.project.name!,
           "projectImages": widget.project.images,
           "projectLocation": widget.project.location.name,
-          // "projectUsders": widget.project.users
+          "projectUsers": widget.project.users
         });
       },
       child: Hero(
