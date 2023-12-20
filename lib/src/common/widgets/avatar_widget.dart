@@ -57,22 +57,19 @@ class _AvatarWidgetState extends State<AvatarWidget> {
                 );
               },
             )
-          : Hero(
-              tag: "profile name",
-              child: Container(
-                  width: widget.size,
-                  height: widget.size,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: _getColor(widget.backgroundColor),
-                  ),
-                  child: Center(
-                    child: Text(
-                      _getNameInitials(widget.name),
-                      style: TextStyle(color: Colors.white, fontSize: 14.sp),
-                    ),
-                  )),
-            ),
+          : Container(
+              width: widget.size,
+              height: widget.size,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: _getColor(widget.backgroundColor),
+              ),
+              child: Center(
+                child: Text(
+                  _getNameInitials(widget.name),
+                  style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                ),
+              )),
     );
   }
 }
