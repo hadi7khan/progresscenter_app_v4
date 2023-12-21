@@ -31,6 +31,7 @@ _$_DroneFootageModel _$$_DroneFootageModelFromJson(Map<String, dynamic> json) =>
       path: json['path'] as String?,
       status: json['status'] as String?,
       user: json['user'] as String?,
+      shareUrl: json['shareUrl'] as String?,
     );
 
 Map<String, dynamic> _$$_DroneFootageModelToJson(
@@ -49,6 +50,7 @@ Map<String, dynamic> _$$_DroneFootageModelToJson(
       'path': instance.path,
       'status': instance.status,
       'user': instance.user,
+      'shareUrl': instance.shareUrl,
     };
 
 _$_Details _$$_DetailsFromJson(Map<String, dynamic> json) => _$_Details(
