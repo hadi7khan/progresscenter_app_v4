@@ -183,21 +183,28 @@ class _ProjectDetailsScreenState
                         left: 20,
                         child: BlurryContainer(
                             height: 30,
-                            padding: EdgeInsets.only(
-                                top: 3.h, bottom: 3.h, left: 6.w, right: 0),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 3.h, horizontal: 3.w),
                             blur: 3,
-                            borderRadius: BorderRadius.circular(30.r),
+                            borderRadius: BorderRadius.circular(20.r),
                             color: Colors.white,
                             child: InkWell(
                                 onTap: () {
                                   context.pop();
                                 },
-                                child: Icon(Icons.arrow_back_ios,
-                                    color: Helper.iconColor, size: 24.0,),),),
+                                child: Transform.rotate(
+                                  angle: 180 * (3.1415926535 / 180),
+                                  child: SvgPicture.asset(
+                                    'assets/images/chevron-right.svg',
+                                    color: Helper.iconColor,
+                                    fit: BoxFit.cover
+                                    ),
+                                ),
+                            ),),
                       ),
                       Positioned(
                         top: 20,
-                        right: 100,
+                        right: 20,
                         child: BlurryContainer(
                             height: 30,
                             padding: EdgeInsets.symmetric(
@@ -213,11 +220,11 @@ class _ProjectDetailsScreenState
                               child: SvgPicture.asset(
                                   'assets/images/edit_square.svg',
                                   color: Helper.iconColor),
-                            )),
+                            ),),
                       ),
                       Positioned(
                         top: 20,
-                        right: 20,
+                        right: 80,
                         child: InkWell(
                           onTap: () {
                             showModalBottomSheet(
@@ -229,14 +236,13 @@ class _ProjectDetailsScreenState
                                     data: widget.projectUsers,
                                     showText: "Current members"));
                           },
-                          child: BlurryContainer(
+                          child: Container(
                             // width: 150,
-                            height: 30,
-                            padding: EdgeInsets.symmetric(
-                                vertical: 4.h, horizontal: 4.w),
-                            blur: 3,
-                            borderRadius: BorderRadius.circular(30.r),
-                            color: Colors.white.withOpacity(0.3),
+                            height: 35,
+                            padding: EdgeInsets.symmetric(horizontal: 4.w),
+                            // blur: 3,
+                            // borderRadius: BorderRadius.circular(30.r),
+                            // color: Colors.transparent,
                             child: AvatarGroupWidget(
                               avatars: (widget.projectUsers as List<User>)
                                   .map((user) {
@@ -246,7 +252,7 @@ class _ProjectDetailsScreenState
                                   'backgroundColor': user.preset!.color,
                                 };
                               }).toList(),
-                              size: 22.h,
+                              size: 30.h,
                               max: 3,
                             ),
                           ),
@@ -285,26 +291,29 @@ class _ProjectDetailsScreenState
               SizedBox(
                 height: 10.h,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.projectName,
-                    style: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Helper.baseBlack,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.projectName,
+                      style: TextStyle(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Helper.baseBlack,
+                      ),
                     ),
-                  ),
-                  Text(
-                    widget.projectLocation!,
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                      color: Helper.baseBlack.withOpacity(0.5),
+                    Text(
+                      widget.projectLocation!,
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                        color: Helper.baseBlack.withOpacity(0.5),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
