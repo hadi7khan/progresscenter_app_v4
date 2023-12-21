@@ -114,182 +114,185 @@ class _ProjectDetailsScreenState
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                margin: EdgeInsets.zero,
-                padding: EdgeInsets.zero,
-                height: MediaQuery.of(context).size.width * 0.7,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  // borderRadius: BorderRadius.circular(16.r),
-                ),
-                child: Stack(
-                    fit: StackFit.expand,
-                    alignment: Alignment.topCenter,
-                    children: [
-                      CarouselSlider.builder(
-                        itemCount: widget.projectImages.length,
-                        options: CarouselOptions(
-                            // height: 284.h,
-                            viewportFraction: 1,
-                            aspectRatio: 1 / 1,
-                            initialPage: 0,
-                            autoPlay: false,
-                            // enlargeCenterPage: true,
-                            autoPlayCurve: Curves.fastOutSlowIn,
-                            scrollDirection: Axis.horizontal,
-                            onPageChanged: (index, reason) {
-                              setState(() {
-                                _currentIndex = index;
-                              });
-                            }),
-                        itemBuilder: (BuildContext context, int itemIndex,
-                                int pageViewIndex) =>
-                            Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            // borderRadius: BorderRadius.circular(16.r),
-                            color: Color.fromRGBO(235, 235, 235, 1),
-                          ),
-                          child: widget.projectImages!.isNotEmpty
-                              ? ClipRRect(
-                                  // borderRadius: BorderRadius.circular(16.r),
-                                  child: Image.network(
-                                  widget.projectImages![itemIndex].url!,
-                                  fit: BoxFit.fill,
-                                  errorBuilder: (BuildContext context,
-                                      Object exception,
-                                      StackTrace? stackTrace) {
-                                    return ClipRRect(
-                                      child: Image.asset(
-                                        'assets/images/error_image.jpeg',
-                                        fit: BoxFit.fill,
-                                      ),
-                                    );
-                                  },
-                                ))
-                              : ClipRRect(
-                                  // borderRadius: BorderRadius.circular(16.r),
-                                  child: Image.asset(
-                                    'assets/images/error_image.jpeg',
+              Hero(
+                 tag: 'project_card',
+                child: Container(
+                  margin: EdgeInsets.zero,
+                  padding: EdgeInsets.zero,
+                  height: MediaQuery.of(context).size.width * 0.7,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    // borderRadius: BorderRadius.circular(16.r),
+                  ),
+                  child: Stack(
+                      fit: StackFit.expand,
+                      alignment: Alignment.topCenter,
+                      children: [
+                        CarouselSlider.builder(
+                          itemCount: widget.projectImages.length,
+                          options: CarouselOptions(
+                              // height: 284.h,
+                              viewportFraction: 1,
+                              aspectRatio: 1 / 1,
+                              initialPage: 0,
+                              autoPlay: false,
+                              // enlargeCenterPage: true,
+                              autoPlayCurve: Curves.fastOutSlowIn,
+                              scrollDirection: Axis.horizontal,
+                              onPageChanged: (index, reason) {
+                                setState(() {
+                                  _currentIndex = index;
+                                });
+                              }),
+                          itemBuilder: (BuildContext context, int itemIndex,
+                                  int pageViewIndex) =>
+                              Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              // borderRadius: BorderRadius.circular(16.r),
+                              color: Color.fromRGBO(235, 235, 235, 1),
+                            ),
+                            child: widget.projectImages!.isNotEmpty
+                                ? ClipRRect(
+                                    // borderRadius: BorderRadius.circular(16.r),
+                                    child: Image.network(
+                                    widget.projectImages![itemIndex].url!,
                                     fit: BoxFit.fill,
-                                    height: 264.h,
-                                  ),
-                                ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 20,
-                        left: 20,
-                        child: BlurryContainer(
-                            height: 30,
-                            padding: EdgeInsets.symmetric(
-                                vertical: 3.h, horizontal: 3.w),
-                            blur: 3,
-                            borderRadius: BorderRadius.circular(20.r),
-                            color: Colors.white,
-                            child: InkWell(
-                                onTap: () {
-                                  context.pop();
-                                },
-                                child: Transform.rotate(
-                                  angle: 180 * (3.1415926535 / 180),
-                                  child: SvgPicture.asset(
-                                    'assets/images/chevron-right.svg',
-                                    color: Helper.iconColor,
-                                    fit: BoxFit.cover
+                                    errorBuilder: (BuildContext context,
+                                        Object exception,
+                                        StackTrace? stackTrace) {
+                                      return ClipRRect(
+                                        child: Image.asset(
+                                          'assets/images/error_image.jpeg',
+                                          fit: BoxFit.fill,
+                                        ),
+                                      );
+                                    },
+                                  ))
+                                : ClipRRect(
+                                    // borderRadius: BorderRadius.circular(16.r),
+                                    child: Image.asset(
+                                      'assets/images/error_image.jpeg',
+                                      fit: BoxFit.fill,
+                                      height: 264.h,
                                     ),
-                                ),
-                            ),),
-                      ),
-                      Positioned(
-                        top: 20,
-                        right: 20,
-                        child: BlurryContainer(
-                            height: 30,
-                            padding: EdgeInsets.symmetric(
-                                vertical: 6.h, horizontal: 6.w),
-                            blur: 3,
-                            borderRadius: BorderRadius.circular(20.r),
-                            color: Colors.white,
-                            child: InkWell(
-                              onTap: () {
-                                context.push('/editproject',
-                                    extra: projectByIdData.value);
-                              },
-                              child: SvgPicture.asset(
-                                  'assets/images/edit_square.svg',
-                                  color: Helper.iconColor),
-                            ),),
-                      ),
-                      Positioned(
-                        top: 20,
-                        right: 80,
-                        child: InkWell(
-                          onTap: () {
-                            showModalBottomSheet(
-                                useRootNavigator: true,
-                                isScrollControlled: true,
-                                context: context,
-                                backgroundColor: Colors.transparent,
-                                builder: (context) => ViewedByWidget(
-                                    data: widget.projectUsers,
-                                    showText: "Current members"));
-                          },
-                          child: Container(
-                            // width: 150,
-                            height: 35,
-                            padding: EdgeInsets.symmetric(horizontal: 4.w),
-                            // blur: 3,
-                            // borderRadius: BorderRadius.circular(30.r),
-                            // color: Colors.transparent,
-                            child: AvatarGroupWidget(
-                              avatars: (widget.projectUsers as List<User>)
-                                  .map((user) {
-                                return {
-                                  'dpUrl': user.dp != null ? user.dpUrl : "",
-                                  'name': user.name,
-                                  'backgroundColor': user.preset!.color,
-                                };
-                              }).toList(),
-                              size: 30.h,
-                              max: 3,
+                                  ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 20,
+                          left: 20,
+                          child: BlurryContainer(
+                              height: 30,
+                              padding: EdgeInsets.only(
+                                  top: 3.h, bottom: 3.h, left: 2.w, right: 3.w),
+                              blur: 3,
+                              borderRadius: BorderRadius.circular(20.r),
+                              color: Colors.white,
+                              child: InkWell(
+                                  onTap: () {
+                                    context.pop();
+                                  },
+                                  child: Transform.rotate(
+                                    angle: 180 * (3.1415926535 / 180),
+                                    child: SvgPicture.asset(
+                                      'assets/images/chevron-right.svg',
+                                      color: Helper.iconColor,
+                                      fit: BoxFit.cover
+                                      ),
+                                  ),
+                              ),),
+                        ),
+                        Positioned(
+                          top: 20,
+                          right: 20,
+                          child: BlurryContainer(
+                              height: 30,
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 6.h, horizontal: 6.w),
+                              blur: 3,
+                              borderRadius: BorderRadius.circular(20.r),
+                              color: Colors.white,
+                              child: InkWell(
+                                onTap: () {
+                                  context.push('/editproject',
+                                      extra: projectByIdData.value);
+                                },
+                                child: SvgPicture.asset(
+                                    'assets/images/edit_square.svg',
+                                    color: Helper.iconColor),
+                              ),),
+                        ),
+                        Positioned(
+                          top: 20,
+                          right: 60,
+                          child: InkWell(
+                            onTap: () {
+                              showModalBottomSheet(
+                                  useRootNavigator: true,
+                                  isScrollControlled: true,
+                                  context: context,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (context) => ViewedByWidget(
+                                      data: widget.projectUsers,
+                                      showText: "Current members"));
+                            },
+                            child: Container(
+                              // width: 150,
+                              height: 35,
+                              padding: EdgeInsets.symmetric(horizontal: 4.w),
+                              // blur: 3,
+                              // borderRadius: BorderRadius.circular(30.r),
+                              // color: Colors.transparent,
+                              child: AvatarGroupWidget(
+                                avatars: (widget.projectUsers as List<User>)
+                                    .map((user) {
+                                  return {
+                                    'dpUrl': user.dp != null ? user.dpUrl : "",
+                                    'name': user.name,
+                                    'backgroundColor': user.preset!.color,
+                                  };
+                                }).toList(),
+                                size: 30.h,
+                                max: 3,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      // data[index].images!.isNotEmpty
-                      //     ?
-                      Positioned(
-                        bottom: 10.h,
-                        child: Padding(
-                            padding: const EdgeInsets.only(bottom: 12),
-                            child: widget.projectImages!.length > 0
-                                ? DotsIndicator(
-                                    dotsCount: widget.projectImages!.length,
-                                    position: _currentIndex != null
-                                        ? _currentIndex!
-                                        : 0,
-                                    decorator: DotsDecorator(
-                                        color: Colors.white.withOpacity(0.6),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(6.r)),
-                                        activeColor: Colors.white,
-                                        activeShape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8.r)),
-                                        size: Size(6, 6),
-                                        activeSize: Size(8, 8),
-                                        spacing: EdgeInsets.only(right: 6.w)),
-                                  )
-                                : SizedBox()),
-                      ),
-                      // : SizedBox(),
-                    ]),
+                        // data[index].images!.isNotEmpty
+                        //     ?
+                        Positioned(
+                          bottom: 10.h,
+                          child: Padding(
+                              padding: const EdgeInsets.only(bottom: 12),
+                              child: widget.projectImages!.length > 0
+                                  ? DotsIndicator(
+                                      dotsCount: widget.projectImages!.length,
+                                      position: _currentIndex != null
+                                          ? _currentIndex!
+                                          : 0,
+                                      decorator: DotsDecorator(
+                                          color: Colors.white.withOpacity(0.6),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(6.r)),
+                                          activeColor: Colors.white,
+                                          activeShape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.r)),
+                                          size: Size(6, 6),
+                                          activeSize: Size(8, 8),
+                                          spacing: EdgeInsets.only(right: 6.w)),
+                                    )
+                                  : SizedBox()),
+                        ),
+                        // : SizedBox(),
+                      ]),
+                ),
               ),
               SizedBox(
-                height: 10.h,
+                height: 20.h,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -352,7 +355,7 @@ class _ProjectDetailsScreenState
                     // for (var link in links) {
                     //   var identifier = link['identifier'];
                     //   var name = link['content'];
-
+          
                     //   if (assetMap.containsKey(name)) {
                     //     filteredLinks.add(link);
                     //   }
@@ -362,15 +365,15 @@ class _ProjectDetailsScreenState
                         .where(
                             (link) => assetMap.containsKey(link['identifier']))
                         .toList();
-
+          
                     // for (var link in links) {
                     //   if (assetMap.containsKey(link['identifier'])) {
                     //     filteredLinks.add(link);
                     //   }
                     // }
-
+          
                     print("filtered links" + filteredLinks.toString());
-
+          
                     return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

@@ -5,8 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:pod_player/pod_player.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:vimeo_player_flutter/vimeo_player_flutter.dart';
-import 'package:vimeo_video_player_custom/vimeo_video_player_custom.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+// import 'package:vimeoplayer_trinity/vimeoplayer_trinity.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class DroneListViewWidget extends StatefulWidget {
@@ -45,28 +44,38 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
     );
 
     controller = PodPlayerController(
-      playVideoFrom: PlayVideoFrom.network(
-        widget.data.url,
-      ),
-      podPlayerConfig: const PodPlayerConfig(
-      autoPlay: true,
-      isLooping: false,
-      videoQualityPriority: [720, 360]
-    )
-    )..initialise();
+        playVideoFrom: PlayVideoFrom.network(
+          widget.data.url,
+        ),
+        podPlayerConfig: const PodPlayerConfig(
+            autoPlay: true, isLooping: false, videoQualityPriority: [720, 360]))
+      ..initialise();
   }
 
   String extractVimeoVideoId(String videoUrl) {
-    // Example URL: https://vimeo.com/VIDEO_ID
-    RegExp regExp = RegExp(r'vimeo\.com\/(\d+)');
+    Uri uri = Uri.parse(videoUrl);
+    print("videoUrl-----" + videoUrl.toString());
+    String videoId = uri.queryParameters['video_id'] ?? '';
+
+    if (videoId.isNotEmpty) {
+      return videoId;
+    }
+
+    RegExp regExp = RegExp(r'player\.vimeo\.com\/video\/(\d+)');
     Match? match = regExp.firstMatch(videoUrl);
-    return match?.group(1) ?? '';
+
+    if (match != null) {
+      return match.group(1) ?? '';
+    } else {
+      return '';
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     if (widget.data.details.provider == "VIMEO") {
       String videoId = extractVimeoVideoId(widget.data.url);
+      print("videoId-----" + videoId.toString());
     }
     return Container(
       margin: EdgeInsets.zero,
@@ -97,19 +106,22 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
                             ? YoutubePlayer(
                                 controller: _youtubeController!,
                               )
-                            : PodVideoPlayer(
-                                controller: controller!,
-                                // videoThumbnail: const DecorationImage(
-                                //   /// load from asset: AssetImage('asset_path')
-                                //   image: NetworkImage(
-                                //     'https://images.unsplash.com/photo-1569317002804-ab77bcf1bce4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dW5zcGxhc2h8ZW58MHx8MHx8&w=1000&q=80',
-                                //   ),
-                                //   fit: BoxFit.cover,
-                                // ),
-                              ),
-                    // VimeoVideoPlayer(
-                    //     url: widget.data.url,
-                    //   ),
+                            :
+                            // PodVideoPlayer(
+                            //     controller: controller!,
+                            // videoThumbnail: const DecorationImage(
+                            //   /// load from asset: AssetImage('asset_path')
+                            //   image: NetworkImage(
+                            //     'https://images.unsplash.com/photo-1569317002804-ab77bcf1bce4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dW5zcGxhc2h8ZW58MHx8MHx8&w=1000&q=80',
+                            //   ),
+                            //   fit: BoxFit.cover,
+                            // ),
+                            // ),
+                            // VimeoVideoPlayer(
+                            //     url: 'https://vimeo.com/$videoId',
+                            //     autoPlay: true
+                            //   ),
+                    VimeoPlayer(videoId: extractVimeoVideoId(widget.data.url)),
                   ),
                   Positioned(
                       top: 83,
