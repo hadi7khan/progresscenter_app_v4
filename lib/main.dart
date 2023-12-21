@@ -17,12 +17,12 @@ import 'src/core/utils/helper.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setup();
-    SystemChrome.setSystemUIOverlayStyle(
-  SystemUiOverlayStyle(systemNavigationBarColor: Colors.white,));
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    systemNavigationBarColor: Colors.white,
+  ));
 
-
-  // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-  //     overlays: SystemUiOverlay.values);
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+      overlays: SystemUiOverlay.values);
 
   runApp(const ProviderScope(child: const MyApp()));
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:vimeo_player_flutter/vimeo_player_flutter.dart';
@@ -176,7 +177,7 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
                     ),
                     TextButton(
                         onPressed: () {
-                          // context.push('/details', extra: {"projectId": "projectId", "projectName": widget.data.name!});
+                          context.push('/fullViewDrone', extra: {"projectId": widget.data.project.id, "projectName": widget.data.name!, "videoUrl": widget.data.url});
                         },
                         style: ButtonStyle(
                             shape: MaterialStateProperty.all(

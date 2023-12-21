@@ -19,6 +19,7 @@ import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/docs_sc
 import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/view/add_video_file_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/view/add_vimeo_video_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/view/add_youtube_video_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/view/drone_footage_fullview.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/create_livelapse_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/livelapse_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/timeline_details_screen.dart';
@@ -524,6 +525,23 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 key: state.pageKey,
                 projectId: args['projectId'],
                 projectName: args['projectName']),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/fullViewDrone',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: fullViewDroneRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: DroneFootageFullviewScreen(
+                key: state.pageKey,
+                projectId: args['projectId'],
+                projectName: args['projectName'],
+                videoUrl: args['videoUrl']
+                ),
           );
         },
       ),

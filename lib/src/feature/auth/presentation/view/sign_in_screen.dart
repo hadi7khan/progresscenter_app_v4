@@ -58,13 +58,17 @@ class _SignInScreenState extends State<SignInScreen> {
                     text: TextSpan(
                       // Note: Styles for TextSpans must be explicitly defined.
                       // Child text spans will inherit styles from parent
-                      style: TextStyle(
+                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
                         fontSize: 32.sp,
                         fontWeight: FontWeight.w600,
                         color: Helper.baseBlack,
                       ),
                       children: <TextSpan>[
-                        TextSpan(text: 'Sign in to \nget started'),
+                        TextSpan(text: 'Sign in to \nget started', style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                        fontSize: 32.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Helper.baseBlack,
+                      ),),
                         // TextSpan(
                         //     text: 'Center',
                         //     style: TextStyle(color: Helper.primary)),
@@ -76,7 +80,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   Text(
                     "Sign in to start managing your projects and job sites.",
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
                         color: Helper.color128,
                         fontWeight: FontWeight.w400,
                         fontSize: 16.sp),
@@ -86,7 +90,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   Text(
                     "Email",
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
                         color: Helper.textColor700,
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w500),
@@ -116,18 +120,18 @@ class _SignInScreenState extends State<SignInScreen> {
                       return null;
                     },
                     textInputAction: TextInputAction.done,
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
                     ),
                     textCapitalization: TextCapitalization.none,
-                    keyboardType: TextInputType.name,
+                    keyboardType: TextInputType.emailAddress,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 10.h, horizontal: 14.w),
                       hintText: "Email or username",
-                      hintStyle: TextStyle(
+                      hintStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
                         color: Helper.textColor500,
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w400,
@@ -176,7 +180,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     child: ElevatedButton(
                       child: Text(
                         "Continue",
-                        style: TextStyle(
+                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
                             color: Colors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.w500),

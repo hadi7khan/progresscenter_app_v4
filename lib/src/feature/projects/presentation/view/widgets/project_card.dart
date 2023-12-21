@@ -224,7 +224,7 @@ class _ProjectCardState extends State<ProjectCard> {
               children: [
                 Text(
                   widget.project.name!,
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w500,
                     color: Helper.baseBlack,
@@ -235,7 +235,7 @@ class _ProjectCardState extends State<ProjectCard> {
                 // ),
                 Text(
                   widget.project.location!.name!,
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w400,
                     color: Helper.baseBlack.withOpacity(0.5),
