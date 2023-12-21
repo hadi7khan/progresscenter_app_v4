@@ -53,6 +53,7 @@ class _Date2WidgetState extends State<Date2Widget> {
               Text(
                 'Split 2 Image Date',
                 style: TextStyle(
+                    letterSpacing: -0.3,
                     color: Helper.baseBlack,
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w500),
@@ -82,6 +83,7 @@ class _Date2WidgetState extends State<Date2Widget> {
               child: Text(
                 "Done",
                 style: TextStyle(
+                    letterSpacing: -0.3,
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w500),

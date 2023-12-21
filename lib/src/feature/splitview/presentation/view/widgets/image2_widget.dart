@@ -50,6 +50,7 @@ class _Images2WidgetState extends State<Images2Widget> {
                 Text(
                   'Select Image 1',
                   style: TextStyle(
+                    letterSpacing: -0.3,
                       color: Helper.baseBlack,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500),
@@ -144,6 +145,7 @@ class _Images2WidgetState extends State<Images2Widget> {
                               Text(
                                 formattedTime,
                                 style: TextStyle(
+                    letterSpacing: -0.3,
                                     color: Helper.textColor700,
                                     fontSize: 8.sp,
                                     fontWeight: FontWeight.w500),

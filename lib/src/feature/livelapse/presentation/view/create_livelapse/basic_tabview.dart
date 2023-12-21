@@ -135,6 +135,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                     Text(
                       "Select Duration",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.textColor700,
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500),
@@ -156,6 +157,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                           title: Text(
                             _showDuration,
                             style: TextStyle(
+                    letterSpacing: -0.3,
                                 color: Helper.textColor500,
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w500),
@@ -172,6 +174,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                     Text(
                       "Select Quality",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.textColor700,
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500),
@@ -193,6 +196,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                           title: Text(
                             _showQuality,
                             style: TextStyle(
+                    letterSpacing: -0.3,
                                 color: Helper.textColor500,
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w500),
@@ -223,6 +227,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                       title: Text(
                         "Add timestamp",
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.textColor700,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500),
@@ -230,6 +235,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                       subtitle: Text(
                         "Time and Date will be visible",
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.textColor500,
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w500),
@@ -253,6 +259,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                       title: Text(
                         "Blend and stability",
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.textColor700,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500),
@@ -260,6 +267,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                       subtitle: Text(
                         "AI Powered technology",
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.textColor500,
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w500),
@@ -283,6 +291,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                       title: Text(
                         "Exlude dusty images",
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.textColor700,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500),
@@ -290,6 +299,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                       subtitle: Text(
                         "AI Powered technology",
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.textColor500,
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w500),
@@ -322,6 +332,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                     : Text(
                         "Create LiveLapse",
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Colors.white,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500),
@@ -406,6 +417,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                 Text(
                   'Select Duration',
                   style: TextStyle(
+                    letterSpacing: -0.3,
                       color: Helper.baseBlack,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500),
@@ -435,6 +447,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                     child: Text(
                       '1 Day',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -459,6 +472,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                     child: Text(
                       '5 Days',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -483,6 +497,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                     child: Text(
                       '15 Days',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -507,6 +522,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                     child: Text(
                       '30 Days',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -531,6 +547,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                     child: Text(
                       '3 Months',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -555,6 +572,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                     child: Text(
                       '6 Months',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -579,6 +597,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                     child: Text(
                       '1 Year',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -593,6 +612,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                     child: Text(
                       "Cancel",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.w500),
@@ -672,6 +692,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                 Text(
                   'Select Quality',
                   style: TextStyle(
+                    letterSpacing: -0.3,
                       color: Helper.baseBlack,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500),
@@ -701,6 +722,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                     child: Text(
                       'Standard definition - 1280x720',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -725,6 +747,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                     child: Text(
                       'High Definition - 1920x1080',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -739,6 +762,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                     child: Text(
                       "Cancel",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.w500),
@@ -796,6 +820,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                   Text(
                     'Generating LiveLapse',
                     style: TextStyle(
+                    letterSpacing: -0.3,
                         color: Helper.baseBlack,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500),
@@ -828,6 +853,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                     title: Text(
                       "Camera 2 - The Bridges.mp4",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.textColor700,
                           fontSize: 14,
                           fontWeight: FontWeight.w500),
@@ -839,6 +865,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                           Text(
                             "Fetching images",
                             style: TextStyle(
+                    letterSpacing: -0.3,
                                 color: Helper.textColor600,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400),
@@ -864,6 +891,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                                 Text(
                                   "${(_progressBar).toInt()}%",
                                   style: TextStyle(
+                    letterSpacing: -0.3,
                                       color: Helper.textColor700,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500),
@@ -884,6 +912,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                       child: Text(
                         "Close",
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Colors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.w500),

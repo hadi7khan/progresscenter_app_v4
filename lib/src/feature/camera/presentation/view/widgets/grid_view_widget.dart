@@ -79,6 +79,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                           widget.data.name!,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
+                    letterSpacing: -0.3,
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w500,
                             color: Helper.baseBlack,
@@ -92,6 +93,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                               showDate(
                                   widget.data.installationDate, 'dd MMM yyyy'),
                           style: TextStyle(
+                    letterSpacing: -0.3,
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
                             color: Helper.baseBlack.withOpacity(0.5),

@@ -73,6 +73,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
               title: Text(
                 "Add new user",
                 style: TextStyle(
+                    letterSpacing: -0.3,
                     color: Helper.baseBlack,
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w500),
@@ -104,6 +105,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                         },
                         textInputAction: TextInputAction.next,
                         style: TextStyle(
+                    letterSpacing: -0.3,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w400,
                         ),
@@ -115,6 +117,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                               vertical: 10.h, horizontal: 14.w),
                           hintText: "Enter name",
                           hintStyle: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.textColor500,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
@@ -157,6 +160,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                         },
                         textInputAction: TextInputAction.next,
                         style: TextStyle(
+                    letterSpacing: -0.3,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w400,
                         ),
@@ -168,6 +172,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                               vertical: 10.h, horizontal: 14.w),
                           hintText: "Enter email",
                           hintStyle: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.textColor500,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
@@ -209,6 +214,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                         },
                         textInputAction: TextInputAction.next,
                         style: TextStyle(
+                    letterSpacing: -0.3,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w400,
                         ),
@@ -220,6 +226,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                               vertical: 10.h, horizontal: 14.w),
                           hintText: "Enter username",
                           hintStyle: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.textColor500,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
@@ -268,6 +275,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                             title: Text(
                               _showDate != null ? _showDate! : "select date",
                               style: TextStyle(
+                    letterSpacing: -0.3,
                                   color: Helper.textColor500,
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w400),
@@ -337,6 +345,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                         // },
                         textInputAction: TextInputAction.done,
                         style: TextStyle(
+                    letterSpacing: -0.3,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w400,
                         ),
@@ -348,6 +357,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                               vertical: 10.h, horizontal: 14.w),
                           hintText: "Enter designation",
                           hintStyle: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.textColor500,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
@@ -384,6 +394,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                           // labelText: 'Training',
                           hintText: "Select roles",
                           hintStyle: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.textColor500,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
@@ -433,7 +444,8 @@ class _AddUserScreenState extends State<AddUserScreen> {
                             value: e,
                             child: Text(
                               e,
-                              style: const TextStyle(color: Colors.black),
+                              style: const TextStyle(
+                    letterSpacing: -0.3,color: Colors.black),
                             ),
                             onTap: () {},
                           );
@@ -473,6 +485,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                     child: Text(
                       "Cancel",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.neutral500,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -510,6 +523,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                     child: Text(
                       "Next",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Colors.white,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -550,6 +564,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                     Text(
                       'Select Date',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w500),
@@ -583,6 +598,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                     child: Text(
                       "Done",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.w500),

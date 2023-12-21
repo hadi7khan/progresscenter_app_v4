@@ -74,6 +74,7 @@ class _AddSiteGalleryScreenState
               title: Text(
                 "Add Site Gallery",
                 style: TextStyle(
+                    letterSpacing: -0.3,
                     color: Helper.baseBlack,
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w500),
@@ -92,6 +93,7 @@ class _AddSiteGalleryScreenState
                   Text(
                     "You can add upto 25 files (photos or videos) at a time from here",
                     style: TextStyle(
+                    letterSpacing: -0.3,
                         fontWeight: FontWeight.w400,
                         fontSize: 16.sp,
                         color: Helper.textColor600),
@@ -144,6 +146,7 @@ class _AddSiteGalleryScreenState
                                         }
                                       },
                                     style: TextStyle(
+                    letterSpacing: -0.3,
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w600,
                                         color: Helper.primary)),
@@ -154,6 +157,7 @@ class _AddSiteGalleryScreenState
                         Text(
                           "Browse JPG/PNG/MP4",
                           style: TextStyle(
+                    letterSpacing: -0.3,
                               fontWeight: FontWeight.w400,
                               fontSize: 12.sp,
                               color: Helper.textColor600),
@@ -209,6 +213,7 @@ class _AddSiteGalleryScreenState
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
+                    letterSpacing: -0.3,
                                           color: Helper.baseBlack,
                                           fontSize: 16.sp,
                                           fontWeight: FontWeight.w600)),
@@ -217,6 +222,7 @@ class _AddSiteGalleryScreenState
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
+                    letterSpacing: -0.3,
                                           color: Helper.textColor400,
                                           fontSize: 16.sp,
                                           fontWeight: FontWeight.w600)),
@@ -307,6 +313,7 @@ class _AddSiteGalleryScreenState
               child: Text(
                 "Upload",
                 style: TextStyle(
+                    letterSpacing: -0.3,
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w500),

@@ -59,6 +59,7 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                 title: Text(
                   widget.projectName,
                   style: TextStyle(
+                    letterSpacing: -0.3,
                       color: Helper.baseBlack,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500),
@@ -114,6 +115,7 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                               Text(
                                 "No Timelapse footage",
                                 style: TextStyle(
+                    letterSpacing: -0.3,
                                     color: Helper.textColor900,
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w600),
@@ -147,6 +149,7 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                           //       Text(
                           //         widget.projectName,
                           //         style: TextStyle(
+                    // letterSpacing: -0.3,
                           //             color: Helper.baseBlack,
                           //             fontSize: 18.sp,
                           //             fontWeight: FontWeight.w500),
@@ -231,7 +234,8 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                   },
                   error: (err, _) {
                     return const Text("Failed to load Timelapse",
-                        style: TextStyle(color: Helper.errorColor));
+                        style: TextStyle(
+                    letterSpacing: -0.3,color: Helper.errorColor));
                   },
                   loading: () => Column(
                     children: [

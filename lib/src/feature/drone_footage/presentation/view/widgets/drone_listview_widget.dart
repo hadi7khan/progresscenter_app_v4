@@ -155,6 +155,7 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
                             widget.data.name!,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
+                    letterSpacing: -0.3,
                               fontSize: 18.sp,
                               fontWeight: FontWeight.w500,
                               color: Helper.baseBlack,
@@ -168,6 +169,7 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
                           showDate(widget.data.createdAt.toIso8601String(),
                               'dd MMM yyyy'),
                           style: TextStyle(
+                    letterSpacing: -0.3,
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400,
                             color: Helper.baseBlack.withOpacity(0.5),

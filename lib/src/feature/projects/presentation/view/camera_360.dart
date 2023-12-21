@@ -42,6 +42,7 @@ class _Camera360ScreenState extends State<Camera360Screen> {
               title: Text(
                 widget.projectName,
                 style: TextStyle(
+                    letterSpacing: -0.3,
                     color: Helper.baseBlack,
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w500),
@@ -87,6 +88,7 @@ class _Camera360ScreenState extends State<Camera360Screen> {
                 Text(
                   "No 360 Cameras yet",
                   style: TextStyle(
+                    letterSpacing: -0.3,
                       color: Helper.textColor900,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w600),

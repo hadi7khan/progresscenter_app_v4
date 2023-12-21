@@ -71,7 +71,8 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                   ),
                   Text(
                     "Verify your email",
-                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                    style: TextStyle(
+                    letterSpacing: -0.3,
                         color: Helper.baseBlack,
                         fontWeight: FontWeight.w600,
                         fontSize: 28.sp),
@@ -83,7 +84,8 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                     text: TextSpan(
                       // Note: Styles for TextSpans must be explicitly defined.
                       // Child text spans will inherit styles from parent
-                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                      style: TextStyle(
+                    letterSpacing: -0.3,
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w400,
                         color: Helper.color128,
@@ -95,7 +97,8 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                         ),
                         TextSpan(
                             text: 'mjonmark29@gmail.com',
-                            style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                            style: TextStyle(
+                    letterSpacing: -0.3,
                               color: Helper.baseBlack,
                             )),
                       ],
@@ -106,7 +109,8 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                   ),
                   Text(
                     "Enter code",
-                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                    style: TextStyle(
+                    letterSpacing: -0.3,
                         color: Helper.textColor700,
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w500),
@@ -134,7 +138,8 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                       });
                     },
                     textInputAction: TextInputAction.done,
-                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                    style: TextStyle(
+                    letterSpacing: -0.3,
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                     ),
@@ -197,7 +202,8 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                       text: TextSpan(
                         // Note: Styles for TextSpans must be explicitly defined.
                         // Child text spans will inherit styles from parent
-                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                        style: TextStyle(
+                    letterSpacing: -0.3,
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w400,
                           color: Helper.textColor500,
@@ -208,7 +214,8 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                           ),
                           TextSpan(
                               text: 'Resend',
-                              style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                              style: TextStyle(
+                    letterSpacing: -0.3,
                                 color: Helper.primary,
                                 fontWeight: FontWeight.w600,
                               )),
@@ -223,7 +230,8 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                     child: ElevatedButton(
                       child: Text(
                         "Verify your account",
-                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                        style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Colors.white,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500),

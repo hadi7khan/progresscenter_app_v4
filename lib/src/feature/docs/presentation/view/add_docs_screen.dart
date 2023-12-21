@@ -143,6 +143,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
               title: Text(
                 "Add document",
                 style: TextStyle(
+                    letterSpacing: -0.3,
                     color: Helper.baseBlack,
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w500),
@@ -191,6 +192,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                                         recognizer: TapGestureRecognizer()
                                           ..onTap = _pickDoc,
                                         style: TextStyle(
+                    letterSpacing: -0.3,
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.w600,
                                             color: Helper.primary)),
@@ -201,6 +203,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                             Text(
                               "PDF, PNG or JPG (max size 5 MB)",
                               style: TextStyle(
+                    letterSpacing: -0.3,
                                   fontWeight: FontWeight.w400,
                                   fontSize: 12.sp,
                                   color: Helper.textColor600),
@@ -230,6 +233,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                                       child: Text(fileName!,
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
+                    letterSpacing: -0.3,
                                               color: Helper.baseBlack,
                                               fontSize: 16.sp,
                                               fontWeight: FontWeight.w600)),
@@ -237,6 +241,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                                     Text(fileSizeString!,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
+                    letterSpacing: -0.3,
                                             color: Helper.textColor400,
                                             fontSize: 16.sp,
                                             fontWeight: FontWeight.w600)),
@@ -270,6 +275,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                           },
                           textInputAction: TextInputAction.done,
                           style: TextStyle(
+                    letterSpacing: -0.3,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
                           ),
@@ -281,6 +287,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                                 vertical: 10.h, horizontal: 14.w),
                             hintText: "Enter name",
                             hintStyle: TextStyle(
+                    letterSpacing: -0.3,
                               color: Helper.textColor500,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w400,
@@ -318,6 +325,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                             // labelText: 'Training',
                             hintText: "Select a category",
                             hintStyle: TextStyle(
+                    letterSpacing: -0.3,
                               color: Helper.textColor500,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w400,
@@ -371,7 +379,8 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                               value: e,
                               child: Text(
                                 e["name"],
-                                style: const TextStyle(color: Colors.black),
+                                style: const TextStyle(
+                    letterSpacing: -0.3,color: Colors.black),
                               ),
                               onTap: () {},
                             );
@@ -401,6 +410,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                                     vertical: 10.h, horizontal: 14.w),
                                 hintText: "Search or add here",
                                 hintStyle: TextStyle(
+                    letterSpacing: -0.3,
                                   color: Helper.textColor500,
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w400,
@@ -472,6 +482,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                                                     _getNameInitials(
                                                         user.name!),
                                                     style: TextStyle(
+                    letterSpacing: -0.3,
                                                         color: Colors.white)),
                                               )),
                                         ),
@@ -479,6 +490,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                                 title: Text(
                                   user.name!,
                                   style: TextStyle(
+                    letterSpacing: -0.3,
                                       color: Helper.textColor700,
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w600),
@@ -486,6 +498,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                                 subtitle: Text(
                                   user.email!,
                                   style: TextStyle(
+                    letterSpacing: -0.3,
                                       color: Helper.textColor600,
                                       fontSize: 12.sp,
                                       fontWeight: FontWeight.w400),
@@ -516,6 +529,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                           return Chip(
                             label: Text(suggestion),
                             labelStyle: TextStyle(
+                    letterSpacing: -0.3,
                                 color: Helper.textColor500,
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w500),
@@ -553,6 +567,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
               child: Text(
                 "Upload",
                 style: TextStyle(
+                    letterSpacing: -0.3,
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w500),

@@ -26,6 +26,7 @@ class ProcessMention extends StatelessWidget {
       textSpans.add(TextSpan(
         text: segments[i],
         style: TextStyle(
+                    letterSpacing: -0.3,
             color: Helper.textColor600,
             fontSize: 14.sp,
             fontWeight: FontWeight.w400),
@@ -44,6 +45,7 @@ class ProcessMention extends StatelessWidget {
           TextSpan(
             text: '@$username',
             style: TextStyle(
+                    letterSpacing: -0.3,
                 color: Helper.primary,
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w400),

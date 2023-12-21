@@ -65,6 +65,7 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
                 title: Text(
                   widget.projectName,
                   style: TextStyle(
+                    letterSpacing: -0.3,
                       color: Helper.baseBlack,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500),
@@ -115,6 +116,7 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
                         Text(
                           "No Drone footage",
                           style: TextStyle(
+                    letterSpacing: -0.3,
                               color: Helper.textColor900,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w600),
@@ -164,7 +166,8 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
               },
               error: (err, _) {
                 return const Text("Failed to load Drone Footages",
-                    style: TextStyle(color: Helper.errorColor));
+                    style: TextStyle(
+                    letterSpacing: -0.3,color: Helper.errorColor));
               },
               loading: () => Column(
                 children: [
@@ -203,6 +206,7 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
                 Text(
                   'Add Drone Footage',
                   style: TextStyle(
+                    letterSpacing: -0.3,
                       color: Helper.baseBlack,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500),

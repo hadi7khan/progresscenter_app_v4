@@ -30,6 +30,7 @@ class _CreateLivelapseScreenState extends State<CreateLivelapseScreen> {
             title: Text(
               "Create Livelapse",
               style: TextStyle(
+                    letterSpacing: -0.3,
                   color: Helper.baseBlack,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w500),
@@ -74,6 +75,7 @@ class _CreateLivelapseScreenState extends State<CreateLivelapseScreen> {
                             child: Text(
                               "Basic",
                               style: TextStyle(
+                    letterSpacing: -0.3,
                                   color: Helper.baseBlack,
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w500),
@@ -92,6 +94,7 @@ class _CreateLivelapseScreenState extends State<CreateLivelapseScreen> {
                             child: Text(
                               "Advanced",
                               style: TextStyle(
+                    letterSpacing: -0.3,
                                   color: Helper.baseBlack,
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w500),

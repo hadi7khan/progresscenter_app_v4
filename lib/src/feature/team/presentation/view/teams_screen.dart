@@ -92,6 +92,7 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                                           title: Text(
                                             team,
                                             style: TextStyle(
+                    letterSpacing: -0.3,
                                                 color: Helper.baseBlack,
                                                 fontSize: 14.sp,
                                                 fontWeight: FontWeight.w500),
@@ -126,6 +127,7 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                         Text(
                           "Team",
                           style: TextStyle(
+                    letterSpacing: -0.3,
                               color: Helper.textColor700,
                               fontSize: 36.sp,
                               fontWeight: FontWeight.w600),
@@ -139,7 +141,8 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
               },
               error: (err, _) {
                 return const Text("Failed to load teams",
-                    style: TextStyle(color: Helper.errorColor));
+                    style: TextStyle(
+                    letterSpacing: -0.3,color: Helper.errorColor));
               },
               loading: () => LoadingTeamList(),
             )),
@@ -171,6 +174,7 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                 Text(
                   'Create User',
                   style: TextStyle(
+                    letterSpacing: -0.3,
                       color: Helper.baseBlack,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500),
@@ -197,6 +201,7 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                     child: Text(
                       'Add new user',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -218,6 +223,7 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                     child: Text(
                       'Invite by email',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),

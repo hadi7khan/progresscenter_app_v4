@@ -111,6 +111,7 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                   title: Text(
                     "Add member",
                     style: TextStyle(
+                    letterSpacing: -0.3,
                         color: Helper.baseBlack,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500),
@@ -159,6 +160,7 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                     Text(
                       "Email",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.textColor700,
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500),
@@ -172,6 +174,7 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                               vertical: 10.h, horizontal: 14.w),
                           hintText: "Enter email address",
                           hintStyle: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.textColor500,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
@@ -257,6 +260,7 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                                           child: Text(
                                               _getNameInitials(user.name!),
                                               style: TextStyle(
+                    letterSpacing: -0.3,
                                                   color: Colors.white)),
                                         )),
                                   ),
@@ -264,6 +268,7 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                           title: Text(
                             user.name!,
                             style: TextStyle(
+                    letterSpacing: -0.3,
                                 color: Helper.textColor700,
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w600),
@@ -271,6 +276,7 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                           subtitle: Text(
                             user.email!,
                             style: TextStyle(
+                    letterSpacing: -0.3,
                                 color: Helper.textColor600,
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w400),
@@ -292,6 +298,7 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                     Text(
                       "Type",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.textColor700,
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500),
@@ -357,6 +364,7 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                         // labelText: 'Training',
                         hintText: "Select roles",
                         hintStyle: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.textColor500,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w400,
@@ -408,7 +416,8 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                           value: e,
                           child: Text(
                             e,
-                            style: const TextStyle(color: Colors.black),
+                            style: const TextStyle(
+                    letterSpacing: -0.3,color: Colors.black),
                           ),
                           onTap: () {},
                         );
@@ -418,6 +427,7 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                     Text(
                       "Team",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.textColor700,
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500),
@@ -439,6 +449,7 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                               vertical: 10.h, horizontal: 14.w),
                           hintText: "Search or add here",
                           hintStyle: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.textColor500,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
@@ -477,6 +488,7 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                             title: Text(
                               team.toString(),
                               style: TextStyle(
+                    letterSpacing: -0.3,
                                   color: Helper.textColor700,
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w600),
@@ -501,6 +513,7 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                         return Chip(
                           label: Text(suggestion),
                           labelStyle: TextStyle(
+                    letterSpacing: -0.3,
                               color: Helper.textColor500,
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w500),
@@ -528,6 +541,7 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                         child: Text(
                           "Continue",
                           style: TextStyle(
+                    letterSpacing: -0.3,
                               color: Colors.white,
                               fontSize: 16,
                               fontWeight: FontWeight.w500),
@@ -630,6 +644,7 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                       Text(
                         'Upload Media',
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.baseBlack,
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w500),
@@ -658,6 +673,7 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                           leading: Text(
                             'Admin',
                             style: TextStyle(
+                    letterSpacing: -0.3,
                                 color: Helper.baseBlack,
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w500),
@@ -684,6 +700,7 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                           leading: Text(
                             'Viewer',
                             style: TextStyle(
+                    letterSpacing: -0.3,
                                 color: Helper.baseBlack,
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w500),
@@ -710,6 +727,7 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                           leading: Text(
                             'Editor',
                             style: TextStyle(
+                    letterSpacing: -0.3,
                                 color: Helper.baseBlack,
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w500),
@@ -725,6 +743,7 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                           child: Text(
                             "Invite",
                             style: TextStyle(
+                    letterSpacing: -0.3,
                                 color: Colors.white,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500),

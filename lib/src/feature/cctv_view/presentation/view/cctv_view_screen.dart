@@ -64,6 +64,7 @@ class _CCTVScreenState extends BaseConsumerState<CCTVScreen> {
               title: Text(
                 widget.projectName,
                 style: TextStyle(
+                    letterSpacing: -0.3,
                     color: Helper.baseBlack,
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w500),
@@ -113,6 +114,7 @@ class _CCTVScreenState extends BaseConsumerState<CCTVScreen> {
                               Text(
                                 "No CCTV Cameras yet",
                                 style: TextStyle(
+                    letterSpacing: -0.3,
                                     color: Helper.textColor900,
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w600),
@@ -164,7 +166,8 @@ class _CCTVScreenState extends BaseConsumerState<CCTVScreen> {
                     },
                     error: (err, _) {
                       return const Text("Failed to load CCTV Cameras",
-                          style: TextStyle(color: Helper.errorColor));
+                          style: TextStyle(
+                    letterSpacing: -0.3,color: Helper.errorColor));
                     },
                     loading: () => Column(
                       children: [

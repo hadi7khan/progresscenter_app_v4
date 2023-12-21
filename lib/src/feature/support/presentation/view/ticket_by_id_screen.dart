@@ -126,6 +126,7 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
                     Text(
                       "ID #" + ticketData.id!,
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w500),
@@ -144,6 +145,7 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
                         ticketData.status,
                         maxLines: 1,
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             fontWeight: FontWeight.w700,
                             fontSize: 10,
                             color: ticketData.status == "OPEN"
@@ -167,6 +169,7 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
                     Text(
                       "DETAILS",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack.withOpacity(0.5),
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w600),
@@ -184,6 +187,7 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
                             Text(
                               ticketData.topic,
                               style: TextStyle(
+                    letterSpacing: -0.3,
                                   color: Helper.baseBlack,
                                   fontSize: 18.sp,
                                   fontWeight: FontWeight.w500),
@@ -192,6 +196,7 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
                             Text(
                               ticketData.subject,
                               style: TextStyle(
+                    letterSpacing: -0.3,
                                   color: Helper.baseBlack,
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w500),
@@ -199,6 +204,7 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
                             Text(
                               ticketData.detail,
                               style: TextStyle(
+                    letterSpacing: -0.3,
                                   color: Helper.baseBlack.withOpacity(0.5),
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w400),
@@ -215,6 +221,7 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
                               title: Text(
                                 ticketData.user.name,
                                 style: TextStyle(
+                    letterSpacing: -0.3,
                                     color: Helper.baseBlack.withOpacity(0.5),
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w500),
@@ -233,6 +240,7 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
                                 showDateTimeString(ticketData.updatedAt,
                                     'dd MMM, yy · hh:mm a'),
                                 style: TextStyle(
+                    letterSpacing: -0.3,
                                     color: Helper.baseBlack.withOpacity(0.5),
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w500),
@@ -246,6 +254,7 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
                     Text(
                       "RESOLUTION",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack.withOpacity(0.5),
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w600),
@@ -282,6 +291,7 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
                                     child: Text(
                                       date,
                                       style: TextStyle(
+                    letterSpacing: -0.3,
                                           fontSize: 12,
                                           color: Helper.textColor500,
                                           fontWeight: FontWeight.w400),
@@ -306,7 +316,8 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
                       },
                       error: (err, _) {
                         return const Text("Failed to load Projects",
-                            style: TextStyle(color: Helper.errorColor));
+                            style: TextStyle(
+                    letterSpacing: -0.3,color: Helper.errorColor));
                       },
                       loading: () => SizedBox(),
                     )
@@ -344,6 +355,7 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
                   validator: (val) {},
                   textInputAction: TextInputAction.done,
                   style: TextStyle(
+                    letterSpacing: -0.3,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w400,
                   ),
@@ -357,6 +369,7 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
                         EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
                     hintText: "Type message here...",
                     hintStyle: TextStyle(
+                    letterSpacing: -0.3,
                       color: Helper.textColor500,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
@@ -434,7 +447,8 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
       },
       error: (err, _) {
         return const Text("Failed to load Ticket Info",
-            style: TextStyle(color: Helper.errorColor));
+            style: TextStyle(
+                    letterSpacing: -0.3,color: Helper.errorColor));
       },
       loading: () => LoadingTicketById(),
     );

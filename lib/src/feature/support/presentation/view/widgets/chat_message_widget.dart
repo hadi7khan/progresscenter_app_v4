@@ -66,6 +66,7 @@ class ChatMessageWidget extends StatelessWidget {
                 Text(
                   userName,
                   style: TextStyle(
+                    letterSpacing: -0.3,
                       color: userType == 'ConsoleUser'
                       ? Helper.textColor700
                       : Colors.white,
@@ -78,6 +79,7 @@ class ChatMessageWidget extends StatelessWidget {
             Text(
               message,
               style: TextStyle(
+                    letterSpacing: -0.3,
                   color: userType == 'ConsoleUser'
                       ? Helper.textColor900
                       : Colors.white,
@@ -88,6 +90,7 @@ class ChatMessageWidget extends StatelessWidget {
             Text(
               showDateTimeString(createdAt.toIso8601String(), 'hh:mm a'),
               style: TextStyle(
+                    letterSpacing: -0.3,
                   color: Helper.baseBlack,
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w400),

@@ -140,6 +140,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                   Text(
                     "Split View",
                     style: TextStyle(
+                    letterSpacing: -0.3,
                         color: Helper.baseBlack,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500),
@@ -152,6 +153,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                       Text(
                         "17 Jul 2019 - 18 Aug 2019 ",
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.baseBlack.withOpacity(0.5),
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400),
@@ -195,6 +197,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                               Text(
                                 "No Images yet",
                                 style: TextStyle(
+                    letterSpacing: -0.3,
                                     color: Helper.textColor900,
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w600),
@@ -335,6 +338,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                       SizedBox(width: 4.w),
                                       Text(formattedDate1,
                                           style: TextStyle(
+                    letterSpacing: -0.3,
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,
                                               fontSize: 12.sp)),
@@ -378,6 +382,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                       SizedBox(width: 4.w),
                                       Text(formattedDate2,
                                           style: TextStyle(
+                    letterSpacing: -0.3,
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,
                                               fontSize: 12.sp)),
@@ -399,6 +404,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                     child: Text(
                                       formattedTime1,
                                       style: TextStyle(
+                    letterSpacing: -0.3,
                                           color: Helper.baseBlack,
                                           fontSize: 15.sp,
                                           fontWeight: FontWeight.w400),
@@ -435,6 +441,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                     child: Text(
                                       formattedTime2,
                                       style: TextStyle(
+                    letterSpacing: -0.3,
                                           color: Helper.baseBlack,
                                           fontSize: 15.sp,
                                           fontWeight: FontWeight.w400),
@@ -471,7 +478,8 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                   },
                   error: (err, _) {
                     return const Text("Failed to fetch images",
-                        style: TextStyle(color: Helper.errorColor));
+                        style: TextStyle(
+                    letterSpacing: -0.3,color: Helper.errorColor));
                   },
                   loading: () => Center(child: CircularProgressIndicator()),
                 ),
@@ -479,7 +487,8 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
             },
             error: (err, _) {
               return const Text("Failed to fetch images",
-                  style: TextStyle(color: Helper.errorColor));
+                  style: TextStyle(
+                    letterSpacing: -0.3,color: Helper.errorColor));
             },
             loading: () => Center(child: CircularProgressIndicator()),
           ),
@@ -523,6 +532,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                     Text(
                       'Select Image 1',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w500),
@@ -617,6 +627,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                   Text(
                                     formattedTime,
                                     style: TextStyle(
+                    letterSpacing: -0.3,
                                         color: Helper.textColor700,
                                         fontSize: 8.sp,
                                         fontWeight: FontWeight.w500),
@@ -669,6 +680,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                     Text(
                       'Select Image 2',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w500),
@@ -763,6 +775,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                   Text(
                                     formattedTime,
                                     style: TextStyle(
+                    letterSpacing: -0.3,
                                         color: Helper.textColor700,
                                         fontSize: 8.sp,
                                         fontWeight: FontWeight.w500),
@@ -839,6 +852,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                   Text(
                     'Split 2 Image Date',
                     style: TextStyle(
+                    letterSpacing: -0.3,
                         color: Helper.baseBlack,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500),
@@ -868,6 +882,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                   child: Text(
                     "Done",
                     style: TextStyle(
+                    letterSpacing: -0.3,
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w500),

@@ -207,6 +207,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                                       SizedBox(width: 4.w),
                                       Text(showDate(cameraData1.endDate!),
                                           style: TextStyle(
+                    letterSpacing: -0.3,
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,
                                               fontSize: 12.sp)),
@@ -310,6 +311,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                                           Text(
                                             formattedTime,
                                             style: TextStyle(
+                    letterSpacing: -0.3,
                                                 color: Helper.textColor700,
                                                 fontSize: 8.sp,
                                                 fontWeight: FontWeight.w500),
@@ -324,7 +326,8 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                   },
                   error: (err, _) {
                     return const Text("Failed to fetch cameras",
-                        style: TextStyle(color: Helper.errorColor));
+                        style: TextStyle(
+                    letterSpacing: -0.3,color: Helper.errorColor));
                   },
                   loading: () => LoadingCamDetails(
                     showCalendarList: false,
@@ -351,6 +354,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                               Text(
                                 "No Images yet",
                                 style: TextStyle(
+                    letterSpacing: -0.3,
                                     color: Helper.textColor900,
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w600),
@@ -434,6 +438,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                                       SizedBox(width: 4.w),
                                       Text(showDate(cameraData2.endDate!),
                                           style: TextStyle(
+                    letterSpacing: -0.3,
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,
                                               fontSize: 12.sp)),
@@ -537,6 +542,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                                           Text(
                                             formattedTime,
                                             style: TextStyle(
+                    letterSpacing: -0.3,
                                                 color: Helper.textColor700,
                                                 fontSize: 8.sp,
                                                 fontWeight: FontWeight.w500),
@@ -551,7 +557,8 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                   },
                   error: (err, _) {
                     return const Text("Failed to fetch cameras",
-                        style: TextStyle(color: Helper.errorColor));
+                        style: TextStyle(
+                    letterSpacing: -0.3,color: Helper.errorColor));
                   },
                   loading: () =>
                       LoadingCamDetails(showCalendarList: false, topPadding: 0),
@@ -599,6 +606,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                   Text(
                     'Image 1 Date',
                     style: TextStyle(
+                    letterSpacing: -0.3,
                         color: Helper.baseBlack,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500),
@@ -628,6 +636,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                   child: Text(
                     "Done",
                     style: TextStyle(
+                    letterSpacing: -0.3,
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w500),
@@ -698,6 +707,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                   Text(
                     'Image 1 Date',
                     style: TextStyle(
+                    letterSpacing: -0.3,
                         color: Helper.baseBlack,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500),
@@ -727,6 +737,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                   child: Text(
                     "Done",
                     style: TextStyle(
+                    letterSpacing: -0.3,
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w500),

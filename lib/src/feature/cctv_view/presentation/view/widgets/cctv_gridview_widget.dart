@@ -64,6 +64,7 @@ class _CctvGridViewWidgetState extends State<CctvGridViewWidget> {
                     Text(
                       widget.data.name!,
                       style: TextStyle(
+                    letterSpacing: -0.3,
                         fontSize: 14.sp,
                         overflow: TextOverflow.ellipsis,
                         fontWeight: FontWeight.w500,

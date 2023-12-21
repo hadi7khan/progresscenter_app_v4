@@ -82,6 +82,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                   widget.data.lastUpdated, 'h:mma · dd MMM yy')
                               : "N/A",
                           style: TextStyle(
+                    letterSpacing: -0.3,
                               color: Colors.white,
                               fontWeight: FontWeight.w500,
                               fontSize: 12.sp)),
@@ -107,6 +108,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                       SizedBox(width: 4.w),
                       Text("25℃",
                           style: TextStyle(
+                    letterSpacing: -0.3,
                               color: Colors.white,
                               fontWeight: FontWeight.w500,
                               fontSize: 12.sp)),
@@ -139,6 +141,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                 widget.data.name!,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
+                    letterSpacing: -0.3,
                                   fontSize: 18.sp,
                                   fontWeight: FontWeight.w500,
                                   color: Helper.baseBlack,
@@ -153,6 +156,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                   showDate(widget.data.installationDate,
                                       'dd MMM yyyy'),
                               style: TextStyle(
+                    letterSpacing: -0.3,
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w400,
                                 color: Helper.baseBlack.withOpacity(0.5),
