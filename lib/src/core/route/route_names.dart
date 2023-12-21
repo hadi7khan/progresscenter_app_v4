@@ -11,6 +11,7 @@ const String dronefootageRoute = 'dronefootage';
 const String addFileVideoRoute = 'addFileVideo';
 const String addVimeoVideoRoute = 'addVimeoVideo';
 const String addYoutubeVideoRoute = 'addYoutubeVideo';
+const String fullViewDroneRoute = 'fullViewDrone';
 const String cctvRoute = 'cctv';
 const String camera360Route = 'camera360';
 const String siteGalleryRoute = 'sitegallery';

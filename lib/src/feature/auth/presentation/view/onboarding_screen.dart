@@ -78,7 +78,7 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                                 children: [
                                   Text(
                                     contents[i].title!,
-                                    style: TextStyle(
+                                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
                                       fontSize: 32.sp,
                                       fontWeight: FontWeight.w600,
                                       color: Helper.textColor800,
@@ -87,7 +87,7 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                                   SizedBox(height: 8.h),
                                   Text(
                                     contents[i].discription!,
-                                    style: TextStyle(
+                                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
                                       fontSize: 16.sp,
                                       fontWeight: FontWeight.w400,
                                       color: Helper.textColor600,
@@ -125,7 +125,7 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                         child: ElevatedButton(
                           child: Text(
                             "Sign in",
-                            style: TextStyle(
+                            style: Theme.of(context).textTheme.labelLarge!.copyWith(
                                 color: Colors.white,
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w500),
@@ -158,9 +158,9 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                       ),
                       Text(
                         "Get in touch",
-                        style: TextStyle(
+                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
                             color: Helper.textColor500,
-                            fontSize: 16,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w500),
                         // currentIndex == contents.length - 1 ? "Continue" : "Next"
                       ),
