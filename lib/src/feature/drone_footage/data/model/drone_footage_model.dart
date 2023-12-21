@@ -27,6 +27,7 @@ class DroneFootageModel with _$DroneFootageModel {
     String? path,
     String? status,
     String? user,
+    String? shareUrl,
   }) = _DroneFootageModel;
 
   factory DroneFootageModel.fromJson(Map<String, dynamic> json) =>

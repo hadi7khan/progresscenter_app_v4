@@ -34,6 +34,7 @@ mixin _$DroneFootageModel {
   String? get path => throw _privateConstructorUsedError;
   String? get status => throw _privateConstructorUsedError;
   String? get user => throw _privateConstructorUsedError;
+  String? get shareUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -60,7 +61,8 @@ abstract class $DroneFootageModelCopyWith<$Res> {
       String? url,
       String? path,
       String? status,
-      String? user});
+      String? user,
+      String? shareUrl});
 
   $LocationCopyWith<$Res>? get location;
   $DetailsCopyWith<$Res>? get details;
@@ -93,6 +95,7 @@ class _$DroneFootageModelCopyWithImpl<$Res, $Val extends DroneFootageModel>
     Object? path = freezed,
     Object? status = freezed,
     Object? user = freezed,
+    Object? shareUrl = freezed,
   }) {
     return _then(_value.copyWith(
       location: freezed == location
@@ -146,6 +149,10 @@ class _$DroneFootageModelCopyWithImpl<$Res, $Val extends DroneFootageModel>
       user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
+              as String?,
+      shareUrl: freezed == shareUrl
+          ? _value.shareUrl
+          : shareUrl // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -208,7 +215,8 @@ abstract class _$$_DroneFootageModelCopyWith<$Res>
       String? url,
       String? path,
       String? status,
-      String? user});
+      String? user,
+      String? shareUrl});
 
   @override
   $LocationCopyWith<$Res>? get location;
@@ -242,6 +250,7 @@ class __$$_DroneFootageModelCopyWithImpl<$Res>
     Object? path = freezed,
     Object? status = freezed,
     Object? user = freezed,
+    Object? shareUrl = freezed,
   }) {
     return _then(_$_DroneFootageModel(
       location: freezed == location
@@ -296,6 +305,10 @@ class __$$_DroneFootageModelCopyWithImpl<$Res>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as String?,
+      shareUrl: freezed == shareUrl
+          ? _value.shareUrl
+          : shareUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -316,7 +329,8 @@ class _$_DroneFootageModel implements _DroneFootageModel {
       this.url,
       this.path,
       this.status,
-      this.user});
+      this.user,
+      this.shareUrl});
 
   factory _$_DroneFootageModel.fromJson(Map<String, dynamic> json) =>
       _$$_DroneFootageModelFromJson(json);
@@ -348,10 +362,12 @@ class _$_DroneFootageModel implements _DroneFootageModel {
   final String? status;
   @override
   final String? user;
+  @override
+  final String? shareUrl;
 
   @override
   String toString() {
-    return 'DroneFootageModel(location: $location, details: $details, id: $id, name: $name, reseller: $reseller, client: $client, project: $project, createdAt: $createdAt, updatedAt: $updatedAt, url: $url, path: $path, status: $status, user: $user)';
+    return 'DroneFootageModel(location: $location, details: $details, id: $id, name: $name, reseller: $reseller, client: $client, project: $project, createdAt: $createdAt, updatedAt: $updatedAt, url: $url, path: $path, status: $status, user: $user, shareUrl: $shareUrl)';
   }
 
   @override
@@ -375,13 +391,29 @@ class _$_DroneFootageModel implements _DroneFootageModel {
             (identical(other.url, url) || other.url == url) &&
             (identical(other.path, path) || other.path == path) &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.user, user) || other.user == user));
+            (identical(other.user, user) || other.user == user) &&
+            (identical(other.shareUrl, shareUrl) ||
+                other.shareUrl == shareUrl));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, location, details, id, name,
-      reseller, client, project, createdAt, updatedAt, url, path, status, user);
+  int get hashCode => Object.hash(
+      runtimeType,
+      location,
+      details,
+      id,
+      name,
+      reseller,
+      client,
+      project,
+      createdAt,
+      updatedAt,
+      url,
+      path,
+      status,
+      user,
+      shareUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -412,7 +444,8 @@ abstract class _DroneFootageModel implements DroneFootageModel {
       final String? url,
       final String? path,
       final String? status,
-      final String? user}) = _$_DroneFootageModel;
+      final String? user,
+      final String? shareUrl}) = _$_DroneFootageModel;
 
   factory _DroneFootageModel.fromJson(Map<String, dynamic> json) =
       _$_DroneFootageModel.fromJson;
@@ -444,6 +477,8 @@ abstract class _DroneFootageModel implements DroneFootageModel {
   String? get status;
   @override
   String? get user;
+  @override
+  String? get shareUrl;
   @override
   @JsonKey(ignore: true)
   _$$_DroneFootageModelCopyWith<_$_DroneFootageModel> get copyWith =>

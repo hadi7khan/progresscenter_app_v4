@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:intl/intl.dart';
-import 'package:pod_player/pod_player.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:vimeo_player_flutter/vimeo_player_flutter.dart';
-// import 'package:vimeoplayer_trinity/vimeoplayer_trinity.dart';
+import 'package:vimeo_video_player/vimeo_video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class DroneListViewWidget extends StatefulWidget {
@@ -21,7 +20,6 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
   YoutubePlayerController? _youtubeController;
   // WebViewController? _vimeoController;
   String videoId = "";
-  PodPlayerController? controller;
 
   @override
   void initState() {
@@ -43,13 +41,7 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
       ),
     );
 
-    controller = PodPlayerController(
-        playVideoFrom: PlayVideoFrom.network(
-          widget.data.url,
-        ),
-        podPlayerConfig: const PodPlayerConfig(
-            autoPlay: true, isLooping: false, videoQualityPriority: [720, 360]))
-      ..initialise();
+    
   }
 
   String extractVimeoVideoId(String videoUrl) {
@@ -117,11 +109,11 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
                             //   fit: BoxFit.cover,
                             // ),
                             // ),
-                            // VimeoVideoPlayer(
-                            //     url: 'https://vimeo.com/$videoId',
-                            //     autoPlay: true
-                            //   ),
-                    VimeoPlayer(videoId: extractVimeoVideoId(widget.data.url)),
+                            VimeoVideoPlayer(
+                                url: widget.data.shareUrl,
+                                autoPlay: true
+                              ),
+                    // VimeoPlayer(videoId: extractVimeoVideoId(widget.data.url)),
                   ),
                   Positioned(
                       top: 83,

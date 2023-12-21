@@ -119,12 +119,8 @@ dependencies:
   file_picker: 5.2.10
   youtube_player_flutter: 8.1.2
   webview_flutter: 4.4.2
-  vimeo_video_player_custom: 0.0.1
   vimeo_player_flutter: 0.1.0
-  pod_player: 0.1.5
   vimeo_video_player: 0.0.10
-  flick_video_player: 0.5.0
-  vimeoplayer_trinity: 0.2.3
 
 dev_dependencies:
   flutter_test:

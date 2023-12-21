@@ -21,9 +21,9 @@ class _IconBottomBarState extends State<IconBottomBar> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal : 15.w, vertical: 5.h),
+      padding: EdgeInsets.symmetric(horizontal : 15.w,),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        // mainAxisAlignment: MainAxisAlignment.end,
         mainAxisSize: MainAxisSize.min,
         children: [
            SvgPicture.asset(

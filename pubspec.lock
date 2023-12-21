@@ -41,14 +41,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
-  better_player:
-    dependency: transitive
-    description:
-      name: better_player
-      sha256: f2e5d57ea49fb7c4d93838d23846ca5ddf78af6f946e103aeacf2afdd01909b3
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.83"
   blurrycontainer:
     dependency: "direct main"
     description:
@@ -402,21 +394,13 @@ packages:
     source: hosted
     version: "1.1.0"
   flick_video_player:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flick_video_player
       sha256: edd39b56b74a11a627fa560507797896af951d4b1439f4c403edbcfe10af2047
       url: "https://pub.dev"
     source: hosted
     version: "0.5.0"
-  flick_video_player_custom:
-    dependency: transitive
-    description:
-      name: flick_video_player_custom
-      sha256: "251ea6e96e9f345dda3d1c7dc3eb1ebd76e014b831d9a28b8e6509f77891c83b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.5.8"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -605,14 +589,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_widget_from_html_core:
-    dependency: transitive
-    description:
-      name: flutter_widget_from_html_core
-      sha256: e8f4f8b461a140ffb7c71f938bc76efc758893e7468843d9dbf70cb0b9e900cb
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.8.5+3"
   fluttertoast:
     dependency: "direct main"
     description:
@@ -669,22 +645,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.0"
-  fwfh_text_style:
-    dependency: transitive
-    description:
-      name: fwfh_text_style
-      sha256: f0883ccb64b7bb3f2a7a091542c2e834fc3e2a6aa54158f46b3c43b55675d8f7
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.22.8+3"
-  get:
-    dependency: transitive
-    description:
-      name: get
-      sha256: e4e7335ede17452b391ed3b2ede016545706c01a02292a6c97619705e7d2a85e
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.6.6"
   get_it:
     dependency: "direct main"
     description:
@@ -1053,14 +1013,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
-  pod_player:
-    dependency: "direct main"
-    description:
-      name: pod_player
-      sha256: e2c4eb9c9f48645fffb96862ed23237865be0262d780f0c603ac37f2bba3f1b5
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.5"
   pointer_interceptor:
     dependency: transitive
     description:
@@ -1498,30 +1450,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.10"
-  vimeo_video_player_custom:
-    dependency: "direct main"
-    description:
-      name: vimeo_video_player_custom
-      sha256: c06307b8b9b6ae967592b67ab9e0b6bbcbaab627139b23edc4e2414ebe223fc1
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.1"
-  vimeoplayer_trinity:
-    dependency: "direct main"
-    description:
-      name: vimeoplayer_trinity
-      sha256: e7308d0e28730004e3d30627eb04c34bcfdf951904cea80376b81c905227fc07
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.3"
-  visibility_detector:
-    dependency: transitive
-    description:
-      name: visibility_detector
-      sha256: "15c54a459ec2c17b4705450483f3d5a2858e733aee893dcee9d75fd04814940d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.3.3"
   wakelock:
     dependency: transitive
     description:
@@ -1650,14 +1578,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.2"
-  youtube_explode_dart:
-    dependency: transitive
-    description:
-      name: youtube_explode_dart
-      sha256: "07889a6229a63e78f8d45a3b852897c2e0fa42e96c4daa38d411be211575bc38"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.12.4"
   youtube_player_flutter:
     dependency: "direct main"
     description:
@@ -1668,4 +1588,4 @@ packages:
     version: "8.1.2"
 sdks:
   dart: ">=3.1.0-185.0.dev <4.0.0"
-  flutter: ">=3.13.0"
+  flutter: ">=3.10.0"
