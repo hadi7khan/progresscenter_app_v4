@@ -40,6 +40,7 @@ class _TeamCardState extends BaseConsumerState<TeamCard> {
         title: Text(
           widget.teamData.name,
           style: TextStyle(
+                    letterSpacing: -0.3,
               color: Helper.textColor700,
               fontSize: 14.sp,
               fontWeight: FontWeight.w600),
@@ -49,6 +50,7 @@ class _TeamCardState extends BaseConsumerState<TeamCard> {
               ? widget.teamData.designation
               : "N/A",
           style: TextStyle(
+                    letterSpacing: -0.3,
               color: Helper.textColor600,
               fontSize: 12.sp,
               fontWeight: FontWeight.w400),
@@ -62,6 +64,7 @@ class _TeamCardState extends BaseConsumerState<TeamCard> {
               child: Text(
                 'Reset Password',
                 style: TextStyle(
+                    letterSpacing: -0.3,
                     color: Helper.baseBlack,
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w500),
@@ -72,6 +75,7 @@ class _TeamCardState extends BaseConsumerState<TeamCard> {
               child: Text(
                 'Delete',
                 style: TextStyle(
+                    letterSpacing: -0.3,
                     color: Helper.errorColor,
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w500),
@@ -102,6 +106,7 @@ class _TeamCardState extends BaseConsumerState<TeamCard> {
                                 text: TextSpan(
                                   text: "We will remove all of ",
                                   style: TextStyle(
+                    letterSpacing: -0.3,
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w500,
                                       color: Helper.textColor500),
@@ -109,6 +114,7 @@ class _TeamCardState extends BaseConsumerState<TeamCard> {
                                     TextSpan(
                                       text: '\"' + widget.teamData.name! + '\"',
                                       style: TextStyle(
+                    letterSpacing: -0.3,
                                           fontSize: 14.sp,
                                           fontWeight: FontWeight.w500,
                                           color: Helper.baseBlack),
@@ -116,6 +122,7 @@ class _TeamCardState extends BaseConsumerState<TeamCard> {
                                     TextSpan(
                                       text: ' personal details.',
                                       style: TextStyle(
+                    letterSpacing: -0.3,
                                           fontSize: 14.sp,
                                           fontWeight: FontWeight.w500,
                                           color: Helper.textColor500),
@@ -130,6 +137,7 @@ class _TeamCardState extends BaseConsumerState<TeamCard> {
                                 text: TextSpan(
                                   text: '\"' + widget.teamData.name! + '\"',
                                   style: TextStyle(
+                    letterSpacing: -0.3,
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w500,
                                       color: Helper.baseBlack),
@@ -138,6 +146,7 @@ class _TeamCardState extends BaseConsumerState<TeamCard> {
                                       text:
                                           "updates and generated content will remain available anonymously.",
                                       style: TextStyle(
+                    letterSpacing: -0.3,
                                           fontSize: 14.sp,
                                           fontWeight: FontWeight.w500,
                                           color: Helper.textColor500),
@@ -152,6 +161,7 @@ class _TeamCardState extends BaseConsumerState<TeamCard> {
                                 text: TextSpan(
                                   text: "Attention:",
                                   style: TextStyle(
+                    letterSpacing: -0.3,
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w500,
                                       color: Helper.baseBlack),
@@ -160,6 +170,7 @@ class _TeamCardState extends BaseConsumerState<TeamCard> {
                                       text:
                                           "This action is irreversible! You might prefer to disable the user instead.",
                                       style: TextStyle(
+                    letterSpacing: -0.3,
                                           fontSize: 14.sp,
                                           fontWeight: FontWeight.w500,
                                           color: Helper.textColor500),
@@ -200,6 +211,7 @@ class _TeamCardState extends BaseConsumerState<TeamCard> {
                           child: const Text(
                             "Delete",
                             style: TextStyle(
+                    letterSpacing: -0.3,
                                 color: Colors.white,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600),
@@ -221,6 +233,7 @@ class _TeamCardState extends BaseConsumerState<TeamCard> {
                           child: Text(
                             "Cancel",
                             style: TextStyle(
+                    letterSpacing: -0.3,
                                 color: Helper.textColor500,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600),

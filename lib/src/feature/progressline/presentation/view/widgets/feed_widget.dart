@@ -51,7 +51,8 @@ class _TeamWidgetState extends BaseConsumerState<FeedWidget> {
     );
     }, error: (err, _) {
         return const Text("Failed to load Projects",
-            style: TextStyle(color: Helper.errorColor));
+            style: TextStyle(
+                    letterSpacing: -0.3,color: Helper.errorColor));
       },
       loading: () => LoadingCardListScreen(),);
   }

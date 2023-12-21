@@ -222,6 +222,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     Text(
                       "Images per day",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.textColor700,
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500),
@@ -243,6 +244,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                           title: Text(
                             _showImages,
                             style: TextStyle(
+                    letterSpacing: -0.3,
                                 color: Helper.textColor500,
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w500),
@@ -259,6 +261,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     Text(
                       "Select Date",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.textColor700,
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500),
@@ -282,6 +285,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                           title: Text(
                             "31 Mar, 2023 - 21 Apr, 2023",
                             style: TextStyle(
+                    letterSpacing: -0.3,
                                 color: Helper.textColor500,
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w500),
@@ -298,6 +302,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     Text(
                       "Select Quality",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.textColor700,
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500),
@@ -319,6 +324,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                           title: Text(
                             _showQuality,
                             style: TextStyle(
+                    letterSpacing: -0.3,
                                 color: Helper.textColor500,
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w500),
@@ -349,6 +355,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                       title: Text(
                         "Add timestamp",
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.textColor700,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500),
@@ -356,6 +363,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                       subtitle: Text(
                         "Time and Date will be visible",
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.textColor500,
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w500),
@@ -379,6 +387,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                       title: Text(
                         "Blend and stability",
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.textColor700,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500),
@@ -386,6 +395,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                       subtitle: Text(
                         "AI Powered technology",
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.textColor500,
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w500),
@@ -409,6 +419,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                       title: Text(
                         "Exlude dusty images",
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.textColor700,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500),
@@ -416,6 +427,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                       subtitle: Text(
                         "AI Powered technology",
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.textColor500,
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w500),
@@ -456,6 +468,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                         title: Text(
                           "Add Logo",
                           style: TextStyle(
+                    letterSpacing: -0.3,
                               color: Helper.textColor700,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w500),
@@ -463,6 +476,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                         subtitle: Text(
                           "SVG, PNG, JPG (max 40x40px)",
                           style: TextStyle(
+                    letterSpacing: -0.3,
                               color: Helper.textColor500,
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w500),
@@ -496,6 +510,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                         title: Text(
                           "Add music",
                           style: TextStyle(
+                    letterSpacing: -0.3,
                               color: Helper.textColor700,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w500),
@@ -503,6 +518,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                         subtitle: Text(
                           "MP3, 3GP (max 40x40px)",
                           style: TextStyle(
+                    letterSpacing: -0.3,
                               color: Helper.textColor500,
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w500),
@@ -526,6 +542,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                       title: Text(
                         "Add Start slide",
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.textColor700,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500),
@@ -533,6 +550,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                       subtitle: Text(
                         "MP4 or JPG (max 1080x1920)",
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.textColor500,
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w500),
@@ -571,6 +589,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                       title: Text(
                         "Add End slide",
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.textColor700,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500),
@@ -578,6 +597,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                       subtitle: Text(
                         "MP4 or JPG (max 1080x1920)",
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.textColor500,
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w500),
@@ -621,6 +641,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     : Text(
                         "Create LiveLapse",
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Colors.white,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500),
@@ -725,6 +746,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                   Text(
                     'Generating LiveLapse',
                     style: TextStyle(
+                    letterSpacing: -0.3,
                         color: Helper.baseBlack,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500),
@@ -757,6 +779,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     title: Text(
                       "Camera 2 - The Bridges.mp4",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.textColor700,
                           fontSize: 14,
                           fontWeight: FontWeight.w500),
@@ -768,6 +791,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                           Text(
                             "Fetching images",
                             style: TextStyle(
+                    letterSpacing: -0.3,
                                 color: Helper.textColor600,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400),
@@ -793,6 +817,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                                 Text(
                                   "${(_progressBar).toInt()}%",
                                   style: TextStyle(
+                    letterSpacing: -0.3,
                                       color: Helper.textColor700,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500),
@@ -813,6 +838,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                       child: Text(
                         "Close",
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Colors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.w500),
@@ -869,6 +895,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
     //                     Text(
     //                       'Generating LiveLapse',
     //                       style: TextStyle(
+                    // letterSpacing: -0.3,
     //                           color: Helper.baseBlack,
     //                           fontSize: 18.sp,
     //                           fontWeight: FontWeight.w500),
@@ -901,6 +928,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
     //                       title: Text(
     //                         "Camera 2 - The Bridges.mp4",
     //                         style: TextStyle(
+                    // letterSpacing: -0.3,
     //                             color: Helper.textColor700,
     //                             fontSize: 14,
     //                             fontWeight: FontWeight.w500),
@@ -912,6 +940,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
     //                             Text(
     //                               "Fetching images",
     //                               style: TextStyle(
+                    // letterSpacing: -0.3,
     //                                   color: Helper.textColor600,
     //                                   fontSize: 14,
     //                                   fontWeight: FontWeight.w400),
@@ -940,6 +969,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
     //                                   Text(
     //                                     "${(_progressBar).toInt()}%",
     //                                     style: TextStyle(
+                    // letterSpacing: -0.3,
     //                                         color: Helper.textColor700,
     //                                         fontSize: 14,
     //                                         fontWeight: FontWeight.w500),
@@ -958,6 +988,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
     //                         child: Text(
     //                           "Close",
     //                           style: TextStyle(
+                    // letterSpacing: -0.3,
     //                               color: Colors.white,
     //                               fontSize: 16,
     //                               fontWeight: FontWeight.w500),
@@ -1010,6 +1041,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                 Text(
                   'Upload Media',
                   style: TextStyle(
+                    letterSpacing: -0.3,
                       color: Helper.baseBlack,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500),
@@ -1047,6 +1079,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     child: Text(
                       'Take Photo',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -1079,6 +1112,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     child: Text(
                       'Choose Photo',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -1111,6 +1145,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     child: Text(
                       'Browse from files',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -1125,6 +1160,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     child: Text(
                       "Cancel",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.w500),
@@ -1175,6 +1211,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                 Text(
                   'Select Images',
                   style: TextStyle(
+                    letterSpacing: -0.3,
                       color: Helper.baseBlack,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500),
@@ -1204,6 +1241,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     child: Text(
                       '1 Image',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -1228,6 +1266,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     child: Text(
                       '3 Image',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -1252,6 +1291,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     child: Text(
                       '5 Image',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -1276,6 +1316,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     child: Text(
                       '10 Image',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -1300,6 +1341,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     child: Text(
                       '15 Image',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -1324,6 +1366,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     child: Text(
                       '20 Image',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -1338,6 +1381,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     child: Text(
                       "Cancel",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.w500),
@@ -1393,6 +1437,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     Text(
                       'Select Start Date',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w500),
@@ -1422,6 +1467,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     children: [
                       Text("Start time",
                           style: TextStyle(
+                    letterSpacing: -0.3,
                               color: Helper.baseBlack,
                               fontWeight: FontWeight.w400,
                               fontSize: 17.sp)),
@@ -1454,6 +1500,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                         child: Text(
                           displayStartTime(startTime),
                           style: TextStyle(
+                    letterSpacing: -0.3,
                               fontSize: 17.sp,
                               fontWeight: FontWeight.w400,
                               color: Helper.baseBlack),
@@ -1469,6 +1516,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     child: Text(
                       "Done",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.w500),
@@ -1532,6 +1580,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                       Text(
                         'Select End Date',
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.baseBlack,
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w500),
@@ -1558,6 +1607,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                   Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                     Text("End time",
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.baseBlack,
                             fontWeight: FontWeight.w400,
                             fontSize: 17.sp)),
@@ -1588,6 +1638,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                       child: Text(
                         displayEndTime(endTime),
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             fontSize: 17.sp,
                             fontWeight: FontWeight.w400,
                             color: Helper.baseBlack),
@@ -1603,6 +1654,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                       child: Text(
                         "Done",
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Colors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.w500),
@@ -1653,6 +1705,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                 Text(
                   'Select Quality',
                   style: TextStyle(
+                    letterSpacing: -0.3,
                       color: Helper.baseBlack,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500),
@@ -1682,6 +1735,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     child: Text(
                       'Standard definition - 1280x720',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -1706,6 +1760,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     child: Text(
                       'High Definition - 1920x1080',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -1720,6 +1775,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     child: Text(
                       "Cancel",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.w500),

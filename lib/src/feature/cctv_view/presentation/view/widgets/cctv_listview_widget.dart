@@ -64,6 +64,7 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
                   SizedBox(width: 4.w),
                   Text("Online",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
                           fontSize: 12.sp)),
@@ -100,6 +101,7 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
                               overflow: TextOverflow.ellipsis,
                               softWrap: true,
                               style: TextStyle(
+                    letterSpacing: -0.3,
                                 fontSize: 18.sp,
                                 fontWeight: FontWeight.w500,
                                 overflow: TextOverflow.ellipsis,
@@ -115,6 +117,7 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
                                 showDate(
                                     widget.data.installationDate, 'dd MMM yyyy'),
                             style: TextStyle(
+                    letterSpacing: -0.3,
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
                               color: Helper.baseBlack.withOpacity(0.5),

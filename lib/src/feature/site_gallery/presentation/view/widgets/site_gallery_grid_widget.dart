@@ -78,6 +78,7 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
                       widget.data.name!,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
+                    letterSpacing: -0.3,
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w500,
                         color: Helper.baseBlack,
@@ -90,6 +91,7 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
                       showDate(widget.data.createdAt!.toIso8601String(),
                           'dd MMM yyyy'),
                       style: TextStyle(
+                    letterSpacing: -0.3,
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w400,
                         color: Helper.baseBlack.withOpacity(0.5),

@@ -45,6 +45,7 @@ class _EquipmentTrackerScreenState extends State<EquipmentTrackerScreen> {
               title: Text(
                 widget.projectName,
                 style: TextStyle(
+                    letterSpacing: -0.3,
                     color: Helper.baseBlack,
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w500),
@@ -90,6 +91,7 @@ class _EquipmentTrackerScreenState extends State<EquipmentTrackerScreen> {
                 Text(
                   "No Equipment Trackers yet",
                   style: TextStyle(
+                    letterSpacing: -0.3,
                       color: Helper.textColor900,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w600),

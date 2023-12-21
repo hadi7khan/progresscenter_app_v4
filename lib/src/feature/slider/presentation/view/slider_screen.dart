@@ -149,6 +149,7 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
             title: Text(
               "Progress Slider",
               style: TextStyle(
+                    letterSpacing: -0.3,
                   color: Helper.baseBlack,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w500),
@@ -180,6 +181,7 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
                               Text(
                                 "No Images yet",
                                 style: TextStyle(
+                    letterSpacing: -0.3,
                                     color: Helper.textColor900,
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w600),
@@ -253,7 +255,8 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
               },
               error: (err, _) {
                 return const Text("Failed to fetch slider data",
-                    style: TextStyle(color: Helper.errorColor));
+                    style: TextStyle(
+                    letterSpacing: -0.3,color: Helper.errorColor));
               },
               loading: () => LoadingSlider(),
             ),

@@ -44,7 +44,8 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                   children: [
                     Text(
                       "Projects",
-                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                      style: TextStyle(
+                    letterSpacing: -0.3,
                         color: Helper.textColor700,
                           fontSize: 36.sp,
                           fontWeight: FontWeight.w600

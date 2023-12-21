@@ -186,6 +186,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
               title: Text(
                 widget.progresslineData.user.name,
                 style: TextStyle(
+                    letterSpacing: -0.3,
                     color: Helper.textColor900,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w500),
@@ -199,6 +200,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                       )
                     : "-",
                 style: TextStyle(
+                    letterSpacing: -0.3,
                     color: Helper.textColor600,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w400),
@@ -285,6 +287,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                               widget.progresslineData.viewedBy.length
                                   .toString(),
                               style: TextStyle(
+                    letterSpacing: -0.3,
                                   color: Helper.textColor600,
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w500),
@@ -311,6 +314,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                         .toString() +
                                     " comments",
                                 style: TextStyle(
+                    letterSpacing: -0.3,
                                     color: Helper.primary,
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w500),
@@ -360,6 +364,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                         title: Text(
                                           data['display'],
                                           style: TextStyle(
+                    letterSpacing: -0.3,
                                               color: Helper.textColor900,
                                               fontSize: 16.sp,
                                               fontWeight: FontWeight.w500),
@@ -368,6 +373,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                     );
                                   },
                                   style: TextStyle(
+                    letterSpacing: -0.3,
                                       color: Helper.primary,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14.sp),
@@ -375,6 +381,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                 )
                               ],
                               style: TextStyle(
+                    letterSpacing: -0.3,
                                   color: Helper.textColor600,
                                   fontWeight: FontWeight.w400,
                                   fontSize: 14.sp),
@@ -387,6 +394,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                     vertical: 8.h, horizontal: 12.w),
                                 hintText: "Add comment",
                                 hintStyle: TextStyle(
+                    letterSpacing: -0.3,
                                   color: Helper.textColor500,
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w400,

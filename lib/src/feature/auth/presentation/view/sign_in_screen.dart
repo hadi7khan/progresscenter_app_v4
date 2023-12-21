@@ -58,17 +58,22 @@ class _SignInScreenState extends State<SignInScreen> {
                     text: TextSpan(
                       // Note: Styles for TextSpans must be explicitly defined.
                       // Child text spans will inherit styles from parent
-                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                      style: TextStyle(
+                        letterSpacing: -0.3,
                         fontSize: 32.sp,
                         fontWeight: FontWeight.w600,
                         color: Helper.baseBlack,
                       ),
                       children: <TextSpan>[
-                        TextSpan(text: 'Sign in to \nget started', style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                        fontSize: 32.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Helper.baseBlack,
-                      ),),
+                        TextSpan(
+                          text: 'Sign in to \nget started',
+                          style: TextStyle(
+                            letterSpacing: -0.3,
+                            fontSize: 32.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Helper.baseBlack,
+                          ),
+                        ),
                         // TextSpan(
                         //     text: 'Center',
                         //     style: TextStyle(color: Helper.primary)),
@@ -80,17 +85,19 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   Text(
                     "Sign in to start managing your projects and job sites.",
-                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                    style: TextStyle(
+                        letterSpacing: -0.3,
                         color: Helper.color128,
                         fontWeight: FontWeight.w400,
                         fontSize: 16.sp),
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: 34.h,
                   ),
                   Text(
                     "Email",
-                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                    style: TextStyle(
+                        letterSpacing: -0.3,
                         color: Helper.textColor700,
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w500),
@@ -120,7 +127,8 @@ class _SignInScreenState extends State<SignInScreen> {
                       return null;
                     },
                     textInputAction: TextInputAction.done,
-                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                    style: TextStyle(
+                      letterSpacing: -0.3,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
                     ),
@@ -128,10 +136,11 @@ class _SignInScreenState extends State<SignInScreen> {
                     keyboardType: TextInputType.emailAddress,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 10.h, horizontal: 14.w),
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 10.h, horizontal: 14.w),
                       hintText: "Email or username",
-                      hintStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
+                      hintStyle: TextStyle(
+                        letterSpacing: -0.3,
                         color: Helper.textColor500,
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w400,
@@ -180,7 +189,8 @@ class _SignInScreenState extends State<SignInScreen> {
                     child: ElevatedButton(
                       child: Text(
                         "Continue",
-                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                        style: TextStyle(
+                            letterSpacing: -0.3,
                             color: Colors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.w500),
@@ -196,8 +206,9 @@ class _SignInScreenState extends State<SignInScreen> {
                           )),
                       onPressed: () {
                         if (_fbKey.currentState!.saveAndValidate()) {
-                          context.push('/password',
-                              extra: {"email": _controller.text.trim().toLowerCase()});
+                          context.push('/password', extra: {
+                            "email": _controller.text.trim().toLowerCase()
+                          });
                         }
                       },
                     ),

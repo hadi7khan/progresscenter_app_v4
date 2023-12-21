@@ -302,6 +302,7 @@ class _ProjectDetailsScreenState
                     Text(
                       widget.projectName,
                       style: TextStyle(
+                    letterSpacing: -0.3,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
                         color: Helper.baseBlack,
@@ -310,6 +311,7 @@ class _ProjectDetailsScreenState
                     Text(
                       widget.projectLocation!,
                       style: TextStyle(
+                    letterSpacing: -0.3,
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
                         color: Helper.baseBlack.withOpacity(0.5),
@@ -667,6 +669,7 @@ class _ProjectDetailsScreenState
                                           Text(
                                             myItems[index].title,
                                             style: TextStyle(
+                    letterSpacing: -0.3,
                                                 color: Helper.baseBlack
                                                     .withOpacity(0.5),
                                                 fontSize: 14.sp,
@@ -674,6 +677,7 @@ class _ProjectDetailsScreenState
                                           ),
                                           Text(myItems[index].subTitle,
                                               style: TextStyle(
+                    letterSpacing: -0.3,
                                                   color: Helper.baseBlack,
                                                   fontSize: 14.sp,
                                                   fontWeight: FontWeight.w500))
@@ -728,6 +732,7 @@ class _ProjectDetailsScreenState
                                         title: Text(
                                           e['content'],
                                           style: TextStyle(
+                    letterSpacing: -0.3,
                                               color: Helper.baseBlack,
                                               fontSize: 16.sp,
                                               fontWeight: FontWeight.w500),
@@ -738,6 +743,7 @@ class _ProjectDetailsScreenState
                                                 " " +
                                                 e['countText'],
                                             style: TextStyle(
+                    letterSpacing: -0.3,
                                                 color: Helper.baseBlack
                                                     .withOpacity(0.5),
                                                 fontSize: 14.sp,
@@ -757,7 +763,8 @@ class _ProjectDetailsScreenState
                   },
                   error: (err, _) {
                     return const Text("Failed to load Project details",
-                        style: TextStyle(color: Helper.errorColor));
+                        style: TextStyle(
+                    letterSpacing: -0.3,color: Helper.errorColor));
                   },
                   loading: () => Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1085,12 +1092,14 @@ Widget buildAsset(
           title: Text(
             assetTypeToString(assetName),
             style: TextStyle(
+                    letterSpacing: -0.3,
                 color: Helper.baseBlack,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500),
           ),
           subtitle: Text(count.toString() + " Cameras active",
               style: TextStyle(
+                    letterSpacing: -0.3,
                   color: Helper.baseBlack.withOpacity(0.5),
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400)),
@@ -1114,12 +1123,14 @@ Widget buildAsset(
           title: Text(
             assetTypeToString(assetName),
             style: TextStyle(
+                    letterSpacing: -0.3,
                 color: Helper.baseBlack,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500),
           ),
           subtitle: Text(count.toString() + " Footages",
               style: TextStyle(
+                    letterSpacing: -0.3,
                   color: Helper.baseBlack.withOpacity(0.5),
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400)),
@@ -1143,12 +1154,14 @@ Widget buildAsset(
           title: Text(
             assetTypeToString(assetName),
             style: TextStyle(
+                    letterSpacing: -0.3,
                 color: Helper.baseBlack,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500),
           ),
           subtitle: Text(count.toString() + " Cameras active",
               style: TextStyle(
+                    letterSpacing: -0.3,
                   color: Helper.baseBlack.withOpacity(0.5),
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400)),
@@ -1172,12 +1185,14 @@ Widget buildAsset(
           title: Text(
             assetTypeToString(assetName),
             style: TextStyle(
+                    letterSpacing: -0.3,
                 color: Helper.baseBlack,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500),
           ),
           subtitle: Text(count.toString() + " photos · 2 videos",
               style: TextStyle(
+                    letterSpacing: -0.3,
                   color: Helper.baseBlack.withOpacity(0.5),
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400)),
@@ -1201,12 +1216,14 @@ Widget buildAsset(
           title: Text(
             assetTypeToString(assetName),
             style: TextStyle(
+                    letterSpacing: -0.3,
                 color: Helper.baseBlack,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500),
           ),
           subtitle: Text(count.toString() + " photos · 2 videos",
               style: TextStyle(
+                    letterSpacing: -0.3,
                   color: Helper.baseBlack.withOpacity(0.5),
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400)),
@@ -1230,12 +1247,14 @@ Widget buildAsset(
           title: Text(
             assetTypeToString(assetName),
             style: TextStyle(
+                    letterSpacing: -0.3,
                 color: Helper.baseBlack,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500),
           ),
           subtitle: Text(count.toString() + " photos · 2 videos",
               style: TextStyle(
+                    letterSpacing: -0.3,
                   color: Helper.baseBlack.withOpacity(0.5),
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400)),

@@ -116,6 +116,7 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
           TextSpan(
             text: '@$username',
             style: TextStyle(
+                    letterSpacing: -0.3,
               color: Colors.blue, // Set your desired text style here
               fontWeight: FontWeight.bold,
             ),
@@ -161,6 +162,7 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                   Text(
                     'Comments',
                     style: TextStyle(
+                    letterSpacing: -0.3,
                         color: Helper.baseBlack,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500),
@@ -202,6 +204,7 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                               title: Text(
                                 data[reversedIndex].user!.name!,
                                 style: TextStyle(
+                    letterSpacing: -0.3,
                                     color: Helper.textColor600,
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w500),
@@ -219,7 +222,8 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                 },
                 error: (err, _) {
                   return const Text("Failed to load Comments",
-                      style: TextStyle(color: Helper.errorColor));
+                      style: TextStyle(
+                    letterSpacing: -0.3,color: Helper.errorColor));
                 },
                 loading: () => LoadCommentsWidget(),
               ),
@@ -243,6 +247,7 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                     Mention(
                       trigger: "@",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.primary,
                           fontWeight: FontWeight.w400,
                           fontSize: 14.sp),
@@ -269,6 +274,7 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                             title: Text(
                               data['display'],
                               style: TextStyle(
+                    letterSpacing: -0.3,
                                   color: Helper.textColor900,
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w500),
@@ -279,6 +285,7 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                     )
                   ],
                   style: TextStyle(
+                    letterSpacing: -0.3,
                       color: Helper.textColor600,
                       fontWeight: FontWeight.w400,
                       fontSize: 14.sp),
@@ -291,6 +298,7 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                         EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
                     hintText: "Add comment",
                     hintStyle: TextStyle(
+                    letterSpacing: -0.3,
                       color: Helper.textColor500,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w400,

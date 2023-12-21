@@ -31,6 +31,7 @@ class _SupportCardState extends State<SupportCard> {
         title: Text(
           "ID #" + widget.supportData.id,
           style: TextStyle(
+                    letterSpacing: -0.3,
               color: Helper.textColor700,
               fontSize: 14.sp,
               fontWeight: FontWeight.w600),
@@ -38,6 +39,7 @@ class _SupportCardState extends State<SupportCard> {
         subtitle: Text(
           "created by " + widget.supportData.user.name,
           style: TextStyle(
+                    letterSpacing: -0.3,
               color: Helper.textColor600,
               fontSize: 12.sp,
               fontWeight: FontWeight.w400),
@@ -52,6 +54,7 @@ class _SupportCardState extends State<SupportCard> {
             widget.supportData.status,
             maxLines: 1,
             style: TextStyle(
+                    letterSpacing: -0.3,
                 fontWeight: FontWeight.w600,
                 fontSize: 12,
                 color: widget.supportData.status == "OPEN" ? Helper.errorColor: Helper.successColor),

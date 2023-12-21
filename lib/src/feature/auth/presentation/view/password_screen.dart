@@ -79,7 +79,8 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                     text: TextSpan(
                       // Note: Styles for TextSpans must be explicitly defined.
                       // Child text spans will inherit styles from parent
-                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                      style: TextStyle(
+                    letterSpacing: -0.3,
                         fontSize: 32.sp,
                         fontWeight: FontWeight.w600,
                         color: Helper.baseBlack,
@@ -97,7 +98,8 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                   ),
                   Text(
                     "Sign in to start managing your projects and job sites.",
-                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                    style: TextStyle(
+                    letterSpacing: -0.3,
                         color: Helper.color128,
                         fontWeight: FontWeight.w400,
                         fontSize: 16.sp),
@@ -107,7 +109,8 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                   ),
                   Text(
                     "Password",
-                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                    style: TextStyle(
+                    letterSpacing: -0.3,
                         color: Helper.textColor700,
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w500),
@@ -139,7 +142,8 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                     obscureText: _obscurePassword,
                     obscuringCharacter: '*',
                     textInputAction: TextInputAction.done,
-                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                    style: TextStyle(
+                    letterSpacing: -0.3,
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                     ),
@@ -190,7 +194,8 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                   invalidUser
                       ? Text(
                           "You’ve entered an incorrect password, try again",
-                          style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                          style: TextStyle(
+                    letterSpacing: -0.3,
                               color: Helper.errorColor,
                               fontWeight: FontWeight.w400),
                         )
@@ -206,7 +211,8 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                             )
                           : Text(
                               "Continue",
-                              style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                              style: TextStyle(
+                    letterSpacing: -0.3,
                                   color: Colors.white,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500),
@@ -262,7 +268,8 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                         },
                         child: Text(
                           "Forgot your password?",
-                          style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                          style: TextStyle(
+                    letterSpacing: -0.3,
                               color: Helper.color128,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w500),

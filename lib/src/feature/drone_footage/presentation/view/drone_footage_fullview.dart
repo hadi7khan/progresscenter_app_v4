@@ -68,6 +68,7 @@ class _DroneFootageFullviewScreenState
               title: Text(
                 widget.projectName,
                 style: TextStyle(
+                    letterSpacing: -0.3,
                     color: Helper.baseBlack,
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w500),

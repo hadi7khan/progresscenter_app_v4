@@ -80,6 +80,7 @@ class _ForgotPasswordScreenState
                   Text(
                     "Forgot your password?",
                     style: TextStyle(
+                    letterSpacing: -0.3,
                         color: Helper.baseBlack,
                         fontWeight: FontWeight.w600,
                         fontSize: 28),
@@ -90,6 +91,7 @@ class _ForgotPasswordScreenState
                   Text(
                     "Enter your registered email address. We will send you an OTP for verification.",
                     style: TextStyle(
+                    letterSpacing: -0.3,
                         color: Helper.color128,
                         fontWeight: FontWeight.w400,
                         fontSize: 16.sp),
@@ -100,6 +102,7 @@ class _ForgotPasswordScreenState
                   Text(
                     "Email",
                     style: TextStyle(
+                    letterSpacing: -0.3,
                         color: Helper.textColor700,
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w500),
@@ -129,6 +132,7 @@ class _ForgotPasswordScreenState
                     },
                     textInputAction: TextInputAction.done,
                     style: TextStyle(
+                    letterSpacing: -0.3,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
                     ),
@@ -140,6 +144,7 @@ class _ForgotPasswordScreenState
                           vertical: 10.h, horizontal: 14.w),
                       hintText: "name@companyname.com",
                       hintStyle: TextStyle(
+                    letterSpacing: -0.3,
                         color: Helper.textColor500,
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w400,

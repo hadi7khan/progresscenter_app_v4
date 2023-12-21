@@ -83,6 +83,7 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
             title: Text(
               "Livelapse",
               style: TextStyle(
+                    letterSpacing: -0.3,
                   color: Helper.baseBlack,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w500),
@@ -124,6 +125,7 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
                               Text(
                                 "No Livelapse created",
                                 style: TextStyle(
+                    letterSpacing: -0.3,
                                     color: Helper.textColor900,
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w600),
@@ -222,6 +224,7 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
                                         Text(data[index].name!,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
+                    letterSpacing: -0.3,
                                                 color: Helper.baseBlack,
                                                 fontSize: 14.sp,
                                                 fontWeight: FontWeight.w500)),
@@ -232,6 +235,7 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
                                                 "-" +
                                                 getDate(data[index].endDate),
                                             style: TextStyle(
+                    letterSpacing: -0.3,
                                                 color: Helper.baseBlack
                                                     .withOpacity(0.5),
                                                 fontSize: 12.sp,
@@ -241,6 +245,7 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
                                         ),
                                         Text(data[index].status!,
                                             style: TextStyle(
+                    letterSpacing: -0.3,
                                                 color: data[index].status! !=
                                                         "EXPIRED"
                                                     ? Helper.textColor400
@@ -258,7 +263,8 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
               },
               error: (err, _) {
                 return const Text("Failed to fetch livelapse",
-                    style: TextStyle(color: Helper.errorColor));
+                    style: TextStyle(
+                    letterSpacing: -0.3,color: Helper.errorColor));
               },
               loading: () => LoadingLivelapseList()
             ),

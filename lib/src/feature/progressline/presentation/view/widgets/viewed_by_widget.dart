@@ -39,6 +39,7 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                     Text(
                       widget.showText,
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w500),
@@ -65,6 +66,7 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                       title: Text(
                         widget.data[index].name!,
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.baseBlack,
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w500),

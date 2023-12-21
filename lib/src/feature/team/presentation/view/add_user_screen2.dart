@@ -110,6 +110,7 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
           title: Text(
             project.name,
             style: TextStyle(
+                    letterSpacing: -0.3,
                 color: Helper.baseBlack,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500),
@@ -117,6 +118,7 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
           subtitle: Text(
             project.location.name,
             style: TextStyle(
+                    letterSpacing: -0.3,
                 color: Helper.baseBlack.withOpacity(0.5),
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w400),
@@ -208,6 +210,7 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
               title: Text(
                 "Add new user",
                 style: TextStyle(
+                    letterSpacing: -0.3,
                     color: Helper.baseBlack,
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w500),
@@ -259,6 +262,7 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
                                       vertical: 10.h, horizontal: 14.w),
                                   hintText: "Search or add here",
                                   hintStyle: TextStyle(
+                    letterSpacing: -0.3,
                                     color: Helper.textColor500,
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w400,
@@ -301,6 +305,7 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
                                     title: Text(
                                       team.toString(),
                                       style: TextStyle(
+                    letterSpacing: -0.3,
                                           color: Helper.textColor700,
                                           fontSize: 14.sp,
                                           fontWeight: FontWeight.w600),
@@ -326,6 +331,7 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
                               return Chip(
                                 label: Text(suggestion),
                                 labelStyle: TextStyle(
+                    letterSpacing: -0.3,
                                     color: Helper.textColor500,
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.w500),
@@ -379,6 +385,7 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
                           Text(
                             "Assigned Projects",
                             style: TextStyle(
+                    letterSpacing: -0.3,
                                 color: Helper.textColor700,
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w700),
@@ -393,7 +400,8 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
                     },
                     error: (err, _) {
                       return const Text("Failed to load Projects",
-                          style: TextStyle(color: Helper.errorColor));
+                          style: TextStyle(
+                    letterSpacing: -0.3,color: Helper.errorColor));
                     },
                     loading: () => LoadingAddUser2(),
                   )),
@@ -426,6 +434,7 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
                     child: Text(
                       "Cancel",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.neutral500,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -472,6 +481,7 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
                     child: Text(
                       "Finish",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Colors.white,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),

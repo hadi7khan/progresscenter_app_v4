@@ -78,7 +78,8 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                                 children: [
                                   Text(
                                     contents[i].title!,
-                                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                                    style: TextStyle(
+                    letterSpacing: -0.3,
                                       fontSize: 32.sp,
                                       fontWeight: FontWeight.w600,
                                       color: Helper.textColor800,
@@ -87,7 +88,8 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                                   SizedBox(height: 8.h),
                                   Text(
                                     contents[i].discription!,
-                                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                                    style: TextStyle(
+                    letterSpacing: -0.3,
                                       fontSize: 16.sp,
                                       fontWeight: FontWeight.w400,
                                       color: Helper.textColor600,
@@ -125,7 +127,8 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                         child: ElevatedButton(
                           child: Text(
                             "Sign in",
-                            style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                            style: TextStyle(
+                    letterSpacing: -0.3,
                                 color: Colors.white,
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w500),
@@ -158,7 +161,8 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                       ),
                       Text(
                         "Get in touch",
-                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                        style: TextStyle(
+                    letterSpacing: -0.3,
                             color: Helper.textColor500,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500),

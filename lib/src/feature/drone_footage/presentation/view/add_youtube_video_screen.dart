@@ -64,6 +64,7 @@ class _AddYoutubeVideoScreenState
               title: Text(
                 "Add Drone Footage",
                 style: TextStyle(
+                    letterSpacing: -0.3,
                     color: Helper.baseBlack,
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w500),
@@ -85,6 +86,7 @@ class _AddYoutubeVideoScreenState
                       Text(
                         "You can add one drone video at a time from here",
                         style: TextStyle(
+                    letterSpacing: -0.3,
                             fontWeight: FontWeight.w400,
                             fontSize: 16.sp,
                             color: Helper.textColor600),
@@ -105,6 +107,7 @@ class _AddYoutubeVideoScreenState
                           },
                           textInputAction: TextInputAction.done,
                           style: TextStyle(
+                    letterSpacing: -0.3,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
                           ),
@@ -116,6 +119,7 @@ class _AddYoutubeVideoScreenState
                                 vertical: 10.h, horizontal: 14.w),
                             hintText: "Enter name",
                             hintStyle: TextStyle(
+                    letterSpacing: -0.3,
                               color: Helper.textColor500,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w400,
@@ -158,6 +162,7 @@ class _AddYoutubeVideoScreenState
                           },
                           textInputAction: TextInputAction.done,
                           style: TextStyle(
+                    letterSpacing: -0.3,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
                           ),
@@ -169,6 +174,7 @@ class _AddYoutubeVideoScreenState
                                 vertical: 10.h, horizontal: 14.w),
                             hintText: "Enter location",
                             hintStyle: TextStyle(
+                    letterSpacing: -0.3,
                               color: Helper.textColor500,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w400,
@@ -213,6 +219,7 @@ class _AddYoutubeVideoScreenState
                           },
                           textInputAction: TextInputAction.done,
                           style: TextStyle(
+                    letterSpacing: -0.3,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
                           ),
@@ -224,6 +231,7 @@ class _AddYoutubeVideoScreenState
                                 vertical: 10.h, horizontal: 14.w),
                             hintText: "Enter url",
                             hintStyle: TextStyle(
+                    letterSpacing: -0.3,
                               color: Helper.textColor500,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w400,
@@ -282,6 +290,7 @@ class _AddYoutubeVideoScreenState
                     child: Text(
                       "Cancel",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.neutral500,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -331,6 +340,7 @@ class _AddYoutubeVideoScreenState
                     child: Text(
                       "Upload",
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Colors.white,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),

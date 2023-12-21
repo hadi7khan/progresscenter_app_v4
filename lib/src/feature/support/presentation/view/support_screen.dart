@@ -70,6 +70,7 @@ class _SupportScreenState extends BaseConsumerState<SupportScreen> {
                         Text(
                           "Support",
                           style: TextStyle(
+                    letterSpacing: -0.3,
                               color: Helper.textColor700,
                               fontSize: 36.sp,
                               fontWeight: FontWeight.w600),
@@ -83,7 +84,8 @@ class _SupportScreenState extends BaseConsumerState<SupportScreen> {
               },
               error: (err, _) {
                 return const Text("Failed to load support tickets",
-                    style: TextStyle(color: Helper.errorColor));
+                    style: TextStyle(
+                    letterSpacing: -0.3,color: Helper.errorColor));
               },
               loading: () => LoadingSupportList(),
             )),

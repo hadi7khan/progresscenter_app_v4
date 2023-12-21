@@ -76,32 +76,34 @@ class _ChangePasswordScreenState
                   Text(
                     "Choose new password",
                     style: TextStyle(
+                        letterSpacing: -0.3,
                         color: Helper.baseBlack,
                         fontWeight: FontWeight.w600,
                         fontSize: 28.sp),
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: 12.h,
                   ),
                   Text(
                     "Create a new password that is atleast 8 characters long.",
                     style: TextStyle(
+                        letterSpacing: -0.3,
                         color: Helper.color128,
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w400),
                   ),
-
                   SizedBox(
                     height: 34.h,
                   ),
                   Text(
                     "New Password",
                     style: TextStyle(
+                        letterSpacing: -0.3,
                         color: Helper.textColor700,
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w500),
                   ),
-                   SizedBox(
+                  SizedBox(
                     height: 6.h,
                   ),
                   FormBuilderTextField(
@@ -129,6 +131,7 @@ class _ChangePasswordScreenState
                     obscuringCharacter: '*',
                     textInputAction: TextInputAction.done,
                     style: TextStyle(
+                      letterSpacing: -0.3,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
                     ),
@@ -136,10 +139,11 @@ class _ChangePasswordScreenState
                     keyboardType: TextInputType.name,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 10.h, horizontal: 14.w),
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 10.h, horizontal: 14.w),
                       hintText: "Enter Password",
                       hintStyle: TextStyle(
+                        letterSpacing: -0.3,
                         color: Helper.textColor500,
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w400,
@@ -177,6 +181,7 @@ class _ChangePasswordScreenState
                   Text(
                     "Retype new password",
                     style: TextStyle(
+                        letterSpacing: -0.3,
                         color: Helper.textColor700,
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w500),
@@ -193,7 +198,7 @@ class _ChangePasswordScreenState
                       _changeState = true;
                       passwordNotMatched = false;
                     },
-                    onSubmitted: (text){
+                    onSubmitted: (text) {
                       setState(() {
                         _changeState = true;
                         passwordNotMatched = false;
@@ -211,6 +216,7 @@ class _ChangePasswordScreenState
                     obscuringCharacter: '*',
                     textInputAction: TextInputAction.done,
                     style: TextStyle(
+                      letterSpacing: -0.3,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
                     ),
@@ -218,10 +224,11 @@ class _ChangePasswordScreenState
                     keyboardType: TextInputType.name,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 10.h, horizontal: 14.w),
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 10.h, horizontal: 14.w),
                       hintText: "Retype Password",
                       hintStyle: TextStyle(
+                        letterSpacing: -0.3,
                         color: Helper.textColor500,
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w400,
@@ -255,17 +262,17 @@ class _ChangePasswordScreenState
                     ),
                     onTap: () {},
                   ),
-                  SizedBox(height:passwordNotMatched
-                      ? 6.h: 0),
+                  SizedBox(height: passwordNotMatched ? 6.h : 0),
                   passwordNotMatched
                       ? Text(
                           "Password not matching",
                           style: TextStyle(
+                              letterSpacing: -0.3,
                               color: Helper.errorColor,
                               fontWeight: FontWeight.w400),
                         )
                       : SizedBox(),
-                   SizedBox(height: 28.h),
+                  SizedBox(height: 28.h),
                   Container(
                     height: 52.h,
                     width: double.infinity,
@@ -283,8 +290,8 @@ class _ChangePasswordScreenState
                               // currentIndex == contents.length - 1 ? "Continue" : "Next"
                             ),
                       style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(_changeState ? Helper.primary : Helper.blendmode),
+                          backgroundColor: MaterialStatePropertyAll(
+                              _changeState ? Helper.primary : Helper.blendmode),
                           shape: MaterialStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.r),
@@ -319,15 +326,14 @@ class _ChangePasswordScreenState
                             });
                           }
                         } else {
-                          
                           setState(() {
                             isLoading = false;
                             passwordNotMatched = true;
                           });
                         }
                         setState(() {
-                            isLoading = false;
-                          });
+                          isLoading = false;
+                        });
                       },
                     ),
                   ),

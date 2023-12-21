@@ -38,6 +38,7 @@ class _DocsCardState extends BaseConsumerState<DocsCard> {
                 child: Text(
                   widget.docsData['path'].split('.').last.toUpperCase(),
                   style: TextStyle(
+                    letterSpacing: -0.3,
                       color: Helper.textColor600,
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w500),
@@ -46,6 +47,7 @@ class _DocsCardState extends BaseConsumerState<DocsCard> {
               title: Text(
                 widget.docsData['fileName'],
                 style: TextStyle(
+                    letterSpacing: -0.3,
                     color: Helper.textColor700,
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600),
@@ -53,6 +55,7 @@ class _DocsCardState extends BaseConsumerState<DocsCard> {
               subtitle: Text(
                 "uploaded by " + widget.docsData["uploadedBy"],
                 style: TextStyle(
+                    letterSpacing: -0.3,
                     color: Helper.textColor600,
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w400),
@@ -66,6 +69,7 @@ class _DocsCardState extends BaseConsumerState<DocsCard> {
                     child: Text(
                       'Download',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500),
@@ -76,6 +80,7 @@ class _DocsCardState extends BaseConsumerState<DocsCard> {
                     child: Text(
                       'Delete',
                       style: TextStyle(
+                    letterSpacing: -0.3,
                           color: Helper.errorColor,
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w500),
@@ -105,6 +110,7 @@ class _DocsCardState extends BaseConsumerState<DocsCard> {
                                       text: TextSpan(
                                         text: "The following file ",
                                         style: TextStyle(
+                    letterSpacing: -0.3,
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.w500,
                                             color: Helper.textColor500),
@@ -114,6 +120,7 @@ class _DocsCardState extends BaseConsumerState<DocsCard> {
                                                 widget.docsData['fileName'] +
                                                 '\"',
                                             style: TextStyle(
+                    letterSpacing: -0.3,
                                                 fontSize: 14.sp,
                                                 fontWeight: FontWeight.w500,
                                                 color: Helper.baseBlack),
@@ -121,6 +128,7 @@ class _DocsCardState extends BaseConsumerState<DocsCard> {
                                           TextSpan(
                                             text: ' will be deleted.',
                                             style: TextStyle(
+                    letterSpacing: -0.3,
                                                 fontSize: 14.sp,
                                                 fontWeight: FontWeight.w500,
                                                 color: Helper.textColor500),
@@ -161,6 +169,7 @@ class _DocsCardState extends BaseConsumerState<DocsCard> {
                                 child: const Text(
                                   "Delete",
                                   style: TextStyle(
+                    letterSpacing: -0.3,
                                       color: Colors.white,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w600),
@@ -183,6 +192,7 @@ class _DocsCardState extends BaseConsumerState<DocsCard> {
                                 child: Text(
                                   "Cancel",
                                   style: TextStyle(
+                    letterSpacing: -0.3,
                                       color: Helper.textColor500,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w600),
