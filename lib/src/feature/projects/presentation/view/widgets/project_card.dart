@@ -32,7 +32,7 @@ class _ProjectCardState extends State<ProjectCard> {
         });
       },
       child: Hero(
-        tag: "project card",
+        tag: "project_card",
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
