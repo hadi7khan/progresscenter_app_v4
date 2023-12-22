@@ -57,15 +57,17 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
                   onTap: () {
                     context.pop();
                   },
-                  child: SvgPicture.asset(
-                    'assets/images/arrow-left.svg',
+                  child: Transform.rotate(
+                    angle: 180 * (3.1415926535 / 180),
+                    child: SvgPicture.asset('assets/images/chevron-right.svg',
+                        color: Helper.iconColor, fit: BoxFit.contain),
                   ),
                 ),
                 leadingWidth: 24,
                 title: Text(
                   widget.projectName,
                   style: TextStyle(
-                    letterSpacing: -0.3,
+                      letterSpacing: -0.3,
                       color: Helper.baseBlack,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500),
@@ -116,7 +118,7 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
                         Text(
                           "No Drone footage",
                           style: TextStyle(
-                    letterSpacing: -0.3,
+                              letterSpacing: -0.3,
                               color: Helper.textColor900,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w600),
@@ -140,7 +142,8 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
                               itemCount: data.length,
                               itemBuilder: ((context, index) {
                                 final reversedIndex = data.length - 1 - index;
-                                return DroneListViewWidget(data: data[reversedIndex]);
+                                return DroneListViewWidget(
+                                    data: data[reversedIndex]);
                               }),
                             )
                           : GridView.builder(
@@ -167,7 +170,7 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
               error: (err, _) {
                 return const Text("Failed to load Drone Footages",
                     style: TextStyle(
-                    letterSpacing: -0.3,color: Helper.errorColor));
+                        letterSpacing: -0.3, color: Helper.errorColor));
               },
               loading: () => Column(
                 children: [
@@ -206,7 +209,7 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
                 Text(
                   'Add Drone Footage',
                   style: TextStyle(
-                    letterSpacing: -0.3,
+                      letterSpacing: -0.3,
                       color: Helper.baseBlack,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500),
@@ -219,7 +222,7 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     context.push('/addFileVideo', extra: {
                       "projectId": widget.projectId,
                       "projectName": widget.projectName
@@ -233,7 +236,7 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
                 ),
                 SizedBox(height: 20.h),
                 InkWell(
-                   onTap: (){
+                  onTap: () {
                     context.push('/addVimeoVideo', extra: {
                       "projectId": widget.projectId,
                       "projectName": widget.projectName
@@ -247,7 +250,7 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
                 ),
                 SizedBox(height: 20.h),
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     context.push('/addYoutubeVideo', extra: {
                       "projectId": widget.projectId,
                       "projectName": widget.projectName

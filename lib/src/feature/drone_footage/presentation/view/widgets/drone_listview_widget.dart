@@ -112,7 +112,7 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
                             // ),
                             VimeoVideoPlayer(
                                 url: widget.data.shareUrl,
-                                autoPlay: true
+                                autoPlay: false
                               ),
                     // VimeoPlayer(videoId: extractVimeoVideoId(widget.data.url)),
                   ),
@@ -179,7 +179,7 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
                     ),
                     TextButton(
                         onPressed: () {
-                          context.push('/fullViewDrone', extra: {"projectId": widget.data.project.id, "projectName": widget.data.name!, "videoUrl": widget.data.url});
+                          context.push('/fullViewDrone', extra: {"projectId": widget.data.project.id, "projectName": widget.data.name!, "videoUrl": widget.data.url, "provider": widget.data.details.provider});
                         },
                         style: ButtonStyle(
                             shape: MaterialStateProperty.all(

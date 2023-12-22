@@ -4,16 +4,20 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:vimeo_video_player/vimeo_video_player.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class DroneFootageFullviewScreen extends StatefulWidget {
   final String projectId;
   final String projectName;
   final String videoUrl;
+  final String provider;
   const DroneFootageFullviewScreen(
       {super.key,
       required this.projectId,
       required this.projectName,
-      required this.videoUrl});
+      required this.videoUrl,
+      required this.provider});
 
   @override
   State<DroneFootageFullviewScreen> createState() =>
@@ -23,6 +27,7 @@ class DroneFootageFullviewScreen extends StatefulWidget {
 class _DroneFootageFullviewScreenState
     extends State<DroneFootageFullviewScreen> {
   VlcPlayerController? _videoPlayerController;
+  YoutubePlayerController? _youtubeController;
   @override
   void initState() {
     super.initState();
@@ -32,15 +37,15 @@ class _DroneFootageFullviewScreenState
       autoPlay: true,
       options: VlcPlayerOptions(),
     );
-    // _youtubeController = YoutubePlayerController(
-    //   initialVideoId: YoutubePlayer.convertUrlToId(widget.data.url) ?? '',
-    //   flags: YoutubePlayerFlags(
-    //     hideControls: true,
-    //     autoPlay: false,
-    //     mute: false,
-    //     disableDragSeek: true,
-    //   ),
-    // );
+    _youtubeController = YoutubePlayerController(
+      initialVideoId: YoutubePlayer.convertUrlToId(widget.videoUrl) ?? '',
+      flags: YoutubePlayerFlags(
+        hideControls: false,
+        autoPlay: true,
+        mute: false,
+        disableDragSeek: false,
+      ),
+    );
   }
 
   @override
@@ -61,8 +66,11 @@ class _DroneFootageFullviewScreenState
                 onTap: () {
                   context.pop();
                 },
-                child: SvgPicture.asset('assets/images/chevron-right.svg',
-                    color: Helper.iconColor, fit: BoxFit.cover),
+                child: Transform.rotate(
+                  angle: 180 * (3.1415926535 / 180),
+                  child: SvgPicture.asset('assets/images/chevron-right.svg',
+                      color: Helper.iconColor, fit: BoxFit.contain),
+                ),
               ),
               leadingWidth: 24,
               title: Text(
@@ -89,11 +97,18 @@ class _DroneFootageFullviewScreenState
       ),
       body: SafeArea(
         child: Center(
-            child: VlcPlayer(
-          controller: _videoPlayerController!,
-          aspectRatio: 16 / 9,
-          placeholder: Center(child: CircularProgressIndicator()),
-        )),
+          child: widget.provider == "PROGRESSCENTER"
+              ? VlcPlayer(
+                  controller: _videoPlayerController!,
+                  aspectRatio: 16 / 9,
+                  placeholder: Center(child: CircularProgressIndicator()),
+                )
+              : widget.provider == "YOUTUBE"
+                  ? YoutubePlayer(
+                      controller: _youtubeController!,
+                    )
+                  : VimeoVideoPlayer(url: widget.videoUrl, autoPlay: true),
+        ),
       ),
     );
   }

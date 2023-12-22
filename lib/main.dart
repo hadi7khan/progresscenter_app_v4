@@ -21,8 +21,8 @@ void main() async {
     systemNavigationBarColor: Colors.white,
   ));
 
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-      overlays: SystemUiOverlay.values);
+  // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+  //     overlays: SystemUiOverlay.values);
 
   runApp(const ProviderScope(child: const MyApp()));
 }

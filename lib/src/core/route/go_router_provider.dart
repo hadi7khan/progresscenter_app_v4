@@ -540,7 +540,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 key: state.pageKey,
                 projectId: args['projectId'],
                 projectName: args['projectName'],
-                videoUrl: args['videoUrl']
+                videoUrl: args['videoUrl'],
+                provider: args["provider"]
                 ),
           );
         },
