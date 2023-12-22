@@ -123,7 +123,7 @@ class _ProjectDetailsScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Hero(
-                 tag: 'project_card',
+                tag: 'project_card',
                 child: Container(
                   margin: EdgeInsets.zero,
                   padding: EdgeInsets.zero,
@@ -188,49 +188,61 @@ class _ProjectDetailsScreenState
                                   ),
                           ),
                         ),
+
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          height: MediaQuery.of(context).padding.top,
+                          child: Container(
+                            color: Colors.black
+                                .withOpacity(0.3), // Adjust opacity as needed
+                          ),
+                        ),
                         Positioned(
                           top: 60,
                           left: 20,
                           child: BlurryContainer(
-                              height: 30,
-                              padding: EdgeInsets.only(
-                                  top: 3.h, bottom: 3.h, left: 2.w, right: 3.w),
-                              blur: 3,
-                              borderRadius: BorderRadius.circular(20.r),
-                              color: Colors.white,
-                              child: InkWell(
-                                  onTap: () {
-                                    context.pop();
-                                  },
-                                  child: Transform.rotate(
-                                    angle: 180 * (3.1415926535 / 180),
-                                    child: SvgPicture.asset(
-                                      'assets/images/chevron-right.svg',
-                                      color: Helper.iconColor,
-                                      fit: BoxFit.cover
-                                      ),
-                                  ),
-                              ),),
+                            height: 30,
+                            padding: EdgeInsets.only(
+                                top: 3.h, bottom: 3.h, left: 2.w, right: 3.w),
+                            blur: 3,
+                            borderRadius: BorderRadius.circular(20.r),
+                            color: Colors.white,
+                            child: InkWell(
+                              onTap: () {
+                                context.pop();
+                              },
+                              child: Transform.rotate(
+                                angle: 180 * (3.1415926535 / 180),
+                                child: SvgPicture.asset(
+                                    'assets/images/chevron-right.svg',
+                                    color: Helper.iconColor,
+                                    fit: BoxFit.cover),
+                              ),
+                            ),
+                          ),
                         ),
                         Positioned(
                           top: 60,
                           right: 20,
                           child: BlurryContainer(
-                              height: 30,
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 6.h, horizontal: 6.w),
-                              blur: 3,
-                              borderRadius: BorderRadius.circular(20.r),
-                              color: Colors.white,
-                              child: InkWell(
-                                onTap: () {
-                                  context.push('/editproject',
-                                      extra: projectByIdData.value);
-                                },
-                                child: SvgPicture.asset(
-                                    'assets/images/edit_square.svg',
-                                    color: Helper.iconColor),
-                              ),),
+                            height: 30,
+                            padding: EdgeInsets.symmetric(
+                                vertical: 6.h, horizontal: 6.w),
+                            blur: 3,
+                            borderRadius: BorderRadius.circular(20.r),
+                            color: Colors.white,
+                            child: InkWell(
+                              onTap: () {
+                                context.push('/editproject',
+                                    extra: projectByIdData.value);
+                              },
+                              child: SvgPicture.asset(
+                                  'assets/images/edit_square.svg',
+                                  color: Helper.iconColor),
+                            ),
+                          ),
                         ),
                         Positioned(
                           top: 60,
@@ -310,7 +322,7 @@ class _ProjectDetailsScreenState
                     Text(
                       widget.projectName,
                       style: TextStyle(
-                    letterSpacing: -0.3,
+                        letterSpacing: -0.3,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
                         color: Helper.baseBlack,
@@ -319,7 +331,7 @@ class _ProjectDetailsScreenState
                     Text(
                       widget.projectLocation!,
                       style: TextStyle(
-                    letterSpacing: -0.3,
+                        letterSpacing: -0.3,
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
                         color: Helper.baseBlack.withOpacity(0.5),
@@ -365,7 +377,7 @@ class _ProjectDetailsScreenState
                     // for (var link in links) {
                     //   var identifier = link['identifier'];
                     //   var name = link['content'];
-          
+
                     //   if (assetMap.containsKey(name)) {
                     //     filteredLinks.add(link);
                     //   }
@@ -375,15 +387,15 @@ class _ProjectDetailsScreenState
                         .where(
                             (link) => assetMap.containsKey(link['identifier']))
                         .toList();
-          
+
                     // for (var link in links) {
                     //   if (assetMap.containsKey(link['identifier'])) {
                     //     filteredLinks.add(link);
                     //   }
                     // }
-          
+
                     print("filtered links" + filteredLinks.toString());
-          
+
                     return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -677,7 +689,7 @@ class _ProjectDetailsScreenState
                                           Text(
                                             myItems[index].title,
                                             style: TextStyle(
-                    letterSpacing: -0.3,
+                                                letterSpacing: -0.3,
                                                 color: Helper.baseBlack
                                                     .withOpacity(0.5),
                                                 fontSize: 14.sp,
@@ -685,7 +697,7 @@ class _ProjectDetailsScreenState
                                           ),
                                           Text(myItems[index].subTitle,
                                               style: TextStyle(
-                    letterSpacing: -0.3,
+                                                  letterSpacing: -0.3,
                                                   color: Helper.baseBlack,
                                                   fontSize: 14.sp,
                                                   fontWeight: FontWeight.w500))
@@ -740,7 +752,7 @@ class _ProjectDetailsScreenState
                                         title: Text(
                                           e['content'],
                                           style: TextStyle(
-                    letterSpacing: -0.3,
+                                              letterSpacing: -0.3,
                                               color: Helper.baseBlack,
                                               fontSize: 16.sp,
                                               fontWeight: FontWeight.w500),
@@ -751,7 +763,7 @@ class _ProjectDetailsScreenState
                                                 " " +
                                                 e['countText'],
                                             style: TextStyle(
-                    letterSpacing: -0.3,
+                                                letterSpacing: -0.3,
                                                 color: Helper.baseBlack
                                                     .withOpacity(0.5),
                                                 fontSize: 14.sp,
@@ -772,7 +784,7 @@ class _ProjectDetailsScreenState
                   error: (err, _) {
                     return const Text("Failed to load Project details",
                         style: TextStyle(
-                    letterSpacing: -0.3,color: Helper.errorColor));
+                            letterSpacing: -0.3, color: Helper.errorColor));
                   },
                   loading: () => Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1100,14 +1112,14 @@ Widget buildAsset(
           title: Text(
             assetTypeToString(assetName),
             style: TextStyle(
-                    letterSpacing: -0.3,
+                letterSpacing: -0.3,
                 color: Helper.baseBlack,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500),
           ),
           subtitle: Text(count.toString() + " Cameras active",
               style: TextStyle(
-                    letterSpacing: -0.3,
+                  letterSpacing: -0.3,
                   color: Helper.baseBlack.withOpacity(0.5),
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400)),
@@ -1131,14 +1143,14 @@ Widget buildAsset(
           title: Text(
             assetTypeToString(assetName),
             style: TextStyle(
-                    letterSpacing: -0.3,
+                letterSpacing: -0.3,
                 color: Helper.baseBlack,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500),
           ),
           subtitle: Text(count.toString() + " Footages",
               style: TextStyle(
-                    letterSpacing: -0.3,
+                  letterSpacing: -0.3,
                   color: Helper.baseBlack.withOpacity(0.5),
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400)),
@@ -1162,14 +1174,14 @@ Widget buildAsset(
           title: Text(
             assetTypeToString(assetName),
             style: TextStyle(
-                    letterSpacing: -0.3,
+                letterSpacing: -0.3,
                 color: Helper.baseBlack,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500),
           ),
           subtitle: Text(count.toString() + " Cameras active",
               style: TextStyle(
-                    letterSpacing: -0.3,
+                  letterSpacing: -0.3,
                   color: Helper.baseBlack.withOpacity(0.5),
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400)),
@@ -1193,14 +1205,14 @@ Widget buildAsset(
           title: Text(
             assetTypeToString(assetName),
             style: TextStyle(
-                    letterSpacing: -0.3,
+                letterSpacing: -0.3,
                 color: Helper.baseBlack,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500),
           ),
           subtitle: Text(count.toString() + " photos · 2 videos",
               style: TextStyle(
-                    letterSpacing: -0.3,
+                  letterSpacing: -0.3,
                   color: Helper.baseBlack.withOpacity(0.5),
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400)),
@@ -1224,14 +1236,14 @@ Widget buildAsset(
           title: Text(
             assetTypeToString(assetName),
             style: TextStyle(
-                    letterSpacing: -0.3,
+                letterSpacing: -0.3,
                 color: Helper.baseBlack,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500),
           ),
           subtitle: Text(count.toString() + " photos · 2 videos",
               style: TextStyle(
-                    letterSpacing: -0.3,
+                  letterSpacing: -0.3,
                   color: Helper.baseBlack.withOpacity(0.5),
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400)),
@@ -1255,14 +1267,14 @@ Widget buildAsset(
           title: Text(
             assetTypeToString(assetName),
             style: TextStyle(
-                    letterSpacing: -0.3,
+                letterSpacing: -0.3,
                 color: Helper.baseBlack,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500),
           ),
           subtitle: Text(count.toString() + " photos · 2 videos",
               style: TextStyle(
-                    letterSpacing: -0.3,
+                  letterSpacing: -0.3,
                   color: Helper.baseBlack.withOpacity(0.5),
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400)),
