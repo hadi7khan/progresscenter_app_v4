@@ -1,10 +1,13 @@
+import 'dart:async';
+
 import 'package:blurrycontainer/blurrycontainer.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
-
-import 'cctv_widget.dart';
+import 'package:http/http.dart' as http;
 
 class CctvListViewWidget extends StatefulWidget {
   final data;
@@ -15,8 +18,61 @@ class CctvListViewWidget extends StatefulWidget {
 }
 
 class _CctvListViewWidgetState extends State<CctvListViewWidget> {
+  late Timer _timer;
+  bool isOnline = false;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  // // Start the timer when the widget is initialized
+  // _timer = Timer.periodic(Duration(seconds: 5), (timer) {
+  //   _checkStatus();
+  // });
+
+  // Initial check for the status
+  // _checkStatus();
+  // }
+
+  Future _checkStatus() async {
+    try { 
+      // Assume that widget.data.streamingUrl is not null
+      final response = await Dio().get(widget.data.streamingUrl!);
+      print('cctv response   ' + response.data.toString());
+      print('cctv response code   ' + response.statusCode.toString());
+      // Check for a successful status code and a content-type header
+      if (response.statusCode == 200) {
+        setState(() {
+          isOnline = true;
+          print('isOnline changed   ' + isOnline.toString());
+        });
+      } else {
+        setState(() {
+          isOnline = false;
+        });
+      }
+    } catch (e, stackTrace) {
+      print('Error checking status: $e');
+      print('StackTrace: $stackTrace');
+      setState(() {
+        isOnline = false;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    // Cancel the timer when the widget is disposed
+    _timer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Schedule a call to _checkStatus every 5 seconds
+    _timer = Timer.periodic(Duration(seconds: 10), (timer) {
+      _checkStatus();
+    });
     return Container(
       margin: EdgeInsets.zero,
       padding: EdgeInsets.zero,
@@ -27,13 +83,23 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
       ),
       child:
           Stack(fit: StackFit.loose, alignment: Alignment.topCenter, children: [
-        widget.data.streamingUrl != null
+        widget.data.latestImage != null
             ? ClipRRect(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(16.r),
                     topRight: Radius.circular(16.r)),
-                child: CCTVWidget(
-                  url: widget.data.streamingUrl,
+                child: Image.network(
+                  widget.data.latestImage.url!,
+                  fit: BoxFit.fill,
+                  errorBuilder: (BuildContext context, Object exception,
+                      StackTrace? stackTrace) {
+                    return ClipRRect(
+                      child: Image.asset(
+                        'assets/images/error_image.jpeg',
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  },
                 ),
               )
             : ClipRRect(
@@ -54,7 +120,7 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
               color: Colors.white.withOpacity(0.1),
               child: Row(
                 children: [
-                  Icon(Icons.circle, size: 8, color: Helper.successColor300),
+                  Icon(Icons.circle, size: 8, color: isOnline ? Helper.successColor : Helper.errorColor,),
                   // SvgPicture.asset(
                   //   'assets/images/updated.svg',
                   //   height: 10.h,
@@ -62,10 +128,10 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
                   //   color: Colors.white,
                   // ),
                   SizedBox(width: 4.w),
-                  Text("Online",
+                  Text(isOnline ? "Online" : "Offline",
                       style: TextStyle(
-                    letterSpacing: -0.3,
-                          color: Colors.white,
+                          letterSpacing: -0.3,
+                          color: isOnline ? Helper.successColor : Helper.errorColor,
                           fontWeight: FontWeight.w500,
                           fontSize: 12.sp)),
                 ],
@@ -101,7 +167,7 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
                               overflow: TextOverflow.ellipsis,
                               softWrap: true,
                               style: TextStyle(
-                    letterSpacing: -0.3,
+                                letterSpacing: -0.3,
                                 fontSize: 18.sp,
                                 fontWeight: FontWeight.w500,
                                 overflow: TextOverflow.ellipsis,
@@ -109,15 +175,12 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
                               ),
                             ),
                           ),
-                          // SizedBox(
-                          //   height: 6.h,
-                          // ),
                           Text(
                             "Installed · " +
-                                showDate(
-                                    widget.data.installationDate, 'dd MMM yyyy'),
+                                showDate(widget.data.installationDate,
+                                    'dd MMM yyyy'),
                             style: TextStyle(
-                    letterSpacing: -0.3,
+                              letterSpacing: -0.3,
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
                               color: Helper.baseBlack.withOpacity(0.5),
@@ -128,7 +191,12 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
                     ),
                     TextButton(
                         onPressed: () {
-                          // context.push('/details', extra: {"projectId": "projectId", "projectName": widget.data.name!});
+                          context.push('/fullViewCCTV', extra: {
+                            "projectId": widget.data.project,
+                            "name": widget.data.name,
+                            "streamingUrl": widget.data.streamingUrl,
+                            // "type": widget.data.type
+                          });
                         },
                         style: ButtonStyle(
                             shape: MaterialStateProperty.all(

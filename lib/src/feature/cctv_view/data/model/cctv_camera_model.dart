@@ -14,21 +14,23 @@ String cctvCameraModelToJson(List<CctvCameraModel> data) =>
 @freezed
 class CctvCameraModel with _$CctvCameraModel {
   const factory CctvCameraModel({
-    Details? details,
     Location? location,
+    dynamic folderId,
+    String? timezone,
+    dynamic camera,
     @JsonKey(name: '_id') String? id,
     String? name,
     String? installationDate,
+    String? streamingUrl,
     String? status,
-    DateTime? lastUpdated,
-    AvailablePlugins? availablePlugins,
-    dynamic pointedTo,
     String? reseller,
     String? client,
+    String? qLiveUnit,
     String? project,
     DateTime? createdAt,
+    DateTime? lastUpdated,
+    LatestImage? latestImage,
     DateTime? updatedAt,
-    String? streamingUrl,
   }) = _CctvCameraModel;
 
   factory CctvCameraModel.fromJson(Map<String, dynamic> json) =>
@@ -36,24 +38,31 @@ class CctvCameraModel with _$CctvCameraModel {
 }
 
 @freezed
-class AvailablePlugins with _$AvailablePlugins {
-  const factory AvailablePlugins() = _AvailablePlugins;
+class LatestImage with _$LatestImage {
+  const factory LatestImage({
+    Resolution? resolution,
+    String? name,
+    String? date,
+    String? time,
+    String? datetime,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    String? url,
+  }) = _LatestImage;
 
-  factory AvailablePlugins.fromJson(Map<String, dynamic> json) =>
-      _$AvailablePluginsFromJson(json);
+  factory LatestImage.fromJson(Map<String, dynamic> json) =>
+      _$LatestImageFromJson(json);
 }
 
 @freezed
-class Details with _$Details {
-  const factory Details({
-    String? type,
-    String? version,
-    dynamic unitId,
-    dynamic unitSecret,
-  }) = _Details;
+class Resolution with _$Resolution {
+  const factory Resolution({
+    int? width,
+    int? height,
+  }) = _Resolution;
 
-  factory Details.fromJson(Map<String, dynamic> json) =>
-      _$DetailsFromJson(json);
+  factory Resolution.fromJson(Map<String, dynamic> json) =>
+      _$ResolutionFromJson(json);
 }
 
 @freezed

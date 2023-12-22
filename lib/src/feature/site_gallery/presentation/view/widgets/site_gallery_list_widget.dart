@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_vlc_player/flutter_vlc_player.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 
@@ -13,6 +15,20 @@ class SiteGalleryListViewWidget extends StatefulWidget {
 }
 
 class _SiteGalleryListViewWidgetState extends State<SiteGalleryListViewWidget> {
+  VlcPlayerController? _videoPlayerController;
+  @override
+  void initState() {
+    super.initState();
+    if (widget.data.type == "VIDEO") {
+      _videoPlayerController = VlcPlayerController.network(
+        widget.data.url,
+        autoPlay: false,
+        
+        options: VlcPlayerOptions(),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,36 +41,44 @@ class _SiteGalleryListViewWidgetState extends State<SiteGalleryListViewWidget> {
       ),
       child:
           Stack(fit: StackFit.loose, alignment: Alignment.topCenter, children: [
-        widget.data.type == "IMAGE"
-            ? ClipRRect(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16.r),
-                    topRight: Radius.circular(16.r)),
-                child: Stack(alignment: Alignment.center, children: [
-                  widget.data.type == "IMAGE"
-                      ? Image.network(
-                          widget.data.url!,
-                          fit: BoxFit.fill,
-                          errorBuilder: (BuildContext context, Object exception,
-                              StackTrace? stackTrace) {
-                            return ClipRRect(
-                              child: Image.asset(
-                                'assets/images/error_image.jpeg',
-                                fit: BoxFit.cover,
-                              ),
-                            );
-                          },
-                        )
-                      : SizedBox(),
-                ]))
-            : ClipRRect(
-                borderRadius: BorderRadius.circular(16.r),
-                child: Image.asset(
-                  'assets/images/error_image.jpeg',
-                  fit: BoxFit.cover,
-                  height: 284.h,
-                ),
-              ),
+        ClipRRect(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r)),
+            child: Stack(alignment: Alignment.center, children: [
+              widget.data.type == "IMAGE"
+                  ? Image.network(
+                      widget.data.url!,
+                      fit: BoxFit.fill,
+                      errorBuilder: (BuildContext context, Object exception,
+                          StackTrace? stackTrace) {
+                        return ClipRRect(
+                          child: Image.asset(
+                            'assets/images/error_image.jpeg',
+                            fit: BoxFit.cover,
+                          ),
+                        );
+                      },
+                    )
+                  : Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 16 / 9,
+                          child: VlcPlayer(
+                            controller: _videoPlayerController!,
+                            aspectRatio: 16 / 9,
+                            placeholder:
+                                Center(child: CircularProgressIndicator()),
+                          ),
+                        ),
+                        Positioned(
+                            top: 83,
+                            child: Icon(Icons.play_circle_outline_outlined,
+                                color: Colors.white, size: 44))
+                      ],
+                    ),
+            ])),
         Positioned.fill(
           // bottom: 20,
           // left: 20,
@@ -76,27 +100,25 @@ class _SiteGalleryListViewWidgetState extends State<SiteGalleryListViewWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                           width: MediaQuery.of(context).size.width * 0.5,
+                          width: MediaQuery.of(context).size.width * 0.5,
                           child: Text(
                             widget.data.name!,
                             softWrap: true,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                    letterSpacing: -0.3,
+                              letterSpacing: -0.3,
                               fontSize: 18.sp,
                               fontWeight: FontWeight.w500,
                               color: Helper.baseBlack,
                             ),
                           ),
                         ),
-                        // SizedBox(
-                        //   height: 6.h,
-                        // ),
+                        
                         Text(
                           showDate(widget.data.createdAt!.toIso8601String(),
                               'dd MMM yyyy'),
                           style: TextStyle(
-                    letterSpacing: -0.3,
+                            letterSpacing: -0.3,
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400,
                             color: Helper.baseBlack.withOpacity(0.5),
@@ -106,7 +128,12 @@ class _SiteGalleryListViewWidgetState extends State<SiteGalleryListViewWidget> {
                     ),
                     TextButton(
                         onPressed: () {
-                          // context.push('/details', extra: {"projectId": "projectId", "projectName": data[index].name!});
+                          context.push('/fullViewSitegallery', extra: {
+                            "projectId": widget.data.project,
+                            "name": widget.data.name,
+                            "url": widget.data.url,
+                            "type": widget.data.type
+                          });
                         },
                         style: ButtonStyle(
                             shape: MaterialStateProperty.all(

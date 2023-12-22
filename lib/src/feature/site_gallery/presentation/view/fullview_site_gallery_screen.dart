@@ -4,50 +4,38 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
-import 'package:vimeo_video_player/vimeo_video_player.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class DroneFootageFullviewScreen extends StatefulWidget {
+class FullViewSitegalleryScreen extends StatefulWidget {
   final String projectId;
-  final String projectName;
-  final String videoUrl;
-  final String provider;
-  const DroneFootageFullviewScreen(
-      {super.key,
-      required this.projectId,
-      required this.projectName,
-      required this.videoUrl,
-      required this.provider});
+  final String name;
+  final String url;
+  final String type;
+  const FullViewSitegalleryScreen({
+    super.key,
+    required this.projectId,
+    required this.name,
+    required this.url,
+    required this.type,
+  });
 
   @override
-  State<DroneFootageFullviewScreen> createState() =>
-      _DroneFootageFullviewScreenState();
+  State<FullViewSitegalleryScreen> createState() =>
+      _FullViewSitegalleryScreenState();
 }
 
-class _DroneFootageFullviewScreenState
-    extends State<DroneFootageFullviewScreen> {
+class _FullViewSitegalleryScreenState extends State<FullViewSitegalleryScreen> {
   VlcPlayerController? _videoPlayerController;
-  YoutubePlayerController? _youtubeController;
   @override
   void initState() {
     super.initState();
-
-    _videoPlayerController = VlcPlayerController.network(
-      widget.videoUrl,
-      autoPlay: true,
-      options: VlcPlayerOptions(),
-    );
-    _youtubeController = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(widget.videoUrl) ?? '',
-      flags: YoutubePlayerFlags(
-        hideControls: false,
+    if (widget.type == "VIDEO") {
+      _videoPlayerController = VlcPlayerController.network(
+        widget.url,
         autoPlay: true,
-        mute: false,
-        disableDragSeek: false,
-      ),
-    );
+        options: VlcPlayerOptions(),
+      );
+    }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +62,7 @@ class _DroneFootageFullviewScreenState
               ),
               leadingWidth: 24,
               title: Text(
-                widget.projectName,
+                widget.name,
                 style: TextStyle(
                     letterSpacing: -0.3,
                     color: Helper.baseBlack,
@@ -97,17 +85,39 @@ class _DroneFootageFullviewScreenState
       ),
       body: SafeArea(
         child: Center(
-          child: widget.provider == "PROGRESSCENTER"
-              ? VlcPlayer(
-                  controller: _videoPlayerController!,
-                  aspectRatio: 16 / 9,
-                  placeholder: Center(child: CircularProgressIndicator()),
-                )
-              : widget.provider == "YOUTUBE"
-                  ? YoutubePlayer(
-                      controller: _youtubeController!,
-                    )
-                  : VimeoVideoPlayer(url: widget.videoUrl, autoPlay: true),
+          child: Container(
+            color: Colors.black,
+            height: MediaQuery.of(context).size.height * 0.6,
+            child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16.r),
+                    topRight: Radius.circular(16.r)),
+                child: Stack(alignment: Alignment.center, children: [
+                  widget.type == "IMAGE"
+                      ? Image.network(
+                          widget.url,
+                          fit: BoxFit.fill,
+                          errorBuilder: (BuildContext context,
+                              Object exception, StackTrace? stackTrace) {
+                            return ClipRRect(
+                              child: Image.asset(
+                                'assets/images/error_image.jpeg',
+                                fit: BoxFit.cover,
+                              ),
+                            );
+                          },
+                        )
+                      : AspectRatio(
+                        aspectRatio: 16 / 9,
+                        child: VlcPlayer(
+                          controller: _videoPlayerController!,
+                          aspectRatio: 16 / 9,
+                          placeholder:
+                              Center(child: CircularProgressIndicator()),
+                        ),
+                      ),
+                ])),
+          ),
         ),
       ),
     );
