@@ -121,7 +121,7 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
                                       title: Text(
                                         project.name,
                                         style: TextStyle(
-                    letterSpacing: -0.3,
+                                            letterSpacing: -0.3,
                                             color: Helper.baseBlack,
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.w500),
@@ -129,7 +129,7 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
                                       subtitle: Text(
                                         project.postCount.toString(),
                                         style: TextStyle(
-                    letterSpacing: -0.3,
+                                            letterSpacing: -0.3,
                                             color: Helper.baseBlack
                                                 .withOpacity(0.5),
                                             fontSize: 12.sp,
@@ -159,7 +159,7 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
                     Text(
                       "Feed",
                       style: TextStyle(
-                    letterSpacing: -0.3,
+                          letterSpacing: -1,
                           color: Helper.textColor700,
                           fontSize: 36.sp,
                           fontWeight: FontWeight.w600),

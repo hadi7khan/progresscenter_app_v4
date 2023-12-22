@@ -45,7 +45,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                     Text(
                       "Projects",
                       style: TextStyle(
-                    letterSpacing: -0.3,
+                    letterSpacing: -1,
                         color: Helper.textColor700,
                           fontSize: 36.sp,
                           fontWeight: FontWeight.w600

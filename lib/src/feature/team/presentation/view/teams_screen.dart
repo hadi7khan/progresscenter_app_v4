@@ -21,7 +21,7 @@ class TeamsScreen extends ConsumerStatefulWidget {
 }
 
 class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
- List<String> _teamList = ['All']; 
+  List<String> _teamList = ['All'];
   String? _selectedTeam;
 
   @override
@@ -50,7 +50,6 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
             child: teamData.when(
               data: (data) {
-
                 final _filteredUserList = _selectedTeam == null
                     ? data
                     : data
@@ -70,13 +69,14 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                             SvgPicture.asset('assets/images/search.svg'),
                             SizedBox(width: 12.w),
                             ConstrainedBox(
-                            constraints: new BoxConstraints(
-                              maxHeight: 30.h,
-                              maxWidth: 30.w,
-                            ),
+                              constraints: new BoxConstraints(
+                                maxHeight: 30.h,
+                                maxWidth: 30.w,
+                              ),
                               child: PopupMenuButton(
                                 padding: EdgeInsets.zero,
-                                icon: SvgPicture.asset('assets/images/sort.svg'),
+                                icon:
+                                    SvgPicture.asset('assets/images/sort.svg'),
                                 position: PopupMenuPosition.under,
                                 itemBuilder: (BuildContext context) {
                                   return _teamList.map((team) {
@@ -92,7 +92,7 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                                           title: Text(
                                             team,
                                             style: TextStyle(
-                    letterSpacing: -0.3,
+                                                letterSpacing: -0.3,
                                                 color: Helper.baseBlack,
                                                 fontSize: 14.sp,
                                                 fontWeight: FontWeight.w500),
@@ -103,7 +103,8 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                                 onSelected: (value) {
                                   print(value.toString());
                                   setState(() {
-                                    _selectedTeam = value == 'All' ? null : value;
+                                    _selectedTeam =
+                                        value == 'All' ? null : value;
                                     print("selectedTeam: $_selectedTeam");
                                   });
                                 },
@@ -127,7 +128,7 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                         Text(
                           "Team",
                           style: TextStyle(
-                    letterSpacing: -0.3,
+                              letterSpacing: -1,
                               color: Helper.textColor700,
                               fontSize: 36.sp,
                               fontWeight: FontWeight.w600),
@@ -142,7 +143,7 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
               error: (err, _) {
                 return const Text("Failed to load teams",
                     style: TextStyle(
-                    letterSpacing: -0.3,color: Helper.errorColor));
+                        letterSpacing: -0.3, color: Helper.errorColor));
               },
               loading: () => LoadingTeamList(),
             )),
@@ -174,7 +175,7 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                 Text(
                   'Create User',
                   style: TextStyle(
-                    letterSpacing: -0.3,
+                      letterSpacing: -0.3,
                       color: Helper.baseBlack,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500),
@@ -201,7 +202,7 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                     child: Text(
                       'Add new user',
                       style: TextStyle(
-                    letterSpacing: -0.3,
+                          letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -223,7 +224,7 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                     child: Text(
                       'Invite by email',
                       style: TextStyle(
-                    letterSpacing: -0.3,
+                          letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
