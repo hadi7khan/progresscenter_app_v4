@@ -37,23 +37,29 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
   Future _checkStatus() async {
     try { 
       // Assume that widget.data.streamingUrl is not null
-      final response = await Dio().get(widget.data.streamingUrl!);
-      print('cctv response   ' + response.data.toString());
-      print('cctv response code   ' + response.statusCode.toString());
-      // Check for a successful status code and a content-type header
-      if (response.statusCode == 200) {
+      final response = await Dio().get(widget.data.streamingUrl + "&q=hadikhan");
+      print('streaming url   ' + widget.data.streamingUrl.toString());
         setState(() {
           isOnline = true;
           print('isOnline changed   ' + isOnline.toString());
+          
         });
-      } else {
-        setState(() {
-          isOnline = false;
-        });
-      }
+      // print('cctv response   ' + response.data.toString());
+      // print('cctv response code   ' + response.statusCode.toString());
+      // Check for a successful status code and a content-type header
+      // if (response.statusCode == 200) {
+      //   setState(() {
+      //     isOnline = true;
+      //     print('isOnline changed   ' + isOnline.toString());
+      //     print('streaming url   ' + widget.data.streamingUrl.toString());
+      //   });
+      // } else {
+      //   setState(() {
+      //     isOnline = false;
+      //   });
+      // }
     } catch (e, stackTrace) {
-      print('Error checking status: $e');
-      print('StackTrace: $stackTrace');
+      print('error streaming url   ' + widget.data.streamingUrl.toString());
       setState(() {
         isOnline = false;
       });
@@ -70,9 +76,9 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
   @override
   Widget build(BuildContext context) {
     // Schedule a call to _checkStatus every 5 seconds
-    _timer = Timer.periodic(Duration(seconds: 10), (timer) {
-      _checkStatus();
-    });
+    // _timer = Timer.periodic(Duration(seconds: 5), (timer) {
+    //   _checkStatus();
+    // });
     return Container(
       margin: EdgeInsets.zero,
       padding: EdgeInsets.zero,
