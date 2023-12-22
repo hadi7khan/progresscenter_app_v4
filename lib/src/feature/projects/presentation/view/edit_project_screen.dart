@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:dotted_border/dotted_border.dart';
@@ -832,7 +833,116 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
 
   _showDeleteBottomSheet(context, projectId, imageId) {
     // todo : showDialog for ios
-    return showCupertinoDialog(
+    
+    if (!Platform.isIOS) {
+      return showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r)),
+            color: Colors.white,
+          ),
+          height: 200.h,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Delete',
+                    style: TextStyle(
+                        color: Helper.errorColor,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20.h),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Are you sure you want to delete this image? ",
+                    style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Helper.textColor500),
+                  ),
+                  SizedBox(height: 20.h),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        TextButton(
+                          onPressed: () async {
+                            Service()
+                                .deleteImage(projectId, imageId)
+                                .then((value) {
+                              context.pop();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      backgroundColor: Colors.red,
+                                      content: Text("Image Deleted")));
+                            });
+                            setState(() {});
+                          },
+                          style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 11),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              backgroundColor: Helper.errorColor,
+                              fixedSize: Size.infinite),
+                          child: const Text(
+                            "Delete",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            context.pop();
+                          },
+                          style: TextButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 11),
+                              backgroundColor: Colors.white,
+                              side: BorderSide(color: Helper.textColor300),
+                              fixedSize: Size.infinite),
+                          child: Text(
+                            "Cancel",
+                            style: TextStyle(
+                                color: Helper.textColor500,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ]),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+    }
+  return  showCupertinoDialog(
       context: context,
       builder: (context) => CupertinoAlertDialog(
         title: Text(
@@ -853,7 +963,10 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
           // if (cancelActionText != null)
             
           CupertinoDialogAction(
-            child: Text("Cancel"),
+            child: Text("Cancel", style: TextStyle(
+              color: Colors.blue,
+              fontWeight: FontWeight.w500
+              ),),
             onPressed: () => Navigator.of(context).pop(true),
           ),
           CupertinoDialogAction(
@@ -867,111 +980,6 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
         ],
       ),
     );
-    // return showModalBottomSheet(
-    //   context: context,
-    //   backgroundColor: Colors.transparent,
-    //   builder: (context) => BackdropFilter(
-    //     filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-    //     child: Container(
-    //       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
-    //       decoration: BoxDecoration(
-    //         borderRadius: BorderRadius.only(
-    //             topLeft: Radius.circular(16.r),
-    //             topRight: Radius.circular(16.r)),
-    //         color: Colors.white,
-    //       ),
-    //       height: 200.h,
-    //       width: MediaQuery.of(context).size.width,
-    //       child: Column(
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         children: [
-    //           Row(
-    //             mainAxisAlignment: MainAxisAlignment.center,
-    //             crossAxisAlignment: CrossAxisAlignment.center,
-    //             children: [
-    //               Text(
-    //                 'Delete',
-    //                 style: TextStyle(
-    //                     color: Helper.errorColor,
-    //                     fontSize: 18.sp,
-    //                     fontWeight: FontWeight.w500),
-    //               ),
-    //             ],
-    //           ),
-    //           SizedBox(height: 20.h),
-    //           Column(
-    //             mainAxisSize: MainAxisSize.min,
-    //             mainAxisAlignment: MainAxisAlignment.start,
-    //             crossAxisAlignment: CrossAxisAlignment.center,
-    //             children: [
-    //               Text(
-    //                 "Are you sure you want to delete this image? ",
-    //                 style: TextStyle(
-    //                     fontSize: 14.sp,
-    //                     fontWeight: FontWeight.w500,
-    //                     color: Helper.textColor500),
-    //               ),
-    //               SizedBox(height: 20.h),
-    //               Row(
-    //                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-    //                   children: [
-    //                     TextButton(
-    //                       onPressed: () async {
-    //                         Service()
-    //                             .deleteImage(projectId, imageId)
-    //                             .then((value) {
-    //                           context.pop();
-    //                           ScaffoldMessenger.of(context).showSnackBar(
-    //                               const SnackBar(
-    //                                   backgroundColor: Colors.red,
-    //                                   content: Text("Image Deleted")));
-    //                         });
-    //                         setState(() {});
-    //                       },
-    //                       style: TextButton.styleFrom(
-    //                           padding: const EdgeInsets.symmetric(
-    //                               horizontal: 16, vertical: 11),
-    //                           shape: RoundedRectangleBorder(
-    //                             borderRadius: BorderRadius.circular(8.r),
-    //                           ),
-    //                           backgroundColor: Helper.errorColor,
-    //                           fixedSize: Size.infinite),
-    //                       child: const Text(
-    //                         "Delete",
-    //                         style: TextStyle(
-    //                             color: Colors.white,
-    //                             fontSize: 14,
-    //                             fontWeight: FontWeight.w600),
-    //                       ),
-    //                     ),
-    //                     TextButton(
-    //                       onPressed: () {
-    //                         context.pop();
-    //                       },
-    //                       style: TextButton.styleFrom(
-    //                           shape: RoundedRectangleBorder(
-    //                             borderRadius: BorderRadius.circular(8.r),
-    //                           ),
-    //                           padding: const EdgeInsets.symmetric(
-    //                               horizontal: 16, vertical: 11),
-    //                           backgroundColor: Colors.white,
-    //                           side: BorderSide(color: Helper.textColor300),
-    //                           fixedSize: Size.infinite),
-    //                       child: Text(
-    //                         "Cancel",
-    //                         style: TextStyle(
-    //                             color: Helper.textColor500,
-    //                             fontSize: 14,
-    //                             fontWeight: FontWeight.w600),
-    //                       ),
-    //                     ),
-    //                   ]),
-    //             ],
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
+    
   }
 }
