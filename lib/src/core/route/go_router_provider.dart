@@ -35,6 +35,7 @@ import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/equ
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/project_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/projects_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/view/add_site_gallery_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/view/fullview_site_gallery_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/view/site_gallery_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/camera/presentation/view/camera_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/report/presentation/view/report_screen.dart';
@@ -604,6 +605,24 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 key: state.pageKey,
                 projectId: args['projectId'],
                 projectName: args['projectName']),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/fullViewSitegallery',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: fullViewSitegalleryRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: FullViewSitegalleryScreen(
+                key: state.pageKey,
+                projectId: args['projectId'],
+                name: args['name'],
+                url: args['url'],
+                type: args['type']
+                ),
           );
         },
       ),

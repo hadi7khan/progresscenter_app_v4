@@ -16,6 +16,7 @@ const String cctvRoute = 'cctv';
 const String camera360Route = 'camera360';
 const String siteGalleryRoute = 'sitegallery';
 const String addSiteGalleryRoute = 'addSiteGallery';
+const String fullViewSitegalleryRoute = 'fullViewSitegallery';
 const String equipmentTrackerRoute = 'equipmentTracker';
 const String editProjectRoute = 'editproject';
 const String addMemberRoute = 'addmember';
