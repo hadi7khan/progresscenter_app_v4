@@ -166,6 +166,7 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                         "Documents",
                         style: TextStyle(
                             color: Helper.textColor700,
+                            letterSpacing: -1,
                             fontSize: 36.sp,
                             fontWeight: FontWeight.w600),
                       ),
@@ -178,8 +179,8 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
             },
             error: (err, _) {
               return const Text("Failed to load Docs",
-                  style: TextStyle(
-                    letterSpacing: -0.3,color: Helper.errorColor));
+                  style:
+                      TextStyle(letterSpacing: -0.3, color: Helper.errorColor));
             },
             loading: () => LoadingDocsList(),
           ),
@@ -212,7 +213,7 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                 Text(
                   'Add new',
                   style: TextStyle(
-                    letterSpacing: -0.3,
+                      letterSpacing: -0.3,
                       color: Helper.baseBlack,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500),
@@ -239,7 +240,7 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                     child: Text(
                       'Add document',
                       style: TextStyle(
-                    letterSpacing: -0.3,
+                          letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -261,7 +262,7 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                     child: Text(
                       'Add new category',
                       style: TextStyle(
-                    letterSpacing: -0.3,
+                          letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -304,7 +305,7 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                   Text(
                     'Add new category',
                     style: TextStyle(
-                    letterSpacing: -0.3,
+                        letterSpacing: -0.3,
                         color: Helper.baseBlack,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500),
@@ -330,7 +331,7 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                       },
                       textInputAction: TextInputAction.done,
                       style: TextStyle(
-                    letterSpacing: -0.3,
+                        letterSpacing: -0.3,
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w400,
                       ),
@@ -342,7 +343,7 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                             vertical: 10.h, horizontal: 14.w),
                         hintText: "Enter name",
                         hintStyle: TextStyle(
-                    letterSpacing: -0.3,
+                          letterSpacing: -0.3,
                           color: Helper.textColor500,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w400,
@@ -387,7 +388,7 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                           child: Text(
                             "Cancel",
                             style: TextStyle(
-                    letterSpacing: -0.3,
+                                letterSpacing: -0.3,
                                 color: Helper.neutral500,
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w500),
@@ -426,7 +427,7 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                           child: Text(
                             "Confirm",
                             style: TextStyle(
-                    letterSpacing: -0.3,
+                                letterSpacing: -0.3,
                                 color: Colors.white,
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w500),
