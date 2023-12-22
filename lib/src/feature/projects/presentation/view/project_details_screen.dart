@@ -127,7 +127,7 @@ class _ProjectDetailsScreenState
                 child: Container(
                   margin: EdgeInsets.zero,
                   padding: EdgeInsets.zero,
-                  height: MediaQuery.of(context).size.width * 0.7,
+                  height: MediaQuery.of(context).size.width * 0.8,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -189,7 +189,7 @@ class _ProjectDetailsScreenState
                           ),
                         ),
                         Positioned(
-                          top: 55,
+                          top: 60,
                           left: 20,
                           child: BlurryContainer(
                               height: 30,
@@ -213,7 +213,7 @@ class _ProjectDetailsScreenState
                               ),),
                         ),
                         Positioned(
-                          top: 55,
+                          top: 60,
                           right: 20,
                           child: BlurryContainer(
                               height: 30,
@@ -233,7 +233,7 @@ class _ProjectDetailsScreenState
                               ),),
                         ),
                         Positioned(
-                          top: 55,
+                          top: 60,
                           right: 60,
                           child: InkWell(
                             onTap: () {
