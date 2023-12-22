@@ -62,17 +62,13 @@ class _FullViewCCTVScreenState extends State<FullViewCCTVScreen> {
       ),
       body: SafeArea(
         child: Center(
-          child: Container(
-            color: Colors.black,
-            height: MediaQuery.of(context).size.height * 0.6,
-            child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16.r),
-                    topRight: Radius.circular(16.r)),
-                child: Stack(alignment: Alignment.center, children: [
-                  CCTVWidget(url: widget.streamingUrl,)
-                ])),
-          ),
+          child: ClipRRect(
+              // borderRadius: BorderRadius.only(
+              //     topLeft: Radius.circular(16.r),
+              //     topRight: Radius.circular(16.r)),
+              child: Stack(alignment: Alignment.center, children: [
+                CCTVWidget(url: widget.streamingUrl,)
+              ])),
         ),
       ),
     );
