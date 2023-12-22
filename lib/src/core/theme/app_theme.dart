@@ -81,11 +81,13 @@ mixin AppThemeMixin {
         selectedLabelStyle: TextStyle(
           color: Helper.primary,
           fontSize: 11.sp,
+          letterSpacing: -0.3,
           fontWeight: FontWeight.w500,
         ),
         unselectedLabelStyle: TextStyle(
           color: Helper.secondary,
           fontSize: 11.sp,
+          letterSpacing: -0.3,
           fontWeight: FontWeight.w400,
         ),
         backgroundColor: Colors.white,

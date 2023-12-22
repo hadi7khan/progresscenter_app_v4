@@ -189,16 +189,16 @@ class _ProjectDetailsScreenState
                           ),
                         ),
 
-                        Positioned(
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          height: MediaQuery.of(context).padding.top,
-                          child: Container(
-                            color: Colors.black
-                                .withOpacity(0.3), // Adjust opacity as needed
-                          ),
-                        ),
+                        // Positioned(
+                        //   top: 0,
+                        //   left: 0,
+                        //   right: 0,
+                        //   height: MediaQuery.of(context).padding.top,
+                        //   child: Container(
+                        //     color: Colors.black
+                        //         .withOpacity(0.3), // Adjust opacity as needed
+                        //   ),
+                        // ),
                         Positioned(
                           top: 60,
                           left: 20,
