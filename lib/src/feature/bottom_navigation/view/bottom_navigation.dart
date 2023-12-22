@@ -29,50 +29,62 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: navigationShell,
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: navigationShell.currentIndex,
-        items: [
-          BottomNavigationBarItem(
-              label: 'Feed',
-              activeIcon: SvgPicture.asset(
-                'assets/images/timeline.svg',
-                color: Helper.primary,
-              ),
-              icon: SvgPicture.asset('assets/images/timeline.svg')),
-          BottomNavigationBarItem(
-              label: 'Docs',
-              activeIcon: SvgPicture.asset(
-                'assets/images/docs.svg',
-                color: Helper.primary,
-              ),
-              icon: SvgPicture.asset('assets/images/docs.svg')),
-          BottomNavigationBarItem(
-              label: 'Projects',
-              activeIcon: SvgPicture.asset(
-                'assets/images/projects.svg',
-                color: Helper.primary,
-              ),
-              icon: SvgPicture.asset('assets/images/projects.svg')),
-          BottomNavigationBarItem(
-              label: 'Team',
-              activeIcon: SvgPicture.asset(
-                'assets/images/teams.svg',
-                color: Helper.primary,
-              ),
-              icon: SvgPicture.asset('assets/images/teams.svg')),
-          BottomNavigationBarItem(
-              label: 'Support',
-              activeIcon: SvgPicture.asset(
-                'assets/images/headphones.svg',
-                color: Helper.primary,
-              ),
-              icon: SvgPicture.asset('assets/images/headphones.svg')),
-        ],
-        onTap:(index){
-          HapticFeedback.mediumImpact();
+      bottomNavigationBar: Container(
+        margin: EdgeInsets.zero,
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.2), 
+          border: Border(
+            top: BorderSide(
+            color: Colors.white.withOpacity(0.2), 
+            width: 0.5),
+          ),
+        ),
+        child: BottomNavigationBar(
+          currentIndex: navigationShell.currentIndex,
+          backgroundColor: Colors.white.withOpacity(0.8),
+          items: [
+            BottomNavigationBarItem(
+                label: 'Feed',
+                activeIcon: SvgPicture.asset(
+                  'assets/images/timeline.svg',
+                  color: Helper.primary,
+                ),
+                icon: SvgPicture.asset('assets/images/timeline.svg')),
+            BottomNavigationBarItem(
+                label: 'Docs',
+                activeIcon: SvgPicture.asset(
+                  'assets/images/docs.svg',
+                  color: Helper.primary,
+                ),
+                icon: SvgPicture.asset('assets/images/docs.svg')),
+            BottomNavigationBarItem(
+                label: 'Projects',
+                activeIcon: SvgPicture.asset(
+                  'assets/images/projects.svg',
+                  color: Helper.primary,
+                ),
+                icon: SvgPicture.asset('assets/images/projects.svg')),
+            BottomNavigationBarItem(
+                label: 'Team',
+                activeIcon: SvgPicture.asset(
+                  'assets/images/teams.svg',
+                  color: Helper.primary,
+                ),
+                icon: SvgPicture.asset('assets/images/teams.svg')),
+            BottomNavigationBarItem(
+                label: 'Support',
+                activeIcon: SvgPicture.asset(
+                  'assets/images/headphones.svg',
+                  color: Helper.primary,
+                ),
+                icon: SvgPicture.asset('assets/images/headphones.svg')),
+          ],
+          onTap: (index) {
+            HapticFeedback.mediumImpact();
 
-          _goBranch(index);
-        } ,
+            _goBranch(index);
+          },
+        ),
       ),
     );
   }
