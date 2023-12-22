@@ -20,22 +20,24 @@ CctvCameraModel _$CctvCameraModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CctvCameraModel {
-  Details? get details => throw _privateConstructorUsedError;
   Location? get location => throw _privateConstructorUsedError;
+  dynamic get folderId => throw _privateConstructorUsedError;
+  String? get timezone => throw _privateConstructorUsedError;
+  dynamic get camera => throw _privateConstructorUsedError;
   @JsonKey(name: '_id')
   String? get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get installationDate => throw _privateConstructorUsedError;
+  String? get streamingUrl => throw _privateConstructorUsedError;
   String? get status => throw _privateConstructorUsedError;
-  DateTime? get lastUpdated => throw _privateConstructorUsedError;
-  AvailablePlugins? get availablePlugins => throw _privateConstructorUsedError;
-  dynamic get pointedTo => throw _privateConstructorUsedError;
   String? get reseller => throw _privateConstructorUsedError;
   String? get client => throw _privateConstructorUsedError;
+  String? get qLiveUnit => throw _privateConstructorUsedError;
   String? get project => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
+  DateTime? get lastUpdated => throw _privateConstructorUsedError;
+  LatestImage? get latestImage => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-  String? get streamingUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,25 +52,26 @@ abstract class $CctvCameraModelCopyWith<$Res> {
       _$CctvCameraModelCopyWithImpl<$Res, CctvCameraModel>;
   @useResult
   $Res call(
-      {Details? details,
-      Location? location,
+      {Location? location,
+      dynamic folderId,
+      String? timezone,
+      dynamic camera,
       @JsonKey(name: '_id') String? id,
       String? name,
       String? installationDate,
+      String? streamingUrl,
       String? status,
-      DateTime? lastUpdated,
-      AvailablePlugins? availablePlugins,
-      dynamic pointedTo,
       String? reseller,
       String? client,
+      String? qLiveUnit,
       String? project,
       DateTime? createdAt,
-      DateTime? updatedAt,
-      String? streamingUrl});
+      DateTime? lastUpdated,
+      LatestImage? latestImage,
+      DateTime? updatedAt});
 
-  $DetailsCopyWith<$Res>? get details;
   $LocationCopyWith<$Res>? get location;
-  $AvailablePluginsCopyWith<$Res>? get availablePlugins;
+  $LatestImageCopyWith<$Res>? get latestImage;
 }
 
 /// @nodoc
@@ -84,31 +87,41 @@ class _$CctvCameraModelCopyWithImpl<$Res, $Val extends CctvCameraModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? details = freezed,
     Object? location = freezed,
+    Object? folderId = freezed,
+    Object? timezone = freezed,
+    Object? camera = freezed,
     Object? id = freezed,
     Object? name = freezed,
     Object? installationDate = freezed,
+    Object? streamingUrl = freezed,
     Object? status = freezed,
-    Object? lastUpdated = freezed,
-    Object? availablePlugins = freezed,
-    Object? pointedTo = freezed,
     Object? reseller = freezed,
     Object? client = freezed,
+    Object? qLiveUnit = freezed,
     Object? project = freezed,
     Object? createdAt = freezed,
+    Object? lastUpdated = freezed,
+    Object? latestImage = freezed,
     Object? updatedAt = freezed,
-    Object? streamingUrl = freezed,
   }) {
     return _then(_value.copyWith(
-      details: freezed == details
-          ? _value.details
-          : details // ignore: cast_nullable_to_non_nullable
-              as Details?,
       location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as Location?,
+      folderId: freezed == folderId
+          ? _value.folderId
+          : folderId // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      timezone: freezed == timezone
+          ? _value.timezone
+          : timezone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      camera: freezed == camera
+          ? _value.camera
+          : camera // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -121,22 +134,14 @@ class _$CctvCameraModelCopyWithImpl<$Res, $Val extends CctvCameraModel>
           ? _value.installationDate
           : installationDate // ignore: cast_nullable_to_non_nullable
               as String?,
+      streamingUrl: freezed == streamingUrl
+          ? _value.streamingUrl
+          : streamingUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String?,
-      lastUpdated: freezed == lastUpdated
-          ? _value.lastUpdated
-          : lastUpdated // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      availablePlugins: freezed == availablePlugins
-          ? _value.availablePlugins
-          : availablePlugins // ignore: cast_nullable_to_non_nullable
-              as AvailablePlugins?,
-      pointedTo: freezed == pointedTo
-          ? _value.pointedTo
-          : pointedTo // ignore: cast_nullable_to_non_nullable
-              as dynamic,
       reseller: freezed == reseller
           ? _value.reseller
           : reseller // ignore: cast_nullable_to_non_nullable
@@ -144,6 +149,10 @@ class _$CctvCameraModelCopyWithImpl<$Res, $Val extends CctvCameraModel>
       client: freezed == client
           ? _value.client
           : client // ignore: cast_nullable_to_non_nullable
+              as String?,
+      qLiveUnit: freezed == qLiveUnit
+          ? _value.qLiveUnit
+          : qLiveUnit // ignore: cast_nullable_to_non_nullable
               as String?,
       project: freezed == project
           ? _value.project
@@ -153,27 +162,19 @@ class _$CctvCameraModelCopyWithImpl<$Res, $Val extends CctvCameraModel>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      lastUpdated: freezed == lastUpdated
+          ? _value.lastUpdated
+          : lastUpdated // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      latestImage: freezed == latestImage
+          ? _value.latestImage
+          : latestImage // ignore: cast_nullable_to_non_nullable
+              as LatestImage?,
       updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      streamingUrl: freezed == streamingUrl
-          ? _value.streamingUrl
-          : streamingUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $DetailsCopyWith<$Res>? get details {
-    if (_value.details == null) {
-      return null;
-    }
-
-    return $DetailsCopyWith<$Res>(_value.details!, (value) {
-      return _then(_value.copyWith(details: value) as $Val);
-    });
   }
 
   @override
@@ -190,13 +191,13 @@ class _$CctvCameraModelCopyWithImpl<$Res, $Val extends CctvCameraModel>
 
   @override
   @pragma('vm:prefer-inline')
-  $AvailablePluginsCopyWith<$Res>? get availablePlugins {
-    if (_value.availablePlugins == null) {
+  $LatestImageCopyWith<$Res>? get latestImage {
+    if (_value.latestImage == null) {
       return null;
     }
 
-    return $AvailablePluginsCopyWith<$Res>(_value.availablePlugins!, (value) {
-      return _then(_value.copyWith(availablePlugins: value) as $Val);
+    return $LatestImageCopyWith<$Res>(_value.latestImage!, (value) {
+      return _then(_value.copyWith(latestImage: value) as $Val);
     });
   }
 }
@@ -210,28 +211,28 @@ abstract class _$$_CctvCameraModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {Details? details,
-      Location? location,
+      {Location? location,
+      dynamic folderId,
+      String? timezone,
+      dynamic camera,
       @JsonKey(name: '_id') String? id,
       String? name,
       String? installationDate,
+      String? streamingUrl,
       String? status,
-      DateTime? lastUpdated,
-      AvailablePlugins? availablePlugins,
-      dynamic pointedTo,
       String? reseller,
       String? client,
+      String? qLiveUnit,
       String? project,
       DateTime? createdAt,
-      DateTime? updatedAt,
-      String? streamingUrl});
+      DateTime? lastUpdated,
+      LatestImage? latestImage,
+      DateTime? updatedAt});
 
-  @override
-  $DetailsCopyWith<$Res>? get details;
   @override
   $LocationCopyWith<$Res>? get location;
   @override
-  $AvailablePluginsCopyWith<$Res>? get availablePlugins;
+  $LatestImageCopyWith<$Res>? get latestImage;
 }
 
 /// @nodoc
@@ -245,31 +246,41 @@ class __$$_CctvCameraModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? details = freezed,
     Object? location = freezed,
+    Object? folderId = freezed,
+    Object? timezone = freezed,
+    Object? camera = freezed,
     Object? id = freezed,
     Object? name = freezed,
     Object? installationDate = freezed,
+    Object? streamingUrl = freezed,
     Object? status = freezed,
-    Object? lastUpdated = freezed,
-    Object? availablePlugins = freezed,
-    Object? pointedTo = freezed,
     Object? reseller = freezed,
     Object? client = freezed,
+    Object? qLiveUnit = freezed,
     Object? project = freezed,
     Object? createdAt = freezed,
+    Object? lastUpdated = freezed,
+    Object? latestImage = freezed,
     Object? updatedAt = freezed,
-    Object? streamingUrl = freezed,
   }) {
     return _then(_$_CctvCameraModel(
-      details: freezed == details
-          ? _value.details
-          : details // ignore: cast_nullable_to_non_nullable
-              as Details?,
       location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as Location?,
+      folderId: freezed == folderId
+          ? _value.folderId
+          : folderId // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      timezone: freezed == timezone
+          ? _value.timezone
+          : timezone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      camera: freezed == camera
+          ? _value.camera
+          : camera // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -282,22 +293,14 @@ class __$$_CctvCameraModelCopyWithImpl<$Res>
           ? _value.installationDate
           : installationDate // ignore: cast_nullable_to_non_nullable
               as String?,
+      streamingUrl: freezed == streamingUrl
+          ? _value.streamingUrl
+          : streamingUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String?,
-      lastUpdated: freezed == lastUpdated
-          ? _value.lastUpdated
-          : lastUpdated // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      availablePlugins: freezed == availablePlugins
-          ? _value.availablePlugins
-          : availablePlugins // ignore: cast_nullable_to_non_nullable
-              as AvailablePlugins?,
-      pointedTo: freezed == pointedTo
-          ? _value.pointedTo
-          : pointedTo // ignore: cast_nullable_to_non_nullable
-              as dynamic,
       reseller: freezed == reseller
           ? _value.reseller
           : reseller // ignore: cast_nullable_to_non_nullable
@@ -305,6 +308,10 @@ class __$$_CctvCameraModelCopyWithImpl<$Res>
       client: freezed == client
           ? _value.client
           : client // ignore: cast_nullable_to_non_nullable
+              as String?,
+      qLiveUnit: freezed == qLiveUnit
+          ? _value.qLiveUnit
+          : qLiveUnit // ignore: cast_nullable_to_non_nullable
               as String?,
       project: freezed == project
           ? _value.project
@@ -314,14 +321,18 @@ class __$$_CctvCameraModelCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      lastUpdated: freezed == lastUpdated
+          ? _value.lastUpdated
+          : lastUpdated // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      latestImage: freezed == latestImage
+          ? _value.latestImage
+          : latestImage // ignore: cast_nullable_to_non_nullable
+              as LatestImage?,
       updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      streamingUrl: freezed == streamingUrl
-          ? _value.streamingUrl
-          : streamingUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
     ));
   }
 }
@@ -330,29 +341,35 @@ class __$$_CctvCameraModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_CctvCameraModel implements _CctvCameraModel {
   const _$_CctvCameraModel(
-      {this.details,
-      this.location,
+      {this.location,
+      this.folderId,
+      this.timezone,
+      this.camera,
       @JsonKey(name: '_id') this.id,
       this.name,
       this.installationDate,
+      this.streamingUrl,
       this.status,
-      this.lastUpdated,
-      this.availablePlugins,
-      this.pointedTo,
       this.reseller,
       this.client,
+      this.qLiveUnit,
       this.project,
       this.createdAt,
-      this.updatedAt,
-      this.streamingUrl});
+      this.lastUpdated,
+      this.latestImage,
+      this.updatedAt});
 
   factory _$_CctvCameraModel.fromJson(Map<String, dynamic> json) =>
       _$$_CctvCameraModelFromJson(json);
 
   @override
-  final Details? details;
-  @override
   final Location? location;
+  @override
+  final dynamic folderId;
+  @override
+  final String? timezone;
+  @override
+  final dynamic camera;
   @override
   @JsonKey(name: '_id')
   final String? id;
@@ -361,29 +378,29 @@ class _$_CctvCameraModel implements _CctvCameraModel {
   @override
   final String? installationDate;
   @override
+  final String? streamingUrl;
+  @override
   final String? status;
-  @override
-  final DateTime? lastUpdated;
-  @override
-  final AvailablePlugins? availablePlugins;
-  @override
-  final dynamic pointedTo;
   @override
   final String? reseller;
   @override
   final String? client;
   @override
+  final String? qLiveUnit;
+  @override
   final String? project;
   @override
   final DateTime? createdAt;
   @override
-  final DateTime? updatedAt;
+  final DateTime? lastUpdated;
   @override
-  final String? streamingUrl;
+  final LatestImage? latestImage;
+  @override
+  final DateTime? updatedAt;
 
   @override
   String toString() {
-    return 'CctvCameraModel(details: $details, location: $location, id: $id, name: $name, installationDate: $installationDate, status: $status, lastUpdated: $lastUpdated, availablePlugins: $availablePlugins, pointedTo: $pointedTo, reseller: $reseller, client: $client, project: $project, createdAt: $createdAt, updatedAt: $updatedAt, streamingUrl: $streamingUrl)';
+    return 'CctvCameraModel(location: $location, folderId: $folderId, timezone: $timezone, camera: $camera, id: $id, name: $name, installationDate: $installationDate, streamingUrl: $streamingUrl, status: $status, reseller: $reseller, client: $client, qLiveUnit: $qLiveUnit, project: $project, createdAt: $createdAt, lastUpdated: $lastUpdated, latestImage: $latestImage, updatedAt: $updatedAt)';
   }
 
   @override
@@ -391,50 +408,56 @@ class _$_CctvCameraModel implements _CctvCameraModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CctvCameraModel &&
-            (identical(other.details, details) || other.details == details) &&
             (identical(other.location, location) ||
                 other.location == location) &&
+            const DeepCollectionEquality().equals(other.folderId, folderId) &&
+            (identical(other.timezone, timezone) ||
+                other.timezone == timezone) &&
+            const DeepCollectionEquality().equals(other.camera, camera) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.installationDate, installationDate) ||
                 other.installationDate == installationDate) &&
+            (identical(other.streamingUrl, streamingUrl) ||
+                other.streamingUrl == streamingUrl) &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.lastUpdated, lastUpdated) ||
-                other.lastUpdated == lastUpdated) &&
-            (identical(other.availablePlugins, availablePlugins) ||
-                other.availablePlugins == availablePlugins) &&
-            const DeepCollectionEquality().equals(other.pointedTo, pointedTo) &&
             (identical(other.reseller, reseller) ||
                 other.reseller == reseller) &&
             (identical(other.client, client) || other.client == client) &&
+            (identical(other.qLiveUnit, qLiveUnit) ||
+                other.qLiveUnit == qLiveUnit) &&
             (identical(other.project, project) || other.project == project) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
+            (identical(other.lastUpdated, lastUpdated) ||
+                other.lastUpdated == lastUpdated) &&
+            (identical(other.latestImage, latestImage) ||
+                other.latestImage == latestImage) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt) &&
-            (identical(other.streamingUrl, streamingUrl) ||
-                other.streamingUrl == streamingUrl));
+                other.updatedAt == updatedAt));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      details,
       location,
+      const DeepCollectionEquality().hash(folderId),
+      timezone,
+      const DeepCollectionEquality().hash(camera),
       id,
       name,
       installationDate,
+      streamingUrl,
       status,
-      lastUpdated,
-      availablePlugins,
-      const DeepCollectionEquality().hash(pointedTo),
       reseller,
       client,
+      qLiveUnit,
       project,
       createdAt,
-      updatedAt,
-      streamingUrl);
+      lastUpdated,
+      latestImage,
+      updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -452,29 +475,35 @@ class _$_CctvCameraModel implements _CctvCameraModel {
 
 abstract class _CctvCameraModel implements CctvCameraModel {
   const factory _CctvCameraModel(
-      {final Details? details,
-      final Location? location,
+      {final Location? location,
+      final dynamic folderId,
+      final String? timezone,
+      final dynamic camera,
       @JsonKey(name: '_id') final String? id,
       final String? name,
       final String? installationDate,
+      final String? streamingUrl,
       final String? status,
-      final DateTime? lastUpdated,
-      final AvailablePlugins? availablePlugins,
-      final dynamic pointedTo,
       final String? reseller,
       final String? client,
+      final String? qLiveUnit,
       final String? project,
       final DateTime? createdAt,
-      final DateTime? updatedAt,
-      final String? streamingUrl}) = _$_CctvCameraModel;
+      final DateTime? lastUpdated,
+      final LatestImage? latestImage,
+      final DateTime? updatedAt}) = _$_CctvCameraModel;
 
   factory _CctvCameraModel.fromJson(Map<String, dynamic> json) =
       _$_CctvCameraModel.fromJson;
 
   @override
-  Details? get details;
-  @override
   Location? get location;
+  @override
+  dynamic get folderId;
+  @override
+  String? get timezone;
+  @override
+  dynamic get camera;
   @override
   @JsonKey(name: '_id')
   String? get id;
@@ -483,141 +512,75 @@ abstract class _CctvCameraModel implements CctvCameraModel {
   @override
   String? get installationDate;
   @override
+  String? get streamingUrl;
+  @override
   String? get status;
-  @override
-  DateTime? get lastUpdated;
-  @override
-  AvailablePlugins? get availablePlugins;
-  @override
-  dynamic get pointedTo;
   @override
   String? get reseller;
   @override
   String? get client;
   @override
+  String? get qLiveUnit;
+  @override
   String? get project;
   @override
   DateTime? get createdAt;
   @override
-  DateTime? get updatedAt;
+  DateTime? get lastUpdated;
   @override
-  String? get streamingUrl;
+  LatestImage? get latestImage;
+  @override
+  DateTime? get updatedAt;
   @override
   @JsonKey(ignore: true)
   _$$_CctvCameraModelCopyWith<_$_CctvCameraModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-AvailablePlugins _$AvailablePluginsFromJson(Map<String, dynamic> json) {
-  return _AvailablePlugins.fromJson(json);
+LatestImage _$LatestImageFromJson(Map<String, dynamic> json) {
+  return _LatestImage.fromJson(json);
 }
 
 /// @nodoc
-mixin _$AvailablePlugins {
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $AvailablePluginsCopyWith<$Res> {
-  factory $AvailablePluginsCopyWith(
-          AvailablePlugins value, $Res Function(AvailablePlugins) then) =
-      _$AvailablePluginsCopyWithImpl<$Res, AvailablePlugins>;
-}
-
-/// @nodoc
-class _$AvailablePluginsCopyWithImpl<$Res, $Val extends AvailablePlugins>
-    implements $AvailablePluginsCopyWith<$Res> {
-  _$AvailablePluginsCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-}
-
-/// @nodoc
-abstract class _$$_AvailablePluginsCopyWith<$Res> {
-  factory _$$_AvailablePluginsCopyWith(
-          _$_AvailablePlugins value, $Res Function(_$_AvailablePlugins) then) =
-      __$$_AvailablePluginsCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$_AvailablePluginsCopyWithImpl<$Res>
-    extends _$AvailablePluginsCopyWithImpl<$Res, _$_AvailablePlugins>
-    implements _$$_AvailablePluginsCopyWith<$Res> {
-  __$$_AvailablePluginsCopyWithImpl(
-      _$_AvailablePlugins _value, $Res Function(_$_AvailablePlugins) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$_AvailablePlugins implements _AvailablePlugins {
-  const _$_AvailablePlugins();
-
-  factory _$_AvailablePlugins.fromJson(Map<String, dynamic> json) =>
-      _$$_AvailablePluginsFromJson(json);
-
-  @override
-  String toString() {
-    return 'AvailablePlugins()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_AvailablePlugins);
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_AvailablePluginsToJson(
-      this,
-    );
-  }
-}
-
-abstract class _AvailablePlugins implements AvailablePlugins {
-  const factory _AvailablePlugins() = _$_AvailablePlugins;
-
-  factory _AvailablePlugins.fromJson(Map<String, dynamic> json) =
-      _$_AvailablePlugins.fromJson;
-}
-
-Details _$DetailsFromJson(Map<String, dynamic> json) {
-  return _Details.fromJson(json);
-}
-
-/// @nodoc
-mixin _$Details {
-  String? get type => throw _privateConstructorUsedError;
-  String? get version => throw _privateConstructorUsedError;
-  dynamic get unitId => throw _privateConstructorUsedError;
-  dynamic get unitSecret => throw _privateConstructorUsedError;
+mixin _$LatestImage {
+  Resolution? get resolution => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  String? get date => throw _privateConstructorUsedError;
+  String? get time => throw _privateConstructorUsedError;
+  String? get datetime => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
+  String? get url => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $DetailsCopyWith<Details> get copyWith => throw _privateConstructorUsedError;
+  $LatestImageCopyWith<LatestImage> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $DetailsCopyWith<$Res> {
-  factory $DetailsCopyWith(Details value, $Res Function(Details) then) =
-      _$DetailsCopyWithImpl<$Res, Details>;
+abstract class $LatestImageCopyWith<$Res> {
+  factory $LatestImageCopyWith(
+          LatestImage value, $Res Function(LatestImage) then) =
+      _$LatestImageCopyWithImpl<$Res, LatestImage>;
   @useResult
   $Res call(
-      {String? type, String? version, dynamic unitId, dynamic unitSecret});
+      {Resolution? resolution,
+      String? name,
+      String? date,
+      String? time,
+      String? datetime,
+      DateTime? createdAt,
+      DateTime? updatedAt,
+      String? url});
+
+  $ResolutionCopyWith<$Res>? get resolution;
 }
 
 /// @nodoc
-class _$DetailsCopyWithImpl<$Res, $Val extends Details>
-    implements $DetailsCopyWith<$Res> {
-  _$DetailsCopyWithImpl(this._value, this._then);
+class _$LatestImageCopyWithImpl<$Res, $Val extends LatestImage>
+    implements $LatestImageCopyWith<$Res> {
+  _$LatestImageCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -627,156 +590,405 @@ class _$DetailsCopyWithImpl<$Res, $Val extends Details>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = freezed,
-    Object? version = freezed,
-    Object? unitId = freezed,
-    Object? unitSecret = freezed,
+    Object? resolution = freezed,
+    Object? name = freezed,
+    Object? date = freezed,
+    Object? time = freezed,
+    Object? datetime = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
+    Object? url = freezed,
   }) {
     return _then(_value.copyWith(
-      type: freezed == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
+      resolution: freezed == resolution
+          ? _value.resolution
+          : resolution // ignore: cast_nullable_to_non_nullable
+              as Resolution?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      version: freezed == version
-          ? _value.version
-          : version // ignore: cast_nullable_to_non_nullable
+      date: freezed == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
               as String?,
-      unitId: freezed == unitId
-          ? _value.unitId
-          : unitId // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      unitSecret: freezed == unitSecret
-          ? _value.unitSecret
-          : unitSecret // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+      time: freezed == time
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as String?,
+      datetime: freezed == datetime
+          ? _value.datetime
+          : datetime // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      url: freezed == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ResolutionCopyWith<$Res>? get resolution {
+    if (_value.resolution == null) {
+      return null;
+    }
+
+    return $ResolutionCopyWith<$Res>(_value.resolution!, (value) {
+      return _then(_value.copyWith(resolution: value) as $Val);
+    });
   }
 }
 
 /// @nodoc
-abstract class _$$_DetailsCopyWith<$Res> implements $DetailsCopyWith<$Res> {
-  factory _$$_DetailsCopyWith(
-          _$_Details value, $Res Function(_$_Details) then) =
-      __$$_DetailsCopyWithImpl<$Res>;
+abstract class _$$_LatestImageCopyWith<$Res>
+    implements $LatestImageCopyWith<$Res> {
+  factory _$$_LatestImageCopyWith(
+          _$_LatestImage value, $Res Function(_$_LatestImage) then) =
+      __$$_LatestImageCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {String? type, String? version, dynamic unitId, dynamic unitSecret});
+      {Resolution? resolution,
+      String? name,
+      String? date,
+      String? time,
+      String? datetime,
+      DateTime? createdAt,
+      DateTime? updatedAt,
+      String? url});
+
+  @override
+  $ResolutionCopyWith<$Res>? get resolution;
 }
 
 /// @nodoc
-class __$$_DetailsCopyWithImpl<$Res>
-    extends _$DetailsCopyWithImpl<$Res, _$_Details>
-    implements _$$_DetailsCopyWith<$Res> {
-  __$$_DetailsCopyWithImpl(_$_Details _value, $Res Function(_$_Details) _then)
+class __$$_LatestImageCopyWithImpl<$Res>
+    extends _$LatestImageCopyWithImpl<$Res, _$_LatestImage>
+    implements _$$_LatestImageCopyWith<$Res> {
+  __$$_LatestImageCopyWithImpl(
+      _$_LatestImage _value, $Res Function(_$_LatestImage) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = freezed,
-    Object? version = freezed,
-    Object? unitId = freezed,
-    Object? unitSecret = freezed,
+    Object? resolution = freezed,
+    Object? name = freezed,
+    Object? date = freezed,
+    Object? time = freezed,
+    Object? datetime = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
+    Object? url = freezed,
   }) {
-    return _then(_$_Details(
-      type: freezed == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
+    return _then(_$_LatestImage(
+      resolution: freezed == resolution
+          ? _value.resolution
+          : resolution // ignore: cast_nullable_to_non_nullable
+              as Resolution?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      version: freezed == version
-          ? _value.version
-          : version // ignore: cast_nullable_to_non_nullable
+      date: freezed == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
               as String?,
-      unitId: freezed == unitId
-          ? _value.unitId
-          : unitId // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      unitSecret: freezed == unitSecret
-          ? _value.unitSecret
-          : unitSecret // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+      time: freezed == time
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as String?,
+      datetime: freezed == datetime
+          ? _value.datetime
+          : datetime // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      url: freezed == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_Details implements _Details {
-  const _$_Details({this.type, this.version, this.unitId, this.unitSecret});
+class _$_LatestImage implements _LatestImage {
+  const _$_LatestImage(
+      {this.resolution,
+      this.name,
+      this.date,
+      this.time,
+      this.datetime,
+      this.createdAt,
+      this.updatedAt,
+      this.url});
 
-  factory _$_Details.fromJson(Map<String, dynamic> json) =>
-      _$$_DetailsFromJson(json);
+  factory _$_LatestImage.fromJson(Map<String, dynamic> json) =>
+      _$$_LatestImageFromJson(json);
 
   @override
-  final String? type;
+  final Resolution? resolution;
   @override
-  final String? version;
+  final String? name;
   @override
-  final dynamic unitId;
+  final String? date;
   @override
-  final dynamic unitSecret;
+  final String? time;
+  @override
+  final String? datetime;
+  @override
+  final DateTime? createdAt;
+  @override
+  final DateTime? updatedAt;
+  @override
+  final String? url;
 
   @override
   String toString() {
-    return 'Details(type: $type, version: $version, unitId: $unitId, unitSecret: $unitSecret)';
+    return 'LatestImage(resolution: $resolution, name: $name, date: $date, time: $time, datetime: $datetime, createdAt: $createdAt, updatedAt: $updatedAt, url: $url)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Details &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.version, version) || other.version == version) &&
-            const DeepCollectionEquality().equals(other.unitId, unitId) &&
-            const DeepCollectionEquality()
-                .equals(other.unitSecret, unitSecret));
+            other is _$_LatestImage &&
+            (identical(other.resolution, resolution) ||
+                other.resolution == resolution) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.date, date) || other.date == date) &&
+            (identical(other.time, time) || other.time == time) &&
+            (identical(other.datetime, datetime) ||
+                other.datetime == datetime) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
+            (identical(other.url, url) || other.url == url));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      type,
-      version,
-      const DeepCollectionEquality().hash(unitId),
-      const DeepCollectionEquality().hash(unitSecret));
+  int get hashCode => Object.hash(runtimeType, resolution, name, date, time,
+      datetime, createdAt, updatedAt, url);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_DetailsCopyWith<_$_Details> get copyWith =>
-      __$$_DetailsCopyWithImpl<_$_Details>(this, _$identity);
+  _$$_LatestImageCopyWith<_$_LatestImage> get copyWith =>
+      __$$_LatestImageCopyWithImpl<_$_LatestImage>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_DetailsToJson(
+    return _$$_LatestImageToJson(
       this,
     );
   }
 }
 
-abstract class _Details implements Details {
-  const factory _Details(
-      {final String? type,
-      final String? version,
-      final dynamic unitId,
-      final dynamic unitSecret}) = _$_Details;
+abstract class _LatestImage implements LatestImage {
+  const factory _LatestImage(
+      {final Resolution? resolution,
+      final String? name,
+      final String? date,
+      final String? time,
+      final String? datetime,
+      final DateTime? createdAt,
+      final DateTime? updatedAt,
+      final String? url}) = _$_LatestImage;
 
-  factory _Details.fromJson(Map<String, dynamic> json) = _$_Details.fromJson;
+  factory _LatestImage.fromJson(Map<String, dynamic> json) =
+      _$_LatestImage.fromJson;
 
   @override
-  String? get type;
+  Resolution? get resolution;
   @override
-  String? get version;
+  String? get name;
   @override
-  dynamic get unitId;
+  String? get date;
   @override
-  dynamic get unitSecret;
+  String? get time;
+  @override
+  String? get datetime;
+  @override
+  DateTime? get createdAt;
+  @override
+  DateTime? get updatedAt;
+  @override
+  String? get url;
   @override
   @JsonKey(ignore: true)
-  _$$_DetailsCopyWith<_$_Details> get copyWith =>
+  _$$_LatestImageCopyWith<_$_LatestImage> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Resolution _$ResolutionFromJson(Map<String, dynamic> json) {
+  return _Resolution.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Resolution {
+  int? get width => throw _privateConstructorUsedError;
+  int? get height => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ResolutionCopyWith<Resolution> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ResolutionCopyWith<$Res> {
+  factory $ResolutionCopyWith(
+          Resolution value, $Res Function(Resolution) then) =
+      _$ResolutionCopyWithImpl<$Res, Resolution>;
+  @useResult
+  $Res call({int? width, int? height});
+}
+
+/// @nodoc
+class _$ResolutionCopyWithImpl<$Res, $Val extends Resolution>
+    implements $ResolutionCopyWith<$Res> {
+  _$ResolutionCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? width = freezed,
+    Object? height = freezed,
+  }) {
+    return _then(_value.copyWith(
+      width: freezed == width
+          ? _value.width
+          : width // ignore: cast_nullable_to_non_nullable
+              as int?,
+      height: freezed == height
+          ? _value.height
+          : height // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_ResolutionCopyWith<$Res>
+    implements $ResolutionCopyWith<$Res> {
+  factory _$$_ResolutionCopyWith(
+          _$_Resolution value, $Res Function(_$_Resolution) then) =
+      __$$_ResolutionCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int? width, int? height});
+}
+
+/// @nodoc
+class __$$_ResolutionCopyWithImpl<$Res>
+    extends _$ResolutionCopyWithImpl<$Res, _$_Resolution>
+    implements _$$_ResolutionCopyWith<$Res> {
+  __$$_ResolutionCopyWithImpl(
+      _$_Resolution _value, $Res Function(_$_Resolution) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? width = freezed,
+    Object? height = freezed,
+  }) {
+    return _then(_$_Resolution(
+      width: freezed == width
+          ? _value.width
+          : width // ignore: cast_nullable_to_non_nullable
+              as int?,
+      height: freezed == height
+          ? _value.height
+          : height // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_Resolution implements _Resolution {
+  const _$_Resolution({this.width, this.height});
+
+  factory _$_Resolution.fromJson(Map<String, dynamic> json) =>
+      _$$_ResolutionFromJson(json);
+
+  @override
+  final int? width;
+  @override
+  final int? height;
+
+  @override
+  String toString() {
+    return 'Resolution(width: $width, height: $height)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_Resolution &&
+            (identical(other.width, width) || other.width == width) &&
+            (identical(other.height, height) || other.height == height));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, width, height);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_ResolutionCopyWith<_$_Resolution> get copyWith =>
+      __$$_ResolutionCopyWithImpl<_$_Resolution>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_ResolutionToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Resolution implements Resolution {
+  const factory _Resolution({final int? width, final int? height}) =
+      _$_Resolution;
+
+  factory _Resolution.fromJson(Map<String, dynamic> json) =
+      _$_Resolution.fromJson;
+
+  @override
+  int? get width;
+  @override
+  int? get height;
+  @override
+  @JsonKey(ignore: true)
+  _$$_ResolutionCopyWith<_$_Resolution> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

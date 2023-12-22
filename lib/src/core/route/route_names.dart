@@ -13,6 +13,7 @@ const String addVimeoVideoRoute = 'addVimeoVideo';
 const String addYoutubeVideoRoute = 'addYoutubeVideo';
 const String fullViewDroneRoute = 'fullViewDrone';
 const String cctvRoute = 'cctv';
+const String fullViewCCTVRoute = 'fullViewCCTV';
 const String camera360Route = 'camera360';
 const String siteGalleryRoute = 'sitegallery';
 const String addSiteGalleryRoute = 'addSiteGallery';

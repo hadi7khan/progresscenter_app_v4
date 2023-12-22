@@ -13,6 +13,7 @@ import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/sign_in
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/verify_email_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/bottom_navigation/view/bottom_navigation.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/camera_details_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/cctv_view/presentation/view/fullview_cctv_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/compare/presentation/view/compare_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/add_docs_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/docs_screen.dart';
@@ -547,6 +548,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           );
         },
       ),
+      // --------------------------------- CCTV --------------------------------
       GoRoute(
         path: '/cctv',
         parentNavigatorKey: _rootNavigatorKey,
@@ -559,6 +561,23 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 key: state.pageKey,
                 projectId: args['projectId'],
                 projectName: args['projectName']),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/fullViewCCTV',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: fullViewCCTVRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: FullViewCCTVScreen(
+                key: state.pageKey,
+                projectId: args['projectId'],
+                name: args['name'],
+                streamingUrl: args['streamingUrl'],
+                ),
           );
         },
       ),
