@@ -1,6 +1,7 @@
 // Stateful nested navigation based on:
 // https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/stateful_shell_route.dart
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -67,7 +68,11 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
               ),
               icon: SvgPicture.asset('assets/images/headphones.svg')),
         ],
-        onTap: _goBranch,
+        onTap:(index){
+          HapticFeedback.mediumImpact();
+
+          _goBranch(index);
+        } ,
       ),
     );
   }
