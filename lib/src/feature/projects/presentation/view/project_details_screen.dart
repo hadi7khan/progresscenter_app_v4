@@ -59,6 +59,10 @@ class _ProjectDetailsScreenState
   @override
   void initState() {
     super.initState();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.black.withOpacity(0.3),
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.light));
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref
           .read(projectByIdControllerProvider.notifier)
@@ -78,6 +82,7 @@ class _ProjectDetailsScreenState
     final projectByIdData = ref.watch(
         projectByIdControllerProvider.select((value) => value.projectDetails));
     return Scaffold(
+      extendBodyBehindAppBar: true,
       // appBar: PreferredSize(
       //   preferredSize: Size.fromHeight(60.h),
       //   child: Container(
@@ -110,6 +115,8 @@ class _ProjectDetailsScreenState
       //   ),
       // ),
       body: SafeArea(
+        top: false,
+        maintainBottomViewPadding: true,
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -182,7 +189,7 @@ class _ProjectDetailsScreenState
                           ),
                         ),
                         Positioned(
-                          top: 20,
+                          top: 55,
                           left: 20,
                           child: BlurryContainer(
                               height: 30,
@@ -206,7 +213,7 @@ class _ProjectDetailsScreenState
                               ),),
                         ),
                         Positioned(
-                          top: 20,
+                          top: 55,
                           right: 20,
                           child: BlurryContainer(
                               height: 30,
@@ -226,7 +233,7 @@ class _ProjectDetailsScreenState
                               ),),
                         ),
                         Positioned(
-                          top: 20,
+                          top: 55,
                           right: 60,
                           child: InkWell(
                             onTap: () {
