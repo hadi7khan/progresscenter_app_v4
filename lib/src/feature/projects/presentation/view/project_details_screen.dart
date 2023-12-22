@@ -323,8 +323,8 @@ class _ProjectDetailsScreenState
                       widget.projectName,
                       style: TextStyle(
                         letterSpacing: -0.3,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 28.sp,
+                        fontWeight: FontWeight.w600,
                         color: Helper.baseBlack,
                       ),
                     ),
