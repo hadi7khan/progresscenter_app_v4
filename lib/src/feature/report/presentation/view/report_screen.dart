@@ -29,15 +29,17 @@ class _ReportScreenState extends State<ReportScreen> {
               onTap: () {
                 context.pop();
               },
-              child: SvgPicture.asset(
-                'assets/images/arrow-left.svg',
+              child: Transform.rotate(
+                angle: 180 * (3.1415926535 / 180),
+                child: SvgPicture.asset('assets/images/chevron-right.svg',
+                    color: Helper.iconColor, fit: BoxFit.contain),
               ),
             ),
             leadingWidth: 24,
             title: Text(
               "Report",
               style: TextStyle(
-                    letterSpacing: -0.3,
+                  letterSpacing: -0.3,
                   color: Helper.baseBlack,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w500),

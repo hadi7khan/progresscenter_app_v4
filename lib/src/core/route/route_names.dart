@@ -25,6 +25,7 @@ const String cameraDetailsRoute = 'cameradetails';
 const String landscapeCameraDetailsRoute = 'landscapeCameradetails';
 const String livelapseRoute = 'livelapse';
 const String sliderRoute = 'slider';
+const String fullviewSliderRoute = 'fullviewSlider';
 const String compareRoute = 'comapare';
 const String splitviewRoute = 'splitview';
 const String reportRoute = 'report';

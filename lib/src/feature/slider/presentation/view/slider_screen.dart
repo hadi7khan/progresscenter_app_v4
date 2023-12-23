@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -141,15 +142,17 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
               onTap: () {
                 context.pop();
               },
-              child: SvgPicture.asset(
-                'assets/images/arrow-left.svg',
+              child: Transform.rotate(
+                angle: 180 * (3.1415926535 / 180),
+                child: SvgPicture.asset('assets/images/chevron-right.svg',
+                    color: Helper.iconColor, fit: BoxFit.contain),
               ),
             ),
             leadingWidth: 24,
             title: Text(
               "Progress Slider",
               style: TextStyle(
-                    letterSpacing: -0.3,
+                  letterSpacing: -0.3,
                   color: Helper.baseBlack,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w500),
@@ -168,61 +171,95 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
             child: progressSliderData.when(
               data: (data) {
                 if (data.isEmpty) {
-                        return Container(
-                          alignment: Alignment.center,
-                          height: MediaQuery.of(context).size.height *0.88.h,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                  'assets/images/illustration.svg'),
-                                  SizedBox(height: 16.h),
-                              Text(
-                                "No Images yet",
-                                style: TextStyle(
-                    letterSpacing: -0.3,
-                                    color: Helper.textColor900,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                      ;
+                  return Container(
+                    alignment: Alignment.center,
+                    height: MediaQuery.of(context).size.height * 0.88.h,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset('assets/images/illustration.svg'),
+                        SizedBox(height: 16.h),
+                        Text(
+                          "No Images yet",
+                          style: TextStyle(
+                              letterSpacing: -0.3,
+                              color: Helper.textColor900,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                ;
 
                 return Column(
                   children: [
                     imageBytesList.isNotEmpty
-                        ? AspectRatio(
-                            aspectRatio: 16 / 9,
-                            child: Image.memory(
-                              // imageBytesList.isNotEmpty ?
-                              // currentBytes!,
-                              imageBytesList[currentslider],
-                              // Uint8List.fromList(currentBytes!),
-                              gaplessPlayback: true,
-                              // : imageBytesList.first,
-                              width: double.infinity,
-                              fit: BoxFit.fill,
-                              // errorBuilder: (BuildContext context,
-                              //     Object exception, StackTrace? stackTrace) {
-                              //   return ClipRRect(
-                              //     child: Image.asset(
-                              //       'assets/images/error_image.jpeg',
-                              //       fit: BoxFit.cover,
-                              //     ),
-                              //   );
-                              // },
-                            )
-                            // : ClipRRect(
-                            //     child: Image.asset(
-                            //       'assets/images/error_image.jpeg',
-                            //       fit: BoxFit.cover,
-                            //     ),
-                            //   ),
-                            )
+                        ? Stack(
+                            children: [
+                              AspectRatio(
+                                  aspectRatio: 16 / 9,
+                                  child: Image.memory(
+                                    // imageBytesList.isNotEmpty ?
+                                    // currentBytes!,
+                                    imageBytesList[currentslider],
+                                    // Uint8List.fromList(currentBytes!),
+                                    gaplessPlayback: true,
+                                    // : imageBytesList.first,
+                                    width: double.infinity,
+                                    fit: BoxFit.fill,
+                                    // errorBuilder: (BuildContext context,
+                                    //     Object exception, StackTrace? stackTrace) {
+                                    //   return ClipRRect(
+                                    //     child: Image.asset(
+                                    //       'assets/images/error_image.jpeg',
+                                    //       fit: BoxFit.cover,
+                                    //     ),
+                                    //   );
+                                    // },
+                                  )
+                                  // : ClipRRect(
+                                  //     child: Image.asset(
+                                  //       'assets/images/error_image.jpeg',
+                                  //       fit: BoxFit.cover,
+                                  //     ),
+                                  //   ),
+                                  ),
+                              Positioned(
+                                top: 16,
+                                right: 16,
+                                child: InkWell(
+                                  onTap: () {
+                                    // SystemChrome.setPreferredOrientations(
+                                    //     [DeviceOrientation.landscapeRight]);
+                                    context.push('/fullviewSlider',
+                                        extra: {
+                                          "projectId": widget.projectId,
+                                          "projectName": widget.projectName,
+                                          "cameraId": widget.cameraId,
+                                          "sliderData": data,
+                                          "imagesBytes": imageBytesList,
+                                        });
+                                  },
+                                  child: BlurryContainer(
+                                    blur: 3,
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 6.h, horizontal: 8.w),
+                                    borderRadius: BorderRadius.circular(30.r),
+                                    color: Colors.white.withOpacity(0.1),
+                                    child: SvgPicture.asset(
+                                      'assets/images/expand.svg',
+                                      height: 16.h,
+                                      width: 16.w,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
                         : Center(child: CircularProgressIndicator()),
                     imageBytesList.isNotEmpty
                         ? SliderTheme(
@@ -256,7 +293,7 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
               error: (err, _) {
                 return const Text("Failed to fetch slider data",
                     style: TextStyle(
-                    letterSpacing: -0.3,color: Helper.errorColor));
+                        letterSpacing: -0.3, color: Helper.errorColor));
               },
               loading: () => LoadingSlider(),
             ),

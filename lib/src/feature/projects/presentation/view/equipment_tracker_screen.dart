@@ -37,8 +37,10 @@ class _EquipmentTrackerScreenState extends State<EquipmentTrackerScreen> {
                 onTap: () {
                   context.pop();
                 },
-                child: SvgPicture.asset(
-                  'assets/images/arrow-left.svg',
+                child: Transform.rotate(
+                  angle: 180 * (3.1415926535 / 180),
+                  child: SvgPicture.asset('assets/images/chevron-right.svg',
+                      color: Helper.iconColor, fit: BoxFit.contain),
                 ),
               ),
               leadingWidth: 24,
@@ -91,7 +93,7 @@ class _EquipmentTrackerScreenState extends State<EquipmentTrackerScreen> {
                 Text(
                   "No Equipment Trackers yet",
                   style: TextStyle(
-                    letterSpacing: -0.3,
+                      letterSpacing: -0.3,
                       color: Helper.textColor900,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w600),
