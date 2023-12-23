@@ -189,8 +189,10 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                   onTap: () {
                     context.pop();
                   },
-                  child: SvgPicture.asset(
-                    'assets/images/arrow-left.svg',
+                  child: Transform.rotate(
+                    angle: 180 * (3.1415926535 / 180),
+                    child: SvgPicture.asset('assets/images/chevron-right.svg',
+                        color: Helper.iconColor, fit: BoxFit.contain),
                   ),
                 ),
                 leadingWidth: 24,
@@ -488,156 +490,248 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                                   fontWeight: FontWeight.w400),
                             ),
                             trailing: InkWell(
-                                radius: 20,
+                                radius: 40,
+                                excludeFromSemantics: true,
                                 onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: ((context) {
-                                      return FormBuilder(
-                                        key: _dialogKey,
-                                        child: AlertDialog(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(14.r),
+                                  Platform.isIOS
+                                      ? showCupertinoDialog(
+                                          context: context,
+                                          builder: (context) =>
+                                              CupertinoAlertDialog(
+                                            title: Text(
+                                              "Are you sure you want to remove " +
+                                                  '\"' +
+                                                  widget.data.users![index]
+                                                      .name! +
+                                                  '\"',
+                                            ),
+                                            content: Text(
+                                              "You cannot undo this action ",
+                                            ),
+                                            actions: <Widget>[
+                                              // if (cancelActionText != null)
+
+                                              CupertinoDialogAction(
+                                                child: Text(
+                                                  "Cancel",
+                                                  style: TextStyle(
+                                                      color: Colors.blue,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
+                                                onPressed: () =>
+                                                    Navigator.of(context)
+                                                        .pop(true),
+                                              ),
+                                              CupertinoDialogAction(
+                                                  child: Text(
+                                                    "Remove",
+                                                    style: TextStyle(
+                                                      color: Helper.errorColor,
+                                                    ),
+                                                  ),
+                                                  onPressed: () {
+                                                    Service()
+                                                        .revokeMember(
+                                                            widget.data.id,
+                                                            widget
+                                                                .data
+                                                                .users![index]
+                                                                .id)
+                                                        .then((value) {
+                                                      context.pop();
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              const SnackBar(
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .red,
+                                                                  content: Text(
+                                                                      "Member Revoked")));
+                                                    });
+                                                    setState(() {});
+                                                  }),
+                                            ],
                                           ),
-                                          content: StatefulBuilder(builder:
-                                              (BuildContext context,
-                                                  StateSetter setState) {
-                                            return SingleChildScrollView(
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  RichText(
-                                                    text: TextSpan(
-                                                      text:
-                                                          "Are you sure you want to remove ",
-                                                      style: TextStyle(
-                                                          fontSize: 14.sp,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color: Helper
-                                                              .textColor500),
+                                        )
+                                      : showDialog(
+                                          context: context,
+                                          builder: ((context) {
+                                            return FormBuilder(
+                                              key: _dialogKey,
+                                              child: AlertDialog(
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          14.r),
+                                                ),
+                                                content: StatefulBuilder(
+                                                    builder: (BuildContext
+                                                            context,
+                                                        StateSetter setState) {
+                                                  return SingleChildScrollView(
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
-                                                        TextSpan(
-                                                          text: '\"' +
-                                                              widget
-                                                                  .data
-                                                                  .users![index]
-                                                                  .name! +
-                                                              '\"',
-                                                          style: TextStyle(
-                                                              fontSize: 14.sp,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              color: Helper
-                                                                  .baseBlack),
-                                                        ),
-                                                        TextSpan(
-                                                          text:
-                                                              ' from this project?',
-                                                          style: TextStyle(
-                                                              fontSize: 14.sp,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              color: Helper
-                                                                  .textColor500),
+                                                        RichText(
+                                                          text: TextSpan(
+                                                            text:
+                                                                "Are you sure you want to remove ",
+                                                            style: TextStyle(
+                                                                fontSize: 14.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Helper
+                                                                    .textColor500),
+                                                            children: [
+                                                              TextSpan(
+                                                                text: '\"' +
+                                                                    widget
+                                                                        .data
+                                                                        .users![
+                                                                            index]
+                                                                        .name! +
+                                                                    '\"',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        14.sp,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    color: Helper
+                                                                        .baseBlack),
+                                                              ),
+                                                              TextSpan(
+                                                                text:
+                                                                    ' from this project?',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        14.sp,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    color: Helper
+                                                                        .textColor500),
+                                                              ),
+                                                            ],
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
+                                                  );
+                                                }),
+                                                actionsPadding:
+                                                    const EdgeInsets.only(
+                                                        left: 32,
+                                                        bottom: 32,
+                                                        right: 32),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () async {
+                                                      Service()
+                                                          .revokeMember(
+                                                              widget.data.id,
+                                                              widget
+                                                                  .data
+                                                                  .users![index]
+                                                                  .id)
+                                                          .then((value) {
+                                                        context.pop();
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(const SnackBar(
+                                                                backgroundColor:
+                                                                    Colors.red,
+                                                                content: Text(
+                                                                    "Member Revoked")));
+                                                      });
+                                                      setState(() {});
+                                                    },
+                                                    style: TextButton.styleFrom(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal: 16,
+                                                                vertical: 11),
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      8.r),
+                                                        ),
+                                                        backgroundColor:
+                                                            Helper.errorColor,
+                                                        fixedSize:
+                                                            Size.infinite),
+                                                    child: const Text(
+                                                      "Remove",
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      context.pop();
+                                                    },
+                                                    style: TextButton.styleFrom(
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      8.r),
+                                                        ),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal: 16,
+                                                                vertical: 11),
+                                                        backgroundColor:
+                                                            Colors.white,
+                                                        side: BorderSide(
+                                                            color: Helper
+                                                                .textColor300),
+                                                        fixedSize:
+                                                            Size.infinite),
+                                                    child: Text(
+                                                      "Cancel",
+                                                      style: TextStyle(
+                                                          color: Helper
+                                                              .textColor500,
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
                                                   ),
                                                 ],
+                                                actionsAlignment:
+                                                    MainAxisAlignment.center,
                                               ),
                                             );
                                           }),
-                                          actionsPadding: const EdgeInsets.only(
-                                              left: 32, bottom: 32, right: 32),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () async {
-                                                Service()
-                                                    .revokeMember(
-                                                        widget.data.id,
-                                                        widget.data
-                                                            .users![index].id)
-                                                    .then((value) {
-                                                  context.pop();
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(const SnackBar(
-                                                          backgroundColor:
-                                                              Colors.red,
-                                                          content: Text(
-                                                              "Member Revoked")));
-                                                });
-                                                setState(() {});
-                                              },
-                                              style: TextButton.styleFrom(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 16,
-                                                      vertical: 11),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.r),
-                                                  ),
-                                                  backgroundColor:
-                                                      Helper.errorColor,
-                                                  fixedSize: Size.infinite),
-                                              child: const Text(
-                                                "Remove",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                              ),
-                                            ),
-                                            TextButton(
-                                              onPressed: () {
-                                                context.pop();
-                                              },
-                                              style: TextButton.styleFrom(
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.r),
-                                                  ),
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 16,
-                                                      vertical: 11),
-                                                  backgroundColor: Colors.white,
-                                                  side: BorderSide(
-                                                      color:
-                                                          Helper.textColor300),
-                                                  fixedSize: Size.infinite),
-                                              child: Text(
-                                                "Cancel",
-                                                style: TextStyle(
-                                                    color: Helper.textColor500,
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                              ),
-                                            ),
-                                          ],
-                                          actionsAlignment:
-                                              MainAxisAlignment.center,
-                                        ),
-                                      );
-                                    }),
-                                  );
+                                        );
                                 },
-                                child: SvgPicture.asset(
-                                    width: 15,
-                                    height: 15,
-                                    'assets/images/close-x.svg')),
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 16.0, bottom: 16.0, left: 16.0),
+                                  child: SvgPicture.asset(
+                                      width: 15,
+                                      height: 15,
+                                      'assets/images/close-x.svg'),
+                                )),
                           ),
                         );
                       }),
@@ -651,6 +745,84 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
   }
 
   _showBottomSheet(context, id, progress) {
+    if (!Platform.isIOS) {
+      return showCupertinoModalPopup(
+        context: context,
+        builder: (context) => CupertinoActionSheet(
+          title: const Text('Upload Media'),
+          // message: const Text('Message'),
+          actions: <CupertinoActionSheetAction>[
+            CupertinoActionSheetAction(
+              child: const Text('Take Photo'),
+              onPressed: () {
+                _pickImage(ImageSource.camera).then((value) async {
+                  await Service()
+                      .uploadPhoto(
+                          widget.data.id!, _image!.path, calculateProgress)
+                      .then((value) {
+                    setState(() {
+                      _progress = progress;
+                      print("progress" + _progress.toString());
+                    });
+                    print("progress" + _progress.toString());
+                    context.pop();
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        backgroundColor: Colors.green,
+                        content: Text("Image Uploaded")));
+                  });
+                });
+              },
+            ),
+            CupertinoActionSheetAction(
+              child: const Text(
+                'Choose Photo',
+              ),
+              onPressed: () {
+                _pickImage(ImageSource.gallery).then((value) async {
+                  await await Service()
+                      .uploadPhoto(
+                          widget.data.id!, _image!.path, calculateProgress)
+                      .then((value) {
+                    setState(() {
+                      _progress = progress;
+                      print("progress" + _progress.toString());
+                    });
+                    print("progress" + _progress.toString());
+                    context.pop();
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        backgroundColor: Colors.green,
+                        content: Text("Image Uploaded")));
+                  });
+                });
+              },
+            ),
+            CupertinoActionSheetAction(
+              child: const Text(
+                'Browse from files',
+              ),
+              onPressed: () {
+                _pickImage(ImageSource.gallery).then((value) async {
+                  await Service()
+                      .uploadPhoto(
+                          widget.data.id!, _image!.path, calculateProgress)
+                      .then((value) {
+                    setState(() {
+                      _progress = progress;
+                      print("progress" + _progress.toString());
+                    });
+                    print("progress" + _progress.toString());
+                    context.pop();
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        backgroundColor: Colors.green,
+                        content: Text("Image Uploaded")));
+                  });
+                });
+              },
+            ),
+          ],
+        ),
+      );
+    }
     return showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -833,116 +1005,116 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
 
   _showDeleteBottomSheet(context, projectId, imageId) {
     // todo : showDialog for ios
-    
+
     if (!Platform.isIOS) {
       return showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) => BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16.r),
-                topRight: Radius.circular(16.r)),
-            color: Colors.white,
-          ),
-          height: 200.h,
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Delete',
-                    style: TextStyle(
-                        color: Helper.errorColor,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20.h),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "Are you sure you want to delete this image? ",
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Helper.textColor500),
-                  ),
-                  SizedBox(height: 20.h),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        TextButton(
-                          onPressed: () async {
-                            Service()
-                                .deleteImage(projectId, imageId)
-                                .then((value) {
+        context: context,
+        backgroundColor: Colors.transparent,
+        builder: (context) => BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16.r),
+                  topRight: Radius.circular(16.r)),
+              color: Colors.white,
+            ),
+            height: 200.h,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Delete',
+                      style: TextStyle(
+                          color: Helper.errorColor,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20.h),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Are you sure you want to delete this image? ",
+                      style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                          color: Helper.textColor500),
+                    ),
+                    SizedBox(height: 20.h),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          TextButton(
+                            onPressed: () async {
+                              Service()
+                                  .deleteImage(projectId, imageId)
+                                  .then((value) {
+                                context.pop();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        backgroundColor: Colors.red,
+                                        content: Text("Image Deleted")));
+                              });
+                              setState(() {});
+                            },
+                            style: TextButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 11),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                ),
+                                backgroundColor: Helper.errorColor,
+                                fixedSize: Size.infinite),
+                            child: const Text(
+                              "Delete",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
                               context.pop();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      backgroundColor: Colors.red,
-                                      content: Text("Image Deleted")));
-                            });
-                            setState(() {});
-                          },
-                          style: TextButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 11),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.r),
-                              ),
-                              backgroundColor: Helper.errorColor,
-                              fixedSize: Size.infinite),
-                          child: const Text(
-                            "Delete",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600),
+                            },
+                            style: TextButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 11),
+                                backgroundColor: Colors.white,
+                                side: BorderSide(color: Helper.textColor300),
+                                fixedSize: Size.infinite),
+                            child: Text(
+                              "Cancel",
+                              style: TextStyle(
+                                  color: Helper.textColor500,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600),
+                            ),
                           ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            context.pop();
-                          },
-                          style: TextButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.r),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 11),
-                              backgroundColor: Colors.white,
-                              side: BorderSide(color: Helper.textColor300),
-                              fixedSize: Size.infinite),
-                          child: Text(
-                            "Cancel",
-                            style: TextStyle(
-                                color: Helper.textColor500,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                      ]),
-                ],
-              ),
-            ],
+                        ]),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
     }
-  return  showCupertinoDialog(
+    return showCupertinoDialog(
       context: context,
       builder: (context) => CupertinoAlertDialog(
         title: Text(
@@ -961,25 +1133,25 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
         ),
         actions: <Widget>[
           // if (cancelActionText != null)
-            
+
           CupertinoDialogAction(
-            child: Text("Cancel", style: TextStyle(
-              color: Colors.blue,
-              fontWeight: FontWeight.w500
-              ),),
+            child: Text(
+              "Cancel",
+              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500),
+            ),
             onPressed: () => Navigator.of(context).pop(true),
           ),
           CupertinoDialogAction(
-              child: Text("Delete",
+            child: Text(
+              "Delete",
               style: TextStyle(
-              color: Helper.errorColor,
+                color: Helper.errorColor,
               ),
-              ),
-              onPressed: () => Navigator.of(context).pop(false),
             ),
+            onPressed: () => Navigator.of(context).pop(false),
+          ),
         ],
       ),
     );
-    
   }
 }
