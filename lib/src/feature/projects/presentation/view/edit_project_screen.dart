@@ -745,7 +745,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
   }
 
   _showBottomSheet(context, id, progress) {
-    if (!Platform.isIOS) {
+    if (Platform.isIOS) {
       return showCupertinoModalPopup(
         context: context,
         builder: (context) => CupertinoActionSheet(
