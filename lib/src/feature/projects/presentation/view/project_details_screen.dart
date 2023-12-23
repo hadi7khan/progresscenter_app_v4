@@ -315,7 +315,7 @@ class _ProjectDetailsScreenState
                 height: 20.h,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                padding: EdgeInsets.symmetric(horizontal: 20.w,  vertical: 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -341,7 +341,7 @@ class _ProjectDetailsScreenState
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
                 child: projectByIdData.when(
                   data: (data) {
                     projectByIdData == data;
