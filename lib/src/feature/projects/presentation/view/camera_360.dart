@@ -8,7 +8,8 @@ import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 class Camera360Screen extends StatefulWidget {
   final String projectId;
   final String projectName;
-  const Camera360Screen({super.key, required this.projectId, required this.projectName});
+  const Camera360Screen(
+      {super.key, required this.projectId, required this.projectName});
 
   @override
   State<Camera360Screen> createState() => _Camera360ScreenState();
@@ -34,8 +35,10 @@ class _Camera360ScreenState extends State<Camera360Screen> {
                 onTap: () {
                   context.pop();
                 },
-                child: SvgPicture.asset(
-                  'assets/images/arrow-left.svg',
+                child: Transform.rotate(
+                  angle: 180 * (3.1415926535 / 180),
+                  child: SvgPicture.asset('assets/images/chevron-right.svg',
+                      color: Helper.iconColor, fit: BoxFit.contain),
                 ),
               ),
               leadingWidth: 24,
@@ -88,7 +91,7 @@ class _Camera360ScreenState extends State<Camera360Screen> {
                 Text(
                   "No 360 Cameras yet",
                   style: TextStyle(
-                    letterSpacing: -0.3,
+                      letterSpacing: -0.3,
                       color: Helper.textColor900,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w600),

@@ -253,13 +253,15 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                   automaticallyImplyLeading: false,
                   titleSpacing: 12.0.w,
                   leading: InkWell(
-                    onTap: () {
-                      context.pop();
-                    },
-                    child: SvgPicture.asset(
-                      'assets/images/arrow-left.svg',
-                    ),
-                  ),
+              onTap: () {
+                context.pop();
+              },
+              child: Transform.rotate(
+                angle: 180 * (3.1415926535 / 180),
+                child: SvgPicture.asset('assets/images/chevron-right.svg',
+                    color: Helper.iconColor, fit: BoxFit.contain),
+              ),
+            ),
                   leadingWidth: 24,
                   title: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

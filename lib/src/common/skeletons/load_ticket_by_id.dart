@@ -26,14 +26,6 @@ class _LoadingTicketByIdState extends State<LoadingTicketById> {
               surfaceTintColor: Colors.white,
               automaticallyImplyLeading: false,
               titleSpacing: 12.0.w,
-              // leading: InkWell(
-              //   onTap: () {
-              //     context.pop();
-              //   },
-              //   child: SvgPicture.asset(
-              //     'assets/images/arrow-left.svg',
-              //   ),
-              // ),
               leadingWidth: 24,
               title: Skeleton(
                 variant: "text",

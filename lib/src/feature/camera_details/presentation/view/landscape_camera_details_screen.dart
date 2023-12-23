@@ -229,7 +229,7 @@ class _LandscapeCameraDetailsScreenState
                                   Container(
                                     padding: EdgeInsets.zero,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(6.r),
+                                      borderRadius: BorderRadius.circular(8.r),
                                       border: _selectedImageIndex == index
                                           ? Border.all(
                                               color: Helper.primary,
@@ -240,7 +240,7 @@ class _LandscapeCameraDetailsScreenState
                                               color: Colors.transparent),
                                     ),
                                     child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(2.r),
+                                      borderRadius: BorderRadius.circular(4.r),
                                       child: Image.network(
                                         widget.imagesData.images![index].urlThumb!,
                                         width: 51.w,
@@ -262,7 +262,7 @@ class _LandscapeCameraDetailsScreenState
                                     ),
                                   ),
                                   SizedBox(
-                                    height: 6.h,
+                                    height: 4.h,
                                   ),
                                   Text(
                                     formattedTime,

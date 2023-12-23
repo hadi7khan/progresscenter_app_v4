@@ -83,8 +83,10 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
               onTap: () {
                 context.pop();
               },
-              child: SvgPicture.asset(
-                'assets/images/arrow-left.svg',
+              child: Transform.rotate(
+                angle: 180 * (3.1415926535 / 180),
+                child: SvgPicture.asset('assets/images/chevron-right.svg',
+                    color: Helper.iconColor, fit: BoxFit.contain),
               ),
             ),
             leadingWidth: 24,

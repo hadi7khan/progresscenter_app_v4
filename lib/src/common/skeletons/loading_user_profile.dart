@@ -25,14 +25,6 @@ class _LoadingUserProfileState extends State<LoadingUserProfile> {
               surfaceTintColor: Colors.white,
               automaticallyImplyLeading: false,
               titleSpacing: 12.0.w,
-              // leading: InkWell(
-              //   onTap: () {
-              //     context.pop();
-              //   },
-              //   child: SvgPicture.asset(
-              //     'assets/images/arrow-left.svg',
-              //   ),
-              // ),
               leadingWidth: 24,
               title: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
