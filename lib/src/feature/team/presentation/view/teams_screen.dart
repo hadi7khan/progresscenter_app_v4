@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -152,6 +155,38 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
   }
 
   _showUserBottomSheet(context) {
+    if (Platform.isIOS) {
+      return showCupertinoModalPopup(
+        context: context,
+        builder: (context) => CupertinoActionSheet(
+          title: const Text(
+            'Create User',
+          ),
+          // message: const Text('Message'),
+          actions: <CupertinoActionSheetAction>[
+            CupertinoActionSheetAction(
+              child: const Text(
+                'Add new user',
+              ),
+              onPressed: () {
+                context.push('/addUser');
+                context.pop();
+              },
+            ),
+            CupertinoActionSheetAction(
+              child: const Text(
+                'Invite by email',
+              ),
+              onPressed: () {
+                context.pop();
+                context.push('/inviteByMail');
+                context.pop();
+              },
+            ),
+          ],
+        ),
+      );
+    }
     return showModalBottomSheet(
       context: context,
       useRootNavigator: true,

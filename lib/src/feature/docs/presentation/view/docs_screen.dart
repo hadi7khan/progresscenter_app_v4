@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -150,7 +153,7 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                           SizedBox(width: 12.w),
                           InkWell(
                               onTap: () {
-                                _showUserBottomSheet(context, categoryList);
+                                _showAddBottomSheet(context, categoryList);
                               },
                               child:
                                   SvgPicture.asset('assets/images/plus.svg')),
@@ -189,7 +192,38 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
     );
   }
 
-  _showUserBottomSheet(context, categoryList) {
+  _showAddBottomSheet(context, categoryList) {
+    if (Platform.isIOS) {
+      return showCupertinoModalPopup(
+        context: context,
+        builder: (context) => CupertinoActionSheet(
+          title: const Text(
+            'Add new',
+          ),
+          // message: const Text('Message'),
+          actions: <CupertinoActionSheetAction>[
+            CupertinoActionSheetAction(
+              child: const Text(
+                'Add document',
+              ),
+              onPressed: () {
+                context.push('/addDocs', extra: {"category": categoryList});
+                context.pop();
+              },
+            ),
+            CupertinoActionSheetAction(
+              child: const Text(
+                'Add new category',
+              ),
+              onPressed: () {
+                context.pop();
+                _showCategoryBottomSheet(context);
+              },
+            ),
+          ],
+        ),
+      );
+    }
     return showModalBottomSheet(
       context: context,
       useRootNavigator: true,
