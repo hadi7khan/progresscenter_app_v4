@@ -17,6 +17,8 @@ import 'src/core/utils/helper.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setup();
+  await SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: Colors.white,
   ));

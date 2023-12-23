@@ -147,8 +147,10 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
               onTap: () {
                 context.pop();
               },
-              child: SvgPicture.asset(
-                'assets/images/arrow-left.svg',
+              child: Transform.rotate(
+                angle: 180 * (3.1415926535 / 180),
+                child: SvgPicture.asset('assets/images/chevron-right.svg',
+                    color: Helper.iconColor, fit: BoxFit.contain),
               ),
             ),
             leadingWidth: 24,
@@ -327,6 +329,12 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                           onTap: () {
                             // SystemChrome.setPreferredOrientations(
                             //     [DeviceOrientation.landscapeRight]);
+                            context.push('/landscapeCameraDetails', extra: {
+                              "projectId": widget.projectId,
+                              "projectName": widget.projectName,
+                              "cameraId": widget.cameraId,
+                              "imagesData": imagesData
+                            });
                           },
                           child: BlurryContainer(
                             blur: 3,
@@ -435,7 +443,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                                       Text(
                                         formattedTime,
                                         style: TextStyle(
-                    letterSpacing: -0.3,
+                                            letterSpacing: -0.3,
                                             color: Helper.textColor700,
                                             fontSize: 8.sp,
                                             fontWeight: FontWeight.w500),
@@ -469,7 +477,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                                 child: Text(
                                   "- $showMonth -",
                                   style: TextStyle(
-                    letterSpacing: -0.3,
+                                      letterSpacing: -0.3,
                                       fontSize: 10.sp,
                                       fontWeight: FontWeight.w700,
                                       color: Helper.baseBlack.withOpacity(0.3)),
@@ -529,7 +537,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                                             Text(
                                               formattedDate,
                                               style: TextStyle(
-                    letterSpacing: -0.3,
+                                                  letterSpacing: -0.3,
                                                   color: Helper.baseBlack,
                                                   fontSize: 16.sp,
                                                   fontWeight: FontWeight.w600),
@@ -539,7 +547,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                                                   .substring(0, 3)
                                                   .toUpperCase(),
                                               style: TextStyle(
-                    letterSpacing: -0.3,
+                                                  letterSpacing: -0.3,
                                                   color: Helper.baseBlack,
                                                   fontSize: 10.sp,
                                                   fontWeight: FontWeight.w400),
@@ -583,8 +591,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
             },
             error: (err, _) {
               return const Text("Failed to fetch images data",
-                  style: TextStyle(
-                    letterSpacing: -0.3,color: Helper.errorColor));
+                  style:
+                      TextStyle(letterSpacing: -0.3, color: Helper.errorColor));
             },
             loading: () => LoadingCamDetails(
               showCalendarList: true,
@@ -595,12 +603,12 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
       ),
       bottomNavigationBar: showBottomBar
           ? Container(
-            height: 50.h,
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
+              height: 50.h,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
                     InkWell(
                       onTap: () {
                         context.push('/livelapse', extra: {
@@ -672,7 +680,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                       ),
                     )
                   ]),
-          )
+            )
           : SizedBox(),
     );
   }
@@ -702,7 +710,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                   Text(
                     'Camera name',
                     style: TextStyle(
-                    letterSpacing: -0.3,
+                        letterSpacing: -0.3,
                         color: Helper.baseBlack,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500),
@@ -710,7 +718,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                   Text(
                     '25℃ Sunny, Hyderabad, India',
                     style: TextStyle(
-                    letterSpacing: -0.3,
+                        letterSpacing: -0.3,
                         color: Color.fromRGBO(127, 127, 127, 0.5),
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w400),
@@ -718,7 +726,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                   Text(
                     '10-07-2023, 12:30 PM',
                     style: TextStyle(
-                    letterSpacing: -0.3,
+                        letterSpacing: -0.3,
                         color: Color.fromRGBO(127, 127, 127, 0.5),
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w400),
@@ -757,7 +765,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                       title: Text(
                         'Download',
                         style: TextStyle(
-                    letterSpacing: -0.3,
+                            letterSpacing: -0.3,
                             color: Helper.baseBlack,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500),
@@ -793,7 +801,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                       title: Text(
                         'Share',
                         style: TextStyle(
-                    letterSpacing: -0.3,
+                            letterSpacing: -0.3,
                             color: Helper.baseBlack,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500),
@@ -829,7 +837,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                       title: Text(
                         'Comment',
                         style: TextStyle(
-                    letterSpacing: -0.3,
+                            letterSpacing: -0.3,
                             color: Helper.baseBlack,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500),
@@ -865,7 +873,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                       title: Text(
                         'AI Insights',
                         style: TextStyle(
-                    letterSpacing: -0.3,
+                            letterSpacing: -0.3,
                             color: Helper.baseBlack,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500),
@@ -901,7 +909,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                       title: Text(
                         'Image quality',
                         style: TextStyle(
-                    letterSpacing: -0.3,
+                            letterSpacing: -0.3,
                             color: Helper.baseBlack,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500),
@@ -938,7 +946,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                       title: Text(
                         'Default view',
                         style: TextStyle(
-                    letterSpacing: -0.3,
+                            letterSpacing: -0.3,
                             color: Helper.baseBlack,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500),
@@ -954,7 +962,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                     child: Text(
                       "Cancel",
                       style: TextStyle(
-                    letterSpacing: -0.3,
+                          letterSpacing: -0.3,
                           color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.w500),
@@ -1018,7 +1026,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                     Text(
                       'Select Date',
                       style: TextStyle(
-                    letterSpacing: -0.3,
+                          letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w500),
@@ -1049,7 +1057,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                     child: Text(
                       "Done",
                       style: TextStyle(
-                    letterSpacing: -0.3,
+                          letterSpacing: -0.3,
                           color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.w500),
