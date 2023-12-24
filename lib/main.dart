@@ -20,8 +20,10 @@ void main() async {
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    systemNavigationBarColor: Colors.black,
+    statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
   ));
+  
 
   // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
   //     overlays: SystemUiOverlay.values);

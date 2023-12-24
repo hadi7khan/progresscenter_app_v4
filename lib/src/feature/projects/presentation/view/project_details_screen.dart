@@ -59,10 +59,11 @@ class _ProjectDetailsScreenState
   @override
   void initState() {
     super.initState();
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Colors.black.withOpacity(0.3),
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.light));
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    //     statusBarColor: Colors.black.withOpacity(0.3),
+        // statusBarIconBrightness: Brightness.light,
+        // statusBarBrightness: Brightness.light
+        // ));
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref
           .read(projectByIdControllerProvider.notifier)
