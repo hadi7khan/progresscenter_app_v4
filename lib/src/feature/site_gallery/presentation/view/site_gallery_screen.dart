@@ -24,7 +24,7 @@ class SiteGalleryScreen extends ConsumerStatefulWidget {
 }
 
 class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
-  bool list = true;
+  bool list = false;
   @override
   void initState() {
     super.initState();
@@ -103,7 +103,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
         body: SafeArea(
           child: SingleChildScrollView(
               child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+            padding: EdgeInsets.symmetric( vertical: 12.h),
             child: siteGalleryData.when(
               data: (data) {
                 if (data.isEmpty) {
@@ -223,10 +223,10 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                               padding: EdgeInsets.zero,
                               gridDelegate:
                                   SliverGridDelegateWithMaxCrossAxisExtent(
-                                      maxCrossAxisExtent: 160.w,
-                                      mainAxisSpacing: 15.h,
-                                      crossAxisSpacing: 15.w,
-                                      childAspectRatio: 3 / 2,
+                                      maxCrossAxisExtent: MediaQuery.of(context).size.width / 3, 
+                                      mainAxisSpacing: 1.5.h,
+                                      crossAxisSpacing: 1.5.w,
+                                      childAspectRatio: 1 / 1,
                                       // mainAxisExtent: 100.h
                                       ),
                               itemCount: data.length,
