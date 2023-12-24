@@ -62,7 +62,6 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
     }).toList();
   }
 
-
 // method for formatting comment data
   Map<String, dynamic> getCommentData() {
     final commentText = key.currentState!.controller!.text;
@@ -73,7 +72,6 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
       "comment": replacedText,
     };
   }
-
 
   String replaceMentionsInText(List<UserLeanModel> users, String text) {
     String replacedText = text;
@@ -89,7 +87,6 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
     }
     return replacedText;
   }
-
 
 // method for showing mentioned user n additional text
   TextSpan _buildTextSpan(String text) {
@@ -116,7 +113,7 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
           TextSpan(
             text: '@$username',
             style: TextStyle(
-                    letterSpacing: -0.3,
+              letterSpacing: -0.3,
               color: Colors.blue, // Set your desired text style here
               fontWeight: FontWeight.bold,
             ),
@@ -162,7 +159,7 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                   Text(
                     'Comments',
                     style: TextStyle(
-                    letterSpacing: -0.3,
+                        letterSpacing: -0.3,
                         color: Helper.baseBlack,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500),
@@ -204,7 +201,7 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                               title: Text(
                                 data[reversedIndex].user!.name!,
                                 style: TextStyle(
-                    letterSpacing: -0.3,
+                                    letterSpacing: -0.3,
                                     color: Helper.textColor600,
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w500),
@@ -212,7 +209,6 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                               subtitle: ProcessMention(
                                 text: data[reversedIndex].body!,
                               ),
-                              
                             );
                           }),
                         ),
@@ -223,7 +219,7 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                 error: (err, _) {
                   return const Text("Failed to load Comments",
                       style: TextStyle(
-                    letterSpacing: -0.3,color: Helper.errorColor));
+                          letterSpacing: -0.3, color: Helper.errorColor));
                 },
                 loading: () => LoadCommentsWidget(),
               ),
@@ -240,6 +236,10 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                 ),
                 title: FlutterMentions(
                   key: key,
+                  suggestionListDecoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.r),
+                    color: Colors.white,
+                    border: Border.all(color: Helper.textColor300)),
                   suggestionPosition: SuggestionPosition.Top,
                   maxLines: 5,
                   minLines: 1,
@@ -247,7 +247,7 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                     Mention(
                       trigger: "@",
                       style: TextStyle(
-                    letterSpacing: -0.3,
+                          letterSpacing: -0.3,
                           color: Helper.primary,
                           fontWeight: FontWeight.w400,
                           fontSize: 14.sp),
@@ -256,7 +256,8 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                         print("builder data" + data.toString());
                         return Container(
                           margin: EdgeInsets.all(10),
-                          width: MediaQuery.of(context).size.width,
+                          width: MediaQuery.of(context).size.width ,
+                          
                           padding: EdgeInsets.all(10.0),
                           child: ListTile(
                             horizontalTitleGap: 8.w,
@@ -265,8 +266,7 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                                 VisualDensity(horizontal: 0, vertical: -4),
                             contentPadding: EdgeInsets.zero,
                             leading: AvatarWidget(
-                              dpUrl:
-                                  data['dpUrl'] != null ? data['dpUrl'] : "",
+                              dpUrl: data['dpUrl'] != null ? data['dpUrl'] : "",
                               name: data['display'],
                               backgroundColor: data['color'],
                               size: 24,
@@ -274,7 +274,7 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                             title: Text(
                               data['display'],
                               style: TextStyle(
-                    letterSpacing: -0.3,
+                                  letterSpacing: -0.3,
                                   color: Helper.textColor900,
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w500),
@@ -285,12 +285,10 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                     )
                   ],
                   style: TextStyle(
-                    letterSpacing: -0.3,
+                      letterSpacing: -0.3,
                       color: Helper.textColor600,
                       fontWeight: FontWeight.w400,
                       fontSize: 14.sp),
-                  suggestionListDecoration:
-                      BoxDecoration(color: Colors.white),
                   decoration: InputDecoration(
                     fillColor: Colors.white,
                     filled: true,
@@ -298,7 +296,7 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                         EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
                     hintText: "Add comment",
                     hintStyle: TextStyle(
-                    letterSpacing: -0.3,
+                      letterSpacing: -0.3,
                       color: Helper.textColor500,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
@@ -314,8 +312,8 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                           });
                           Map<String, dynamic> data = getCommentData();
                           if (_fbKey.currentState!.saveAndValidate()) {
-                            print("id passed" +
-                                widget.progresslineId.toString());
+                            print(
+                                "id passed" + widget.progresslineId.toString());
                             await ref
                                 .watch(postCommentProvider.notifier)
                                 .postComment(widget.progresslineId, data)
@@ -324,8 +322,7 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                                 print("errorrrrrr");
                               }, (res) {
                                 ref
-                                    .watch(
-                                        commentsControllerProvider.notifier)
+                                    .watch(commentsControllerProvider.notifier)
                                     .getComments(widget.progresslineId);
                                 print("response data" + res.toString());
                                 key.currentState!.controller!.clear();

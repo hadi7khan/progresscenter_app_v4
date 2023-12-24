@@ -36,6 +36,7 @@ class _FullViewSitegalleryScreenState extends State<FullViewSitegalleryScreen> {
       );
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,30 +91,32 @@ class _FullViewSitegalleryScreenState extends State<FullViewSitegalleryScreen> {
               //     topLeft: Radius.circular(16.r),
               //     topRight: Radius.circular(16.r)),
               child: Stack(alignment: Alignment.center, children: [
-                widget.type == "IMAGE"
-                    ? Image.network(
-                        widget.url,
-                        fit: BoxFit.fill,
-                        errorBuilder: (BuildContext context,
-                            Object exception, StackTrace? stackTrace) {
-                          return ClipRRect(
-                            child: Image.asset(
-                              'assets/images/error_image.jpeg',
-                              fit: BoxFit.cover,
-                            ),
-                          );
-                        },
-                      )
-                    : AspectRatio(
-                      aspectRatio: 16 / 9,
-                      child: VlcPlayer(
-                        controller: _videoPlayerController!,
-                        aspectRatio: 16 / 9,
-                        placeholder:
-                            Center(child: CircularProgressIndicator()),
-                      ),
+            widget.type == "IMAGE"
+                ? InteractiveViewer(
+                    maxScale: 10,
+                    child: Image.network(
+                      widget.url,
+                      fit: BoxFit.fill,
+                      errorBuilder: (BuildContext context, Object exception,
+                          StackTrace? stackTrace) {
+                        return ClipRRect(
+                          child: Image.asset(
+                            'assets/images/error_image.jpeg',
+                            fit: BoxFit.cover,
+                          ),
+                        );
+                      },
                     ),
-              ])),
+                  )
+                : AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: VlcPlayer(
+                      controller: _videoPlayerController!,
+                      aspectRatio: 16 / 9,
+                      placeholder: Center(child: CircularProgressIndicator()),
+                    ),
+                  ),
+          ])),
         ),
       ),
     );

@@ -226,8 +226,9 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                                       maxCrossAxisExtent: 160.w,
                                       mainAxisSpacing: 15.h,
                                       crossAxisSpacing: 15.w,
-                                      childAspectRatio: 16 / 9,
-                                      mainAxisExtent: 152.h),
+                                      childAspectRatio: 3 / 2,
+                                      // mainAxisExtent: 100.h
+                                      ),
                               itemCount: data.length,
                               itemBuilder: ((context, index) {
                                 final reversedIndex = data.length - 1 - index;

@@ -270,10 +270,8 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                     context: context,
                                     backgroundColor: Colors.transparent,
                                     builder: (context) => ViewedByWidget(
-                                    data: widget.progresslineData.viewedBy,
-                                    showText: "Viewed By"
-                                    )
-                                    );
+                                        data: widget.progresslineData.viewedBy,
+                                        showText: "Viewed By"));
                               },
                               child: Container(
                                 padding: EdgeInsets.all(4.w),
@@ -287,7 +285,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                               widget.progresslineData.viewedBy.length
                                   .toString(),
                               style: TextStyle(
-                    letterSpacing: -0.3,
+                                  letterSpacing: -0.3,
                                   color: Helper.textColor600,
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w500),
@@ -314,7 +312,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                         .toString() +
                                     " comments",
                                 style: TextStyle(
-                    letterSpacing: -0.3,
+                                    letterSpacing: -0.3,
                                     color: Helper.primary,
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w500),
@@ -338,13 +336,18 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                               suggestionPosition: SuggestionPosition.Top,
                               maxLines: 5,
                               minLines: 1,
+                              suggestionListDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                  color: Colors.white,
+                                  border:
+                                      Border.all(color: Helper.textColor300)),
                               mentions: [
                                 Mention(
                                   trigger: "@",
                                   suggestionBuilder: (data) {
                                     print("builder data" + data.toString());
                                     return Container(
-                                      margin: EdgeInsets.all(10),
+                                      // margin: EdgeInsets.all(10),
                                       width: MediaQuery.of(context).size.width,
                                       padding: EdgeInsets.all(10.0),
                                       child: ListTile(
@@ -364,7 +367,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                         title: Text(
                                           data['display'],
                                           style: TextStyle(
-                    letterSpacing: -0.3,
+                                              letterSpacing: -0.3,
                                               color: Helper.textColor900,
                                               fontSize: 16.sp,
                                               fontWeight: FontWeight.w500),
@@ -373,7 +376,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                     );
                                   },
                                   style: TextStyle(
-                    letterSpacing: -0.3,
+                                      letterSpacing: -0.3,
                                       color: Helper.primary,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14.sp),
@@ -381,12 +384,10 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                 )
                               ],
                               style: TextStyle(
-                    letterSpacing: -0.3,
+                                  letterSpacing: -0.3,
                                   color: Helper.textColor600,
                                   fontWeight: FontWeight.w400,
                                   fontSize: 14.sp),
-                              suggestionListDecoration:
-                                  BoxDecoration(color: Colors.white),
                               decoration: InputDecoration(
                                 fillColor: Colors.white,
                                 filled: true,
@@ -394,7 +395,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                     vertical: 8.h, horizontal: 12.w),
                                 hintText: "Add comment",
                                 hintStyle: TextStyle(
-                    letterSpacing: -0.3,
+                                  letterSpacing: -0.3,
                                   color: Helper.textColor500,
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w400,
