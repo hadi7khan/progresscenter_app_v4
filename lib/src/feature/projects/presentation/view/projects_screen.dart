@@ -17,79 +17,83 @@ class ProjectsScreen extends StatefulWidget {
 
 class _ProjectsScreenState extends State<ProjectsScreen> {
    @override
-  void initState() {
-    super.initState();
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        // statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.dark
-        ));
+  // void initState() {
+  //   super.initState();
+  //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  //       // statusBarColor: Colors.transparent,
+  //       statusBarIconBrightness: Brightness.dark,
+  //       statusBarBrightness: Brightness.dark
+  //       ));
    
-  }
+  // }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SvgPicture.asset('assets/images/home.svg'),
-                    Row(
-                      children: [
-                        SvgPicture.asset('assets/images/search.svg'),
-                        SizedBox(width: 12.w),
-                        SvgPicture.asset('assets/images/archive.svg'),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(height: 14.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Projects",
-                      style: TextStyle(
-                          letterSpacing: -1,
-                          color: Helper.textColor700,
-                          fontSize: 36.sp,
-                          fontWeight: FontWeight.w600),
-                      //  TextStyle(
-                      //     color: Helper.textColor700,
-                      //     fontSize: 36.sp,
-                      //     fontWeight: FontWeight.w600),
-                    ),
-                    // Row(
-                    //   children: [
-                    //     Container(
-                    //       padding: EdgeInsets.all(8.w),
-                    //       decoration: BoxDecoration(
-                    //           borderRadius: BorderRadius.circular(20.r),
-                    //           color: Colors.white),
-                    //       child: Icon(Icons.search, color: Helper.textColor500),
-                    //     ),
-                    //     SizedBox(width: 8.w),
-                    //     Container(
-                    //       padding: EdgeInsets.all(8.w),
-                    //       decoration: BoxDecoration(
-                    //           borderRadius: BorderRadius.circular(20.r),
-                    //           color: Colors.white),
-                    //       child: Icon(Icons.notifications,
-                    //           color: Helper.textColor500),
-                    //     ),
-                    //   ],
-                    // ),
-                  ],
-                ),
-                SizedBox(height: 15.h),
-                ProjectWidget(widget.detailsPath),
-              ],
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+
+      value: SystemUiOverlayStyle.dark,
+      child: Scaffold(
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SvgPicture.asset('assets/images/home.svg'),
+                      Row(
+                        children: [
+                          SvgPicture.asset('assets/images/search.svg'),
+                          SizedBox(width: 12.w),
+                          SvgPicture.asset('assets/images/archive.svg'),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 14.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Projects",
+                        style: TextStyle(
+                            letterSpacing: -1,
+                            color: Helper.textColor700,
+                            fontSize: 36.sp,
+                            fontWeight: FontWeight.w600),
+                        //  TextStyle(
+                        //     color: Helper.textColor700,
+                        //     fontSize: 36.sp,
+                        //     fontWeight: FontWeight.w600),
+                      ),
+                      // Row(
+                      //   children: [
+                      //     Container(
+                      //       padding: EdgeInsets.all(8.w),
+                      //       decoration: BoxDecoration(
+                      //           borderRadius: BorderRadius.circular(20.r),
+                      //           color: Colors.white),
+                      //       child: Icon(Icons.search, color: Helper.textColor500),
+                      //     ),
+                      //     SizedBox(width: 8.w),
+                      //     Container(
+                      //       padding: EdgeInsets.all(8.w),
+                      //       decoration: BoxDecoration(
+                      //           borderRadius: BorderRadius.circular(20.r),
+                      //           color: Colors.white),
+                      //       child: Icon(Icons.notifications,
+                      //           color: Helper.textColor500),
+                      //     ),
+                      //   ],
+                      // ),
+                    ],
+                  ),
+                  SizedBox(height: 15.h),
+                  ProjectWidget(widget.detailsPath),
+                ],
+              ),
             ),
           ),
         ),
