@@ -68,7 +68,7 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
                           return ClipRRect(
                             child: Image.asset(
                               'assets/images/error_image.jpeg',
-                              fit: BoxFit.fitWidth,
+                              fit: BoxFit.cover,
                             ),
                           );
                         },
