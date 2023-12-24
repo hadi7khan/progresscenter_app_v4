@@ -70,6 +70,13 @@ class _ProjectDetailsScreenState
           .getProjectById(widget.projectId);
     });
   }
+  @override
+  void dispose() {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
+  ));
+  }
 
   showDateTimeString(date, dateFormat) {
     // Format the DateTime object into the desired format
@@ -83,7 +90,7 @@ class _ProjectDetailsScreenState
     final projectByIdData = ref.watch(
         projectByIdControllerProvider.select((value) => value.projectDetails));
     return Scaffold(
-      extendBodyBehindAppBar: true,
+      // extendBodyBehindAppBar: true,
       // appBar: PreferredSize(
       //   preferredSize: Size.fromHeight(60.h),
       //   child: Container(
@@ -119,7 +126,7 @@ class _ProjectDetailsScreenState
       // ),
       body: SafeArea(
         top: false,
-        maintainBottomViewPadding: true,
+        // maintainBottomViewPadding: true,
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.max,
