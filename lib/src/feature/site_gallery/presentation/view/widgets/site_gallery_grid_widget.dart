@@ -15,8 +15,9 @@ class SiteGalleryGridViewWidget extends StatefulWidget {
       _SiteGalleryGridViewWidgetState();
 }
 
-class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
+class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> with AutomaticKeepAliveClientMixin{
   VlcPlayerController? _videoPlayerController;
+  
   @override
   void initState() {
     super.initState();
@@ -28,6 +29,8 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
       );
     }
   }
+   @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {

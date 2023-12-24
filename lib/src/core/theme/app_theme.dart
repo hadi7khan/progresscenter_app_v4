@@ -27,7 +27,7 @@ mixin AppThemeMixin {
     
     final lightTheme = ThemeData(
       primarySwatch: primarySwatch,
-      brightness: Brightness.dark,
+      brightness: Brightness.light,
       splashColor: Colors.transparent,
       scaffoldBackgroundColor: Colors.white,
       fontFamily: 'Inter',
@@ -110,7 +110,7 @@ mixin AppThemeMixin {
     floatingActionButtonTheme:
         FloatingActionButtonThemeData(backgroundColor: Helper.primary),
     appBarTheme:
-        const AppBarTheme(backgroundColor: Colors.transparent, elevation: 0),
+        const AppBarTheme( systemOverlayStyle: SystemUiOverlayStyle.dark,backgroundColor: Colors.transparent, elevation: 0),
     fontFamily: GoogleFonts.montserrat().fontFamily,
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: Colors.black38,

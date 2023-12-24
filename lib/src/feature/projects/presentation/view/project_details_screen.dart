@@ -78,12 +78,11 @@ class _ProjectDetailsScreenState
   //       systemNavigationBarColor: Colors.black,
   //       statusBarColor: Colors.black.withOpacity(0.2)
   // ));
-  SystemChrome.setSystemUIOverlayStyle( SystemUiOverlayStyle(
-    // statusBarColor: Colors.transparent,
-    statusBarColor: Colors.black.withOpacity(0.2),
-    statusBarIconBrightness: Brightness.dark,
-    statusBarBrightness: Brightness.dark,
-  ));
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.black.withOpacity(0.3),
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light
+        ));
   }
 
   showDateTimeString(date, dateFormat) {
