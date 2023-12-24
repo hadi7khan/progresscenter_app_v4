@@ -91,7 +91,6 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
                   fontWeight: FontWeight.w500),
             ),
             actions: [
-              SvgPicture.asset('assets/images/sort.svg'),
               SizedBox(width: 12.w),
               InkWell(
                   onTap: () {

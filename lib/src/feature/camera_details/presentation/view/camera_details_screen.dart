@@ -250,35 +250,38 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                         color: Helper.textColor300,
                         child: AspectRatio(
                           aspectRatio: 16 / 9,
-                          child: Image.network(
-                            selectedImageData == null
-                                ? imagesData.images![0].urlPreview!
-                                : selectedImageData.urlPreview!,
-                            width: double.infinity,
-                            // height: 210.h,
-                            fit: BoxFit.fill,
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
-
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  color: Helper.primary,
-                                  value: (loadingProgress != null)
-                                      ? (loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!)
-                                      : 0,
-                                ),
-                              );
-                            },
-                            errorBuilder: (BuildContext context,
-                                Object exception, StackTrace? stackTrace) {
-                              return ClipRRect(
-                                child: Image.asset(
-                                  'assets/images/error_image.jpeg',
-                                  fit: BoxFit.cover,
-                                ),
-                              );
-                            },
+                          child: InteractiveViewer(
+                            maxScale : 10,
+                            child: Image.network(
+                              selectedImageData == null
+                                  ? imagesData.images![0].urlPreview!
+                                  : selectedImageData.urlPreview!,
+                              width: double.infinity,
+                              // height: 210.h,
+                              fit: BoxFit.fill,
+                              loadingBuilder: (context, child, loadingProgress) {
+                                if (loadingProgress == null) return child;
+                          
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    color: Helper.primary,
+                                    value: (loadingProgress != null)
+                                        ? (loadingProgress.cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!)
+                                        : 0,
+                                  ),
+                                );
+                              },
+                              errorBuilder: (BuildContext context,
+                                  Object exception, StackTrace? stackTrace) {
+                                return ClipRRect(
+                                  child: Image.asset(
+                                    'assets/images/error_image.jpeg',
+                                    fit: BoxFit.cover,
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),

@@ -37,6 +37,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
   String _selectedDate2 = '';
   int _selectedImageIndex1 = 0;
   int _selectedImageIndex2 = 0;
+  TransformationController _controller = TransformationController();
 
   @override
   void initState() {
@@ -111,31 +112,29 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
             child: Column(
               children: [
                 compareCameraData1.when(
-                  
                   data: (cameraData1) {
                     if (cameraData1.images!.isEmpty) {
-                        return Container(
-                          alignment: Alignment.center,
-                          height: MediaQuery.of(context).size.height *0.88.h,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                  'assets/images/illustration.svg'),
-                                  SizedBox(height: 16.h),
-                              Text(
-                                "No Images yet",
-                                style: TextStyle(
-                                    color: Helper.textColor900,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                      ;
+                      return Container(
+                        alignment: Alignment.center,
+                        height: MediaQuery.of(context).size.height * 0.88.h,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset('assets/images/illustration.svg'),
+                            SizedBox(height: 16.h),
+                            Text(
+                              "No Images yet",
+                              style: TextStyle(
+                                  color: Helper.textColor900,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                    ;
                     return Consumer(builder: (context, ref, child) {
                       return Column(children: [
                         Stack(children: [
@@ -143,37 +142,42 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                             color: Helper.textColor300,
                             child: AspectRatio(
                               aspectRatio: 16 / 9,
-                              child: Image.network(
-                                selectedCompareData1 == null
-                                    ? cameraData1.images![0].urlPreview!
-                                    : selectedCompareData1.urlPreview!,
-                                width: double.infinity,
-                                fit: BoxFit.fill,
-                                loadingBuilder:
-                                    (context, child, loadingProgress) {
-                                  if (loadingProgress == null) return child;
+                              child: InteractiveViewer(
+                                maxScale: 10,
+                                transformationController: _controller,
+                                child: Image.network(
+                                  selectedCompareData1 == null
+                                      ? cameraData1.images![0].urlPreview!
+                                      : selectedCompareData1.urlPreview!,
+                                  width: double.infinity,
+                                  fit: BoxFit.fill,
+                                  loadingBuilder:
+                                      (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
 
-                                  return Center(
-                                    child: CircularProgressIndicator(
-                                      color: Helper.primary,
-                                      value: (loadingProgress != null)
-                                          ? (loadingProgress
-                                                  .cumulativeBytesLoaded /
-                                              loadingProgress
-                                                  .expectedTotalBytes!)
-                                          : 0,
-                                    ),
-                                  );
-                                },
-                                errorBuilder: (BuildContext context,
-                                    Object exception, StackTrace? stackTrace) {
-                                  return ClipRRect(
-                                    child: Image.asset(
-                                      'assets/images/error_image.jpeg',
-                                      fit: BoxFit.cover,
-                                    ),
-                                  );
-                                },
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        color: Helper.primary,
+                                        value: (loadingProgress != null)
+                                            ? (loadingProgress
+                                                    .cumulativeBytesLoaded /
+                                                loadingProgress
+                                                    .expectedTotalBytes!)
+                                            : 0,
+                                      ),
+                                    );
+                                  },
+                                  errorBuilder: (BuildContext context,
+                                      Object exception,
+                                      StackTrace? stackTrace) {
+                                    return ClipRRect(
+                                      child: Image.asset(
+                                        'assets/images/error_image.jpeg',
+                                        fit: BoxFit.cover,
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ),
@@ -209,7 +213,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                                       SizedBox(width: 4.w),
                                       Text(showDate(cameraData1.endDate!),
                                           style: TextStyle(
-                    letterSpacing: -0.3,
+                                              letterSpacing: -0.3,
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,
                                               fontSize: 12.sp)),
@@ -313,7 +317,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                                           Text(
                                             formattedTime,
                                             style: TextStyle(
-                    letterSpacing: -0.3,
+                                                letterSpacing: -0.3,
                                                 color: Helper.textColor700,
                                                 fontSize: 8.sp,
                                                 fontWeight: FontWeight.w500),
@@ -329,7 +333,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                   error: (err, _) {
                     return const Text("Failed to fetch cameras",
                         style: TextStyle(
-                    letterSpacing: -0.3,color: Helper.errorColor));
+                            letterSpacing: -0.3, color: Helper.errorColor));
                   },
                   loading: () => LoadingCamDetails(
                     showCalendarList: false,
@@ -343,29 +347,28 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                 compareCameraData2.when(
                   data: (cameraData2) {
                     if (cameraData2.images!.isEmpty) {
-                        return Container(
-                          alignment: Alignment.center,
-                          height: MediaQuery.of(context).size.height *0.88.h,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                  'assets/images/illustration.svg'),
-                                  SizedBox(height: 16.h),
-                              Text(
-                                "No Images yet",
-                                style: TextStyle(
-                    letterSpacing: -0.3,
-                                    color: Helper.textColor900,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                      ;
+                      return Container(
+                        alignment: Alignment.center,
+                        height: MediaQuery.of(context).size.height * 0.88.h,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset('assets/images/illustration.svg'),
+                            SizedBox(height: 16.h),
+                            Text(
+                              "No Images yet",
+                              style: TextStyle(
+                                  letterSpacing: -0.3,
+                                  color: Helper.textColor900,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                    ;
                     return Consumer(builder: (context, ref, child) {
                       return Column(children: [
                         Stack(children: [
@@ -373,38 +376,43 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                             color: Helper.textColor300,
                             child: AspectRatio(
                               aspectRatio: 16 / 9,
-                              child: Image.network(
-                                selectedCompareData2 == null
-                                    ? cameraData2.images![0].urlPreview!
-                                    : selectedCompareData2.urlPreview!,
-                                width: double.infinity,
-                                // height: 210.h,
-                                fit: BoxFit.fill,
-                                loadingBuilder:
-                                    (context, child, loadingProgress) {
-                                  if (loadingProgress == null) return child;
+                              child: InteractiveViewer(
+                                transformationController: _controller,
+                                maxScale: 10,
+                                child: Image.network(
+                                  selectedCompareData2 == null
+                                      ? cameraData2.images![0].urlPreview!
+                                      : selectedCompareData2.urlPreview!,
+                                  width: double.infinity,
+                                  // height: 210.h,
+                                  fit: BoxFit.fill,
+                                  loadingBuilder:
+                                      (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
 
-                                  return Center(
-                                    child: CircularProgressIndicator(
-                                      color: Helper.primary,
-                                      value: (loadingProgress != null)
-                                          ? (loadingProgress
-                                                  .cumulativeBytesLoaded /
-                                              loadingProgress
-                                                  .expectedTotalBytes!)
-                                          : 0,
-                                    ),
-                                  );
-                                },
-                                errorBuilder: (BuildContext context,
-                                    Object exception, StackTrace? stackTrace) {
-                                  return ClipRRect(
-                                    child: Image.asset(
-                                      'assets/images/error_image.jpeg',
-                                      fit: BoxFit.cover,
-                                    ),
-                                  );
-                                },
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        color: Helper.primary,
+                                        value: (loadingProgress != null)
+                                            ? (loadingProgress
+                                                    .cumulativeBytesLoaded /
+                                                loadingProgress
+                                                    .expectedTotalBytes!)
+                                            : 0,
+                                      ),
+                                    );
+                                  },
+                                  errorBuilder: (BuildContext context,
+                                      Object exception,
+                                      StackTrace? stackTrace) {
+                                    return ClipRRect(
+                                      child: Image.asset(
+                                        'assets/images/error_image.jpeg',
+                                        fit: BoxFit.cover,
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ),
@@ -440,7 +448,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                                       SizedBox(width: 4.w),
                                       Text(showDate(cameraData2.endDate!),
                                           style: TextStyle(
-                    letterSpacing: -0.3,
+                                              letterSpacing: -0.3,
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500,
                                               fontSize: 12.sp)),
@@ -544,7 +552,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                                           Text(
                                             formattedTime,
                                             style: TextStyle(
-                    letterSpacing: -0.3,
+                                                letterSpacing: -0.3,
                                                 color: Helper.textColor700,
                                                 fontSize: 8.sp,
                                                 fontWeight: FontWeight.w500),
@@ -560,7 +568,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                   error: (err, _) {
                     return const Text("Failed to fetch cameras",
                         style: TextStyle(
-                    letterSpacing: -0.3,color: Helper.errorColor));
+                            letterSpacing: -0.3, color: Helper.errorColor));
                   },
                   loading: () =>
                       LoadingCamDetails(showCalendarList: false, topPadding: 0),
@@ -608,7 +616,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                   Text(
                     'Image 1 Date',
                     style: TextStyle(
-                    letterSpacing: -0.3,
+                        letterSpacing: -0.3,
                         color: Helper.baseBlack,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500),
@@ -638,7 +646,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                   child: Text(
                     "Done",
                     style: TextStyle(
-                    letterSpacing: -0.3,
+                        letterSpacing: -0.3,
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w500),
@@ -709,7 +717,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                   Text(
                     'Image 1 Date',
                     style: TextStyle(
-                    letterSpacing: -0.3,
+                        letterSpacing: -0.3,
                         color: Helper.baseBlack,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500),
@@ -739,7 +747,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                   child: Text(
                     "Done",
                     style: TextStyle(
-                    letterSpacing: -0.3,
+                        letterSpacing: -0.3,
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w500),
