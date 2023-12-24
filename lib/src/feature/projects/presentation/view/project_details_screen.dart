@@ -59,11 +59,11 @@ class _ProjectDetailsScreenState
   @override
   void initState() {
     super.initState();
-    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    //     statusBarColor: Colors.black.withOpacity(0.3),
-        // statusBarIconBrightness: Brightness.light,
-        // statusBarBrightness: Brightness.light
-        // ));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.black.withOpacity(0.3),
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light
+        ));
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref
           .read(projectByIdControllerProvider.notifier)
@@ -72,9 +72,17 @@ class _ProjectDetailsScreenState
   }
   @override
   void dispose() {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.dark,
+  //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  //   statusBarIconBrightness: Brightness.dark,
+  //       statusBarBrightness: Brightness.dark,
+  //       systemNavigationBarColor: Colors.black,
+  //       statusBarColor: Colors.black.withOpacity(0.2)
+  // ));
+  SystemChrome.setSystemUIOverlayStyle( SystemUiOverlayStyle(
+    // statusBarColor: Colors.transparent,
+    statusBarColor: Colors.black.withOpacity(0.2),
+    statusBarIconBrightness: Brightness.dark,
+    statusBarBrightness: Brightness.dark,
   ));
   }
 
