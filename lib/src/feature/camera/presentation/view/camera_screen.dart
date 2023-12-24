@@ -43,8 +43,8 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
             child: Padding(
               padding: EdgeInsets.only(right: 16.w, left: 16.w),
               child: AppBar(
-                backgroundColor: Colors.white,
-                surfaceTintColor: Colors.white,
+                // backgroundColor: Colors.white,
+                // surfaceTintColor: Colors.white,
                 automaticallyImplyLeading: false,
                 titleSpacing: 12.0.w,
                 leading: InkWell(
@@ -98,6 +98,7 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
           ),
         ),
         body: SafeArea(
+          top: true,
           child: SingleChildScrollView(
             child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),

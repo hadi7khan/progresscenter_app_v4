@@ -108,7 +108,7 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
             child: Padding(
               padding: EdgeInsets.only(right: 20.w, left: 20.w),
               child: AppBar(
-                surfaceTintColor: Colors.white,
+                // surfaceTintColor: Colors.white,
                 automaticallyImplyLeading: false,
                 centerTitle: true,
                 titleSpacing: 12.0.w,
@@ -160,6 +160,7 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
             ),
           ),
           body: SafeArea(
+            top: true,
             child: SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
