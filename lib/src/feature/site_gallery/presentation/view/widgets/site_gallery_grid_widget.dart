@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
@@ -27,6 +28,7 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
       );
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -49,48 +51,60 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
         child: Stack(fit: StackFit.loose, children: [
           ClipRRect(
             borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(1.r),
-                topRight: Radius.circular(1.r),
-                bottomLeft: Radius.circular(1.r),
-                bottomRight: Radius.circular(1.r),
-                ),
+              topLeft: Radius.circular(1.r),
+              topRight: Radius.circular(1.r),
+              bottomLeft: Radius.circular(1.r),
+              bottomRight: Radius.circular(1.r),
+            ),
             child: Stack(alignment: Alignment.center, children: [
               AspectRatio(
                 aspectRatio: 1 / 1,
                 child: widget.data.type == "IMAGE"
-                    ? Image.network(
-                        widget.data.url!,
-                        // height: MediaQuery.of(context).size.height,
-                        // width: MediaQuery.of(context).size.width,
+                    ? CachedNetworkImage(
+                        imageUrl: widget.data.url!,
                         fit: BoxFit.cover,
-                        errorBuilder: (BuildContext context, Object exception,
-                            StackTrace? stackTrace) {
-                          return ClipRRect(
-                            child: Image.asset(
-                              'assets/images/error_image.jpeg',
-                              fit: BoxFit.cover,
-                            ),
-                          );
-                        },
-                      )
-                    : Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        AspectRatio(
-                          aspectRatio: 16 / 9,
-                          child: VlcPlayer(
-                            controller: _videoPlayerController!,
-                            aspectRatio: 16 / 9,
-                            placeholder:
-                                Center(child: CircularProgressIndicator()),
+                        // placeholder: (context, url) =>
+                        //     CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => ClipRRect(
+                          child: Image.asset(
+                            'assets/images/error_image.jpeg',
+                            fit: BoxFit.cover,
                           ),
                         ),
-                        Positioned(
-                            top: 83,
-                            child: Icon(Icons.play_circle_outline_outlined,
-                                color: Colors.white, size: 44))
-                      ],
-                    ),
+                      )
+                    // Image.network(
+                    //     widget.data.url!,
+                    //     // height: MediaQuery.of(context).size.height,
+                    //     // width: MediaQuery.of(context).size.width,
+                    //     fit: BoxFit.cover,
+                    //     errorBuilder: (BuildContext context, Object exception,
+                    //         StackTrace? stackTrace) {
+                    //       return ClipRRect(
+                    //         child: Image.asset(
+                    //           'assets/images/error_image.jpeg',
+                    //           fit: BoxFit.cover,
+                    //         ),
+                    //       );
+                    //     },
+                    //   )
+                    : Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          AspectRatio(
+                            aspectRatio: 16 / 9,
+                            child: VlcPlayer(
+                              controller: _videoPlayerController!,
+                              aspectRatio: 16 / 9,
+                              placeholder:
+                                  Center(child: CircularProgressIndicator()),
+                            ),
+                          ),
+                          Positioned(
+                              top: 83,
+                              child: Icon(Icons.play_circle_outline_outlined,
+                                  color: Colors.white, size: 44))
+                        ],
+                      ),
               )
             ]),
           ),

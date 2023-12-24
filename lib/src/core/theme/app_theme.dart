@@ -27,13 +27,13 @@ mixin AppThemeMixin {
     
     final lightTheme = ThemeData(
       primarySwatch: primarySwatch,
-      brightness: Brightness.light,
+      brightness: Brightness.dark,
       splashColor: Colors.transparent,
       scaffoldBackgroundColor: Colors.white,
       fontFamily: 'Inter',
       useMaterial3: true,
       appBarTheme: AppBarTheme(
-        systemOverlayStyle: SystemUiOverlayStyle.light,
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
           iconTheme: const IconThemeData(color: Colors.black),
           toolbarTextStyle: TextStyle(color: Helper.secondary),
           backgroundColor: Colors.transparent,
