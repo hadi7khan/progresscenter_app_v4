@@ -60,13 +60,15 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
                 child: widget.data.type == "IMAGE"
                     ? Image.network(
                         widget.data.url!,
-                        fit: BoxFit.fill,
+                        // height: MediaQuery.of(context).size.height,
+                        // width: MediaQuery.of(context).size.width,
+                        fit: BoxFit.cover,
                         errorBuilder: (BuildContext context, Object exception,
                             StackTrace? stackTrace) {
                           return ClipRRect(
                             child: Image.asset(
                               'assets/images/error_image.jpeg',
-                              fit: BoxFit.cover,
+                              fit: BoxFit.fitWidth,
                             ),
                           );
                         },
