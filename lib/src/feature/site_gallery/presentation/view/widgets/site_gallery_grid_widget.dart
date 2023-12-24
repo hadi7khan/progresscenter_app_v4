@@ -44,13 +44,16 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
         // height: 264.h,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16.r),
+          borderRadius: BorderRadius.circular(8.r),
         ),
         child: Stack(fit: StackFit.loose, children: [
           ClipRRect(
             borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16.r),
-                topRight: Radius.circular(16.r)),
+                topLeft: Radius.circular(8.r),
+                topRight: Radius.circular(8.r),
+                bottomLeft: Radius.circular(8.r),
+                bottomRight: Radius.circular(8.r),
+                ),
             child: Stack(alignment: Alignment.center, children: [
               AspectRatio(
                 aspectRatio: 3 / 2,
@@ -89,50 +92,50 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
               )
             ]),
           ),
-          Positioned.fill(
-            // bottom: 20,
-            // left: 20,
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                  // height: 88.h,
-                  width: double.infinity,
-                  margin: EdgeInsets.zero,
-                  padding: EdgeInsets.all(12.w),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.r),
-                      color: Color.fromRGBO(246, 246, 246, 1)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        widget.data.name!,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          letterSpacing: -0.3,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Helper.baseBlack,
-                        ),
-                      ),
-                      // SizedBox(
-                      //   height: 6.h,
-                      // ),
-                      Text(
-                        showDate(widget.data.createdAt!.toIso8601String(),
-                            'dd MMM yyyy'),
-                        style: TextStyle(
-                          letterSpacing: -0.3,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w400,
-                          color: Helper.baseBlack.withOpacity(0.5),
-                        ),
-                      ),
-                    ],
-                  )),
-            ),
-          ),
+          // Positioned.fill(
+          //   // bottom: 20,
+          //   // left: 20,
+          //   child: Align(
+          //     alignment: Alignment.bottomCenter,
+          //     child: Container(
+          //         // height: 88.h,
+          //         width: double.infinity,
+          //         margin: EdgeInsets.zero,
+          //         padding: EdgeInsets.all(12.w),
+          //         decoration: BoxDecoration(
+          //             borderRadius: BorderRadius.circular(15.r),
+          //             color: Color.fromRGBO(246, 246, 246, 1)),
+          //         child: Column(
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           mainAxisSize: MainAxisSize.min,
+          //           children: [
+          //             Text(
+          //               widget.data.name!,
+          //               overflow: TextOverflow.ellipsis,
+          //               style: TextStyle(
+          //                 letterSpacing: -0.3,
+          //                 fontSize: 14.sp,
+          //                 fontWeight: FontWeight.w500,
+          //                 color: Helper.baseBlack,
+          //               ),
+          //             ),
+          //             // SizedBox(
+          //             //   height: 6.h,
+          //             // ),
+          //             Text(
+          //               showDate(widget.data.createdAt!.toIso8601String(),
+          //                   'dd MMM yyyy'),
+          //               style: TextStyle(
+          //                 letterSpacing: -0.3,
+          //                 fontSize: 12.sp,
+          //                 fontWeight: FontWeight.w400,
+          //                 color: Helper.baseBlack.withOpacity(0.5),
+          //               ),
+          //             ),
+          //           ],
+          //         )),
+          //   ),
+          // ),
         ]),
       ),
     );
