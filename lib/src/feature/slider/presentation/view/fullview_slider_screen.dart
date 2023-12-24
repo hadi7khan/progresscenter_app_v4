@@ -53,31 +53,34 @@ class _FullviewSliderScreenState extends State<FullviewSliderScreen> {
           children: [
             widget.imagesBytes.isNotEmpty
                 ? Stack(
-                  fit: StackFit.loose,
+                    fit: StackFit.loose,
                     children: [
                       Container(
                         height: MediaQuery.of(context).size.height * 0.75,
                         width: MediaQuery.of(context).size.width,
                         child: AspectRatio(
                             aspectRatio: 16 / 9,
-                            child: Image.memory(
-                              // imageBytesList.isNotEmpty ?
-                              // currentBytes!,
-                              widget.imagesBytes[currentslider],
-                              // Uint8List.fromList(currentBytes!),
-                              gaplessPlayback: true,
-                              // : imageBytesList.first,
-                              width: double.infinity,
-                              fit: BoxFit.fill,
-                              // errorBuilder: (BuildContext context,
-                              //     Object exception, StackTrace? stackTrace) {
-                              //   return ClipRRect(
-                              //     child: Image.asset(
-                              //       'assets/images/error_image.jpeg',
-                              //       fit: BoxFit.cover,
-                              //     ),
-                              //   );
-                              // },
+                            child: InteractiveViewer(
+                              maxScale: 10,
+                              child: Image.memory(
+                                // imageBytesList.isNotEmpty ?
+                                // currentBytes!,
+                                widget.imagesBytes[currentslider],
+                                // Uint8List.fromList(currentBytes!),
+                                gaplessPlayback: true,
+                                // : imageBytesList.first,
+                                width: double.infinity,
+                                fit: BoxFit.fill,
+                                // errorBuilder: (BuildContext context,
+                                //     Object exception, StackTrace? stackTrace) {
+                                //   return ClipRRect(
+                                //     child: Image.asset(
+                                //       'assets/images/error_image.jpeg',
+                                //       fit: BoxFit.cover,
+                                //     ),
+                                //   );
+                                // },
+                              ),
                             )
                             // : ClipRRect(
                             //     child: Image.asset(

@@ -201,24 +201,27 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
                             children: [
                               AspectRatio(
                                   aspectRatio: 16 / 9,
-                                  child: Image.memory(
-                                    // imageBytesList.isNotEmpty ?
-                                    // currentBytes!,
-                                    imageBytesList[currentslider],
-                                    // Uint8List.fromList(currentBytes!),
-                                    gaplessPlayback: true,
-                                    // : imageBytesList.first,
-                                    width: double.infinity,
-                                    fit: BoxFit.fill,
-                                    // errorBuilder: (BuildContext context,
-                                    //     Object exception, StackTrace? stackTrace) {
-                                    //   return ClipRRect(
-                                    //     child: Image.asset(
-                                    //       'assets/images/error_image.jpeg',
-                                    //       fit: BoxFit.cover,
-                                    //     ),
-                                    //   );
-                                    // },
+                                  child: InteractiveViewer(
+                                    maxScale: 10,
+                                    child: Image.memory(
+                                      // imageBytesList.isNotEmpty ?
+                                      // currentBytes!,
+                                      imageBytesList[currentslider],
+                                      // Uint8List.fromList(currentBytes!),
+                                      gaplessPlayback: true,
+                                      // : imageBytesList.first,
+                                      width: double.infinity,
+                                      fit: BoxFit.fill,
+                                      // errorBuilder: (BuildContext context,
+                                      //     Object exception, StackTrace? stackTrace) {
+                                      //   return ClipRRect(
+                                      //     child: Image.asset(
+                                      //       'assets/images/error_image.jpeg',
+                                      //       fit: BoxFit.cover,
+                                      //     ),
+                                      //   );
+                                      // },
+                                    ),
                                   )
                                   // : ClipRRect(
                                   //     child: Image.asset(
@@ -234,14 +237,13 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
                                   onTap: () {
                                     // SystemChrome.setPreferredOrientations(
                                     //     [DeviceOrientation.landscapeRight]);
-                                    context.push('/fullviewSlider',
-                                        extra: {
-                                          "projectId": widget.projectId,
-                                          "projectName": widget.projectName,
-                                          "cameraId": widget.cameraId,
-                                          "sliderData": data,
-                                          "imagesBytes": imageBytesList,
-                                        });
+                                    context.push('/fullviewSlider', extra: {
+                                      "projectId": widget.projectId,
+                                      "projectName": widget.projectName,
+                                      "cameraId": widget.cameraId,
+                                      "sliderData": data,
+                                      "imagesBytes": imageBytesList,
+                                    });
                                   },
                                   child: BlurryContainer(
                                     blur: 3,
