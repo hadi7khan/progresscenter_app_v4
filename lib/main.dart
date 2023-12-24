@@ -25,13 +25,11 @@ void main() async {
   //       systemNavigationBarColor: Colors.black,
   //       statusBarColor: Colors.black.withOpacity(0.2)
   // ));
-  SystemChrome.setSystemUIOverlayStyle( SystemUiOverlayStyle(
-    statusBarColor: Colors.black.withOpacity(0.2),
-    statusBarIconBrightness: Brightness.dark,
-    statusBarBrightness: Brightness.dark,
-    // systemStatusBarContrastEnforced: true,
-    // systemNavigationBarIconBrightness: Brightness.dark,
-  ));
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.black.withOpacity(0.3),
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light
+        ));
 
   // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
   //     overlays: SystemUiOverlay.values);
