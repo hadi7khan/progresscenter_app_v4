@@ -72,12 +72,12 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
                 ),
                 icon: SvgPicture.asset('assets/images/teams.svg')),
             BottomNavigationBarItem(
-                label: 'Support',
+                label: 'Account',
                 activeIcon: SvgPicture.asset(
-                  'assets/images/headphones.svg',
+                  'assets/images/profile.svg',
                   color: Helper.primary,
                 ),
-                icon: SvgPicture.asset('assets/images/headphones.svg')),
+                icon: SvgPicture.asset('assets/images/profile.svg')),
           ],
           onTap: (index) {
             HapticFeedback.mediumImpact();
