@@ -103,7 +103,7 @@ dependencies:
   calendar_date_picker2: 0.5.2
   # https://pub.dev/packages/flutter_cache_manager
   flutter_cache_manager: 3.3.1
-  cached_network_image: 3.2.3
+  cached_network_image: 3.3.0
   # https://pub.dev/packages/socket_io_client
   socket_io_client: 2.0.3
   # https://pub.dev/packages/percent_indicator
