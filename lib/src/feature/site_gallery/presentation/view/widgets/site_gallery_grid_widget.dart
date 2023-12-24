@@ -44,19 +44,19 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
         // height: 264.h,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(8.r),
+          borderRadius: BorderRadius.circular(1.r),
         ),
         child: Stack(fit: StackFit.loose, children: [
           ClipRRect(
             borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(8.r),
-                topRight: Radius.circular(8.r),
-                bottomLeft: Radius.circular(8.r),
-                bottomRight: Radius.circular(8.r),
+                topLeft: Radius.circular(1.r),
+                topRight: Radius.circular(1.r),
+                bottomLeft: Radius.circular(1.r),
+                bottomRight: Radius.circular(1.r),
                 ),
             child: Stack(alignment: Alignment.center, children: [
               AspectRatio(
-                aspectRatio: 3 / 2,
+                aspectRatio: 1 / 1,
                 child: widget.data.type == "IMAGE"
                     ? Image.network(
                         widget.data.url!,
