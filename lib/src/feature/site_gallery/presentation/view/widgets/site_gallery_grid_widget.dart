@@ -65,6 +65,7 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> w
                 child: widget.data.type == "IMAGE"
                     ? CachedNetworkImage(
                         imageUrl: widget.data.url!,
+                        // memCacheHeight: height.toInt(), memCacheWidth: width.toInt()
                         fit: BoxFit.cover,
                         // placeholder: (context, url) =>
                         //     CircularProgressIndicator(),

@@ -217,6 +217,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                 showBottomBar = false;
 
                 return Container(
+                   padding: EdgeInsets.only(bottom: kBottomNavigationBarHeight),
                   alignment: Alignment.center,
                   height: MediaQuery.of(context).size.height,
                   child: Column(
@@ -606,6 +607,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
       ),
       bottomNavigationBar: showBottomBar
           ? Container(
+            
               height: 50.h,
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
