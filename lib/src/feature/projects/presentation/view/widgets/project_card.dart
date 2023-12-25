@@ -1,4 +1,5 @@
 import 'package:blurrycontainer/blurrycontainer.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -84,19 +85,35 @@ class _ProjectCardState extends State<ProjectCard> {
                             child: widget.project!.images!.isNotEmpty
                                 ? ClipRRect(
                                     borderRadius: BorderRadius.circular(16.r),
-                                    child: Image.network(
-                                      widget.project.images![itemIndex].url!,
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (BuildContext context,
-                                          Object exception,
-                                          StackTrace? stackTrace) {
-                                        return ClipRRect(
-                                          child: Image.asset(
-                                              'assets/images/error_image.jpeg',
-                                              fit: BoxFit.cover),
-                                        );
-                                      },
-                                    ))
+                                    child: CachedNetworkImage(
+                                      imageUrl: widget
+                                          .project.images![itemIndex].url!,
+                                      // memCacheHeight: height.toInt(), memCacheWidth: width.toInt()
+                                      fit: BoxFit.fill,
+                                      // placeholder: (context, url) =>
+                                      //     CircularProgressIndicator(),
+                                      errorWidget: (context, url, error) =>
+                                          ClipRRect(
+                                        child: Image.asset(
+                                          'assets/images/error_image.jpeg',
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                    )
+                                    // Image.network(
+                                    //   widget.project.images![itemIndex].url!,
+                                    //   fit: BoxFit.cover,
+                                    //   errorBuilder: (BuildContext context,
+                                    //       Object exception,
+                                    //       StackTrace? stackTrace) {
+                                    //     return ClipRRect(
+                                    //       child: Image.asset(
+                                    //           'assets/images/error_image.jpeg',
+                                    //           fit: BoxFit.cover),
+                                    //     );
+                                    //   },
+                                    // ),
+                                    )
                                 : SizedBox(),
                           ),
                         ),

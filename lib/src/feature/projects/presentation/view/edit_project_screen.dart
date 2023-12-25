@@ -1148,7 +1148,18 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                 color: Helper.errorColor,
               ),
             ),
-            onPressed: () => Navigator.of(context).pop(false),
+            onPressed: () {
+              Service()
+                                  .deleteImage(projectId, imageId)
+                                  .then((value) {
+                                context.pop();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        backgroundColor: Colors.red,
+                                        content: Text("Image Deleted")));
+                              });
+                              setState(() {});
+            }
           ),
         ],
       ),

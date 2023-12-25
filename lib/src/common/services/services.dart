@@ -139,6 +139,24 @@ class Service {
     }
   }
 
+  // method to delete site gallery
+  Future deleteSitegallery(projectId, siteGalleryId) async {
+    final client = http.Client();
+    final response = await client.delete(
+        Uri.parse(Endpoints.siteGalleryByIdUrl(projectId, siteGalleryId)),
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+        });
+    print(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print("site gallery deleted");
+      return response.body;
+    } else {
+      throw Exception('Failed to delete user');
+    }
+  }
+
   // method to upload image
   Future<dynamic> uploadPhoto(
       String projectId, String filePath, ProgressCallback onProgress) async {

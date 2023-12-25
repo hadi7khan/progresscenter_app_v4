@@ -222,6 +222,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                               padding: EdgeInsets.zero,
+                              // cacheExtent: 99999999,
                               gridDelegate:
                                   SliverGridDelegateWithMaxCrossAxisExtent(
                                       maxCrossAxisExtent: MediaQuery.of(context).size.width / 3, 
@@ -235,6 +236,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                                 final reversedIndex = data.length - 1 - index;
                                 return SiteGalleryGridViewWidget(
                                   data: data[reversedIndex],
+                                  projectName: widget.projectName,
                                 );
                               }),
                             )

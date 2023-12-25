@@ -13,6 +13,9 @@ _$_SiteGalleryModel _$$_SiteGalleryModelFromJson(Map<String, dynamic> json) =>
       path: json['path'] as String?,
       status: json['status'] as String?,
       type: json['type'] as String?,
+      user: json['user'] == null
+          ? null
+          : User.fromJson(json['user'] as Map<String, dynamic>),
       reseller: json['reseller'] as String?,
       client: json['client'] as String?,
       project: json['project'] as String?,
@@ -23,7 +26,6 @@ _$_SiteGalleryModel _$$_SiteGalleryModelFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['updatedAt'] as String),
       url: json['url'] as String?,
-      user: json['user'] as String?,
     );
 
 Map<String, dynamic> _$$_SiteGalleryModelToJson(_$_SiteGalleryModel instance) =>
@@ -33,11 +35,39 @@ Map<String, dynamic> _$$_SiteGalleryModelToJson(_$_SiteGalleryModel instance) =>
       'path': instance.path,
       'status': instance.status,
       'type': instance.type,
+      'user': instance.user,
       'reseller': instance.reseller,
       'client': instance.client,
       'project': instance.project,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
       'url': instance.url,
-      'user': instance.user,
+    };
+
+_$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
+      preset: json['preset'] == null
+          ? null
+          : Preset.fromJson(json['preset'] as Map<String, dynamic>),
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      dp: json['dp'] as String?,
+      userId: json['userId'] as String?,
+      dpUrl: json['dpUrl'] as String?,
+    );
+
+Map<String, dynamic> _$$_UserToJson(_$_User instance) => <String, dynamic>{
+      'preset': instance.preset,
+      'id': instance.id,
+      'name': instance.name,
+      'dp': instance.dp,
+      'userId': instance.userId,
+      'dpUrl': instance.dpUrl,
+    };
+
+_$_Preset _$$_PresetFromJson(Map<String, dynamic> json) => _$_Preset(
+      color: json['color'] as String?,
+    );
+
+Map<String, dynamic> _$$_PresetToJson(_$_Preset instance) => <String, dynamic>{
+      'color': instance.color,
     };

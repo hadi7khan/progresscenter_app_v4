@@ -8,16 +8,19 @@ import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 
 class SiteGalleryGridViewWidget extends StatefulWidget {
   final data;
-  const SiteGalleryGridViewWidget({super.key, this.data});
+  final projectName;
+  const SiteGalleryGridViewWidget({super.key, this.data, this.projectName});
 
   @override
   State<SiteGalleryGridViewWidget> createState() =>
       _SiteGalleryGridViewWidgetState();
 }
 
-class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> with AutomaticKeepAliveClientMixin{
+class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
   VlcPlayerController? _videoPlayerController;
+  Image? image1;
   
+
   @override
   void initState() {
     super.initState();
@@ -28,9 +31,22 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> w
         options: VlcPlayerOptions(),
       );
     }
+    // else{
+    //    image1 = Image.network(widget.data.url,);
+    // }
+
   }
-   @override
-  bool get wantKeepAlive => true;
+
+  // @override
+  // void didChangeDependencies() {
+  //   if (widget.data.type == "IMAGE") {
+  //     precacheImage(image1!.image ,context);
+  //   }
+
+  //   super.didChangeDependencies();
+  // }
+  //  @override
+  // bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +56,11 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> w
           "projectId": widget.data.project,
           "name": widget.data.name,
           "url": widget.data.url,
-          "type": widget.data.type
+          "type": widget.data.type,
+          "siteGalleryId": widget.data.id,
+          "projectName": widget.projectName,
+          "createdAt": widget.data.createdAt,
+          "uploadedBy": widget.data.user.name
         });
       },
       child: Container(
@@ -62,8 +82,9 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> w
             child: Stack(alignment: Alignment.center, children: [
               AspectRatio(
                 aspectRatio: 1 / 1,
-                child: widget.data.type == "IMAGE"
-                    ? CachedNetworkImage(
+                child: widget.data.type == "IMAGE" ?
+                    // ? Image(image: image1!.image)
+                    CachedNetworkImage(
                         imageUrl: widget.data.url!,
                         // memCacheHeight: height.toInt(), memCacheWidth: width.toInt()
                         fit: BoxFit.cover,
