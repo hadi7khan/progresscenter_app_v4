@@ -52,6 +52,7 @@ class _AvatarGroupWidgetState extends State<AvatarGroupWidget> {
       );
     }).toList();
     if (avatarsLength! > maxCount!) {
+      var count = avatarsLength! - maxCount!;
       positioned.add(
         Positioned(
           width: widget.size,
@@ -65,8 +66,8 @@ class _AvatarGroupWidgetState extends State<AvatarGroupWidget> {
               ),
               child: Center(
                 child: Text(
-                  (avatarsLength! - maxCount!).toString(),
-                  style: TextStyle(color:Helper.textColor700, fontSize: 12.sp, fontWeight: FontWeight.w500),
+                  "+"+ count.toString(),
+                  style: TextStyle(color:Helper.textColor700, fontSize: 16.sp, fontWeight: FontWeight.w500),
                 ),
               )),
         ),
