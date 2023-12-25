@@ -37,39 +37,54 @@ class _AvatarWidgetState extends State<AvatarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(200.r),
-      child: widget.dpUrl != ""
-          ? Image.network(
-              width: widget.size,
-              height: widget.size,
-              widget.dpUrl,
-              fit: BoxFit.fill,
-              errorBuilder: (BuildContext context, Object exception,
-                  StackTrace? stackTrace) {
-                return ClipRRect(
-                  borderRadius: BorderRadius.circular(200.r),
-                  child: Image.asset(
-                      width: widget.size,
-                      height: widget.size,
-                      'assets/images/error_image.jpeg',
-                      fit: BoxFit.fill),
-                );
-              },
-            )
-          : Container(
-              width: widget.size,
-              height: widget.size,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: _getColor(widget.backgroundColor),
-              ),
-              child: Center(
-                child: Text(
-                  _getNameInitials(widget.name),
-                  style: TextStyle(color: Colors.white, fontSize: 14.sp),
+    return Container(
+      // width: widget.size +
+      //     borderWidth * 2, // Adjust the size to include the border
+      // height: widget.size +
+      //     borderWidth * 2, // Adjust the size to include the border
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.white, // Set the color of the outer circle border
+        border: Border.all(
+          color: Colors.white, // Set the color of the outer circle border
+          width: 2, // Set the width of the outer circle border
+        ),
+      ),
+
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(200.r),
+        child: widget.dpUrl != ""
+            ? Image.network(
+                width: widget.size,
+                height: widget.size,
+                widget.dpUrl,
+                fit: BoxFit.fill,
+                errorBuilder: (BuildContext context, Object exception,
+                    StackTrace? stackTrace) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(200.r),
+                    child: Image.asset(
+                        width: widget.size,
+                        height: widget.size,
+                        'assets/images/error_image.jpeg',
+                        fit: BoxFit.fill),
+                  );
+                },
+              )
+            : Container(
+                width: widget.size,
+                height: widget.size,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _getColor(widget.backgroundColor),
                 ),
-              )),
+                child: Center(
+                  child: Text(
+                    _getNameInitials(widget.name),
+                    style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                  ),
+                )),
+      ),
     );
   }
 }
