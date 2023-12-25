@@ -59,6 +59,10 @@ class Endpoints {
     return '$baseUrl/api/v4/projects/$id/site-gallery';
   }
 
+  static siteGalleryByIdUrl(projectId, siteGalleryId) {
+    return '$baseUrl/api/v4/projects/$projectId/site-gallery/$siteGalleryId';
+  }
+
   static userleanListUrl() {
     return '$baseUrl/api/v4/users/lean';
   }

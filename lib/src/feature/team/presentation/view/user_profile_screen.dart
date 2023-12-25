@@ -163,7 +163,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
           title: Text(
             project.name,
             style: TextStyle(
-                    letterSpacing: -0.3,
+                letterSpacing: -0.3,
                 color: Helper.baseBlack,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500),
@@ -171,7 +171,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
           subtitle: Text(
             project.location.name,
             style: TextStyle(
-                    letterSpacing: -0.3,
+                letterSpacing: -0.3,
                 color: Helper.baseBlack.withOpacity(0.5),
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w400),
@@ -253,15 +253,15 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                   automaticallyImplyLeading: false,
                   titleSpacing: 12.0.w,
                   leading: InkWell(
-              onTap: () {
-                context.pop();
-              },
-              child: Transform.rotate(
-                angle: 180 * (3.1415926535 / 180),
-                child: SvgPicture.asset('assets/images/chevron-right.svg',
-                    color: Helper.iconColor, fit: BoxFit.contain),
-              ),
-            ),
+                    onTap: () {
+                      context.pop();
+                    },
+                    child: Transform.rotate(
+                      angle: 180 * (3.1415926535 / 180),
+                      child: SvgPicture.asset('assets/images/chevron-right.svg',
+                          color: Helper.iconColor, fit: BoxFit.contain),
+                    ),
+                  ),
                   leadingWidth: 24,
                   title: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -271,7 +271,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                         Text(
                           data.name,
                           style: TextStyle(
-                    letterSpacing: -0.3,
+                              letterSpacing: -0.3,
                               color: Helper.baseBlack,
                               fontSize: 18.sp,
                               fontWeight: FontWeight.w500),
@@ -279,7 +279,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                         Text(
                           data.designation,
                           style: TextStyle(
-                    letterSpacing: -0.3,
+                              letterSpacing: -0.3,
                               color: Helper.baseBlack,
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w400),
@@ -327,7 +327,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                   Text(
                                     data.name,
                                     style: TextStyle(
-                    letterSpacing: -0.3,
+                                        letterSpacing: -0.3,
                                         color: Helper.baseBlack,
                                         fontSize: 16.sp,
                                         fontWeight: FontWeight.w500),
@@ -335,7 +335,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                   Text(
                                     data.email,
                                     style: TextStyle(
-                    letterSpacing: -0.3,
+                                        letterSpacing: -0.3,
                                         color: Helper.textColor600,
                                         fontSize: 12.sp,
                                         fontWeight: FontWeight.w500),
@@ -360,7 +360,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                       formField: Text(
                                         data.username,
                                         style: TextStyle(
-                    letterSpacing: -0.3,
+                                            letterSpacing: -0.3,
                                             color: Helper.textColor900,
                                             fontSize: 16.sp,
                                             fontWeight: FontWeight.w600),
@@ -377,7 +377,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                               )
                                             : "-",
                                         style: TextStyle(
-                    letterSpacing: -0.3,
+                                            letterSpacing: -0.3,
                                             color: Helper.textColor900,
                                             fontSize: 16.sp,
                                             fontWeight: FontWeight.w600),
@@ -395,7 +395,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                       formField: Text(
                                         data.email,
                                         style: TextStyle(
-                    letterSpacing: -0.3,
+                                            letterSpacing: -0.3,
                                             color: Helper.textColor900,
                                             fontSize: 16.sp,
                                             fontWeight: FontWeight.w600),
@@ -464,7 +464,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                           // labelText: 'Training',
                                           hintText: "Select roles",
                                           hintStyle: TextStyle(
-                    letterSpacing: -0.3,
+                                            letterSpacing: -0.3,
                                             color: Helper.textColor500,
                                             fontSize: 16.sp,
                                             fontWeight: FontWeight.w400,
@@ -541,7 +541,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                             child: Text(
                                               e,
                                               style: const TextStyle(
-                    letterSpacing: -0.3,
+                                                  letterSpacing: -0.3,
                                                   color: Colors.black),
                                             ),
                                             onTap: () {},
@@ -573,7 +573,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                                     horizontal: 14.w),
                                             hintText: "Search or add here",
                                             hintStyle: TextStyle(
-                    letterSpacing: -0.3,
+                                              letterSpacing: -0.3,
                                               color: Helper.textColor500,
                                               fontSize: 16.sp,
                                               fontWeight: FontWeight.w400,
@@ -624,7 +624,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                               title: Text(
                                                 team.toString(),
                                                 style: TextStyle(
-                    letterSpacing: -0.3,
+                                                    letterSpacing: -0.3,
                                                     color: Helper.textColor700,
                                                     fontSize: 14.sp,
                                                     fontWeight:
@@ -663,7 +663,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                         return Chip(
                                           label: Text(suggestion),
                                           labelStyle: TextStyle(
-                    letterSpacing: -0.3,
+                                              letterSpacing: -0.3,
                                               color: Helper.textColor500,
                                               fontSize: 12.sp,
                                               fontWeight: FontWeight.w500),
@@ -729,7 +729,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                       error: (err, _) {
                         return const Text("Failed to load User Profile",
                             style: TextStyle(
-                    letterSpacing: -0.3,color: Helper.errorColor));
+                                letterSpacing: -0.3, color: Helper.errorColor));
                       },
                       loading: () => LoadingUserProfile(),
                     ))),
@@ -738,8 +738,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
       },
       error: (err, _) {
         return const Text("Failed to load Projects",
-            style: TextStyle(
-                    letterSpacing: -0.3,color: Helper.errorColor));
+            style: TextStyle(letterSpacing: -0.3, color: Helper.errorColor));
       },
       loading: () => LoadingUserProfile(),
     );

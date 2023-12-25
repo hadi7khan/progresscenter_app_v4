@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -62,27 +63,26 @@ class _ProjectDetailsScreenState
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: Colors.black.withOpacity(0.3),
         statusBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.light
-        ));
+        statusBarBrightness: Brightness.light));
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref
           .read(projectByIdControllerProvider.notifier)
           .getProjectById(widget.projectId);
     });
   }
+
   @override
   void dispose() {
-  //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-  //   statusBarIconBrightness: Brightness.dark,
-  //       statusBarBrightness: Brightness.dark,
-  //       systemNavigationBarColor: Colors.black,
-  //       statusBarColor: Colors.black.withOpacity(0.2)
-  // ));
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    //   statusBarIconBrightness: Brightness.dark,
+    //       statusBarBrightness: Brightness.dark,
+    //       systemNavigationBarColor: Colors.black,
+    //       statusBarColor: Colors.black.withOpacity(0.2)
+    // ));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: Colors.black.withOpacity(0.3),
         statusBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.light
-        ));
+        statusBarBrightness: Brightness.light));
   }
 
   showDateTimeString(date, dateFormat) {
@@ -110,15 +110,15 @@ class _ProjectDetailsScreenState
       //         automaticallyImplyLeading: false,
       //         titleSpacing: 12.0.w,
       //         leading: InkWell(
-            //   onTap: () {
-            //     context.pop();
-            //   },
-            //   child: Transform.rotate(
-            //     angle: 180 * (3.1415926535 / 180),
-            //     child: SvgPicture.asset('assets/images/chevron-right.svg',
-            //         color: Helper.iconColor, fit: BoxFit.contain),
-            //   ),
-            // ),
+      //   onTap: () {
+      //     context.pop();
+      //   },
+      //   child: Transform.rotate(
+      //     angle: 180 * (3.1415926535 / 180),
+      //     child: SvgPicture.asset('assets/images/chevron-right.svg',
+      //         color: Helper.iconColor, fit: BoxFit.contain),
+      //   ),
+      // ),
       //         leadingWidth: 24,
       //         title: Text(
       //           widget.projectName,
@@ -179,22 +179,37 @@ class _ProjectDetailsScreenState
                               color: Color.fromRGBO(235, 235, 235, 1),
                             ),
                             child: widget.projectImages!.isNotEmpty
-                                ? ClipRRect(
-                                    // borderRadius: BorderRadius.circular(16.r),
-                                    child: Image.network(
-                                    widget.projectImages![itemIndex].url!,
+                                ? CachedNetworkImage(
+                                    imageUrl:
+                                        widget.projectImages![itemIndex].url!,
+                                    // memCacheHeight: height.toInt(), memCacheWidth: width.toInt()
                                     fit: BoxFit.fill,
-                                    errorBuilder: (BuildContext context,
-                                        Object exception,
-                                        StackTrace? stackTrace) {
-                                      return ClipRRect(
-                                        child: Image.asset(
-                                          'assets/images/error_image.jpeg',
-                                          fit: BoxFit.fill,
-                                        ),
-                                      );
-                                    },
-                                  ))
+                                    // placeholder: (context, url) =>
+                                    //     CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        ClipRRect(
+                                      child: Image.asset(
+                                        'assets/images/error_image.jpeg',
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                  )
+                                //  ClipRRect(
+                                //     // borderRadius: BorderRadius.circular(16.r),
+                                //     child: Image.network(
+                                //     widget.projectImages![itemIndex].url!,
+                                //     fit: BoxFit.fill,
+                                //     errorBuilder: (BuildContext context,
+                                //         Object exception,
+                                //         StackTrace? stackTrace) {
+                                //       return ClipRRect(
+                                //         child: Image.asset(
+                                //           'assets/images/error_image.jpeg',
+                                //           fit: BoxFit.fill,
+                                //         ),
+                                //       );
+                                //     },
+                                //   ))
                                 : ClipRRect(
                                     // borderRadius: BorderRadius.circular(16.r),
                                     child: Image.asset(
@@ -332,7 +347,7 @@ class _ProjectDetailsScreenState
                 height: 20.h,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w,  vertical: 0),
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

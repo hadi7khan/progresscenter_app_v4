@@ -14,20 +14,43 @@ String siteGalleryModelToJson(List<SiteGalleryModel> data) =>
 @freezed
 class SiteGalleryModel with _$SiteGalleryModel {
   const factory SiteGalleryModel({
-    @JsonKey(name: '_id') String? id,
+    @JsonKey(name: "_id") String? id,
     String? name,
     String? path,
     String? status,
     String? type,
+    User? user,
     String? reseller,
     String? client,
     String? project,
     DateTime? createdAt,
     DateTime? updatedAt,
     String? url,
-    String? user,
   }) = _SiteGalleryModel;
 
   factory SiteGalleryModel.fromJson(Map<String, dynamic> json) =>
       _$SiteGalleryModelFromJson(json);
+}
+
+@freezed
+class User with _$User {
+  const factory User({
+    Preset? preset,
+    String? id,
+    String? name,
+    String? dp,
+    String? userId,
+    String? dpUrl,
+  }) = _User;
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+}
+
+@freezed
+class Preset with _$Preset {
+  const factory Preset({
+    String? color,
+  }) = _Preset;
+
+  factory Preset.fromJson(Map<String, dynamic> json) => _$PresetFromJson(json);
 }
