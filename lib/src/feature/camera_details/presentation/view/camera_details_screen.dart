@@ -629,7 +629,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
       ),
       bottomNavigationBar: showBottomBar
           ? Container(
-              height: Platform.isIOS ? 100.h : 50.h,
+              height: Platform.isIOS ? 130.h : 50.h,
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.min,
