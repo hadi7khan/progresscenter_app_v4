@@ -8,7 +8,8 @@ import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 
 class ListViewWidget extends StatefulWidget {
   final data;
-  const ListViewWidget({super.key, this.data});
+  final projectName;
+  const ListViewWidget({super.key, this.data, this.projectName});
 
   @override
   State<ListViewWidget> createState() => _ListViewWidgetState();
@@ -21,7 +22,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
       onTap: () {
         context.push('/cameradetails', extra: {
           "projectId": widget.data.project,
-          "projectName": widget.data.name!,
+          "projectName": widget.projectName,
           "cameraId": widget.data.id,
         });
       },

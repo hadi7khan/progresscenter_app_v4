@@ -165,13 +165,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        "Timelapse Camera",
-                        style: TextStyle(
-                            color: Helper.baseBlack,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w500),
-                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -180,16 +173,25 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                           Text(
                             cameraData.name!,
                             style: TextStyle(
-                                color: Helper.baseBlack.withOpacity(0.5),
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w400),
+                            color: Helper.baseBlack,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w500),
+                            
                           ),
                           SizedBox(
                             width: 6.w,
                           ),
                           SvgPicture.asset('assets/images/chevron-down.svg'),
                         ],
-                      )
+                      ),
+                      Text(
+                       widget.projectName,
+                        style: TextStyle(
+                                color: Helper.baseBlack.withOpacity(0.5),
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400),
+                      ),
+                      
                     ]);
               },
               error: (err, _) {
@@ -627,7 +629,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
       ),
       bottomNavigationBar: showBottomBar
           ? Container(
-              height: Platform.isIOS ? 70.h : 50.h,
+              height: Platform.isIOS ? 100.h : 50.h,
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.min,
