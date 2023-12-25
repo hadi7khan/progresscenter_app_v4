@@ -212,7 +212,9 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                                   padding: EdgeInsets.zero,
                                   itemCount: data.length,
                                   itemBuilder: ((context, index) {
-                                    return ListViewWidget(data: data[index]);
+                                    return ListViewWidget(data: data[index],
+                                    projectName: widget.projectName
+                                    );
                                   }),
                                 )
                               : GridView.builder(

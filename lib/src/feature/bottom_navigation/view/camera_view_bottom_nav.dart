@@ -7,11 +7,12 @@ class IconBottomBar extends StatefulWidget {
   final String text;
   final String icon;
   final bool selected;
-  const IconBottomBar(
-      {super.key,
-      required this.text,
-      required this.icon,
-      required this.selected,});
+  const IconBottomBar({
+    super.key,
+    required this.text,
+    required this.icon,
+    required this.selected,
+  });
 
   @override
   State<IconBottomBar> createState() => _IconBottomBarState();
@@ -21,21 +22,20 @@ class _IconBottomBarState extends State<IconBottomBar> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal : 15.w,),
+      padding: EdgeInsets.symmetric(
+        horizontal: 15.w,
+      ),
       child: Column(
         // mainAxisAlignment: MainAxisAlignment.end,
         mainAxisSize: MainAxisSize.min,
         children: [
-           SvgPicture.asset(
-              widget.icon,
-              color:  Helper.textColor700
-            ),
-          
+          SvgPicture.asset(widget.icon, color: Helper.textColor700),
           Text(
             widget.text,
             style: TextStyle(
-              color:  Helper.textColor700,
+              color: Helper.textColor700,
               fontSize: 11.sp,
+              letterSpacing: -0.3,
               fontWeight: FontWeight.w400,
             ),
           )
