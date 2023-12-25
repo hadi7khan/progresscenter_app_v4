@@ -195,7 +195,7 @@ class _FullViewSitegalleryScreenState
         child: Wrap(
           children: [
             Container(
-              padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 28.h),
+              padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 28.h, bottom: 20.h),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(16.r),
@@ -212,7 +212,7 @@ class _FullViewSitegalleryScreenState
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'Info',
+                        'Information',
                         style: TextStyle(
                             letterSpacing: -0.3,
                             color: Helper.baseBlack,
