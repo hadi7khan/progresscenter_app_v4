@@ -629,7 +629,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
       ),
       bottomNavigationBar: showBottomBar
           ? Container(
-              height: Platform.isIOS ? 130.h : 50.h,
+              height: Platform.isIOS ? 120.h : 50.h,
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.min,
@@ -637,6 +637,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                   children: [
                     InkWell(
                       onTap: () {
+                        HapticFeedback.mediumImpact();
                         context.push('/livelapse', extra: {
                           "projectId": widget.projectId,
                           "projectName": widget.projectName,
@@ -651,6 +652,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                     ),
                     InkWell(
                       onTap: () {
+                        HapticFeedback.mediumImpact();
                         context.push('/slider', extra: {
                           "projectId": widget.projectId,
                           "projectName": widget.projectName,
@@ -665,6 +667,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                     ),
                     InkWell(
                       onTap: () {
+                        HapticFeedback.mediumImpact();
                         context.push('/compare', extra: {
                           "projectId": widget.projectId,
                           "projectName": widget.projectName,
@@ -679,6 +682,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                     ),
                     InkWell(
                       onTap: () {
+                        HapticFeedback.mediumImpact();
                         context.push('/splitview', extra: {
                           "projectId": widget.projectId,
                           "projectName": widget.projectName,
@@ -693,6 +697,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                     ),
                     InkWell(
                       onTap: () {
+                        HapticFeedback.mediumImpact();
                         context.push('/report', extra: {
                           "projectId": widget.projectId,
                           "projectName": widget.projectName,
