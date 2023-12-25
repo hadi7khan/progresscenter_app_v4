@@ -629,6 +629,14 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
       ),
       bottomNavigationBar: showBottomBar
           ? Container(
+            decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.2), 
+          border: Border(
+            top: BorderSide(
+            color: Colors.white.withOpacity(0.2), 
+            width: 0.5),
+          ),
+        ),
               height: Platform.isIOS ? 120.h : 50.h,
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

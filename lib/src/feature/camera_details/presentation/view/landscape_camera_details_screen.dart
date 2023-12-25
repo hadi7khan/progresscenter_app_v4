@@ -47,6 +47,9 @@ class _LandscapeCameraDetailsScreenState
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
+     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.black,
+        ));
   }
 
   showDate(String date) {
@@ -64,6 +67,9 @@ class _LandscapeCameraDetailsScreenState
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.white,
+        ));
   }
 
 
