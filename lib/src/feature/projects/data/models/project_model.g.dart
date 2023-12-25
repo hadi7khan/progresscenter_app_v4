@@ -112,25 +112,23 @@ _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
       preset: json['preset'] == null
           ? null
           : Preset.fromJson(json['preset'] as Map<String, dynamic>),
-      id: json['id'] as String?,
+      userId: json['_id'] as String?,
       name: json['name'] as String?,
       email: json['email'] as String?,
       dp: json['dp'] as String?,
       projects: (json['projects'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      userId: json['userId'] as String?,
       dpUrl: json['dpUrl'] as String?,
     );
 
 Map<String, dynamic> _$$_UserToJson(_$_User instance) => <String, dynamic>{
       'preset': instance.preset,
-      'id': instance.id,
+      '_id': instance.userId,
       'name': instance.name,
       'email': instance.email,
       'dp': instance.dp,
       'projects': instance.projects,
-      'userId': instance.userId,
       'dpUrl': instance.dpUrl,
     };
 

@@ -271,7 +271,10 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                     backgroundColor: Colors.transparent,
                                     builder: (context) => ViewedByWidget(
                                         data: widget.progresslineData.viewedBy,
-                                        showText: "Viewed By"));
+                                        showText: "Viewed By",
+                                        projectId: "",
+                                        showExtra: false,
+                                        ));
                               },
                               child: Container(
                                 padding: EdgeInsets.all(4.w),

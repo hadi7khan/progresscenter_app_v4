@@ -76,12 +76,11 @@ class Location with _$Location {
 class User with _$User {
   const factory User({
     Preset? preset,
-    String? id,
+    @JsonKey(name: '_id') String? userId,
     String? name,
     String? email,
     String? dp,
     List<String>? projects,
-    String? userId,
     String? dpUrl,
   }) = _User;
 

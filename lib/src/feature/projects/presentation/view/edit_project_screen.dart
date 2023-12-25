@@ -730,7 +730,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                                   child: SvgPicture.asset(
                                       width: 15,
                                       height: 15,
-                                      'assets/images/close-x.svg'),
+                                      'assets/images/close-x.svg', color: Helper.errorColor),
                                 )),
                           ),
                         );
@@ -1142,25 +1142,21 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
             onPressed: () => Navigator.of(context).pop(true),
           ),
           CupertinoDialogAction(
-            child: Text(
-              "Delete",
-              style: TextStyle(
-                color: Helper.errorColor,
+              child: Text(
+                "Delete",
+                style: TextStyle(
+                  color: Helper.errorColor,
+                ),
               ),
-            ),
-            onPressed: () {
-              Service()
-                                  .deleteImage(projectId, imageId)
-                                  .then((value) {
-                                context.pop();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        backgroundColor: Colors.red,
-                                        content: Text("Image Deleted")));
-                              });
-                              setState(() {});
-            }
-          ),
+              onPressed: () {
+                Service().deleteImage(projectId, imageId).then((value) {
+                  context.pop();
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      backgroundColor: Colors.red,
+                      content: Text("Image Deleted")));
+                });
+                setState(() {});
+              }),
         ],
       ),
     );
