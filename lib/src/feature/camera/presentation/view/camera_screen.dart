@@ -43,8 +43,8 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
             child: Padding(
               padding: EdgeInsets.only(right: 16.w, left: 16.w),
               child: AppBar(
-                // backgroundColor: Colors.white,
-                // surfaceTintColor: Colors.white,
+                backgroundColor: Colors.white,
+                surfaceTintColor: Colors.white,
                 automaticallyImplyLeading: false,
                 titleSpacing: 12.0.w,
                 leading: InkWell(
@@ -67,15 +67,15 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                       fontWeight: FontWeight.w500),
                 ),
                 actions: [
-                  InkWell(
-                    // padding: EdgeInsets.zero,
-                    // alignment: Alignment.centerLeft,
-                    child: SvgPicture.asset('assets/images/sort.svg'),
-                    onTap: () {},
-                  ),
-                  SizedBox(
-                    width: 5.w
-                  ),
+                  // InkWell(
+                  //   // padding: EdgeInsets.zero,
+                  //   // alignment: Alignment.centerLeft,
+                  //   child: SvgPicture.asset('assets/images/sort.svg'),
+                  //   onTap: () {},
+                  // ),
+                  // SizedBox(
+                  //   width: 5.w
+                  // ),
                   InkWell(
                     // padding: EdgeInsets.zero,
                     // alignment: Alignment.centerLeft,
