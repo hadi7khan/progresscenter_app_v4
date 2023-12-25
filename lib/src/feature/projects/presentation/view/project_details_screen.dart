@@ -348,27 +348,64 @@ class _ProjectDetailsScreenState
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      widget.projectName,
-                      style: TextStyle(
-                        letterSpacing: -0.3,
-                        fontSize: 28.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Helper.baseBlack,
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.projectName,
+                          style: TextStyle(
+                            letterSpacing: -0.3,
+                            fontSize: 28.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Helper.baseBlack,
+                          ),
+                        ),
+                        Text(
+                          widget.projectLocation!,
+                          style: TextStyle(
+                            letterSpacing: -0.3,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                            color: Helper.baseBlack.withOpacity(0.5),
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      widget.projectLocation!,
-                      style: TextStyle(
-                        letterSpacing: -0.3,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                        color: Helper.baseBlack.withOpacity(0.5),
-                      ),
-                    ),
+                  InkWell(
+                            onTap: () {
+                              showModalBottomSheet(
+                                  useRootNavigator: true,
+                                  isScrollControlled: true,
+                                  context: context,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (context) => ViewedByWidget(
+                                      data: widget.projectUsers,
+                                      showText: "Current members"));
+                            },
+                            child: Container(
+                              // width: 150,
+                              height: 35,
+                              padding: EdgeInsets.symmetric(horizontal: 4.w),
+                              // blur: 3,
+                              // borderRadius: BorderRadius.circular(30.r),
+                              // color: Colors.transparent,
+                              child: AvatarGroupWidget(
+                                avatars: (widget.projectUsers as List<User>)
+                                    .map((user) {
+                                  return {
+                                    'dpUrl': user.dp != null ? user.dpUrl : "",
+                                    'name': user.name,
+                                    'backgroundColor': user.preset!.color,
+                                  };
+                                }).toList(),
+                                size: 30.h,
+                                max: 3,
+                              ),
+                            ),
+                          ),
                   ],
                 ),
               ),
