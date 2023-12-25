@@ -61,7 +61,7 @@ class _AvatarGroupWidgetState extends State<AvatarGroupWidget> {
               width: widget.size,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white,
+                color: Helper.widgetBackground,
               ),
               child: Center(
                 child: Text(

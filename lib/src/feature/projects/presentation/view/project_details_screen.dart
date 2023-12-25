@@ -276,42 +276,42 @@ class _ProjectDetailsScreenState
                             ),
                           ),
                         ),
-                        Positioned(
-                          top: 60,
-                          right: 60,
-                          child: InkWell(
-                            onTap: () {
-                              showModalBottomSheet(
-                                  useRootNavigator: true,
-                                  isScrollControlled: true,
-                                  context: context,
-                                  backgroundColor: Colors.transparent,
-                                  builder: (context) => ViewedByWidget(
-                                      data: widget.projectUsers,
-                                      showText: "Current members"));
-                            },
-                            child: Container(
-                              // width: 150,
-                              height: 35,
-                              padding: EdgeInsets.symmetric(horizontal: 4.w),
-                              // blur: 3,
-                              // borderRadius: BorderRadius.circular(30.r),
-                              // color: Colors.transparent,
-                              child: AvatarGroupWidget(
-                                avatars: (widget.projectUsers as List<User>)
-                                    .map((user) {
-                                  return {
-                                    'dpUrl': user.dp != null ? user.dpUrl : "",
-                                    'name': user.name,
-                                    'backgroundColor': user.preset!.color,
-                                  };
-                                }).toList(),
-                                size: 30.h,
-                                max: 3,
-                              ),
-                            ),
-                          ),
-                        ),
+                        // Positioned(
+                        //   top: 60,
+                        //   right: 60,
+                        //   child: InkWell(
+                        //     onTap: () {
+                        //       showModalBottomSheet(
+                        //           useRootNavigator: true,
+                        //           isScrollControlled: true,
+                        //           context: context,
+                        //           backgroundColor: Colors.transparent,
+                        //           builder: (context) => ViewedByWidget(
+                        //               data: widget.projectUsers,
+                        //               showText: "Current members"));
+                        //     },
+                        //     child: Container(
+                        //       // width: 150,
+                        //       height: 35,
+                        //       padding: EdgeInsets.symmetric(horizontal: 4.w),
+                        //       // blur: 3,
+                        //       // borderRadius: BorderRadius.circular(30.r),
+                        //       // color: Colors.transparent,
+                        //       child: AvatarGroupWidget(
+                        //         avatars: (widget.projectUsers as List<User>)
+                        //             .map((user) {
+                        //           return {
+                        //             'dpUrl': user.dp != null ? user.dpUrl : "",
+                        //             'name': user.name,
+                        //             'backgroundColor': user.preset!.color,
+                        //           };
+                        //         }).toList(),
+                        //         size: 30.h,
+                        //         max: 3,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                         // data[index].images!.isNotEmpty
                         //     ?
                         Positioned(
@@ -383,7 +383,10 @@ class _ProjectDetailsScreenState
                         backgroundColor: Colors.transparent,
                         builder: (context) => ViewedByWidget(
                             data: widget.projectUsers,
-                            showText: "Current members"));
+                            showText: "Current members",
+                            projectId: widget.projectId,
+                            showExtra: true,
+                            ));
                   },
                   child: Container(
                     // width: 150,

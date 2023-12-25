@@ -1105,12 +1105,12 @@ User _$UserFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$User {
   Preset? get preset => throw _privateConstructorUsedError;
-  String? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: '_id')
+  String? get userId => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
   String? get dp => throw _privateConstructorUsedError;
   List<String>? get projects => throw _privateConstructorUsedError;
-  String? get userId => throw _privateConstructorUsedError;
   String? get dpUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1125,12 +1125,11 @@ abstract class $UserCopyWith<$Res> {
   @useResult
   $Res call(
       {Preset? preset,
-      String? id,
+      @JsonKey(name: '_id') String? userId,
       String? name,
       String? email,
       String? dp,
       List<String>? projects,
-      String? userId,
       String? dpUrl});
 
   $PresetCopyWith<$Res>? get preset;
@@ -1150,12 +1149,11 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   @override
   $Res call({
     Object? preset = freezed,
-    Object? id = freezed,
+    Object? userId = freezed,
     Object? name = freezed,
     Object? email = freezed,
     Object? dp = freezed,
     Object? projects = freezed,
-    Object? userId = freezed,
     Object? dpUrl = freezed,
   }) {
     return _then(_value.copyWith(
@@ -1163,9 +1161,9 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.preset
           : preset // ignore: cast_nullable_to_non_nullable
               as Preset?,
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as String?,
       name: freezed == name
           ? _value.name
@@ -1183,10 +1181,6 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.projects
           : projects // ignore: cast_nullable_to_non_nullable
               as List<String>?,
-      userId: freezed == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as String?,
       dpUrl: freezed == dpUrl
           ? _value.dpUrl
           : dpUrl // ignore: cast_nullable_to_non_nullable
@@ -1215,12 +1209,11 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
   @useResult
   $Res call(
       {Preset? preset,
-      String? id,
+      @JsonKey(name: '_id') String? userId,
       String? name,
       String? email,
       String? dp,
       List<String>? projects,
-      String? userId,
       String? dpUrl});
 
   @override
@@ -1237,12 +1230,11 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
   @override
   $Res call({
     Object? preset = freezed,
-    Object? id = freezed,
+    Object? userId = freezed,
     Object? name = freezed,
     Object? email = freezed,
     Object? dp = freezed,
     Object? projects = freezed,
-    Object? userId = freezed,
     Object? dpUrl = freezed,
   }) {
     return _then(_$_User(
@@ -1250,9 +1242,9 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
           ? _value.preset
           : preset // ignore: cast_nullable_to_non_nullable
               as Preset?,
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as String?,
       name: freezed == name
           ? _value.name
@@ -1270,10 +1262,6 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
           ? _value._projects
           : projects // ignore: cast_nullable_to_non_nullable
               as List<String>?,
-      userId: freezed == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
-              as String?,
       dpUrl: freezed == dpUrl
           ? _value.dpUrl
           : dpUrl // ignore: cast_nullable_to_non_nullable
@@ -1287,12 +1275,11 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
 class _$_User implements _User {
   const _$_User(
       {this.preset,
-      this.id,
+      @JsonKey(name: '_id') this.userId,
       this.name,
       this.email,
       this.dp,
       final List<String>? projects,
-      this.userId,
       this.dpUrl})
       : _projects = projects;
 
@@ -1301,7 +1288,8 @@ class _$_User implements _User {
   @override
   final Preset? preset;
   @override
-  final String? id;
+  @JsonKey(name: '_id')
+  final String? userId;
   @override
   final String? name;
   @override
@@ -1319,13 +1307,11 @@ class _$_User implements _User {
   }
 
   @override
-  final String? userId;
-  @override
   final String? dpUrl;
 
   @override
   String toString() {
-    return 'User(preset: $preset, id: $id, name: $name, email: $email, dp: $dp, projects: $projects, userId: $userId, dpUrl: $dpUrl)';
+    return 'User(preset: $preset, userId: $userId, name: $name, email: $email, dp: $dp, projects: $projects, dpUrl: $dpUrl)';
   }
 
   @override
@@ -1334,19 +1320,18 @@ class _$_User implements _User {
         (other.runtimeType == runtimeType &&
             other is _$_User &&
             (identical(other.preset, preset) || other.preset == preset) &&
-            (identical(other.id, id) || other.id == id) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.dp, dp) || other.dp == dp) &&
             const DeepCollectionEquality().equals(other._projects, _projects) &&
-            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.dpUrl, dpUrl) || other.dpUrl == dpUrl));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, preset, id, name, email, dp,
-      const DeepCollectionEquality().hash(_projects), userId, dpUrl);
+  int get hashCode => Object.hash(runtimeType, preset, userId, name, email, dp,
+      const DeepCollectionEquality().hash(_projects), dpUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -1365,12 +1350,11 @@ class _$_User implements _User {
 abstract class _User implements User {
   const factory _User(
       {final Preset? preset,
-      final String? id,
+      @JsonKey(name: '_id') final String? userId,
       final String? name,
       final String? email,
       final String? dp,
       final List<String>? projects,
-      final String? userId,
       final String? dpUrl}) = _$_User;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
@@ -1378,7 +1362,8 @@ abstract class _User implements User {
   @override
   Preset? get preset;
   @override
-  String? get id;
+  @JsonKey(name: '_id')
+  String? get userId;
   @override
   String? get name;
   @override
@@ -1387,8 +1372,6 @@ abstract class _User implements User {
   String? get dp;
   @override
   List<String>? get projects;
-  @override
-  String? get userId;
   @override
   String? get dpUrl;
   @override

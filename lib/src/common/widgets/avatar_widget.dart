@@ -44,7 +44,7 @@ class _AvatarWidgetState extends State<AvatarWidget> {
               width: widget.size,
               height: widget.size,
               widget.dpUrl,
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
               errorBuilder: (BuildContext context, Object exception,
                   StackTrace? stackTrace) {
                 return ClipRRect(
@@ -53,7 +53,7 @@ class _AvatarWidgetState extends State<AvatarWidget> {
                       width: widget.size,
                       height: widget.size,
                       'assets/images/error_image.jpeg',
-                      fit: BoxFit.cover),
+                      fit: BoxFit.fill),
                 );
               },
             )
