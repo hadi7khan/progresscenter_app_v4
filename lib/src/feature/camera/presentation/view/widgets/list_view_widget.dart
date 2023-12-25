@@ -149,8 +149,14 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                 width: MediaQuery.of(context).size.width * 0.5,
                                 child: Row(
                                   children: [
-                                    Icon(Icons.circle, color: Helper.successColor, size: 10,),
-                                    SizedBox(width: 5.w,),
+                                    Icon(
+                                      Icons.circle,
+                                      color: Helper.successColor,
+                                      size: 10,
+                                    ),
+                                    SizedBox(
+                                      width: 5.w,
+                                    ),
                                     Text(
                                       widget.data.name!,
                                       overflow: TextOverflow.ellipsis,
@@ -169,10 +175,8 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                               // ),
                               Row(
                                 children: [
-                                  
                                   Text(
                                     "Last Uploaded · ",
-                                        
                                     style: TextStyle(
                                       letterSpacing: -0.3,
                                       fontSize: 14.sp,
@@ -180,11 +184,13 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                       color: Helper.baseBlack.withOpacity(0.5),
                                     ),
                                   ),
-                                  Text(
+                                  Text( "12:45 PM · 12 Nov 2023",
                                     // "Last Uploaded · " +
-                                        widget.data.latestImage != null
-                                     ? showDateTimeString(widget.data.latestImage.updatedAt,
-                                        'dd MMM yy · h:mma '): "N/A",
+                                    // widget.data.latestImage.datetime != null
+                                    //     ? showDate(
+                                    //         widget.data.latestImage.datetime,
+                                    //         'dd MMM yy · h:mma ')
+                                    //     : "N/A",
                                     style: TextStyle(
                                       letterSpacing: -0.3,
                                       fontSize: 14.sp,
@@ -231,15 +237,28 @@ class _ListViewWidgetState extends State<ListViewWidget> {
 
 showDateTimeString(date, dateFormat) {
   // Format the DateTime object into the desired format
-  String formattedDate = DateFormat(dateFormat).format(date);
-  return formattedDate;
+  // Parse the string to a DateTime object
+  DateTime dateTime = DateTime.parse(date);
+
+  // Format the DateTime object as text
+  String formattedDateTime =
+      DateFormat(dateFormat).format(dateTime);
+  return formattedDateTime;
 }
 
 showDate(date, dateFormat) {
-  // Parse the installationDate string into a DateTime object
-  DateTime parsedDate = DateTime.parse(date);
+   // Parse the string to a DateTime object
+    DateTime dateTime = DateTime.parse(date);
 
-  // Format the DateTime object into the desired format
-  String formattedDate = DateFormat(dateFormat).format(parsedDate);
-  return formattedDate;
+    // Format the time part of the DateTime object
+    String formattedTime = DateFormat.jm().format(dateTime);
+
+    // Format the date part of the DateTime object
+    String formattedDate =
+        DateFormat('d MMM y', 'en_US').format(dateTime);
+
+    // Combine the formatted time and date
+    String finalFormattedDateTime =
+        '$formattedTime · $formattedDate';
+  return finalFormattedDateTime;
 }
