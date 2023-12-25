@@ -55,6 +55,21 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                 ],
               ),
               SizedBox(height: 10.h,),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 22.h),
+                child: Row(children: [
+                  SvgPicture.asset('assets/images/plus.svg', color: Helper.primary),
+                  SizedBox(width: 5.h),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.w, ),
+                    child: Text("Add member", style: TextStyle(
+                              letterSpacing: -0.3,
+                          color: Helper.baseBlack,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w500),),
+                  ),
+                ]),
+              ),
               ListView.builder(
                 shrinkWrap: true,
                 itemCount: widget.data.length,
