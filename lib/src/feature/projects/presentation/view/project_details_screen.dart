@@ -261,7 +261,7 @@ class _ProjectDetailsScreenState
                           child: BlurryContainer(
                             height: 30,
                             padding: EdgeInsets.only(
-                                top: 5.h, bottom: 5.h, left: 3.w, right: 3.w),
+                                top: 5.h, bottom: 5.h, left: 6.w, right: 6.w),
                             blur: 3,
                             borderRadius: BorderRadius.circular(20.r),
                             color: Colors.white,
@@ -272,7 +272,7 @@ class _ProjectDetailsScreenState
                               },
                               child: SvgPicture.asset(
                                   'assets/images/8666681_edit_icon.svg',
-                                  color: Helper.iconColor, ),
+                                  color: Helper.iconColor, width: 16, height: 16),
                             ),
                           ),
                         ),
