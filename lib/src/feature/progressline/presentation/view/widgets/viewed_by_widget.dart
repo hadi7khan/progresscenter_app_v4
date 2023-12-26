@@ -465,7 +465,7 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                         horizontal: 5.w,
                       ),
                       child: Text(
-                        "Send Invite",
+                        "Send Invite / add member",
                         style: TextStyle(
                             letterSpacing: -0.3,
                             color: Helper.primary,
