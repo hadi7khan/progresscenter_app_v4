@@ -132,7 +132,7 @@ class _LandscapeCameraDetailsScreenState
                 ),
                 Positioned(
                       top: 16,
-                      right: 16,
+                      right: 0,
                       child: InkWell(
                         onTap: () {
                           context.pop();

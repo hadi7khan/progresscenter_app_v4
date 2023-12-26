@@ -83,6 +83,7 @@ class _ProjectDetailsScreenState
         statusBarColor: Colors.black.withOpacity(0.3),
         statusBarIconBrightness: Brightness.dark,
         statusBarBrightness: Brightness.light));
+        super.dispose();
   }
 
   showDateTimeString(date, dateFormat) {
@@ -140,209 +141,206 @@ class _ProjectDetailsScreenState
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Hero(
-                tag: 'project_card',
-                child: Container(
-                  margin: EdgeInsets.zero,
-                  padding: EdgeInsets.zero,
-                  height: MediaQuery.of(context).size.width * 0.8,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    // borderRadius: BorderRadius.circular(16.r),
-                  ),
-                  child: Stack(
-                      fit: StackFit.expand,
-                      alignment: Alignment.topCenter,
-                      children: [
-                        CarouselSlider.builder(
-                          itemCount: widget.projectImages.length,
-                          options: CarouselOptions(
-                              // height: 284.h,
-                              viewportFraction: 1,
-                              aspectRatio: 1 / 1,
-                              initialPage: 0,
-                              autoPlay: false,
-                              // enlargeCenterPage: true,
-                              autoPlayCurve: Curves.fastOutSlowIn,
-                              scrollDirection: Axis.horizontal,
-                              onPageChanged: (index, reason) {
-                                setState(() {
-                                  _currentIndex = index;
-                                });
-                              }),
-                          itemBuilder: (BuildContext context, int itemIndex,
-                                  int pageViewIndex) =>
-                              Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              // borderRadius: BorderRadius.circular(16.r),
-                              color: Color.fromRGBO(235, 235, 235, 1),
-                            ),
-                            child: widget.projectImages!.isNotEmpty
-                                ? CachedNetworkImage(
-                                    imageUrl:
-                                        widget.projectImages![itemIndex].url!,
-                                    // memCacheHeight: height.toInt(), memCacheWidth: width.toInt()
-                                    fit: BoxFit.fill,
-                                    // placeholder: (context, url) =>
-                                    //     CircularProgressIndicator(),
-                                    errorWidget: (context, url, error) =>
-                                        ClipRRect(
-                                      child: Image.asset(
-                                        'assets/images/error_image.jpeg',
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  )
-                                //  ClipRRect(
-                                //     // borderRadius: BorderRadius.circular(16.r),
-                                //     child: Image.network(
-                                //     widget.projectImages![itemIndex].url!,
-                                //     fit: BoxFit.fill,
-                                //     errorBuilder: (BuildContext context,
-                                //         Object exception,
-                                //         StackTrace? stackTrace) {
-                                //       return ClipRRect(
-                                //         child: Image.asset(
-                                //           'assets/images/error_image.jpeg',
-                                //           fit: BoxFit.fill,
-                                //         ),
-                                //       );
-                                //     },
-                                //   ))
-                                : ClipRRect(
-                                    // borderRadius: BorderRadius.circular(16.r),
+              Container(
+                margin: EdgeInsets.zero,
+                padding: EdgeInsets.zero,
+                height: MediaQuery.of(context).size.width * 0.8,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  // borderRadius: BorderRadius.circular(16.r),
+                ),
+                child: Stack(
+                    fit: StackFit.expand,
+                    alignment: Alignment.topCenter,
+                    children: [
+                      CarouselSlider.builder(
+                        itemCount: widget.projectImages.length,
+                        options: CarouselOptions(
+                            // height: 284.h,
+                            viewportFraction: 1,
+                            aspectRatio: 1 / 1,
+                            initialPage: 0,
+                            autoPlay: false,
+                            // enlargeCenterPage: true,
+                            autoPlayCurve: Curves.fastOutSlowIn,
+                            scrollDirection: Axis.horizontal,
+                            onPageChanged: (index, reason) {
+                              setState(() {
+                                _currentIndex = index;
+                              });
+                            }),
+                        itemBuilder: (BuildContext context, int itemIndex,
+                                int pageViewIndex) =>
+                            Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            // borderRadius: BorderRadius.circular(16.r),
+                            color: Color.fromRGBO(235, 235, 235, 1),
+                          ),
+                          child: widget.projectImages!.isNotEmpty
+                              ? CachedNetworkImage(
+                                  imageUrl:
+                                      widget.projectImages![itemIndex].url!,
+                                  // memCacheHeight: height.toInt(), memCacheWidth: width.toInt()
+                                  fit: BoxFit.fill,
+                                  // placeholder: (context, url) =>
+                                  //     CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) =>
+                                      ClipRRect(
                                     child: Image.asset(
                                       'assets/images/error_image.jpeg',
                                       fit: BoxFit.fill,
-                                      height: 264.h,
                                     ),
                                   ),
-                          ),
+                                )
+                              //  ClipRRect(
+                              //     // borderRadius: BorderRadius.circular(16.r),
+                              //     child: Image.network(
+                              //     widget.projectImages![itemIndex].url!,
+                              //     fit: BoxFit.fill,
+                              //     errorBuilder: (BuildContext context,
+                              //         Object exception,
+                              //         StackTrace? stackTrace) {
+                              //       return ClipRRect(
+                              //         child: Image.asset(
+                              //           'assets/images/error_image.jpeg',
+                              //           fit: BoxFit.fill,
+                              //         ),
+                              //       );
+                              //     },
+                              //   ))
+                              : ClipRRect(
+                                  // borderRadius: BorderRadius.circular(16.r),
+                                  child: Image.asset(
+                                    'assets/images/error_image.jpeg',
+                                    fit: BoxFit.fill,
+                                    height: 264.h,
+                                  ),
+                                ),
                         ),
-
-                        // Positioned(
-                        //   top: 0,
-                        //   left: 0,
-                        //   right: 0,
-                        //   height: MediaQuery.of(context).padding.top,
-                        //   child: Container(
-                        //     color: Colors.black
-                        //         .withOpacity(0.3), // Adjust opacity as needed
-                        //   ),
-                        // ),
-                        Positioned(
-                          top: 60,
-                          left: 20,
-                          child: BlurryContainer(
-                            height: 30,
-                            padding: EdgeInsets.only(
-                                top: 3.h, bottom: 3.h, left: 2.w, right: 3.w),
-                            blur: 3,
-                            borderRadius: BorderRadius.circular(30.r),
-                            color: Colors.white,
-                            child: InkWell(
-                              onTap: () {
-                                context.pop();
-                              },
-                              child: Transform.rotate(
-                                angle: 180 * (3.1415926535 / 180),
-                                child: SvgPicture.asset(
-                                    'assets/images/chevron-right.svg',
-                                    color: Helper.iconColor,
-                                    fit: BoxFit.cover),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 60,
-                          right: 20,
-                          child: BlurryContainer(
-                            height: 30,
-                            padding: EdgeInsets.only(
-                                top: 5.h, bottom: 5.h, left: 6.w, right: 5.w),
-                            blur: 3,
-                            borderRadius: BorderRadius.circular(30.r),
-                            color: Colors.white,
-                            child: InkWell(
-                              onTap: () {
-                                context.push('/editproject',
-                                    extra: projectByIdData.value);
-                              },
+                      ),
+              
+                      // Positioned(
+                      //   top: 0,
+                      //   left: 0,
+                      //   right: 0,
+                      //   height: MediaQuery.of(context).padding.top,
+                      //   child: Container(
+                      //     color: Colors.black
+                      //         .withOpacity(0.3), // Adjust opacity as needed
+                      //   ),
+                      // ),
+                      Positioned(
+                        top: 60,
+                        left: 20,
+                        child: BlurryContainer(
+                          height: 30,
+                          padding: EdgeInsets.only(
+                              top: 3.h, bottom: 3.h, left: 2.w, right: 3.w),
+                          blur: 3,
+                          borderRadius: BorderRadius.circular(30.r),
+                          color: Colors.white,
+                          child: InkWell(
+                            onTap: () {
+                              context.pop();
+                            },
+                            child: Transform.rotate(
+                              angle: 180 * (3.1415926535 / 180),
                               child: SvgPicture.asset(
-                                  'assets/images/8666681_edit_icon.svg',
-                                  color: Helper.iconColor, width: 18, height: 18),
+                                  'assets/images/chevron-right.svg',
+                                  color: Helper.iconColor,
+                                  fit: BoxFit.cover),
                             ),
                           ),
                         ),
-                        // Positioned(
-                        //   top: 60,
-                        //   right: 60,
-                        //   child: InkWell(
-                        //     onTap: () {
-                        //       showModalBottomSheet(
-                        //           useRootNavigator: true,
-                        //           isScrollControlled: true,
-                        //           context: context,
-                        //           backgroundColor: Colors.transparent,
-                        //           builder: (context) => ViewedByWidget(
-                        //               data: widget.projectUsers,
-                        //               showText: "Current members"));
-                        //     },
-                        //     child: Container(
-                        //       // width: 150,
-                        //       height: 35,
-                        //       padding: EdgeInsets.symmetric(horizontal: 4.w),
-                        //       // blur: 3,
-                        //       // borderRadius: BorderRadius.circular(30.r),
-                        //       // color: Colors.transparent,
-                        //       child: AvatarGroupWidget(
-                        //         avatars: (widget.projectUsers as List<User>)
-                        //             .map((user) {
-                        //           return {
-                        //             'dpUrl': user.dp != null ? user.dpUrl : "",
-                        //             'name': user.name,
-                        //             'backgroundColor': user.preset!.color,
-                        //           };
-                        //         }).toList(),
-                        //         size: 30.h,
-                        //         max: 3,
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                        // data[index].images!.isNotEmpty
-                        //     ?
-                        Positioned(
-                          bottom: 10.h,
-                          child: Padding(
-                              padding: const EdgeInsets.only(bottom: 12),
-                              child: widget.projectImages!.length > 0
-                                  ? DotsIndicator(
-                                      dotsCount: widget.projectImages!.length,
-                                      position: _currentIndex != null
-                                          ? _currentIndex!
-                                          : 0,
-                                      decorator: DotsDecorator(
-                                          color: Colors.white.withOpacity(0.6),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(6.r)),
-                                          activeColor: Colors.white,
-                                          activeShape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8.r)),
-                                          size: Size(6, 6),
-                                          activeSize: Size(8, 8),
-                                          spacing: EdgeInsets.only(right: 6.w)),
-                                    )
-                                  : SizedBox()),
+                      ),
+                      Positioned(
+                        top: 60,
+                        right: 20,
+                        child: BlurryContainer(
+                          height: 30,
+                          padding: EdgeInsets.only(
+                              top: 5.h, bottom: 5.h, left: 6.w, right: 5.w),
+                          blur: 3,
+                          borderRadius: BorderRadius.circular(30.r),
+                          color: Colors.white,
+                          child: InkWell(
+                            onTap: () {
+                              context.push('/editproject',
+                                  extra: projectByIdData.value);
+                            },
+                            child: SvgPicture.asset(
+                                'assets/images/8666681_edit_icon.svg',
+                                color: Helper.iconColor, width: 18, height: 18),
+                          ),
                         ),
-                        // : SizedBox(),
-                      ]),
-                ),
+                      ),
+                      // Positioned(
+                      //   top: 60,
+                      //   right: 60,
+                      //   child: InkWell(
+                      //     onTap: () {
+                      //       showModalBottomSheet(
+                      //           useRootNavigator: true,
+                      //           isScrollControlled: true,
+                      //           context: context,
+                      //           backgroundColor: Colors.transparent,
+                      //           builder: (context) => ViewedByWidget(
+                      //               data: widget.projectUsers,
+                      //               showText: "Current members"));
+                      //     },
+                      //     child: Container(
+                      //       // width: 150,
+                      //       height: 35,
+                      //       padding: EdgeInsets.symmetric(horizontal: 4.w),
+                      //       // blur: 3,
+                      //       // borderRadius: BorderRadius.circular(30.r),
+                      //       // color: Colors.transparent,
+                      //       child: AvatarGroupWidget(
+                      //         avatars: (widget.projectUsers as List<User>)
+                      //             .map((user) {
+                      //           return {
+                      //             'dpUrl': user.dp != null ? user.dpUrl : "",
+                      //             'name': user.name,
+                      //             'backgroundColor': user.preset!.color,
+                      //           };
+                      //         }).toList(),
+                      //         size: 30.h,
+                      //         max: 3,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      // data[index].images!.isNotEmpty
+                      //     ?
+                      Positioned(
+                        bottom: 10.h,
+                        child: Padding(
+                            padding: const EdgeInsets.only(bottom: 12),
+                            child: widget.projectImages!.length > 0
+                                ? DotsIndicator(
+                                    dotsCount: widget.projectImages!.length,
+                                    position: _currentIndex != null
+                                        ? _currentIndex!
+                                        : 0,
+                                    decorator: DotsDecorator(
+                                        color: Colors.white.withOpacity(0.6),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(6.r)),
+                                        activeColor: Colors.white,
+                                        activeShape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8.r)),
+                                        size: Size(6, 6),
+                                        activeSize: Size(8, 8),
+                                        spacing: EdgeInsets.only(right: 6.w)),
+                                  )
+                                : SizedBox()),
+                      ),
+                      // : SizedBox(),
+                    ]),
               ),
               SizedBox(
                 height: 20.h,
@@ -859,232 +857,234 @@ class _ProjectDetailsScreenState
                         style: TextStyle(
                             letterSpacing: -0.3, color: Helper.errorColor));
                   },
-                  loading: () => Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 44.h),
-                        Container(
-                          margin: EdgeInsets.zero,
-                          padding: EdgeInsets.zero,
-                          height: 264.h,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(16.r),
-                          ),
-                          child: Stack(
-                              fit: StackFit.loose,
-                              alignment: Alignment.topCenter,
-                              children: [
-                                Positioned.fill(
-                                  // top: 0,
-                                  // left: 0,
-                                  child: Align(
-                                    alignment: Alignment.topCenter,
-                                    child: CarouselSlider.builder(
-                                      itemCount: 1,
-                                      options: CarouselOptions(
-                                          // height: 198.h,
-                                          viewportFraction: 1,
-                                          aspectRatio: 16 / 9,
-                                          initialPage: 0,
-                                          autoPlay: false,
-                                          enlargeCenterPage: true,
-                                          autoPlayCurve: Curves.fastOutSlowIn,
-                                          scrollDirection: Axis.horizontal,
-                                          onPageChanged: (index, reason) {
-                                            setState(() {
-                                              _currentIndex = index;
-                                            });
-                                          }),
-                                      itemBuilder: (BuildContext context,
-                                              int itemIndex,
-                                              int pageViewIndex) =>
-                                          Container(
-                                              width: double.infinity,
-                                              margin: EdgeInsets.zero,
-                                              padding: EdgeInsets.zero,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(16.r),
-                                                color: Color.fromRGBO(
-                                                    235, 235, 235, 1),
-                                              ),
-                                              child: Skeleton(
-                                                variant: "rectangular",
-                                                borderRadius: 16.r,
-                                              )),
-                                    ),
-                                  ),
-                                ),
-                                Positioned.fill(
-                                  bottom: 7,
-                                  // left: 20,
-                                  child: Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: Container(
-                                        height: 88.h,
-                                        width: double.infinity,
-                                        margin: EdgeInsets.zero,
-                                        padding: EdgeInsets.all(20.w),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15.r),
-                                            color: Color.fromRGBO(
-                                                246, 246, 246, 1)),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Skeleton(
-                                                    variant: 'text',
-                                                    width: 80.w,
-                                                    height: 15.h,
-                                                    borderRadius: 8.r),
-                                                SizedBox(
-                                                  height: 6.h,
-                                                ),
-                                                Skeleton(
-                                                  variant: 'text',
-                                                  width: 60.w,
-                                                  height: 10.h,
-                                                  borderRadius: 8.r,
-                                                ),
-                                              ],
-                                            ),
-                                            Skeleton(
-                                              variant: 'rectangular',
-                                              borderRadius: 8.r,
-                                              width: 50.w,
-                                              height: 30.h,
-                                            ),
-                                          ],
-                                        )),
-                                  ),
-                                ),
-                              ]),
-                        ),
-                        SizedBox(height: 12.h),
-                        SizedBox(
-                          height: 58.h,
-                          child: ListView.separated(
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                return Container(
-                                  padding: EdgeInsets.all(8.w),
-                                  decoration: BoxDecoration(
-                                      color: Color.fromRGBO(
-                                        246,
-                                        246,
-                                        246,
-                                        1,
-                                      ),
-                                      borderRadius:
-                                          BorderRadius.circular(12.r)),
-                                  child: Row(
-                                    children: [
-                                      Skeleton(
-                                        variant: 'rectangular',
-                                        borderRadius: 12.r,
-                                        width: 30.w,
-                                        height: 30.h,
-                                      ),
-                                      SizedBox(
-                                        width: 8.w,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Skeleton(
-                                            variant: 'text',
-                                            borderRadius: 8.r,
-                                            width: 20.w,
-                                            height: 10.h,
-                                          ),
-                                          SizedBox(
-                                            height: 10.h,
-                                          ),
-                                          Skeleton(
-                                            variant: 'text',
-                                            borderRadius: 8.r,
-                                            width: 50.w,
-                                            height: 10.h,
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                );
-                              },
-                              separatorBuilder: (context, index) {
-                                return SizedBox(width: 12.w);
-                              },
-                              itemCount: 3),
-                        ),
-                        SizedBox(
-                          height: 24.h,
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 16.w, vertical: 5.h),
-                          decoration: BoxDecoration(
-                              color: Color.fromRGBO(
-                                246,
-                                246,
-                                246,
-                                1,
-                              ),
-                              borderRadius: BorderRadius.circular(12.r)),
-                          child: Column(children: [
-                            ...[1, 2, 3, 4, 5, 6].map((e) {
-                              return Column(
+                  loading: () => SingleChildScrollView(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 44.h),
+                          Container(
+                            margin: EdgeInsets.zero,
+                            padding: EdgeInsets.zero,
+                            height: 264.h,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16.r),
+                            ),
+                            child: Stack(
+                                fit: StackFit.loose,
+                                alignment: Alignment.topCenter,
                                 children: [
-                                  ListTile(
-                                    dense: true,
-                                    minVerticalPadding: 0,
-                                    // visualDensity: VisualDensity(vertical: ,),
-                                    contentPadding: EdgeInsets.zero,
-                                    leading: Skeleton(
-                                      variant: 'rectangular',
-                                      borderRadius: 8.r,
-                                      width: 20.w,
-                                      height: 20.h,
-                                    ),
-                                    title: Skeleton(
-                                      variant: 'text',
-                                      borderRadius: 8.r,
-                                      width: 40.w,
-                                      height: 10.h,
-                                    ),
-                                    subtitle: Skeleton(
-                                      variant: 'text',
-                                      borderRadius: 8.r,
-                                      width: 50.w,
-                                      height: 10.h,
-                                    ),
-                                    trailing: Skeleton(
-                                      variant: 'rectangular',
-                                      borderRadius: 8.r,
-                                      width: 20.w,
-                                      height: 20.h,
+                                  Positioned.fill(
+                                    // top: 0,
+                                    // left: 0,
+                                    child: Align(
+                                      alignment: Alignment.topCenter,
+                                      child: CarouselSlider.builder(
+                                        itemCount: 1,
+                                        options: CarouselOptions(
+                                            // height: 198.h,
+                                            viewportFraction: 1,
+                                            aspectRatio: 16 / 9,
+                                            initialPage: 0,
+                                            autoPlay: false,
+                                            enlargeCenterPage: true,
+                                            autoPlayCurve: Curves.fastOutSlowIn,
+                                            scrollDirection: Axis.horizontal,
+                                            onPageChanged: (index, reason) {
+                                              setState(() {
+                                                _currentIndex = index;
+                                              });
+                                            }),
+                                        itemBuilder: (BuildContext context,
+                                                int itemIndex,
+                                                int pageViewIndex) =>
+                                            Container(
+                                                width: double.infinity,
+                                                margin: EdgeInsets.zero,
+                                                padding: EdgeInsets.zero,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(16.r),
+                                                  color: Color.fromRGBO(
+                                                      235, 235, 235, 1),
+                                                ),
+                                                child: Skeleton(
+                                                  variant: "rectangular",
+                                                  borderRadius: 16.r,
+                                                )),
+                                      ),
                                     ),
                                   ),
-                                  Divider(
-                                    thickness: 1,
-                                    color: Helper.baseBlack.withOpacity(0.04),
-                                  )
-                                ],
-                              );
-                            }).toList(),
-                          ]),
-                        ),
-                      ]),
+                                  Positioned.fill(
+                                    bottom: 7,
+                                    // left: 20,
+                                    child: Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: Container(
+                                          height: 88.h,
+                                          width: double.infinity,
+                                          margin: EdgeInsets.zero,
+                                          padding: EdgeInsets.all(20.w),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(15.r),
+                                              color: Color.fromRGBO(
+                                                  246, 246, 246, 1)),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Skeleton(
+                                                      variant: 'text',
+                                                      width: 80.w,
+                                                      height: 15.h,
+                                                      borderRadius: 8.r),
+                                                  SizedBox(
+                                                    height: 6.h,
+                                                  ),
+                                                  Skeleton(
+                                                    variant: 'text',
+                                                    width: 60.w,
+                                                    height: 10.h,
+                                                    borderRadius: 8.r,
+                                                  ),
+                                                ],
+                                              ),
+                                              Skeleton(
+                                                variant: 'rectangular',
+                                                borderRadius: 8.r,
+                                                width: 50.w,
+                                                height: 30.h,
+                                              ),
+                                            ],
+                                          )),
+                                    ),
+                                  ),
+                                ]),
+                          ),
+                          // SizedBox(height: 12.h),
+                          // SizedBox(
+                          //   height: 58.h,
+                          //   child: ListView.separated(
+                          //       shrinkWrap: true,
+                          //       scrollDirection: Axis.horizontal,
+                          //       itemBuilder: (context, index) {
+                          //         return Container(
+                          //           padding: EdgeInsets.all(8.w),
+                          //           decoration: BoxDecoration(
+                          //               color: Color.fromRGBO(
+                          //                 246,
+                          //                 246,
+                          //                 246,
+                          //                 1,
+                          //               ),
+                          //               borderRadius:
+                          //                   BorderRadius.circular(12.r)),
+                          //           child: Row(
+                          //             children: [
+                          //               Skeleton(
+                          //                 variant: 'rectangular',
+                          //                 borderRadius: 12.r,
+                          //                 width: 30.w,
+                          //                 height: 30.h,
+                          //               ),
+                          //               SizedBox(
+                          //                 width: 8.w,
+                          //               ),
+                          //               Column(
+                          //                 crossAxisAlignment:
+                          //                     CrossAxisAlignment.start,
+                          //                 children: [
+                          //                   Skeleton(
+                          //                     variant: 'text',
+                          //                     borderRadius: 8.r,
+                          //                     width: 20.w,
+                          //                     height: 10.h,
+                          //                   ),
+                          //                   SizedBox(
+                          //                     height: 10.h,
+                          //                   ),
+                          //                   Skeleton(
+                          //                     variant: 'text',
+                          //                     borderRadius: 8.r,
+                          //                     width: 50.w,
+                          //                     height: 10.h,
+                          //                   ),
+                          //                 ],
+                          //               )
+                          //             ],
+                          //           ),
+                          //         );
+                          //       },
+                          //       separatorBuilder: (context, index) {
+                          //         return SizedBox(width: 12.w);
+                          //       },
+                          //       itemCount: 3),
+                          // ),
+                          // SizedBox(
+                          //   height: 24.h,
+                          // ),
+                          // Container(
+                          //   padding: EdgeInsets.symmetric(
+                          //       horizontal: 16.w, vertical: 5.h),
+                          //   decoration: BoxDecoration(
+                          //       color: Color.fromRGBO(
+                          //         246,
+                          //         246,
+                          //         246,
+                          //         1,
+                          //       ),
+                          //       borderRadius: BorderRadius.circular(12.r)),
+                          //   child: Column(children: [
+                          //     ...[1, 2, 3, 4, 5, 6].map((e) {
+                          //       return Column(
+                          //         children: [
+                          //           ListTile(
+                          //             dense: true,
+                          //             minVerticalPadding: 0,
+                          //             // visualDensity: VisualDensity(vertical: ,),
+                          //             contentPadding: EdgeInsets.zero,
+                          //             leading: Skeleton(
+                          //               variant: 'rectangular',
+                          //               borderRadius: 8.r,
+                          //               width: 20.w,
+                          //               height: 20.h,
+                          //             ),
+                          //             title: Skeleton(
+                          //               variant: 'text',
+                          //               borderRadius: 8.r,
+                          //               width: 40.w,
+                          //               height: 10.h,
+                          //             ),
+                          //             subtitle: Skeleton(
+                          //               variant: 'text',
+                          //               borderRadius: 8.r,
+                          //               width: 50.w,
+                          //               height: 10.h,
+                          //             ),
+                          //             trailing: Skeleton(
+                          //               variant: 'rectangular',
+                          //               borderRadius: 8.r,
+                          //               width: 20.w,
+                          //               height: 20.h,
+                          //             ),
+                          //           ),
+                          //           Divider(
+                          //             thickness: 1,
+                          //             color: Helper.baseBlack.withOpacity(0.04),
+                          //           )
+                          //         ],
+                          //       );
+                          //     }).toList(),
+                          //   ]),
+                          // ),
+                        ]),
+                  ),
                 ),
               ),
             ],

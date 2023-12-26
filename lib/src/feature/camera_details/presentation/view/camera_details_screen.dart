@@ -269,80 +269,85 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
       backgroundColor: Color.fromRGBO(247, 247, 247, 1),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.h),
-        child: Padding(
-          padding: EdgeInsets.only(right: 16.w, left: 16.w),
-          child: AppBar(
-            centerTitle: true,
-            automaticallyImplyLeading: false,
-            titleSpacing: 0.0,
-            leading: InkWell(
-              onTap: () {
-                context.pop();
-              },
-              child: Transform.rotate(
-                angle: 180 * (3.1415926535 / 180),
-                child: SvgPicture.asset('assets/images/chevron-right.svg',
-                    color: Helper.iconColor, fit: BoxFit.contain),
+        child: Container(
+         color: Colors.white,
+          child: Padding(
+            padding: EdgeInsets.only(right: 16.w, left: 16.w),
+            child: AppBar(
+              backgroundColor: Colors.white,
+              surfaceTintColor: Colors.white,
+              centerTitle: true,
+              automaticallyImplyLeading: false,
+              titleSpacing: 0.0,
+              leading: InkWell(
+                onTap: () {
+                  context.pop();
+                },
+                child: Transform.rotate(
+                  angle: 180 * (3.1415926535 / 180),
+                  child: SvgPicture.asset('assets/images/chevron-right.svg',
+                      color: Helper.iconColor, fit: BoxFit.contain),
+                ),
               ),
+              leadingWidth: 24,
+              title: cameraByIdData.when(
+                skipLoadingOnRefresh: false,
+                skipLoadingOnReload: false,
+                data: (cameraData) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Text(
+                                  cameraData.name!,
+                                  style: TextStyle(
+                                      color: Helper.baseBlack,
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                SizedBox(
+                                  width: 6.w,
+                                ),
+                                // SvgPicture.asset('assets/images/chevron-down.svg'),
+                              ],
+                            ),
+                            Text(
+                              widget.projectName,
+                              style: TextStyle(
+                                  color: Helper.baseBlack.withOpacity(0.5),
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ]),
+                      SvgPicture.asset('assets/images/chevron-down.svg'),
+                    ],
+                  );
+                },
+                error: (err, _) {
+                  return const Text("Error",
+                      style: TextStyle(color: Helper.errorColor));
+                },
+                loading: () => LoadingAppBar(),
+              ),
+              actions: [
+                InkWell(
+                    onTap: () {
+                      _showCameraBottomSheet(context);
+                    },
+                    child: SvgPicture.asset('assets/images/dots-vertical.svg')),
+              ],
+              actionsIconTheme: IconThemeData(color: Helper.iconColor),
             ),
-            leadingWidth: 24,
-            title: cameraByIdData.when(
-              skipLoadingOnRefresh: false,
-              skipLoadingOnReload: false,
-              data: (cameraData) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Text(
-                                cameraData.name!,
-                                style: TextStyle(
-                                    color: Helper.baseBlack,
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              SizedBox(
-                                width: 6.w,
-                              ),
-                              // SvgPicture.asset('assets/images/chevron-down.svg'),
-                            ],
-                          ),
-                          Text(
-                            widget.projectName,
-                            style: TextStyle(
-                                color: Helper.baseBlack.withOpacity(0.5),
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w400),
-                          ),
-                        ]),
-                    SvgPicture.asset('assets/images/chevron-down.svg'),
-                  ],
-                );
-              },
-              error: (err, _) {
-                return const Text("Error",
-                    style: TextStyle(color: Helper.errorColor));
-              },
-              loading: () => LoadingAppBar(),
-            ),
-            actions: [
-              InkWell(
-                  onTap: () {
-                    _showCameraBottomSheet(context);
-                  },
-                  child: SvgPicture.asset('assets/images/dots-vertical.svg')),
-            ],
-            actionsIconTheme: IconThemeData(color: Helper.iconColor),
           ),
         ),
       ),
@@ -357,23 +362,24 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                 if (imagesData.images!.isEmpty) {
                   showBottomBar = false;
 
-                  return Container(
-                    alignment: Alignment.center,
-                    height: MediaQuery.of(context).size.height,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset('assets/images/illustration.svg'),
-                        SizedBox(height: 16.h),
-                        Text(
-                          "No Images yet",
-                          style: TextStyle(
-                              color: Helper.textColor900,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ],
+                  return Center(
+                    child: Container(
+                      height: MediaQuery.of(context).size.height / 2,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset('assets/images/illustration.svg'),
+                          SizedBox(height: 16.h),
+                          Text(
+                            "No Images yet",
+                            style: TextStyle(
+                                color: Helper.textColor900,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 }
