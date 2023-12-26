@@ -240,7 +240,7 @@ class _ProjectDetailsScreenState
                             padding: EdgeInsets.only(
                                 top: 3.h, bottom: 3.h, left: 2.w, right: 3.w),
                             blur: 3,
-                            borderRadius: BorderRadius.circular(20.r),
+                            borderRadius: BorderRadius.circular(30.r),
                             color: Colors.white,
                             child: InkWell(
                               onTap: () {
@@ -262,9 +262,9 @@ class _ProjectDetailsScreenState
                           child: BlurryContainer(
                             height: 30,
                             padding: EdgeInsets.only(
-                                top: 4.h, bottom: 5.h, left: 6.w, right: 6.w),
+                                top: 5.h, bottom: 5.h, left: 6.w, right: 5.w),
                             blur: 3,
-                            borderRadius: BorderRadius.circular(20.r),
+                            borderRadius: BorderRadius.circular(30.r),
                             color: Colors.white,
                             child: InkWell(
                               onTap: () {
@@ -273,7 +273,7 @@ class _ProjectDetailsScreenState
                               },
                               child: SvgPicture.asset(
                                   'assets/images/8666681_edit_icon.svg',
-                                  color: Helper.iconColor, width: 16, height: 16),
+                                  color: Helper.iconColor, width: 18, height: 18),
                             ),
                           ),
                         ),
