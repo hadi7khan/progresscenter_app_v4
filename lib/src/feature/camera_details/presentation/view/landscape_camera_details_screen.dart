@@ -77,79 +77,82 @@ class _LandscapeCameraDetailsScreenState
   @override
   Widget build(BuildContext context) {
     final selectedImageData = ref.watch(selectedImageDataProvider);
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: SafeArea(
-        child: Consumer(builder: (context, ref, child) {
-          print("state printed" + selectedImageData.toString());
-          return Center(
-            child: Expanded(
-              child: Stack(
-                // fit: StackFit.loose,
-                children: [
-                AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: InteractiveViewer(
-                    clipBehavior: Clip.none,
-                    maxScale : 10,
-                    child: Image.network(
-                      selectedImageData == null
-                          ? widget.imagesData.images![0].urlPreview!
-                          : selectedImageData.urlPreview!,
-                      // width: double.infinity,
-                      height: MediaQuery.of(context).size.height,
-                      fit: BoxFit.fill,
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) return child;
-                  
-                        return Center(
-                          child: CircularProgressIndicator(
-                            color: Helper.primary,
-                            value: (loadingProgress != null)
-                                ? (loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes!)
-                                : 0,
-                          ),
-                        );
-                      },
-                      errorBuilder: (BuildContext context, Object exception,
-                          StackTrace? stackTrace) {
-                        return ClipRRect(
-                          child: Image.asset(
-                            'assets/images/error_image.jpeg',
-                            fit: BoxFit.cover,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 16,
-                  right: 16,
-                  child: InkWell(
-                    onTap: () {
-                      context.pop();
-                    },
-                    child: BlurryContainer(
-                      blur: 3,
-                      padding: EdgeInsets.symmetric(
-                          vertical: 10.h, horizontal: 4.w),
-                      borderRadius: BorderRadius.circular(30.r),
-                      color: Colors.white,
-                      child: SvgPicture.asset(
-                        'assets/images/close-x.svg',
-                        height: 16.h,
-                        width: 16.w,
-                        color: Colors.black,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+    value: SystemUiOverlayStyle(),
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: SafeArea(
+          child: Consumer(builder: (context, ref, child) {
+            print("state printed" + selectedImageData.toString());
+            return Center(
+              child: Expanded(
+                child: Stack(
+                  // fit: StackFit.loose,
+                  children: [
+                  AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: InteractiveViewer(
+                      clipBehavior: Clip.none,
+                      maxScale : 10,
+                      child: Image.network(
+                        selectedImageData == null
+                            ? widget.imagesData.images![0].urlPreview!
+                            : selectedImageData.urlPreview!,
+                        // width: double.infinity,
+                        height: MediaQuery.of(context).size.height,
+                        fit: BoxFit.fill,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                    
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: Helper.primary,
+                              value: (loadingProgress != null)
+                                  ? (loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!)
+                                  : 0,
+                            ),
+                          );
+                        },
+                        errorBuilder: (BuildContext context, Object exception,
+                            StackTrace? stackTrace) {
+                          return ClipRRect(
+                            child: Image.asset(
+                              'assets/images/error_image.jpeg',
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ),
-                ),
-              ]),
-            ),
-          );
-        }),
+                  Positioned(
+                    top: 16,
+                    right: 16,
+                    child: InkWell(
+                      onTap: () {
+                        context.pop();
+                      },
+                      child: BlurryContainer(
+                        blur: 3,
+                        padding: EdgeInsets.symmetric(
+                            vertical: 10.h, horizontal: 4.w),
+                        borderRadius: BorderRadius.circular(30.r),
+                        color: Colors.white,
+                        child: SvgPicture.asset(
+                          'assets/images/close-x.svg',
+                          height: 16.h,
+                          width: 16.w,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                ]),
+              ),
+            );
+          }),
+        ),
       ),
     );
   }
