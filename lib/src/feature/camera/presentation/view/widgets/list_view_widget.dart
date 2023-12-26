@@ -1,4 +1,5 @@
 import 'package:blurrycontainer/blurrycontainer.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -44,22 +45,35 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                           topLeft: Radius.circular(16.r),
                           topRight: Radius.circular(16.r)),
                       child: AspectRatio(
-                        aspectRatio: 16 / 9,
-                        child: Image.network(
-                          widget.data.latestImage!.urlThumb,
-                          // height: 284.h,
-                          fit: BoxFit.fill,
-                          errorBuilder: (BuildContext context, Object exception,
-                              StackTrace? stackTrace) {
-                            return ClipRRect(
+                          aspectRatio: 16 / 9,
+                          child: CachedNetworkImage(
+                            imageUrl: widget.data.latestImage!.urlThumb,
+                            // memCacheHeight: height.toInt(), memCacheWidth: width.toInt()
+                            fit: BoxFit.fill,
+                            // placeholder: (context, url) =>
+                            //     CircularProgressIndicator(),
+                            errorWidget: (context, url, error) => ClipRRect(
                               child: Image.asset(
                                 'assets/images/error_image.jpeg',
-                                fit: BoxFit.cover,
+                                fit: BoxFit.fill,
                               ),
-                            );
-                          },
-                        ),
-                      ))
+                            ),
+                          )
+                          //  Image.network(
+                          //   widget.data.latestImage!.urlThumb,
+                          //   // height: 284.h,
+                          //   fit: BoxFit.fill,
+                          //   errorBuilder: (BuildContext context, Object exception,
+                          //       StackTrace? stackTrace) {
+                          //     return ClipRRect(
+                          //       child: Image.asset(
+                          //         'assets/images/error_image.jpeg',
+                          //         fit: BoxFit.cover,
+                          //       ),
+                          //     );
+                          //   },
+                          // ),
+                          ))
                   : ClipRRect(
                       borderRadius: BorderRadius.circular(16.r),
                       child: Image.asset(
@@ -152,8 +166,13 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                   children: [
                                     Icon(
                                       Icons.circle,
-                                      color:widget.data.latestImage != null
-                                        ?  isDateTimeWithin24Hours( widget.data.latestImage.datetime,)  ?Helper.successColor : Helper.errorColor : Helper.errorColor,
+                                      color: widget.data.latestImage != null
+                                          ? isDateTimeWithin24Hours(
+                                              widget.data.latestImage.datetime,
+                                            )
+                                              ? Helper.successColor
+                                              : Helper.errorColor
+                                          : Helper.errorColor,
                                       size: 10,
                                     ),
                                     SizedBox(
@@ -243,19 +262,17 @@ showDateTimeString(datetime, dateFormat) {
   DateTime dateTime = DateTime.parse(dateWithT);
   print("datetime" + dateTime.toString());
 
- 
   // print("isactive" + isActive.toString());
 
-  final String formattedTime =
-      DateFormat(dateFormat).format(dateTime);
-      // final String formatTimeForBool =
-      // DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
-      // isDateTimeWithin24Hours(formatTimeForBool);
-      // print("formatTimeForBool" + formatTimeForBool.toString());
+  final String formattedTime = DateFormat(dateFormat).format(dateTime);
+  // final String formatTimeForBool =
+  // DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
+  // isDateTimeWithin24Hours(formatTimeForBool);
+  // print("formatTimeForBool" + formatTimeForBool.toString());
   return formattedTime;
 }
 
- bool isDateTimeWithin24Hours(String datetime) {
+bool isDateTimeWithin24Hours(String datetime) {
   DateTime now = DateTime.now();
   // Format the DateTime object into the desired format
   String dateWithT = datetime!.substring(0, 8) + 'T' + datetime!.substring(8);

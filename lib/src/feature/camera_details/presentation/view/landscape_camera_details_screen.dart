@@ -50,6 +50,7 @@ class _LandscapeCameraDetailsScreenState
      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         systemNavigationBarColor: Colors.black,
         ));
+        SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
   }
 
   showDate(String date) {
@@ -78,7 +79,9 @@ class _LandscapeCameraDetailsScreenState
   Widget build(BuildContext context) {
     final selectedImageData = ref.watch(selectedImageDataProvider);
     return AnnotatedRegion<SystemUiOverlayStyle>(
-    value: SystemUiOverlayStyle(),
+    value: SystemUiOverlayStyle(
+      
+    ),
       child: Scaffold(
         backgroundColor: Colors.black,
         body: SafeArea(
@@ -95,6 +98,7 @@ class _LandscapeCameraDetailsScreenState
                       child: InteractiveViewer(
                         clipBehavior: Clip.none,
                         maxScale : 10,
+                        minScale: 4,
                         child: Image.network(
                           selectedImageData == null
                               ? widget.imagesData.images![0].urlPreview!
@@ -104,7 +108,7 @@ class _LandscapeCameraDetailsScreenState
                           fit: BoxFit.fill,
                           loadingBuilder: (context, child, loadingProgress) {
                             if (loadingProgress == null) return child;
-                      
+                                              
                             return Center(
                               child: CircularProgressIndicator(
                                 color: Helper.primary,
@@ -132,7 +136,7 @@ class _LandscapeCameraDetailsScreenState
                 ),
                 Positioned(
                       top: 16,
-                      right: 16,
+                      right: 0,
                       child: InkWell(
                         onTap: () {
                           context.pop();
