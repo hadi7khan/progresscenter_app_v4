@@ -9,6 +9,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_app_bar.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_cam_details.dart';
@@ -17,6 +19,8 @@ import 'package:progresscenter_app_v4/src/feature/bottom_navigation/view/camera_
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/camera_by_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/images_by_cam_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/selected_imagedata_provider.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/widgets/overlay_widget.dart';
+import 'package:widget_zoom/widget_zoom.dart';
 
 class CameraDetailsSreen extends ConsumerStatefulWidget {
   final String projectId;
@@ -47,6 +51,9 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
   TransformationController? controller;
   AnimationController? animationController;
   Animation<Matrix4>? animation;
+  OverlayEntry? entry;
+  PhotoViewControllerBase? photoController;
+  PhotoViewScaleStateController? scaleStateController;
 
   @override
   void initState() {
@@ -55,8 +62,14 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 200),
-    )..addListener(() {
+    )
+      ..addListener(() {
         controller!.value = animation!.value;
+      })
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          removeOverlay();
+        }
       });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(cameraByIdControllerProvider.notifier).getCameraById(
@@ -73,12 +86,92 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     // getDaysInMonth(_currentMonth);
   }
 
+  removeOverlay() {
+    entry!.remove();
+    entry = null;
+  }
+
   resetAnimation() {
     animation = Matrix4Tween(
       begin: controller!.value,
       end: Matrix4.identity(),
-    ).animate(CurvedAnimation(parent: animationController!, curve: Curves.decelerate));
+    ).animate(CurvedAnimation(
+        parent: animationController!, curve: Curves.decelerate));
     animationController!.forward(from: 0);
+  }
+
+  void showOverlay(BuildContext context, image) {
+    final renderBox = context.findRenderObject()! as RenderBox;
+    final offSet = renderBox.localToGlobal(Offset.zero);
+    final size = MediaQuery.of(context).size;
+    entry = OverlayEntry(builder: (context) {
+      return buildImage(image);
+      // Stack(
+      //   children: [
+      //     Positioned.fill(
+      //       child: Container(color: Colors.black)
+      //     ),
+      //     Positioned(
+      //       left: offSet.dx,
+      //       top: offSet.dy,
+      //       width: size.width,
+      //       child: buildImage(image,)),
+      //   ],
+      // );
+    });
+    final overlay = Overlay.of(context);
+    overlay.insert(entry!);
+  }
+
+  Widget buildImage(
+    String image,
+  ) {
+    return Builder(
+        builder: (BuildContext context) => InteractiveViewer(
+              transformationController: controller,
+              panEnabled: false,
+              onInteractionEnd: resetAnimation(),
+              onInteractionStart: (details) {
+                if (details.pointerCount < 2) return;
+                if (entry == null) {
+                  showOverlay(context, image);
+                }
+              },
+              clipBehavior: Clip.none,
+              minScale: 1,
+              maxScale: 4,
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Image.network(
+                  image,
+                  width: double.infinity,
+                  // height: 210.h,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: Helper.primary,
+                        value: (loadingProgress != null)
+                            ? (loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!)
+                            : 0,
+                      ),
+                    );
+                  },
+                  errorBuilder: (BuildContext context, Object exception,
+                      StackTrace? stackTrace) {
+                    return ClipRRect(
+                      child: Image.asset(
+                        'assets/images/error_image.jpeg',
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ));
   }
 
   List<DateTime> getDaysInMonth(currentMonth, bool isString) {
@@ -146,6 +239,13 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
   //   ];
   //   return daysInMonth[month - 1];
   // }
+
+  @override
+  void dispose() {
+    controller!.dispose();
+    animationController!.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -280,12 +380,9 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                           color: Helper.textColor300,
                           child: AspectRatio(
                             aspectRatio: 16 / 9,
-                            child: InteractiveViewer(
-                              transformationController: controller,
-                              onInteractionEnd: resetAnimation(),
-                              clipBehavior: Clip.none,
-                              maxScale: 10,
-                              child: Image.network(
+                            child: WidgetZoom(
+                              heroAnimationTag: 'tag',
+                              zoomWidget: Image.network(
                                 selectedImageData == null
                                     ? imagesData.images![0].urlPreview!
                                     : selectedImageData.urlPreview!,
@@ -295,15 +392,14 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                 loadingBuilder:
                                     (context, child, loadingProgress) {
                                   if (loadingProgress == null) return child;
-
+                              
                                   return Center(
                                     child: CircularProgressIndicator(
                                       color: Helper.primary,
                                       value: (loadingProgress != null)
                                           ? (loadingProgress
                                                   .cumulativeBytesLoaded /
-                                              loadingProgress
-                                                  .expectedTotalBytes!)
+                                              loadingProgress.expectedTotalBytes!)
                                           : 0,
                                     ),
                                   );
@@ -319,7 +415,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                 },
                               ),
                             ),
-                          ),
+                          )
                         ),
                         Positioned(
                           top: 16,

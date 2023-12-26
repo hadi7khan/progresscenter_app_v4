@@ -121,6 +121,9 @@ dependencies:
   webview_flutter: 4.4.2
   vimeo_player_flutter: 0.1.0
   vimeo_video_player: 0.0.10
+  pinch_zoom: 2.0.0
+  photo_view: 0.14.0
+  widget_zoom: 0.0.3
 
 dev_dependencies:
   flutter_test:
