@@ -9,8 +9,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:photo_view/photo_view.dart';
-import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_app_bar.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_cam_details.dart';
@@ -19,8 +17,7 @@ import 'package:progresscenter_app_v4/src/feature/bottom_navigation/view/camera_
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/camera_by_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/images_by_cam_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/selected_imagedata_provider.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/widgets/overlay_widget.dart';
-import 'package:widget_zoom/widget_zoom.dart';
+import 'package:zoom_pinch_overlay/zoom_pinch_overlay.dart';
 
 class CameraDetailsSreen extends ConsumerStatefulWidget {
   final String projectId;
@@ -52,8 +49,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
   AnimationController? animationController;
   Animation<Matrix4>? animation;
   OverlayEntry? entry;
-  PhotoViewControllerBase? photoController;
-  PhotoViewScaleStateController? scaleStateController;
 
   @override
   void initState() {
@@ -380,9 +375,9 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                           color: Helper.textColor300,
                           child: AspectRatio(
                             aspectRatio: 16 / 9,
-                            child: WidgetZoom(
-                              heroAnimationTag: 'tag',
-                              zoomWidget: Image.network(
+                            child: ZoomOverlay(
+                            twoTouchOnly: true,
+                              child: Image.network(
                                 selectedImageData == null
                                     ? imagesData.images![0].urlPreview!
                                     : selectedImageData.urlPreview!,
