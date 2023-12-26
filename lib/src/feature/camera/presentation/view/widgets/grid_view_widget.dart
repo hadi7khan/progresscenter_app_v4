@@ -88,17 +88,33 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                         // SizedBox(
                         //   height: 6.h,
                         // ),
-                        Text(
-                          "Installed · " +
-                              showDate(
-                                  widget.data.installationDate, 'dd MMM yyyy'),
-                          style: TextStyle(
-                    letterSpacing: -0.3,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                            color: Helper.baseBlack.withOpacity(0.5),
-                          ),
-                        ),
+                        Row(
+                                children: [
+                                  // Text(
+                                  //   "Last Uploaded · ",
+                                  //   style: TextStyle(
+                                  //     letterSpacing: -0.3,
+                                  //     fontSize: 14.sp,
+                                  //     fontWeight: FontWeight.w400,
+                                  //     color: Helper.baseBlack.withOpacity(0.5),
+                                  //   ),
+                                  // ),
+                                  Text(
+                                    // "Last Uploaded · " +
+                                    widget.data.latestImage != null
+                                        ? showDateTimeString(
+                                            widget.data.latestImage.datetime,
+                                            'dd MMM yy · h:mma ')
+                                        : "N/A",
+                                    style: TextStyle(
+                                      letterSpacing: -0.3,
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w400,
+                                      color: Helper.baseBlack.withOpacity(0.5),
+                                    ),
+                                  ),
+                                ],
+                              ),
                       ],
                     )),
               ),
@@ -108,10 +124,13 @@ class _GridViewWidgetState extends State<GridViewWidget> {
   }
 }
 
-showDateTimeString(date, dateFormat) {
+showDateTimeString(datetime, dateFormat) {
   // Format the DateTime object into the desired format
-  String formattedDate = DateFormat(dateFormat).format(date);
-  return formattedDate;
+  String dateWithT = datetime!.substring(0, 8) + 'T' + datetime!.substring(8);
+  DateTime dateTime = DateTime.parse(dateWithT);
+  print("datetime"+ dateTime.toString());
+  final String formattedTime = DateFormat('dd MMM yy · h:mma ').format(dateTime);
+  return formattedTime;
 }
 
 showDate(date, dateFormat) {
