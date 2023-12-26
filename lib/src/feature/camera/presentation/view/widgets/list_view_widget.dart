@@ -240,9 +240,24 @@ showDateTimeString(datetime, dateFormat) {
   // Format the DateTime object into the desired format
   String dateWithT = datetime!.substring(0, 8) + 'T' + datetime!.substring(8);
   DateTime dateTime = DateTime.parse(dateWithT);
-  print("datetime"+ dateTime.toString());
-  final String formattedTime = DateFormat('dd MMM yy · h:mma ').format(dateTime);
+  print("datetime" + dateTime.toString());
+
+ 
+  // print("isactive" + isActive.toString());
+
+  final String formattedTime =
+      DateFormat('dd MMM yy · h:mma ').format(dateTime);
+      isDateTimeWithin24Hours(formattedTime);
   return formattedTime;
+}
+
+ isDateTimeWithin24Hours(String datetime) {
+  DateTime now = DateTime.now();
+  print("now" + now.toString());
+  DateTime dateTime = DateTime.parse(datetime);
+  print("dateTime" + dateTime.toString());
+  // Duration difference = now.difference(dateTime);s
+  // return difference.inHours < 24;
 }
 
 showDate(date, dateFormat) {
