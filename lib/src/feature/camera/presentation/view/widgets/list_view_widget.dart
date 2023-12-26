@@ -185,13 +185,13 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                       color: Helper.baseBlack.withOpacity(0.5),
                                     ),
                                   ),
-                                  Text( "12:45 PM · 12 Nov 2023",
+                                  Text(
                                     // "Last Uploaded · " +
-                                    // widget.data.latestImage.datetime != null
-                                    //     ? showDate(
-                                    //         widget.data.latestImage.datetime,
-                                    //         'dd MMM yy · h:mma ')
-                                    //     : "N/A",
+                                    widget.data.latestImage != null
+                                        ? showDateTimeString(
+                                            widget.data.latestImage.datetime,
+                                            'dd MMM yy · h:mma ')
+                                        : "N/A",
                                     style: TextStyle(
                                       letterSpacing: -0.3,
                                       fontSize: 14.sp,
@@ -236,30 +236,35 @@ class _ListViewWidgetState extends State<ListViewWidget> {
   }
 }
 
-showDateTimeString(date, dateFormat) {
+showDateTimeString(datetime, dateFormat) {
   // Format the DateTime object into the desired format
-  // Parse the string to a DateTime object
-  DateTime dateTime = DateTime.parse(date);
+  String dateWithT = datetime!.substring(0, 8) + 'T' + datetime!.substring(8);
+  DateTime dateTime = DateTime.parse(dateWithT);
+  print("datetime" + dateTime.toString());
 
-  // Format the DateTime object as text
-  String formattedDateTime =
-      DateFormat(dateFormat).format(dateTime);
-  return formattedDateTime;
+ 
+  // print("isactive" + isActive.toString());
+
+  final String formattedTime =
+      DateFormat('dd MMM yy · h:mma ').format(dateTime);
+      isDateTimeWithin24Hours(formattedTime);
+  return formattedTime;
+}
+
+ isDateTimeWithin24Hours(String datetime) {
+  DateTime now = DateTime.now();
+  print("now" + now.toString());
+  DateTime dateTime = DateTime.parse(datetime);
+  print("dateTime" + dateTime.toString());
+  // Duration difference = now.difference(dateTime);s
+  // return difference.inHours < 24;
 }
 
 showDate(date, dateFormat) {
-   // Parse the string to a DateTime object
-    DateTime dateTime = DateTime.parse(date);
+  // Parse the string to a DateTime object
+  DateTime dateTime = DateFormat("yyyyMMddHHmmss").parse(date);
 
-    // Format the time part of the DateTime object
-    String formattedTime = DateFormat.jm().format(dateTime);
-
-    // Format the date part of the DateTime object
-    String formattedDate =
-        DateFormat('d MMM y', 'en_US').format(dateTime);
-
-    // Combine the formatted time and date
-    String finalFormattedDateTime =
-        '$formattedTime · $formattedDate';
-  return finalFormattedDateTime;
+  // Format the date in the desired format
+  String formattedDate = DateFormat("hh:mm a · dd MMM, yyyy").format(dateTime);
+  return formattedDate;
 }

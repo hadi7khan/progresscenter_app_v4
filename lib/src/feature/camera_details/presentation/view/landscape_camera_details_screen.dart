@@ -78,211 +78,74 @@ class _LandscapeCameraDetailsScreenState
   Widget build(BuildContext context) {
     final selectedImageData = ref.watch(selectedImageDataProvider);
     return Scaffold(
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Consumer(builder: (context, ref, child) {
           print("state printed" + selectedImageData.toString());
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                Stack(
-                  // fit: StackFit.loose,
-                  children: [
-                  AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: InteractiveViewer(
-                      maxScale : 10,
-                      child: Image.network(
-                        selectedImageData == null
-                            ? widget.imagesData.images![0].urlPreview!
-                            : selectedImageData.urlPreview!,
-                        width: double.infinity,
-                          height: double.infinity, 
-                        fit: BoxFit.fill,
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
-                    
-                          return Center(
-                            child: CircularProgressIndicator(
-                              color: Helper.primary,
-                              value: (loadingProgress != null)
-                                  ? (loadingProgress.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes!)
-                                  : 0,
-                            ),
-                          );
-                        },
-                        errorBuilder: (BuildContext context, Object exception,
-                            StackTrace? stackTrace) {
-                          return ClipRRect(
-                            child: Image.asset(
-                              'assets/images/error_image.jpeg',
-                              fit: BoxFit.cover,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                  // Positioned(
-                  //   bottom: 16,
-                  //   left: 16,
-                  //   child: InkWell(
-                  //     onTap: () async {
-                  //       await _showDateBottomSheet(
-                  //           context,
-                  //           widget.imagesData.startDate!,
-                  //           widget.imagesData.endDate!,
-                  //           _selectedDate,
-                  //           widget.cameraId,
-                  //           widget.projectId,
-                  //           ref,
-                  //           currentMonth);
-                  //       setState(() {});
-                  //     },
-                  //     child: BlurryContainer(
-                  //         blur: 3,
-                  //         padding: EdgeInsets.symmetric(
-                  //             vertical: 6.h, horizontal: 8.w),
-                  //         borderRadius: BorderRadius.circular(30.r),
-                  //         color: Colors.white.withOpacity(0.1),
-                  //         child: Row(
-                  //           children: [
-                  //             SvgPicture.asset(
-                  //               'assets/images/timeline.svg',
-                  //               height: 16.h,
-                  //               width: 16.w,
-                  //               color: Colors.white,
-                  //             ),
-                  //             SizedBox(width: 4.w),
-                  //             Text(showDate(widget.imagesData.endDate!),
-                  //                 style: TextStyle(
-                  //                     color: Colors.white,
-                  //                     fontWeight: FontWeight.w500,
-                  //                     fontSize: 12.sp)),
-                  //           ],
-                  //         )),
-                  //   ),
-                  // ),
-                  Positioned(
-                    top: 16,
-                    right: 16,
-                    child: InkWell(
-                      onTap: () {
-                        context.pop();
+          return Center(
+            child: Expanded(
+              child: Stack(
+                // fit: StackFit.loose,
+                children: [
+                AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: InteractiveViewer(
+                    maxScale : 10,
+                    child: Image.network(
+                      selectedImageData == null
+                          ? widget.imagesData.images![0].urlPreview!
+                          : selectedImageData.urlPreview!,
+                      // width: double.infinity,
+                      height: MediaQuery.of(context).size.height,
+                      fit: BoxFit.fill,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                  
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: Helper.primary,
+                            value: (loadingProgress != null)
+                                ? (loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!)
+                                : 0,
+                          ),
+                        );
                       },
-                      child: BlurryContainer(
-                        blur: 3,
-                        padding: EdgeInsets.symmetric(
-                            vertical: 10.h, horizontal: 4.w),
-                        borderRadius: BorderRadius.circular(30.r),
-                        color: Colors.white,
-                        child: SvgPicture.asset(
-                          'assets/images/close-x.svg',
-                          height: 16.h,
-                          width: 16.w,
-                          color: Colors.black,
-                        ),
+                      errorBuilder: (BuildContext context, Object exception,
+                          StackTrace? stackTrace) {
+                        return ClipRRect(
+                          child: Image.asset(
+                            'assets/images/error_image.jpeg',
+                            fit: BoxFit.cover,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 16,
+                  right: 16,
+                  child: InkWell(
+                    onTap: () {
+                      context.pop();
+                    },
+                    child: BlurryContainer(
+                      blur: 3,
+                      padding: EdgeInsets.symmetric(
+                          vertical: 10.h, horizontal: 4.w),
+                      borderRadius: BorderRadius.circular(30.r),
+                      color: Colors.white,
+                      child: SvgPicture.asset(
+                        'assets/images/close-x.svg',
+                        height: 16.h,
+                        width: 16.w,
+                        color: Colors.black,
                       ),
                     ),
                   ),
-                ]),
-                SizedBox(height: 6.h),
-                // SizedBox(
-                //   height: 84.h,
-                //   child: ListView.separated(
-                //       separatorBuilder: (context, builder) {
-                //         return SizedBox(
-                //           width: 2.w,
-                //         );
-                //       },
-                //       itemCount: widget.imagesData.images!.length,
-                //       shrinkWrap: true,
-                //       physics: BouncingScrollPhysics(),
-                //       scrollDirection: Axis.horizontal,
-                //       itemBuilder: ((context, index) {
-                //         String dateWithT = widget.imagesData.images![index].datetime!
-                //                 .substring(0, 8) +
-                //             'T' +
-                //             widget.imagesData.images![index].datetime!.substring(8);
-                //         DateTime dateTime = DateTime.parse(dateWithT);
-                //         final String formattedTime =
-                //             DateFormat('h:mm a').format(dateTime);
-                //         return InkWell(
-                //           onTap: () {
-                //             setState(() {
-                //               _selectedImageIndex = index;
-                //             });
-                //             final imageData = ImageData(
-                //               name: widget.imagesData.images![index].name,
-                //               dateTime: widget.imagesData.images![index].datetime,
-                //               camera: widget.imagesData.images![index].camera,
-                //               id: widget.imagesData.images![index].id,
-                //               urlPreview: widget.imagesData.images![index].urlPreview,
-                //             );
-                    
-                //             ref
-                //                 .read(selectedImageDataProvider.notifier)
-                //                 .setImageData(imageData);
-                //           },
-                //           child: Padding(
-                //             padding: EdgeInsets.symmetric(
-                //                 horizontal: 4.w, vertical: 2.h),
-                //             child: Column(
-                //                 mainAxisAlignment: MainAxisAlignment.center,
-                //                 mainAxisSize: MainAxisSize.min,
-                //                 children: [
-                //                   Container(
-                //                     padding: EdgeInsets.zero,
-                //                     decoration: BoxDecoration(
-                //                       borderRadius: BorderRadius.circular(8.r),
-                //                       border: _selectedImageIndex == index
-                //                           ? Border.all(
-                //                               color: Helper.primary,
-                //                               width: 2.w,
-                //                             )
-                //                           : Border.all(
-                //                               width: 2.w,
-                //                               color: Colors.transparent),
-                //                     ),
-                //                     child: ClipRRect(
-                //                       borderRadius: BorderRadius.circular(4.r),
-                //                       child: Image.network(
-                //                         widget.imagesData.images![index].urlThumb!,
-                //                         width: 51.w,
-                //                         height: 51.h,
-                //                         fit: BoxFit.fill,
-                //                         errorBuilder: (BuildContext context,
-                //                             Object exception,
-                //                             StackTrace? stackTrace) {
-                //                           return ClipRRect(
-                //                             child: Image.asset(
-                //                               'assets/images/error_image.jpeg',
-                //                               width: 51.w,
-                //                               height: 51.h,
-                //                               fit: BoxFit.fill,
-                //                             ),
-                //                           );
-                //                         },
-                //                       ),
-                //                     ),
-                //                   ),
-                //                   SizedBox(
-                //                     height: 4.h,
-                //                   ),
-                //                   Text(
-                //                     formattedTime,
-                //                     style: TextStyle(
-                //                         letterSpacing: -0.3,
-                //                         color: Helper.textColor700,
-                //                         fontSize: 10.sp,
-                //                         fontWeight: FontWeight.w500),
-                //                   )
-                //                 ]),
-                //           ),
-                //         );
-                //       })),
-                // ),
-              ],
+                ),
+              ]),
             ),
           );
         }),

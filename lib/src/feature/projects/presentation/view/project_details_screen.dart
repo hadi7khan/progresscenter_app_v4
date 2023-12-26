@@ -93,6 +93,7 @@ class _ProjectDetailsScreenState
 
   @override
   Widget build(BuildContext context) {
+    
     print("users passed" + widget.projectUsers.toString());
     final projectByIdData = ref.watch(
         projectByIdControllerProvider.select((value) => value.projectDetails));
@@ -261,7 +262,7 @@ class _ProjectDetailsScreenState
                           child: BlurryContainer(
                             height: 30,
                             padding: EdgeInsets.only(
-                                top: 5.h, bottom: 5.h, left: 6.w, right: 6.w),
+                                top: 4.h, bottom: 5.h, left: 6.w, right: 6.w),
                             blur: 3,
                             borderRadius: BorderRadius.circular(20.r),
                             color: Colors.white,
@@ -414,6 +415,7 @@ class _ProjectDetailsScreenState
                 child: projectByIdData.when(
                   data: (data) {
                     projectByIdData == data;
+
                     print("project id data passed" +
                         projectByIdData.value.toString());
                     List<MyListItem> myItems = [
@@ -436,6 +438,8 @@ class _ProjectDetailsScreenState
                     ];
                     print("this is the assetMap before loop" +
                         assetMap.toString());
+                        filteredLinks = [];
+                        assetMap = {};
                     for (var asset in data.assets!) {
                       String name = asset.name!;
                       int count = asset.count!;
