@@ -37,7 +37,8 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
           padding: EdgeInsets.only(top: 28.h, left: 20.w, right: 20.w),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r)),
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r)),
             color: Colors.white,
           ),
           height: MediaQuery.of(context).size.height * 0.7,
@@ -93,28 +94,57 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                           showAddMember = true;
                         });
                       },
-                      child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 5.w, vertical: 22.h),
-                        child: Row(children: [
-                          SvgPicture.asset('assets/images/plus.svg',
-                              color: Helper.primary),
-                          SizedBox(width: 5.h),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 5.w,
-                            ),
-                            child: Text(
-                              "Add member",
-                              style: TextStyle(
-                                  letterSpacing: -0.3,
-                                  color: Helper.baseBlack,
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w500),
-                            ),
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 15.h),
+                        height: 44.h,
+                        child: ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: Container(
+                              decoration: BoxDecoration(
+                                color: Helper.bottomIconBack,
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              padding: EdgeInsets.all(8.w),
+                              child: SvgPicture.asset('assets/images/plus.svg',
+                                  // width: 44.w,
+                                  // height: 44.h,
+                                  fit: BoxFit.cover,
+                                  colorFilter: ColorFilter.mode(
+                                      Helper.primary, BlendMode.srcIn))),
+                          title: Text(
+                            "Add member",
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Helper.baseBlack,
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w500),
                           ),
-                        ]),
+                        ),
                       ),
+
+                      // Padding(
+                      //   padding:
+                      //       EdgeInsets.symmetric(horizontal: 5.w, vertical: 22.h),
+                      //   child:
+                      // Row(children: [
+                      //   SvgPicture.asset('assets/images/plus.svg',
+                      //       color: Helper.primary),
+                      //   SizedBox(width: 5.h),
+                      //   Padding(
+                      //     padding: EdgeInsets.symmetric(
+                      //       horizontal: 5.w,
+                      //     ),
+                      //     child: Text(
+                      //       "Add member",
+                      //       style: TextStyle(
+                      //           letterSpacing: -0.3,
+                      //           color: Helper.baseBlack,
+                      //           fontSize: 18.sp,
+                      //           fontWeight: FontWeight.w500),
+                      //     ),
+                      //   ),
+                      // ]),
+                      // ),
                     )
                   else
                     AddMemberWidget(),
@@ -128,7 +158,8 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                         return ListTile(
                           horizontalTitleGap: 12.w,
                           // dense: true,
-                          visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                          visualDensity:
+                              VisualDensity(horizontal: 0, vertical: -4),
                           contentPadding: EdgeInsets.only(bottom: 10.h),
                           leading: AvatarWidget(
                             dpUrl: widget.data[index].dp != null
@@ -177,7 +208,7 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                                               ),
                                               actions: <Widget>[
                                                 // if (cancelActionText != null)
-        
+
                                                 CupertinoDialogAction(
                                                   child: Text(
                                                     "Cancel",
@@ -194,7 +225,8 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                                                     child: Text(
                                                       "Remove",
                                                       style: TextStyle(
-                                                        color: Helper.errorColor,
+                                                        color:
+                                                            Helper.errorColor,
                                                       ),
                                                     ),
                                                     onPressed: () {
@@ -207,12 +239,11 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                                                         context.pop();
                                                         ScaffoldMessenger.of(
                                                                 context)
-                                                            .showSnackBar(
-                                                                const SnackBar(
-                                                                    backgroundColor:
-                                                                        Colors.red,
-                                                                    content: Text(
-                                                                        "Member Revoked")));
+                                                            .showSnackBar(const SnackBar(
+                                                                backgroundColor:
+                                                                    Colors.red,
+                                                                content: Text(
+                                                                    "Member Revoked")));
                                                       });
                                                       setState(() {});
                                                     }),
@@ -226,17 +257,21 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                                                 child: AlertDialog(
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
-                                                        BorderRadius.circular(14.r),
+                                                        BorderRadius.circular(
+                                                            14.r),
                                                   ),
-                                                  content: StatefulBuilder(builder:
-                                                      (BuildContext context,
-                                                          StateSetter setState) {
+                                                  content: StatefulBuilder(
+                                                      builder:
+                                                          (BuildContext context,
+                                                              StateSetter
+                                                                  setState) {
                                                     return SingleChildScrollView(
                                                       child: Column(
                                                         mainAxisSize:
                                                             MainAxisSize.min,
                                                         mainAxisAlignment:
-                                                            MainAxisAlignment.start,
+                                                            MainAxisAlignment
+                                                                .start,
                                                         crossAxisAlignment:
                                                             CrossAxisAlignment
                                                                 .start,
@@ -246,7 +281,8 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                                                               text:
                                                                   "Are you sure you want to remove ",
                                                               style: TextStyle(
-                                                                  fontSize: 14.sp,
+                                                                  fontSize:
+                                                                      14.sp,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w500,
@@ -296,79 +332,96 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                                                   actions: [
                                                     TextButton(
                                                       onPressed: () async {
-                                                        print("project user data " +
-                                                            widget.data.id
-                                                                .toString());
+                                                        print(
+                                                            "project user data " +
+                                                                widget.data.id
+                                                                    .toString());
                                                         Service()
                                                             .revokeMember(
-                                                                widget.projectId,
-                                                                widget.data.userId)
+                                                                widget
+                                                                    .projectId,
+                                                                widget.data
+                                                                    .userId)
                                                             .then((value) {
                                                           context.pop();
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                                  const SnackBar(
-                                                                      backgroundColor:
-                                                                          Colors
-                                                                              .red,
-                                                                      content: Text(
-                                                                          "Access Revoked")));
+                                                          ScaffoldMessenger
+                                                                  .of(context)
+                                                              .showSnackBar(const SnackBar(
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .red,
+                                                                  content: Text(
+                                                                      "Access Revoked")));
                                                         });
                                                         setState(() {});
                                                       },
-                                                      style: TextButton.styleFrom(
-                                                          padding: const EdgeInsets
-                                                              .symmetric(
-                                                              horizontal: 16,
-                                                              vertical: 11),
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(8.r),
-                                                          ),
-                                                          backgroundColor:
-                                                              Helper.errorColor,
-                                                          fixedSize: Size.infinite),
+                                                      style:
+                                                          TextButton.styleFrom(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          16,
+                                                                      vertical:
+                                                                          11),
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            8.r),
+                                                              ),
+                                                              backgroundColor:
+                                                                  Helper
+                                                                      .errorColor,
+                                                              fixedSize: Size
+                                                                  .infinite),
                                                       child: const Text(
                                                         "Remove",
                                                         style: TextStyle(
                                                             color: Colors.white,
                                                             fontSize: 14,
                                                             fontWeight:
-                                                                FontWeight.w600),
+                                                                FontWeight
+                                                                    .w600),
                                                       ),
                                                     ),
                                                     TextButton(
                                                       onPressed: () {
                                                         context.pop();
                                                       },
-                                                      style: TextButton.styleFrom(
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(8.r),
-                                                          ),
-                                                          padding: const EdgeInsets
-                                                              .symmetric(
-                                                              horizontal: 16,
-                                                              vertical: 11),
-                                                          backgroundColor:
-                                                              Colors.white,
-                                                          side: BorderSide(
-                                                              color: Helper
-                                                                  .textColor300),
-                                                          fixedSize: Size.infinite),
+                                                      style:
+                                                          TextButton.styleFrom(
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            8.r),
+                                                              ),
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          16,
+                                                                      vertical:
+                                                                          11),
+                                                              backgroundColor:
+                                                                  Colors.white,
+                                                              side: BorderSide(
+                                                                  color: Helper
+                                                                      .textColor300),
+                                                              fixedSize: Size
+                                                                  .infinite),
                                                       child: Text(
                                                         "Cancel",
                                                         style: TextStyle(
-                                                            color:
-                                                                Helper.textColor500,
+                                                            color: Helper
+                                                                .textColor500,
                                                             fontSize: 14,
                                                             fontWeight:
-                                                                FontWeight.w600),
+                                                                FontWeight
+                                                                    .w600),
                                                       ),
                                                     ),
                                                   ],
@@ -388,42 +441,41 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                         );
                       },
                     ),
-                 
                 ]),
           ),
         ),
-         if (showAddMember)Positioned(
-         bottom: 0,
-         child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          showAddMember = true;
-                        });
-                      },
-                      child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 5.w, vertical: 22.h),
-                        child: Row(children: [
-                          SvgPicture.asset('assets/images/plus.svg',
-                              color: Helper.primary),
-                          SizedBox(width: 5.h),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 5.w,
-                            ),
-                            child: Text(
-                              "Send Invite",
-                              style: TextStyle(
-                                  letterSpacing: -0.3,
-                                  color: Helper.primary,
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                        ]),
+        if (showAddMember)
+          Positioned(
+              bottom: 0,
+              child: InkWell(
+                onTap: () {
+                  setState(() {
+                    showAddMember = true;
+                  });
+                },
+                child: Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 5.w, vertical: 22.h),
+                  child: Row(children: [
+                    SvgPicture.asset('assets/images/plus.svg',
+                        color: Helper.primary),
+                    SizedBox(width: 5.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 5.w,
                       ),
-                    )
-        ),
+                      child: Text(
+                        "Send Invite",
+                        style: TextStyle(
+                            letterSpacing: -0.3,
+                            color: Helper.primary,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ]),
+                ),
+              )),
       ],
     );
   }
