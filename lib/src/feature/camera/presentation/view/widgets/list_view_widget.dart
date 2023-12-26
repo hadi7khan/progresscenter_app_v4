@@ -152,7 +152,8 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                                   children: [
                                     Icon(
                                       Icons.circle,
-                                      color: Helper.successColor,
+                                      color:widget.data.latestImage != null
+                                        ?  isDateTimeWithin24Hours( widget.data.latestImage.datetime,)  ?Helper.successColor : Helper.errorColor : Helper.errorColor,
                                       size: 10,
                                     ),
                                     SizedBox(
@@ -246,18 +247,28 @@ showDateTimeString(datetime, dateFormat) {
   // print("isactive" + isActive.toString());
 
   final String formattedTime =
-      DateFormat('dd MMM yy · h:mma ').format(dateTime);
-      isDateTimeWithin24Hours(formattedTime);
+      DateFormat(dateFormat).format(dateTime);
+      // final String formatTimeForBool =
+      // DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
+      // isDateTimeWithin24Hours(formatTimeForBool);
+      // print("formatTimeForBool" + formatTimeForBool.toString());
   return formattedTime;
 }
 
- isDateTimeWithin24Hours(String datetime) {
+ bool isDateTimeWithin24Hours(String datetime) {
   DateTime now = DateTime.now();
-  print("now" + now.toString());
-  DateTime dateTime = DateTime.parse(datetime);
-  print("dateTime" + dateTime.toString());
-  // Duration difference = now.difference(dateTime);s
-  // return difference.inHours < 24;
+  // Format the DateTime object into the desired format
+  String dateWithT = datetime!.substring(0, 8) + 'T' + datetime!.substring(8);
+  DateTime dateTime = DateTime.parse(dateWithT);
+  final String formatTimeForBool =
+      DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
+  DateTime dateTimeParsed = DateTime.parse(formatTimeForBool);
+  Duration difference = now.difference(dateTimeParsed);
+  print("difference" + difference.toString());
+  bool isactiveeee = difference.inHours < 24;
+  print("isactiveeee" + isactiveeee.toString());
+
+  return difference.inHours < 24;
 }
 
 showDate(date, dateFormat) {
