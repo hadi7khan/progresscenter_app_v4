@@ -61,6 +61,7 @@ class _FullviewSliderScreenState extends State<FullviewSliderScreen> {
                         child: AspectRatio(
                             aspectRatio: 16 / 9,
                             child: InteractiveViewer(
+                              clipBehavior: Clip.none,
                               maxScale: 10,
                               child: Image.memory(
                                 // imageBytesList.isNotEmpty ?
