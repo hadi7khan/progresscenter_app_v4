@@ -25,7 +25,8 @@ class ImageData {
 class ImageDataProvider extends StateNotifier<ImageData?> {
   ImageDataProvider() : super(null);
 
-  void setImageData(ImageData data) {
+
+  void setImageData(ImageData? data) {
     state = data;
   }
 }

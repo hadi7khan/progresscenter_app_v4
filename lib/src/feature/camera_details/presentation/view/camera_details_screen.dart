@@ -57,14 +57,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
   void initState() {
     super.initState();
     controller = TransformationController();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      // Step 3: Scroll to the last item after the frame is built
-      ScrollController scrollController = ScrollController(
-          initialScrollOffset: _listViewKey.currentContext!.size!.width);
-      scrollController.jumpTo(scrollController.position.maxScrollExtent);
-      // Attach the controller to the existing ListView
-      // (_listViewKey.currentWidget as ListView).controller = scrollController;
-    });
+   
 
     animationController = AnimationController(
       vsync: this,
@@ -78,6 +71,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
           removeOverlay();
         }
       });
+
+      
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(cameraByIdControllerProvider.notifier).getCameraById(
             widget.projectId,
@@ -92,10 +87,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     // DateTime _currentMonth = DateTime.now();
     // getDaysInMonth(_currentMonth);
   }
-
-  void _scrollDown() {
-  _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-}
 
   removeOverlay() {
     entry!.remove();
@@ -255,6 +246,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
   void dispose() {
     controller!.dispose();
     animationController!.dispose();
+    ref.invalidate(selectedImageDataProvider);
     super.dispose();
   }
 
@@ -359,6 +351,15 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
             return SingleChildScrollView(
                 child: imagesByCameraIdData.when(
               data: (imagesData) {
+                WidgetsBinding.instance
+                                    .addPostFrameCallback((_) {
+                                  // Scroll to the last index
+                                  _scrollController.animateTo(
+                                    _scrollController.position.maxScrollExtent,
+                                    duration: Duration(milliseconds: 500),
+                                    curve: Curves.easeInOut,
+                                  );
+                                });
                 if (imagesData.images!.isEmpty) {
                   showBottomBar = false;
 
@@ -522,11 +523,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                             controller: _scrollController,
                             itemBuilder: ((context, index) {
                               // _scrollDown();
-                              // _scrollController.animateTo(
-                              // _scrollController.position.maxScrollExtent;
-                              //   duration: Duration(milliseconds: 500),
-                              //   curve: Curves.easeInOut,
-                              // );
+                              
                               final reversedIndex =
                                   imagesData.images!.length - 1 - index;
                               String dateWithT = imagesData
