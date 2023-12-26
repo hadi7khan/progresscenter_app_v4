@@ -160,39 +160,46 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
               skipLoadingOnRefresh: false,
               skipLoadingOnReload: false,
               data: (cameraData) {
-                return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Text(
+                                cameraData.name!,
+                                style: TextStyle(
+                                color: Helper.baseBlack,
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w500),
+                                
+                              ),
+                              SizedBox(
+                                width: 6.w,
+                              ),
+                              // SvgPicture.asset('assets/images/chevron-down.svg'),
+                            ],
+                          ),
                           Text(
-                            cameraData.name!,
+                           widget.projectName,
                             style: TextStyle(
-                            color: Helper.baseBlack,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w500),
-                            
+                                    color: Helper.baseBlack.withOpacity(0.5),
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w400),
                           ),
-                          SizedBox(
-                            width: 6.w,
-                          ),
-                          SvgPicture.asset('assets/images/chevron-down.svg'),
-                        ],
-                      ),
-                      Text(
-                       widget.projectName,
-                        style: TextStyle(
-                                color: Helper.baseBlack.withOpacity(0.5),
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w400),
-                      ),
-                      
-                    ]);
+                          
+                        ]),
+                        SvgPicture.asset('assets/images/chevron-down.svg'),
+                  ],
+                );
               },
               error: (err, _) {
                 return const Text("Error",
