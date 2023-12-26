@@ -50,11 +50,24 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
   AnimationController? animationController;
   Animation<Matrix4>? animation;
   OverlayEntry? entry;
+  ScrollController _scrollController = ScrollController();
+  GlobalKey _listViewKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
     controller = TransformationController();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      // Step 3: Scroll to the last item after the frame is built
+      ScrollController scrollController =
+          ScrollController(initialScrollOffset: _listViewKey.currentContext!.size!.width);
+      scrollController.jumpTo(scrollController.position.maxScrollExtent);
+      // Attach the controller to the existing ListView
+      // (_listViewKey.currentWidget as ListView).controller = scrollController;
+    });
+
+
+
     animationController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 200),
@@ -373,46 +386,47 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                       ),
                       Stack(children: [
                         Container(
-                          color: Helper.textColor300,
-                          child: AspectRatio(
-                            aspectRatio: 16 / 9,
-                            child: PinchZoom(
-                              maxScale :10,
-                              child: Image.network(
-                                selectedImageData == null
-                                    ? imagesData.images![0].urlPreview!
-                                    : selectedImageData.urlPreview!,
-                                width: double.infinity,
-                                // height: 210.h,
-                                fit: BoxFit.fill,
-                                loadingBuilder:
-                                    (context, child, loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                              
-                                  return Center(
-                                    child: CircularProgressIndicator(
-                                      color: Helper.primary,
-                                      value: (loadingProgress != null)
-                                          ? (loadingProgress
-                                                  .cumulativeBytesLoaded /
-                                              loadingProgress.expectedTotalBytes!)
-                                          : 0,
-                                    ),
-                                  );
-                                },
-                                errorBuilder: (BuildContext context,
-                                    Object exception, StackTrace? stackTrace) {
-                                  return ClipRRect(
-                                    child: Image.asset(
-                                      'assets/images/error_image.jpeg',
-                                      fit: BoxFit.cover,
-                                    ),
-                                  );
-                                },
+                            color: Helper.textColor300,
+                            child: AspectRatio(
+                              aspectRatio: 16 / 9,
+                              child: PinchZoom(
+                                maxScale: 10,
+                                child: Image.network(
+                                  selectedImageData == null
+                                      ? imagesData.images![0].urlPreview!
+                                      : selectedImageData.urlPreview!,
+                                  width: double.infinity,
+                                  // height: 210.h,
+                                  fit: BoxFit.fill,
+                                  loadingBuilder:
+                                      (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
+
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        color: Helper.primary,
+                                        value: (loadingProgress != null)
+                                            ? (loadingProgress
+                                                    .cumulativeBytesLoaded /
+                                                loadingProgress
+                                                    .expectedTotalBytes!)
+                                            : 0,
+                                      ),
+                                    );
+                                  },
+                                  errorBuilder: (BuildContext context,
+                                      Object exception,
+                                      StackTrace? stackTrace) {
+                                    return ClipRRect(
+                                      child: Image.asset(
+                                        'assets/images/error_image.jpeg',
+                                        fit: BoxFit.cover,
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
-                          )
-                        ),
+                            )),
                         Positioned(
                           top: 16,
                           left: 16,
@@ -493,15 +507,24 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                               );
                             },
                             itemCount: imagesData.images!.length,
+                            key: _listViewKey,
                             shrinkWrap: true,
                             physics: BouncingScrollPhysics(),
                             scrollDirection: Axis.horizontal,
+                            controller: _scrollController,
                             itemBuilder: ((context, index) {
+                              // _scrollController.animateTo(
+                                // _scrollController.position.maxScrollExtent;
+                              //   duration: Duration(milliseconds: 500),
+                              //   curve: Curves.easeInOut,
+                              // );
+                              final reversedIndex =
+                                  imagesData.images!.length - 1 - index;
                               String dateWithT = imagesData
-                                      .images![index].datetime!
+                                      .images![reversedIndex].datetime!
                                       .substring(0, 8) +
                                   'T' +
-                                  imagesData.images![index].datetime!
+                                  imagesData.images![reversedIndex].datetime!
                                       .substring(8);
                               DateTime dateTime = DateTime.parse(dateWithT);
                               final String formattedTime =
@@ -509,16 +532,18 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                               return InkWell(
                                 onTap: () {
                                   setState(() {
-                                    _selectedImageIndex = index;
+                                    _selectedImageIndex = reversedIndex;
                                   });
                                   final imageData = ImageData(
-                                    name: imagesData.images![index].name,
-                                    dateTime:
-                                        imagesData.images![index].datetime,
-                                    camera: imagesData.images![index].camera,
-                                    id: imagesData.images![index].id,
-                                    urlPreview:
-                                        imagesData.images![index].urlPreview,
+                                    name:
+                                        imagesData.images![reversedIndex].name,
+                                    dateTime: imagesData
+                                        .images![reversedIndex].datetime,
+                                    camera: imagesData
+                                        .images![reversedIndex].camera,
+                                    id: imagesData.images![reversedIndex].id,
+                                    urlPreview: imagesData
+                                        .images![reversedIndex].urlPreview,
                                   );
 
                                   ref
@@ -538,7 +563,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(6.r),
-                                            border: _selectedImageIndex == index
+                                            border: _selectedImageIndex ==
+                                                    reversedIndex
                                                 ? Border.all(
                                                     color: Helper.primary,
                                                     width: 2.w,
@@ -551,8 +577,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                             borderRadius:
                                                 BorderRadius.circular(4.r),
                                             child: Image.network(
-                                              imagesData
-                                                  .images![index].urlThumb!,
+                                              imagesData.images![reversedIndex]
+                                                  .urlThumb!,
                                               width: 44.w,
                                               height: 44.h,
                                               fit: BoxFit.fill,
