@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_app_bar.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_cam_details.dart';
@@ -375,8 +376,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                           color: Helper.textColor300,
                           child: AspectRatio(
                             aspectRatio: 16 / 9,
-                            child: ZoomOverlay(
-                            twoTouchOnly: true,
+                            child: PinchZoom(
+                              maxScale :10,
                               child: Image.network(
                                 selectedImageData == null
                                     ? imagesData.images![0].urlPreview!
