@@ -33,7 +33,8 @@ class CameraDetailsSreen extends ConsumerStatefulWidget {
   ConsumerState<CameraDetailsSreen> createState() => _CameraDetailsSreenState();
 }
 
-class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
+class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
+    with SingleTickerProviderStateMixin {
   int _selectedIndex = 0;
   int _selectedImageIndex = 0;
   List<DateTime> daysInMonth = [];
@@ -43,10 +44,20 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
   String showMonth = "JAN";
   bool showBottomBar = true;
   // StateSetter? bottomSheetState;
+  TransformationController? controller;
+  AnimationController? animationController;
+  Animation<Matrix4>? animation;
 
   @override
   void initState() {
     super.initState();
+    controller = TransformationController();
+    animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 200),
+    )..addListener(() {
+        controller!.value = animation!.value;
+      });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(cameraByIdControllerProvider.notifier).getCameraById(
             widget.projectId,
@@ -60,6 +71,14 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
     });
     // DateTime _currentMonth = DateTime.now();
     // getDaysInMonth(_currentMonth);
+  }
+
+  resetAnimation() {
+    animation = Matrix4Tween(
+      begin: controller!.value,
+      end: Matrix4.identity(),
+    ).animate(CurvedAnimation(parent: animationController!, curve: Curves.decelerate));
+    animationController!.forward(from: 0);
   }
 
   List<DateTime> getDaysInMonth(currentMonth, bool isString) {
@@ -162,7 +181,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
               data: (cameraData) {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -177,10 +196,9 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                               Text(
                                 cameraData.name!,
                                 style: TextStyle(
-                                color: Helper.baseBlack,
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.w500),
-                                
+                                    color: Helper.baseBlack,
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w500),
                               ),
                               SizedBox(
                                 width: 6.w,
@@ -189,15 +207,14 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                             ],
                           ),
                           Text(
-                           widget.projectName,
+                            widget.projectName,
                             style: TextStyle(
-                                    color: Helper.baseBlack.withOpacity(0.5),
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w400),
+                                color: Helper.baseBlack.withOpacity(0.5),
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400),
                           ),
-                          
                         ]),
-                        SvgPicture.asset('assets/images/chevron-down.svg'),
+                    SvgPicture.asset('assets/images/chevron-down.svg'),
                   ],
                 );
               },
@@ -264,6 +281,9 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
                           child: AspectRatio(
                             aspectRatio: 16 / 9,
                             child: InteractiveViewer(
+                              transformationController: controller,
+                              onInteractionEnd: resetAnimation(),
+                              clipBehavior: Clip.none,
                               maxScale: 10,
                               child: Image.network(
                                 selectedImageData == null
@@ -636,14 +656,13 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen> {
       ),
       bottomNavigationBar: showBottomBar
           ? Container(
-            decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.2), 
-          border: Border(
-            top: BorderSide(
-            color: Colors.white.withOpacity(0.2), 
-            width: 0.5),
-          ),
-        ),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                border: Border(
+                  top: BorderSide(
+                      color: Colors.white.withOpacity(0.2), width: 0.5),
+                ),
+              ),
               height: Platform.isIOS ? 120.h : 50.h,
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

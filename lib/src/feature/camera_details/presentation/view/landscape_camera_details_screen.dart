@@ -90,6 +90,7 @@ class _LandscapeCameraDetailsScreenState
                 AspectRatio(
                   aspectRatio: 16 / 9,
                   child: InteractiveViewer(
+                    clipBehavior: Clip.none,
                     maxScale : 10,
                     child: Image.network(
                       selectedImageData == null
