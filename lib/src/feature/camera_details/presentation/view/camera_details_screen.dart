@@ -59,14 +59,12 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     controller = TransformationController();
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       // Step 3: Scroll to the last item after the frame is built
-      ScrollController scrollController =
-          ScrollController(initialScrollOffset: _listViewKey.currentContext!.size!.width);
+      ScrollController scrollController = ScrollController(
+          initialScrollOffset: _listViewKey.currentContext!.size!.width);
       scrollController.jumpTo(scrollController.position.maxScrollExtent);
       // Attach the controller to the existing ListView
       // (_listViewKey.currentWidget as ListView).controller = scrollController;
     });
-
-
 
     animationController = AnimationController(
       vsync: this,
@@ -94,6 +92,10 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     // DateTime _currentMonth = DateTime.now();
     // getDaysInMonth(_currentMonth);
   }
+
+  void _scrollDown() {
+  _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+}
 
   removeOverlay() {
     entry!.remove();
@@ -484,13 +486,13 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                             child: BlurryContainer(
                               blur: 3,
                               padding: EdgeInsets.symmetric(
-                                  vertical: 6.h, horizontal: 8.w),
+                                  vertical: 6.h, horizontal: 6.w),
                               borderRadius: BorderRadius.circular(30.r),
                               color: Colors.white.withOpacity(0.1),
                               child: SvgPicture.asset(
                                 'assets/images/expand.svg',
-                                height: 16.h,
-                                width: 16.w,
+                                // height: 16.h,
+                                // width: 16.w,
                                 color: Colors.white,
                               ),
                             ),
@@ -513,8 +515,9 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                             scrollDirection: Axis.horizontal,
                             controller: _scrollController,
                             itemBuilder: ((context, index) {
+                              // _scrollDown();
                               // _scrollController.animateTo(
-                                // _scrollController.position.maxScrollExtent;
+                              // _scrollController.position.maxScrollExtent;
                               //   duration: Duration(milliseconds: 500),
                               //   curve: Curves.easeInOut,
                               // );
