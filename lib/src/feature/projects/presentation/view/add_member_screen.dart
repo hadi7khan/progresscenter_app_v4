@@ -306,58 +306,7 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                           fontWeight: FontWeight.w500),
                     ),
                     SizedBox(height: 6.h),
-                    // DropDownTextField(
-                    //   clearOption: false,
-                    //   textFieldFocusNode: dropdownNode,
-                    //   initialValue: 'Admin',
-                    //   // searchAutofocus: true,
-                    //   dropDownItemCount: 3,
-                    //   searchShowCursor: true,
-                    //   enableSearch: false,
-                    //   padding: EdgeInsets.symmetric(
-                    //       vertical: 10.h, horizontal: 14.w),
-                    //   textFieldDecoration: InputDecoration(
-                    //     hintText: 'Dropdown',
-                    //     filled: true,
-                    //     fillColor: Colors.white,
-                    //     contentPadding: EdgeInsets.symmetric(
-                    //         vertical: 10.h, horizontal: 14.w),
-                    //     suffixIcon: ListTile(
-                    //         leading: Icon(Icons.help),
-                    //         title: Icon(Icons.arrow_drop_down)),
-                    //   ),
-                    //   searchDecoration: InputDecoration(
-                    //     hintText: "Roles",
-                    //     filled: true,
-                    //     fillColor: Colors.white,
-                    //     contentPadding: EdgeInsets.symmetric(
-                    //         vertical: 10.h, horizontal: 14.w),
-                    //     suffixIcon: ListTile(
-                    //         leading: Icon(Icons.help),
-                    //         title: Icon(Icons.arrow_drop_down)),
-                    //   ),
-                    //   // searchKeyboardType: TextInputType.number,
-                    //   dropDownList: roles.map((option) {
-                    //     print(option);
-                    //     return DropDownValueModel(
-                    //         name: option.toString(),
-                    //         value: option,
-                    //         toolTipMsg: 'vendor filter');
-                    //   }).toList(),
 
-                    //   onChanged: (value) {
-                    //     print("this is the value" + value.toString());
-                    //     // if (value != null) {
-                    //     //   String id = (value.value as vendor.Datum)
-                    //     //       .id
-                    //     //       .toString();
-                    //     //   print('Selected ID: $id');
-                    //     //   ref
-                    //     //       .read(courseProvider)
-                    //     //       .changeVendor(int.parse(id));
-                    //     // }
-                    //   },
-                    // ),
                     FormBuilderDropdown(
                       name: "roles",
                       dropdownColor: Colors.white,

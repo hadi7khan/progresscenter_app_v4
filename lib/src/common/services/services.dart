@@ -69,6 +69,27 @@ class Service {
     }
   }
 
+  // method to update role for a specific user
+  Future projectInvite(projectId, data) async {
+    var postData = json.encode(data);
+    print("post data" + data.toString());
+    final client = http.Client();
+    final response =
+        await client.post(Uri.parse(Endpoints.projectInviteUrl(projectId)),
+            headers: {
+              "content-type": "application/json",
+              "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+            },
+            body: postData);
+    print(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print("invite sent");
+      return response.body;
+    } else {
+      throw Exception('Failed to sent invite');
+    }
+  }
+
   // method to revoke member access from a specific project
   Future revokeMember(projectId, userId) async {
     final client = http.Client();

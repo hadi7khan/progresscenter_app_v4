@@ -18,6 +18,7 @@ class _AddMemberWidgetState extends State<AddMemberWidget> {
   bool _changeState = false;
   GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   List<UserLeanModel> _myCustomList = [];
+  bool _userExists = false;
 
   @override
   void initState() {
@@ -125,6 +126,7 @@ class _AddMemberWidgetState extends State<AddMemberWidget> {
             ),
             suggestionsCallback: (pattern) async {
               if (pattern != null && pattern.length > 0) {
+                _userExists = true;
                 return _myCustomList.where((user) => user.email!
                     .toLowerCase()
                     .contains(pattern.trim().toLowerCase()));
@@ -146,7 +148,8 @@ class _AddMemberWidgetState extends State<AddMemberWidget> {
                               StackTrace? stackTrace) {
                             return ClipRRect(
                               borderRadius: BorderRadius.circular(200.r),
-                              child: Image.asset('assets/images/error_image.jpeg',
+                              child: Image.asset(
+                                  'assets/images/error_image.jpeg',
                                   fit: BoxFit.cover),
                             );
                           },
@@ -197,8 +200,6 @@ class _AddMemberWidgetState extends State<AddMemberWidget> {
               return SizedBox();
             },
           ),
-          
-          
         ],
       ),
     );
