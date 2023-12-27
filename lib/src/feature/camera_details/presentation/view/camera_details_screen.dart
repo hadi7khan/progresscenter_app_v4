@@ -572,7 +572,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                           ),
                         ),
                       ]),
-                      SizedBox(height: 6.h),
                       SizedBox(
                         height: 73.h,
                         child: ListView.separated(
@@ -845,97 +844,99 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
         ),
       ),
       bottomNavigationBar: showBottomBar
-          ? Container(
-              // padding: EdgeInsets.only(bottom: Platform.isIOS ? 50.h : 0.h),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
-                border: Border(
-                  top: BorderSide(
-                      color: Colors.white.withOpacity(0.2), width: 0.5),
+          ? SafeArea(
+              child: Container(
+                // padding: EdgeInsets.only(bottom: Platform.isIOS ? 50.h : 0.h),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  border: Border(
+                    top: BorderSide(
+                        color: Colors.white.withOpacity(0.2), width: 0.5),
+                  ),
                 ),
+                height: 50.h,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          HapticFeedback.mediumImpact();
+                          context.push('/livelapse', extra: {
+                            "projectId": widget.projectId,
+                            "projectName": widget.projectName,
+                            "cameraId": widget.cameraId
+                          });
+                        },
+                        child: IconBottomBar(
+                          icon: 'assets/images/video-recorder.svg',
+                          selected: true,
+                          text: 'LiveLapse',
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          HapticFeedback.mediumImpact();
+                          context.push('/slider', extra: {
+                            "projectId": widget.projectId,
+                            "projectName": widget.projectName,
+                            "cameraId": widget.cameraId
+                          });
+                        },
+                        child: IconBottomBar(
+                          icon: 'assets/images/sliders.svg',
+                          selected: true,
+                          text: 'Slider',
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          HapticFeedback.mediumImpact();
+                          context.push('/compare', extra: {
+                            "projectId": widget.projectId,
+                            "projectName": widget.projectName,
+                            "cameraId": widget.cameraId
+                          });
+                        },
+                        child: IconBottomBar(
+                          icon: 'assets/images/rows.svg',
+                          selected: true,
+                          text: 'Compare',
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          HapticFeedback.mediumImpact();
+                          context.push('/splitview', extra: {
+                            "projectId": widget.projectId,
+                            "projectName": widget.projectName,
+                            "cameraId": widget.cameraId
+                          });
+                        },
+                        child: IconBottomBar(
+                          icon: 'assets/images/layout-left.svg',
+                          selected: true,
+                          text: 'Split View',
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          HapticFeedback.mediumImpact();
+                          context.push('/report', extra: {
+                            "projectId": widget.projectId,
+                            "projectName": widget.projectName,
+                            "cameraId": widget.cameraId
+                          });
+                        },
+                        child: IconBottomBar(
+                          icon: 'assets/images/file-download.svg',
+                          selected: true,
+                          text: 'Report',
+                        ),
+                      )
+                    ]),
               ),
-              // height: Platform.isIOS ? 50.h : 50.h,
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        HapticFeedback.mediumImpact();
-                        context.push('/livelapse', extra: {
-                          "projectId": widget.projectId,
-                          "projectName": widget.projectName,
-                          "cameraId": widget.cameraId
-                        });
-                      },
-                      child: IconBottomBar(
-                        icon: 'assets/images/video-recorder.svg',
-                        selected: true,
-                        text: 'LiveLapse',
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        HapticFeedback.mediumImpact();
-                        context.push('/slider', extra: {
-                          "projectId": widget.projectId,
-                          "projectName": widget.projectName,
-                          "cameraId": widget.cameraId
-                        });
-                      },
-                      child: IconBottomBar(
-                        icon: 'assets/images/sliders.svg',
-                        selected: true,
-                        text: 'Slider',
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        HapticFeedback.mediumImpact();
-                        context.push('/compare', extra: {
-                          "projectId": widget.projectId,
-                          "projectName": widget.projectName,
-                          "cameraId": widget.cameraId
-                        });
-                      },
-                      child: IconBottomBar(
-                        icon: 'assets/images/rows.svg',
-                        selected: true,
-                        text: 'Compare',
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        HapticFeedback.mediumImpact();
-                        context.push('/splitview', extra: {
-                          "projectId": widget.projectId,
-                          "projectName": widget.projectName,
-                          "cameraId": widget.cameraId
-                        });
-                      },
-                      child: IconBottomBar(
-                        icon: 'assets/images/layout-left.svg',
-                        selected: true,
-                        text: 'Split View',
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        HapticFeedback.mediumImpact();
-                        context.push('/report', extra: {
-                          "projectId": widget.projectId,
-                          "projectName": widget.projectName,
-                          "cameraId": widget.cameraId
-                        });
-                      },
-                      child: IconBottomBar(
-                        icon: 'assets/images/file-download.svg',
-                        selected: true,
-                        text: 'Report',
-                      ),
-                    )
-                  ]),
             )
           : SizedBox(),
     );
