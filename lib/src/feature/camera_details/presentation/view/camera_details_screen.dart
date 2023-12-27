@@ -411,7 +411,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                       .appBarMaxHeight!
                                       .toDouble() +
                                   kBottomNavigationBarHeight +
-                                  147.h),
+                                  150.h),
                           child: Image.network(
                             selectedImageData == null
                                 ? imagesData.images![0].urlPreview!
@@ -448,59 +448,63 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                           blur: 10,
                           borderRadius: BorderRadius.zero,
                           padding: EdgeInsets.zero,
+                          height: MediaQuery.of(context).size.height -
+                              (Scaffold.of(context)
+                                      .appBarMaxHeight!
+                                      .toDouble() +
+                                  kBottomNavigationBarHeight +
+                                  147.h),
                           child: Container(
                               // color: Helper.textColor300,
-                              height: MediaQuery.of(context).size.height -
-                                  (Scaffold.of(context)
-                                          .appBarMaxHeight!
-                                          .toDouble() +
-                                      btmNavigationBarHeight +
-                                      147.h),
+                              // height: MediaQuery.of(context).size.height -
+                              //     (Scaffold.of(context)
+                              //             .appBarMaxHeight!
+                              //             .toDouble() +
+                              //         btmNavigationBarHeight +
+                              //         147.h),
                               child: PinchZoom(
-                                // transformationController:
-                                //     viewTransformationController,
-                                // panEnabled: false,
-                                // boundaryMargin: EdgeInsets.zero,
-                                // minScale: 0.5,
-                                //  alignment: Alignment.center,
-                                // constrained: false,
-                                maxScale: 10,
-                                child: Image.network(
-                                  selectedImageData == null
-                                      ? imagesData.images![0].urlPreview!
-                                      : selectedImageData.urlPreview!,
-                                  width: double.infinity,
-                                  scale: 1,
-                                  // height: 210.h,
-                                  // fit: BoxFit.fitHeight,
-                                  loadingBuilder:
-                                      (context, child, loadingProgress) {
-                                    if (loadingProgress == null) return child;
+                            // transformationController:
+                            //     viewTransformationController,
+                            // panEnabled: false,
+                            // boundaryMargin: EdgeInsets.zero,
+                            // minScale: 0.5,
+                            //  alignment: Alignment.center,
+                            // constrained: false,
+                            maxScale: 10,
+                            child: Image.network(
+                              selectedImageData == null
+                                  ? imagesData.images![0].urlPreview!
+                                  : selectedImageData.urlPreview!,
+                              width: double.infinity,
+                              scale: 1,
+                              // height: 210.h,
+                              // fit: BoxFit.fitHeight,
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                if (loadingProgress == null) return child;
 
-                                    return Center(
-                                      child: CircularProgressIndicator(
-                                        color: Helper.primary,
-                                        value: (loadingProgress != null)
-                                            ? (loadingProgress
-                                                    .cumulativeBytesLoaded /
-                                                loadingProgress
-                                                    .expectedTotalBytes!)
-                                            : 0,
-                                      ),
-                                    );
-                                  },
-                                  errorBuilder: (BuildContext context,
-                                      Object exception,
-                                      StackTrace? stackTrace) {
-                                    return ClipRRect(
-                                      child: Image.asset(
-                                        'assets/images/error_image.jpeg',
-                                        fit: BoxFit.cover,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              )),
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    color: Helper.primary,
+                                    value: (loadingProgress != null)
+                                        ? (loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!)
+                                        : 0,
+                                  ),
+                                );
+                              },
+                              errorBuilder: (BuildContext context,
+                                  Object exception, StackTrace? stackTrace) {
+                                return ClipRRect(
+                                  child: Image.asset(
+                                    'assets/images/error_image.jpeg',
+                                    fit: BoxFit.cover,
+                                  ),
+                                );
+                              },
+                            ),
+                          )),
                         ),
                         Positioned(
                           top: 16,
