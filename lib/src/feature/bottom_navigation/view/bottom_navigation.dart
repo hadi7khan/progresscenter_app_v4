@@ -32,17 +32,22 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
       bottomNavigationBar: Container(
         margin: EdgeInsets.zero,
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.2), 
+          color: Colors.white.withOpacity(0.2),
           border: Border(
-            top: BorderSide(
-            color: Colors.white.withOpacity(0.2), 
-            width: 0.5),
+            top: BorderSide(color: Colors.white.withOpacity(0.2), width: 0.5),
           ),
         ),
         child: BottomNavigationBar(
           currentIndex: navigationShell.currentIndex,
           backgroundColor: Colors.white.withOpacity(0.8),
           items: [
+            BottomNavigationBarItem(
+                label: 'Projects',
+                activeIcon: SvgPicture.asset(
+                  'assets/images/projects.svg',
+                  color: Helper.primary,
+                ),
+                icon: SvgPicture.asset('assets/images/projects.svg')),
             BottomNavigationBarItem(
                 label: 'Feed',
                 activeIcon: SvgPicture.asset(
@@ -57,13 +62,6 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
                   color: Helper.primary,
                 ),
                 icon: SvgPicture.asset('assets/images/docs.svg')),
-            BottomNavigationBarItem(
-                label: 'Projects',
-                activeIcon: SvgPicture.asset(
-                  'assets/images/projects.svg',
-                  color: Helper.primary,
-                ),
-                icon: SvgPicture.asset('assets/images/projects.svg')),
             BottomNavigationBarItem(
                 label: 'Team',
                 activeIcon: SvgPicture.asset(
