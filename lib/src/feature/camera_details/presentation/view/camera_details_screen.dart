@@ -411,7 +411,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                       .appBarMaxHeight!
                                       .toDouble() +
                                   kBottomNavigationBarHeight +
-                                  150.h),
+                                  180.h),
                           child: Image.network(
                             selectedImageData == null
                                 ? imagesData.images![0].urlPreview!
@@ -453,7 +453,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                       .appBarMaxHeight!
                                       .toDouble() +
                                   kBottomNavigationBarHeight +
-                                  147.h),
+                                  180.h),
                           child: Container(
                               // color: Helper.textColor300,
                               // height: MediaQuery.of(context).size.height -
