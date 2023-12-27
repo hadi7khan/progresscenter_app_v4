@@ -83,7 +83,7 @@ class _ProjectDetailsScreenState
         statusBarColor: Colors.black.withOpacity(0.3),
         statusBarIconBrightness: Brightness.dark,
         statusBarBrightness: Brightness.light));
-        super.dispose();
+    super.dispose();
   }
 
   showDateTimeString(date, dateFormat) {
@@ -94,7 +94,6 @@ class _ProjectDetailsScreenState
 
   @override
   Widget build(BuildContext context) {
-    
     print("users passed" + widget.projectUsers.toString());
     final projectByIdData = ref.watch(
         projectByIdControllerProvider.select((value) => value.projectDetails));
@@ -220,7 +219,7 @@ class _ProjectDetailsScreenState
                                 ),
                         ),
                       ),
-              
+
                       // Positioned(
                       //   top: 0,
                       //   left: 0,
@@ -272,7 +271,9 @@ class _ProjectDetailsScreenState
                             },
                             child: SvgPicture.asset(
                                 'assets/images/8666681_edit_icon.svg',
-                                color: Helper.iconColor, width: 18, height: 18),
+                                color: Helper.iconColor,
+                                width: 18,
+                                height: 18),
                           ),
                         ),
                       ),
@@ -380,11 +381,16 @@ class _ProjectDetailsScreenState
                         isScrollControlled: true,
                         context: context,
                         backgroundColor: Colors.transparent,
-                        builder: (context) => ViewedByWidget(
-                            data: widget.projectUsers,
-                            showText: "Current members",
-                            projectId: widget.projectId,
-                            showExtra: true,
+                        builder: (context) => Padding(
+                              padding: EdgeInsets.only(
+                                  bottom:
+                                      MediaQuery.of(context).viewInsets.bottom),
+                              child: ViewedByWidget(
+                                data: widget.projectUsers,
+                                showText: "Current members",
+                                projectId: widget.projectId,
+                                showExtra: true,
+                              ),
                             ));
                   },
                   child: Container(
@@ -436,8 +442,8 @@ class _ProjectDetailsScreenState
                     ];
                     print("this is the assetMap before loop" +
                         assetMap.toString());
-                        filteredLinks = [];
-                        assetMap = {};
+                    filteredLinks = [];
+                    assetMap = {};
                     for (var asset in data.assets!) {
                       String name = asset.name!;
                       int count = asset.count!;
@@ -904,7 +910,8 @@ class _ProjectDetailsScreenState
                                                 padding: EdgeInsets.zero,
                                                 decoration: BoxDecoration(
                                                   borderRadius:
-                                                      BorderRadius.circular(16.r),
+                                                      BorderRadius.circular(
+                                                          16.r),
                                                   color: Color.fromRGBO(
                                                       235, 235, 235, 1),
                                                 ),

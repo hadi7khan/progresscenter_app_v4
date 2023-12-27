@@ -37,6 +37,10 @@ class Endpoints {
     return '$baseUrl/api/v4/projects/$id/';
   }
 
+  static projectInviteUrl(id) {
+    return '$baseUrl/api/v4/projects/$id/invite';
+  }
+
   static cameraListUrl(id) {
     return '$baseUrl/api/v4/projects/$id/cameras';
   }
