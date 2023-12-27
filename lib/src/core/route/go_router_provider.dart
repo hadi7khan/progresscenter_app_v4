@@ -100,6 +100,26 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         },
         branches: [
           StatefulShellBranch(
+            navigatorKey: _shellNavigatorAKey,
+            routes: [
+              GoRoute(
+                path: '/projects',
+                pageBuilder: (context, state) => const NoTransitionPage(
+                  child: ProjectsScreen(
+                      label: 'Projects', detailsPath: '/projects/details'),
+                ),
+                routes: [
+                  // GoRoute(
+                  //     path: 'details',
+                  //     builder: (context, state) {
+                  //       Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+                  //       return ProjectDetailsScreen(label: 'details', projectId: args['projectId'], projectName: args['projectName'],);
+                  //     }),
+                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
             navigatorKey: _shellNavigatorBKey,
             routes: [
               // Timeline
@@ -135,26 +155,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                     builder: (context, state) =>
                         const TimelineDetailsScreen(label: 'details'),
                   ),
-                ],
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            navigatorKey: _shellNavigatorAKey,
-            routes: [
-              GoRoute(
-                path: '/projects',
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: ProjectsScreen(
-                      label: 'Projects', detailsPath: '/projects/details'),
-                ),
-                routes: [
-                  // GoRoute(
-                  //     path: 'details',
-                  //     builder: (context, state) {
-                  //       Map<String, dynamic> args = state.extra as Map<String, dynamic>;
-                  //       return ProjectDetailsScreen(label: 'details', projectId: args['projectId'], projectName: args['projectName'],);
-                  //     }),
                 ],
               ),
             ],
@@ -672,16 +672,16 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return NoTransitionPage(
             key: state.pageKey,
             child: FullViewSitegalleryScreen(
-                key: state.pageKey,
-                projectId: args['projectId'],
-                name: args['name'],
-                url: args['url'],
-                type: args['type'],
-                siteGalleryId: args['siteGalleryId'],
-                projectName: args['projectName'],
-                createdAt: args['createdAt'],
-                uploadedBy: args['uploadedBy'],
-                ),
+              key: state.pageKey,
+              projectId: args['projectId'],
+              name: args['name'],
+              url: args['url'],
+              type: args['type'],
+              siteGalleryId: args['siteGalleryId'],
+              projectName: args['projectName'],
+              createdAt: args['createdAt'],
+              uploadedBy: args['uploadedBy'],
+            ),
           );
         },
       ),
