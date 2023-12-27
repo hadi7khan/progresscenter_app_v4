@@ -52,12 +52,20 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
   OverlayEntry? entry;
   ScrollController _scrollController = ScrollController();
   GlobalKey _listViewKey = GlobalKey();
+  final viewTransformationController = TransformationController();
 
   @override
   void initState() {
     super.initState();
     controller = TransformationController();
-   
+    final zoomFactor = 2.0;
+    final xTranslate = 300.0;
+    final yTranslate = 400.0;
+    viewTransformationController.value.setEntry(0, 0, zoomFactor);
+    viewTransformationController.value.setEntry(1, 1, zoomFactor);
+    viewTransformationController.value.setEntry(2, 2, zoomFactor);
+    viewTransformationController.value.setEntry(0, 3, -xTranslate);
+    viewTransformationController.value.setEntry(1, 3, -yTranslate);
 
     animationController = AnimationController(
       vsync: this,
@@ -72,7 +80,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
         }
       });
 
-      
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(cameraByIdControllerProvider.notifier).getCameraById(
             widget.projectId,
@@ -262,7 +269,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.h),
         child: Container(
-         color: Colors.white,
+          color: Colors.white,
           child: Padding(
             padding: EdgeInsets.only(right: 16.w, left: 16.w),
             child: AppBar(
@@ -345,21 +352,20 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
       ),
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.only(bottom: kBottomNavigationBarHeight),
+          // padding: EdgeInsets.only(bottom: kBottomNavigationBarHeight),
           child: Consumer(builder: (context, ref, child) {
             print("state printed" + selectedImageData.toString());
             return SingleChildScrollView(
                 child: imagesByCameraIdData.when(
               data: (imagesData) {
-                WidgetsBinding.instance
-                                    .addPostFrameCallback((_) {
-                                  // Scroll to the last index
-                                  _scrollController.animateTo(
-                                    _scrollController.position.maxScrollExtent,
-                                    duration: Duration(milliseconds: 500),
-                                    curve: Curves.easeInOut,
-                                  );
-                                });
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  // Scroll to the last index
+                  _scrollController.animateTo(
+                    _scrollController.position.maxScrollExtent,
+                    duration: Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                });
                 if (imagesData.images!.isEmpty) {
                   showBottomBar = false;
 
@@ -390,50 +396,54 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      SizedBox(
-                        height: 72.h,
-                      ),
                       Stack(children: [
                         Container(
                             color: Helper.textColor300,
-                            child: AspectRatio(
-                              aspectRatio: 16 / 9,
-                              child: PinchZoom(
-                                maxScale: 10,
-                                child: Image.network(
-                                  selectedImageData == null
-                                      ? imagesData.images![0].urlPreview!
-                                      : selectedImageData.urlPreview!,
-                                  width: double.infinity,
-                                  // height: 210.h,
-                                  fit: BoxFit.fill,
-                                  loadingBuilder:
-                                      (context, child, loadingProgress) {
-                                    if (loadingProgress == null) return child;
+                            height: MediaQuery.of(context).size.height * 0.8 -
+                                (Scaffold.of(context)
+                                        .appBarMaxHeight!
+                                        .toDouble() +
+                                    kBottomNavigationBarHeight),
+                            child: InteractiveViewer(
+                              transformationController:
+                                  viewTransformationController,
+                              // panEnabled: false,
+                              // boundaryMargin: EdgeInsets.all(100),
+                              minScale: 0.1,
+                              maxScale: 10,
+                              child: Image.network(
+                                selectedImageData == null
+                                    ? imagesData.images![0].urlPreview!
+                                    : selectedImageData.urlPreview!,
+                                width: double.infinity,
+                                // scale: 20,
+                                // height: 210.h,
+                                // fit: BoxFit.fitHeight,
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                  if (loadingProgress == null) return child;
 
-                                    return Center(
-                                      child: CircularProgressIndicator(
-                                        color: Helper.primary,
-                                        value: (loadingProgress != null)
-                                            ? (loadingProgress
-                                                    .cumulativeBytesLoaded /
-                                                loadingProgress
-                                                    .expectedTotalBytes!)
-                                            : 0,
-                                      ),
-                                    );
-                                  },
-                                  errorBuilder: (BuildContext context,
-                                      Object exception,
-                                      StackTrace? stackTrace) {
-                                    return ClipRRect(
-                                      child: Image.asset(
-                                        'assets/images/error_image.jpeg',
-                                        fit: BoxFit.cover,
-                                      ),
-                                    );
-                                  },
-                                ),
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      color: Helper.primary,
+                                      value: (loadingProgress != null)
+                                          ? (loadingProgress
+                                                  .cumulativeBytesLoaded /
+                                              loadingProgress
+                                                  .expectedTotalBytes!)
+                                          : 0,
+                                    ),
+                                  );
+                                },
+                                errorBuilder: (BuildContext context,
+                                    Object exception, StackTrace? stackTrace) {
+                                  return ClipRRect(
+                                    child: Image.asset(
+                                      'assets/images/error_image.jpeg',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  );
+                                },
                               ),
                             )),
                         Positioned(
@@ -523,7 +533,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                             controller: _scrollController,
                             itemBuilder: ((context, index) {
                               // _scrollDown();
-                              
+
                               final reversedIndex =
                                   imagesData.images!.length - 1 - index;
                               String dateWithT = imagesData
