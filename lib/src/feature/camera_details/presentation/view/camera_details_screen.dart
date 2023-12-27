@@ -56,6 +56,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
   GlobalKey _listViewKey = GlobalKey();
   TransformationController viewTransformationController =
       TransformationController();
+  double btmNavigationBarHeight =
+      Platform.isAndroid ? kBottomNavigationBarHeight : 90;
 
   @override
   void initState() {
@@ -452,9 +454,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                   (Scaffold.of(context)
                                           .appBarMaxHeight!
                                           .toDouble() +
-                                      kBottomNavigationBarHeight +
-                                      147.h -
-                                      (Platform.isIOS ? 50.h : 0)),
+                                      btmNavigationBarHeight +
+                                      147.h),
                               child: PinchZoom(
                                 // transformationController:
                                 //     viewTransformationController,
@@ -845,7 +846,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
       ),
       bottomNavigationBar: showBottomBar
           ? Container(
-              padding: EdgeInsets.only(bottom: Platform.isIOS ? 50.h : 0.h),
+              // padding: EdgeInsets.only(bottom: Platform.isIOS ? 50.h : 0.h),
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.2),
                 border: Border(
