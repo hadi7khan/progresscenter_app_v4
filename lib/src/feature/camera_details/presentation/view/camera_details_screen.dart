@@ -356,6 +356,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
           child: Consumer(builder: (context, ref, child) {
             print("state printed" + selectedImageData.toString());
             return SingleChildScrollView(
+              physics: NeverScrollableScrollPhysics(),
                 child: imagesByCameraIdData.when(
               data: (imagesData) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -403,7 +404,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                 (Scaffold.of(context)
                                         .appBarMaxHeight!
                                         .toDouble() +
-                                    kBottomNavigationBarHeight + 147.h),
+                                    kBottomNavigationBarHeight + 147.h -(Platform.isIOS ? 70.h:0.h)),
                             child: InteractiveViewer(
                               transformationController:
                                   viewTransformationController,
@@ -790,7 +791,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
       ),
       bottomNavigationBar: showBottomBar
           ? Container(
-          padding: EdgeInsets.only(bottom:Platform.isIOS ? 70.h : 0),
+          padding: EdgeInsets.only(bottom:Platform.isIOS ? 70.h : 0.h),
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.2),
                 border: Border(
