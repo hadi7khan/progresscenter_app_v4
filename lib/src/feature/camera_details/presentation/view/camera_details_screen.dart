@@ -59,7 +59,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     super.initState();
     controller = TransformationController();
     final zoomFactor = 2.0;
-    final xTranslate = 300.0;
+    final xTranslate = 400.0;
     final yTranslate = 400.0;
     viewTransformationController.value.setEntry(0, 0, zoomFactor);
     viewTransformationController.value.setEntry(1, 1, zoomFactor);
@@ -399,7 +399,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                       Stack(children: [
                         Container(
                             color: Helper.textColor300,
-                            height: MediaQuery.of(context).size.height * 0.8 -
+                            height: MediaQuery.of(context).size.height * 0.7 -
                                 (Scaffold.of(context)
                                         .appBarMaxHeight!
                                         .toDouble() +
@@ -790,6 +790,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
       ),
       bottomNavigationBar: showBottomBar
           ? Container(
+          padding: EdgeInsets.only(bottom:Platform.isIOS ? 30.h : 0),
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.2),
                 border: Border(
@@ -797,7 +798,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                       color: Colors.white.withOpacity(0.2), width: 0.5),
                 ),
               ),
-              height: Platform.isIOS ? 120.h : 50.h,
+              height: Platform.isIOS ? 50.h : 50.h,
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.min,
