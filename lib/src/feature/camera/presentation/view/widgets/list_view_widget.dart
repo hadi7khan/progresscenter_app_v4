@@ -32,7 +32,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
         padding: EdgeInsets.zero,
         height: 264.h,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Helper.widgetBackground,
           borderRadius: BorderRadius.circular(16.r),
         ),
         child: Stack(
