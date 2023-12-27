@@ -399,11 +399,11 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                       Stack(children: [
                         Container(
                             color: Helper.textColor300,
-                            height: MediaQuery.of(context).size.height * 0.7 -
+                            height: MediaQuery.of(context).size.height -
                                 (Scaffold.of(context)
                                         .appBarMaxHeight!
                                         .toDouble() +
-                                    kBottomNavigationBarHeight),
+                                    kBottomNavigationBarHeight + 147.h),
                             child: InteractiveViewer(
                               transformationController:
                                   viewTransformationController,
@@ -790,7 +790,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
       ),
       bottomNavigationBar: showBottomBar
           ? Container(
-          padding: EdgeInsets.only(bottom:Platform.isIOS ? 30.h : 0),
+          padding: EdgeInsets.only(bottom:Platform.isIOS ? 70.h : 0),
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.2),
                 border: Border(
