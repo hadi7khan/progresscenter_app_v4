@@ -26,13 +26,12 @@ void main() async {
   //       statusBarColor: Colors.black.withOpacity(0.2)
   // ));
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Colors.black.withOpacity(0.3),
-        statusBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.light
-        ));
+      statusBarColor: Colors.black.withOpacity(0.3),
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.light));
 
-  // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-  //     overlays: SystemUiOverlay.values);
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+      overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
 
   runApp(const ProviderScope(child: const MyApp()));
 }

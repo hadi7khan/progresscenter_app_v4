@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -416,19 +418,19 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                             // scale: 20,
                             // height: 210.h,
                             fit: BoxFit.fitHeight,
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
+                            // loadingBuilder: (context, child, loadingProgress) {
+                            //   if (loadingProgress == null) return child;
 
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  color: Helper.primary,
-                                  value: (loadingProgress != null)
-                                      ? (loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!)
-                                      : 0,
-                                ),
-                              );
-                            },
+                            //   return Center(
+                            //     child: CircularProgressIndicator(
+                            //       color: Helper.primary,
+                            //       value: (loadingProgress != null)
+                            //           ? (loadingProgress.cumulativeBytesLoaded /
+                            //               loadingProgress.expectedTotalBytes!)
+                            //           : 0,
+                            //     ),
+                            //   );
+                            // },
                             errorBuilder: (BuildContext context,
                                 Object exception, StackTrace? stackTrace) {
                               return ClipRRect(
@@ -451,13 +453,14 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                           .appBarMaxHeight!
                                           .toDouble() +
                                       kBottomNavigationBarHeight +
-                                      147.h),
-                              child: InteractiveViewer(
+                                      147.h -
+                                      (Platform.isIOS ? 50.h : 0)),
+                              child: PinchZoom(
                                 // transformationController:
                                 //     viewTransformationController,
                                 // panEnabled: false,
-                                // boundaryMargin: EdgeInsets.all(100),
-                                // minScale: 0.1,
+                                // boundaryMargin: EdgeInsets.zero,
+                                // minScale: 0.5,
                                 //  alignment: Alignment.center,
                                 // constrained: false,
                                 maxScale: 10,
@@ -466,7 +469,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                       ? imagesData.images![0].urlPreview!
                                       : selectedImageData.urlPreview!,
                                   width: double.infinity,
-                                  // scale: 20,
+                                  scale: 1,
                                   // height: 210.h,
                                   // fit: BoxFit.fitHeight,
                                   loadingBuilder:
@@ -842,7 +845,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
       ),
       bottomNavigationBar: showBottomBar
           ? Container(
-              // padding: EdgeInsets.only(bottom: Platform.isIOS ? 70.h : 0.h),
+              padding: EdgeInsets.only(bottom: Platform.isIOS ? 50.h : 0.h),
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.2),
                 border: Border(
