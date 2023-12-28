@@ -437,19 +437,19 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w500),
                           ),
-                          InkWell(
-                            onTap: () {
-                              context.push('/addmember',
-                                  extra: {"projectId": widget.data.id});
-                            },
-                            child: Text(
-                              "Add members",
-                              style: TextStyle(
-                                  color: Helper.blueDark,
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
+                          // InkWell(
+                          //   onTap: () {
+                          //     context.push('/addmember',
+                          //         extra: {"projectId": widget.data.id});
+                          //   },
+                          //   child: Text(
+                          //     "Add members",
+                          //     style: TextStyle(
+                          //         color: Helper.blueDark,
+                          //         fontSize: 14.sp,
+                          //         fontWeight: FontWeight.w500),
+                          //   ),
+                          // ),
                         ]),
                     SizedBox(height: 12.h),
                     ListView.separated(
@@ -730,7 +730,8 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                                   child: SvgPicture.asset(
                                       width: 15,
                                       height: 15,
-                                      'assets/images/close-x.svg', color: Helper.errorColor),
+                                      'assets/images/close-x.svg',
+                                      color: Helper.errorColor),
                                 )),
                           ),
                         );

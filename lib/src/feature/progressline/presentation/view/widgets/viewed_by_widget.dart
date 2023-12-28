@@ -883,8 +883,12 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                     Utils.toastSuccessMessage("User Added");
                     _emailController.clear();
                   }).onError((error, stackTrace) {
+                    // print(error.toString());
+                    var errorMessage = _userExists
+                        ? "User already added to project"
+                        : "An invitation request has already been sent to this user.";
                     Utils.flushBarErrorMessage(
-                        "User already added to this project", context);
+                        errorMessage.toString(), context);
                   });
                 },
                 child: Padding(
