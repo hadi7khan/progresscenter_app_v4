@@ -260,7 +260,7 @@ class _ProjectDetailsScreenState
                         child: BlurryContainer(
                           height: 30,
                           padding: EdgeInsets.only(
-                              top: 5.h, bottom: 5.h, left: 6.w, right: 5.w),
+                              top: 5, bottom: 5, left: 6, right: 5),
                           blur: 3,
                           borderRadius: BorderRadius.circular(30.r),
                           color: Colors.white,

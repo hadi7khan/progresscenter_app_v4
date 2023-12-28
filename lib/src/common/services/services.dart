@@ -73,20 +73,24 @@ class Service {
   Future projectInvite(projectId, data) async {
     var postData = json.encode(data);
     print("post data" + data.toString());
-    final client = http.Client();
-    final response =
-        await client.post(Uri.parse(Endpoints.projectInviteUrl(projectId)),
-            headers: {
-              "content-type": "application/json",
-              "Authorization": "Bearer " + _prefsLocator.getUserToken(),
-            },
-            body: postData);
-    print(response.statusCode.toString());
-    if (response.statusCode == 200) {
-      print("invite sent");
-      return response.body;
-    } else {
-      throw Exception('Failed to sent invite');
+    try {
+      final client = http.Client();
+      final response =
+          await client.post(Uri.parse(Endpoints.projectInviteUrl(projectId)),
+              headers: {
+                "content-type": "application/json",
+                "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+              },
+              body: postData);
+      print(response.statusCode.toString());
+      if (response.statusCode == 200) {
+        print("invite sent");
+        return response.body;
+      } else {
+        throw Exception(response.body.toString());
+      }
+    } catch (e) {
+      throw Exception(e.toString());
     }
   }
 
@@ -220,7 +224,7 @@ class Service {
   // method to upload a list of files
   Future<dynamic> uploadFiles(String projectId, List<String?> filePaths) async {
     Dio dio = Dio();
-
+    print("filepath---" + filePaths.toString());
     Map<String, String> headers = {
       // "Accept": "application/json",
       'Authorization': "Bearer ${_prefsLocator.getUserToken()}",
