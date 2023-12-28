@@ -29,6 +29,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   final GlobalKey<FormBuilderState> _dialogKey = GlobalKey<FormBuilderState>();
   bool _changeState = false;
+  bool _changeStateLocation = false;
   FocusNode focusNode = FocusNode();
   FocusNode focusNode1 = FocusNode();
   bool _validate = false;
@@ -287,6 +288,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                       textInputAction: TextInputAction.done,
                       style: TextStyle(
                         fontSize: 16.sp,
+                        letterSpacing: -0.3,
                         fontWeight: FontWeight.w400,
                       ),
                       textCapitalization: TextCapitalization.none,
@@ -298,6 +300,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                         hintText: "Project name",
                         hintStyle: TextStyle(
                           color: Helper.textColor500,
+                          letterSpacing: -0.3,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w400,
                         ),
@@ -354,11 +357,11 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                       // initialValue: widget.data.location!.name,
                       onChanged: (text) {
                         setState(() {});
-                        _changeState = true;
+                        _changeStateLocation = true;
                       },
                       onSubmitted: (text) {
                         setState(() {
-                          _changeState = true;
+                          _changeStateLocation = true;
                         });
                       },
                       validator: (val) {
@@ -369,6 +372,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                       },
                       textInputAction: TextInputAction.done,
                       style: TextStyle(
+                        letterSpacing: -0.3,
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w400,
                       ),
@@ -381,6 +385,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                         hintText: "Location",
                         hintStyle: TextStyle(
                           color: Helper.textColor500,
+                          letterSpacing: -0.3,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w400,
                         ),
@@ -394,8 +399,8 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                                   ),
                                   onPressed: () {
                                     setState(() {
-                                      _controller.clear();
-                                      _changeState = false;
+                                      _locationController.clear();
+                                      _changeStateLocation = false;
                                     });
                                   },
                                 ),
