@@ -51,6 +51,29 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
           child: docsData.when(
             data: (data) {
+              if (data.isEmpty) {
+                return Container(
+                  alignment: Alignment.center,
+                  height: MediaQuery.of(context).size.height * 0.88.h,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset('assets/images/illustration.svg'),
+                      SizedBox(height: 16.h),
+                      Text(
+                        "This space is empty",
+                        style: TextStyle(
+                            letterSpacing: -0.3,
+                            color: Helper.textColor900,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
+                );
+              }
+              ;
               print("data fetched" + data.toString());
               categoryList = data.map((map) {
                 return {
