@@ -14,6 +14,7 @@ class Utils {
 
   static toastSuccessMessage(String message) {
     Fluttertoast.showToast(
+      toastLength: Toast.LENGTH_LONG,
       msg: message,
       backgroundColor: Helper.successColor,
       textColor: Colors.white,
