@@ -386,7 +386,7 @@ class _ProjectDetailsScreenState
                                       bottom: MediaQuery.of(context)
                                           .viewInsets
                                           .bottom) *
-                                  0.8,
+                                  0.6,
                               child: ViewedByWidget(
                                 data: widget.projectUsers,
                                 showText: "Current members",
