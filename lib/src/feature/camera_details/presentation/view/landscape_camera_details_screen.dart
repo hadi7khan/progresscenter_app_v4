@@ -43,14 +43,15 @@ class _LandscapeCameraDetailsScreenState
     super.initState();
     // WidgetsFlutterBinding.ensureInitialized();
 
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
-     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        systemNavigationBarColor: Colors.black,
-        ));
-        SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.landscapeLeft,
+    //   DeviceOrientation.landscapeRight,
+    // ]);
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.black,
+    ));
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
   }
 
   showDate(String date) {
@@ -69,101 +70,103 @@ class _LandscapeCameraDetailsScreenState
       DeviceOrientation.portraitDown,
     ]);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        systemNavigationBarColor: Colors.white,
-        ));
+      systemNavigationBarColor: Colors.white,
+    ));
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     final selectedImageData = ref.watch(selectedImageDataProvider);
     return AnnotatedRegion<SystemUiOverlayStyle>(
-    value: SystemUiOverlayStyle(
-      
-    ),
+      value: SystemUiOverlayStyle(),
       child: Scaffold(
         backgroundColor: Colors.black,
         body: SafeArea(
           child: Consumer(builder: (context, ref, child) {
             print("state printed" + selectedImageData.toString());
-            return Stack(
-              children: [
-                Center(
-                  child: Stack(
-                    // fit: StackFit.loose,
-                    children: [
-                    AspectRatio(
-                      aspectRatio: 16 / 9,
-                      child: InteractiveViewer(
-                        clipBehavior: Clip.none,
-                        maxScale : 10,
-                        minScale: 4,
-                        child: Image.network(
-                          selectedImageData == null
-                              ? widget.imagesData.images![0].urlPreview!
-                              : selectedImageData.urlPreview!,
-                          // width: double.infinity,
-                          height: MediaQuery.of(context).size.height,
-                          fit: BoxFit.fill,
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-                                              
-                            return Center(
-                              child: CircularProgressIndicator(
-                                color: Helper.primary,
-                                value: (loadingProgress != null)
-                                    ? (loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!)
-                                    : 0,
+            return RotatedBox(
+              quarterTurns: 1,
+              child: Stack(
+                children: [
+                  Center(
+                    child: Stack(
+                        // fit: StackFit.loose,
+                        children: [
+                          AspectRatio(
+                            aspectRatio: 16 / 9,
+                            child: InteractiveViewer(
+                              clipBehavior: Clip.none,
+                              maxScale: 10,
+                              minScale: 4,
+                              child: Image.network(
+                                selectedImageData == null
+                                    ? widget.imagesData.images![0].urlPreview!
+                                    : selectedImageData.urlPreview!,
+                                // width: double.infinity,
+                                height: MediaQuery.of(context).size.height,
+                                fit: BoxFit.fill,
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                  if (loadingProgress == null) return child;
+
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      color: Helper.primary,
+                                      value: (loadingProgress != null)
+                                          ? (loadingProgress
+                                                  .cumulativeBytesLoaded /
+                                              loadingProgress
+                                                  .expectedTotalBytes!)
+                                          : 0,
+                                    ),
+                                  );
+                                },
+                                errorBuilder: (BuildContext context,
+                                    Object exception, StackTrace? stackTrace) {
+                                  return ClipRRect(
+                                    child: Image.asset(
+                                      'assets/images/error_image.jpeg',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  );
+                                },
                               ),
-                            );
-                          },
-                          errorBuilder: (BuildContext context, Object exception,
-                              StackTrace? stackTrace) {
-                            return ClipRRect(
-                              child: Image.asset(
-                                'assets/images/error_image.jpeg',
-                                fit: BoxFit.cover,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    
-                  ]),
-                ),
-                Positioned(
-                      top: 16,
-                      right: 0,
-                      child: InkWell(
-                        onTap: () {
-                          context.pop();
-                        },
-                        child: BlurryContainer(
-                          blur: 3,
-                          padding: EdgeInsets.symmetric(
-                              vertical: 10.h, horizontal: 4.w),
-                          borderRadius: BorderRadius.circular(30.r),
-                          color: Colors.white,
-                          child: SvgPicture.asset(
-                            'assets/images/close-x.svg',
-                            height: 16.h,
-                            width: 16.w,
-                            color: Colors.black,
+                            ),
                           ),
+                        ]),
+                  ),
+                  Positioned(
+                    top: 16,
+                    right: 0,
+                    child: InkWell(
+                      onTap: () {
+                        context.pop();
+                      },
+                      child: BlurryContainer(
+                        blur: 3,
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        borderRadius: BorderRadius.circular(30.r),
+                        color: Colors.white,
+                        child: SvgPicture.asset(
+                          'assets/images/close-x.svg',
+                          height: 16.h,
+                          width: 16.w,
+                          color: Colors.black,
                         ),
                       ),
                     ),
-              ],
+                  ),
+                ],
+              ),
             );
           }),
         ),
       ),
     );
   }
-   _showDateBottomSheet(
+
+  _showDateBottomSheet(
       context,
       String startDate,
       String endDate,
@@ -251,13 +254,14 @@ class _LandscapeCameraDetailsScreenState
                         //         ref
                         // .read(imagesByCamIdControllerProvider.notifier)
                         // .getIagesByCamId(projectId, cameraId, searchDate: selectedDate );
-                        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                        WidgetsBinding.instance
+                            .addPostFrameCallback((timeStamp) {
                           ref
                               .read(imagesByCamIdControllerProvider.notifier)
                               .getImagesByCamId(projectId, cameraId,
                                   searchDate: selectedDate);
                         });
-            
+
                         context.pop();
                         setState(() {
                           // getDaysInMonth(currentMonth, false);
@@ -274,5 +278,4 @@ class _LandscapeCameraDetailsScreenState
       ]),
     );
   }
-
 }

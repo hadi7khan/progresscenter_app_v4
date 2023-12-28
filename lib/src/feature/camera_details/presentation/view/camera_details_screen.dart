@@ -20,6 +20,7 @@ import 'package:progresscenter_app_v4/src/feature/bottom_navigation/view/camera_
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/camera_by_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/images_by_cam_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/selected_imagedata_provider.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/landscape_camera_details_screen.dart';
 import 'package:zoom_pinch_overlay/zoom_pinch_overlay.dart';
 
 class CameraDetailsSreen extends ConsumerStatefulWidget {
@@ -553,12 +554,65 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                             onTap: () {
                               // SystemChrome.setPreferredOrientations(
                               //     [DeviceOrientation.landscapeRight]);
-                              context.push('/landscapeCameraDetails', extra: {
-                                "projectId": widget.projectId,
-                                "projectName": widget.projectName,
-                                "cameraId": widget.cameraId,
-                                "imagesData": imagesData
-                              });
+                              // context.push('/landscapeCameraDetails', extra: {
+                              //   "projectId": widget.projectId,
+                              //   "projectName": widget.projectName,
+                              //   "cameraId": widget.cameraId,
+                              //   "imagesData": imagesData
+                              // });
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder: (context, animation,
+                                          secondaryAnimation) =>
+                                      LandscapeCameraDetailsScreen(
+                                    projectId: widget.projectId,
+                                    cameraId: widget.cameraId,
+                                    imagesData: imagesData,
+                                    projectName: widget.projectName,
+                                  ),
+                                  transitionsBuilder: (context, animation,
+                                      secondaryAnimation, child) {
+                                    const begin = 0.75;
+                                    const end = 1.0;
+                                    var rotationAnimation =
+                                        Tween(begin: begin, end: end)
+                                            .animate(animation);
+                                    return RotationTransition(
+                                      turns: rotationAnimation,
+                                      child: child,
+                                    );
+                                  },
+                                ),
+                              );
+
+                              // Navigator.push(
+                              //   context,
+                              //   PageRouteBuilder(
+                              //     pageBuilder: (context, animation,
+                              //             secondaryAnimation) =>
+                              //         LandscapeCameraDetailsScreen(
+                              //       projectId: widget.projectId,
+                              //       cameraId: widget.cameraId,
+                              //       imagesData: imagesData,
+                              //       projectName: widget.projectName,
+                              //     ),
+                              //     transitionsBuilder: (context, animation,
+                              //         secondaryAnimation, child) {
+                              //       const begin = Offset(1.0, 0.0);
+                              //       const end = Offset.zero;
+                              //       const curve = Curves.easeInOutCubic;
+                              //       var tween = Tween(begin: begin, end: end)
+                              //           .chain(CurveTween(curve: curve));
+                              //       var offsetAnimation =
+                              //           animation.drive(tween);
+                              //       return SlideTransition(
+                              //         position: offsetAnimation,
+                              //         child: child,
+                              //       );
+                              //     },
+                              //   ),
+                              // );
                             },
                             child: BlurryContainer(
                               blur: 3,
