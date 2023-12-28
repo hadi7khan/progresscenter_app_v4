@@ -79,14 +79,16 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     firstTime = true;
     // _scrollController = ScrollController();
     // _scrollController.addListener(_scrollListener);
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   // Scroll to the last index
-    //   _scrollController.animateTo(
-    //     _scrollController.position.maxScrollExtent,
-    //     duration: Duration(milliseconds: 500),
-    //     curve: Curves.easeInOut,
-    //   );
-    // });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Scroll to the last index
+      Timer(Duration(seconds: 1), () {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
+      });
+    });
 
     animationController = AnimationController(
       vsync: this,
@@ -293,16 +295,16 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     final scaleMatrix = Matrix4.identity()..scale(1.9);
 
     viewTransformationController = TransformationController(scaleMatrix);
-    if (firstTime) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        // Scroll to the last index
-        _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
-          duration: Duration(milliseconds: 500),
-          curve: Curves.easeInOut,
-        );
-      });
-    }
+    // if (firstTime) {
+    //   WidgetsBinding.instance.addPostFrameCallback((_) {
+    //     // Scroll to the last index
+    //     _scrollController.animateTo(
+    //       _scrollController.position.maxScrollExtent,
+    //       duration: Duration(milliseconds: 500),
+    //       curve: Curves.easeInOut,
+    //     );
+    //   });
+    // }
 
     return Scaffold(
       backgroundColor: Color.fromRGBO(247, 247, 247, 1),
@@ -434,7 +436,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                       .appBarMaxHeight!
                                       .toDouble() +
                                   kBottomNavigationBarHeight +
-                                  180.h),
+                                  184.h),
                           child: Image.network(
                             selectedImageData == null
                                 ? imagesData.images![0].urlPreview!
@@ -468,7 +470,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                           ),
                         ),
                         BlurryContainer(
-                          blur: 50,
+                          blur: 30,
                           padding: EdgeInsets.zero,
                           borderRadius: BorderRadius.zero,
                           // filter: ImageFilter.blur(sigmaX: 105, sigmaY: 105),
@@ -479,7 +481,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                           .appBarMaxHeight!
                                           .toDouble() +
                                       kBottomNavigationBarHeight +
-                                      180.h),
+                                      184.h),
                               // color: Helper.textColor300,
                               // height: MediaQuery.of(context).size.height -
                               //     (Scaffold.of(context)
@@ -657,7 +659,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                         ),
                       ]),
                       SizedBox(
-                        height: 73.h,
+                        height: 75.h,
                         child: ListView.separated(
                             separatorBuilder: (context, builder) {
                               return SizedBox(
@@ -707,7 +709,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                 },
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: 4.w, vertical: 2.h),
+                                      horizontal: 4.w, vertical: 4.h),
                                   child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
