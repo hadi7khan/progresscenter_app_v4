@@ -16,6 +16,7 @@ import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/provider/create_doc_folder_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/provider/docs_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/widgets/docs_widget.dart';
+import 'dart:developer';
 
 class DocsScreen extends ConsumerStatefulWidget {
   final label;
@@ -51,37 +52,8 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
           child: docsData.when(
             data: (data) {
-              if (data.isEmpty) {
-                return Container(
-                  alignment: Alignment.center,
-                  height: MediaQuery.of(context).size.height * 0.88.h,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset('assets/images/illustration.svg'),
-                      SizedBox(height: 16.h),
-                      Text(
-                        "No Documents",
-                        style: TextStyle(
-                            letterSpacing: -0.3,
-                            color: Helper.textColor900,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      Text(
-                        "This space is empty",
-                        style: TextStyle(
-                            letterSpacing: -0.3,
-                            color: Helper.textColor600,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ],
-                  ),
-                );
-              }
-              ;
+              log(data.toString());
+
               print("data fetched" + data.toString());
               categoryList = data.map((map) {
                 return {
@@ -106,6 +78,7 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                       )
                       .toList())
                   .toList();
+
               print("allFiles " + allFiles.toString());
 
               // Map file IDs to be equal to folder IDs

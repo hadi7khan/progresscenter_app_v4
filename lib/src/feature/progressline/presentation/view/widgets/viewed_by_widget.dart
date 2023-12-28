@@ -694,7 +694,8 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                                                       Service()
                                                           .revokeMember(
                                                         widget.projectId,
-                                                        widget.data.userId,
+                                                        widget
+                                                            .data[index].userId,
                                                       )
                                                           .then((value) {
                                                         context.pop();
@@ -795,15 +796,24 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                                                       onPressed: () async {
                                                         print(
                                                             "project user data " +
-                                                                widget.data.id
+                                                                widget
+                                                                    .data[index]
+                                                                    .toString());
+                                                        print(
+                                                            "project user data " +
+                                                                widget
+                                                                    .data[index]
+                                                                    .userId
                                                                     .toString());
                                                         Service()
                                                             .revokeMember(
                                                                 widget
                                                                     .projectId,
-                                                                widget.data
+                                                                widget
+                                                                    .data[index]
                                                                     .userId)
                                                             .then((value) {
+                                                          context.pop();
                                                           context.pop();
                                                           ScaffoldMessenger
                                                                   .of(context)

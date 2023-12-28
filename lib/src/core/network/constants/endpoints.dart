@@ -154,8 +154,8 @@ class Endpoints {
     return '$baseUrl/api/v4/documents/$folderId/files';
   }
 
-  static deleteFileUrl(fileId) {
-    return '$baseUrl/api/v4/documents/237932/files/$fileId';
+  static deleteFileUrl(folderId, fileId) {
+    return '$baseUrl/api/v4/documents/$folderId/files/$fileId';
   }
 
   //---------------------------- ProgressLine ---------------------------------------
