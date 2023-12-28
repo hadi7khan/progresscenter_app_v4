@@ -46,111 +46,116 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
     final teamData =
         ref.watch(teamControllerProvider.select((value) => value.users));
     return Scaffold(
-      body: SafeArea(
-          child: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-            child: teamData.when(
-              data: (data) {
-                final _filteredUserList = _selectedTeam == null
-                    ? data
-                    : data
-                        .where((item) => item.tags!.contains(_selectedTeam))
-                        .toList();
-                print("_filteredUserList: $_filteredUserList");
+      body: RefreshIndicator(
+        onRefresh: () async {
+          return await ref.refresh(teamControllerProvider.notifier).getUser();
+        },
+        child: SafeArea(
+            child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+              child: teamData.when(
+                data: (data) {
+                  final _filteredUserList = _selectedTeam == null
+                      ? data
+                      : data
+                          .where((item) => item.tags!.contains(_selectedTeam))
+                          .toList();
+                  print("_filteredUserList: $_filteredUserList");
 
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SvgPicture.asset('assets/images/home.svg'),
-                        Row(
-                          children: [
-                            SvgPicture.asset('assets/images/search.svg'),
-                            SizedBox(width: 12.w),
-                            ConstrainedBox(
-                              constraints: new BoxConstraints(
-                                maxHeight: 30.h,
-                                maxWidth: 30.w,
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SvgPicture.asset('assets/images/home.svg'),
+                          Row(
+                            children: [
+                              SvgPicture.asset('assets/images/search.svg'),
+                              SizedBox(width: 12.w),
+                              ConstrainedBox(
+                                constraints: new BoxConstraints(
+                                  maxHeight: 30.h,
+                                  maxWidth: 30.w,
+                                ),
+                                child: PopupMenuButton(
+                                  padding: EdgeInsets.zero,
+                                  icon: SvgPicture.asset(
+                                      'assets/images/sort.svg'),
+                                  position: PopupMenuPosition.under,
+                                  itemBuilder: (BuildContext context) {
+                                    return _teamList.map((team) {
+                                      return PopupMenuItem(
+                                          value:
+                                              team, // Use a unique identifier for each item
+                                          child: ListTile(
+                                            horizontalTitleGap: 8.w,
+                                            dense: true,
+                                            visualDensity: VisualDensity(
+                                                horizontal: 0, vertical: -4),
+                                            contentPadding: EdgeInsets.zero,
+                                            title: Text(
+                                              team,
+                                              style: TextStyle(
+                                                  letterSpacing: -0.3,
+                                                  color: Helper.baseBlack,
+                                                  fontSize: 14.sp,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ));
+                                    }).toList();
+                                  },
+                                  onSelected: (value) {
+                                    print(value.toString());
+                                    setState(() {
+                                      _selectedTeam =
+                                          value == 'All' ? null : value;
+                                      print("selectedTeam: $_selectedTeam");
+                                    });
+                                  },
+                                ),
                               ),
-                              child: PopupMenuButton(
-                                padding: EdgeInsets.zero,
-                                icon:
-                                    SvgPicture.asset('assets/images/sort.svg'),
-                                position: PopupMenuPosition.under,
-                                itemBuilder: (BuildContext context) {
-                                  return _teamList.map((team) {
-                                    return PopupMenuItem(
-                                        value:
-                                            team, // Use a unique identifier for each item
-                                        child: ListTile(
-                                          horizontalTitleGap: 8.w,
-                                          dense: true,
-                                          visualDensity: VisualDensity(
-                                              horizontal: 0, vertical: -4),
-                                          contentPadding: EdgeInsets.zero,
-                                          title: Text(
-                                            team,
-                                            style: TextStyle(
-                                                letterSpacing: -0.3,
-                                                color: Helper.baseBlack,
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ));
-                                  }).toList();
-                                },
-                                onSelected: (value) {
-                                  print(value.toString());
-                                  setState(() {
-                                    _selectedTeam =
-                                        value == 'All' ? null : value;
-                                    print("selectedTeam: $_selectedTeam");
-                                  });
-                                },
-                              ),
-                            ),
-                            SizedBox(width: 12.w),
-                            InkWell(
-                                onTap: () {
-                                  _showUserBottomSheet(context);
-                                },
-                                child:
-                                    SvgPicture.asset('assets/images/plus.svg')),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 14.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Team",
-                          style: TextStyle(
-                              letterSpacing: -1,
-                              color: Helper.textColor700,
-                              fontSize: 36.sp,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 16.h),
-                    TeamWidget(teamData: _filteredUserList),
-                  ],
-                );
-              },
-              error: (err, _) {
-                return const Text("Failed to load teams",
-                    style: TextStyle(
-                        letterSpacing: -0.3, color: Helper.errorColor));
-              },
-              loading: () => LoadingTeamList(),
-            )),
-      )),
+                              SizedBox(width: 12.w),
+                              InkWell(
+                                  onTap: () {
+                                    _showUserBottomSheet(context);
+                                  },
+                                  child: SvgPicture.asset(
+                                      'assets/images/plus.svg')),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 14.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Team",
+                            style: TextStyle(
+                                letterSpacing: -1,
+                                color: Helper.textColor700,
+                                fontSize: 36.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 16.h),
+                      TeamWidget(teamData: _filteredUserList),
+                    ],
+                  );
+                },
+                error: (err, _) {
+                  return const Text("Failed to load teams",
+                      style: TextStyle(
+                          letterSpacing: -0.3, color: Helper.errorColor));
+                },
+                loading: () => LoadingTeamList(),
+              )),
+        )),
+      ),
     );
   }
 

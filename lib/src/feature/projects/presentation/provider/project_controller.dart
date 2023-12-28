@@ -12,10 +12,9 @@ class ProjectController extends StateNotifier<ProjectState> {
   ProjectController(super.state, this.service);
   final ProjectRepositoryImpl service;
 
-  void getProjects({searchText = '', training = ''}) async {
+  Future getProjects({searchText = '', training = ''}) async {
     state = state.copyWith(isFetching: true);
-    final result = await service.projectList(
-    );
+    final result = await service.projectList();
 
     result.fold((l) {
       // error handle

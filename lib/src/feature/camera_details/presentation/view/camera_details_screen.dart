@@ -277,6 +277,19 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     super.didChangeDependencies();
   }
 
+  parseDateTimeString(String time) {
+    String dateWithT = time.substring(0, 8) + 'T' + time.substring(8);
+    DateTime dateTime = DateTime.parse(dateWithT);
+    final String formattedTime = DateFormat('h:mm a').format(dateTime);
+    return formattedTime;
+  }
+
+  parseTimeString(String timeString) {
+    DateTime time = DateFormat("HHmmss").parse(timeString);
+    String formattedTime = DateFormat("h:mm a").format(time);
+    return formattedTime;
+  }
+
   @override
   void dispose() {
     controller!.dispose();
@@ -567,6 +580,13 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                       color: Colors.white,
                                     ),
                                     SizedBox(width: 4.w),
+                                    // Text(
+                                    //     parseTimeString(imagesData
+                                    //         .images!.time!),
+                                    //     style: TextStyle(
+                                    //         color: Colors.white,
+                                    //         fontWeight: FontWeight.w500,
+                                    //         fontSize: 12.sp)),
                                     Text(showDate(imagesData.endDate!),
                                         style: TextStyle(
                                             color: Colors.white,
@@ -678,15 +698,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
 
                               final reversedIndex =
                                   imagesData.images!.length - 1 - index;
-                              String dateWithT = imagesData
-                                      .images![reversedIndex].datetime!
-                                      .substring(0, 8) +
-                                  'T' +
-                                  imagesData.images![reversedIndex].datetime!
-                                      .substring(8);
-                              DateTime dateTime = DateTime.parse(dateWithT);
-                              final String formattedTime =
-                                  DateFormat('h:mm a').format(dateTime);
+
                               return InkWell(
                                 onTap: () {
                                   setState(() {
@@ -760,7 +772,9 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                           height: 6.h,
                                         ),
                                         Text(
-                                          formattedTime,
+                                          parseDateTimeString(imagesData
+                                              .images![reversedIndex]
+                                              .datetime!),
                                           style: TextStyle(
                                               letterSpacing: -0.3,
                                               color: Helper.textColor700,
