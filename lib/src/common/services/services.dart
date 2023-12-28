@@ -131,10 +131,10 @@ class Service {
   }
 
   // method to delete file
-  Future deleteFile(fileId) async {
+  Future deleteFile(folderId, fileId) async {
     final client = http.Client();
     final response = await client
-        .delete(Uri.parse(Endpoints.deleteFileUrl(fileId)), headers: {
+        .delete(Uri.parse(Endpoints.deleteFileUrl(folderId, fileId)), headers: {
       "content-type": "application/json",
       "Authorization": "Bearer " + _prefsLocator.getUserToken(),
     });
@@ -147,7 +147,7 @@ class Service {
     }
   }
 
-  // method to delete file
+  // method to delete user
   Future deleteUser(userId) async {
     final client = http.Client();
     final response = await client

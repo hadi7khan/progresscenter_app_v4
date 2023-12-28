@@ -12,6 +12,7 @@ import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/provider/docs_controller.dart';
+import 'dart:developer' as developer;
 
 class DocsCard extends ConsumerStatefulWidget {
   final docsData;
@@ -127,9 +128,11 @@ class _DocsCardState extends BaseConsumerState<DocsCard> {
                                         color: Helper.errorColor,
                                       ),
                                     ),
-                                    onPressed: () {
-                                      Service()
-                                          .deleteFile(widget.docsData['fileId'])
+                                    onPressed: () async {
+                                      await Service()
+                                          .deleteFile(
+                                              widget.docsData['folderId'],
+                                              widget.docsData['fileId'])
                                           .then((value) {
                                         context.pop();
                                         Utils.flushBarErrorMessage(
@@ -206,9 +209,12 @@ class _DocsCardState extends BaseConsumerState<DocsCard> {
                                       left: 32, bottom: 32, right: 32),
                                   actions: [
                                     TextButton(
-                                      onPressed: () async {
+                                      onPressed: () {
+                                        developer.log('log me' +
+                                            widget.docsData.toString());
                                         Service()
                                             .deleteFile(
+                                                widget.docsData['folderId'],
                                                 widget.docsData['fileId'])
                                             .then((value) {
                                           context.pop();

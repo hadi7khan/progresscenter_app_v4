@@ -61,7 +61,7 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                 title: Text(
                   widget.projectName,
                   style: TextStyle(
-                    letterSpacing: -0.3,
+                      letterSpacing: -0.3,
                       color: Helper.baseBlack,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500),
@@ -80,7 +80,9 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                     // padding: EdgeInsets.zero,
                     // alignment: Alignment.centerLeft,
                     child: list
-                        ? SvgPicture.asset('assets/images/grid_view.svg',)
+                        ? SvgPicture.asset(
+                            'assets/images/grid_view.svg',
+                          )
                         : SvgPicture.asset('assets/images/list_view.svg'),
                     onTap: () {
                       setState(() {
@@ -105,29 +107,28 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                 child: cameraData.when(
                   data: (data) {
                     if (data.isEmpty) {
-                        return Container(
-                          alignment: Alignment.center,
-                          height: MediaQuery.of(context).size.height *0.88.h,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                  'assets/images/illustration.svg'),
-                                  SizedBox(height: 16.h),
-                              Text(
-                                "No Timelapse footage",
-                                style: TextStyle(
-                    letterSpacing: -0.3,
-                                    color: Helper.textColor900,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                      ;
+                      return Container(
+                        alignment: Alignment.center,
+                        height: MediaQuery.of(context).size.height * 0.88.h,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset('assets/images/illustration.svg'),
+                            SizedBox(height: 16.h),
+                            Text(
+                              "No Timelapse footage",
+                              style: TextStyle(
+                                  letterSpacing: -0.3,
+                                  color: Helper.textColor900,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                    ;
                     return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.max,
@@ -152,7 +153,7 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                           //       Text(
                           //         widget.projectName,
                           //         style: TextStyle(
-                    // letterSpacing: -0.3,
+                          // letterSpacing: -0.3,
                           //             color: Helper.baseBlack,
                           //             fontSize: 18.sp,
                           //             fontWeight: FontWeight.w500),
@@ -212,9 +213,9 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                                   padding: EdgeInsets.zero,
                                   itemCount: data.length,
                                   itemBuilder: ((context, index) {
-                                    return ListViewWidget(data: data[index],
-                                    projectName: widget.projectName
-                                    );
+                                    return ListViewWidget(
+                                        data: data[index],
+                                        projectName: widget.projectName);
                                   }),
                                 )
                               : GridView.builder(
@@ -231,8 +232,8 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                                   itemCount: data.length,
                                   itemBuilder: ((context, index) {
                                     return GridViewWidget(
-                                      data: data[index],
-                                    );
+                                        data: data[index],
+                                        projectName: widget.projectName);
                                   }),
                                 ),
                         ]);
@@ -240,7 +241,7 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                   error: (err, _) {
                     return const Text("Failed to load Timelapse",
                         style: TextStyle(
-                    letterSpacing: -0.3,color: Helper.errorColor));
+                            letterSpacing: -0.3, color: Helper.errorColor));
                   },
                   loading: () => Column(
                     children: [

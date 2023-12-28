@@ -16,6 +16,7 @@ import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/provider/create_doc_folder_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/provider/docs_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/widgets/docs_widget.dart';
+import 'dart:developer';
 
 class DocsScreen extends ConsumerStatefulWidget {
   final label;
@@ -51,7 +52,33 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
           child: docsData.when(
             data: (data) {
-              if (data.isEmpty) {
+              log(data.toString());
+
+              print("data fetched" + data.toString());
+              categoryList = data.map((map) {
+                return {
+                  '_id': map.id,
+                  'name': map.name,
+                };
+              }).toList();
+
+              // Get the list of files from all documents
+              final allFiles = data
+                  .where((document) =>
+                      document.files != null && document.id!.isNotEmpty)
+                  .expand((document) => document.files!
+                      .map<Map<String, dynamic>>(
+                        (file) => {
+                          'documentId': document.id,
+                          'fileId': file.id,
+                          'name': file.name,
+                          'path': file.path,
+                          'uploadedBy': file.uploadedBy?.name ?? '',
+                        },
+                      )
+                      .toList())
+                  .toList();
+              if (allFiles.isEmpty) {
                 return Container(
                   alignment: Alignment.center,
                   height: MediaQuery.of(context).size.height * 0.88.h,
@@ -82,30 +109,6 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                 );
               }
               ;
-              print("data fetched" + data.toString());
-              categoryList = data.map((map) {
-                return {
-                  '_id': map.id,
-                  'name': map.name,
-                };
-              }).toList();
-
-              // Get the list of files from all documents
-              final allFiles = data
-                  .where((document) =>
-                      document.files != null && document.id!.isNotEmpty)
-                  .expand((document) => document.files!
-                      .map<Map<String, dynamic>>(
-                        (file) => {
-                          'documentId': document.id,
-                          'fileId': file.id,
-                          'name': file.name,
-                          'path': file.path,
-                          'uploadedBy': file.uploadedBy?.name ?? '',
-                        },
-                      )
-                      .toList())
-                  .toList();
               print("allFiles " + allFiles.toString());
 
               // Map file IDs to be equal to folder IDs
