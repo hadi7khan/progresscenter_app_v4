@@ -67,6 +67,8 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
   @override
   void initState() {
     super.initState();
+    _locationController.text = widget.data.location!.name!;
+    _controller.text = widget.data.name!;
 
     focusNode.addListener(() {
       if (!focusNode.hasFocus) {
@@ -204,6 +206,15 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500),
                 ),
+                actions: [
+                  Text(
+                    "Save",
+                    style: TextStyle(
+                        color: Helper.primary,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16.sp),
+                  )
+                ],
               ),
             ),
           ),
@@ -256,6 +267,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                     FormBuilderTextField(
                       name: 'project_name',
                       controller: _controller,
+                      // initialValue: widget.data.projectName,
                       focusNode: focusNode,
                       onChanged: (text) {
                         setState(() {});
@@ -339,6 +351,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                       name: 'location',
                       controller: _locationController,
                       focusNode: focusNode1,
+                      // initialValue: widget.data.location!.name,
                       onChanged: (text) {
                         setState(() {});
                         _changeState = true;
