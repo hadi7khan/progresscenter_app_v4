@@ -557,7 +557,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                 padding: EdgeInsets.symmetric(
                                     vertical: 6.h, horizontal: 8.w),
                                 borderRadius: BorderRadius.circular(30.r),
-                                color: Colors.black.withOpacity(0.1),
+                                color: Colors.black.withOpacity(0.3),
                                 child: Row(
                                   children: [
                                     SvgPicture.asset(
@@ -648,7 +648,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                               padding: EdgeInsets.symmetric(
                                   vertical: 6.h, horizontal: 6.w),
                               borderRadius: BorderRadius.circular(30.r),
-                              color: Colors.black.withOpacity(0.1),
+                              color: Colors.black.withOpacity(0.3),
                               child: SvgPicture.asset(
                                 'assets/images/expand.svg',
                                 // height: 16.h,
