@@ -80,8 +80,8 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
             child: Padding(
               padding: EdgeInsets.only(right: 16.w, left: 16.w),
               child: AppBar(
-                // backgroundColor: Colors.white,
-                // surfaceTintColor: Colors.white,
+                backgroundColor: Colors.white,
+                surfaceTintColor: Colors.white,
                 automaticallyImplyLeading: false,
                 titleSpacing: 12.0.w,
                 leading: InkWell(
