@@ -467,8 +467,12 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                             },
                           ),
                         ),
-                        BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                        BlurryContainer(
+                          blur: 50,
+                          padding: EdgeInsets.zero,
+                          borderRadius: BorderRadius.zero,
+                          // filter: ImageFilter.blur(sigmaX: 105, sigmaY: 105),
+                          // blendMode: BlendMode.clear,
                           child: Container(
                               height: MediaQuery.of(context).size.height -
                                   (Scaffold.of(context)

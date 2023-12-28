@@ -1123,7 +1123,7 @@ List links = [
     'countText': 'Footages'
   },
   {
-    'content': 'CCTV View',
+    'content': 'Live Cameras',
     'to': '/cctv',
     'identifier': AssetType.CAMERA_CCTV.name,
     'icon': 'assets/images/cctv.svg',
@@ -1373,7 +1373,7 @@ String assetTypeToString(AssetType assetType) {
     case AssetType.DRONE_FOOTAGE:
       return 'Drone Footage';
     case AssetType.CAMERA_CCTV:
-      return 'Cctv View';
+      return 'Live Cameras';
     case AssetType.CAMERA_360:
       return '360° Cameras';
     case AssetType.SITE_GALLERY:
