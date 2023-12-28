@@ -471,6 +471,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                         ),
                         BlurryContainer(
                           blur: 30,
+
                           padding: EdgeInsets.zero,
                           borderRadius: BorderRadius.zero,
                           // filter: ImageFilter.blur(sigmaX: 105, sigmaY: 105),
@@ -556,7 +557,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                 padding: EdgeInsets.symmetric(
                                     vertical: 6.h, horizontal: 8.w),
                                 borderRadius: BorderRadius.circular(30.r),
-                                color: Colors.white.withOpacity(0.1),
+                                color: Colors.black.withOpacity(0.1),
                                 child: Row(
                                   children: [
                                     SvgPicture.asset(
@@ -647,7 +648,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                               padding: EdgeInsets.symmetric(
                                   vertical: 6.h, horizontal: 6.w),
                               borderRadius: BorderRadius.circular(30.r),
-                              color: Colors.white.withOpacity(0.1),
+                              color: Colors.black.withOpacity(0.1),
                               child: SvgPicture.asset(
                                 'assets/images/expand.svg',
                                 // height: 16.h,
