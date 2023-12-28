@@ -97,7 +97,7 @@ class _LandscapeCameraDetailsScreenState
                             child: InteractiveViewer(
                               clipBehavior: Clip.none,
                               maxScale: 10,
-                              minScale: 4,
+                              // minScale: 4,
                               child: Image.network(
                                 selectedImageData == null
                                     ? widget.imagesData.images![0].urlPreview!

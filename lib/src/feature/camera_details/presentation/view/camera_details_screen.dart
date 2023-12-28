@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
@@ -59,6 +60,14 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
       TransformationController();
   double btmNavigationBarHeight =
       Platform.isAndroid ? kBottomNavigationBarHeight : 90;
+  bool firstTime = false;
+  double _scrollControllerOffset = 0.0;
+
+  // _scrollListener() {
+  //   setState(() {
+  //     _scrollControllerOffset = _scrollController.offset;
+  //   });
+  // }
 
   @override
   void initState() {
@@ -67,11 +76,17 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     final zoomFactor = 2.0;
     final xTranslate = 400.0;
     final yTranslate = 400.0;
-    // viewTransformationController.value.setEntry(0, 0, zoomFactor);
-    // viewTransformationController.value.setEntry(1, 1, zoomFactor);
-    // viewTransformationController.value.setEntry(2, 2, zoomFactor);
-    // viewTransformationController.value.setEntry(0, 3, -xTranslate);
-    // viewTransformationController.value.setEntry(1, 3, -yTranslate);
+    firstTime = true;
+    // _scrollController = ScrollController();
+    // _scrollController.addListener(_scrollListener);
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   // Scroll to the last index
+    //   _scrollController.animateTo(
+    //     _scrollController.position.maxScrollExtent,
+    //     duration: Duration(milliseconds: 500),
+    //     curve: Curves.easeInOut,
+    //   );
+    // });
 
     animationController = AnimationController(
       vsync: this,
@@ -256,6 +271,11 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
   // }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() {
     controller!.dispose();
     animationController!.dispose();
@@ -273,6 +293,16 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     final scaleMatrix = Matrix4.identity()..scale(1.9);
 
     viewTransformationController = TransformationController(scaleMatrix);
+    if (firstTime) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        // Scroll to the last index
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
+      });
+    }
 
     return Scaffold(
       backgroundColor: Color.fromRGBO(247, 247, 247, 1),
@@ -367,14 +397,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
             print("state printed" + selectedImageData.toString());
             return imagesByCameraIdData.when(
               data: (imagesData) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  // Scroll to the last index
-                  _scrollController.animateTo(
-                    _scrollController.position.maxScrollExtent,
-                    duration: Duration(milliseconds: 500),
-                    curve: Curves.easeInOut,
-                  );
-                });
                 if (imagesData.images!.isEmpty) {
                   showBottomBar = false;
 
@@ -445,17 +467,15 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                             },
                           ),
                         ),
-                        BlurryContainer(
-                          blur: 10,
-                          borderRadius: BorderRadius.zero,
-                          padding: EdgeInsets.zero,
-                          height: MediaQuery.of(context).size.height -
-                              (Scaffold.of(context)
-                                      .appBarMaxHeight!
-                                      .toDouble() +
-                                  kBottomNavigationBarHeight +
-                                  180.h),
+                        BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                           child: Container(
+                              height: MediaQuery.of(context).size.height -
+                                  (Scaffold.of(context)
+                                          .appBarMaxHeight!
+                                          .toDouble() +
+                                      kBottomNavigationBarHeight +
+                                      180.h),
                               // color: Helper.textColor300,
                               // height: MediaQuery.of(context).size.height -
                               //     (Scaffold.of(context)
@@ -464,48 +484,50 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                               //         btmNavigationBarHeight +
                               //         147.h),
                               child: PinchZoom(
-                            // transformationController:
-                            //     viewTransformationController,
-                            // panEnabled: false,
-                            // boundaryMargin: EdgeInsets.zero,
-                            // minScale: 0.5,
-                            //  alignment: Alignment.center,
-                            // constrained: false,
-                            maxScale: 10,
-                            child: Image.network(
-                              selectedImageData == null
-                                  ? imagesData.images![0].urlPreview!
-                                  : selectedImageData.urlPreview!,
-                              width: double.infinity,
-                              scale: 1,
-                              // height: 210.h,
-                              // fit: BoxFit.fitHeight,
-                              loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                if (loadingProgress == null) return child;
+                                // transformationController:
+                                //     viewTransformationController,
+                                // panEnabled: false,
+                                // boundaryMargin: EdgeInsets.zero,
+                                // minScale: 0.5,
+                                //  alignment: Alignment.center,
+                                // constrained: false,
+                                maxScale: 10,
+                                child: Image.network(
+                                  selectedImageData == null
+                                      ? imagesData.images![0].urlPreview!
+                                      : selectedImageData.urlPreview!,
+                                  width: double.infinity,
+                                  scale: 1,
+                                  // height: 210.h,
+                                  // fit: BoxFit.fitHeight,
+                                  loadingBuilder:
+                                      (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
 
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    color: Helper.primary,
-                                    value: (loadingProgress != null)
-                                        ? (loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!)
-                                        : 0,
-                                  ),
-                                );
-                              },
-                              errorBuilder: (BuildContext context,
-                                  Object exception, StackTrace? stackTrace) {
-                                return ClipRRect(
-                                  child: Image.asset(
-                                    'assets/images/error_image.jpeg',
-                                    fit: BoxFit.cover,
-                                  ),
-                                );
-                              },
-                            ),
-                          )),
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        color: Helper.primary,
+                                        value: (loadingProgress != null)
+                                            ? (loadingProgress
+                                                    .cumulativeBytesLoaded /
+                                                loadingProgress
+                                                    .expectedTotalBytes!)
+                                            : 0,
+                                      ),
+                                    );
+                                  },
+                                  errorBuilder: (BuildContext context,
+                                      Object exception,
+                                      StackTrace? stackTrace) {
+                                    return ClipRRect(
+                                      child: Image.asset(
+                                        'assets/images/error_image.jpeg',
+                                        fit: BoxFit.cover,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              )),
                         ),
                         Positioned(
                           top: 16,
