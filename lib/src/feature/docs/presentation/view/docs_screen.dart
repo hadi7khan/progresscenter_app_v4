@@ -62,12 +62,20 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                       SvgPicture.asset('assets/images/illustration.svg'),
                       SizedBox(height: 16.h),
                       Text(
-                        "This space is empty",
+                        "No Documents",
                         style: TextStyle(
                             letterSpacing: -0.3,
                             color: Helper.textColor900,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                        "This space is empty",
+                        style: TextStyle(
+                            letterSpacing: -0.3,
+                            color: Helper.textColor600,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400),
                       ),
                     ],
                   ),
