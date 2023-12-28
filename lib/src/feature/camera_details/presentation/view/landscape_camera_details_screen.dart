@@ -48,7 +48,7 @@ class _LandscapeCameraDetailsScreenState
     //   DeviceOrientation.landscapeRight,
     // ]);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.black,
+      systemNavigationBarColor: Colors.white,
     ));
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
@@ -69,16 +69,16 @@ class _LandscapeCameraDetailsScreenState
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.white,
-    ));
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    //   systemNavigationBarColor: Colors.white,
+    // ));
   }
 
   @override
   Widget build(BuildContext context) {
     final selectedImageData = ref.watch(selectedImageDataProvider);
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(),
+      value: SystemUiOverlayStyle.light,
       child: Scaffold(
         backgroundColor: Colors.black,
         body: SafeArea(
