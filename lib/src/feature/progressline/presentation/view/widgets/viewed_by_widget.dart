@@ -132,7 +132,7 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                   SizedBox(
                     height: 10.h,
                   ),
-                  if (!showAddMember)
+                  if (!showAddMember && widget.showExtra)
                     InkWell(
                       onTap: () {
                         setState(() {
@@ -192,384 +192,423 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                       // ),
                     )
                   else
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 32.h),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Email",
-                            style: TextStyle(
-                                letterSpacing: -0.3,
-                                color: Helper.textColor700,
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          SizedBox(height: 6.h),
-                          TypeAheadFormField<UserLeanModel>(
-                            textFieldConfiguration: TextFieldConfiguration(
-                              controller: _emailController,
-                              onChanged: (text) {
-                                setState(() {
-                                  _userExists = _myCustomList.any((user) =>
-                                      user.email!.toLowerCase() ==
-                                      text.trim().toLowerCase());
-                                });
-                              },
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 10.h, horizontal: 14.w),
-                                hintText: "Enter email address",
-                                hintStyle: TextStyle(
-                                  letterSpacing: -0.3,
-                                  color: Helper.textColor500,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w400,
-                                ),
-
-                                suffixIcon: _userExists
-                                    ? Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 3.w, vertical: 20.h),
-                                        child: Text(
-                                          "Existing User",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: 12.sp,
-                                              color: Helper.successColor),
-                                        ),
-                                      )
-                                    : SizedBox(),
-                                // hintText: widget.control.label,
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  borderSide:
-                                      BorderSide(color: Helper.textColor300),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  borderSide: BorderSide(color: Helper.primary),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  borderSide:
-                                      const BorderSide(color: Colors.red),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                  borderSide:
-                                      const BorderSide(color: Colors.red),
-                                ),
-                              ),
-                            ),
-                            suggestionsCallback: (pattern) async {
-                              if (pattern != null && pattern.length > 0) {
-                                return _myCustomList.where((user) => user.email!
-                                    .toLowerCase()
-                                    .contains(pattern.trim().toLowerCase()));
-                              } else {
-                                return [];
-                              }
-                            },
-                            itemBuilder: (context, UserLeanModel user) {
-                              return ListTile(
-                                leading: ClipRRect(
-                                  borderRadius: BorderRadius.circular(200.r),
-                                  child: user.dp != null
-                                      ? Image.network(
-                                          width: 32.w,
-                                          height: 32.h,
-                                          user.dpUrl!,
-                                          fit: BoxFit.cover,
-                                          errorBuilder: (BuildContext context,
-                                              Object exception,
-                                              StackTrace? stackTrace) {
-                                            return ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(200.r),
-                                              child: Image.asset(
-                                                  'assets/images/error_image.jpeg',
-                                                  fit: BoxFit.cover),
-                                            );
-                                          },
-                                        )
-                                      : Hero(
-                                          tag: "profile name",
-                                          child: Container(
-                                              width: 32.w,
-                                              height: 32.h,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: _getColor(
-                                                    user.preset!.color!),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                    _getNameInitials(
-                                                        user.name!),
-                                                    style: TextStyle(
-                                                        letterSpacing: -0.3,
-                                                        color: Colors.white)),
-                                              )),
-                                        ),
-                                ),
-                                title: Text(
-                                  user.name!,
+                    widget.showExtra
+                        ? Container(
+                            padding: EdgeInsets.symmetric(vertical: 32.h),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Email",
                                   style: TextStyle(
                                       letterSpacing: -0.3,
                                       color: Helper.textColor700,
                                       fontSize: 14.sp,
-                                      fontWeight: FontWeight.w600),
+                                      fontWeight: FontWeight.w500),
                                 ),
-                                subtitle: Text(
-                                  user.email!,
-                                  style: TextStyle(
-                                      letterSpacing: -0.3,
-                                      color: Helper.textColor600,
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              );
-                            },
-                            onSuggestionSelected: (UserLeanModel user) {
-                              // Do something with the selected user
-                              // print('Selected user: ${user.email}');
-                              setState(() {
-                                _emailController.text = user.email!;
-                                _userExists = true;
-                              });
-                            },
-                            noItemsFoundBuilder: (value) {
-                              return SizedBox();
-                            },
-                          ),
-                          SizedBox(height: 24.h),
-                          !_userExists
-                              ? Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Type",
-                                      style: TextStyle(
-                                          letterSpacing: -0.3,
-                                          color: Helper.textColor700,
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    SizedBox(height: 6.h),
-                                    FormBuilderDropdown(
-                                      name: "roles",
-                                      dropdownColor: Colors.white,
-                                      icon: SizedBox(),
-                                      decoration: InputDecoration(
-                                        // labelText: 'Training',
-                                        hintText: "Select roles",
-                                        hintStyle: TextStyle(
-                                          letterSpacing: -0.3,
-                                          color: Helper.textColor500,
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: 10.h, horizontal: 14.w),
-                                        suffixIcon: Padding(
-                                          padding: EdgeInsets.only(right: 14.w),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Icon(Icons.help_outline,
-                                                  color: Helper.textColor500,
-                                                  size: 18),
-                                              SizedBox(
-                                                width: 5.w,
-                                              ),
-                                              Icon(
-                                                  Icons
-                                                      .keyboard_arrow_down_outlined,
-                                                  color: Helper.textColor500)
-                                            ],
-                                          ),
-                                        ),
+                                SizedBox(height: 6.h),
+                                TypeAheadFormField<UserLeanModel>(
+                                  textFieldConfiguration:
+                                      TextFieldConfiguration(
+                                    controller: _emailController,
+                                    onChanged: (text) {
+                                      setState(() {
+                                        _userExists = _myCustomList.any(
+                                            (user) =>
+                                                user.email!.toLowerCase() ==
+                                                text.trim().toLowerCase());
+                                      });
+                                    },
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.symmetric(
+                                          vertical: 10.h, horizontal: 14.w),
+                                      hintText: "Enter email address",
+                                      hintStyle: TextStyle(
+                                        letterSpacing: -0.3,
+                                        color: Helper.textColor500,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w400,
+                                      ),
 
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8.r),
-                                          borderSide: BorderSide(
-                                              color: Helper.textColor300),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8.r),
-                                          borderSide:
-                                              BorderSide(color: Helper.primary),
-                                        ),
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8.r),
-                                          borderSide: const BorderSide(
-                                              color: Colors.red),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8.r),
-                                          borderSide: const BorderSide(
-                                              color: Colors.red),
-                                        ),
-                                        // filled: true,
+                                      suffixIcon: _userExists
+                                          ? Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 14.w,
+                                                  vertical: 20.h),
+                                              child: Text(
+                                                "Existing User",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontSize: 12.sp,
+                                                    color: Helper.successColor),
+                                              ),
+                                            )
+                                          : SizedBox(),
+                                      // hintText: widget.control.label,
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8.r),
+                                        borderSide: BorderSide(
+                                            color: Helper.textColor300),
                                       ),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _roleSelected = value!;
-                                        });
-                                      },
-                                      items: _roles.map((e) {
-                                        return DropdownMenuItem<String>(
-                                          value: e,
-                                          child: Text(
-                                            e,
-                                            style: const TextStyle(
-                                                letterSpacing: -0.3,
-                                                color: Colors.black),
-                                          ),
-                                          onTap: () {},
-                                        );
-                                      }).toList(),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8.r),
+                                        borderSide:
+                                            BorderSide(color: Helper.primary),
+                                      ),
+                                      focusedErrorBorder: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8.r),
+                                        borderSide:
+                                            const BorderSide(color: Colors.red),
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8.r),
+                                        borderSide:
+                                            const BorderSide(color: Colors.red),
+                                      ),
                                     ),
-                                    SizedBox(height: 24.h),
-                                    Text(
-                                      "Team",
-                                      style: TextStyle(
-                                          letterSpacing: -0.3,
-                                          color: Helper.textColor700,
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    SizedBox(height: 6.h),
-                                    TypeAheadFormField(
-                                      textFieldConfiguration:
-                                          TextFieldConfiguration(
-                                        controller: _teamsController,
-                                        onSubmitted: (value) {
-                                          setState(() {
-                                            if (value.isNotEmpty) {
-                                              _selectedTeams.add(value);
-                                              _teamsController.clear();
-                                            }
-                                          });
-                                        },
-                                        decoration: InputDecoration(
-                                          contentPadding: EdgeInsets.symmetric(
-                                              vertical: 10.h, horizontal: 14.w),
-                                          hintText: "Search or add here",
-                                          hintStyle: TextStyle(
+                                  ),
+                                  suggestionsCallback: (pattern) async {
+                                    if (pattern != null && pattern.length > 0) {
+                                      return _myCustomList.where((user) =>
+                                          user.email!.toLowerCase().contains(
+                                              pattern.trim().toLowerCase()));
+                                    } else {
+                                      return [];
+                                    }
+                                  },
+                                  itemBuilder: (context, UserLeanModel user) {
+                                    return ListTile(
+                                      leading: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(200.r),
+                                        child: user.dp != null
+                                            ? Image.network(
+                                                width: 32.w,
+                                                height: 32.h,
+                                                user.dpUrl!,
+                                                fit: BoxFit.cover,
+                                                errorBuilder: (BuildContext
+                                                        context,
+                                                    Object exception,
+                                                    StackTrace? stackTrace) {
+                                                  return ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            200.r),
+                                                    child: Image.asset(
+                                                        'assets/images/error_image.jpeg',
+                                                        fit: BoxFit.cover),
+                                                  );
+                                                },
+                                              )
+                                            : Hero(
+                                                tag: "profile name",
+                                                child: Container(
+                                                    width: 32.w,
+                                                    height: 32.h,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: _getColor(
+                                                          user.preset!.color!),
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                          _getNameInitials(
+                                                              user.name!),
+                                                          style: TextStyle(
+                                                              letterSpacing:
+                                                                  -0.3,
+                                                              color: Colors
+                                                                  .white)),
+                                                    )),
+                                              ),
+                                      ),
+                                      title: Text(
+                                        user.name!,
+                                        style: TextStyle(
                                             letterSpacing: -0.3,
-                                            color: Helper.textColor500,
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8.r),
-                                            borderSide: BorderSide(
-                                                color: Helper.textColor300),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8.r),
-                                            borderSide: BorderSide(
-                                                color: Helper.primary),
-                                          ),
-                                          focusedErrorBorder:
-                                              OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8.r),
-                                            borderSide: const BorderSide(
-                                                color: Colors.red),
-                                          ),
-                                          errorBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8.r),
-                                            borderSide: const BorderSide(
-                                                color: Colors.red),
-                                          ),
-                                        ),
+                                            color: Helper.textColor700,
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w600),
                                       ),
-                                      suggestionsCallback: (pattern) async {
-                                        if (pattern != null &&
-                                            pattern.length > 0) {
-                                          return _teamList.where((name) => name
-                                              .toLowerCase()
-                                              .contains(pattern
-                                                  .trim()
-                                                  .toLowerCase()));
-                                        } else {
-                                          return [];
-                                        }
-                                      },
-                                      itemBuilder: (context, team) {
-                                        return ListTile(
-                                            minVerticalPadding: 0,
-                                            dense: true,
-                                            title: Text(
-                                              team.toString(),
-                                              style: TextStyle(
-                                                  letterSpacing: -0.3,
-                                                  color: Helper.textColor700,
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.w600),
-                                            ));
-                                      },
-                                      onSuggestionSelected: (team) {
-                                        // Do something with the selected user
-                                        // print('Selected user: ${user.email}');
-                                        setState(() {
-                                          _selectedTeams.add(team.toString());
-                                          _teamsController.clear();
-                                        });
-                                      },
-                                      noItemsFoundBuilder: (value) {
-                                        return SizedBox();
-                                      },
-                                    ),
-                                    SizedBox(height: 10.h),
-                                    Wrap(
-                                      spacing: 5.w,
-                                      children: _selectedTeams
-                                          .toSet()
-                                          .map((suggestion) {
-                                        return Chip(
-                                          label: Text(suggestion),
-                                          labelStyle: TextStyle(
-                                              letterSpacing: -0.3,
-                                              color: Helper.textColor500,
-                                              fontSize: 12.sp,
-                                              fontWeight: FontWeight.w500),
-                                          onDeleted: () {
-                                            setState(() {
-                                              _selectedTeams.remove(suggestion);
-                                            });
-                                          },
-                                          deleteIcon: SvgPicture.asset(
-                                            'assets/images/close-x.svg',
-                                            color: Helper.textColor500,
+                                      subtitle: Text(
+                                        user.email!,
+                                        style: TextStyle(
+                                            letterSpacing: -0.3,
+                                            color: Helper.textColor600,
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    );
+                                  },
+                                  onSuggestionSelected: (UserLeanModel user) {
+                                    // Do something with the selected user
+                                    // print('Selected user: ${user.email}');
+                                    setState(() {
+                                      _emailController.text = user.email!;
+                                      _userExists = true;
+                                    });
+                                  },
+                                  noItemsFoundBuilder: (value) {
+                                    return SizedBox();
+                                  },
+                                ),
+                                SizedBox(height: 24.h),
+                                !_userExists
+                                    ? Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Type",
+                                            style: TextStyle(
+                                                letterSpacing: -0.3,
+                                                color: Helper.textColor700,
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w500),
                                           ),
-                                          side: BorderSide.none,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20.r)),
-                                          backgroundColor:
-                                              Helper.widgetBackground,
-                                        );
-                                      }).toList(),
-                                    ),
-                                  ],
-                                )
-                              : SizedBox()
-                        ],
-                      ),
-                    ),
+                                          SizedBox(height: 6.h),
+                                          FormBuilderDropdown(
+                                            name: "roles",
+                                            dropdownColor: Colors.white,
+                                            icon: SizedBox(),
+                                            decoration: InputDecoration(
+                                              // labelText: 'Training',
+                                              hintText: "Select roles",
+                                              hintStyle: TextStyle(
+                                                letterSpacing: -0.3,
+                                                color: Helper.textColor500,
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      vertical: 10.h,
+                                                      horizontal: 14.w),
+                                              suffixIcon: Padding(
+                                                padding: EdgeInsets.only(
+                                                    right: 14.w),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Icon(Icons.help_outline,
+                                                        color:
+                                                            Helper.textColor500,
+                                                        size: 18),
+                                                    SizedBox(
+                                                      width: 5.w,
+                                                    ),
+                                                    Icon(
+                                                        Icons
+                                                            .keyboard_arrow_down_outlined,
+                                                        color:
+                                                            Helper.textColor500)
+                                                  ],
+                                                ),
+                                              ),
+
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.r),
+                                                borderSide: BorderSide(
+                                                    color: Helper.textColor300),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.r),
+                                                borderSide: BorderSide(
+                                                    color: Helper.primary),
+                                              ),
+                                              focusedErrorBorder:
+                                                  OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.r),
+                                                borderSide: const BorderSide(
+                                                    color: Colors.red),
+                                              ),
+                                              errorBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.r),
+                                                borderSide: const BorderSide(
+                                                    color: Colors.red),
+                                              ),
+                                              // filled: true,
+                                            ),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _roleSelected = value!;
+                                              });
+                                            },
+                                            items: _roles.map((e) {
+                                              return DropdownMenuItem<String>(
+                                                value: e,
+                                                child: Text(
+                                                  e,
+                                                  style: const TextStyle(
+                                                      letterSpacing: -0.3,
+                                                      color: Colors.black),
+                                                ),
+                                                onTap: () {},
+                                              );
+                                            }).toList(),
+                                          ),
+                                          SizedBox(height: 24.h),
+                                          Text(
+                                            "Team",
+                                            style: TextStyle(
+                                                letterSpacing: -0.3,
+                                                color: Helper.textColor700,
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          SizedBox(height: 6.h),
+                                          TypeAheadFormField(
+                                            textFieldConfiguration:
+                                                TextFieldConfiguration(
+                                              controller: _teamsController,
+                                              onSubmitted: (value) {
+                                                setState(() {
+                                                  if (value.isNotEmpty) {
+                                                    _selectedTeams.add(value);
+                                                    _teamsController.clear();
+                                                  }
+                                                });
+                                              },
+                                              decoration: InputDecoration(
+                                                contentPadding:
+                                                    EdgeInsets.symmetric(
+                                                        vertical: 10.h,
+                                                        horizontal: 14.w),
+                                                hintText: "Search or add here",
+                                                hintStyle: TextStyle(
+                                                  letterSpacing: -0.3,
+                                                  color: Helper.textColor500,
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                                enabledBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.r),
+                                                  borderSide: BorderSide(
+                                                      color:
+                                                          Helper.textColor300),
+                                                ),
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.r),
+                                                  borderSide: BorderSide(
+                                                      color: Helper.primary),
+                                                ),
+                                                focusedErrorBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.r),
+                                                  borderSide: const BorderSide(
+                                                      color: Colors.red),
+                                                ),
+                                                errorBorder: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.r),
+                                                  borderSide: const BorderSide(
+                                                      color: Colors.red),
+                                                ),
+                                              ),
+                                            ),
+                                            suggestionsCallback:
+                                                (pattern) async {
+                                              if (pattern != null &&
+                                                  pattern.length > 0) {
+                                                return _teamList.where((name) =>
+                                                    name.toLowerCase().contains(
+                                                        pattern
+                                                            .trim()
+                                                            .toLowerCase()));
+                                              } else {
+                                                return [];
+                                              }
+                                            },
+                                            itemBuilder: (context, team) {
+                                              return ListTile(
+                                                  minVerticalPadding: 0,
+                                                  dense: true,
+                                                  title: Text(
+                                                    team.toString(),
+                                                    style: TextStyle(
+                                                        letterSpacing: -0.3,
+                                                        color:
+                                                            Helper.textColor700,
+                                                        fontSize: 14.sp,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ));
+                                            },
+                                            onSuggestionSelected: (team) {
+                                              // Do something with the selected user
+                                              // print('Selected user: ${user.email}');
+                                              setState(() {
+                                                _selectedTeams
+                                                    .add(team.toString());
+                                                _teamsController.clear();
+                                              });
+                                            },
+                                            noItemsFoundBuilder: (value) {
+                                              return SizedBox();
+                                            },
+                                          ),
+                                          SizedBox(height: 10.h),
+                                          Wrap(
+                                            spacing: 5.w,
+                                            children: _selectedTeams
+                                                .toSet()
+                                                .map((suggestion) {
+                                              return Chip(
+                                                label: Text(suggestion),
+                                                labelStyle: TextStyle(
+                                                    letterSpacing: -0.3,
+                                                    color: Helper.textColor500,
+                                                    fontSize: 12.sp,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                                onDeleted: () {
+                                                  setState(() {
+                                                    _selectedTeams
+                                                        .remove(suggestion);
+                                                  });
+                                                },
+                                                deleteIcon: SvgPicture.asset(
+                                                  'assets/images/close-x.svg',
+                                                  color: Helper.textColor500,
+                                                ),
+                                                side: BorderSide.none,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20.r)),
+                                                backgroundColor:
+                                                    Helper.widgetBackground,
+                                              );
+                                            }).toList(),
+                                          ),
+                                        ],
+                                      )
+                                    : SizedBox()
+                              ],
+                            ),
+                          )
+                        : SizedBox(),
                   if (!showAddMember)
                     ListView.builder(
                       shrinkWrap: true,
@@ -868,9 +907,29 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
         ),
         if (showAddMember)
           Positioned(
-              bottom: 0,
-              child: InkWell(
-                onTap: () {
+            bottom: 0,
+            child: Container(
+              height: 52.h,
+              margin: EdgeInsets.all(20.w),
+              width: MediaQuery.of(context).size.width - 2 * 20.w,
+              child: ElevatedButton(
+                child: Text(
+                  _userExists ? "Add to project" : "Send invite",
+                  style: TextStyle(
+                      letterSpacing: -0.3,
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500),
+                  // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                ),
+                style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Helper.primary),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                    )),
+                onPressed: () async {
                   Map<String, dynamic> data = {
                     "email": _emailController.text,
                     "role": _userExists
@@ -879,6 +938,7 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                     "tags": _selectedTeams
                   };
                   Service().projectInvite(widget.projectId, data).then((value) {
+                    Service().fetchUserList();
                     context.pop();
                     Utils.toastSuccessMessage("User Added");
                     _emailController.clear();
@@ -891,29 +951,54 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                         errorMessage.toString(), context);
                   });
                 },
-                child: Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 5.w, vertical: 22.h),
-                  child: Row(children: [
-                    SvgPicture.asset('assets/images/plus.svg',
-                        color: Helper.primary),
-                    SizedBox(width: 5.h),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 5.w,
-                      ),
-                      child: Text(
-                        _userExists ? "Add to project" : "Send invite",
-                        style: TextStyle(
-                            letterSpacing: -0.3,
-                            color: Helper.primary,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  ]),
-                ),
-              )),
+              ),
+            ),
+            //  InkWell(
+            //   onTap: () {
+            //     Map<String, dynamic> data = {
+            //       "email": _emailController.text,
+            //       "role": _userExists
+            //           ? "ADMIN"
+            //           : _roleSelected.toUpperCase().toString(),
+            //       "tags": _selectedTeams
+            //     };
+            //     Service().projectInvite(widget.projectId, data).then((value) {
+            //       context.pop();
+            //       Utils.toastSuccessMessage("User Added");
+            //       _emailController.clear();
+            //     }).onError((error, stackTrace) {
+            //       // print(error.toString());
+            //       var errorMessage = _userExists
+            //           ? "User already added to project"
+            //           : "An invitation request has already been sent to this user.";
+            //       Utils.flushBarErrorMessage(
+            //           errorMessage.toString(), context);
+            //     });
+            //   },
+            //   child: Padding(
+            //     padding:
+            //         EdgeInsets.symmetric(horizontal: 5.w, vertical: 22.h),
+            //     child: Row(children: [
+            //       SvgPicture.asset('assets/images/plus.svg',
+            //           color: Helper.primary),
+            //       SizedBox(width: 5.h),
+            //       Padding(
+            //         padding: EdgeInsets.symmetric(
+            //           horizontal: 5.w,
+            //         ),
+            //         child: Text(
+            //           _userExists ? "Add to project" : "Send invite",
+            //           style: TextStyle(
+            //               letterSpacing: -0.3,
+            //               color: Helper.primary,
+            //               fontSize: 18.sp,
+            //               fontWeight: FontWeight.w500),
+            //         ),
+            //       ),
+            //     ]),
+            //   ),
+            // )
+          ),
       ],
     );
   }

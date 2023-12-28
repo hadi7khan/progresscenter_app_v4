@@ -383,8 +383,10 @@ class _ProjectDetailsScreenState
                         backgroundColor: Colors.transparent,
                         builder: (context) => Padding(
                               padding: EdgeInsets.only(
-                                  bottom:
-                                      MediaQuery.of(context).viewInsets.bottom),
+                                      bottom: MediaQuery.of(context)
+                                          .viewInsets
+                                          .bottom) *
+                                  0.8,
                               child: ViewedByWidget(
                                 data: widget.projectUsers,
                                 showText: "Current members",
