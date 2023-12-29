@@ -18,6 +18,13 @@ class ListViewWidget extends StatefulWidget {
 
 class _ListViewWidgetState extends State<ListViewWidget> {
   @override
+  void dispose() {
+    CachedNetworkImage.evictFromCache(widget.data.latestImage!.urlThumb,
+        cacheKey: widget.data.project);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
@@ -48,6 +55,7 @@ class _ListViewWidgetState extends State<ListViewWidget> {
                           aspectRatio: 16 / 9,
                           child: CachedNetworkImage(
                             imageUrl: widget.data.latestImage!.urlThumb,
+                            cacheKey: widget.data.project,
                             // memCacheHeight: height.toInt(), memCacheWidth: width.toInt()
                             fit: BoxFit.fill,
                             // placeholder: (context, url) =>

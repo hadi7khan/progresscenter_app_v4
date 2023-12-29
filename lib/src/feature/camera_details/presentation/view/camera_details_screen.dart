@@ -23,8 +23,11 @@ import 'package:progresscenter_app_v4/src/common/skeletons/sekeleton.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/bottom_navigation/view/camera_view_bottom_nav.dart';
 import 'package:progresscenter_app_v4/src/feature/camera/presentation/provider/camera_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/data/model/images_by_camera_id_model.dart'
+    as model;
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/camera_by_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/images_by_cam_id_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/newprovider.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/selected_imagedata_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/landscape_camera_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/widgets/cameras_widget.dart';
@@ -171,6 +174,9 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     final imagesByCameraIdData = ref.watch(
         imagesByCamIdControllerProvider.select((value) => value.imagesByCamId));
     final selectedImageData = ref.watch(selectedImageDataProvider);
+    // final imagesByCameraIdModel = ref.watch(imagesByCameraIdModelProvider);
+    final imagesByCameraIdModel = ref.watch(imagesByCameraIdModelProvider);
+    log("new------------------" + imagesByCameraIdModel.toString());
 
     return RefreshIndicator(
       color: Helper.primary,
@@ -356,9 +362,11 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                         kBottomNavigationBarHeight +
                                         184.h),
                                 child: Image.network(
-                                  selectedImageData == null
-                                      ? imagesData.images![0].urlPreview!
-                                      : selectedImageData.urlPreview!,
+                                  imagesByCameraIdModel.currentImage != null
+                                      ? imagesByCameraIdModel
+                                          .currentImage!.urlThumb!
+                                      : imagesByCameraIdModel
+                                          .images![0].urlThumb!,
                                   width: double.infinity,
                                   // scale: 20,
                                   // height: 210.h,
@@ -397,7 +405,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                 // blendMode: BlendMode.clear,
                                 child: CarouselSlider.builder(
                                     carouselController: carouselController,
-                                    itemCount: imagesData.images!.length,
+                                    itemCount: imagesByCameraIdModel
+                                        .images!.length,
                                     options: CarouselOptions(
                                         height:
                                             MediaQuery.of(context).size.height -
@@ -411,25 +420,53 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                         initialPage: 0,
                                         autoPlay: false,
                                         enlargeCenterPage: true,
+                                        reverse: true,
+                                        enableInfiniteScroll: false,
                                         autoPlayCurve: Curves.fastOutSlowIn,
                                         scrollDirection: Axis.horizontal,
                                         onPageChanged: (index, reason) {
                                           setState(() {
-                                            imageData = ImageData(
-                                              name: imagesData
+                                            final currentImage = model.Image(
+                                              id: imagesByCameraIdModel
+                                                  .images![index].id,
+                                              name: imagesByCameraIdModel
                                                   .images![index].name,
-                                              dateTime: imagesData
+                                              datetime: imagesByCameraIdModel
                                                   .images![index].datetime,
-                                              camera: imagesData
-                                                  .images![index].camera,
-                                              id: imagesData.images![index].id,
-                                              urlPreview: imagesData
+                                              urlPreview: imagesByCameraIdModel
                                                   .images![index].urlPreview,
+                                              urlThumb: imagesByCameraIdModel
+                                                  .images![index]
+                                                  .id, // You can copy the URL from the first image
                                             );
                                             ref
-                                                .read(selectedImageDataProvider
-                                                    .notifier)
-                                                .setImageData(imageData);
+                                                    .read(
+                                                        imagesByCameraIdModelProvider
+                                                            .notifier)
+                                                    .state =
+                                                model.ImagesByCameraIdModel(
+                                              startDate: imagesByCameraIdModel
+                                                  .startDate,
+                                              endDate:
+                                                  imagesByCameraIdModel.endDate,
+                                              images:
+                                                  imagesByCameraIdModel.images,
+                                              currentImage: currentImage,
+                                            );
+                                            // ref
+                                            //     .read(imagesByCameraIdModelProvider
+                                            //         .notifier)
+                                            //     .state = model.ImagesByCameraIdModel(
+                                            //   startDate: imagesByCameraIdModel
+                                            //       .startDate,
+                                            //   datetime: imagesByCameraIdModel.currentImage,
+                                            //   imageId: imagesByCameraIdModel
+                                            //       .images![index].imageId,
+                                            //   urlThumb: imagesByCameraIdModel
+                                            //       .images![index].urlThumb,
+                                            //   urlPreview: imagesByCameraIdModel
+                                            //       .images![index].urlPreview,
+                                            // );
                                           });
                                         }),
                                     itemBuilder: (BuildContext context,
@@ -468,67 +505,48 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                           //  alignment: Alignment.center,
                                           // constrained: false,
                                           maxScale: 10,
-                                          child: CupertinoContextMenu(
-                                            actions: <Widget>[
-                                              CupertinoContextMenuAction(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                trailingIcon:
-                                                    CupertinoIcons.share,
-                                                child: const Text('Share'),
-                                              ),
-                                              CupertinoContextMenuAction(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                trailingIcon:
-                                                    CupertinoIcons.down_arrow,
-                                                child: const Text('Download'),
-                                              ),
-                                            ],
-                                            child: Image.network(
-                                              selectedImageData == null
-                                                  ? imagesData
-                                                      .images![itemIndex]
-                                                      .urlPreview!
-                                                  : selectedImageData
-                                                      .urlPreview!,
-                                              width: double.infinity,
-                                              scale: 1,
-                                              // height: 210.h,
-                                              // fit: BoxFit.fitHeight,
-                                              loadingBuilder: (context, child,
-                                                  loadingProgress) {
-                                                if (loadingProgress == null)
-                                                  return child;
+                                          child: Image.network(
+                                            imagesByCameraIdModel
+                                                .currentImage!.urlPreview!,
+                                            // selectedImageData == null
+                                            //     ? imagesData
+                                            //         .images![itemIndex]
+                                            //         .urlPreview!
+                                            //     : selectedImageData
+                                            //         .urlPreview!,
+                                            width: double.infinity,
+                                            scale: 1,
+                                            // height: 210.h,
+                                            // fit: BoxFit.fitHeight,
+                                            loadingBuilder: (context, child,
+                                                loadingProgress) {
+                                              if (loadingProgress == null)
+                                                return child;
 
-                                                return Center(
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    color: Helper.primary,
-                                                    value: (loadingProgress !=
-                                                            null)
-                                                        ? (loadingProgress
-                                                                .cumulativeBytesLoaded /
-                                                            loadingProgress
-                                                                .expectedTotalBytes!)
-                                                        : 0,
-                                                  ),
-                                                );
-                                              },
-                                              errorBuilder:
-                                                  (BuildContext context,
-                                                      Object exception,
-                                                      StackTrace? stackTrace) {
-                                                return ClipRRect(
-                                                  child: Image.asset(
-                                                    'assets/images/error_image.jpeg',
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                );
-                                              },
-                                            ),
+                                              return Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: Helper.primary,
+                                                  value: (loadingProgress !=
+                                                          null)
+                                                      ? (loadingProgress
+                                                              .cumulativeBytesLoaded /
+                                                          loadingProgress
+                                                              .expectedTotalBytes!)
+                                                      : 0,
+                                                ),
+                                              );
+                                            },
+                                            errorBuilder: (BuildContext context,
+                                                Object exception,
+                                                StackTrace? stackTrace) {
+                                              return ClipRRect(
+                                                child: Image.asset(
+                                                  'assets/images/error_image.jpeg',
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              );
+                                            },
                                           ),
                                         ),
                                       );
@@ -541,8 +559,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                   onTap: () async {
                                     await _showDateBottomSheet(
                                         context,
-                                        imagesData.startDate!,
-                                        imagesData.endDate!,
+                                        imagesByCameraIdModel.startDate!,
+                                        imagesByCameraIdModel.endDate!,
                                         _selectedDate,
                                         widget.cameraId,
                                         widget.projectId,
@@ -572,7 +590,9 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                           //         color: Colors.white,
                                           //         fontWeight: FontWeight.w500,
                                           //         fontSize: 12.sp)),
-                                          Text(showDate(imagesData.endDate!),
+                                          Text(
+                                              showDate(imagesByCameraIdModel
+                                                  .endDate!),
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w500,
@@ -586,8 +606,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                 right: 16,
                                 child: InkWell(
                                   onTap: () {
-                                    // SystemChrome.setPreferredOrientations(
-                                    //     [DeviceOrientation.landscapeRight]);
                                     // context.push('/landscapeCameraDetails', extra: {
                                     //   "projectId": widget.projectId,
                                     //   "projectName": widget.projectName,
@@ -644,7 +662,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                       width: 2.w,
                                     );
                                   },
-                                  itemCount: imagesData.images!.length,
+                                  itemCount:
+                                      imagesByCameraIdModel.images!.length,
                                   key: _listViewKey,
                                   shrinkWrap: true,
                                   physics: BouncingScrollPhysics(),
@@ -654,32 +673,50 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                     // _scrollDown();
 
                                     final reversedIndex =
-                                        imagesData.images!.length - 1 - index;
+                                        imagesByCameraIdModel.images!.length -
+                                            1 -
+                                            index;
 
                                     return InkWell(
                                       onTap: () {
                                         // setState(() {
                                         //   _selectedImageIndex = reversedIndex;
                                         // });
-                                        imageData = ImageData(
-                                          name: imagesData
-                                              .images![reversedIndex].name,
-                                          dateTime: imagesData
-                                              .images![reversedIndex].datetime,
-                                          camera: imagesData
-                                              .images![reversedIndex].camera,
-                                          id: imagesData
+                                        final currentImage = model.Image(
+                                          id: imagesByCameraIdModel
                                               .images![reversedIndex].id,
-                                          urlPreview: imagesData
+                                          name: imagesByCameraIdModel
+                                              .images![reversedIndex].name,
+                                          datetime: imagesByCameraIdModel
+                                              .images![reversedIndex].datetime,
+                                          urlPreview: imagesByCameraIdModel
                                               .images![reversedIndex]
                                               .urlPreview,
+                                          urlThumb: imagesByCameraIdModel
+                                              .images![reversedIndex]
+                                              .id, // You can copy the URL from the first image
                                         );
-
                                         ref
-                                            .read(selectedImageDataProvider
+                                            .read(imagesByCameraIdModelProvider
                                                 .notifier)
-                                            .setImageData(imageData);
-                                        log(imageData!.id.toString());
+                                            .state = model.ImagesByCameraIdModel(
+                                          startDate:
+                                              imagesByCameraIdModel.startDate,
+                                          endDate:
+                                              imagesByCameraIdModel.endDate,
+                                          images: imagesByCameraIdModel.images,
+                                          currentImage: currentImage,
+                                        );
+                                        // ref
+                                        //       .read(
+                                        //           currentImageProvider.notifier)
+                                        //       .state = model.Image(
+                                        //         id: imagesByCameraIdModel.images![index].id,
+                                        //     datetime: imagesByCameraIdModel.images![index].datetime,
+                                        //     imageId: imagesByCameraIdModel.images![index].imageId,
+                                        //     urlThumb: imagesByCameraIdModel.images![index].urlThumb,
+                                        //     urlPreview: imagesByCameraIdModel.images![index].urlPreview,
+                                        //   );
                                       },
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(
@@ -695,13 +732,13 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           6.r),
-                                                  border: selectedImageData !=
-                                                              null &&
-                                                          imageData!.id ==
-                                                              imagesData
-                                                                  .images![
-                                                                      reversedIndex]
-                                                                  .id!
+                                                  border: imagesByCameraIdModel
+                                                              .currentImage!
+                                                              .id ==
+                                                          imagesData
+                                                              .images![
+                                                                  reversedIndex]
+                                                              .id!
                                                       ? Border.all(
                                                           color: Helper.primary,
                                                           width: 2.w,
