@@ -16,6 +16,7 @@ class ImagesByCameraIdModel with _$ImagesByCameraIdModel {
     String? startDate,
     String? endDate,
     List<Image>? images,
+    Image? currentImage,
   }) = _ImagesByCameraIdModel;
 
   factory ImagesByCameraIdModel.fromJson(Map<String, dynamic> json) =>

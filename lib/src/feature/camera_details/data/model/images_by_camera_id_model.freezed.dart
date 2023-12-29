@@ -24,6 +24,7 @@ mixin _$ImagesByCameraIdModel {
   String? get startDate => throw _privateConstructorUsedError;
   String? get endDate => throw _privateConstructorUsedError;
   List<Image>? get images => throw _privateConstructorUsedError;
+  Image? get currentImage => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,7 +38,13 @@ abstract class $ImagesByCameraIdModelCopyWith<$Res> {
           $Res Function(ImagesByCameraIdModel) then) =
       _$ImagesByCameraIdModelCopyWithImpl<$Res, ImagesByCameraIdModel>;
   @useResult
-  $Res call({String? startDate, String? endDate, List<Image>? images});
+  $Res call(
+      {String? startDate,
+      String? endDate,
+      List<Image>? images,
+      Image? currentImage});
+
+  $ImageCopyWith<$Res>? get currentImage;
 }
 
 /// @nodoc
@@ -57,6 +64,7 @@ class _$ImagesByCameraIdModelCopyWithImpl<$Res,
     Object? startDate = freezed,
     Object? endDate = freezed,
     Object? images = freezed,
+    Object? currentImage = freezed,
   }) {
     return _then(_value.copyWith(
       startDate: freezed == startDate
@@ -71,7 +79,23 @@ class _$ImagesByCameraIdModelCopyWithImpl<$Res,
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
               as List<Image>?,
+      currentImage: freezed == currentImage
+          ? _value.currentImage
+          : currentImage // ignore: cast_nullable_to_non_nullable
+              as Image?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ImageCopyWith<$Res>? get currentImage {
+    if (_value.currentImage == null) {
+      return null;
+    }
+
+    return $ImageCopyWith<$Res>(_value.currentImage!, (value) {
+      return _then(_value.copyWith(currentImage: value) as $Val);
+    });
   }
 }
 
@@ -83,7 +107,14 @@ abstract class _$$_ImagesByCameraIdModelCopyWith<$Res>
       __$$_ImagesByCameraIdModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? startDate, String? endDate, List<Image>? images});
+  $Res call(
+      {String? startDate,
+      String? endDate,
+      List<Image>? images,
+      Image? currentImage});
+
+  @override
+  $ImageCopyWith<$Res>? get currentImage;
 }
 
 /// @nodoc
@@ -100,6 +131,7 @@ class __$$_ImagesByCameraIdModelCopyWithImpl<$Res>
     Object? startDate = freezed,
     Object? endDate = freezed,
     Object? images = freezed,
+    Object? currentImage = freezed,
   }) {
     return _then(_$_ImagesByCameraIdModel(
       startDate: freezed == startDate
@@ -114,6 +146,10 @@ class __$$_ImagesByCameraIdModelCopyWithImpl<$Res>
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
               as List<Image>?,
+      currentImage: freezed == currentImage
+          ? _value.currentImage
+          : currentImage // ignore: cast_nullable_to_non_nullable
+              as Image?,
     ));
   }
 }
@@ -122,7 +158,10 @@ class __$$_ImagesByCameraIdModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_ImagesByCameraIdModel implements _ImagesByCameraIdModel {
   const _$_ImagesByCameraIdModel(
-      {this.startDate, this.endDate, final List<Image>? images})
+      {this.startDate,
+      this.endDate,
+      final List<Image>? images,
+      this.currentImage})
       : _images = images;
 
   factory _$_ImagesByCameraIdModel.fromJson(Map<String, dynamic> json) =>
@@ -143,8 +182,11 @@ class _$_ImagesByCameraIdModel implements _ImagesByCameraIdModel {
   }
 
   @override
+  final Image? currentImage;
+
+  @override
   String toString() {
-    return 'ImagesByCameraIdModel(startDate: $startDate, endDate: $endDate, images: $images)';
+    return 'ImagesByCameraIdModel(startDate: $startDate, endDate: $endDate, images: $images, currentImage: $currentImage)';
   }
 
   @override
@@ -155,13 +197,15 @@ class _$_ImagesByCameraIdModel implements _ImagesByCameraIdModel {
             (identical(other.startDate, startDate) ||
                 other.startDate == startDate) &&
             (identical(other.endDate, endDate) || other.endDate == endDate) &&
-            const DeepCollectionEquality().equals(other._images, _images));
+            const DeepCollectionEquality().equals(other._images, _images) &&
+            (identical(other.currentImage, currentImage) ||
+                other.currentImage == currentImage));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, startDate, endDate,
-      const DeepCollectionEquality().hash(_images));
+      const DeepCollectionEquality().hash(_images), currentImage);
 
   @JsonKey(ignore: true)
   @override
@@ -182,7 +226,8 @@ abstract class _ImagesByCameraIdModel implements ImagesByCameraIdModel {
   const factory _ImagesByCameraIdModel(
       {final String? startDate,
       final String? endDate,
-      final List<Image>? images}) = _$_ImagesByCameraIdModel;
+      final List<Image>? images,
+      final Image? currentImage}) = _$_ImagesByCameraIdModel;
 
   factory _ImagesByCameraIdModel.fromJson(Map<String, dynamic> json) =
       _$_ImagesByCameraIdModel.fromJson;
@@ -193,6 +238,8 @@ abstract class _ImagesByCameraIdModel implements ImagesByCameraIdModel {
   String? get endDate;
   @override
   List<Image>? get images;
+  @override
+  Image? get currentImage;
   @override
   @JsonKey(ignore: true)
   _$$_ImagesByCameraIdModelCopyWith<_$_ImagesByCameraIdModel> get copyWith =>

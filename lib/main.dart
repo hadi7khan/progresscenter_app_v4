@@ -13,6 +13,7 @@ import 'src/core/route/go_router_provider.dart';
 import 'src/core/shared_pref/locator.dart';
 import 'src/core/shared_pref/shared_preference_helper.dart';
 import 'src/core/utils/helper.dart';
+import 'package:stack_trace/stack_trace.dart' as stack_trace;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +35,11 @@ void main() async {
       overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
 
   runApp(const ProviderScope(child: const MyApp()));
+  FlutterError.demangleStackTrace = (StackTrace stack) {
+    if (stack is stack_trace.Trace) return stack.vmTrace;
+    if (stack is stack_trace.Chain) return stack.toTrace().vmTrace;
+    return stack;
+  };
 }
 
 class MyApp extends ConsumerStatefulWidget {

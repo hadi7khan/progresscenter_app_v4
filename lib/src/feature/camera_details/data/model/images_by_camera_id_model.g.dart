@@ -14,6 +14,9 @@ _$_ImagesByCameraIdModel _$$_ImagesByCameraIdModelFromJson(
       images: (json['images'] as List<dynamic>?)
           ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
           .toList(),
+      currentImage: json['currentImage'] == null
+          ? null
+          : Image.fromJson(json['currentImage'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_ImagesByCameraIdModelToJson(
@@ -22,6 +25,7 @@ Map<String, dynamic> _$$_ImagesByCameraIdModelToJson(
       'startDate': instance.startDate,
       'endDate': instance.endDate,
       'images': instance.images,
+      'currentImage': instance.currentImage,
     };
 
 _$_Image _$$_ImageFromJson(Map<String, dynamic> json) => _$_Image(
