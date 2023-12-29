@@ -4,6 +4,8 @@ import 'dart:ui';
 
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -18,11 +20,14 @@ import 'package:progresscenter_app_v4/src/common/skeletons/loading_app_bar.dart'
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_cam_details.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/bottom_navigation/view/camera_view_bottom_nav.dart';
+import 'package:progresscenter_app_v4/src/feature/camera/presentation/provider/camera_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/camera_by_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/images_by_cam_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/selected_imagedata_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/landscape_camera_details_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/widgets/cameras_widget.dart';
 import 'package:zoom_pinch_overlay/zoom_pinch_overlay.dart';
+import 'dart:developer';
 
 class CameraDetailsSreen extends ConsumerStatefulWidget {
   final String projectId;
@@ -55,32 +60,17 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
   Animation<Matrix4>? animation;
   OverlayEntry? entry;
   ScrollController _scrollController = ScrollController();
+  CarouselController carouselController = CarouselController();
+  ImageData? imageData;
   GlobalKey _listViewKey = GlobalKey();
   TransformationController viewTransformationController =
       TransformationController();
-  double btmNavigationBarHeight =
-      Platform.isAndroid ? kBottomNavigationBarHeight : 90;
-  bool firstTime = false;
-  double _scrollControllerOffset = 0.0;
-
-  // _scrollListener() {
-  //   setState(() {
-  //     _scrollControllerOffset = _scrollController.offset;
-  //   });
-  // }
 
   @override
   void initState() {
     super.initState();
     controller = TransformationController();
-    final zoomFactor = 2.0;
-    final xTranslate = 400.0;
-    final yTranslate = 400.0;
-    firstTime = true;
-    // _scrollController = ScrollController();
-    // _scrollController.addListener(_scrollListener);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Scroll to the last index
       Timer(Duration(seconds: 1), () {
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent,
@@ -89,19 +79,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
         );
       });
     });
-
-    animationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 200),
-    )
-      ..addListener(() {
-        controller!.value = animation!.value;
-      })
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          removeOverlay();
-        }
-      });
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(cameraByIdControllerProvider.notifier).getCameraById(
@@ -114,96 +91,9 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
           widget.projectId, widget.cameraId,
           searchDate: _searchDate);
     });
-    // DateTime _currentMonth = DateTime.now();
-    // getDaysInMonth(_currentMonth);
-  }
-
-  removeOverlay() {
-    entry!.remove();
-    entry = null;
-  }
-
-  resetAnimation() {
-    animation = Matrix4Tween(
-      begin: controller!.value,
-      end: Matrix4.identity(),
-    ).animate(CurvedAnimation(
-        parent: animationController!, curve: Curves.decelerate));
-    animationController!.forward(from: 0);
-  }
-
-  void showOverlay(BuildContext context, image) {
-    final renderBox = context.findRenderObject()! as RenderBox;
-    final offSet = renderBox.localToGlobal(Offset.zero);
-    final size = MediaQuery.of(context).size;
-    entry = OverlayEntry(builder: (context) {
-      return buildImage(image);
-      // Stack(
-      //   children: [
-      //     Positioned.fill(
-      //       child: Container(color: Colors.black)
-      //     ),
-      //     Positioned(
-      //       left: offSet.dx,
-      //       top: offSet.dy,
-      //       width: size.width,
-      //       child: buildImage(image,)),
-      //   ],
-      // );
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref.read(cameraControllerProvider.notifier).getCameras(widget.projectId);
     });
-    final overlay = Overlay.of(context);
-    overlay.insert(entry!);
-  }
-
-  Widget buildImage(
-    String image,
-  ) {
-    return Builder(
-        builder: (BuildContext context) => InteractiveViewer(
-              transformationController: controller,
-              panEnabled: false,
-              onInteractionEnd: resetAnimation(),
-              onInteractionStart: (details) {
-                if (details.pointerCount < 2) return;
-                if (entry == null) {
-                  showOverlay(context, image);
-                }
-              },
-              clipBehavior: Clip.none,
-              minScale: 1,
-              maxScale: 4,
-              child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: Image.network(
-                  image,
-                  width: double.infinity,
-                  // height: 210.h,
-                  fit: BoxFit.cover,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) return child;
-
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: Helper.primary,
-                        value: (loadingProgress != null)
-                            ? (loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes!)
-                            : 0,
-                      ),
-                    );
-                  },
-                  errorBuilder: (BuildContext context, Object exception,
-                      StackTrace? stackTrace) {
-                    return ClipRRect(
-                      child: Image.asset(
-                        'assets/images/error_image.jpeg',
-                        fit: BoxFit.cover,
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ));
   }
 
   List<DateTime> getDaysInMonth(currentMonth, bool isString) {
@@ -249,34 +139,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     return formattedDate;
   }
 
-  // static int getDaysInMonth(int year, int month) {
-  //   if (month == DateTime.february) {
-  //     final bool isLeapYear =
-  //         (year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0);
-  //     return isLeapYear ? 29 : 28;
-  //   }
-  //   const List<int> daysInMonth = <int>[
-  //     31,
-  //     -1,
-  //     31,
-  //     30,
-  //     31,
-  //     30,
-  //     31,
-  //     31,
-  //     30,
-  //     31,
-  //     30,
-  //     31
-  //   ];
-  //   return daysInMonth[month - 1];
-  // }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
   parseDateTimeString(String time) {
     String dateWithT = time.substring(0, 8) + 'T' + time.substring(8);
     DateTime dateTime = DateTime.parse(dateWithT);
@@ -300,24 +162,13 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
 
   @override
   Widget build(BuildContext context) {
+    final camerasListData =
+        ref.watch(cameraControllerProvider.select((value) => value.cameras));
     final cameraByIdData = ref.watch(
         cameraByIdControllerProvider.select((value) => value.cameraById));
     final imagesByCameraIdData = ref.watch(
         imagesByCamIdControllerProvider.select((value) => value.imagesByCamId));
     final selectedImageData = ref.watch(selectedImageDataProvider);
-    final scaleMatrix = Matrix4.identity()..scale(1.9);
-
-    viewTransformationController = TransformationController(scaleMatrix);
-    // if (firstTime) {
-    //   WidgetsBinding.instance.addPostFrameCallback((_) {
-    //     // Scroll to the last index
-    //     _scrollController.animateTo(
-    //       _scrollController.position.maxScrollExtent,
-    //       duration: Duration(milliseconds: 500),
-    //       curve: Curves.easeInOut,
-    //     );
-    //   });
-    // }
 
     return RefreshIndicator(
       color: Helper.primary,
@@ -360,38 +211,79 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Text(
-                                    cameraData.name!,
-                                    style: TextStyle(
-                                        color: Helper.baseBlack,
-                                        fontSize: 18.sp,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  SizedBox(
-                                    width: 6.w,
-                                  ),
-                                  // SvgPicture.asset('assets/images/chevron-down.svg'),
-                                ],
-                              ),
-                              Text(
-                                widget.projectName,
-                                style: TextStyle(
-                                    color: Helper.baseBlack.withOpacity(0.5),
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w400),
-                              ),
-                            ]),
-                        SvgPicture.asset('assets/images/chevron-down.svg'),
+                        camerasListData.when(
+                          data: (data) {
+                            return InkWell(
+                              onTap: () {
+                                showModalBottomSheet(
+                                    useRootNavigator: true,
+                                    isScrollControlled: true,
+                                    context: context,
+                                    backgroundColor: Colors.transparent,
+                                    builder: (context) => Padding(
+                                          padding: EdgeInsets.only(
+                                                  bottom: MediaQuery.of(context)
+                                                      .viewInsets
+                                                      .bottom) *
+                                              0.6,
+                                          child: CamerasWidget(
+                                            data: data,
+                                            projectId: widget.projectId,
+                                          ),
+                                        ));
+                              },
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Text(
+                                          cameraData.name!,
+                                          style: TextStyle(
+                                              color: Helper.baseBlack,
+                                              fontSize: 18.sp,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        SizedBox(
+                                          width: 6.w,
+                                        ),
+                                        // SvgPicture.asset('assets/images/chevron-down.svg'),
+                                      ],
+                                    ),
+                                    Text(
+                                      widget.projectName,
+                                      style: TextStyle(
+                                          color:
+                                              Helper.baseBlack.withOpacity(0.5),
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ]),
+                            );
+                          },
+                          error: (err, _) {
+                            return const Text("Error",
+                                style: TextStyle(color: Helper.errorColor));
+                          },
+                          loading: () => LoadingAppBar(),
+                        ),
+                        Transform.rotate(
+                          angle: 90 * (3.1415926535 / 180),
+                          child: SvgPicture.asset(
+                            'assets/images/chevron-right.svg',
+                            color: Helper.iconColor,
+                            fit: BoxFit.contain,
+                            allowDrawingOutsideViewBox: true,
+                            width: 16.w,
+                          ),
+                        ),
                       ],
                     );
                   },
@@ -415,395 +307,231 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
           ),
         ),
         body: SafeArea(
-          child: Container(
-            // padding: EdgeInsets.only(bottom: kBottomNavigationBarHeight),
-            child: Consumer(builder: (context, ref, child) {
-              print("state printed" + selectedImageData.toString());
-              return imagesByCameraIdData.when(
-                data: (imagesData) {
-                  if (imagesData.images!.isEmpty) {
-                    showBottomBar = false;
+          child: SingleChildScrollView(
+            child: Container(
+              // padding: EdgeInsets.only(bottom: kBottomNavigationBarHeight),
+              child: Consumer(builder: (context, ref, child) {
+                print("state printed" + selectedImageData.toString());
+                return imagesByCameraIdData.when(
+                  data: (imagesData) {
+                    if (imagesData.images!.isEmpty) {
+                      showBottomBar = false;
 
-                    return Center(
-                      child: Container(
-                        height: MediaQuery.of(context).size.height / 2,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset('assets/images/illustration.svg'),
-                            SizedBox(height: 16.h),
-                            Text(
-                              "No Images yet",
-                              style: TextStyle(
-                                  color: Helper.textColor900,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ],
+                      return Center(
+                        child: Container(
+                          height: MediaQuery.of(context).size.height / 2,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                  'assets/images/illustration.svg'),
+                              SizedBox(height: 16.h),
+                              Text(
+                                "No Images yet",
+                                style: TextStyle(
+                                    color: Helper.textColor900,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  }
-                  ;
-                  getDaysInMonth(imagesData.endDate, true);
-                  return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Stack(children: [
-                          Container(
-                            height: MediaQuery.of(context).size.height -
-                                (Scaffold.of(context)
-                                        .appBarMaxHeight!
-                                        .toDouble() +
-                                    kBottomNavigationBarHeight +
-                                    184.h),
-                            child: Image.network(
-                              selectedImageData == null
-                                  ? imagesData.images![0].urlPreview!
-                                  : selectedImageData.urlPreview!,
-                              width: double.infinity,
-                              // scale: 20,
-                              // height: 210.h,
-                              fit: BoxFit.fitHeight,
-                              // loadingBuilder: (context, child, loadingProgress) {
-                              //   if (loadingProgress == null) return child;
+                      );
+                    }
+                    ;
+                    getDaysInMonth(imagesData.endDate, true);
+                    return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Stack(children: [
+                            Container(
+                              height: MediaQuery.of(context).size.height -
+                                  (Scaffold.of(context)
+                                          .appBarMaxHeight!
+                                          .toDouble() +
+                                      kBottomNavigationBarHeight +
+                                      184.h),
+                              child: Image.network(
+                                selectedImageData == null
+                                    ? imagesData.images![0].urlPreview!
+                                    : selectedImageData.urlPreview!,
+                                width: double.infinity,
+                                // scale: 20,
+                                // height: 210.h,
+                                fit: BoxFit.fitHeight,
+                                // loadingBuilder: (context, child, loadingProgress) {
+                                //   if (loadingProgress == null) return child;
 
-                              //   return Center(
-                              //     child: CircularProgressIndicator(
-                              //       color: Helper.primary,
-                              //       value: (loadingProgress != null)
-                              //           ? (loadingProgress.cumulativeBytesLoaded /
-                              //               loadingProgress.expectedTotalBytes!)
-                              //           : 0,
-                              //     ),
-                              //   );
-                              // },
-                              errorBuilder: (BuildContext context,
-                                  Object exception, StackTrace? stackTrace) {
-                                return ClipRRect(
-                                  child: Image.asset(
-                                    'assets/images/error_image.jpeg',
-                                    fit: BoxFit.cover,
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                          BlurryContainer(
-                            blur: 30,
-
-                            padding: EdgeInsets.zero,
-                            borderRadius: BorderRadius.zero,
-                            // filter: ImageFilter.blur(sigmaX: 105, sigmaY: 105),
-                            // blendMode: BlendMode.clear,
-                            child: Container(
-                                height: MediaQuery.of(context).size.height -
-                                    (Scaffold.of(context)
-                                            .appBarMaxHeight!
-                                            .toDouble() +
-                                        kBottomNavigationBarHeight +
-                                        184.h),
-                                // color: Helper.textColor300,
-                                // height: MediaQuery.of(context).size.height -
-                                //     (Scaffold.of(context)
-                                //             .appBarMaxHeight!
-                                //             .toDouble() +
-                                //         btmNavigationBarHeight +
-                                //         147.h),
-                                child: PinchZoom(
-                                  // transformationController:
-                                  //     viewTransformationController,
-                                  // panEnabled: false,
-                                  // boundaryMargin: EdgeInsets.zero,
-                                  // minScale: 0.5,
-                                  //  alignment: Alignment.center,
-                                  // constrained: false,
-                                  maxScale: 10,
-                                  child: Image.network(
-                                    selectedImageData == null
-                                        ? imagesData.images![0].urlPreview!
-                                        : selectedImageData.urlPreview!,
-                                    width: double.infinity,
-                                    scale: 1,
-                                    // height: 210.h,
-                                    // fit: BoxFit.fitHeight,
-                                    loadingBuilder:
-                                        (context, child, loadingProgress) {
-                                      if (loadingProgress == null) return child;
-
-                                      return Center(
-                                        child: CircularProgressIndicator(
-                                          color: Helper.primary,
-                                          value: (loadingProgress != null)
-                                              ? (loadingProgress
-                                                      .cumulativeBytesLoaded /
-                                                  loadingProgress
-                                                      .expectedTotalBytes!)
-                                              : 0,
-                                        ),
-                                      );
-                                    },
-                                    errorBuilder: (BuildContext context,
-                                        Object exception,
-                                        StackTrace? stackTrace) {
-                                      return ClipRRect(
-                                        child: Image.asset(
-                                          'assets/images/error_image.jpeg',
-                                          fit: BoxFit.cover,
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                )),
-                          ),
-                          Positioned(
-                            top: 16,
-                            left: 16,
-                            child: InkWell(
-                              onTap: () async {
-                                await _showDateBottomSheet(
-                                    context,
-                                    imagesData.startDate!,
-                                    imagesData.endDate!,
-                                    _selectedDate,
-                                    widget.cameraId,
-                                    widget.projectId,
-                                    ref,
-                                    currentMonth);
-                                setState(() {});
-                              },
-                              child: BlurryContainer(
-                                  blur: 3,
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 6.h, horizontal: 8.w),
-                                  borderRadius: BorderRadius.circular(30.r),
-                                  color: Colors.black.withOpacity(0.3),
-                                  child: Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        'assets/images/timeline.svg',
-                                        height: 16.h,
-                                        width: 16.w,
-                                        color: Colors.white,
-                                      ),
-                                      SizedBox(width: 4.w),
-                                      // Text(
-                                      //     parseTimeString(imagesData
-                                      //         .images!.time!),
-                                      //     style: TextStyle(
-                                      //         color: Colors.white,
-                                      //         fontWeight: FontWeight.w500,
-                                      //         fontSize: 12.sp)),
-                                      Text(showDate(imagesData.endDate!),
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 12.sp)),
-                                    ],
-                                  )),
-                            ),
-                          ),
-                          Positioned(
-                            top: 16,
-                            right: 16,
-                            child: InkWell(
-                              onTap: () {
-                                // SystemChrome.setPreferredOrientations(
-                                //     [DeviceOrientation.landscapeRight]);
-                                // context.push('/landscapeCameraDetails', extra: {
-                                //   "projectId": widget.projectId,
-                                //   "projectName": widget.projectName,
-                                //   "cameraId": widget.cameraId,
-                                //   "imagesData": imagesData
-                                // });
-                                Navigator.push(
-                                  context,
-                                  PageRouteBuilder(
-                                    pageBuilder: (context, animation,
-                                            secondaryAnimation) =>
-                                        LandscapeCameraDetailsScreen(
-                                      projectId: widget.projectId,
-                                      cameraId: widget.cameraId,
-                                      imagesData: imagesData,
-                                      projectName: widget.projectName,
-                                    ),
-                                    transitionsBuilder: (context, animation,
-                                        secondaryAnimation, child) {
-                                      const begin = 0.75;
-                                      const end = 1.0;
-                                      var rotationAnimation =
-                                          Tween(begin: begin, end: end)
-                                              .animate(animation);
-                                      return RotationTransition(
-                                        turns: rotationAnimation,
-                                        child: child,
-                                      );
-                                    },
-                                  ),
-                                );
-
-                                // Navigator.push(
-                                //   context,
-                                //   PageRouteBuilder(
-                                //     pageBuilder: (context, animation,
-                                //             secondaryAnimation) =>
-                                //         LandscapeCameraDetailsScreen(
-                                //       projectId: widget.projectId,
-                                //       cameraId: widget.cameraId,
-                                //       imagesData: imagesData,
-                                //       projectName: widget.projectName,
+                                //   return Center(
+                                //     child: CircularProgressIndicator(
+                                //       color: Helper.primary,
+                                //       value: (loadingProgress != null)
+                                //           ? (loadingProgress.cumulativeBytesLoaded /
+                                //               loadingProgress.expectedTotalBytes!)
+                                //           : 0,
                                 //     ),
-                                //     transitionsBuilder: (context, animation,
-                                //         secondaryAnimation, child) {
-                                //       const begin = Offset(1.0, 0.0);
-                                //       const end = Offset.zero;
-                                //       const curve = Curves.easeInOutCubic;
-                                //       var tween = Tween(begin: begin, end: end)
-                                //           .chain(CurveTween(curve: curve));
-                                //       var offsetAnimation =
-                                //           animation.drive(tween);
-                                //       return SlideTransition(
-                                //         position: offsetAnimation,
-                                //         child: child,
-                                //       );
-                                //     },
-                                //   ),
-                                // );
-                              },
-                              child: BlurryContainer(
-                                blur: 3,
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 6.h, horizontal: 6.w),
-                                borderRadius: BorderRadius.circular(30.r),
-                                color: Colors.black.withOpacity(0.3),
-                                child: SvgPicture.asset(
-                                  'assets/images/expand.svg',
-                                  // height: 16.h,
-                                  // width: 16.w,
-                                  color: Colors.white,
-                                ),
+                                //   );
+                                // },
+                                errorBuilder: (BuildContext context,
+                                    Object exception, StackTrace? stackTrace) {
+                                  return ClipRRect(
+                                    child: Image.asset(
+                                      'assets/images/error_image.jpeg',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  );
+                                },
                               ),
                             ),
-                          ),
-                        ]),
-                        SizedBox(
-                          height: 75.h,
-                          child: ListView.separated(
-                              separatorBuilder: (context, builder) {
-                                return SizedBox(
-                                  width: 2.w,
-                                );
-                              },
-                              itemCount: imagesData.images!.length,
-                              key: _listViewKey,
-                              shrinkWrap: true,
-                              physics: BouncingScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              controller: _scrollController,
-                              itemBuilder: ((context, index) {
-                                // _scrollDown();
+                            BlurryContainer(
+                              blur: 30,
 
-                                final reversedIndex =
-                                    imagesData.images!.length - 1 - index;
+                              padding: EdgeInsets.zero,
+                              borderRadius: BorderRadius.zero,
+                              // filter: ImageFilter.blur(sigmaX: 105, sigmaY: 105),
+                              // blendMode: BlendMode.clear,
+                              child: CarouselSlider.builder(
+                                  carouselController: carouselController,
+                                  itemCount: imagesData.images!.length,
+                                  options: CarouselOptions(
+                                      height:
+                                          MediaQuery.of(context).size.height -
+                                              (Scaffold.of(context)
+                                                      .appBarMaxHeight!
+                                                      .toDouble() +
+                                                  kBottomNavigationBarHeight +
+                                                  184.h),
+                                      viewportFraction: 1,
+                                      // aspectRatio: 1 / 1,
+                                      initialPage: 0,
+                                      autoPlay: false,
+                                      enlargeCenterPage: true,
+                                      autoPlayCurve: Curves.fastOutSlowIn,
+                                      scrollDirection: Axis.horizontal,
+                                      onPageChanged: (index, reason) {
+                                        setState(() {
+                                          imageData = ImageData(
+                                            name:
+                                                imagesData.images![index].name,
+                                            dateTime: imagesData
+                                                .images![index].datetime,
+                                            camera: imagesData
+                                                .images![index].camera,
+                                            id: imagesData.images![index].id,
+                                            urlPreview: imagesData
+                                                .images![index].urlPreview,
+                                          );
+                                          ref
+                                              .read(selectedImageDataProvider
+                                                  .notifier)
+                                              .setImageData(imageData);
+                                        });
+                                      }),
+                                  itemBuilder: (BuildContext context,
+                                      int itemIndex, int pageViewIndex) {
+                                    // imageData = ImageData(
+                                    //   name: imagesData.images![itemIndex].name,
+                                    //   dateTime: imagesData
+                                    //       .images![itemIndex].datetime,
+                                    //   camera:
+                                    //       imagesData.images![itemIndex].camera,
+                                    //   id: imagesData.images![itemIndex].id,
+                                    //   urlPreview: imagesData
+                                    //       .images![itemIndex].urlPreview,
+                                    // );
+                                    return Container(
+                                      // height:
+                                      //     MediaQuery.of(context).size.height -
+                                      //         (Scaffold.of(context)
+                                      //                 .appBarMaxHeight!
+                                      //                 .toDouble() +
+                                      //             kBottomNavigationBarHeight +
+                                      //             184.h),
+                                      // color: Helper.textColor300,
+                                      // height: MediaQuery.of(context).size.height -
+                                      //     (Scaffold.of(context)
+                                      //             .appBarMaxHeight!
+                                      //             .toDouble() +
+                                      //         btmNavigationBarHeight +
+                                      //         147.h),
+                                      child: PinchZoom(
+                                        // transformationController:
+                                        //     viewTransformationController,
+                                        // panEnabled: false,
+                                        // boundaryMargin: EdgeInsets.zero,
+                                        // minScale: 0.5,
+                                        //  alignment: Alignment.center,
+                                        // constrained: false,
+                                        maxScale: 10,
+                                        child: CupertinoContextMenu(
+                                          actions: <Widget>[
+                                            CupertinoContextMenuAction(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              trailingIcon:
+                                                  CupertinoIcons.share,
+                                              child: const Text('Share'),
+                                            ),
+                                            CupertinoContextMenuAction(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              trailingIcon:
+                                                  CupertinoIcons.down_arrow,
+                                              child: const Text('Download'),
+                                            ),
+                                          ],
+                                          child: Image.network(
+                                            selectedImageData == null
+                                                ? imagesData.images![itemIndex]
+                                                    .urlPreview!
+                                                : selectedImageData.urlPreview!,
+                                            width: double.infinity,
+                                            scale: 1,
+                                            // height: 210.h,
+                                            // fit: BoxFit.fitHeight,
+                                            loadingBuilder: (context, child,
+                                                loadingProgress) {
+                                              if (loadingProgress == null)
+                                                return child;
 
-                                return InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      _selectedImageIndex = reversedIndex;
-                                    });
-                                    final imageData = ImageData(
-                                      name: imagesData
-                                          .images![reversedIndex].name,
-                                      dateTime: imagesData
-                                          .images![reversedIndex].datetime,
-                                      camera: imagesData
-                                          .images![reversedIndex].camera,
-                                      id: imagesData.images![reversedIndex].id,
-                                      urlPreview: imagesData
-                                          .images![reversedIndex].urlPreview,
+                                              return Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: Helper.primary,
+                                                  value: (loadingProgress !=
+                                                          null)
+                                                      ? (loadingProgress
+                                                              .cumulativeBytesLoaded /
+                                                          loadingProgress
+                                                              .expectedTotalBytes!)
+                                                      : 0,
+                                                ),
+                                              );
+                                            },
+                                            errorBuilder: (BuildContext context,
+                                                Object exception,
+                                                StackTrace? stackTrace) {
+                                              return ClipRRect(
+                                                child: Image.asset(
+                                                  'assets/images/error_image.jpeg',
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ),
                                     );
-
-                                    ref
-                                        .read(
-                                            selectedImageDataProvider.notifier)
-                                        .setImageData(imageData);
-                                  },
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 4.w, vertical: 4.h),
-                                    child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Container(
-                                            padding: EdgeInsets.zero,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(6.r),
-                                              border: _selectedImageIndex ==
-                                                      reversedIndex
-                                                  ? Border.all(
-                                                      color: Helper.primary,
-                                                      width: 2.w,
-                                                    )
-                                                  : Border.all(
-                                                      width: 2.w,
-                                                      color:
-                                                          Colors.transparent),
-                                            ),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(4.r),
-                                              child: Image.network(
-                                                imagesData
-                                                    .images![reversedIndex]
-                                                    .urlThumb!,
-                                                width: 44.w,
-                                                height: 44.h,
-                                                fit: BoxFit.fill,
-                                                errorBuilder: (BuildContext
-                                                        context,
-                                                    Object exception,
-                                                    StackTrace? stackTrace) {
-                                                  return ClipRRect(
-                                                    child: Image.asset(
-                                                      'assets/images/error_image.jpeg',
-                                                      width: 44.w,
-                                                      height: 44.h,
-                                                      fit: BoxFit.fill,
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 6.h,
-                                          ),
-                                          Text(
-                                            parseDateTimeString(imagesData
-                                                .images![reversedIndex]
-                                                .datetime!),
-                                            style: TextStyle(
-                                                letterSpacing: -0.3,
-                                                color: Helper.textColor700,
-                                                fontSize: 8.sp,
-                                                fontWeight: FontWeight.w500),
-                                          )
-                                        ]),
-                                  ),
-                                );
-                              })),
-                        ),
-                        SizedBox(
-                          height: 74.h,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              InkWell(
+                                  }),
+                            ),
+                            Positioned(
+                              top: 16,
+                              left: 16,
+                              child: InkWell(
                                 onTap: () async {
                                   await _showDateBottomSheet(
                                       context,
@@ -816,145 +544,372 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                       currentMonth);
                                   setState(() {});
                                 },
-                                child: Container(
+                                child: BlurryContainer(
+                                    blur: 3,
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 10.w, vertical: 14.h),
-                                    child: Text(
-                                      "- $showMonth -",
-                                      style: TextStyle(
-                                          letterSpacing: -0.3,
-                                          fontSize: 10.sp,
-                                          fontWeight: FontWeight.w700,
-                                          color: Helper.baseBlack
-                                              .withOpacity(0.3)),
+                                        vertical: 6.h, horizontal: 8.w),
+                                    borderRadius: BorderRadius.circular(30.r),
+                                    color: Colors.black.withOpacity(0.3),
+                                    child: Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                          'assets/images/timeline.svg',
+                                          height: 16.h,
+                                          width: 16.w,
+                                          color: Colors.white,
+                                        ),
+                                        SizedBox(width: 4.w),
+                                        // Text(
+                                        //     parseTimeString(imagesData
+                                        //         .images!.time!),
+                                        //     style: TextStyle(
+                                        //         color: Colors.white,
+                                        //         fontWeight: FontWeight.w500,
+                                        //         fontSize: 12.sp)),
+                                        Text(showDate(imagesData.endDate!),
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12.sp)),
+                                      ],
                                     )),
                               ),
-                              Expanded(
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  physics: BouncingScrollPhysics(),
-                                  itemCount: daysInMonth.length,
-                                  itemBuilder: (context, index) {
-                                    final day = daysInMonth[index];
-                                    final formattedDay =
-                                        DateFormat.EEEE().format(day);
-                                    final formattedDate =
-                                        DateFormat.d().format(day);
-                                    final isSelected = index == _selectedIndex;
-
-                                    return InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          _selectedIndex =
-                                              index; // Update the selected index when an item is tapped
-                                        });
-                                        print(day.toString());
-                                        // DateTime date =
-                                        //     DateTime.parse(value[0].toString());
-                                        _searchDate =
-                                            DateFormat("yyyyMMdd").format(day);
-                                        print("month list date" + _searchDate);
-                                        ref
-                                            .watch(
-                                                imagesByCamIdControllerProvider
-                                                    .notifier)
-                                            .getImagesByCamId(widget.projectId,
-                                                widget.cameraId,
-                                                searchDate: _searchDate);
-                                      },
-                                      child: Container(
-                                        margin: EdgeInsets.zero,
-                                        padding: EdgeInsets.zero,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: isSelected
-                                                ? Helper.baseBlack
-                                                    .withOpacity(0.06)
-                                                : Colors.transparent,
-                                            width: 1, // Set the border width
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(6.r),
-                                        ),
-                                        child: Stack(children: [
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 10.w,
-                                                vertical: 12.h),
-                                            child: Column(
-                                              children: [
-                                                Text(
-                                                  formattedDate,
-                                                  style: TextStyle(
-                                                      letterSpacing: -0.3,
-                                                      color: Helper.baseBlack,
-                                                      fontSize: 16.sp,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ),
-                                                Text(
-                                                  formattedDay
-                                                      .substring(0, 3)
-                                                      .toUpperCase(),
-                                                  style: TextStyle(
-                                                      letterSpacing: -0.3,
-                                                      color: Helper.baseBlack,
-                                                      fontSize: 10.sp,
-                                                      fontWeight:
-                                                          FontWeight.w400),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          isSelected
-                                              ? Positioned.fill(
-                                                  // top: -2,
-                                                  child: Align(
-                                                    alignment:
-                                                        Alignment.topCenter,
-                                                    child: Container(
-                                                      height: 4.h,
-                                                      margin:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 5.w),
-                                                      decoration: BoxDecoration(
-                                                        color: Helper.primary,
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                                bottomLeft: Radius
-                                                                    .circular(
-                                                                        4.r),
-                                                                bottomRight: Radius
-                                                                    .circular(
-                                                                        4.r)),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                )
-                                              : SizedBox(),
-                                        ]),
+                            ),
+                            Positioned(
+                              top: 16,
+                              right: 16,
+                              child: InkWell(
+                                onTap: () {
+                                  // SystemChrome.setPreferredOrientations(
+                                  //     [DeviceOrientation.landscapeRight]);
+                                  // context.push('/landscapeCameraDetails', extra: {
+                                  //   "projectId": widget.projectId,
+                                  //   "projectName": widget.projectName,
+                                  //   "cameraId": widget.cameraId,
+                                  //   "imagesData": imagesData
+                                  // });
+                                  Navigator.push(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation,
+                                              secondaryAnimation) =>
+                                          LandscapeCameraDetailsScreen(
+                                        projectId: widget.projectId,
+                                        cameraId: widget.cameraId,
+                                        imagesData: imagesData,
+                                        projectName: widget.projectName,
                                       ),
-                                    );
-                                  },
+                                      transitionsBuilder: (context, animation,
+                                          secondaryAnimation, child) {
+                                        const begin = 0.75;
+                                        const end = 1.0;
+                                        var rotationAnimation =
+                                            Tween(begin: begin, end: end)
+                                                .animate(animation);
+                                        return RotationTransition(
+                                          turns: rotationAnimation,
+                                          child: child,
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: BlurryContainer(
+                                  blur: 3,
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 6.h, horizontal: 6.w),
+                                  borderRadius: BorderRadius.circular(30.r),
+                                  color: Colors.black.withOpacity(0.3),
+                                  child: SvgPicture.asset(
+                                    'assets/images/expand.svg',
+                                    // height: 16.h,
+                                    // width: 16.w,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
-                            ],
+                            ),
+                          ]),
+                          SizedBox(
+                            height: 75.h,
+                            child: ListView.separated(
+                                separatorBuilder: (context, builder) {
+                                  return SizedBox(
+                                    width: 2.w,
+                                  );
+                                },
+                                itemCount: imagesData.images!.length,
+                                key: _listViewKey,
+                                shrinkWrap: true,
+                                physics: BouncingScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                controller: _scrollController,
+                                itemBuilder: ((context, index) {
+                                  // _scrollDown();
+
+                                  final reversedIndex =
+                                      imagesData.images!.length - 1 - index;
+
+                                  return InkWell(
+                                    onTap: () {
+                                      // setState(() {
+                                      //   _selectedImageIndex = reversedIndex;
+                                      // });
+                                      imageData = ImageData(
+                                        name: imagesData
+                                            .images![reversedIndex].name,
+                                        dateTime: imagesData
+                                            .images![reversedIndex].datetime,
+                                        camera: imagesData
+                                            .images![reversedIndex].camera,
+                                        id: imagesData
+                                            .images![reversedIndex].id,
+                                        urlPreview: imagesData
+                                            .images![reversedIndex].urlPreview,
+                                      );
+
+                                      ref
+                                          .read(selectedImageDataProvider
+                                              .notifier)
+                                          .setImageData(imageData);
+                                      log(imageData!.id.toString());
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 4.w, vertical: 4.h),
+                                      child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.zero,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(6.r),
+                                                border: selectedImageData !=
+                                                            null &&
+                                                        imageData!.id ==
+                                                            imagesData
+                                                                .images![
+                                                                    reversedIndex]
+                                                                .id!
+                                                    ? Border.all(
+                                                        color: Helper.primary,
+                                                        width: 2.w,
+                                                      )
+                                                    : Border.all(
+                                                        width: 2.w,
+                                                        color:
+                                                            Colors.transparent),
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(4.r),
+                                                child: Image.network(
+                                                  imagesData
+                                                      .images![reversedIndex]
+                                                      .urlThumb!,
+                                                  width: 44.w,
+                                                  height: 44.h,
+                                                  fit: BoxFit.fill,
+                                                  errorBuilder: (BuildContext
+                                                          context,
+                                                      Object exception,
+                                                      StackTrace? stackTrace) {
+                                                    return ClipRRect(
+                                                      child: Image.asset(
+                                                        'assets/images/error_image.jpeg',
+                                                        width: 44.w,
+                                                        height: 44.h,
+                                                        fit: BoxFit.fill,
+                                                      ),
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 6.h,
+                                            ),
+                                            Text(
+                                              parseDateTimeString(imagesData
+                                                  .images![reversedIndex]
+                                                  .datetime!),
+                                              style: TextStyle(
+                                                  letterSpacing: -0.3,
+                                                  color: Helper.textColor700,
+                                                  fontSize: 8.sp,
+                                                  fontWeight: FontWeight.w500),
+                                            )
+                                          ]),
+                                    ),
+                                  );
+                                })),
                           ),
-                        )
-                      ]);
-                },
-                error: (err, _) {
-                  return const Text("Failed to fetch images data",
-                      style: TextStyle(
-                          letterSpacing: -0.3, color: Helper.errorColor));
-                },
-                loading: () => LoadingCamDetails(
-                  showCalendarList: true,
-                  topPadding: 72.h,
-                ),
-              );
-            }),
+                          SizedBox(
+                            height: 74.h,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                InkWell(
+                                  onTap: () async {
+                                    await _showDateBottomSheet(
+                                        context,
+                                        imagesData.startDate!,
+                                        imagesData.endDate!,
+                                        _selectedDate,
+                                        widget.cameraId,
+                                        widget.projectId,
+                                        ref,
+                                        currentMonth);
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10.w, vertical: 14.h),
+                                      child: Text(
+                                        "- $showMonth -",
+                                        style: TextStyle(
+                                            letterSpacing: -0.3,
+                                            fontSize: 10.sp,
+                                            fontWeight: FontWeight.w700,
+                                            color: Helper.baseBlack
+                                                .withOpacity(0.3)),
+                                      )),
+                                ),
+                                Expanded(
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    physics: BouncingScrollPhysics(),
+                                    itemCount: daysInMonth.length,
+                                    itemBuilder: (context, index) {
+                                      final day = daysInMonth[index];
+                                      final formattedDay =
+                                          DateFormat.EEEE().format(day);
+                                      final formattedDate =
+                                          DateFormat.d().format(day);
+                                      final isSelected =
+                                          index == _selectedIndex;
+
+                                      return InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            _selectedIndex =
+                                                index; // Update the selected index when an item is tapped
+                                          });
+                                          print(day.toString());
+                                          // DateTime date =
+                                          //     DateTime.parse(value[0].toString());
+                                          _searchDate = DateFormat("yyyyMMdd")
+                                              .format(day);
+                                          print(
+                                              "month list date" + _searchDate);
+                                          ref
+                                              .watch(
+                                                  imagesByCamIdControllerProvider
+                                                      .notifier)
+                                              .getImagesByCamId(
+                                                  widget.projectId,
+                                                  widget.cameraId,
+                                                  searchDate: _searchDate);
+                                        },
+                                        child: Container(
+                                          margin: EdgeInsets.zero,
+                                          padding: EdgeInsets.zero,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: isSelected
+                                                  ? Helper.baseBlack
+                                                      .withOpacity(0.06)
+                                                  : Colors.transparent,
+                                              width: 1, // Set the border width
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(6.r),
+                                          ),
+                                          child: Stack(children: [
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 10.w,
+                                                  vertical: 12.h),
+                                              child: Column(
+                                                children: [
+                                                  Text(
+                                                    formattedDate,
+                                                    style: TextStyle(
+                                                        letterSpacing: -0.3,
+                                                        color: Helper.baseBlack,
+                                                        fontSize: 16.sp,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                  Text(
+                                                    formattedDay
+                                                        .substring(0, 3)
+                                                        .toUpperCase(),
+                                                    style: TextStyle(
+                                                        letterSpacing: -0.3,
+                                                        color: Helper.baseBlack,
+                                                        fontSize: 10.sp,
+                                                        fontWeight:
+                                                            FontWeight.w400),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            isSelected
+                                                ? Positioned.fill(
+                                                    // top: -2,
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.topCenter,
+                                                      child: Container(
+                                                        height: 4.h,
+                                                        margin: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal:
+                                                                    5.w),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: Helper.primary,
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                                  bottomLeft: Radius
+                                                                      .circular(
+                                                                          4.r),
+                                                                  bottomRight: Radius
+                                                                      .circular(
+                                                                          4.r)),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                : SizedBox(),
+                                          ]),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ]);
+                  },
+                  error: (err, _) {
+                    return const Text("Failed to fetch images data",
+                        style: TextStyle(
+                            letterSpacing: -0.3, color: Helper.errorColor));
+                  },
+                  loading: () => LoadingCamDetails(
+                    showCalendarList: true,
+                    topPadding: 72.h,
+                  ),
+                );
+              }),
+            ),
           ),
         ),
         bottomNavigationBar: showBottomBar

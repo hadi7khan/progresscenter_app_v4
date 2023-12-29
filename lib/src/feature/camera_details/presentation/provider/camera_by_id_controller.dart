@@ -13,7 +13,7 @@ class CameraByIdController extends StateNotifier<CameraByIdState> {
   CameraByIdController(super.state, this.service);
   final CameraDetailsRepositoryImpl service;
 
-  void getCameraById(projectId, cameraId) async {
+  Future getCameraById(projectId, cameraId) async {
     state = state.copyWith(isFetching: true);
     final result = await service.cameraById(projectId, cameraId);
 
