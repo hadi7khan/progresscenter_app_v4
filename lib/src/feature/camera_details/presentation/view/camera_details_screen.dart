@@ -320,7 +320,9 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     // }
 
     return RefreshIndicator(
+      color: Helper.primary,
       onRefresh: () async {
+        HapticFeedback.mediumImpact();
         return await ref
             .refresh(imagesByCamIdControllerProvider.notifier)
             .getImagesByCamId(widget.projectId, widget.cameraId);
@@ -351,8 +353,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                 ),
                 leadingWidth: 24,
                 title: cameraByIdData.when(
-                  skipLoadingOnRefresh: false,
-                  skipLoadingOnReload: false,
+                  // skipLoadingOnRefresh: false,
+                  // skipLoadingOnReload: false,
                   data: (cameraData) {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.center,

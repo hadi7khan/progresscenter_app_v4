@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -137,7 +138,9 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
         body: SafeArea(
           top: true,
           child: RefreshIndicator(
+            color: Helper.primary,
             onRefresh: () async {
+              HapticFeedback.mediumImpact();
               return await ref
                   .refresh(siteGalleryControllerProvider.notifier)
                   .getSiteGallery(widget.projectId);

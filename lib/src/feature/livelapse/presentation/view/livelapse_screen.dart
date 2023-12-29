@@ -108,7 +108,9 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
       ),
       body: SafeArea(
         child: RefreshIndicator(
+          color: Helper.primary,
           onRefresh: () async {
+            HapticFeedback.mediumImpact();
             return await ref
                 .refresh(livelapseControllerProvider.notifier)
                 .getLivelapse(widget.projectId, widget.cameraId);

@@ -136,7 +136,9 @@ class _ProjectDetailsScreenState
         top: false,
         // maintainBottomViewPadding: true,
         child: RefreshIndicator(
+          color: Helper.primary,
           onRefresh: () async {
+            HapticFeedback.mediumImpact();
             return await ref
                 .refresh(projectByIdControllerProvider.notifier)
                 .getProjectById(widget.projectId);

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -162,7 +163,9 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
           body: SafeArea(
             top: true,
             child: RefreshIndicator(
+              color: Helper.primary,
               onRefresh: () async {
+                HapticFeedback.mediumImpact();
                 return await ref
                     .refresh(ticketControllerProvider.notifier)
                     .getTicketById(widget.ticketId);
