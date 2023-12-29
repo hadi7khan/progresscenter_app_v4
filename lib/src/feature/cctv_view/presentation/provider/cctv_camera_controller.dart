@@ -13,7 +13,7 @@ class CctvCameraController extends StateNotifier<CctvCameraState> {
   CctvCameraController(super.state, this.service);
   final CctvRepositoryImpl service;
 
-  void getCctvCameras(id) async {
+  Future getCctvCameras(id) async {
     state = state.copyWith(isFetching: true);
     final result = await service.cctvCameraList(id);
 

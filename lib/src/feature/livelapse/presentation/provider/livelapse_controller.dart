@@ -13,7 +13,7 @@ class LivelapseController extends StateNotifier<LivelapseState> {
   LivelapseController(super.state, this.service);
   final LivelapseRepositoryImpl service;
 
-  void getLivelapse(projectId, cameraId) async {
+  Future getLivelapse(projectId, cameraId) async {
     state = state.copyWith(isFetching: true);
     final result = await service.livelapseList(projectId, cameraId);
 

@@ -46,150 +46,157 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
         ref.watch(docsControllerProvider.select((value) => value.docs));
     return Scaffold(
       body: SafeArea(
-          child: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-          child: docsData.when(
-            data: (data) {
-              log(data.toString());
+          child: RefreshIndicator(
+        onRefresh: () async {
+          return await ref.refresh(docsControllerProvider.notifier).getDocs();
+        },
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+            child: docsData.when(
+              data: (data) {
+                log(data.toString());
 
-              print("data fetched" + data.toString());
-              categoryList = data.map((map) {
-                return {
-                  '_id': map.id,
-                  'name': map.name,
-                };
-              }).toList();
+                print("data fetched" + data.toString());
+                categoryList = data.map((map) {
+                  return {
+                    '_id': map.id,
+                    'name': map.name,
+                  };
+                }).toList();
 
-              // Get the list of files from all documents
-              final allFiles = data
-                  .where((document) =>
-                      document.files != null && document.id!.isNotEmpty)
-                  .expand((document) => document.files!
-                      .map<Map<String, dynamic>>(
-                        (file) => {
-                          'documentId': document.id,
-                          'fileId': file.id,
-                          'name': file.name,
-                          'path': file.path,
-                          'uploadedBy': file.uploadedBy?.name ?? '',
-                        },
-                      )
-                      .toList())
-                  .toList();
+                // Get the list of files from all documents
+                final allFiles = data
+                    .where((document) =>
+                        document.files != null && document.id!.isNotEmpty)
+                    .expand((document) => document.files!
+                        .map<Map<String, dynamic>>(
+                          (file) => {
+                            'documentId': document.id,
+                            'fileId': file.id,
+                            'name': file.name,
+                            'path': file.path,
+                            'uploadedBy': file.uploadedBy?.name ?? '',
+                          },
+                        )
+                        .toList())
+                    .toList();
 
-              print("allFiles " + allFiles.toString());
+                print("allFiles " + allFiles.toString());
 
-              // Map file IDs to be equal to folder IDs
-              final filesWithFolderId = allFiles.map((file) {
-                print("filesWithFolderIdData " + file.toString());
-                return {
-                  'folderId': file['documentId'], // Using document ID as fileId
-                  'fileName': file['name'],
-                  'path': file['path'],
-                  'uploadedBy': file['uploadedBy'] ?? '',
-                  'fileId': file['fileId']
-                };
-              }).toList();
-              print("filesWithFolderId " + filesWithFolderId.toString());
+                // Map file IDs to be equal to folder IDs
+                final filesWithFolderId = allFiles.map((file) {
+                  print("filesWithFolderIdData " + file.toString());
+                  return {
+                    'folderId':
+                        file['documentId'], // Using document ID as fileId
+                    'fileName': file['name'],
+                    'path': file['path'],
+                    'uploadedBy': file['uploadedBy'] ?? '',
+                    'fileId': file['fileId']
+                  };
+                }).toList();
+                print("filesWithFolderId " + filesWithFolderId.toString());
 
-              // Filter files based on the selected document
-              final filteredFiles = selectedDocumentId != null
-                  ? filesWithFolderId
-                      .where((file) => file['folderId'] == selectedDocumentId)
-                      .toList()
-                  : filesWithFolderId; // Show all files initially
+                // Filter files based on the selected document
+                final filteredFiles = selectedDocumentId != null
+                    ? filesWithFolderId
+                        .where((file) => file['folderId'] == selectedDocumentId)
+                        .toList()
+                    : filesWithFolderId; // Show all files initially
 
-              print("filteredFiles " + filteredFiles.toString());
+                print("filteredFiles " + filteredFiles.toString());
 
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SvgPicture.asset('assets/images/home.svg'),
-                      Row(
-                        children: [
-                          SvgPicture.asset('assets/images/search.svg'),
-                          SizedBox(width: 12.w),
-                          ConstrainedBox(
-                            constraints: new BoxConstraints(
-                              maxHeight: 30.h,
-                              maxWidth: 30.w,
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SvgPicture.asset('assets/images/home.svg'),
+                        Row(
+                          children: [
+                            SvgPicture.asset('assets/images/search.svg'),
+                            SizedBox(width: 12.w),
+                            ConstrainedBox(
+                              constraints: new BoxConstraints(
+                                maxHeight: 30.h,
+                                maxWidth: 30.w,
+                              ),
+                              child: PopupMenuButton(
+                                padding: EdgeInsets.zero,
+                                icon:
+                                    SvgPicture.asset('assets/images/sort.svg'),
+                                position: PopupMenuPosition.under,
+                                itemBuilder: (BuildContext context) {
+                                  return data.map((folder) {
+                                    return PopupMenuItem(
+                                        value: folder
+                                            .id, // Use a unique identifier for each item
+                                        child: ListTile(
+                                          horizontalTitleGap: 8.w,
+                                          dense: true,
+                                          visualDensity: VisualDensity(
+                                              horizontal: 0, vertical: -4),
+                                          contentPadding: EdgeInsets.zero,
+                                          title: Text(
+                                            folder.name!,
+                                            style: TextStyle(
+                                                color: Helper.baseBlack,
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ));
+                                  }).toList();
+                                },
+                                onSelected: (value) {
+                                  print(value.toString());
+                                  setState(() {
+                                    selectedDocumentId = value;
+                                    print(
+                                        "selectedDocumentId: $selectedDocumentId");
+                                  });
+                                },
+                              ),
                             ),
-                            child: PopupMenuButton(
-                              padding: EdgeInsets.zero,
-                              icon: SvgPicture.asset('assets/images/sort.svg'),
-                              position: PopupMenuPosition.under,
-                              itemBuilder: (BuildContext context) {
-                                return data.map((folder) {
-                                  return PopupMenuItem(
-                                      value: folder
-                                          .id, // Use a unique identifier for each item
-                                      child: ListTile(
-                                        horizontalTitleGap: 8.w,
-                                        dense: true,
-                                        visualDensity: VisualDensity(
-                                            horizontal: 0, vertical: -4),
-                                        contentPadding: EdgeInsets.zero,
-                                        title: Text(
-                                          folder.name!,
-                                          style: TextStyle(
-                                              color: Helper.baseBlack,
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ));
-                                }).toList();
-                              },
-                              onSelected: (value) {
-                                print(value.toString());
-                                setState(() {
-                                  selectedDocumentId = value;
-                                  print(
-                                      "selectedDocumentId: $selectedDocumentId");
-                                });
-                              },
-                            ),
-                          ),
-                          SizedBox(width: 12.w),
-                          InkWell(
-                              onTap: () {
-                                _showAddBottomSheet(context, categoryList);
-                              },
-                              child:
-                                  SvgPicture.asset('assets/images/plus.svg')),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 14.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Documents",
-                        style: TextStyle(
-                            color: Helper.textColor700,
-                            letterSpacing: -1,
-                            fontSize: 36.sp,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 16.h),
-                  DocsWidget(files: filteredFiles),
-                ],
-              );
-            },
-            error: (err, _) {
-              return const Text("Failed to load Docs",
-                  style:
-                      TextStyle(letterSpacing: -0.3, color: Helper.errorColor));
-            },
-            loading: () => LoadingDocsList(),
+                            SizedBox(width: 12.w),
+                            InkWell(
+                                onTap: () {
+                                  _showAddBottomSheet(context, categoryList);
+                                },
+                                child:
+                                    SvgPicture.asset('assets/images/plus.svg')),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 14.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Documents",
+                          style: TextStyle(
+                              color: Helper.textColor700,
+                              letterSpacing: -1,
+                              fontSize: 36.sp,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 16.h),
+                    DocsWidget(files: filteredFiles),
+                  ],
+                );
+              },
+              error: (err, _) {
+                return const Text("Failed to load Docs",
+                    style: TextStyle(
+                        letterSpacing: -0.3, color: Helper.errorColor));
+              },
+              loading: () => LoadingDocsList(),
+            ),
           ),
         ),
       )),

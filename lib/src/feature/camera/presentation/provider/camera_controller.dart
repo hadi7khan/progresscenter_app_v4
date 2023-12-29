@@ -12,7 +12,7 @@ class CameraController extends StateNotifier<CameraState> {
   CameraController(super.state, this.service);
   final CameraRepositoryImpl service;
 
-  void getCameras(id) async {
+  Future getCameras(id) async {
     state = state.copyWith(isFetching: true);
     final result = await service.cameraList(id);
 

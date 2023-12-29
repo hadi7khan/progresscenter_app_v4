@@ -142,7 +142,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                   Text(
                     "Split View",
                     style: TextStyle(
-                    letterSpacing: -0.3,
+                        letterSpacing: -0.3,
                         color: Helper.baseBlack,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500),
@@ -155,7 +155,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                       Text(
                         "17 Jul 2019 - 18 Aug 2019 ",
                         style: TextStyle(
-                    letterSpacing: -0.3,
+                            letterSpacing: -0.3,
                             color: Helper.baseBlack.withOpacity(0.5),
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400),
@@ -177,15 +177,21 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
         ),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          physics: NeverScrollableScrollPhysics(),
-          child: splitViewData2.when(
-            data: (data2) {
-              return Padding(
-                padding: EdgeInsets.symmetric(vertical: 150.h),
-                child: splitViewData1.when(
-                  data: (data1) {
-                    if (data1.images!.isEmpty) {
+        child: RefreshIndicator(
+          onRefresh: () async {
+            return await ref
+                .refresh(splitView1ControllerProvider.notifier)
+                .getImagesByCamId(widget.projectId, widget.cameraId);
+          },
+          child: SingleChildScrollView(
+            physics: NeverScrollableScrollPhysics(),
+            child: splitViewData2.when(
+              data: (data2) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(vertical: 150.h),
+                  child: splitViewData1.when(
+                    data: (data1) {
+                      if (data1.images!.isEmpty) {
                         return Container(
                           alignment: Alignment.center,
                           // height: MediaQuery.of(context).size.height *0.88.h,
@@ -195,11 +201,11 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                             children: [
                               SvgPicture.asset(
                                   'assets/images/illustration.svg'),
-                                  SizedBox(height: 16.h),
+                              SizedBox(height: 16.h),
                               Text(
                                 "No Images yet",
                                 style: TextStyle(
-                    letterSpacing: -0.3,
+                                    letterSpacing: -0.3,
                                     color: Helper.textColor900,
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w600),
@@ -209,290 +215,294 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                         );
                       }
                       ;
-                    final aspectRatio = data1.images![0].resolution!.width! /
-                        data1.images![0].resolution!.height!;
-                    print("aspectRatio$aspectRatio");
-                    if (selectedSplitViewData1 == null) {
-                      changeTime1(data1.images![0].datetime!);
-                    }else{
-                      changeTime1(selectedSplitViewData1.dateTime!);
-                    }
-                    if (selectedSplitViewData2 == null) {
-                      changeTime2(data2.images![0].datetime!);
-                    }else{
-                      changeTime2(selectedSplitViewData2.dateTime!);
-                    }
-                    showDate1(data1.images![0].date!);
-                    showDate2(data2.images![0].date!);
+                      final aspectRatio = data1.images![0].resolution!.width! /
+                          data1.images![0].resolution!.height!;
+                      print("aspectRatio$aspectRatio");
+                      if (selectedSplitViewData1 == null) {
+                        changeTime1(data1.images![0].datetime!);
+                      } else {
+                        changeTime1(selectedSplitViewData1.dateTime!);
+                      }
+                      if (selectedSplitViewData2 == null) {
+                        changeTime2(data2.images![0].datetime!);
+                      } else {
+                        changeTime2(selectedSplitViewData2.dateTime!);
+                      }
+                      showDate1(data1.images![0].date!);
+                      showDate2(data2.images![0].date!);
 
-                    return Column(
-                      children: [
-                        Stack(children: [
-                          Container(
-                            height:
-                                MediaQuery.of(context).size.width / aspectRatio,
-                            child: ImageCompareSlider(
-                              // handleFollowsPosition: true,
-                              dividerColor: Helper.primary,
-                              handleColor: Colors.white,
-                              handlePosition: 0.96,
-                              fillHandle: true,
-                              itemOne: Image.network(
-                                selectedSplitViewData1 == null
-                                    ? data1.images![0].urlPreview!
-                                    : selectedSplitViewData1.urlPreview!,
-                                width: double.infinity,
-                                // height: 210.h,
-                                fit: BoxFit.fill,
-                                loadingBuilder:
-                                    (context, child, loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                  return Center(
-                                    child: CircularProgressIndicator(
-                                      color: Helper.primary,
-                                      value: (loadingProgress != null)
-                                          ? (loadingProgress
-                                                  .cumulativeBytesLoaded /
-                                              loadingProgress
-                                                  .expectedTotalBytes!)
-                                          : 0,
-                                    ),
-                                  );
-                                },
-                                errorBuilder: (BuildContext context,
-                                    Object exception, StackTrace? stackTrace) {
-                                  return ClipRRect(
-                                    child: Image.asset(
-                                      'assets/images/error_image.jpeg',
-                                      fit: BoxFit.fill,
-                                    ),
-                                  );
-                                },
-                              ),
-                              itemTwo: Image.network(
-                                selectedSplitViewData2 == null
-                                    ? data2.images![0].urlPreview!
-                                    : selectedSplitViewData2.urlPreview!,
-                                width: double.infinity,
-                                // height: 210.h,
-                                fit: BoxFit.fill,
-                                loadingBuilder:
-                                    (context, child, loadingProgress) {
-                                  if (loadingProgress == null) return child;
-
-                                  return Center(
-                                    child: CircularProgressIndicator(
-                                      color: Helper.primary,
-                                      value: (loadingProgress != null)
-                                          ? (loadingProgress
-                                                  .cumulativeBytesLoaded /
-                                              loadingProgress
-                                                  .expectedTotalBytes!)
-                                          : 0,
-                                    ),
-                                  );
-                                },
-                                errorBuilder: (BuildContext context,
-                                    Object exception, StackTrace? stackTrace) {
-                                  return ClipRRect(
-                                    child: Image.asset(
-                                      'assets/images/error_image.jpeg',
-                                      fit: BoxFit.fill,
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            top: 16,
-                            left: 16,
-                            child: InkWell(
-                              onTap: () {
-                                showModalBottomSheet(
-                                    isScrollControlled: true,
-                                    context: context,
-                                    backgroundColor: Colors.transparent,
-                                    builder: (context) => Date1Widget(
-                                          startDate: data1.startDate!,
-                                          endDate: data1.endDate!,
-                                          selectedDate: _selectedDate1,
-                                          cameraId: widget.cameraId,
-                                          projectId: widget.projectId,
-                                          ref: ref,
-                                          changeDate: showDate1,
-                                        ));
-                              },
-                              child: BlurryContainer(
-                                  blur: 3,
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 6.h, horizontal: 8.w),
-                                  borderRadius: BorderRadius.circular(30.r),
-                                  color: Colors.white.withOpacity(0.1),
-                                  child: Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        'assets/images/timeline.svg',
-                                        height: 16.h,
-                                        width: 16.w,
-                                        color: Colors.white,
+                      return Column(
+                        children: [
+                          Stack(children: [
+                            Container(
+                              height: MediaQuery.of(context).size.width /
+                                  aspectRatio,
+                              child: ImageCompareSlider(
+                                // handleFollowsPosition: true,
+                                dividerColor: Helper.primary,
+                                handleColor: Colors.white,
+                                handlePosition: 0.96,
+                                fillHandle: true,
+                                itemOne: Image.network(
+                                  selectedSplitViewData1 == null
+                                      ? data1.images![0].urlPreview!
+                                      : selectedSplitViewData1.urlPreview!,
+                                  width: double.infinity,
+                                  // height: 210.h,
+                                  fit: BoxFit.fill,
+                                  loadingBuilder:
+                                      (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        color: Helper.primary,
+                                        value: (loadingProgress != null)
+                                            ? (loadingProgress
+                                                    .cumulativeBytesLoaded /
+                                                loadingProgress
+                                                    .expectedTotalBytes!)
+                                            : 0,
                                       ),
-                                      SizedBox(width: 4.w),
-                                      Text(formattedDate1,
-                                          style: TextStyle(
-                    letterSpacing: -0.3,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 12.sp)),
-                                    ],
-                                  )),
-                            ),
-                          ),
-                          Positioned(
-                            top: 16,
-                            right: 16,
-                            child: InkWell(
-                              onTap: () {
-                                showModalBottomSheet(
-                                    isScrollControlled: true,
-                                    context: context,
-                                    backgroundColor: Colors.transparent,
-                                    builder: (context) => Date2Widget(
-                                          startDate: data2.startDate!,
-                                          endDate: data2.endDate!,
-                                          selectedDate: _selectedDate2,
-                                          cameraId: widget.cameraId,
-                                          projectId: widget.projectId,
-                                          ref: ref,
-                                          changeDate: showDate2,
-                                        ));
-                              },
-                              child: BlurryContainer(
-                                  blur: 3,
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 6.h, horizontal: 8.w),
-                                  borderRadius: BorderRadius.circular(30.r),
-                                  color: Colors.white.withOpacity(0.1),
-                                  child: Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        'assets/images/timeline.svg',
-                                        height: 16.h,
-                                        width: 16.w,
-                                        color: Colors.white,
+                                    );
+                                  },
+                                  errorBuilder: (BuildContext context,
+                                      Object exception,
+                                      StackTrace? stackTrace) {
+                                    return ClipRRect(
+                                      child: Image.asset(
+                                        'assets/images/error_image.jpeg',
+                                        fit: BoxFit.fill,
                                       ),
-                                      SizedBox(width: 4.w),
-                                      Text(formattedDate2,
-                                          style: TextStyle(
-                    letterSpacing: -0.3,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 12.sp)),
-                                    ],
-                                  )),
-                            ),
-                          ),
-                        ]),
-                        SizedBox(height: 20.h),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20.w),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  height: 44.h,
-                                  // width: 120.w,
-                                  child: ElevatedButton(
-                                    child: Text(
-                                      formattedTime1,
-                                      style: TextStyle(
-                    letterSpacing: -0.3,
-                                          color: Helper.baseBlack,
-                                          fontSize: 15.sp,
-                                          fontWeight: FontWeight.w400),
-                                      // currentIndex == contents.length - 1 ? "Continue" : "Next"
-                                    ),
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Helper.fillsBackground,
-                                      shadowColor: Colors.transparent,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8.r)),
-                                    ),
-                                    onPressed: () async {
-                                      showModalBottomSheet(
-                                          isScrollControlled: true,
-                                          context: context,
-                                          backgroundColor: Colors.transparent,
-                                          builder: (context) => Images1Widget(
-                                                selectedImageIndex:
-                                                    _selectedImageIndex1,
-                                                data: data1,
-                                                ref: ref,
-                                                changeTime: changeTime1,
-                                              ));
-                                      // _selectImage1BottomSheet(
-                                      //     data1, _selectedImageIndex1, ref);
-                                    },
-                                  ),
+                                    );
+                                  },
                                 ),
-                                Container(
-                                  height: 44.h,
-                                  // width: 120.w,
-                                  child: ElevatedButton(
-                                    child: Text(
-                                      formattedTime2,
-                                      style: TextStyle(
-                    letterSpacing: -0.3,
-                                          color: Helper.baseBlack,
-                                          fontSize: 15.sp,
-                                          fontWeight: FontWeight.w400),
-                                      // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                                itemTwo: Image.network(
+                                  selectedSplitViewData2 == null
+                                      ? data2.images![0].urlPreview!
+                                      : selectedSplitViewData2.urlPreview!,
+                                  width: double.infinity,
+                                  // height: 210.h,
+                                  fit: BoxFit.fill,
+                                  loadingBuilder:
+                                      (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
+
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        color: Helper.primary,
+                                        value: (loadingProgress != null)
+                                            ? (loadingProgress
+                                                    .cumulativeBytesLoaded /
+                                                loadingProgress
+                                                    .expectedTotalBytes!)
+                                            : 0,
+                                      ),
+                                    );
+                                  },
+                                  errorBuilder: (BuildContext context,
+                                      Object exception,
+                                      StackTrace? stackTrace) {
+                                    return ClipRRect(
+                                      child: Image.asset(
+                                        'assets/images/error_image.jpeg',
+                                        fit: BoxFit.fill,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: 16,
+                              left: 16,
+                              child: InkWell(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      context: context,
+                                      backgroundColor: Colors.transparent,
+                                      builder: (context) => Date1Widget(
+                                            startDate: data1.startDate!,
+                                            endDate: data1.endDate!,
+                                            selectedDate: _selectedDate1,
+                                            cameraId: widget.cameraId,
+                                            projectId: widget.projectId,
+                                            ref: ref,
+                                            changeDate: showDate1,
+                                          ));
+                                },
+                                child: BlurryContainer(
+                                    blur: 3,
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 6.h, horizontal: 8.w),
+                                    borderRadius: BorderRadius.circular(30.r),
+                                    color: Colors.white.withOpacity(0.1),
+                                    child: Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                          'assets/images/timeline.svg',
+                                          height: 16.h,
+                                          width: 16.w,
+                                          color: Colors.white,
+                                        ),
+                                        SizedBox(width: 4.w),
+                                        Text(formattedDate1,
+                                            style: TextStyle(
+                                                letterSpacing: -0.3,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12.sp)),
+                                      ],
+                                    )),
+                              ),
+                            ),
+                            Positioned(
+                              top: 16,
+                              right: 16,
+                              child: InkWell(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      context: context,
+                                      backgroundColor: Colors.transparent,
+                                      builder: (context) => Date2Widget(
+                                            startDate: data2.startDate!,
+                                            endDate: data2.endDate!,
+                                            selectedDate: _selectedDate2,
+                                            cameraId: widget.cameraId,
+                                            projectId: widget.projectId,
+                                            ref: ref,
+                                            changeDate: showDate2,
+                                          ));
+                                },
+                                child: BlurryContainer(
+                                    blur: 3,
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 6.h, horizontal: 8.w),
+                                    borderRadius: BorderRadius.circular(30.r),
+                                    color: Colors.white.withOpacity(0.1),
+                                    child: Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                          'assets/images/timeline.svg',
+                                          height: 16.h,
+                                          width: 16.w,
+                                          color: Colors.white,
+                                        ),
+                                        SizedBox(width: 4.w),
+                                        Text(formattedDate2,
+                                            style: TextStyle(
+                                                letterSpacing: -0.3,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12.sp)),
+                                      ],
+                                    )),
+                              ),
+                            ),
+                          ]),
+                          SizedBox(height: 20.h),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20.w),
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    height: 44.h,
+                                    // width: 120.w,
+                                    child: ElevatedButton(
+                                      child: Text(
+                                        formattedTime1,
+                                        style: TextStyle(
+                                            letterSpacing: -0.3,
+                                            color: Helper.baseBlack,
+                                            fontSize: 15.sp,
+                                            fontWeight: FontWeight.w400),
+                                        // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Helper.fillsBackground,
+                                        shadowColor: Colors.transparent,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8.r)),
+                                      ),
+                                      onPressed: () async {
+                                        showModalBottomSheet(
+                                            isScrollControlled: true,
+                                            context: context,
+                                            backgroundColor: Colors.transparent,
+                                            builder: (context) => Images1Widget(
+                                                  selectedImageIndex:
+                                                      _selectedImageIndex1,
+                                                  data: data1,
+                                                  ref: ref,
+                                                  changeTime: changeTime1,
+                                                ));
+                                        // _selectImage1BottomSheet(
+                                        //     data1, _selectedImageIndex1, ref);
+                                      },
                                     ),
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Helper.fillsBackground,
-                                      shadowColor: Colors.transparent,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8.r)),
-                                    ),
-                                    onPressed: () async {
-                                      showModalBottomSheet(
-                                          isScrollControlled: true,
-                                          context: context,
-                                          backgroundColor: Colors.transparent,
-                                          builder: (context) => Images2Widget(
-                                                selectedImageIndex:
-                                                    _selectedImageIndex1,
-                                                data: data2,
-                                                ref: ref,
-                                                changeTime: changeTime1,
-                                              ));
-                                      // _selectImage2BottomSheet(context, data2,
-                                      //     _selectedImageIndex2, ref);
-                                    },
                                   ),
-                                )
-                              ]),
-                        ),
-                      ],
-                    );
-                  },
-                  error: (err, _) {
-                    return const Text("Failed to fetch images",
-                        style: TextStyle(
-                    letterSpacing: -0.3,color: Helper.errorColor));
-                  },
-                  loading: () => Center(child: CircularProgressIndicator()),
-                ),
-              );
-            },
-            error: (err, _) {
-              return const Text("Failed to fetch images",
-                  style: TextStyle(
-                    letterSpacing: -0.3,color: Helper.errorColor));
-            },
-            loading: () => Center(child: CircularProgressIndicator()),
+                                  Container(
+                                    height: 44.h,
+                                    // width: 120.w,
+                                    child: ElevatedButton(
+                                      child: Text(
+                                        formattedTime2,
+                                        style: TextStyle(
+                                            letterSpacing: -0.3,
+                                            color: Helper.baseBlack,
+                                            fontSize: 15.sp,
+                                            fontWeight: FontWeight.w400),
+                                        // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Helper.fillsBackground,
+                                        shadowColor: Colors.transparent,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8.r)),
+                                      ),
+                                      onPressed: () async {
+                                        showModalBottomSheet(
+                                            isScrollControlled: true,
+                                            context: context,
+                                            backgroundColor: Colors.transparent,
+                                            builder: (context) => Images2Widget(
+                                                  selectedImageIndex:
+                                                      _selectedImageIndex1,
+                                                  data: data2,
+                                                  ref: ref,
+                                                  changeTime: changeTime1,
+                                                ));
+                                        // _selectImage2BottomSheet(context, data2,
+                                        //     _selectedImageIndex2, ref);
+                                      },
+                                    ),
+                                  )
+                                ]),
+                          ),
+                        ],
+                      );
+                    },
+                    error: (err, _) {
+                      return const Text("Failed to fetch images",
+                          style: TextStyle(
+                              letterSpacing: -0.3, color: Helper.errorColor));
+                    },
+                    loading: () => Center(child: CircularProgressIndicator()),
+                  ),
+                );
+              },
+              error: (err, _) {
+                return const Text("Failed to fetch images",
+                    style: TextStyle(
+                        letterSpacing: -0.3, color: Helper.errorColor));
+              },
+              loading: () => Center(child: CircularProgressIndicator()),
+            ),
           ),
         ),
       ),
@@ -534,7 +544,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                     Text(
                       'Select Image 1',
                       style: TextStyle(
-                    letterSpacing: -0.3,
+                          letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w500),
@@ -629,7 +639,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                   Text(
                                     formattedTime,
                                     style: TextStyle(
-                    letterSpacing: -0.3,
+                                        letterSpacing: -0.3,
                                         color: Helper.textColor700,
                                         fontSize: 8.sp,
                                         fontWeight: FontWeight.w500),
@@ -682,7 +692,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                     Text(
                       'Select Image 2',
                       style: TextStyle(
-                    letterSpacing: -0.3,
+                          letterSpacing: -0.3,
                           color: Helper.baseBlack,
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w500),
@@ -777,7 +787,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                   Text(
                                     formattedTime,
                                     style: TextStyle(
-                    letterSpacing: -0.3,
+                                        letterSpacing: -0.3,
                                         color: Helper.textColor700,
                                         fontSize: 8.sp,
                                         fontWeight: FontWeight.w500),
@@ -854,7 +864,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                   Text(
                     'Split 2 Image Date',
                     style: TextStyle(
-                    letterSpacing: -0.3,
+                        letterSpacing: -0.3,
                         color: Helper.baseBlack,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500),
@@ -884,7 +894,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                   child: Text(
                     "Done",
                     style: TextStyle(
-                    letterSpacing: -0.3,
+                        letterSpacing: -0.3,
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w500),

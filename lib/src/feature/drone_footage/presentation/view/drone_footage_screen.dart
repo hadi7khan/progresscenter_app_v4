@@ -101,88 +101,95 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
         ),
         body: SafeArea(
           top: true,
-          child: SingleChildScrollView(
-              child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-            child: droneFootageData.when(
-              data: (data) {
-                if (data.isEmpty) {
-                  return Container(
-                    alignment: Alignment.center,
-                    height: MediaQuery.of(context).size.height * 0.88.h,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+          child: RefreshIndicator(
+            onRefresh: () async {
+              return await ref
+                  .refresh(droneFootageControllerProvider.notifier)
+                  .getDroneFootage(widget.projectId);
+            },
+            child: SingleChildScrollView(
+                child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+              child: droneFootageData.when(
+                data: (data) {
+                  if (data.isEmpty) {
+                    return Container(
+                      alignment: Alignment.center,
+                      height: MediaQuery.of(context).size.height * 0.88.h,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset('assets/images/illustration.svg'),
+                          SizedBox(height: 16.h),
+                          Text(
+                            "No Drone footage",
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Helper.textColor900,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  ;
+                  return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SvgPicture.asset('assets/images/illustration.svg'),
-                        SizedBox(height: 16.h),
-                        Text(
-                          "No Drone footage",
-                          style: TextStyle(
-                              letterSpacing: -0.3,
-                              color: Helper.textColor900,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ],
+                        list
+                            ? ListView.separated(
+                                separatorBuilder: (context, index) {
+                                  return SizedBox(height: 16.h);
+                                },
+                                shrinkWrap: true,
+                                padding: EdgeInsets.zero,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: data.length,
+                                itemBuilder: ((context, index) {
+                                  final reversedIndex = data.length - 1 - index;
+                                  return DroneListViewWidget(
+                                      data: data[reversedIndex]);
+                                }),
+                              )
+                            : GridView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                padding: EdgeInsets.zero,
+                                gridDelegate:
+                                    SliverGridDelegateWithMaxCrossAxisExtent(
+                                        maxCrossAxisExtent: 160.w,
+                                        mainAxisSpacing: 15.h,
+                                        crossAxisSpacing: 15.w,
+                                        childAspectRatio: 16 / 9,
+                                        mainAxisExtent: 152.h),
+                                itemCount: data.length,
+                                itemBuilder: ((context, index) {
+                                  final reversedIndex = data.length - 1 - index;
+                                  return DroneGridViewWidget(
+                                    data: data[reversedIndex],
+                                  );
+                                }),
+                              )
+                      ]);
+                },
+                error: (err, _) {
+                  return const Text("Failed to load Drone Footages",
+                      style: TextStyle(
+                          letterSpacing: -0.3, color: Helper.errorColor));
+                },
+                loading: () => Column(
+                  children: [
+                    SizedBox(
+                      height: 44,
                     ),
-                  );
-                }
-                ;
-                return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      list
-                          ? ListView.separated(
-                              separatorBuilder: (context, index) {
-                                return SizedBox(height: 16.h);
-                              },
-                              shrinkWrap: true,
-                              padding: EdgeInsets.zero,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: data.length,
-                              itemBuilder: ((context, index) {
-                                final reversedIndex = data.length - 1 - index;
-                                return DroneListViewWidget(
-                                    data: data[reversedIndex]);
-                              }),
-                            )
-                          : GridView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              padding: EdgeInsets.zero,
-                              gridDelegate:
-                                  SliverGridDelegateWithMaxCrossAxisExtent(
-                                      maxCrossAxisExtent: 160.w,
-                                      mainAxisSpacing: 15.h,
-                                      crossAxisSpacing: 15.w,
-                                      childAspectRatio: 16 / 9,
-                                      mainAxisExtent: 152.h),
-                              itemCount: data.length,
-                              itemBuilder: ((context, index) {
-                                final reversedIndex = data.length - 1 - index;
-                                return DroneGridViewWidget(
-                                  data: data[reversedIndex],
-                                );
-                              }),
-                            )
-                    ]);
-              },
-              error: (err, _) {
-                return const Text("Failed to load Drone Footages",
-                    style: TextStyle(
-                        letterSpacing: -0.3, color: Helper.errorColor));
-              },
-              loading: () => Column(
-                children: [
-                  SizedBox(
-                    height: 44,
-                  ),
-                  LoadingCardListScreen(),
-                ],
+                    LoadingCardListScreen(),
+                  ],
+                ),
               ),
-            ),
-          )),
+            )),
+          ),
         ));
   }
 

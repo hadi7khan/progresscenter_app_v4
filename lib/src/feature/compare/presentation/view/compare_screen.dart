@@ -106,474 +106,485 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
         ),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 12.h),
-            child: Column(
-              children: [
-                compareCameraData1.when(
-                  data: (cameraData1) {
-                    if (cameraData1.images!.isEmpty) {
-                      return Container(
-                        alignment: Alignment.center,
-                        height: MediaQuery.of(context).size.height * 0.88.h,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset('assets/images/illustration.svg'),
-                            SizedBox(height: 16.h),
-                            Text(
-                              "No Images yet",
-                              style: TextStyle(
-                                  color: Helper.textColor900,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                    ;
-                    return Consumer(builder: (context, ref, child) {
-                      return Column(children: [
-                        Stack(children: [
-                          Container(
-                            color: Helper.textColor300,
-                            child: AspectRatio(
-                              aspectRatio: 16 / 9,
-                              child: InteractiveViewer(
-                                maxScale: 10,
-                                transformationController: _controller,
-                                child: Image.network(
-                                  selectedCompareData1 == null
-                                      ? cameraData1.images![0].urlPreview!
-                                      : selectedCompareData1.urlPreview!,
-                                  width: double.infinity,
-                                  fit: BoxFit.fill,
-                                  loadingBuilder:
-                                      (context, child, loadingProgress) {
-                                    if (loadingProgress == null) return child;
+        child: RefreshIndicator(
+          onRefresh: () async {
+            return await ref
+                .refresh(compare1ControllerProvider.notifier)
+                .getImagesByCamId(widget.projectId, widget.cameraId);
+          },
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 12.h),
+              child: Column(
+                children: [
+                  compareCameraData1.when(
+                    data: (cameraData1) {
+                      if (cameraData1.images!.isEmpty) {
+                        return Container(
+                          alignment: Alignment.center,
+                          height: MediaQuery.of(context).size.height * 0.88.h,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                  'assets/images/illustration.svg'),
+                              SizedBox(height: 16.h),
+                              Text(
+                                "No Images yet",
+                                style: TextStyle(
+                                    color: Helper.textColor900,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      ;
+                      return Consumer(builder: (context, ref, child) {
+                        return Column(children: [
+                          Stack(children: [
+                            Container(
+                              color: Helper.textColor300,
+                              child: AspectRatio(
+                                aspectRatio: 16 / 9,
+                                child: InteractiveViewer(
+                                  maxScale: 10,
+                                  transformationController: _controller,
+                                  child: Image.network(
+                                    selectedCompareData1 == null
+                                        ? cameraData1.images![0].urlPreview!
+                                        : selectedCompareData1.urlPreview!,
+                                    width: double.infinity,
+                                    fit: BoxFit.fill,
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      if (loadingProgress == null) return child;
 
-                                    return Center(
-                                      child: CircularProgressIndicator(
-                                        color: Helper.primary,
-                                        value: (loadingProgress != null)
-                                            ? (loadingProgress
-                                                    .cumulativeBytesLoaded /
-                                                loadingProgress
-                                                    .expectedTotalBytes!)
-                                            : 0,
-                                      ),
-                                    );
-                                  },
-                                  errorBuilder: (BuildContext context,
-                                      Object exception,
-                                      StackTrace? stackTrace) {
-                                    return ClipRRect(
-                                      child: Image.asset(
-                                        'assets/images/error_image.jpeg',
-                                        fit: BoxFit.cover,
-                                      ),
-                                    );
-                                  },
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          color: Helper.primary,
+                                          value: (loadingProgress != null)
+                                              ? (loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!)
+                                              : 0,
+                                        ),
+                                      );
+                                    },
+                                    errorBuilder: (BuildContext context,
+                                        Object exception,
+                                        StackTrace? stackTrace) {
+                                      return ClipRRect(
+                                        child: Image.asset(
+                                          'assets/images/error_image.jpeg',
+                                          fit: BoxFit.cover,
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            top: 16,
-                            left: 16,
-                            child: InkWell(
-                              onTap: () {
-                                _showCompare1BottomSheet(
-                                  context,
-                                  cameraData1.startDate!,
-                                  cameraData1.endDate!,
-                                  _selectedDate1,
-                                  widget.cameraId,
-                                  widget.projectId,
-                                  ref,
-                                );
-                              },
-                              child: BlurryContainer(
-                                  blur: 3,
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 6.h, horizontal: 8.w),
-                                  borderRadius: BorderRadius.circular(30.r),
-                                  color: Colors.white.withOpacity(0.1),
-                                  child: Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        'assets/images/timeline.svg',
-                                        height: 16.h,
-                                        width: 16.w,
-                                        color: Colors.white,
-                                      ),
-                                      SizedBox(width: 4.w),
-                                      Text(showDate(cameraData1.endDate!),
-                                          style: TextStyle(
-                                              letterSpacing: -0.3,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 12.sp)),
-                                    ],
-                                  )),
-                            ),
-                          ),
-                        ]),
-                        SizedBox(height: 6.h),
-                        SizedBox(
-                          height: 73.h,
-                          child: ListView.separated(
-                              separatorBuilder: (context, builder) {
-                                return SizedBox(
-                                  width: 2.w,
-                                );
-                              },
-                              itemCount: cameraData1.images!.length,
-                              shrinkWrap: true,
-                              physics: BouncingScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: ((context, index) {
-                                String dateWithT = cameraData1
-                                        .images![index].datetime!
-                                        .substring(0, 8) +
-                                    'T' +
-                                    cameraData1.images![index].datetime!
-                                        .substring(8);
-                                DateTime dateTime = DateTime.parse(dateWithT);
-                                final String formattedTime =
-                                    DateFormat('h:mm a').format(dateTime);
-                                return InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      _selectedImageIndex1 = index;
-                                    });
-                                    final imageData = ImageData(
-                                      name: cameraData1.images![index].name,
-                                      dateTime:
-                                          cameraData1.images![index].datetime,
-                                      camera: cameraData1.images![index].camera,
-                                      id: cameraData1.images![index].id,
-                                      urlPreview:
-                                          cameraData1.images![index].urlPreview,
-                                    );
-
-                                    ref
-                                        .read(compare1DataProvider.notifier)
-                                        .setImageData(imageData);
-                                  },
-                                  child: Padding(
+                            Positioned(
+                              top: 16,
+                              left: 16,
+                              child: InkWell(
+                                onTap: () {
+                                  _showCompare1BottomSheet(
+                                    context,
+                                    cameraData1.startDate!,
+                                    cameraData1.endDate!,
+                                    _selectedDate1,
+                                    widget.cameraId,
+                                    widget.projectId,
+                                    ref,
+                                  );
+                                },
+                                child: BlurryContainer(
+                                    blur: 3,
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 4.w, vertical: 2.h),
-                                    child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Container(
-                                            padding: EdgeInsets.zero,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(6.r),
-                                              border: _selectedImageIndex1 ==
-                                                      index
-                                                  ? Border.all(
-                                                      color: Helper.primary,
-                                                      width: 2.w,
-                                                    )
-                                                  : Border.all(
-                                                      width: 2.w,
-                                                      color:
-                                                          Colors.transparent),
-                                            ),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(4.r),
-                                              child: Image.network(
-                                                cameraData1
-                                                    .images![index].urlThumb!,
-                                                width: 44.w,
-                                                height: 44.h,
-                                                fit: BoxFit.fill,
-                                                errorBuilder: (BuildContext
-                                                        context,
-                                                    Object exception,
-                                                    StackTrace? stackTrace) {
-                                                  return ClipRRect(
-                                                    child: Image.asset(
-                                                      'assets/images/error_image.jpeg',
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 6.h,
-                                          ),
-                                          Text(
-                                            formattedTime,
+                                        vertical: 6.h, horizontal: 8.w),
+                                    borderRadius: BorderRadius.circular(30.r),
+                                    color: Colors.white.withOpacity(0.1),
+                                    child: Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                          'assets/images/timeline.svg',
+                                          height: 16.h,
+                                          width: 16.w,
+                                          color: Colors.white,
+                                        ),
+                                        SizedBox(width: 4.w),
+                                        Text(showDate(cameraData1.endDate!),
                                             style: TextStyle(
                                                 letterSpacing: -0.3,
-                                                color: Helper.textColor700,
-                                                fontSize: 8.sp,
-                                                fontWeight: FontWeight.w500),
-                                          )
-                                        ]),
-                                  ),
-                                );
-                              })),
-                        ),
-                      ]);
-                    });
-                  },
-                  error: (err, _) {
-                    return const Text("Failed to fetch cameras",
-                        style: TextStyle(
-                            letterSpacing: -0.3, color: Helper.errorColor));
-                  },
-                  loading: () => LoadingCamDetails(
-                    showCalendarList: false,
-                    topPadding: 0,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12.sp)),
+                                      ],
+                                    )),
+                              ),
+                            ),
+                          ]),
+                          SizedBox(height: 6.h),
+                          SizedBox(
+                            height: 73.h,
+                            child: ListView.separated(
+                                separatorBuilder: (context, builder) {
+                                  return SizedBox(
+                                    width: 2.w,
+                                  );
+                                },
+                                itemCount: cameraData1.images!.length,
+                                shrinkWrap: true,
+                                physics: BouncingScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: ((context, index) {
+                                  String dateWithT = cameraData1
+                                          .images![index].datetime!
+                                          .substring(0, 8) +
+                                      'T' +
+                                      cameraData1.images![index].datetime!
+                                          .substring(8);
+                                  DateTime dateTime = DateTime.parse(dateWithT);
+                                  final String formattedTime =
+                                      DateFormat('h:mm a').format(dateTime);
+                                  return InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        _selectedImageIndex1 = index;
+                                      });
+                                      final imageData = ImageData(
+                                        name: cameraData1.images![index].name,
+                                        dateTime:
+                                            cameraData1.images![index].datetime,
+                                        camera:
+                                            cameraData1.images![index].camera,
+                                        id: cameraData1.images![index].id,
+                                        urlPreview: cameraData1
+                                            .images![index].urlPreview,
+                                      );
+
+                                      ref
+                                          .read(compare1DataProvider.notifier)
+                                          .setImageData(imageData);
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 4.w, vertical: 2.h),
+                                      child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.zero,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(6.r),
+                                                border: _selectedImageIndex1 ==
+                                                        index
+                                                    ? Border.all(
+                                                        color: Helper.primary,
+                                                        width: 2.w,
+                                                      )
+                                                    : Border.all(
+                                                        width: 2.w,
+                                                        color:
+                                                            Colors.transparent),
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(4.r),
+                                                child: Image.network(
+                                                  cameraData1
+                                                      .images![index].urlThumb!,
+                                                  width: 44.w,
+                                                  height: 44.h,
+                                                  fit: BoxFit.fill,
+                                                  errorBuilder: (BuildContext
+                                                          context,
+                                                      Object exception,
+                                                      StackTrace? stackTrace) {
+                                                    return ClipRRect(
+                                                      child: Image.asset(
+                                                        'assets/images/error_image.jpeg',
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 6.h,
+                                            ),
+                                            Text(
+                                              formattedTime,
+                                              style: TextStyle(
+                                                  letterSpacing: -0.3,
+                                                  color: Helper.textColor700,
+                                                  fontSize: 8.sp,
+                                                  fontWeight: FontWeight.w500),
+                                            )
+                                          ]),
+                                    ),
+                                  );
+                                })),
+                          ),
+                        ]);
+                      });
+                    },
+                    error: (err, _) {
+                      return const Text("Failed to fetch cameras",
+                          style: TextStyle(
+                              letterSpacing: -0.3, color: Helper.errorColor));
+                    },
+                    loading: () => LoadingCamDetails(
+                      showCalendarList: false,
+                      topPadding: 0,
+                    ),
                   ),
-                ),
-                SizedBox(height: 24.h),
+                  SizedBox(height: 24.h),
 
-// ----------------------------compare division----------------------
+                  // ----------------------------compare division----------------------
 
-                compareCameraData2.when(
-                  data: (cameraData2) {
-                    if (cameraData2.images!.isEmpty) {
-                      return Container(
-                        alignment: Alignment.center,
-                        height: MediaQuery.of(context).size.height * 0.88.h,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset('assets/images/illustration.svg'),
-                            SizedBox(height: 16.h),
-                            Text(
-                              "No Images yet",
-                              style: TextStyle(
-                                  letterSpacing: -0.3,
-                                  color: Helper.textColor900,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                    ;
-                    return Consumer(builder: (context, ref, child) {
-                      return Column(children: [
-                        Stack(children: [
-                          Container(
-                            color: Helper.textColor300,
-                            child: AspectRatio(
-                              aspectRatio: 16 / 9,
-                              child: InteractiveViewer(
-                                transformationController: _controller,
-                                maxScale: 10,
-                                child: Image.network(
-                                  selectedCompareData2 == null
-                                      ? cameraData2.images![0].urlPreview!
-                                      : selectedCompareData2.urlPreview!,
-                                  width: double.infinity,
-                                  // height: 210.h,
-                                  fit: BoxFit.fill,
-                                  loadingBuilder:
-                                      (context, child, loadingProgress) {
-                                    if (loadingProgress == null) return child;
+                  compareCameraData2.when(
+                    data: (cameraData2) {
+                      if (cameraData2.images!.isEmpty) {
+                        return Container(
+                          alignment: Alignment.center,
+                          height: MediaQuery.of(context).size.height * 0.88.h,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                  'assets/images/illustration.svg'),
+                              SizedBox(height: 16.h),
+                              Text(
+                                "No Images yet",
+                                style: TextStyle(
+                                    letterSpacing: -0.3,
+                                    color: Helper.textColor900,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      ;
+                      return Consumer(builder: (context, ref, child) {
+                        return Column(children: [
+                          Stack(children: [
+                            Container(
+                              color: Helper.textColor300,
+                              child: AspectRatio(
+                                aspectRatio: 16 / 9,
+                                child: InteractiveViewer(
+                                  transformationController: _controller,
+                                  maxScale: 10,
+                                  child: Image.network(
+                                    selectedCompareData2 == null
+                                        ? cameraData2.images![0].urlPreview!
+                                        : selectedCompareData2.urlPreview!,
+                                    width: double.infinity,
+                                    // height: 210.h,
+                                    fit: BoxFit.fill,
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      if (loadingProgress == null) return child;
 
-                                    return Center(
-                                      child: CircularProgressIndicator(
-                                        color: Helper.primary,
-                                        value: (loadingProgress != null)
-                                            ? (loadingProgress
-                                                    .cumulativeBytesLoaded /
-                                                loadingProgress
-                                                    .expectedTotalBytes!)
-                                            : 0,
-                                      ),
-                                    );
-                                  },
-                                  errorBuilder: (BuildContext context,
-                                      Object exception,
-                                      StackTrace? stackTrace) {
-                                    return ClipRRect(
-                                      child: Image.asset(
-                                        'assets/images/error_image.jpeg',
-                                        fit: BoxFit.cover,
-                                      ),
-                                    );
-                                  },
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          color: Helper.primary,
+                                          value: (loadingProgress != null)
+                                              ? (loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!)
+                                              : 0,
+                                        ),
+                                      );
+                                    },
+                                    errorBuilder: (BuildContext context,
+                                        Object exception,
+                                        StackTrace? stackTrace) {
+                                      return ClipRRect(
+                                        child: Image.asset(
+                                          'assets/images/error_image.jpeg',
+                                          fit: BoxFit.cover,
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            top: 16,
-                            left: 16,
-                            child: InkWell(
-                              onTap: () {
-                                _showCompare2BottomSheet(
-                                  context,
-                                  cameraData2.startDate!,
-                                  cameraData2.endDate!,
-                                  _selectedDate2,
-                                  widget.cameraId,
-                                  widget.projectId,
-                                  ref,
-                                );
-                              },
-                              child: BlurryContainer(
-                                  blur: 3,
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 6.h, horizontal: 8.w),
-                                  borderRadius: BorderRadius.circular(30.r),
-                                  color: Colors.white.withOpacity(0.1),
-                                  child: Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        'assets/images/timeline.svg',
-                                        height: 16.h,
-                                        width: 16.w,
-                                        color: Colors.white,
-                                      ),
-                                      SizedBox(width: 4.w),
-                                      Text(showDate(cameraData2.endDate!),
-                                          style: TextStyle(
-                                              letterSpacing: -0.3,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 12.sp)),
-                                    ],
-                                  )),
-                            ),
-                          ),
-                        ]),
-                        SizedBox(height: 6.h),
-                        SizedBox(
-                          height: 73.h,
-                          child: ListView.separated(
-                              separatorBuilder: (context, builder) {
-                                return SizedBox(
-                                  width: 2.w,
-                                );
-                              },
-                              itemCount: cameraData2.images!.length,
-                              shrinkWrap: true,
-                              physics: BouncingScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: ((context, index) {
-                                String dateWithT = cameraData2
-                                        .images![index].datetime!
-                                        .substring(0, 8) +
-                                    'T' +
-                                    cameraData2.images![index].datetime!
-                                        .substring(8);
-                                DateTime dateTime = DateTime.parse(dateWithT);
-                                final String formattedTime =
-                                    DateFormat('h:mm a').format(dateTime);
-                                return InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      _selectedImageIndex2 = index;
-                                    });
-                                    final imageData = ImageData(
-                                      name: cameraData2.images![index].name,
-                                      dateTime:
-                                          cameraData2.images![index].datetime,
-                                      camera: cameraData2.images![index].camera,
-                                      id: cameraData2.images![index].id,
-                                      urlPreview:
-                                          cameraData2.images![index].urlPreview,
-                                    );
-
-                                    ref
-                                        .read(compare2DataProvider.notifier)
-                                        .setImageData(imageData);
-                                  },
-                                  child: Padding(
+                            Positioned(
+                              top: 16,
+                              left: 16,
+                              child: InkWell(
+                                onTap: () {
+                                  _showCompare2BottomSheet(
+                                    context,
+                                    cameraData2.startDate!,
+                                    cameraData2.endDate!,
+                                    _selectedDate2,
+                                    widget.cameraId,
+                                    widget.projectId,
+                                    ref,
+                                  );
+                                },
+                                child: BlurryContainer(
+                                    blur: 3,
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 4.w, vertical: 2.h),
-                                    child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Container(
-                                            padding: EdgeInsets.zero,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(6.r),
-                                              border: _selectedImageIndex2 ==
-                                                      index
-                                                  ? Border.all(
-                                                      color: Helper.primary,
-                                                      width: 2.w,
-                                                    )
-                                                  : Border.all(
-                                                      width: 2.w,
-                                                      color:
-                                                          Colors.transparent),
-                                            ),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(4.r),
-                                              child: Image.network(
-                                                cameraData2
-                                                    .images![index].urlThumb!,
-                                                width: 44.w,
-                                                height: 44.h,
-                                                fit: BoxFit.fill,
-                                                errorBuilder: (BuildContext
-                                                        context,
-                                                    Object exception,
-                                                    StackTrace? stackTrace) {
-                                                  return ClipRRect(
-                                                    child: Image.asset(
-                                                      'assets/images/error_image.jpeg',
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 6.h,
-                                          ),
-                                          Text(
-                                            formattedTime,
+                                        vertical: 6.h, horizontal: 8.w),
+                                    borderRadius: BorderRadius.circular(30.r),
+                                    color: Colors.white.withOpacity(0.1),
+                                    child: Row(
+                                      children: [
+                                        SvgPicture.asset(
+                                          'assets/images/timeline.svg',
+                                          height: 16.h,
+                                          width: 16.w,
+                                          color: Colors.white,
+                                        ),
+                                        SizedBox(width: 4.w),
+                                        Text(showDate(cameraData2.endDate!),
                                             style: TextStyle(
                                                 letterSpacing: -0.3,
-                                                color: Helper.textColor700,
-                                                fontSize: 8.sp,
-                                                fontWeight: FontWeight.w500),
-                                          )
-                                        ]),
-                                  ),
-                                );
-                              })),
-                        ),
-                      ]);
-                    });
-                  },
-                  error: (err, _) {
-                    return const Text("Failed to fetch cameras",
-                        style: TextStyle(
-                            letterSpacing: -0.3, color: Helper.errorColor));
-                  },
-                  loading: () =>
-                      LoadingCamDetails(showCalendarList: false, topPadding: 0),
-                )
-              ],
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12.sp)),
+                                      ],
+                                    )),
+                              ),
+                            ),
+                          ]),
+                          SizedBox(height: 6.h),
+                          SizedBox(
+                            height: 73.h,
+                            child: ListView.separated(
+                                separatorBuilder: (context, builder) {
+                                  return SizedBox(
+                                    width: 2.w,
+                                  );
+                                },
+                                itemCount: cameraData2.images!.length,
+                                shrinkWrap: true,
+                                physics: BouncingScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: ((context, index) {
+                                  String dateWithT = cameraData2
+                                          .images![index].datetime!
+                                          .substring(0, 8) +
+                                      'T' +
+                                      cameraData2.images![index].datetime!
+                                          .substring(8);
+                                  DateTime dateTime = DateTime.parse(dateWithT);
+                                  final String formattedTime =
+                                      DateFormat('h:mm a').format(dateTime);
+                                  return InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        _selectedImageIndex2 = index;
+                                      });
+                                      final imageData = ImageData(
+                                        name: cameraData2.images![index].name,
+                                        dateTime:
+                                            cameraData2.images![index].datetime,
+                                        camera:
+                                            cameraData2.images![index].camera,
+                                        id: cameraData2.images![index].id,
+                                        urlPreview: cameraData2
+                                            .images![index].urlPreview,
+                                      );
+
+                                      ref
+                                          .read(compare2DataProvider.notifier)
+                                          .setImageData(imageData);
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 4.w, vertical: 2.h),
+                                      child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.zero,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(6.r),
+                                                border: _selectedImageIndex2 ==
+                                                        index
+                                                    ? Border.all(
+                                                        color: Helper.primary,
+                                                        width: 2.w,
+                                                      )
+                                                    : Border.all(
+                                                        width: 2.w,
+                                                        color:
+                                                            Colors.transparent),
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(4.r),
+                                                child: Image.network(
+                                                  cameraData2
+                                                      .images![index].urlThumb!,
+                                                  width: 44.w,
+                                                  height: 44.h,
+                                                  fit: BoxFit.fill,
+                                                  errorBuilder: (BuildContext
+                                                          context,
+                                                      Object exception,
+                                                      StackTrace? stackTrace) {
+                                                    return ClipRRect(
+                                                      child: Image.asset(
+                                                        'assets/images/error_image.jpeg',
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 6.h,
+                                            ),
+                                            Text(
+                                              formattedTime,
+                                              style: TextStyle(
+                                                  letterSpacing: -0.3,
+                                                  color: Helper.textColor700,
+                                                  fontSize: 8.sp,
+                                                  fontWeight: FontWeight.w500),
+                                            )
+                                          ]),
+                                    ),
+                                  );
+                                })),
+                          ),
+                        ]);
+                      });
+                    },
+                    error: (err, _) {
+                      return const Text("Failed to fetch cameras",
+                          style: TextStyle(
+                              letterSpacing: -0.3, color: Helper.errorColor));
+                    },
+                    loading: () => LoadingCamDetails(
+                        showCalendarList: false, topPadding: 0),
+                  )
+                ],
+              ),
             ),
           ),
         ),

@@ -13,7 +13,7 @@ class SiteGalleryController extends StateNotifier<SiteGalleryState> {
   SiteGalleryController(super.state, this.service);
   final SiteGalleryRepositoryImpl service;
 
-  void getSiteGallery(id) async {
+  Future getSiteGallery(id) async {
     state = state.copyWith(isFetching: true);
     final result = await service.siteGalleryList(id);
 

@@ -136,162 +136,169 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
         ),
         body: SafeArea(
           top: true,
-          child: SingleChildScrollView(
-              child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 12.h),
-            child: siteGalleryData.when(
-              data: (data) {
-                if (data.isEmpty) {
-                  return Container(
-                    alignment: Alignment.center,
-                    height: MediaQuery.of(context).size.height * 0.88.h,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+          child: RefreshIndicator(
+            onRefresh: () async {
+              return await ref
+                  .refresh(siteGalleryControllerProvider.notifier)
+                  .getSiteGallery(widget.projectId);
+            },
+            child: SingleChildScrollView(
+                child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 12.h),
+              child: siteGalleryData.when(
+                data: (data) {
+                  if (data.isEmpty) {
+                    return Container(
+                      alignment: Alignment.center,
+                      height: MediaQuery.of(context).size.height * 0.88.h,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset('assets/images/illustration.svg'),
+                          SizedBox(height: 16.h),
+                          Text(
+                            "No Site gallery",
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Helper.textColor900,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  ;
+                  return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
                       children: [
-                        SvgPicture.asset('assets/images/illustration.svg'),
-                        SizedBox(height: 16.h),
-                        Text(
-                          "No Site gallery",
-                          style: TextStyle(
-                              letterSpacing: -0.3,
-                              color: Helper.textColor900,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ],
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   mainAxisSize: MainAxisSize.max,
+                        //   children: [
+                        //     Row(children: [
+                        //       Container(
+                        //         height: 24.h,
+                        //         child: IconButton(
+                        //           padding: EdgeInsets.zero,
+                        //           alignment: Alignment.centerLeft,
+                        //           icon: Icon(
+                        //             Icons.arrow_back,
+                        //           ),
+                        //           onPressed: () => context.pop(),
+                        //         ),
+                        //       ),
+                        //       SizedBox(width: 8.w),
+                        //       Text(
+                        //         widget.projectName,
+                        //         style: TextStyle(
+                        //             color: Helper.baseBlack,
+                        //             fontSize: 18.sp,
+                        //             fontWeight: FontWeight.w500),
+                        //       )
+                        //     ]),
+                        //     Row(
+                        //       mainAxisSize: MainAxisSize.min,
+                        //       mainAxisAlignment: MainAxisAlignment.end,
+                        //       children: [
+                        //         Container(
+                        //           margin: EdgeInsets.zero,
+                        //           height: 24.h,
+                        //           child: IconButton(
+                        //             padding: EdgeInsets.zero,
+                        //             alignment: Alignment.centerLeft,
+                        //             icon: list
+                        //                 ? SvgPicture.asset(
+                        //                     'assets/images/grid_view.svg')
+                        //                 : SvgPicture.asset(
+                        //                     'assets/images/list_view.svg'),
+                        //             onPressed: () {
+                        //               setState(() {
+                        //                 if (list == true) {
+                        //                   list = false;
+                        //                 } else {
+                        //                   list = true;
+                        //                 }
+                        //               });
+                        //             },
+                        //           ),
+                        //         ),
+                        //         Container(
+                        //           margin: EdgeInsets.zero,
+                        //           height: 24.h,
+                        //           child: IconButton(
+                        //             padding: EdgeInsets.zero,
+                        //             alignment: Alignment.centerLeft,
+                        //             icon: SvgPicture.asset('assets/images/plus.svg'),
+                        //             onPressed: () => context.pop(),
+                        //           ),
+                        //         ),
+                        //       ],
+                        //     ),
+                        //   ],
+                        // ),
+                        // SizedBox(
+                        //   height: 24.h,
+                        // ),
+                        list
+                            ? ListView.separated(
+                                separatorBuilder: (context, index) {
+                                  return SizedBox(height: 16.h);
+                                },
+                                shrinkWrap: true,
+                                padding: EdgeInsets.zero,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: data.length,
+                                itemBuilder: ((context, index) {
+                                  final reversedIndex = data.length - 1 - index;
+                                  return SiteGalleryListViewWidget(
+                                    data: data[reversedIndex],
+                                  );
+                                }),
+                              )
+                            : GridView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                padding: EdgeInsets.zero,
+                                // cacheExtent: 99999999,
+                                gridDelegate:
+                                    SliverGridDelegateWithMaxCrossAxisExtent(
+                                  maxCrossAxisExtent:
+                                      MediaQuery.of(context).size.width / 3,
+                                  mainAxisSpacing: 1.5.h,
+                                  crossAxisSpacing: 1.5.w,
+                                  childAspectRatio: 1 / 1,
+                                  // mainAxisExtent: 100.h
+                                ),
+                                itemCount: data.length,
+                                itemBuilder: ((context, index) {
+                                  final reversedIndex = data.length - 1 - index;
+                                  return SiteGalleryGridViewWidget(
+                                    data: data[reversedIndex],
+                                    projectName: widget.projectName,
+                                  );
+                                }),
+                              )
+                      ]);
+                },
+                error: (err, _) {
+                  return const Text("Failed to load Site Gallery",
+                      style: TextStyle(
+                          letterSpacing: -0.3, color: Helper.errorColor));
+                },
+                loading: () => Column(
+                  children: [
+                    SizedBox(
+                      height: 44,
                     ),
-                  );
-                }
-                ;
-                return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   mainAxisSize: MainAxisSize.max,
-                      //   children: [
-                      //     Row(children: [
-                      //       Container(
-                      //         height: 24.h,
-                      //         child: IconButton(
-                      //           padding: EdgeInsets.zero,
-                      //           alignment: Alignment.centerLeft,
-                      //           icon: Icon(
-                      //             Icons.arrow_back,
-                      //           ),
-                      //           onPressed: () => context.pop(),
-                      //         ),
-                      //       ),
-                      //       SizedBox(width: 8.w),
-                      //       Text(
-                      //         widget.projectName,
-                      //         style: TextStyle(
-                      //             color: Helper.baseBlack,
-                      //             fontSize: 18.sp,
-                      //             fontWeight: FontWeight.w500),
-                      //       )
-                      //     ]),
-                      //     Row(
-                      //       mainAxisSize: MainAxisSize.min,
-                      //       mainAxisAlignment: MainAxisAlignment.end,
-                      //       children: [
-                      //         Container(
-                      //           margin: EdgeInsets.zero,
-                      //           height: 24.h,
-                      //           child: IconButton(
-                      //             padding: EdgeInsets.zero,
-                      //             alignment: Alignment.centerLeft,
-                      //             icon: list
-                      //                 ? SvgPicture.asset(
-                      //                     'assets/images/grid_view.svg')
-                      //                 : SvgPicture.asset(
-                      //                     'assets/images/list_view.svg'),
-                      //             onPressed: () {
-                      //               setState(() {
-                      //                 if (list == true) {
-                      //                   list = false;
-                      //                 } else {
-                      //                   list = true;
-                      //                 }
-                      //               });
-                      //             },
-                      //           ),
-                      //         ),
-                      //         Container(
-                      //           margin: EdgeInsets.zero,
-                      //           height: 24.h,
-                      //           child: IconButton(
-                      //             padding: EdgeInsets.zero,
-                      //             alignment: Alignment.centerLeft,
-                      //             icon: SvgPicture.asset('assets/images/plus.svg'),
-                      //             onPressed: () => context.pop(),
-                      //           ),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ],
-                      // ),
-                      // SizedBox(
-                      //   height: 24.h,
-                      // ),
-                      list
-                          ? ListView.separated(
-                              separatorBuilder: (context, index) {
-                                return SizedBox(height: 16.h);
-                              },
-                              shrinkWrap: true,
-                              padding: EdgeInsets.zero,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: data.length,
-                              itemBuilder: ((context, index) {
-                                final reversedIndex = data.length - 1 - index;
-                                return SiteGalleryListViewWidget(
-                                  data: data[reversedIndex],
-                                );
-                              }),
-                            )
-                          : GridView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              padding: EdgeInsets.zero,
-                              // cacheExtent: 99999999,
-                              gridDelegate:
-                                  SliverGridDelegateWithMaxCrossAxisExtent(
-                                maxCrossAxisExtent:
-                                    MediaQuery.of(context).size.width / 3,
-                                mainAxisSpacing: 1.5.h,
-                                crossAxisSpacing: 1.5.w,
-                                childAspectRatio: 1 / 1,
-                                // mainAxisExtent: 100.h
-                              ),
-                              itemCount: data.length,
-                              itemBuilder: ((context, index) {
-                                final reversedIndex = data.length - 1 - index;
-                                return SiteGalleryGridViewWidget(
-                                  data: data[reversedIndex],
-                                  projectName: widget.projectName,
-                                );
-                              }),
-                            )
-                    ]);
-              },
-              error: (err, _) {
-                return const Text("Failed to load Site Gallery",
-                    style: TextStyle(
-                        letterSpacing: -0.3, color: Helper.errorColor));
-              },
-              loading: () => Column(
-                children: [
-                  SizedBox(
-                    height: 44,
-                  ),
-                  LoadingCardListScreen(),
-                ],
+                    LoadingCardListScreen(),
+                  ],
+                ),
               ),
-            ),
-          )),
+            )),
+          ),
         ));
   }
 

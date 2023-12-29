@@ -50,125 +50,134 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         body: SafeArea(
-            child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SvgPicture.asset('assets/images/home.svg'),
-                    Row(
-                      children: [
-                        SvgPicture.asset('assets/images/search.svg'),
-                        SizedBox(width: 12.w),
-                        ConstrainedBox(
-                          constraints: new BoxConstraints(
-                            maxHeight: 30.h,
-                            maxWidth: 30.w,
-                          ),
-                          child: PopupMenuButton(
-                            padding: EdgeInsets.zero,
-                            icon: SvgPicture.asset('assets/images/sort.svg'),
-                            position: PopupMenuPosition.under,
-                            itemBuilder: (BuildContext context) {
-                              return _progresslineProjects.map((project) {
-                                return PopupMenuItem(
-                                    value: project
-                                        .id, // Use a unique identifier for each item
-                                    child: ListTile(
-                                      horizontalTitleGap: 8.w,
-                                      dense: true,
-                                      visualDensity: VisualDensity(
-                                          horizontal: 0, vertical: -4),
-                                      contentPadding: EdgeInsets.zero,
-                                      leading: project.coverImageUrl != null
-                                          ? ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(4.r),
-                                              child: AspectRatio(
-                                                aspectRatio: 16 / 9,
-                                                child: Image.network(
-                                                  project.coverImageUrl,
-                                                  fit: BoxFit.fill,
-                                                  errorBuilder: (BuildContext
-                                                          context,
-                                                      Object exception,
-                                                      StackTrace? stackTrace) {
-                                                    return ClipRRect(
-                                                      child: Image.asset(
-                                                        'assets/images/error_image.jpeg',
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    );
-                                                  },
-                                                ),
-                                              ))
-                                          : ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(4.r),
-                                              child: AspectRatio(
-                                                aspectRatio: 16 / 9,
-                                                child: Image.asset(
-                                                  'assets/images/error_image.jpeg',
-                                                  fit: BoxFit.fill,
+            child: RefreshIndicator(
+          onRefresh: () async {
+            return await ref
+                .refresh(progresslineControllerProvider.notifier)
+                .getProgressline(_projectId);
+          },
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SvgPicture.asset('assets/images/home.svg'),
+                      Row(
+                        children: [
+                          SvgPicture.asset('assets/images/search.svg'),
+                          SizedBox(width: 12.w),
+                          ConstrainedBox(
+                            constraints: new BoxConstraints(
+                              maxHeight: 30.h,
+                              maxWidth: 30.w,
+                            ),
+                            child: PopupMenuButton(
+                              padding: EdgeInsets.zero,
+                              icon: SvgPicture.asset('assets/images/sort.svg'),
+                              position: PopupMenuPosition.under,
+                              itemBuilder: (BuildContext context) {
+                                return _progresslineProjects.map((project) {
+                                  return PopupMenuItem(
+                                      value: project
+                                          .id, // Use a unique identifier for each item
+                                      child: ListTile(
+                                        horizontalTitleGap: 8.w,
+                                        dense: true,
+                                        visualDensity: VisualDensity(
+                                            horizontal: 0, vertical: -4),
+                                        contentPadding: EdgeInsets.zero,
+                                        leading: project.coverImageUrl != null
+                                            ? ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(4.r),
+                                                child: AspectRatio(
+                                                  aspectRatio: 16 / 9,
+                                                  child: Image.network(
+                                                    project.coverImageUrl,
+                                                    fit: BoxFit.fill,
+                                                    errorBuilder:
+                                                        (BuildContext context,
+                                                            Object exception,
+                                                            StackTrace?
+                                                                stackTrace) {
+                                                      return ClipRRect(
+                                                        child: Image.asset(
+                                                          'assets/images/error_image.jpeg',
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
+                                                ))
+                                            : ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(4.r),
+                                                child: AspectRatio(
+                                                  aspectRatio: 16 / 9,
+                                                  child: Image.asset(
+                                                    'assets/images/error_image.jpeg',
+                                                    fit: BoxFit.fill,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                      title: Text(
-                                        project.name,
-                                        style: TextStyle(
-                                            letterSpacing: -0.3,
-                                            color: Helper.baseBlack,
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      subtitle: Text(
-                                        project.postCount.toString(),
-                                        style: TextStyle(
-                                            letterSpacing: -0.3,
-                                            color: Helper.baseBlack
-                                                .withOpacity(0.5),
-                                            fontSize: 12.sp,
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                    ));
-                              }).toList();
-                            },
-                            onSelected: (value) {
-                              // Handle the selected item
-                              print('Selected project with id: $value');
-                              // You can perform additional actions based on the selected item
-                              ref
-                                  .read(progresslineControllerProvider.notifier)
-                                  .getProgressline(value);
-                            },
+                                        title: Text(
+                                          project.name,
+                                          style: TextStyle(
+                                              letterSpacing: -0.3,
+                                              color: Helper.baseBlack,
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        subtitle: Text(
+                                          project.postCount.toString(),
+                                          style: TextStyle(
+                                              letterSpacing: -0.3,
+                                              color: Helper.baseBlack
+                                                  .withOpacity(0.5),
+                                              fontSize: 12.sp,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ));
+                                }).toList();
+                              },
+                              onSelected: (value) {
+                                // Handle the selected item
+                                print('Selected project with id: $value');
+                                // You can perform additional actions based on the selected item
+                                ref
+                                    .read(
+                                        progresslineControllerProvider.notifier)
+                                    .getProgressline(value);
+                              },
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(height: 14.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Feed",
-                      style: TextStyle(
-                          letterSpacing: -1,
-                          color: Helper.textColor700,
-                          fontSize: 36.sp,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 15.h),
-                FeedWidget(),
-              ],
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 14.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Feed",
+                        style: TextStyle(
+                            letterSpacing: -1,
+                            color: Helper.textColor700,
+                            fontSize: 36.sp,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 15.h),
+                  FeedWidget(),
+                ],
+              ),
             ),
           ),
         )),

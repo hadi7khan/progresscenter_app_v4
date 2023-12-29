@@ -36,59 +36,66 @@ class _SupportScreenState extends BaseConsumerState<SupportScreen> {
 
     return Scaffold(
       body: SafeArea(
-          child: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-            child: supportData.when(
-              data: (data) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SvgPicture.asset('assets/images/home.svg'),
-                        Row(
-                          children: [
-                            SvgPicture.asset('assets/images/search.svg'),
-                            SizedBox(width: 12.w),
-                            InkWell(
-                                onTap: () {
-                                  context.push('/createTicket');
-                                },
-                                child:
-                                    SvgPicture.asset('assets/images/plus.svg')),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 14.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Support",
-                          style: TextStyle(
-                              letterSpacing: -1,
-                              color: Helper.textColor700,
-                              fontSize: 36.sp,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 16.h),
-                    SupportWidget(supportData: data),
-                  ],
-                );
-              },
-              error: (err, _) {
-                return const Text("Failed to load support tickets",
-                    style: TextStyle(
-                        letterSpacing: -0.3, color: Helper.errorColor));
-              },
-              loading: () => LoadingSupportList(),
-            )),
+          child: RefreshIndicator(
+        onRefresh: () async {
+          return await ref
+              .refresh(supportControllerProvider.notifier)
+              .getSupportTickets();
+        },
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+              child: supportData.when(
+                data: (data) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SvgPicture.asset('assets/images/home.svg'),
+                          Row(
+                            children: [
+                              SvgPicture.asset('assets/images/search.svg'),
+                              SizedBox(width: 12.w),
+                              InkWell(
+                                  onTap: () {
+                                    context.push('/createTicket');
+                                  },
+                                  child: SvgPicture.asset(
+                                      'assets/images/plus.svg')),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 14.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Support",
+                            style: TextStyle(
+                                letterSpacing: -1,
+                                color: Helper.textColor700,
+                                fontSize: 36.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 16.h),
+                      SupportWidget(supportData: data),
+                    ],
+                  );
+                },
+                error: (err, _) {
+                  return const Text("Failed to load support tickets",
+                      style: TextStyle(
+                          letterSpacing: -0.3, color: Helper.errorColor));
+                },
+                loading: () => LoadingSupportList(),
+              )),
+        ),
       )),
     );
   }

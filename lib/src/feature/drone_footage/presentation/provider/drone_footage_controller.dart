@@ -12,7 +12,7 @@ class DroneFootageController extends StateNotifier<DroneFootageState> {
   DroneFootageController(super.state, this.service);
   final DroneFootageRepositoryImpl service;
 
-  void getDroneFootage(id) async {
+  Future getDroneFootage(id) async {
     state = state.copyWith(isFetching: true);
     final result = await service.droneFootageList(id);
 
