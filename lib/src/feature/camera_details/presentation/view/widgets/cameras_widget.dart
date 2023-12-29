@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -75,28 +77,42 @@ class _CamerasWidgetState extends BaseConsumerState<CamerasWidget> {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () async {
-                    await ref
-                        .refresh(imagesByCamIdControllerProvider.notifier)
-                        .getImagesByCamId(
-                          widget.projectId,
-                          widget.data[index].id,
-                        );
-                    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                      ref
-                          .read(cameraByIdControllerProvider.notifier)
-                          .getCameraById(
-                            widget.projectId,
-                            widget.data[index].id,
-                          );
+                    context.pushReplacement('/cameradetails', extra: {
+                      "projectId": widget.projectId,
+                      "projectName": "projectName",
+                      "cameraId": widget.data[index].id,
                     });
-                    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                      ref
-                          .read(imagesByCamIdControllerProvider.notifier)
-                          .getImagesByCamId(
-                            widget.projectId,
-                            widget.data[index].id,
-                          );
-                    });
+                    // WidgetsBinding.instance.addPostFrameCallback((_) {
+                    //   ref
+                    //       .refresh(imagesByCamIdControllerProvider.notifier)
+                    //       .getImagesByCamId(
+                    //         widget.projectId,
+                    //         widget.data[index].id,
+                    //       );
+                    // });
+
+                    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                    //   ref
+                    //       .read(imagesByCamIdControllerProvider.notifier)
+                    //       .getImagesByCamId(
+                    //         widget.projectId,
+                    //         widget.data[index].id,
+                    //       )
+                    //       .then((value) {
+                    //     log("imagesByCamIdControllerProvider executed----------");
+                    //   });
+                    // });
+                    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                    //   ref
+                    //       .read(cameraByIdControllerProvider.notifier)
+                    //       .getCameraById(
+                    //         widget.projectId,
+                    //         widget.data[index].id,
+                    //       )
+                    //       .then((value) {
+                    //     log("cameraByIdControllerProvider executed----------");
+                    //   });
+                    // });
                     context.pop();
                   },
                   child: Row(
