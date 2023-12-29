@@ -161,168 +161,177 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
           ),
           body: SafeArea(
             top: true,
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "DETAILS",
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Helper.baseBlack.withOpacity(0.5),
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    SizedBox(height: 12.h),
-                    Container(
-                      padding: EdgeInsets.all(16.w),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16.r),
-                        color: Colors.white,
+            child: RefreshIndicator(
+              onRefresh: () async {
+                return await ref
+                    .refresh(ticketControllerProvider.notifier)
+                    .getTicketById(widget.ticketId);
+              },
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "DETAILS",
+                        style: TextStyle(
+                            letterSpacing: -0.3,
+                            color: Helper.baseBlack.withOpacity(0.5),
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w600),
                       ),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              ticketData.topic,
-                              style: TextStyle(
-                                  letterSpacing: -0.3,
-                                  color: Helper.baseBlack,
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            SizedBox(height: 12.h),
-                            Text(
-                              ticketData.subject,
-                              style: TextStyle(
-                                  letterSpacing: -0.3,
-                                  color: Helper.baseBlack,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            Text(
-                              ticketData.detail,
-                              style: TextStyle(
-                                  letterSpacing: -0.3,
-                                  color: Helper.baseBlack.withOpacity(0.5),
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                            ListTile(
-                              horizontalTitleGap: 8.w,
-                              dense: true,
-                              visualDensity:
-                                  VisualDensity(horizontal: 0, vertical: -4),
-                              contentPadding: EdgeInsets.zero,
-                              leading: SvgPicture.asset(
-                                'assets/images/user-circle.svg',
+                      SizedBox(height: 12.h),
+                      Container(
+                        padding: EdgeInsets.all(16.w),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16.r),
+                          color: Colors.white,
+                        ),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                ticketData.topic,
+                                style: TextStyle(
+                                    letterSpacing: -0.3,
+                                    color: Helper.baseBlack,
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w500),
                               ),
-                              title: Text(
-                                ticketData.user.name,
+                              SizedBox(height: 12.h),
+                              Text(
+                                ticketData.subject,
+                                style: TextStyle(
+                                    letterSpacing: -0.3,
+                                    color: Helper.baseBlack,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              Text(
+                                ticketData.detail,
                                 style: TextStyle(
                                     letterSpacing: -0.3,
                                     color: Helper.baseBlack.withOpacity(0.5),
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w500),
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w400),
                               ),
+                              ListTile(
+                                horizontalTitleGap: 8.w,
+                                dense: true,
+                                visualDensity:
+                                    VisualDensity(horizontal: 0, vertical: -4),
+                                contentPadding: EdgeInsets.zero,
+                                leading: SvgPicture.asset(
+                                  'assets/images/user-circle.svg',
+                                ),
+                                title: Text(
+                                  ticketData.user.name,
+                                  style: TextStyle(
+                                      letterSpacing: -0.3,
+                                      color: Helper.baseBlack.withOpacity(0.5),
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                              ListTile(
+                                horizontalTitleGap: 8.w,
+                                dense: true,
+                                visualDensity:
+                                    VisualDensity(horizontal: 0, vertical: -4),
+                                contentPadding: EdgeInsets.zero,
+                                leading: SvgPicture.asset(
+                                  'assets/images/calendar-check-ticket.svg',
+                                ),
+                                title: Text(
+                                  showDateTimeString(ticketData.updatedAt,
+                                      'dd MMM, yy · hh:mm a'),
+                                  style: TextStyle(
+                                      letterSpacing: -0.3,
+                                      color: Helper.baseBlack.withOpacity(0.5),
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                            ]),
+                      ),
+                      SizedBox(
+                        height: 24.h,
+                      ),
+                      Text(
+                        "RESOLUTION",
+                        style: TextStyle(
+                            letterSpacing: -0.3,
+                            color: Helper.baseBlack.withOpacity(0.5),
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(
+                        height: 12.h,
+                      ),
+                      ticketRepliesData.when(
+                        data: (data) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height * 0.4,
+                            padding: EdgeInsets.all(16.w),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16.r),
+                              color: Colors.white,
                             ),
-                            ListTile(
-                              horizontalTitleGap: 8.w,
-                              dense: true,
-                              visualDensity:
-                                  VisualDensity(horizontal: 0, vertical: -4),
-                              contentPadding: EdgeInsets.zero,
-                              leading: SvgPicture.asset(
-                                'assets/images/calendar-check-ticket.svg',
-                              ),
-                              title: Text(
-                                showDateTimeString(ticketData.updatedAt,
-                                    'dd MMM, yy · hh:mm a'),
-                                style: TextStyle(
-                                    letterSpacing: -0.3,
-                                    color: Helper.baseBlack.withOpacity(0.5),
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                          ]),
-                    ),
-                    SizedBox(
-                      height: 24.h,
-                    ),
-                    Text(
-                      "RESOLUTION",
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Helper.baseBlack.withOpacity(0.5),
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    SizedBox(
-                      height: 12.h,
-                    ),
-                    ticketRepliesData.when(
-                      data: (data) {
-                        return Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.4,
-                          padding: EdgeInsets.all(16.w),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16.r),
-                            color: Colors.white,
-                          ),
-                          child: ListView.builder(
-                            itemCount: repliesData.length,
-                            controller: _scrollController,
-                            itemBuilder: (context, index) {
-                              final date = repliesData[index]['date'];
-                              final replies = repliesData[index]['replies'];
-                              print("replies--------" + replies.toString());
-                              return Column(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 8.h, horizontal: 16.w),
-                                    decoration: BoxDecoration(
-                                        color: Helper.widgetBackground,
-                                        borderRadius:
-                                            BorderRadius.circular(16.r)),
-                                    child: Text(
-                                      date,
-                                      style: TextStyle(
-                                          letterSpacing: -0.3,
-                                          fontSize: 12,
-                                          color: Helper.textColor500,
-                                          fontWeight: FontWeight.w400),
-                                      textAlign: TextAlign.center,
+                            child: ListView.builder(
+                              itemCount: repliesData.length,
+                              controller: _scrollController,
+                              itemBuilder: (context, index) {
+                                final date = repliesData[index]['date'];
+                                final replies = repliesData[index]['replies'];
+                                print("replies--------" + replies.toString());
+                                return Column(
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 8.h, horizontal: 16.w),
+                                      decoration: BoxDecoration(
+                                          color: Helper.widgetBackground,
+                                          borderRadius:
+                                              BorderRadius.circular(16.r)),
+                                      child: Text(
+                                        date,
+                                        style: TextStyle(
+                                            letterSpacing: -0.3,
+                                            fontSize: 12,
+                                            color: Helper.textColor500,
+                                            fontWeight: FontWeight.w400),
+                                        textAlign: TextAlign.center,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(height: 10.h),
-                                  for (var reply in replies)
-                                    ChatMessageWidget(
-                                        message: reply.message,
-                                        userType: reply.userType,
-                                        userName: reply.user.name,
-                                        dpUrl: reply.userType == 'User'
-                                            ? ""
-                                            : reply.user.dpUrl,
-                                        createdAt: reply.createdAt),
-                                ],
-                              );
-                            },
-                          ),
-                        );
-                      },
-                      error: (err, _) {
-                        return const Text("Failed to load Projects",
-                            style: TextStyle(
-                                letterSpacing: -0.3, color: Helper.errorColor));
-                      },
-                      loading: () => SizedBox(),
-                    )
-                  ],
+                                    SizedBox(height: 10.h),
+                                    for (var reply in replies)
+                                      ChatMessageWidget(
+                                          message: reply.message,
+                                          userType: reply.userType,
+                                          userName: reply.user.name,
+                                          dpUrl: reply.userType == 'User'
+                                              ? ""
+                                              : reply.user.dpUrl,
+                                          createdAt: reply.createdAt),
+                                  ],
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        error: (err, _) {
+                          return const Text("Failed to load Projects",
+                              style: TextStyle(
+                                  letterSpacing: -0.3,
+                                  color: Helper.errorColor));
+                        },
+                        loading: () => SizedBox(),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

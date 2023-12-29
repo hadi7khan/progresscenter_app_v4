@@ -96,90 +96,96 @@ class _CCTVScreenState extends BaseConsumerState<CCTVScreen> {
         ),
       ),
       body: SafeArea(
-          child: SingleChildScrollView(
-              child: Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-                  child: cctvCameraData.when(
-                    data: (data) {
-                      if (data.isEmpty) {
-                        return Container(
-                          alignment: Alignment.center,
-                          height: MediaQuery.of(context).size.height *0.88.h,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                  'assets/images/illustration.svg'),
-                                  SizedBox(height: 16.h),
-                              Text(
-                                "No CCTV Cameras yet",
-                                style: TextStyle(
-                    letterSpacing: -0.3,
-                                    color: Helper.textColor900,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ],
-                          ),
-                        );
-                      };
-                      
-                      return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+          child: RefreshIndicator(
+        onRefresh: () async {
+          return await ref
+              .refresh(cctvCameraControllerProvider.notifier)
+              .getCctvCameras(widget.projectId);
+        },
+        child: SingleChildScrollView(
+            child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+                child: cctvCameraData.when(
+                  data: (data) {
+                    if (data.isEmpty) {
+                      return Container(
+                        alignment: Alignment.center,
+                        height: MediaQuery.of(context).size.height * 0.88.h,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            list
-                                ? ListView.separated(
-                                    separatorBuilder: (context, index) {
-                                      return SizedBox(height: 16.h);
-                                    },
-                                    shrinkWrap: true,
-                                    padding: EdgeInsets.zero,
-                                    cacheExtent: 6,
-                                    addAutomaticKeepAlives: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: data.length,
-                                    itemBuilder: ((context, index) {
-                                      print("cctv" + index.toString());
-                                      return CctvListViewWidget(
-                                          data: data[index]);
-                                    }),
-                                  )
-                                : GridView.builder(
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    padding: EdgeInsets.zero,
-                                    gridDelegate:
-                                        SliverGridDelegateWithMaxCrossAxisExtent(
-                                            maxCrossAxisExtent: 160.w,
-                                            mainAxisSpacing: 15.h,
-                                            crossAxisSpacing: 15.w,
-                                            childAspectRatio: 16 / 9,
-                                            mainAxisExtent: 152.h),
-                                    itemCount: data.length,
-                                    itemBuilder: ((context, index) {
-                                      return CctvGridViewWidget(
-                                        data: data[index],
-                                      );
-                                    }),
-                                  ),
-                          ]);
-                    },
-                    error: (err, _) {
-                      return const Text("Failed to load CCTV Cameras",
-                          style: TextStyle(
-                    letterSpacing: -0.3,color: Helper.errorColor));
-                    },
-                    loading: () => Column(
-                      children: [
-                        SizedBox(
-                          height: 44,
+                            SvgPicture.asset('assets/images/illustration.svg'),
+                            SizedBox(height: 16.h),
+                            Text(
+                              "No CCTV Cameras yet",
+                              style: TextStyle(
+                                  letterSpacing: -0.3,
+                                  color: Helper.textColor900,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ],
                         ),
-                        LoadingCardListScreen(),
-                      ],
-                    ),
-                  )))),
+                      );
+                    }
+                    ;
+
+                    return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          list
+                              ? ListView.separated(
+                                  separatorBuilder: (context, index) {
+                                    return SizedBox(height: 16.h);
+                                  },
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.zero,
+                                  cacheExtent: 6,
+                                  addAutomaticKeepAlives: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: data.length,
+                                  itemBuilder: ((context, index) {
+                                    print("cctv" + index.toString());
+                                    return CctvListViewWidget(
+                                        data: data[index]);
+                                  }),
+                                )
+                              : GridView.builder(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  padding: EdgeInsets.zero,
+                                  gridDelegate:
+                                      SliverGridDelegateWithMaxCrossAxisExtent(
+                                          maxCrossAxisExtent: 160.w,
+                                          mainAxisSpacing: 15.h,
+                                          crossAxisSpacing: 15.w,
+                                          childAspectRatio: 16 / 9,
+                                          mainAxisExtent: 152.h),
+                                  itemCount: data.length,
+                                  itemBuilder: ((context, index) {
+                                    return CctvGridViewWidget(
+                                      data: data[index],
+                                    );
+                                  }),
+                                ),
+                        ]);
+                  },
+                  error: (err, _) {
+                    return const Text("Failed to load CCTV Cameras",
+                        style: TextStyle(
+                            letterSpacing: -0.3, color: Helper.errorColor));
+                  },
+                  loading: () => Column(
+                    children: [
+                      SizedBox(
+                        height: 44,
+                      ),
+                      LoadingCardListScreen(),
+                    ],
+                  ),
+                ))),
+      )),
     );
   }
 }

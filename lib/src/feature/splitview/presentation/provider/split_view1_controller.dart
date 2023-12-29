@@ -12,9 +12,10 @@ class ImagesByCamIdController extends StateNotifier<ImagesByCamIdState> {
   ImagesByCamIdController(super.state, this.service);
   final CameraDetailsRepositoryImpl service;
 
-  void getImagesByCamId(projectId, cameraId, {searchDate = ''}) async {
+  Future getImagesByCamId(projectId, cameraId, {searchDate = ''}) async {
     state = state.copyWith(isFetching: true);
-    final result = await service.imagesByCameraId(projectId, cameraId, searchDate: searchDate);
+    final result = await service.imagesByCameraId(projectId, cameraId,
+        searchDate: searchDate);
 
     result.fold((l) {
       // error handle
