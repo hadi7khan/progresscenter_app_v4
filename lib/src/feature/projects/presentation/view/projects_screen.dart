@@ -37,6 +37,7 @@ class _ProjectsScreenState extends BaseConsumerState<ProjectsScreen> {
         body: SafeArea(
           child: RefreshIndicator(
             onRefresh: () async {
+              HapticFeedback.mediumImpact();
               return await ref
                   .refresh(projectControllerProvider.notifier)
                   .getProjects();
