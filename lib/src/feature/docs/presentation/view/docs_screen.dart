@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,7 +48,9 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
     return Scaffold(
       body: SafeArea(
           child: RefreshIndicator(
+        color: Helper.primary,
         onRefresh: () async {
+          HapticFeedback.mediumImpact();
           return await ref.refresh(docsControllerProvider.notifier).getDocs();
         },
         child: SingleChildScrollView(
