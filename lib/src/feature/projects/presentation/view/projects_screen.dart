@@ -36,6 +36,7 @@ class _ProjectsScreenState extends BaseConsumerState<ProjectsScreen> {
       child: Scaffold(
         body: SafeArea(
           child: RefreshIndicator(
+            displacement: 20.0,
             color: Helper.primary,
             onRefresh: () async {
               HapticFeedback.mediumImpact();
