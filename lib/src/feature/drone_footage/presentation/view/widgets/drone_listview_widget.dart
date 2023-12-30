@@ -41,8 +41,6 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
         disableDragSeek: true,
       ),
     );
-
-    
   }
 
   String extractVimeoVideoId(String videoUrl) {
@@ -111,9 +109,7 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
                             // ),
                             // ),
                             VimeoVideoPlayer(
-                                url: widget.data.shareUrl,
-                                autoPlay: false
-                              ),
+                                url: widget.data.shareUrl, autoPlay: false),
                     // VimeoPlayer(videoId: extractVimeoVideoId(widget.data.url)),
                   ),
                   Positioned(
@@ -138,7 +134,7 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
                 height: 88.h,
                 width: double.infinity,
                 margin: EdgeInsets.zero,
-                padding: EdgeInsets.all(20.w),
+                padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.w),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.r),
                     color: Color.fromRGBO(246, 246, 246, 1)),
@@ -150,12 +146,12 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          width: MediaQuery.of(context).size.width * 0.5,
+                          // width: MediaQuery.of(context).size.width * 0.5,
                           child: Text(
                             widget.data.name!,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                    letterSpacing: -0.3,
+                              letterSpacing: -0.3,
                               fontSize: 18.sp,
                               fontWeight: FontWeight.w500,
                               color: Helper.baseBlack,
@@ -169,7 +165,7 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
                           showDate(widget.data.createdAt.toIso8601String(),
                               'dd MMM yyyy'),
                           style: TextStyle(
-                    letterSpacing: -0.3,
+                            letterSpacing: -0.3,
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400,
                             color: Helper.baseBlack.withOpacity(0.5),
@@ -177,25 +173,30 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
                         ),
                       ],
                     ),
-                    TextButton(
-                        onPressed: () {
-                          context.push('/fullViewDrone', extra: {"projectId": widget.data.project.id, "projectName": widget.data.name!, "videoUrl": widget.data.url, "provider": widget.data.details.provider});
-                        },
-                        style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.r),
-                            )),
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.white)),
-                        child: Text(
-                          "View",
-                          style: TextStyle(
-                              color: Helper.baseBlack,
-                              fontSize: 14.sp,
-                              letterSpacing: 0.2,
-                              fontWeight: FontWeight.w600),
-                        ))
+                    // TextButton(
+                    //     onPressed: () {
+                    //       context.push('/fullViewDrone', extra: {
+                    //         "projectId": widget.data.project.id,
+                    //         "projectName": widget.data.name!,
+                    //         "videoUrl": widget.data.url,
+                    //         "provider": widget.data.details.provider
+                    //       });
+                    //     },
+                    //     style: ButtonStyle(
+                    //         shape: MaterialStateProperty.all(
+                    //             RoundedRectangleBorder(
+                    //           borderRadius: BorderRadius.circular(8.r),
+                    //         )),
+                    //         backgroundColor:
+                    //             MaterialStateProperty.all(Colors.white)),
+                    //     child: Text(
+                    //       "View",
+                    //       style: TextStyle(
+                    //           color: Helper.baseBlack,
+                    //           fontSize: 14.sp,
+                    //           letterSpacing: 0.2,
+                    //           fontWeight: FontWeight.w600),
+                    //     ))
                   ],
                 )),
           ),
