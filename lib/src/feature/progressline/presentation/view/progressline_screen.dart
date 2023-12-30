@@ -103,6 +103,7 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
                                                   child: Image.network(
                                                     project.coverImageUrl,
                                                     fit: BoxFit.fill,
+                                                    gaplessPlayback: true,
                                                     errorBuilder:
                                                         (BuildContext context,
                                                             Object exception,

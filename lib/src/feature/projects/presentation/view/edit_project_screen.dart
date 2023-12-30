@@ -130,7 +130,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12.r),
                   child: Image.network(widget.data.images![index].url!,
-                      fit: BoxFit.fill),
+                      gaplessPlayback: true, fit: BoxFit.fill),
                 )),
             Container(
               decoration: BoxDecoration(

@@ -14,8 +14,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:photo_view/photo_view.dart';
-import 'package:photo_view/photo_view_gallery.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_app_bar.dart';
@@ -368,6 +366,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                         184.h),
                                 child: Image.network(
                                   imagesByCameraIdModel.currentImage!.urlThumb!,
+                                  gaplessPlayback: true,
 
                                   width: double.infinity,
                                   // scale: 20,
@@ -400,87 +399,33 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                               ),
                               BlurryContainer(
                                 blur: 30,
+
                                 padding: EdgeInsets.zero,
                                 borderRadius: BorderRadius.zero,
                                 // filter: ImageFilter.blur(sigmaX: 105, sigmaY: 105),
                                 // blendMode: BlendMode.clear,
-                                child: SizedBox(
-                                  height: MediaQuery.of(context).size.height -
-                                      (Scaffold.of(context)
-                                              .appBarMaxHeight!
-                                              .toDouble() +
-                                          kBottomNavigationBarHeight +
-                                          184.h),
-                                  child: BlurryContainer(
-                                    blur: 30,
-                                    child: PinchZoom(
-                                      maxScale: 10,
-                                      child: PhotoViewGallery.builder(
-                                        itemCount: imagesByCameraIdModel
-                                            .images!.length,
-                                        builder: (context, index) {
-                                          return PhotoViewGalleryPageOptions(
-                                            basePosition: Alignment.center,
-                                            imageProvider: Image.network(
-                                              imagesByCameraIdModel
-                                                  .currentImage!.urlPreview!,
-
-                                              // selectedImageData == null
-                                              //     ? imagesData
-                                              //         .images![itemIndex]
-                                              //         .urlPreview!
-                                              //     : selectedImageData
-                                              //         .urlPreview!,
-                                              // width: double.infinity,
-                                              scale: 1,
-                                              // height: 210.h,
-                                              // fit: BoxFit.fitHeight,
-                                              loadingBuilder: (context, child,
-                                                  loadingProgress) {
-                                                if (loadingProgress == null)
-                                                  return child;
-
-                                                return Center(
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    color: Helper.primary,
-                                                    value: (loadingProgress !=
-                                                            null)
-                                                        ? (loadingProgress
-                                                                .cumulativeBytesLoaded /
-                                                            loadingProgress
-                                                                .expectedTotalBytes!)
-                                                        : 0,
-                                                  ),
-                                                );
-                                              },
-                                              errorBuilder:
-                                                  (BuildContext context,
-                                                      Object exception,
-                                                      StackTrace? stackTrace) {
-                                                return ClipRRect(
-                                                  child: Image.asset(
-                                                    'assets/images/error_image.jpeg',
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                );
-                                              },
-                                            ).image,
-                                            minScale: PhotoViewComputedScale
-                                                    .contained *
-                                                1,
-                                            maxScale: PhotoViewComputedScale
-                                                    .contained *
-                                                4,
-                                            // onTapDown: (context, details, controllerValue) {
-                                            //   // Set parent state and execute whatever the parent needs to do
-                                            //   onTap != null ? onTap!() : null;
-                                            // },
-                                          );
-                                        },
+                                child: CarouselSlider.builder(
+                                    carouselController: carouselController,
+                                    itemCount: imagesByCameraIdModel
+                                        .images!.length,
+                                    options: CarouselOptions(
+                                        height:
+                                            MediaQuery.of(context).size.height -
+                                                (Scaffold.of(context)
+                                                        .appBarMaxHeight!
+                                                        .toDouble() +
+                                                    kBottomNavigationBarHeight +
+                                                    184.h),
+                                        viewportFraction: 1,
+                                        // aspectRatio: 1 / 1,
+                                        initialPage: 0,
+                                        autoPlay: false,
+                                        enlargeCenterPage: true,
+                                        reverse: true,
+                                        enableInfiniteScroll: false,
+                                        autoPlayCurve: Curves.fastOutSlowIn,
                                         scrollDirection: Axis.horizontal,
-                                        // pageController: controller,
-                                        onPageChanged: (index) {
+                                        onPageChanged: (index, reason) {
                                           setState(() {
                                             final currentImage = model.Image(
                                               id: imagesByCameraIdModel
@@ -524,165 +469,90 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                             //       .images![index].urlPreview,
                                             // );
                                           });
-                                        },
-                                        scrollPhysics:
-                                            const BouncingScrollPhysics(),
-                                        backgroundDecoration: BoxDecoration(
-                                          color: Theme.of(context).canvasColor,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                // CarouselSlider.builder(
-                                //     carouselController: carouselController,
-                                //     itemCount: imagesByCameraIdModel
-                                //         .images!.length,
-                                //     disableGesture: true,
-                                //     options: CarouselOptions(
-                                //         height:
-                                //             MediaQuery.of(context).size.height -
-                                //                 (Scaffold.of(context)
-                                //                         .appBarMaxHeight!
-                                //                         .toDouble() +
-                                //                     kBottomNavigationBarHeight +
-                                //                     184.h),
-                                //         viewportFraction: 1,
-                                //         // aspectRatio: 1 / 1,
-                                //         initialPage: 0,
-                                //         autoPlay: false,
-                                //         enlargeCenterPage: true,
-                                //         reverse: true,
-                                //         enableInfiniteScroll: false,
-                                //         autoPlayCurve: Curves.fastOutSlowIn,
-                                //         scrollDirection: Axis.horizontal,
-                                //         onPageChanged: (index, reason) {
-                                //           setState(() {
-                                //             final currentImage = model.Image(
-                                //               id: imagesByCameraIdModel
-                                //                   .images![index].id,
-                                //               name: imagesByCameraIdModel
-                                //                   .images![index].name,
-                                //               datetime: imagesByCameraIdModel
-                                //                   .images![index].datetime,
-                                //               urlPreview: imagesByCameraIdModel
-                                //                   .images![index].urlPreview,
-                                //               urlThumb: imagesByCameraIdModel
-                                //                   .images![index]
-                                //                   .urlThumb, // You can copy the URL from the first image
-                                //             );
-                                //             ref
-                                //                     .read(
-                                //                         imagesByCameraIdModelProvider
-                                //                             .notifier)
-                                //                     .state =
-                                //                 model.ImagesByCameraIdModel(
-                                //               startDate: imagesByCameraIdModel
-                                //                   .startDate,
-                                //               endDate:
-                                //                   imagesByCameraIdModel.endDate,
-                                //               images:
-                                //                   imagesByCameraIdModel.images,
-                                //               currentImage: currentImage,
-                                //             );
-                                //             // ref
-                                //             //     .read(imagesByCameraIdModelProvider
-                                //             //         .notifier)
-                                //             //     .state = model.ImagesByCameraIdModel(
-                                //             //   startDate: imagesByCameraIdModel
-                                //             //       .startDate,
-                                //             //   datetime: imagesByCameraIdModel.currentImage,
-                                //             //   imageId: imagesByCameraIdModel
-                                //             //       .images![index].imageId,
-                                //             //   urlThumb: imagesByCameraIdModel
-                                //             //       .images![index].urlThumb,
-                                //             //   urlPreview: imagesByCameraIdModel
-                                //             //       .images![index].urlPreview,
-                                //             // );
-                                //           });
-                                //         }),
-                                //     itemBuilder: (BuildContext context,
-                                //         int itemIndex, int pageViewIndex) {
-                                //       // imageData = ImageData(
-                                //       //   name: imagesData.images![itemIndex].name,
-                                //       //   dateTime: imagesData
-                                //       //       .images![itemIndex].datetime,
-                                //       //   camera:
-                                //       //       imagesData.images![itemIndex].camera,
-                                //       //   id: imagesData.images![itemIndex].id,
-                                //       //   urlPreview: imagesData
-                                //       //       .images![itemIndex].urlPreview,
-                                //       // );
-                                //       return Container(
-                                //         // height:
-                                //         //     MediaQuery.of(context).size.height -
-                                //         //         (Scaffold.of(context)
-                                //         //                 .appBarMaxHeight!
-                                //         //                 .toDouble() +
-                                //         //             kBottomNavigationBarHeight +
-                                //         //             184.h),
-                                //         // color: Helper.textColor300,
-                                //         // height: MediaQuery.of(context).size.height -
-                                //         //     (Scaffold.of(context)
-                                //         //             .appBarMaxHeight!
-                                //         //             .toDouble() +
-                                //         //         btmNavigationBarHeight +
-                                //         //         147.h),
-                                //         child: PinchZoom(
-                                //           // transformationController:
-                                //           //     viewTransformationController,
-                                //           // panEnabled: false,
-                                //           // boundaryMargin: EdgeInsets.zero,
-                                //           // minScale: 0.5,
-                                //           //  alignment: Alignment.center,
-                                //           // constrained: false,
-                                //           maxScale: 10,
-                                //           child: Image.network(
-                                //             imagesByCameraIdModel
-                                //                 .currentImage!.urlPreview!,
-                                //             // selectedImageData == null
-                                //             //     ? imagesData
-                                //             //         .images![itemIndex]
-                                //             //         .urlPreview!
-                                //             //     : selectedImageData
-                                //             //         .urlPreview!,
-                                //             width: double.infinity,
-                                //             scale: 1,
-                                //             // height: 210.h,
-                                //             // fit: BoxFit.fitHeight,
-                                //             loadingBuilder: (context, child,
-                                //                 loadingProgress) {
-                                //               if (loadingProgress == null)
-                                //                 return child;
+                                        }),
+                                    itemBuilder: (BuildContext context,
+                                        int itemIndex, int pageViewIndex) {
+                                      // imageData = ImageData(
+                                      //   name: imagesData.images![itemIndex].name,
+                                      //   dateTime: imagesData
+                                      //       .images![itemIndex].datetime,
+                                      //   camera:
+                                      //       imagesData.images![itemIndex].camera,
+                                      //   id: imagesData.images![itemIndex].id,
+                                      //   urlPreview: imagesData
+                                      //       .images![itemIndex].urlPreview,
+                                      // );
+                                      return Container(
+                                        // height:
+                                        //     MediaQuery.of(context).size.height -
+                                        //         (Scaffold.of(context)
+                                        //                 .appBarMaxHeight!
+                                        //                 .toDouble() +
+                                        //             kBottomNavigationBarHeight +
+                                        //             184.h),
+                                        // color: Helper.textColor300,
+                                        // height: MediaQuery.of(context).size.height -
+                                        //     (Scaffold.of(context)
+                                        //             .appBarMaxHeight!
+                                        //             .toDouble() +
+                                        //         btmNavigationBarHeight +
+                                        //         147.h),
+                                        child: PinchZoom(
+                                          // transformationController:
+                                          //     viewTransformationController,
+                                          // panEnabled: false,
+                                          // boundaryMargin: EdgeInsets.zero,
+                                          // minScale: 0.5,
+                                          //  alignment: Alignment.center,
+                                          // constrained: false,
+                                          maxScale: 10,
+                                          child: Image.network(
+                                            imagesByCameraIdModel
+                                                .currentImage!.urlPreview!,
+                                            // selectedImageData == null
+                                            //     ? imagesData
+                                            //         .images![itemIndex]
+                                            //         .urlPreview!
+                                            //     : selectedImageData
+                                            //         .urlPreview!,
+                                            width: double.infinity,
+                                            gaplessPlayback: true,
+                                            scale: 1,
+                                            // height: 210.h,
+                                            // fit: BoxFit.fitHeight,
+                                            loadingBuilder: (context, child,
+                                                loadingProgress) {
+                                              if (loadingProgress == null)
+                                                return child;
 
-                                //               return Center(
-                                //                 child:
-                                //                     CircularProgressIndicator(
-                                //                   color: Helper.primary,
-                                //                   value: (loadingProgress !=
-                                //                           null)
-                                //                       ? (loadingProgress
-                                //                               .cumulativeBytesLoaded /
-                                //                           loadingProgress
-                                //                               .expectedTotalBytes!)
-                                //                       : 0,
-                                //                 ),
-                                //               );
-                                //             },
-                                //             errorBuilder: (BuildContext context,
-                                //                 Object exception,
-                                //                 StackTrace? stackTrace) {
-                                //               return ClipRRect(
-                                //                 child: Image.asset(
-                                //                   'assets/images/error_image.jpeg',
-                                //                   fit: BoxFit.cover,
-                                //                 ),
-                                //               );
-                                //             },
-                                //           ),
-                                //         ),
-                                //       );
-                                //     }),
+                                              return Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: Helper.primary,
+                                                  value: (loadingProgress !=
+                                                          null)
+                                                      ? (loadingProgress
+                                                              .cumulativeBytesLoaded /
+                                                          loadingProgress
+                                                              .expectedTotalBytes!)
+                                                      : 0,
+                                                ),
+                                              );
+                                            },
+                                            errorBuilder: (BuildContext context,
+                                                Object exception,
+                                                StackTrace? stackTrace) {
+                                              return ClipRRect(
+                                                child: Image.asset(
+                                                  'assets/images/error_image.jpeg',
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      );
+                                    }),
                               ),
                               Positioned(
                                 top: 16,
@@ -889,6 +759,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                                     imagesData
                                                         .images![reversedIndex]
                                                         .urlThumb!,
+                                                    gaplessPlayback: true,
                                                     width: 44.w,
                                                     height: 44.h,
                                                     fit: BoxFit.fill,

@@ -142,6 +142,7 @@ class _AddMemberWidgetState extends State<AddMemberWidget> {
                       ? Image.network(
                           width: 32.w,
                           height: 32.h,
+                          gaplessPlayback: true,
                           user.dpUrl!,
                           fit: BoxFit.cover,
                           errorBuilder: (BuildContext context, Object exception,

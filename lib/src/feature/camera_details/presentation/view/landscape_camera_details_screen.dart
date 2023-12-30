@@ -102,6 +102,7 @@ class _LandscapeCameraDetailsScreenState
                                 selectedImageData == null
                                     ? widget.imagesData.images![0].urlPreview!
                                     : selectedImageData.urlPreview!,
+                                gaplessPlayback: true,
                                 // width: double.infinity,
                                 height: MediaQuery.of(context).size.height,
                                 fit: BoxFit.fill,

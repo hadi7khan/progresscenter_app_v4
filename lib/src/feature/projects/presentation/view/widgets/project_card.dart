@@ -25,7 +25,7 @@ class _ProjectCardState extends State<ProjectCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
-        await DefaultCacheManager().emptyCache();
+        // await DefaultCacheManager().emptyCache();
         context.push('/details', extra: {
           "projectId": widget.project.id,
           "projectName": widget.project.name!,

@@ -60,6 +60,7 @@ class _SiteGalleryListViewWidgetState extends State<SiteGalleryListViewWidget> {
                         ? Image.network(
                             widget.data.url!,
                             fit: BoxFit.fill,
+                            gaplessPlayback: true,
                             errorBuilder: (BuildContext context,
                                 Object exception, StackTrace? stackTrace) {
                               return ClipRRect(
