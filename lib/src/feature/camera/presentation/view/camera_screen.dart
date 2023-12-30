@@ -102,15 +102,16 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
         ),
         body: SafeArea(
           top: true,
-          child: RefreshIndicator(
-            color: Helper.primary,
-            onRefresh: () async {
-              HapticFeedback.mediumImpact();
-              return await ref
-                  .refresh(cameraControllerProvider.notifier)
-                  .getCameras(widget.projectId);
-            },
-            child: SingleChildScrollView(
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: RefreshIndicator(
+              color: Helper.primary,
+              onRefresh: () async {
+                HapticFeedback.mediumImpact();
+                return await ref
+                    .refresh(cameraControllerProvider.notifier)
+                    .getCameras(widget.projectId);
+              },
               child: Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
@@ -225,8 +226,10 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                                     itemCount: data.length,
                                     itemBuilder: ((context, index) {
                                       return ListViewWidget(
-                                          data: data[index],
-                                          projectName: widget.projectName);
+                                        data: data[index],
+                                        projectName: widget.projectName,
+                                        projectId: widget.projectId,
+                                      );
                                     }),
                                   )
                                 : GridView.builder(
@@ -243,8 +246,9 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                                     itemCount: data.length,
                                     itemBuilder: ((context, index) {
                                       return GridViewWidget(
-                                          data: data[index],
-                                          projectName: widget.projectName);
+                                        data: data[index],
+                                        projectName: widget.projectName,
+                                      );
                                     }),
                                   ),
                           ]);
