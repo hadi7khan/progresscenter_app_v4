@@ -18,7 +18,13 @@ import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/pr
 class CamerasWidget extends ConsumerStatefulWidget {
   final List<CameraModel> data;
   final projectId;
-  const CamerasWidget({super.key, required this.data, required this.projectId});
+  final projectName;
+
+  const CamerasWidget(
+      {super.key,
+      required this.data,
+      required this.projectId,
+      required this.projectName});
 
   @override
   ConsumerState<CamerasWidget> createState() => _CamerasWidgetState();
@@ -79,7 +85,7 @@ class _CamerasWidgetState extends BaseConsumerState<CamerasWidget> {
                   onTap: () async {
                     context.pushReplacement('/cameradetails', extra: {
                       "projectId": widget.projectId,
-                      "projectName": "projectName",
+                      "projectName": widget.projectName,
                       "cameraId": widget.data[index].id,
                     });
                     // WidgetsBinding.instance.addPostFrameCallback((_) {

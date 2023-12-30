@@ -151,9 +151,11 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     return formattedTime;
   }
 
-  parseTimeString(String timeString) {
-    DateTime time = DateFormat("HHmmss").parse(timeString);
-    String formattedTime = DateFormat("h:mm a").format(time);
+  parseEndDateTimeString(String datetime) {
+    String dateWithT = datetime.substring(0, 8) + 'T' + datetime.substring(8);
+    DateTime dateTime = DateTime.parse(dateWithT);
+    final String formattedTime =
+        DateFormat('dd MMM yyyy h:mm a').format(dateTime);
     return formattedTime;
   }
 
@@ -237,6 +239,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                           child: CamerasWidget(
                                             data: data,
                                             projectId: widget.projectId,
+                                            projectName: widget.projectName,
                                           ),
                                         ));
                               },
@@ -362,11 +365,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                         kBottomNavigationBarHeight +
                                         184.h),
                                 child: Image.network(
-                                  imagesByCameraIdModel.currentImage != null
-                                      ? imagesByCameraIdModel
-                                          .currentImage!.urlThumb!
-                                      : imagesByCameraIdModel
-                                          .images![0].urlThumb!,
+                                  imagesByCameraIdModel.currentImage!.urlThumb!,
+
                                   width: double.infinity,
                                   // scale: 20,
                                   // height: 210.h,
@@ -437,7 +437,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                                   .images![index].urlPreview,
                                               urlThumb: imagesByCameraIdModel
                                                   .images![index]
-                                                  .id, // You can copy the URL from the first image
+                                                  .urlThumb, // You can copy the URL from the first image
                                             );
                                             ref
                                                     .read(
@@ -591,8 +591,9 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                           //         fontWeight: FontWeight.w500,
                                           //         fontSize: 12.sp)),
                                           Text(
-                                              showDate(imagesByCameraIdModel
-                                                  .endDate!),
+                                              parseEndDateTimeString(
+                                                  imagesByCameraIdModel
+                                                      .currentImage!.datetime!),
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w500,
@@ -694,7 +695,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                               .urlPreview,
                                           urlThumb: imagesByCameraIdModel
                                               .images![reversedIndex]
-                                              .id, // You can copy the URL from the first image
+                                              .urlThumb, // You can copy the URL from the first image
                                         );
                                         ref
                                             .read(imagesByCameraIdModelProvider
