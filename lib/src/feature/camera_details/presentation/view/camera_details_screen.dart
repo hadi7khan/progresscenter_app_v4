@@ -163,7 +163,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
   void dispose() {
     controller!.dispose();
     animationController!.dispose();
-    ref.invalidate(selectedImageDataProvider);
+    ref.invalidate(imagesByCameraIdModelProvider);
     super.dispose();
   }
 
@@ -407,6 +407,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                     carouselController: carouselController,
                                     itemCount: imagesByCameraIdModel
                                         .images!.length,
+                                    disableGesture: true,
                                     options: CarouselOptions(
                                         height:
                                             MediaQuery.of(context).size.height -
