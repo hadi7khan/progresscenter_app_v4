@@ -29,28 +29,31 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                 backgroundColor: "",
                 size: 32,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Yafer Nazir",
-                    style: TextStyle(
-                        letterSpacing: -0.3,
-                        color: Helper.textColor700,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  Text(
-                    "Replied to your comment in Uncool Project  ",
-                    maxLines: 5,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        letterSpacing: -0.3,
-                        color: Helper.textColor600,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ],
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.6,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Yafer Nazir",
+                      style: TextStyle(
+                          letterSpacing: -0.3,
+                          color: Helper.textColor700,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    Text(
+                      "Replied to your comment in Uncool Project  ",
+                      maxLines: 5,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          letterSpacing: -0.3,
+                          color: Helper.textColor600,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ],
+                ),
               ),
               Icon(
                 Icons.circle,
