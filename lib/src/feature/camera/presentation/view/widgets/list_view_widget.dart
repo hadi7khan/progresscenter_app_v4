@@ -25,8 +25,8 @@ class ListViewWidget extends ConsumerStatefulWidget {
 class _ListViewWidgetState extends BaseConsumerState<ListViewWidget> {
   @override
   void dispose() {
-    CachedNetworkImage.evictFromCache(widget.data.latestImage!.urlThumb,
-        cacheKey: widget.data.project);
+    // CachedNetworkImage.evictFromCache(widget.data.latestImage!.urlThumb,
+    //     cacheKey: widget.data.project);
     super.dispose();
   }
 
@@ -171,7 +171,8 @@ class _ListViewWidgetState extends BaseConsumerState<ListViewWidget> {
                         height: 88.h,
                         width: double.infinity,
                         margin: EdgeInsets.zero,
-                        padding: EdgeInsets.all(20.w),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 20.w, vertical: 20.h),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15.r),
                             color: Color.fromRGBO(246, 246, 246, 1)),
@@ -183,8 +184,8 @@ class _ListViewWidgetState extends BaseConsumerState<ListViewWidget> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.5,
+                                  // width:
+                                  // MediaQuery.of(context).size.width * 0.5,
                                   child: Row(
                                     children: [
                                       Icon(

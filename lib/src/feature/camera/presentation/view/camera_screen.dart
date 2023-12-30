@@ -258,14 +258,7 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                           style: TextStyle(
                               letterSpacing: -0.3, color: Helper.errorColor));
                     },
-                    loading: () => Column(
-                      children: [
-                        SizedBox(
-                          height: 44,
-                        ),
-                        LoadingCardListScreen(),
-                      ],
-                    ),
+                    loading: () => LoadingCardListScreen(),
                   )),
             ),
           ),
