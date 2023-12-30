@@ -35,15 +35,15 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
   // }
 
   Future _checkStatus() async {
-    try { 
+    try {
       // Assume that widget.data.streamingUrl is not null
-      final response = await Dio().get(widget.data.streamingUrl + "&q=hadikhan");
+      final response =
+          await Dio().get(widget.data.streamingUrl + "&q=hadikhan");
       print('streaming url   ' + widget.data.streamingUrl.toString());
-        setState(() {
-          isOnline = true;
-          print('isOnline changed   ' + isOnline.toString());
-          
-        });
+      setState(() {
+        isOnline = true;
+        print('isOnline changed   ' + isOnline.toString());
+      });
       // print('cctv response   ' + response.data.toString());
       // print('cctv response code   ' + response.statusCode.toString());
       // Check for a successful status code and a content-type header
@@ -79,151 +79,173 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
     // _timer = Timer.periodic(Duration(seconds: 5), (timer) {
     //   _checkStatus();
     // });
-    return Container(
-      margin: EdgeInsets.zero,
-      padding: EdgeInsets.zero,
-      height: 264.h,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16.r),
-      ),
-      child:
-          Stack(fit: StackFit.loose, alignment: Alignment.topCenter, children: [
-        widget.data.latestImage != null
-            ? ClipRRect(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16.r),
-                    topRight: Radius.circular(16.r)),
-                child: Image.network(
-                  widget.data.latestImage.url!,
-                  fit: BoxFit.fill,
-                  errorBuilder: (BuildContext context, Object exception,
-                      StackTrace? stackTrace) {
-                    return ClipRRect(
+    return InkWell(
+      onTap: () {
+        context.push('/fullViewCCTV', extra: {
+          "projectId": widget.data.project,
+          "name": widget.data.name,
+          "streamingUrl": widget.data.streamingUrl,
+          // "type": widget.data.type
+        });
+      },
+      child: Container(
+        margin: EdgeInsets.zero,
+        padding: EdgeInsets.zero,
+        height: 264.h,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16.r),
+        ),
+        child: Stack(
+            fit: StackFit.loose,
+            alignment: Alignment.topCenter,
+            children: [
+              widget.data.latestImage != null
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(16.r),
+                          topRight: Radius.circular(16.r)),
+                      child: Image.network(
+                        widget.data.latestImage.url!,
+                        fit: BoxFit.fill,
+                        errorBuilder: (BuildContext context, Object exception,
+                            StackTrace? stackTrace) {
+                          return ClipRRect(
+                            child: Image.asset(
+                              'assets/images/error_image.jpeg',
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(16.r),
                       child: Image.asset(
                         'assets/images/error_image.jpeg',
-                        fit: BoxFit.cover,
-                      ),
-                    );
-                  },
-                ),
-              )
-            : ClipRRect(
-                borderRadius: BorderRadius.circular(16.r),
-                child: Image.asset(
-                  'assets/images/error_image.jpeg',
-                  fit: BoxFit.fill,
-                  height: 264.h,
-                ),
-              ),
-        Positioned(
-          top: 16,
-          right: 16,
-          child: BlurryContainer(
-              blur: 3,
-              padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 8.w),
-              borderRadius: BorderRadius.circular(30.r),
-              color: Colors.white.withOpacity(0.1),
-              child: Row(
-                children: [
-                  Icon(Icons.circle, size: 8, color: isOnline ? Helper.successColor : Helper.errorColor,),
-                  // SvgPicture.asset(
-                  //   'assets/images/updated.svg',
-                  //   height: 10.h,
-                  //   width: 9.w,
-                  //   color: Colors.white,
-                  // ),
-                  SizedBox(width: 4.w),
-                  Text(isOnline ? "Online" : "Offline",
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: isOnline ? Helper.successColor : Helper.errorColor,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12.sp)),
-                ],
-              )),
-        ),
-        Positioned.fill(
-          // bottom: 20,
-          // left: 20,
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-                height: 88.h,
-                width: double.infinity,
-                margin: EdgeInsets.zero,
-                padding: EdgeInsets.all(20.w),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.r),
-                    color: Color.fromRGBO(246, 246, 246, 1)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.5.w,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.5,
-                            child: Text(
-                              widget.data.name!,
-                              overflow: TextOverflow.ellipsis,
-                              softWrap: true,
-                              style: TextStyle(
-                                letterSpacing: -0.3,
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.w500,
-                                overflow: TextOverflow.ellipsis,
-                                color: Helper.baseBlack,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            "Installed · " +
-                                showDate(widget.data.installationDate,
-                                    'dd MMM yyyy'),
-                            style: TextStyle(
-                              letterSpacing: -0.3,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                              color: Helper.baseBlack.withOpacity(0.5),
-                            ),
-                          ),
-                        ],
+                        fit: BoxFit.fill,
+                        height: 264.h,
                       ),
                     ),
-                    TextButton(
-                        onPressed: () {
-                          context.push('/fullViewCCTV', extra: {
-                            "projectId": widget.data.project,
-                            "name": widget.data.name,
-                            "streamingUrl": widget.data.streamingUrl,
-                            // "type": widget.data.type
-                          });
-                        },
-                        style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.r),
-                            )),
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.white)),
-                        child: Text(
-                          "View",
-                          style: TextStyle(
-                              color: Helper.baseBlack,
-                              fontSize: 14.sp,
-                              letterSpacing: 0.2,
-                              fontWeight: FontWeight.w600),
-                        ))
-                  ],
-                )),
-          ),
-        ),
-      ]),
+              Positioned(
+                top: 16,
+                right: 16,
+                child: BlurryContainer(
+                    blur: 3,
+                    padding:
+                        EdgeInsets.symmetric(vertical: 6.h, horizontal: 8.w),
+                    borderRadius: BorderRadius.circular(30.r),
+                    color: Colors.white.withOpacity(0.1),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.circle,
+                          size: 8,
+                          color: isOnline
+                              ? Helper.successColor
+                              : Helper.errorColor,
+                        ),
+                        // SvgPicture.asset(
+                        //   'assets/images/updated.svg',
+                        //   height: 10.h,
+                        //   width: 9.w,
+                        //   color: Colors.white,
+                        // ),
+                        SizedBox(width: 4.w),
+                        Text(isOnline ? "Online" : "Offline",
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: isOnline
+                                    ? Helper.successColor
+                                    : Helper.errorColor,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 12.sp)),
+                      ],
+                    )),
+              ),
+              Positioned.fill(
+                // bottom: 20,
+                // left: 20,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                      height: 88.h,
+                      width: double.infinity,
+                      margin: EdgeInsets.zero,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 20.w, vertical: 20.h),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.r),
+                          color: Color.fromRGBO(246, 246, 246, 1)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.5.w,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  // width: MediaQuery.of(context).size.width * 0.5,
+                                  child: Text(
+                                    widget.data.name!,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: true,
+                                    style: TextStyle(
+                                      letterSpacing: -0.3,
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w500,
+                                      overflow: TextOverflow.ellipsis,
+                                      color: Helper.baseBlack,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  "Installed · " +
+                                      showDate(widget.data.installationDate,
+                                          'dd MMM yyyy'),
+                                  style: TextStyle(
+                                    letterSpacing: -0.3,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: Helper.baseBlack.withOpacity(0.5),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          // TextButton(
+                          //     onPressed: () {
+                          //       context.push('/fullViewCCTV', extra: {
+                          //         "projectId": widget.data.project,
+                          //         "name": widget.data.name,
+                          //         "streamingUrl": widget.data.streamingUrl,
+                          //         // "type": widget.data.type
+                          //       });
+                          //     },
+                          //     style: ButtonStyle(
+                          //         shape: MaterialStateProperty.all(
+                          //             RoundedRectangleBorder(
+                          //           borderRadius: BorderRadius.circular(8.r),
+                          //         )),
+                          //         backgroundColor:
+                          //             MaterialStateProperty.all(Colors.white)),
+                          //     child: Text(
+                          //       "View",
+                          //       style: TextStyle(
+                          //           color: Helper.baseBlack,
+                          //           fontSize: 14.sp,
+                          //           letterSpacing: 0.2,
+                          //           fontWeight: FontWeight.w600),
+                          //     ))
+                        ],
+                      )),
+                ),
+              ),
+            ]),
+      ),
     );
   }
 }

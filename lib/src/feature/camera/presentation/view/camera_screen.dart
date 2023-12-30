@@ -102,16 +102,15 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
         ),
         body: SafeArea(
           top: true,
-          child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: RefreshIndicator(
-              color: Helper.primary,
-              onRefresh: () async {
-                HapticFeedback.mediumImpact();
-                return await ref
-                    .refresh(cameraControllerProvider.notifier)
-                    .getCameras(widget.projectId);
-              },
+          child: RefreshIndicator(
+            color: Helper.primary,
+            onRefresh: () async {
+              HapticFeedback.mediumImpact();
+              return await ref
+                  .refresh(cameraControllerProvider.notifier)
+                  .getCameras(widget.projectId);
+            },
+            child: SingleChildScrollView(
               child: Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
