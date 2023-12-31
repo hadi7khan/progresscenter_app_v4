@@ -4,9 +4,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/notifications/data/models/notifications_model.dart'
+    as model;
 
 class NotificationWidget extends StatefulWidget {
-  const NotificationWidget({super.key});
+  final model.Notification? notificationsData;
+  const NotificationWidget({super.key, this.notificationsData});
 
   @override
   State<NotificationWidget> createState() => _NotificationWidgetState();
@@ -23,10 +26,12 @@ class _NotificationWidgetState extends State<NotificationWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AvatarWidget(
-                dpUrl:
-                    "https://www.kasandbox.org/programming-images/avatars/spunky-sam.png",
-                name: "hadi",
-                backgroundColor: "",
+                dpUrl: widget.notificationsData!.createdBy!.dp != null
+                    ? widget.notificationsData!.createdBy!.dpUrl!
+                    : "",
+                name: widget.notificationsData!.createdBy!.name!,
+                backgroundColor:
+                    widget.notificationsData!.createdBy!.preset!.color!,
                 size: 32,
               ),
               SizedBox(
@@ -35,7 +40,7 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Yafer Nazir",
+                      widget.notificationsData!.message!,
                       style: TextStyle(
                           letterSpacing: -0.3,
                           color: Helper.textColor700,
