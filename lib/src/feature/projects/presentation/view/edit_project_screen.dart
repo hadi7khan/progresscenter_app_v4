@@ -11,6 +11,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
+import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_by_id_model.dart'
     as model;
@@ -214,9 +215,11 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                         "name": _controller.text,
                         "location": {"name": _locationController.text}
                       };
-                      Service()
-                          .editProject(widget.data.id, data)
-                          .then((value) {});
+                      Service().editProject(widget.data.id, data).then((value) {
+                        context.pop();
+                        Utils.toastSuccessMessage(
+                            "Your project details have been saved");
+                      });
                     },
                     child: Text(
                       "Save",

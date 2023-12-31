@@ -97,11 +97,11 @@ class Service {
   // method to edit details for a specific project
   Future editProject(projectId, data) async {
     var postData = json.encode(data);
-    print("post data" + data.toString());
+    print("put data" + data.toString());
     try {
       final client = http.Client();
       final response =
-          await client.post(Uri.parse(Endpoints.projectByIdUrl(projectId)),
+          await client.put(Uri.parse(Endpoints.projectByIdUrl(projectId)),
               headers: {
                 "content-type": "application/json",
                 "Authorization": "Bearer " + _prefsLocator.getUserToken(),
