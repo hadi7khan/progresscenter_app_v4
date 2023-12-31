@@ -114,6 +114,7 @@ class _FullViewSitegalleryScreenState
                 ? InteractiveViewer(
                     maxScale: 10,
                     child: Image.network(
+                      gaplessPlayback: true,
                       widget.url,
                       fit: BoxFit.fill,
                       errorBuilder: (BuildContext context, Object exception,
@@ -195,7 +196,8 @@ class _FullViewSitegalleryScreenState
         child: Wrap(
           children: [
             Container(
-              padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 28.h, bottom: 20.h),
+              padding: EdgeInsets.only(
+                  left: 20.w, right: 20.w, top: 28.h, bottom: 20.h),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(16.r),
@@ -254,8 +256,8 @@ class _FullViewSitegalleryScreenState
                         title: "Created At: ",
                         formField: Text(
                           // "",
-                          showDate(
-                                  widget.createdAt.toIso8601String(), 'dd MMM yyyy'),
+                          showDate(widget.createdAt.toIso8601String(),
+                              'dd MMM yyyy'),
                           style: TextStyle(
                               letterSpacing: -0.3,
                               color: Helper.textColor900,
@@ -263,7 +265,7 @@ class _FullViewSitegalleryScreenState
                               fontWeight: FontWeight.w600),
                         ),
                       ),
-                       SizedBox(height: 16.h),
+                      SizedBox(height: 16.h),
                       CustomInputWidget(
                         title: "Uploaded by: ",
                         formField: Text(
@@ -331,14 +333,15 @@ class _FullViewSitegalleryScreenState
       ),
     );
   }
-  showDate(date, dateFormat) {
-  // Parse the installationDate string into a DateTime object
-  DateTime parsedDate = DateTime.parse(date);
 
-  // Format the DateTime object into the desired format
-  String formattedDate = DateFormat(dateFormat).format(parsedDate);
-  return formattedDate;
-}
+  showDate(date, dateFormat) {
+    // Parse the installationDate string into a DateTime object
+    DateTime parsedDate = DateTime.parse(date);
+
+    // Format the DateTime object into the desired format
+    String formattedDate = DateFormat(dateFormat).format(parsedDate);
+    return formattedDate;
+  }
 
   _showDeleteBottomSheet(context, projectId, imageId) {
     // todo : showDialog for ios

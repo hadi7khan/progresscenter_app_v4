@@ -58,6 +58,7 @@ class _AvatarWidgetState extends State<AvatarWidget> {
                 width: widget.size,
                 height: widget.size,
                 widget.dpUrl,
+                gaplessPlayback: true,
                 fit: BoxFit.fill,
                 errorBuilder: (BuildContext context, Object exception,
                     StackTrace? stackTrace) {

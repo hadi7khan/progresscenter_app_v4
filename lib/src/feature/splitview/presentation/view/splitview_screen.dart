@@ -250,6 +250,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                   selectedSplitViewData1 == null
                                       ? data1.images![0].urlPreview!
                                       : selectedSplitViewData1.urlPreview!,
+                                  gaplessPlayback: true,
                                   width: double.infinity,
                                   // height: 210.h,
                                   fit: BoxFit.fill,
@@ -283,6 +284,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                   selectedSplitViewData2 == null
                                       ? data2.images![0].urlPreview!
                                       : selectedSplitViewData2.urlPreview!,
+                                  gaplessPlayback: true,
                                   width: double.infinity,
                                   // height: 210.h,
                                   fit: BoxFit.fill,
@@ -616,6 +618,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                       borderRadius: BorderRadius.circular(4.r),
                                       child: Image.network(
                                         data.images![index].urlThumb!,
+                                        gaplessPlayback: true,
                                         width: 44.w,
                                         height: 44.h,
                                         fit: BoxFit.fill,
@@ -764,6 +767,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                       borderRadius: BorderRadius.circular(4.r),
                                       child: Image.network(
                                         data.images![index].urlThumb!,
+                                        gaplessPlayback: true,
                                         width: 44.w,
                                         height: 44.h,
                                         fit: BoxFit.fill,

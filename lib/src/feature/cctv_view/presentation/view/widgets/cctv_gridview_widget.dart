@@ -45,6 +45,7 @@ class _CctvGridViewWidgetState extends State<CctvGridViewWidget> {
                       child: Image.network(
                         widget.data.latestImage.url!,
                         fit: BoxFit.fill,
+                        gaplessPlayback: true,
                         errorBuilder: (BuildContext context, Object exception,
                             StackTrace? stackTrace) {
                           return ClipRRect(

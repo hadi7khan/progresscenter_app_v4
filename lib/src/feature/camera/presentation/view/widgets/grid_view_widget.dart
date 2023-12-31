@@ -45,6 +45,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
                         aspectRatio: 3 / 2,
                         child: Image.network(
                           widget.data.latestImage!.urlThumb,
+                          gaplessPlayback: true,
                           // height: 284.h,
                           fit: BoxFit.fill,
                           errorBuilder: (BuildContext context, Object exception,

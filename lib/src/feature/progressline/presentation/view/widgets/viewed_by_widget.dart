@@ -291,6 +291,7 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                                                 height: 32.h,
                                                 user.dpUrl!,
                                                 fit: BoxFit.cover,
+                                                gaplessPlayback: true,
                                                 errorBuilder: (BuildContext
                                                         context,
                                                     Object exception,

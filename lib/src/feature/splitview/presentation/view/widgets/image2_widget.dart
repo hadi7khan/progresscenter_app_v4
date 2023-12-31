@@ -28,8 +28,8 @@ class _Images2WidgetState extends State<Images2Widget> {
   int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      children:[ Container(
+    return Wrap(children: [
+      Container(
         padding:
             EdgeInsets.only(top: 28.h, left: 20.w, right: 20.w, bottom: 28.h),
         decoration: BoxDecoration(
@@ -50,7 +50,7 @@ class _Images2WidgetState extends State<Images2Widget> {
                 Text(
                   'Select Image 1',
                   style: TextStyle(
-                    letterSpacing: -0.3,
+                      letterSpacing: -0.3,
                       color: Helper.baseBlack,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500),
@@ -90,7 +90,7 @@ class _Images2WidgetState extends State<Images2Widget> {
                           id: widget.data.images![index].id,
                           urlPreview: widget.data.images![index].urlPreview,
                         );
-    
+
                         widget.ref
                             .read(splitView2DataProvider.notifier)
                             .setImageData(imageData);
@@ -98,8 +98,8 @@ class _Images2WidgetState extends State<Images2Widget> {
                         context.pop();
                       },
                       child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 4.w, vertical: 2.h),
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
@@ -114,12 +114,14 @@ class _Images2WidgetState extends State<Images2Widget> {
                                           width: 2.w,
                                         )
                                       : Border.all(
-                                          width: 2.w, color: Colors.transparent),
+                                          width: 2.w,
+                                          color: Colors.transparent),
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(4.r),
                                   child: Image.network(
                                     widget.data.images![index].urlThumb!,
+                                    gaplessPlayback: true,
                                     width: 44.w,
                                     height: 44.h,
                                     fit: BoxFit.fill,
@@ -127,7 +129,8 @@ class _Images2WidgetState extends State<Images2Widget> {
                                         Object exception,
                                         StackTrace? stackTrace) {
                                       return ClipRRect(
-                                        borderRadius: BorderRadius.circular(4.r),
+                                        borderRadius:
+                                            BorderRadius.circular(4.r),
                                         child: Image.asset(
                                           'assets/images/error_image.jpeg',
                                           width: 44.w,
@@ -145,7 +148,7 @@ class _Images2WidgetState extends State<Images2Widget> {
                               Text(
                                 formattedTime,
                                 style: TextStyle(
-                    letterSpacing: -0.3,
+                                    letterSpacing: -0.3,
                                     color: Helper.textColor700,
                                     fontSize: 8.sp,
                                     fontWeight: FontWeight.w500),
@@ -158,7 +161,6 @@ class _Images2WidgetState extends State<Images2Widget> {
           ],
         ),
       ),
-      ]
-    );
+    ]);
   }
 }

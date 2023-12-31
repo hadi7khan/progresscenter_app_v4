@@ -172,6 +172,7 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
                                                       data[index]
                                                           .coverImageUrl!,
                                                       fit: BoxFit.fill,
+                                                      gaplessPlayback: true,
                                                       errorBuilder:
                                                           (BuildContext context,
                                                               Object exception,

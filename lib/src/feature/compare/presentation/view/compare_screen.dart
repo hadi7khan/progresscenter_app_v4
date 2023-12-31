@@ -156,6 +156,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                                     selectedCompareData1 == null
                                         ? cameraData1.images![0].urlPreview!
                                         : selectedCompareData1.urlPreview!,
+                                    gaplessPlayback: true,
                                     width: double.infinity,
                                     fit: BoxFit.fill,
                                     loadingBuilder:
@@ -302,6 +303,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                                                 child: Image.network(
                                                   cameraData1
                                                       .images![index].urlThumb!,
+                                                  gaplessPlayback: true,
                                                   width: 44.w,
                                                   height: 44.h,
                                                   fit: BoxFit.fill,
@@ -392,6 +394,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                                     selectedCompareData2 == null
                                         ? cameraData2.images![0].urlPreview!
                                         : selectedCompareData2.urlPreview!,
+                                    gaplessPlayback: true,
                                     width: double.infinity,
                                     // height: 210.h,
                                     fit: BoxFit.fill,
@@ -539,6 +542,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                                                 child: Image.network(
                                                   cameraData2
                                                       .images![index].urlThumb!,
+                                                  gaplessPlayback: true,
                                                   width: 44.w,
                                                   height: 44.h,
                                                   fit: BoxFit.fill,

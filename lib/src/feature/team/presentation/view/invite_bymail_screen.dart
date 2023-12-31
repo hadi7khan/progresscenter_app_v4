@@ -72,6 +72,7 @@ class _InviteByMailScreenState extends BaseConsumerState<InviteByMailScreen> {
                     aspectRatio: 16 / 9,
                     child: Image.network(
                       project.coverImageUrl!,
+                      gaplessPlayback: true,
                       fit: BoxFit.fill,
                       errorBuilder: (BuildContext context, Object exception,
                           StackTrace? stackTrace) {
@@ -97,7 +98,7 @@ class _InviteByMailScreenState extends BaseConsumerState<InviteByMailScreen> {
           title: Text(
             project.name,
             style: TextStyle(
-                    letterSpacing: -0.3,
+                letterSpacing: -0.3,
                 color: Helper.baseBlack,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500),
@@ -105,7 +106,7 @@ class _InviteByMailScreenState extends BaseConsumerState<InviteByMailScreen> {
           subtitle: Text(
             project.location.name,
             style: TextStyle(
-                    letterSpacing: -0.3,
+                letterSpacing: -0.3,
                 color: Helper.baseBlack.withOpacity(0.5),
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w400),
@@ -185,7 +186,7 @@ class _InviteByMailScreenState extends BaseConsumerState<InviteByMailScreen> {
             title: Text(
               "Invite by email",
               style: TextStyle(
-                    letterSpacing: -0.3,
+                  letterSpacing: -0.3,
                   color: Helper.baseBlack,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w500),
@@ -234,7 +235,7 @@ class _InviteByMailScreenState extends BaseConsumerState<InviteByMailScreen> {
                             },
                             textInputAction: TextInputAction.next,
                             style: TextStyle(
-                    letterSpacing: -0.3,
+                              letterSpacing: -0.3,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w400,
                             ),
@@ -247,7 +248,7 @@ class _InviteByMailScreenState extends BaseConsumerState<InviteByMailScreen> {
                                   vertical: 10.h, horizontal: 14.w),
                               hintText: "Enter email",
                               hintStyle: TextStyle(
-                    letterSpacing: -0.3,
+                                letterSpacing: -0.3,
                                 color: Helper.textColor500,
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w400,
@@ -285,7 +286,7 @@ class _InviteByMailScreenState extends BaseConsumerState<InviteByMailScreen> {
                               // labelText: 'Training',
                               hintText: "Select roles",
                               hintStyle: TextStyle(
-                    letterSpacing: -0.3,
+                                letterSpacing: -0.3,
                                 color: Helper.textColor500,
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w400,
@@ -337,7 +338,7 @@ class _InviteByMailScreenState extends BaseConsumerState<InviteByMailScreen> {
                                 child: Text(
                                   e,
                                   style: const TextStyle(
-                    letterSpacing: -0.3,color: Colors.black),
+                                      letterSpacing: -0.3, color: Colors.black),
                                 ),
                                 onTap: () {},
                               );
@@ -363,7 +364,7 @@ class _InviteByMailScreenState extends BaseConsumerState<InviteByMailScreen> {
                                     vertical: 10.h, horizontal: 14.w),
                                 hintText: "Search or add here",
                                 hintStyle: TextStyle(
-                    letterSpacing: -0.3,
+                                  letterSpacing: -0.3,
                                   color: Helper.textColor500,
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w400,
@@ -405,7 +406,7 @@ class _InviteByMailScreenState extends BaseConsumerState<InviteByMailScreen> {
                                   title: Text(
                                     team.toString(),
                                     style: TextStyle(
-                    letterSpacing: -0.3,
+                                        letterSpacing: -0.3,
                                         color: Helper.textColor700,
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w600),
@@ -431,7 +432,7 @@ class _InviteByMailScreenState extends BaseConsumerState<InviteByMailScreen> {
                             return Chip(
                               label: Text(suggestion),
                               labelStyle: TextStyle(
-                    letterSpacing: -0.3,
+                                  letterSpacing: -0.3,
                                   color: Helper.textColor500,
                                   fontSize: 12.sp,
                                   fontWeight: FontWeight.w500),
@@ -455,7 +456,7 @@ class _InviteByMailScreenState extends BaseConsumerState<InviteByMailScreen> {
                         Text(
                           "Projects",
                           style: TextStyle(
-                    letterSpacing: -0.3,
+                              letterSpacing: -0.3,
                               color: Helper.textColor700,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w700),
@@ -471,7 +472,7 @@ class _InviteByMailScreenState extends BaseConsumerState<InviteByMailScreen> {
                   error: (err, _) {
                     return const Text("Failed to load Projects",
                         style: TextStyle(
-                    letterSpacing: -0.3,color: Helper.errorColor));
+                            letterSpacing: -0.3, color: Helper.errorColor));
                   },
                   loading: () => LoadingInviteMail(),
                 )),

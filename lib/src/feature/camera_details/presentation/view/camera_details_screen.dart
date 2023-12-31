@@ -14,8 +14,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:photo_view/photo_view.dart';
-import 'package:photo_view/photo_view_gallery.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_app_bar.dart';
@@ -29,6 +27,7 @@ import 'package:progresscenter_app_v4/src/feature/camera_details/data/model/imag
     as model;
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/camera_by_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/images_by_cam_id_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/images_controller_watcher.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/newprovider.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/selected_imagedata_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/landscape_camera_details_screen.dart';
@@ -165,7 +164,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
   void dispose() {
     controller!.dispose();
     animationController!.dispose();
-    ref.invalidate(imagesByCameraIdModelProvider);
+    ref.invalidate(imagesByCameraIdInterProvider);
     super.dispose();
   }
 
@@ -177,10 +176,14 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
         cameraByIdControllerProvider.select((value) => value.cameraById));
     final imagesByCameraIdData = ref.watch(
         imagesByCamIdControllerProvider.select((value) => value.imagesByCamId));
-    final selectedImageData = ref.watch(selectedImageDataProvider);
+    // final selectedImageData = ref.watch(selectedImageDataProvider);
     // final imagesByCameraIdModel = ref.watch(imagesByCameraIdModelProvider);
-    final imagesByCameraIdModel = ref.watch(imagesByCameraIdModelProvider);
-    log("new------------------" + imagesByCameraIdModel.toString());
+    // final imagesByCameraIdModel = ref.watch(imagesByCameraIdModelProvider);
+    // log("new------------------" + imagesByCameraIdModel.toString());
+    final imagesByCameraIdInter = ref.watch(imagesByCameraIdInterProvider);
+    log("new imagesByCameraIdinter" + imagesByCameraIdInter.toString());
+    final currentImage = ref.watch(currentImageProvider);
+    log("new current image" + currentImage.toString());
 
     return RefreshIndicator(
       color: Helper.primary,
@@ -324,7 +327,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
             child: Container(
               // padding: EdgeInsets.only(bottom: kBottomNavigationBarHeight),
               child: Consumer(builder: (context, ref, child) {
-                print("state printed" + selectedImageData.toString());
+                // print("state printed" + selectedImageData.toString());
                 return imagesByCameraIdData.when(
                     data: (imagesData) {
                       if (imagesData.images!.isEmpty) {
@@ -367,7 +370,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                         kBottomNavigationBarHeight +
                                         184.h),
                                 child: Image.network(
-                                  imagesByCameraIdModel.currentImage!.urlThumb!,
+                                  currentImage!.urlThumb!,
+                                  gaplessPlayback: true,
 
                                   width: double.infinity,
                                   // scale: 20,
@@ -400,115 +404,65 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                               ),
                               BlurryContainer(
                                 blur: 30,
+
                                 padding: EdgeInsets.zero,
                                 borderRadius: BorderRadius.zero,
                                 // filter: ImageFilter.blur(sigmaX: 105, sigmaY: 105),
                                 // blendMode: BlendMode.clear,
-                                child: SizedBox(
-                                  height: MediaQuery.of(context).size.height -
-                                      (Scaffold.of(context)
-                                              .appBarMaxHeight!
-                                              .toDouble() +
-                                          kBottomNavigationBarHeight +
-                                          184.h),
-                                  child: BlurryContainer(
-                                    blur: 30,
-                                    child: PinchZoom(
-                                      maxScale: 10,
-                                      child: PhotoViewGallery.builder(
-                                        itemCount: imagesByCameraIdModel
-                                            .images!.length,
-                                        builder: (context, index) {
-                                          return PhotoViewGalleryPageOptions(
-                                            basePosition: Alignment.center,
-                                            imageProvider: Image.network(
-                                              imagesByCameraIdModel
-                                                  .currentImage!.urlPreview!,
-
-                                              // selectedImageData == null
-                                              //     ? imagesData
-                                              //         .images![itemIndex]
-                                              //         .urlPreview!
-                                              //     : selectedImageData
-                                              //         .urlPreview!,
-                                              // width: double.infinity,
-                                              scale: 1,
-                                              // height: 210.h,
-                                              // fit: BoxFit.fitHeight,
-                                              loadingBuilder: (context, child,
-                                                  loadingProgress) {
-                                                if (loadingProgress == null)
-                                                  return child;
-
-                                                return Center(
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    color: Helper.primary,
-                                                    value: (loadingProgress !=
-                                                            null)
-                                                        ? (loadingProgress
-                                                                .cumulativeBytesLoaded /
-                                                            loadingProgress
-                                                                .expectedTotalBytes!)
-                                                        : 0,
-                                                  ),
-                                                );
-                                              },
-                                              errorBuilder:
-                                                  (BuildContext context,
-                                                      Object exception,
-                                                      StackTrace? stackTrace) {
-                                                return ClipRRect(
-                                                  child: Image.asset(
-                                                    'assets/images/error_image.jpeg',
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                );
-                                              },
-                                            ).image,
-                                            minScale: PhotoViewComputedScale
-                                                    .contained *
-                                                1,
-                                            maxScale: PhotoViewComputedScale
-                                                    .contained *
-                                                4,
-                                            // onTapDown: (context, details, controllerValue) {
-                                            //   // Set parent state and execute whatever the parent needs to do
-                                            //   onTap != null ? onTap!() : null;
-                                            // },
-                                          );
-                                        },
+                                child: CarouselSlider.builder(
+                                    carouselController: carouselController,
+                                    itemCount: imagesByCameraIdInter
+                                        .images!.length,
+                                    options: CarouselOptions(
+                                        height:
+                                            MediaQuery.of(context).size.height -
+                                                (Scaffold.of(context)
+                                                        .appBarMaxHeight!
+                                                        .toDouble() +
+                                                    kBottomNavigationBarHeight +
+                                                    184.h),
+                                        viewportFraction: 1,
+                                        // aspectRatio: 1 / 1,
+                                        initialPage: 0,
+                                        autoPlay: false,
+                                        enlargeCenterPage: true,
+                                        reverse: true,
+                                        enableInfiniteScroll: false,
+                                        autoPlayCurve: Curves.fastOutSlowIn,
                                         scrollDirection: Axis.horizontal,
-                                        // pageController: controller,
-                                        onPageChanged: (index) {
+                                        onPageChanged: (index, reason) {
                                           setState(() {
-                                            final currentImage = model.Image(
-                                              id: imagesByCameraIdModel
+                                            final image = model.Image(
+                                              id: imagesByCameraIdInter
                                                   .images![index].id,
-                                              name: imagesByCameraIdModel
+                                              name: imagesByCameraIdInter
                                                   .images![index].name,
-                                              datetime: imagesByCameraIdModel
+                                              datetime: imagesByCameraIdInter
                                                   .images![index].datetime,
-                                              urlPreview: imagesByCameraIdModel
+                                              urlPreview: imagesByCameraIdInter
                                                   .images![index].urlPreview,
-                                              urlThumb: imagesByCameraIdModel
+                                              urlThumb: imagesByCameraIdInter
                                                   .images![index]
                                                   .urlThumb, // You can copy the URL from the first image
                                             );
                                             ref
-                                                    .read(
-                                                        imagesByCameraIdModelProvider
-                                                            .notifier)
-                                                    .state =
-                                                model.ImagesByCameraIdModel(
-                                              startDate: imagesByCameraIdModel
-                                                  .startDate,
-                                              endDate:
-                                                  imagesByCameraIdModel.endDate,
-                                              images:
-                                                  imagesByCameraIdModel.images,
-                                              currentImage: currentImage,
-                                            );
+                                                .read(currentImageProvider
+                                                    .notifier)
+                                                .setCurrentImage(image);
+                                            // ref
+                                            //         .read(
+                                            //             imagesByCameraIdModelProvider
+                                            //                 .notifier)
+                                            //         .state =
+                                            //     model.ImagesByCameraIdModel(
+                                            //   startDate: imagesByCameraIdModel
+                                            //       .startDate,
+                                            //   endDate:
+                                            //       imagesByCameraIdModel.endDate,
+                                            //   images:
+                                            //       imagesByCameraIdModel.images,
+                                            //   currentImage: currentImage,
+                                            // );
                                             // ref
                                             //     .read(imagesByCameraIdModelProvider
                                             //         .notifier)
@@ -524,165 +478,89 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                             //       .images![index].urlPreview,
                                             // );
                                           });
-                                        },
-                                        scrollPhysics:
-                                            const BouncingScrollPhysics(),
-                                        backgroundDecoration: BoxDecoration(
-                                          color: Theme.of(context).canvasColor,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                // CarouselSlider.builder(
-                                //     carouselController: carouselController,
-                                //     itemCount: imagesByCameraIdModel
-                                //         .images!.length,
-                                //     disableGesture: true,
-                                //     options: CarouselOptions(
-                                //         height:
-                                //             MediaQuery.of(context).size.height -
-                                //                 (Scaffold.of(context)
-                                //                         .appBarMaxHeight!
-                                //                         .toDouble() +
-                                //                     kBottomNavigationBarHeight +
-                                //                     184.h),
-                                //         viewportFraction: 1,
-                                //         // aspectRatio: 1 / 1,
-                                //         initialPage: 0,
-                                //         autoPlay: false,
-                                //         enlargeCenterPage: true,
-                                //         reverse: true,
-                                //         enableInfiniteScroll: false,
-                                //         autoPlayCurve: Curves.fastOutSlowIn,
-                                //         scrollDirection: Axis.horizontal,
-                                //         onPageChanged: (index, reason) {
-                                //           setState(() {
-                                //             final currentImage = model.Image(
-                                //               id: imagesByCameraIdModel
-                                //                   .images![index].id,
-                                //               name: imagesByCameraIdModel
-                                //                   .images![index].name,
-                                //               datetime: imagesByCameraIdModel
-                                //                   .images![index].datetime,
-                                //               urlPreview: imagesByCameraIdModel
-                                //                   .images![index].urlPreview,
-                                //               urlThumb: imagesByCameraIdModel
-                                //                   .images![index]
-                                //                   .urlThumb, // You can copy the URL from the first image
-                                //             );
-                                //             ref
-                                //                     .read(
-                                //                         imagesByCameraIdModelProvider
-                                //                             .notifier)
-                                //                     .state =
-                                //                 model.ImagesByCameraIdModel(
-                                //               startDate: imagesByCameraIdModel
-                                //                   .startDate,
-                                //               endDate:
-                                //                   imagesByCameraIdModel.endDate,
-                                //               images:
-                                //                   imagesByCameraIdModel.images,
-                                //               currentImage: currentImage,
-                                //             );
-                                //             // ref
-                                //             //     .read(imagesByCameraIdModelProvider
-                                //             //         .notifier)
-                                //             //     .state = model.ImagesByCameraIdModel(
-                                //             //   startDate: imagesByCameraIdModel
-                                //             //       .startDate,
-                                //             //   datetime: imagesByCameraIdModel.currentImage,
-                                //             //   imageId: imagesByCameraIdModel
-                                //             //       .images![index].imageId,
-                                //             //   urlThumb: imagesByCameraIdModel
-                                //             //       .images![index].urlThumb,
-                                //             //   urlPreview: imagesByCameraIdModel
-                                //             //       .images![index].urlPreview,
-                                //             // );
-                                //           });
-                                //         }),
-                                //     itemBuilder: (BuildContext context,
-                                //         int itemIndex, int pageViewIndex) {
-                                //       // imageData = ImageData(
-                                //       //   name: imagesData.images![itemIndex].name,
-                                //       //   dateTime: imagesData
-                                //       //       .images![itemIndex].datetime,
-                                //       //   camera:
-                                //       //       imagesData.images![itemIndex].camera,
-                                //       //   id: imagesData.images![itemIndex].id,
-                                //       //   urlPreview: imagesData
-                                //       //       .images![itemIndex].urlPreview,
-                                //       // );
-                                //       return Container(
-                                //         // height:
-                                //         //     MediaQuery.of(context).size.height -
-                                //         //         (Scaffold.of(context)
-                                //         //                 .appBarMaxHeight!
-                                //         //                 .toDouble() +
-                                //         //             kBottomNavigationBarHeight +
-                                //         //             184.h),
-                                //         // color: Helper.textColor300,
-                                //         // height: MediaQuery.of(context).size.height -
-                                //         //     (Scaffold.of(context)
-                                //         //             .appBarMaxHeight!
-                                //         //             .toDouble() +
-                                //         //         btmNavigationBarHeight +
-                                //         //         147.h),
-                                //         child: PinchZoom(
-                                //           // transformationController:
-                                //           //     viewTransformationController,
-                                //           // panEnabled: false,
-                                //           // boundaryMargin: EdgeInsets.zero,
-                                //           // minScale: 0.5,
-                                //           //  alignment: Alignment.center,
-                                //           // constrained: false,
-                                //           maxScale: 10,
-                                //           child: Image.network(
-                                //             imagesByCameraIdModel
-                                //                 .currentImage!.urlPreview!,
-                                //             // selectedImageData == null
-                                //             //     ? imagesData
-                                //             //         .images![itemIndex]
-                                //             //         .urlPreview!
-                                //             //     : selectedImageData
-                                //             //         .urlPreview!,
-                                //             width: double.infinity,
-                                //             scale: 1,
-                                //             // height: 210.h,
-                                //             // fit: BoxFit.fitHeight,
-                                //             loadingBuilder: (context, child,
-                                //                 loadingProgress) {
-                                //               if (loadingProgress == null)
-                                //                 return child;
+                                        }),
+                                    itemBuilder: (BuildContext context,
+                                        int itemIndex, int pageViewIndex) {
+                                      // imageData = ImageData(
+                                      //   name: imagesData.images![itemIndex].name,
+                                      //   dateTime: imagesData
+                                      //       .images![itemIndex].datetime,
+                                      //   camera:
+                                      //       imagesData.images![itemIndex].camera,
+                                      //   id: imagesData.images![itemIndex].id,
+                                      //   urlPreview: imagesData
+                                      //       .images![itemIndex].urlPreview,
+                                      // );
+                                      return Container(
+                                        // height:
+                                        //     MediaQuery.of(context).size.height -
+                                        //         (Scaffold.of(context)
+                                        //                 .appBarMaxHeight!
+                                        //                 .toDouble() +
+                                        //             kBottomNavigationBarHeight +
+                                        //             184.h),
+                                        // color: Helper.textColor300,
+                                        // height: MediaQuery.of(context).size.height -
+                                        //     (Scaffold.of(context)
+                                        //             .appBarMaxHeight!
+                                        //             .toDouble() +
+                                        //         btmNavigationBarHeight +
+                                        //         147.h),
+                                        child: PinchZoom(
+                                          // transformationController:
+                                          //     viewTransformationController,
+                                          // panEnabled: false,
+                                          // boundaryMargin: EdgeInsets.zero,
+                                          // minScale: 0.5,
+                                          //  alignment: Alignment.center,
+                                          // constrained: false,
+                                          maxScale: 10,
+                                          child: Image.network(
+                                            currentImage.urlPreview!,
+                                            // selectedImageData == null
+                                            //     ? imagesData
+                                            //         .images![itemIndex]
+                                            //         .urlPreview!
+                                            //     : selectedImageData
+                                            //         .urlPreview!,
+                                            width: double.infinity,
+                                            gaplessPlayback: true,
+                                            scale: 1,
+                                            // height: 210.h,
+                                            // fit: BoxFit.fitHeight,
+                                            loadingBuilder: (context, child,
+                                                loadingProgress) {
+                                              if (loadingProgress == null)
+                                                return child;
 
-                                //               return Center(
-                                //                 child:
-                                //                     CircularProgressIndicator(
-                                //                   color: Helper.primary,
-                                //                   value: (loadingProgress !=
-                                //                           null)
-                                //                       ? (loadingProgress
-                                //                               .cumulativeBytesLoaded /
-                                //                           loadingProgress
-                                //                               .expectedTotalBytes!)
-                                //                       : 0,
-                                //                 ),
-                                //               );
-                                //             },
-                                //             errorBuilder: (BuildContext context,
-                                //                 Object exception,
-                                //                 StackTrace? stackTrace) {
-                                //               return ClipRRect(
-                                //                 child: Image.asset(
-                                //                   'assets/images/error_image.jpeg',
-                                //                   fit: BoxFit.cover,
-                                //                 ),
-                                //               );
-                                //             },
-                                //           ),
-                                //         ),
-                                //       );
-                                //     }),
+                                              return Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: Helper.primary,
+                                                  value: (loadingProgress !=
+                                                          null)
+                                                      ? (loadingProgress
+                                                              .cumulativeBytesLoaded /
+                                                          loadingProgress
+                                                              .expectedTotalBytes!)
+                                                      : 0,
+                                                ),
+                                              );
+                                            },
+                                            errorBuilder: (BuildContext context,
+                                                Object exception,
+                                                StackTrace? stackTrace) {
+                                              return ClipRRect(
+                                                child: Image.asset(
+                                                  'assets/images/error_image.jpeg',
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      );
+                                    }),
                               ),
                               Positioned(
                                 top: 16,
@@ -691,8 +569,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                   onTap: () async {
                                     await _showDateBottomSheet(
                                         context,
-                                        imagesByCameraIdModel.startDate!,
-                                        imagesByCameraIdModel.endDate!,
+                                        imagesByCameraIdInter.startDate!,
+                                        imagesByCameraIdInter.endDate!,
                                         _selectedDate,
                                         widget.cameraId,
                                         widget.projectId,
@@ -724,8 +602,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                           //         fontSize: 12.sp)),
                                           Text(
                                               parseEndDateTimeString(
-                                                  imagesByCameraIdModel
-                                                      .currentImage!.datetime!),
+                                                  currentImage.datetime!),
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w500,
@@ -796,7 +673,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                     );
                                   },
                                   itemCount:
-                                      imagesByCameraIdModel.images!.length,
+                                      imagesByCameraIdInter.images!.length,
                                   key: _listViewKey,
                                   shrinkWrap: true,
                                   physics: BouncingScrollPhysics(),
@@ -806,7 +683,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                     // _scrollDown();
 
                                     final reversedIndex =
-                                        imagesByCameraIdModel.images!.length -
+                                        imagesByCameraIdInter.images!.length -
                                             1 -
                                             index;
 
@@ -815,31 +692,34 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                         // setState(() {
                                         //   _selectedImageIndex = reversedIndex;
                                         // });
-                                        final currentImage = model.Image(
-                                          id: imagesByCameraIdModel
+                                        final image = model.Image(
+                                          id: imagesByCameraIdInter
                                               .images![reversedIndex].id,
-                                          name: imagesByCameraIdModel
+                                          name: imagesByCameraIdInter
                                               .images![reversedIndex].name,
-                                          datetime: imagesByCameraIdModel
+                                          datetime: imagesByCameraIdInter
                                               .images![reversedIndex].datetime,
-                                          urlPreview: imagesByCameraIdModel
+                                          urlPreview: imagesByCameraIdInter
                                               .images![reversedIndex]
                                               .urlPreview,
-                                          urlThumb: imagesByCameraIdModel
+                                          urlThumb: imagesByCameraIdInter
                                               .images![reversedIndex]
                                               .urlThumb, // You can copy the URL from the first image
                                         );
                                         ref
-                                            .read(imagesByCameraIdModelProvider
-                                                .notifier)
-                                            .state = model.ImagesByCameraIdModel(
-                                          startDate:
-                                              imagesByCameraIdModel.startDate,
-                                          endDate:
-                                              imagesByCameraIdModel.endDate,
-                                          images: imagesByCameraIdModel.images,
-                                          currentImage: currentImage,
-                                        );
+                                            .read(currentImageProvider.notifier)
+                                            .setCurrentImage(image);
+                                        // ref
+                                        //     .read(imagesByCameraIdModelProvider
+                                        //         .notifier)
+                                        //     .state = model.ImagesByCameraIdModel(
+                                        //   startDate:
+                                        //       imagesByCameraIdModel.startDate,
+                                        //   endDate:
+                                        //       imagesByCameraIdModel.endDate,
+                                        //   images: imagesByCameraIdModel.images,
+                                        //   currentImage: currentImage,
+                                        // );
                                         // ref
                                         //       .read(
                                         //           currentImageProvider.notifier)
@@ -865,10 +745,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           6.r),
-                                                  border: imagesByCameraIdModel
-                                                              .currentImage!
-                                                              .id ==
-                                                          imagesData
+                                                  border: currentImage.id ==
+                                                          imagesByCameraIdInter
                                                               .images![
                                                                   reversedIndex]
                                                               .id!
@@ -886,9 +764,10 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                                       BorderRadius.circular(
                                                           4.r),
                                                   child: Image.network(
-                                                    imagesData
+                                                    imagesByCameraIdInter
                                                         .images![reversedIndex]
                                                         .urlThumb!,
+                                                    gaplessPlayback: true,
                                                     width: 44.w,
                                                     height: 44.h,
                                                     fit: BoxFit.fill,

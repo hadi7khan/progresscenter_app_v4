@@ -224,6 +224,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                             widget.progresslineData.url,
                             // height: 284.h,
                             fit: BoxFit.fill,
+                            gaplessPlayback: true,
                             errorBuilder: (BuildContext context,
                                 Object exception, StackTrace? stackTrace) {
                               return ClipRRect(
@@ -270,10 +271,11 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                     context: context,
                                     backgroundColor: Colors.transparent,
                                     builder: (context) => ViewedByWidget(
-                                        data: widget.progresslineData.viewedBy,
-                                        showText: "Viewed By",
-                                        projectId: "",
-                                        showExtra: false,
+                                          data:
+                                              widget.progresslineData.viewedBy,
+                                          showText: "Viewed By",
+                                          projectId: "",
+                                          showExtra: false,
                                         ));
                               },
                               child: Container(

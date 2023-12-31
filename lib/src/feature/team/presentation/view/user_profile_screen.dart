@@ -139,6 +139,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                     aspectRatio: 16 / 9,
                     child: Image.network(
                       project.coverImageUrl!,
+                      gaplessPlayback: true,
                       fit: BoxFit.fill,
                       errorBuilder: (BuildContext context, Object exception,
                           StackTrace? stackTrace) {
