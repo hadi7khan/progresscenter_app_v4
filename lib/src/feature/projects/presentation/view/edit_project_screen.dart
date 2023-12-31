@@ -208,12 +208,23 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                       fontWeight: FontWeight.w500),
                 ),
                 actions: [
-                  Text(
-                    "Save",
-                    style: TextStyle(
-                        color: Helper.primary,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16.sp),
+                  InkWell(
+                    onTap: () {
+                      Map<String, dynamic> data = {
+                        "name": _controller.text,
+                        "location": {"name": _locationController.text}
+                      };
+                      Service()
+                          .editProject(widget.data.id, data)
+                          .then((value) {});
+                    },
+                    child: Text(
+                      "Save",
+                      style: TextStyle(
+                          color: Helper.primary,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16.sp),
+                    ),
                   )
                 ],
               ),
