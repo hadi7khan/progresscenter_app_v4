@@ -21,7 +21,7 @@ class NotificationsDataSourceImpl implements NotificationsDataSource {
 
   @override
   Future notificationsList() async {
-    final response = await dioClient.get(Endpoints.livelapseListUrl());
+    final response = await dioClient.get(Endpoints.notificationsListUrl());
     if (response.statusCode == 200) {
       return response.data;
     } else {
