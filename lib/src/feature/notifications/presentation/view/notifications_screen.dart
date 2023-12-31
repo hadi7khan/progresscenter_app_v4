@@ -98,7 +98,9 @@ class _NotificationsScreenState extends BaseConsumerState<NotificationsScreen> {
                                 child: Wrap(
                                   children: [
                                     for (int i = 0; i < 3; i++)
-                                      NotificationWidget(),
+                                      NotificationWidget(
+                                          notificationsData:
+                                              data.notifications![index]),
                                   ],
                                 )),
                           ],
@@ -109,7 +111,7 @@ class _NotificationsScreenState extends BaseConsumerState<NotificationsScreen> {
                           height: 20.h,
                         );
                       },
-                      itemCount: 5)
+                      itemCount: data.notifications!.length)
                 ],
               ),
             );
