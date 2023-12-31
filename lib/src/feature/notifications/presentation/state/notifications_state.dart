@@ -9,6 +9,6 @@ class NotificationsState with _$NotificationsState {
   const factory NotificationsState(
       {@Default(false) bool isFetching,
       @Default(AsyncValue.loading())
-      AsyncValue<List<NotificationsModel>> notifications,
+      AsyncValue<NotificationsModel> notifications,
       String? errorMessage}) = _NotificationsState;
 }

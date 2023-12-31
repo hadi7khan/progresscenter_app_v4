@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$NotificationsState {
   bool get isFetching => throw _privateConstructorUsedError;
-  AsyncValue<List<NotificationsModel>> get notifications =>
+  AsyncValue<NotificationsModel> get notifications =>
       throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
 
@@ -34,7 +34,7 @@ abstract class $NotificationsStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool isFetching,
-      AsyncValue<List<NotificationsModel>> notifications,
+      AsyncValue<NotificationsModel> notifications,
       String? errorMessage});
 }
 
@@ -63,7 +63,7 @@ class _$NotificationsStateCopyWithImpl<$Res, $Val extends NotificationsState>
       notifications: null == notifications
           ? _value.notifications
           : notifications // ignore: cast_nullable_to_non_nullable
-              as AsyncValue<List<NotificationsModel>>,
+              as AsyncValue<NotificationsModel>,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -82,7 +82,7 @@ abstract class _$$_NotificationsStateCopyWith<$Res>
   @useResult
   $Res call(
       {bool isFetching,
-      AsyncValue<List<NotificationsModel>> notifications,
+      AsyncValue<NotificationsModel> notifications,
       String? errorMessage});
 }
 
@@ -109,7 +109,7 @@ class __$$_NotificationsStateCopyWithImpl<$Res>
       notifications: null == notifications
           ? _value.notifications
           : notifications // ignore: cast_nullable_to_non_nullable
-              as AsyncValue<List<NotificationsModel>>,
+              as AsyncValue<NotificationsModel>,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -131,7 +131,7 @@ class _$_NotificationsState implements _NotificationsState {
   final bool isFetching;
   @override
   @JsonKey()
-  final AsyncValue<List<NotificationsModel>> notifications;
+  final AsyncValue<NotificationsModel> notifications;
   @override
   final String? errorMessage;
 
@@ -168,13 +168,13 @@ class _$_NotificationsState implements _NotificationsState {
 abstract class _NotificationsState implements NotificationsState {
   const factory _NotificationsState(
       {final bool isFetching,
-      final AsyncValue<List<NotificationsModel>> notifications,
+      final AsyncValue<NotificationsModel> notifications,
       final String? errorMessage}) = _$_NotificationsState;
 
   @override
   bool get isFetching;
   @override
-  AsyncValue<List<NotificationsModel>> get notifications;
+  AsyncValue<NotificationsModel> get notifications;
   @override
   String? get errorMessage;
   @override
