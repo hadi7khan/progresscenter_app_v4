@@ -27,6 +27,7 @@ import 'package:progresscenter_app_v4/src/feature/camera_details/data/model/imag
     as model;
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/camera_by_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/images_by_cam_id_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/images_controller_watcher.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/newprovider.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/selected_imagedata_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/landscape_camera_details_screen.dart';
@@ -163,7 +164,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
   void dispose() {
     controller!.dispose();
     animationController!.dispose();
-    ref.invalidate(imagesByCameraIdModelProvider);
+    ref.invalidate(imagesByCameraIdInterProvider);
     super.dispose();
   }
 
@@ -175,10 +176,14 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
         cameraByIdControllerProvider.select((value) => value.cameraById));
     final imagesByCameraIdData = ref.watch(
         imagesByCamIdControllerProvider.select((value) => value.imagesByCamId));
-    final selectedImageData = ref.watch(selectedImageDataProvider);
+    // final selectedImageData = ref.watch(selectedImageDataProvider);
     // final imagesByCameraIdModel = ref.watch(imagesByCameraIdModelProvider);
-    final imagesByCameraIdModel = ref.watch(imagesByCameraIdModelProvider);
-    log("new------------------" + imagesByCameraIdModel.toString());
+    // final imagesByCameraIdModel = ref.watch(imagesByCameraIdModelProvider);
+    // log("new------------------" + imagesByCameraIdModel.toString());
+    final imagesByCameraIdInter = ref.watch(imagesByCameraIdInterProvider);
+    log("new imagesByCameraIdinter" + imagesByCameraIdInter.toString());
+    final currentImage = ref.watch(currentImageProvider);
+    log("new current image" + currentImage.toString());
 
     return RefreshIndicator(
       color: Helper.primary,
@@ -322,7 +327,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
             child: Container(
               // padding: EdgeInsets.only(bottom: kBottomNavigationBarHeight),
               child: Consumer(builder: (context, ref, child) {
-                print("state printed" + selectedImageData.toString());
+                // print("state printed" + selectedImageData.toString());
                 return imagesByCameraIdData.when(
                     data: (imagesData) {
                       if (imagesData.images!.isEmpty) {
@@ -365,7 +370,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                         kBottomNavigationBarHeight +
                                         184.h),
                                 child: Image.network(
-                                  imagesByCameraIdModel.currentImage!.urlThumb!,
+                                  currentImage!.urlThumb!,
                                   gaplessPlayback: true,
 
                                   width: double.infinity,
@@ -406,7 +411,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                 // blendMode: BlendMode.clear,
                                 child: CarouselSlider.builder(
                                     carouselController: carouselController,
-                                    itemCount: imagesByCameraIdModel
+                                    itemCount: imagesByCameraIdInter
                                         .images!.length,
                                     options: CarouselOptions(
                                         height:
@@ -427,33 +432,37 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                         scrollDirection: Axis.horizontal,
                                         onPageChanged: (index, reason) {
                                           setState(() {
-                                            final currentImage = model.Image(
-                                              id: imagesByCameraIdModel
+                                            final image = model.Image(
+                                              id: imagesByCameraIdInter
                                                   .images![index].id,
-                                              name: imagesByCameraIdModel
+                                              name: imagesByCameraIdInter
                                                   .images![index].name,
-                                              datetime: imagesByCameraIdModel
+                                              datetime: imagesByCameraIdInter
                                                   .images![index].datetime,
-                                              urlPreview: imagesByCameraIdModel
+                                              urlPreview: imagesByCameraIdInter
                                                   .images![index].urlPreview,
-                                              urlThumb: imagesByCameraIdModel
+                                              urlThumb: imagesByCameraIdInter
                                                   .images![index]
                                                   .urlThumb, // You can copy the URL from the first image
                                             );
                                             ref
-                                                    .read(
-                                                        imagesByCameraIdModelProvider
-                                                            .notifier)
-                                                    .state =
-                                                model.ImagesByCameraIdModel(
-                                              startDate: imagesByCameraIdModel
-                                                  .startDate,
-                                              endDate:
-                                                  imagesByCameraIdModel.endDate,
-                                              images:
-                                                  imagesByCameraIdModel.images,
-                                              currentImage: currentImage,
-                                            );
+                                                .read(currentImageProvider
+                                                    .notifier)
+                                                .setCurrentImage(image);
+                                            // ref
+                                            //         .read(
+                                            //             imagesByCameraIdModelProvider
+                                            //                 .notifier)
+                                            //         .state =
+                                            //     model.ImagesByCameraIdModel(
+                                            //   startDate: imagesByCameraIdModel
+                                            //       .startDate,
+                                            //   endDate:
+                                            //       imagesByCameraIdModel.endDate,
+                                            //   images:
+                                            //       imagesByCameraIdModel.images,
+                                            //   currentImage: currentImage,
+                                            // );
                                             // ref
                                             //     .read(imagesByCameraIdModelProvider
                                             //         .notifier)
@@ -507,8 +516,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                           // constrained: false,
                                           maxScale: 10,
                                           child: Image.network(
-                                            imagesByCameraIdModel
-                                                .currentImage!.urlPreview!,
+                                            currentImage.urlPreview!,
                                             // selectedImageData == null
                                             //     ? imagesData
                                             //         .images![itemIndex]
@@ -561,8 +569,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                   onTap: () async {
                                     await _showDateBottomSheet(
                                         context,
-                                        imagesByCameraIdModel.startDate!,
-                                        imagesByCameraIdModel.endDate!,
+                                        imagesByCameraIdInter.startDate!,
+                                        imagesByCameraIdInter.endDate!,
                                         _selectedDate,
                                         widget.cameraId,
                                         widget.projectId,
@@ -594,8 +602,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                           //         fontSize: 12.sp)),
                                           Text(
                                               parseEndDateTimeString(
-                                                  imagesByCameraIdModel
-                                                      .currentImage!.datetime!),
+                                                  currentImage.datetime!),
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w500,
@@ -666,7 +673,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                     );
                                   },
                                   itemCount:
-                                      imagesByCameraIdModel.images!.length,
+                                      imagesByCameraIdInter.images!.length,
                                   key: _listViewKey,
                                   shrinkWrap: true,
                                   physics: BouncingScrollPhysics(),
@@ -676,7 +683,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                     // _scrollDown();
 
                                     final reversedIndex =
-                                        imagesByCameraIdModel.images!.length -
+                                        imagesByCameraIdInter.images!.length -
                                             1 -
                                             index;
 
@@ -685,31 +692,34 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                         // setState(() {
                                         //   _selectedImageIndex = reversedIndex;
                                         // });
-                                        final currentImage = model.Image(
-                                          id: imagesByCameraIdModel
+                                        final image = model.Image(
+                                          id: imagesByCameraIdInter
                                               .images![reversedIndex].id,
-                                          name: imagesByCameraIdModel
+                                          name: imagesByCameraIdInter
                                               .images![reversedIndex].name,
-                                          datetime: imagesByCameraIdModel
+                                          datetime: imagesByCameraIdInter
                                               .images![reversedIndex].datetime,
-                                          urlPreview: imagesByCameraIdModel
+                                          urlPreview: imagesByCameraIdInter
                                               .images![reversedIndex]
                                               .urlPreview,
-                                          urlThumb: imagesByCameraIdModel
+                                          urlThumb: imagesByCameraIdInter
                                               .images![reversedIndex]
                                               .urlThumb, // You can copy the URL from the first image
                                         );
                                         ref
-                                            .read(imagesByCameraIdModelProvider
-                                                .notifier)
-                                            .state = model.ImagesByCameraIdModel(
-                                          startDate:
-                                              imagesByCameraIdModel.startDate,
-                                          endDate:
-                                              imagesByCameraIdModel.endDate,
-                                          images: imagesByCameraIdModel.images,
-                                          currentImage: currentImage,
-                                        );
+                                            .read(currentImageProvider.notifier)
+                                            .setCurrentImage(image);
+                                        // ref
+                                        //     .read(imagesByCameraIdModelProvider
+                                        //         .notifier)
+                                        //     .state = model.ImagesByCameraIdModel(
+                                        //   startDate:
+                                        //       imagesByCameraIdModel.startDate,
+                                        //   endDate:
+                                        //       imagesByCameraIdModel.endDate,
+                                        //   images: imagesByCameraIdModel.images,
+                                        //   currentImage: currentImage,
+                                        // );
                                         // ref
                                         //       .read(
                                         //           currentImageProvider.notifier)
@@ -735,10 +745,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           6.r),
-                                                  border: imagesByCameraIdModel
-                                                              .currentImage!
-                                                              .id ==
-                                                          imagesData
+                                                  border: currentImage.id ==
+                                                          imagesByCameraIdInter
                                                               .images![
                                                                   reversedIndex]
                                                               .id!
@@ -756,7 +764,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                                       BorderRadius.circular(
                                                           4.r),
                                                   child: Image.network(
-                                                    imagesData
+                                                    imagesByCameraIdInter
                                                         .images![reversedIndex]
                                                         .urlThumb!,
                                                     gaplessPlayback: true,
