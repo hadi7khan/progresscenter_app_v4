@@ -196,6 +196,12 @@ class Endpoints {
     return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/progress-slider';
   }
 
+  //---------------------------- Notifications ---------------------------------------
+
+  static notificationsListUrl() {
+    return '$baseUrl/api/v4/notifications/?offset=0&limit=20';
+  }
+
   // receiveTimeout
   static const int receiveTimeout = 15000;
 
