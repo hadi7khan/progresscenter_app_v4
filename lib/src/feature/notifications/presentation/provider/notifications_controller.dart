@@ -13,7 +13,7 @@ class NotificationsController extends StateNotifier<NotificationsState> {
   NotificationsController(super.state, this.service);
   final NotificationsRepositoryImpl service;
 
-  Future getNotifications(projectId, cameraId) async {
+  Future getNotifications() async {
     state = state.copyWith(isFetching: true);
     final result = await service.notificationsList();
 
