@@ -991,6 +991,10 @@ mixin _$Details {
   String? get endDate => throw _privateConstructorUsedError;
   String? get livelapseId => throw _privateConstructorUsedError;
   int? get duration => throw _privateConstructorUsedError;
+  ProjectLocation? get projectLocation => throw _privateConstructorUsedError;
+  String? get userId => throw _privateConstructorUsedError;
+  dynamic get projectImageFilePath => throw _privateConstructorUsedError;
+  String? get invitationId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1022,7 +1026,13 @@ abstract class $DetailsCopyWith<$Res> {
       String? startDate,
       String? endDate,
       String? livelapseId,
-      int? duration});
+      int? duration,
+      ProjectLocation? projectLocation,
+      String? userId,
+      dynamic projectImageFilePath,
+      String? invitationId});
+
+  $ProjectLocationCopyWith<$Res>? get projectLocation;
 }
 
 /// @nodoc
@@ -1058,6 +1068,10 @@ class _$DetailsCopyWithImpl<$Res, $Val extends Details>
     Object? endDate = freezed,
     Object? livelapseId = freezed,
     Object? duration = freezed,
+    Object? projectLocation = freezed,
+    Object? userId = freezed,
+    Object? projectImageFilePath = freezed,
+    Object? invitationId = freezed,
   }) {
     return _then(_value.copyWith(
       projectId: freezed == projectId
@@ -1140,7 +1154,35 @@ class _$DetailsCopyWithImpl<$Res, $Val extends Details>
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as int?,
+      projectLocation: freezed == projectLocation
+          ? _value.projectLocation
+          : projectLocation // ignore: cast_nullable_to_non_nullable
+              as ProjectLocation?,
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      projectImageFilePath: freezed == projectImageFilePath
+          ? _value.projectImageFilePath
+          : projectImageFilePath // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      invitationId: freezed == invitationId
+          ? _value.invitationId
+          : invitationId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ProjectLocationCopyWith<$Res>? get projectLocation {
+    if (_value.projectLocation == null) {
+      return null;
+    }
+
+    return $ProjectLocationCopyWith<$Res>(_value.projectLocation!, (value) {
+      return _then(_value.copyWith(projectLocation: value) as $Val);
+    });
   }
 }
 
@@ -1171,7 +1213,14 @@ abstract class _$$_DetailsCopyWith<$Res> implements $DetailsCopyWith<$Res> {
       String? startDate,
       String? endDate,
       String? livelapseId,
-      int? duration});
+      int? duration,
+      ProjectLocation? projectLocation,
+      String? userId,
+      dynamic projectImageFilePath,
+      String? invitationId});
+
+  @override
+  $ProjectLocationCopyWith<$Res>? get projectLocation;
 }
 
 /// @nodoc
@@ -1204,6 +1253,10 @@ class __$$_DetailsCopyWithImpl<$Res>
     Object? endDate = freezed,
     Object? livelapseId = freezed,
     Object? duration = freezed,
+    Object? projectLocation = freezed,
+    Object? userId = freezed,
+    Object? projectImageFilePath = freezed,
+    Object? invitationId = freezed,
   }) {
     return _then(_$_Details(
       projectId: freezed == projectId
@@ -1286,6 +1339,22 @@ class __$$_DetailsCopyWithImpl<$Res>
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as int?,
+      projectLocation: freezed == projectLocation
+          ? _value.projectLocation
+          : projectLocation // ignore: cast_nullable_to_non_nullable
+              as ProjectLocation?,
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      projectImageFilePath: freezed == projectImageFilePath
+          ? _value.projectImageFilePath
+          : projectImageFilePath // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      invitationId: freezed == invitationId
+          ? _value.invitationId
+          : invitationId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -1313,7 +1382,11 @@ class _$_Details implements _Details {
       this.startDate,
       this.endDate,
       this.livelapseId,
-      this.duration});
+      this.duration,
+      this.projectLocation,
+      this.userId,
+      this.projectImageFilePath,
+      this.invitationId});
 
   factory _$_Details.fromJson(Map<String, dynamic> json) =>
       _$$_DetailsFromJson(json);
@@ -1358,10 +1431,18 @@ class _$_Details implements _Details {
   final String? livelapseId;
   @override
   final int? duration;
+  @override
+  final ProjectLocation? projectLocation;
+  @override
+  final String? userId;
+  @override
+  final dynamic projectImageFilePath;
+  @override
+  final String? invitationId;
 
   @override
   String toString() {
-    return 'Details(projectId: $projectId, progressLinePostId: $progressLinePostId, cameraId: $cameraId, cameraName: $cameraName, projectName: $projectName, cameraImageName: $cameraImageName, cameraImageCommentId: $cameraImageCommentId, progressLineCommentId: $progressLineCommentId, cameraImageCommentReplyId: $cameraImageCommentReplyId, folderId: $folderId, fileId: $fileId, fileName: $fileName, filePath: $filePath, fileCreatedAt: $fileCreatedAt, filename: $filename, multiImageDownloadId: $multiImageDownloadId, startDate: $startDate, endDate: $endDate, livelapseId: $livelapseId, duration: $duration)';
+    return 'Details(projectId: $projectId, progressLinePostId: $progressLinePostId, cameraId: $cameraId, cameraName: $cameraName, projectName: $projectName, cameraImageName: $cameraImageName, cameraImageCommentId: $cameraImageCommentId, progressLineCommentId: $progressLineCommentId, cameraImageCommentReplyId: $cameraImageCommentReplyId, folderId: $folderId, fileId: $fileId, fileName: $fileName, filePath: $filePath, fileCreatedAt: $fileCreatedAt, filename: $filename, multiImageDownloadId: $multiImageDownloadId, startDate: $startDate, endDate: $endDate, livelapseId: $livelapseId, duration: $duration, projectLocation: $projectLocation, userId: $userId, projectImageFilePath: $projectImageFilePath, invitationId: $invitationId)';
   }
 
   @override
@@ -1407,7 +1488,14 @@ class _$_Details implements _Details {
             (identical(other.livelapseId, livelapseId) ||
                 other.livelapseId == livelapseId) &&
             (identical(other.duration, duration) ||
-                other.duration == duration));
+                other.duration == duration) &&
+            (identical(other.projectLocation, projectLocation) ||
+                other.projectLocation == projectLocation) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            const DeepCollectionEquality()
+                .equals(other.projectImageFilePath, projectImageFilePath) &&
+            (identical(other.invitationId, invitationId) ||
+                other.invitationId == invitationId));
   }
 
   @JsonKey(ignore: true)
@@ -1433,7 +1521,11 @@ class _$_Details implements _Details {
         startDate,
         endDate,
         livelapseId,
-        duration
+        duration,
+        projectLocation,
+        userId,
+        const DeepCollectionEquality().hash(projectImageFilePath),
+        invitationId
       ]);
 
   @JsonKey(ignore: true)
@@ -1471,7 +1563,11 @@ abstract class _Details implements Details {
       final String? startDate,
       final String? endDate,
       final String? livelapseId,
-      final int? duration}) = _$_Details;
+      final int? duration,
+      final ProjectLocation? projectLocation,
+      final String? userId,
+      final dynamic projectImageFilePath,
+      final String? invitationId}) = _$_Details;
 
   factory _Details.fromJson(Map<String, dynamic> json) = _$_Details.fromJson;
 
@@ -1516,7 +1612,190 @@ abstract class _Details implements Details {
   @override
   int? get duration;
   @override
+  ProjectLocation? get projectLocation;
+  @override
+  String? get userId;
+  @override
+  dynamic get projectImageFilePath;
+  @override
+  String? get invitationId;
+  @override
   @JsonKey(ignore: true)
   _$$_DetailsCopyWith<_$_Details> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ProjectLocation _$ProjectLocationFromJson(Map<String, dynamic> json) {
+  return _ProjectLocation.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ProjectLocation {
+  String? get name => throw _privateConstructorUsedError;
+  dynamic get latitude => throw _privateConstructorUsedError;
+  dynamic get longitude => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ProjectLocationCopyWith<ProjectLocation> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ProjectLocationCopyWith<$Res> {
+  factory $ProjectLocationCopyWith(
+          ProjectLocation value, $Res Function(ProjectLocation) then) =
+      _$ProjectLocationCopyWithImpl<$Res, ProjectLocation>;
+  @useResult
+  $Res call({String? name, dynamic latitude, dynamic longitude});
+}
+
+/// @nodoc
+class _$ProjectLocationCopyWithImpl<$Res, $Val extends ProjectLocation>
+    implements $ProjectLocationCopyWith<$Res> {
+  _$ProjectLocationCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = freezed,
+    Object? latitude = freezed,
+    Object? longitude = freezed,
+  }) {
+    return _then(_value.copyWith(
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      latitude: freezed == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      longitude: freezed == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_ProjectLocationCopyWith<$Res>
+    implements $ProjectLocationCopyWith<$Res> {
+  factory _$$_ProjectLocationCopyWith(
+          _$_ProjectLocation value, $Res Function(_$_ProjectLocation) then) =
+      __$$_ProjectLocationCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String? name, dynamic latitude, dynamic longitude});
+}
+
+/// @nodoc
+class __$$_ProjectLocationCopyWithImpl<$Res>
+    extends _$ProjectLocationCopyWithImpl<$Res, _$_ProjectLocation>
+    implements _$$_ProjectLocationCopyWith<$Res> {
+  __$$_ProjectLocationCopyWithImpl(
+      _$_ProjectLocation _value, $Res Function(_$_ProjectLocation) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = freezed,
+    Object? latitude = freezed,
+    Object? longitude = freezed,
+  }) {
+    return _then(_$_ProjectLocation(
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      latitude: freezed == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      longitude: freezed == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_ProjectLocation implements _ProjectLocation {
+  const _$_ProjectLocation({this.name, this.latitude, this.longitude});
+
+  factory _$_ProjectLocation.fromJson(Map<String, dynamic> json) =>
+      _$$_ProjectLocationFromJson(json);
+
+  @override
+  final String? name;
+  @override
+  final dynamic latitude;
+  @override
+  final dynamic longitude;
+
+  @override
+  String toString() {
+    return 'ProjectLocation(name: $name, latitude: $latitude, longitude: $longitude)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_ProjectLocation &&
+            (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality().equals(other.latitude, latitude) &&
+            const DeepCollectionEquality().equals(other.longitude, longitude));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      name,
+      const DeepCollectionEquality().hash(latitude),
+      const DeepCollectionEquality().hash(longitude));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_ProjectLocationCopyWith<_$_ProjectLocation> get copyWith =>
+      __$$_ProjectLocationCopyWithImpl<_$_ProjectLocation>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_ProjectLocationToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ProjectLocation implements ProjectLocation {
+  const factory _ProjectLocation(
+      {final String? name,
+      final dynamic latitude,
+      final dynamic longitude}) = _$_ProjectLocation;
+
+  factory _ProjectLocation.fromJson(Map<String, dynamic> json) =
+      _$_ProjectLocation.fromJson;
+
+  @override
+  String? get name;
+  @override
+  dynamic get latitude;
+  @override
+  dynamic get longitude;
+  @override
+  @JsonKey(ignore: true)
+  _$$_ProjectLocationCopyWith<_$_ProjectLocation> get copyWith =>
       throw _privateConstructorUsedError;
 }

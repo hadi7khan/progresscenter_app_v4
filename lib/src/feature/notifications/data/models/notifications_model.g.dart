@@ -116,6 +116,13 @@ _$_Details _$$_DetailsFromJson(Map<String, dynamic> json) => _$_Details(
       endDate: json['endDate'] as String?,
       livelapseId: json['livelapseId'] as String?,
       duration: json['duration'] as int?,
+      projectLocation: json['projectLocation'] == null
+          ? null
+          : ProjectLocation.fromJson(
+              json['projectLocation'] as Map<String, dynamic>),
+      userId: json['userId'] as String?,
+      projectImageFilePath: json['projectImageFilePath'],
+      invitationId: json['invitationId'] as String?,
     );
 
 Map<String, dynamic> _$$_DetailsToJson(_$_Details instance) =>
@@ -140,4 +147,22 @@ Map<String, dynamic> _$$_DetailsToJson(_$_Details instance) =>
       'endDate': instance.endDate,
       'livelapseId': instance.livelapseId,
       'duration': instance.duration,
+      'projectLocation': instance.projectLocation,
+      'userId': instance.userId,
+      'projectImageFilePath': instance.projectImageFilePath,
+      'invitationId': instance.invitationId,
+    };
+
+_$_ProjectLocation _$$_ProjectLocationFromJson(Map<String, dynamic> json) =>
+    _$_ProjectLocation(
+      name: json['name'] as String?,
+      latitude: json['latitude'],
+      longitude: json['longitude'],
+    );
+
+Map<String, dynamic> _$$_ProjectLocationToJson(_$_ProjectLocation instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'latitude': instance.latitude,
+      'longitude': instance.longitude,
     };
