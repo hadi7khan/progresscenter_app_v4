@@ -89,8 +89,24 @@ class Details with _$Details {
     String? endDate,
     String? livelapseId,
     int? duration,
+    ProjectLocation? projectLocation,
+    String? userId,
+    dynamic projectImageFilePath,
+    String? invitationId,
   }) = _Details;
 
   factory Details.fromJson(Map<String, dynamic> json) =>
       _$DetailsFromJson(json);
+}
+
+@freezed
+class ProjectLocation with _$ProjectLocation {
+  const factory ProjectLocation({
+    String? name,
+    dynamic latitude,
+    dynamic longitude,
+  }) = _ProjectLocation;
+
+  factory ProjectLocation.fromJson(Map<String, dynamic> json) =>
+      _$ProjectLocationFromJson(json);
 }

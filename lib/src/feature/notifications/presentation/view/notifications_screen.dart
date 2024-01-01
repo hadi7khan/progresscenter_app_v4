@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -109,67 +110,78 @@ class _NotificationsScreenState extends BaseConsumerState<NotificationsScreen> {
         ),
       ),
       body: SafeArea(
-          child: SingleChildScrollView(
-        child: notificationsData.when(
-          data: (data) {
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-              child: Column(
-                children: [
-                  ListView.separated(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: ((context, index) {
-                      final date = notificationData[index]['date'];
-                      final notifications =
-                          notificationData[index]['notifications'];
-                      print("replies--------" + notifications.toString());
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Text(
-                            date,
-                            style: TextStyle(
-                                letterSpacing: -0.3,
-                                fontSize: 12,
-                                color: Helper.textColor500,
-                                fontWeight: FontWeight.w600),
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(height: 10.h),
-                          Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 16.h, horizontal: 16.w),
-                              decoration: BoxDecoration(
-                                  color: Helper.widgetBackground,
-                                  borderRadius: BorderRadius.circular(16.r)),
-                              child: Wrap(
-                                children: [
-                                  for (var noti in notifications)
-                                    NotificationWidget(notificationsData: noti),
-                                ],
-                              )),
-                        ],
-                      );
-                    }),
-                    separatorBuilder: (context, index) {
-                      return SizedBox(
-                        height: 20.h,
-                      );
-                    },
-                    itemCount: notificationData.length,
-                  )
-                ],
-              ),
-            );
-          },
-          error: (err, _) {
-            return const Text("Failed to load teams",
-                style:
-                    TextStyle(letterSpacing: -0.3, color: Helper.errorColor));
-          },
-          loading: () => LoadingTeamList(),
+          child: RefreshIndicator(
+        displacement: 10.0,
+        color: Helper.primary,
+        onRefresh: () async {
+          HapticFeedback.mediumImpact();
+          return await ref
+              .refresh(notificationsControllerProvider.notifier)
+              .getNotifications();
+        },
+        child: SingleChildScrollView(
+          child: notificationsData.when(
+            data: (data) {
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+                child: Column(
+                  children: [
+                    ListView.separated(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: ((context, index) {
+                        final date = notificationData[index]['date'];
+                        final notifications =
+                            notificationData[index]['notifications'];
+                        print("replies--------" + notifications.toString());
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Text(
+                              date,
+                              style: TextStyle(
+                                  letterSpacing: -0.3,
+                                  fontSize: 12,
+                                  color: Helper.textColor500,
+                                  fontWeight: FontWeight.w600),
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(height: 10.h),
+                            Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 16.h, horizontal: 16.w),
+                                decoration: BoxDecoration(
+                                    color: Helper.widgetBackground,
+                                    borderRadius: BorderRadius.circular(16.r)),
+                                child: Wrap(
+                                  children: [
+                                    for (var noti in notifications)
+                                      NotificationWidget(
+                                          notificationsData: noti),
+                                  ],
+                                )),
+                          ],
+                        );
+                      }),
+                      separatorBuilder: (context, index) {
+                        return SizedBox(
+                          height: 20.h,
+                        );
+                      },
+                      itemCount: notificationData.length,
+                    )
+                  ],
+                ),
+              );
+            },
+            error: (err, _) {
+              return const Text("Failed to load teams",
+                  style:
+                      TextStyle(letterSpacing: -0.3, color: Helper.errorColor));
+            },
+            loading: () => LoadingTeamList(),
+          ),
         ),
       )),
     );
