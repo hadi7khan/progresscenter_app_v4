@@ -17,32 +17,37 @@ class NotificationWidget extends StatefulWidget {
 
 class _NotificationWidgetState extends State<NotificationWidget> {
   TextSpan _buildTextSpan(String message) {
-    RegExp boldRegex = RegExp(r'<bold>(.*?)<\/bold>');
-    RegExp linkRegex = RegExp(r'<link>([^<]+)<\/link>');
-
     List<TextSpan> children = [];
 
     while (message.isNotEmpty) {
-      if (boldRegex.hasMatch(message)) {
-        Match match = boldRegex.firstMatch(message)!;
-        String beforeMatch = message.substring(0, match.start);
-        String boldMatch = match.group(1)!;
+      RegExpMatch? linkMatch =
+          RegExp(r'<link>(.*?)<\/link>').firstMatch(message);
+      RegExpMatch? boldMatch =
+          RegExp(r'<bold>(.*?)<\/bold>').firstMatch(message);
+
+      if (linkMatch != null &&
+          (boldMatch == null || linkMatch.start < boldMatch.start)) {
+        // Handle <link> tag
+        String beforeMatch = message.substring(0, linkMatch.start);
+        String linkContent = linkMatch.group(1)!;
 
         if (beforeMatch.isNotEmpty) {
           children.add(TextSpan(text: beforeMatch));
         }
 
         children.add(TextSpan(
-          text: boldMatch,
-          style:
-              TextStyle(fontWeight: FontWeight.bold, color: Helper.baseBlack),
+          text: linkContent,
+          style: TextStyle(
+            color: Helper.primary, // Change color according to your design
+            decoration: TextDecoration.underline,
+          ),
         ));
 
-        message = message.substring(match.end);
-      } else if (linkRegex.hasMatch(message)) {
-        Match match = linkRegex.firstMatch(message)!;
-        String beforeMatch = message.substring(0, match.start);
-        String linkMatch = match.group(1)!;
+        message = message.substring(linkMatch.end);
+      } else if (boldMatch != null) {
+        // Handle <bold> tag
+        String beforeMatch = message.substring(0, boldMatch.start);
+        String boldContent = boldMatch.group(1)!;
 
         if (beforeMatch.isNotEmpty) {
           children.add(TextSpan(
@@ -50,15 +55,14 @@ class _NotificationWidgetState extends State<NotificationWidget> {
         }
 
         children.add(TextSpan(
-          text: linkMatch,
-          style: TextStyle(
-            color: Helper.primary, // Change color according to your design
-            decoration: TextDecoration.underline,
-          ),
+          text: boldContent,
+          style:
+              TextStyle(fontWeight: FontWeight.bold, color: Helper.baseBlack),
         ));
 
-        message = message.substring(match.end);
+        message = message.substring(boldMatch.end);
       } else {
+        // No more tags found, add the remaining text
         children.add(TextSpan(
             text: message, style: TextStyle(color: Helper.textColor700)));
         break;
