@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:progresscenter_app_v4/src/feature/notifications/data/repository/notifications_repo_impl.dart';
 import 'package:progresscenter_app_v4/src/feature/notifications/presentation/state/notifications_state.dart';
+import 'dart:developer';
 
 final notificationsControllerProvider = StateNotifierProvider.autoDispose<
     NotificationsController, NotificationsState>((ref) {
@@ -14,6 +15,7 @@ class NotificationsController extends StateNotifier<NotificationsState> {
   final NotificationsRepositoryImpl service;
 
   Future getNotifications() async {
+    var value;
     state = state.copyWith(isFetching: true);
     final result = await service.notificationsList();
 
@@ -23,6 +25,9 @@ class NotificationsController extends StateNotifier<NotificationsState> {
     }, (r) {
       state =
           state.copyWith(isFetching: false, notifications: AsyncValue.data(r));
+      value = r;
     });
+    log("valueee " + value.toString());
+    return value;
   }
 }

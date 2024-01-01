@@ -5,11 +5,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+import 'dart:developer';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_team_list.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/notifications/presentation/provider/notifications_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/notifications/presentation/view/widgets/notification_widget.dart';
+import 'package:progresscenter_app_v4/src/feature/notifications/data/models/notifications_model.dart'
+    as model;
 
 class NotificationsScreen extends ConsumerStatefulWidget {
   const NotificationsScreen({super.key});
@@ -20,16 +24,57 @@ class NotificationsScreen extends ConsumerStatefulWidget {
 }
 
 class _NotificationsScreenState extends BaseConsumerState<NotificationsScreen> {
+  List<model.Notification> groupedNotifications = [];
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref.read(notificationsControllerProvider.notifier).getNotifications();
+      ref
+          .read(notificationsControllerProvider.notifier)
+          .getNotifications()
+          .then((value) {
+        groupedNotifications = value.notifications;
+        log("groupedReplies-----" + groupedNotifications.toString());
+      });
     });
+  }
+
+  List<Map<String, dynamic>> getGroupedReplies() {
+    Map<String, List<model.Notification>> notificationsMap = {};
+
+    for (var notification in groupedNotifications) {
+      final dateKey = formatDate(notification.createdAt!);
+      if (!notificationsMap.containsKey(dateKey)) {
+        notificationsMap[dateKey] = [];
+      }
+      notificationsMap[dateKey]!.add(notification);
+    }
+
+    return notificationsMap.entries
+        .map((entry) => {'date': entry.key, 'notifications': entry.value})
+        .toList();
+  }
+
+  String formatDate(DateTime date) {
+    DateTime now = DateTime.now();
+    DateTime yesterday = DateTime.now().subtract(Duration(days: 1));
+
+    if (date.year == now.year &&
+        date.month == now.month &&
+        date.day == now.day) {
+      return 'Today · ${DateFormat('dd MMM').format(date)}';
+    } else if (date.year == yesterday.year &&
+        date.month == yesterday.month &&
+        date.day == yesterday.day) {
+      return 'Yesterday · ${DateFormat('dd MMM').format(date)}';
+    } else {
+      return DateFormat('dd MMM, yy ').format(date);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final notificationData = getGroupedReplies();
     final notificationsData = ref.watch(
         notificationsControllerProvider.select((value) => value.notifications));
     return Scaffold(
@@ -72,46 +117,49 @@ class _NotificationsScreenState extends BaseConsumerState<NotificationsScreen> {
               child: Column(
                 children: [
                   ListView.separated(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: ((context, index) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Text(
-                              "Today",
-                              style: TextStyle(
-                                  letterSpacing: -0.3,
-                                  fontSize: 12,
-                                  color: Helper.textColor500,
-                                  fontWeight: FontWeight.w600),
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBox(height: 10.h),
-                            Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 16.h, horizontal: 16.w),
-                                decoration: BoxDecoration(
-                                    color: Helper.widgetBackground,
-                                    borderRadius: BorderRadius.circular(16.r)),
-                                child: Wrap(
-                                  children: [
-                                    for (int i = 0; i < 3; i++)
-                                      NotificationWidget(
-                                          notificationsData:
-                                              data.notifications![index]),
-                                  ],
-                                )),
-                          ],
-                        );
-                      }),
-                      separatorBuilder: (context, index) {
-                        return SizedBox(
-                          height: 20.h,
-                        );
-                      },
-                      itemCount: data.notifications!.length)
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: ((context, index) {
+                      final date = notificationData[index]['date'];
+                      final notifications =
+                          notificationData[index]['notifications'];
+                      print("replies--------" + notifications.toString());
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Text(
+                            date,
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                fontSize: 12,
+                                color: Helper.textColor500,
+                                fontWeight: FontWeight.w600),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 10.h),
+                          Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 16.h, horizontal: 16.w),
+                              decoration: BoxDecoration(
+                                  color: Helper.widgetBackground,
+                                  borderRadius: BorderRadius.circular(16.r)),
+                              child: Wrap(
+                                children: [
+                                  for (var noti in notifications)
+                                    NotificationWidget(notificationsData: noti),
+                                ],
+                              )),
+                        ],
+                      );
+                    }),
+                    separatorBuilder: (context, index) {
+                      return SizedBox(
+                        height: 20.h,
+                      );
+                    },
+                    itemCount: notificationData.length,
+                  )
                 ],
               ),
             );

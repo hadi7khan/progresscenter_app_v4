@@ -16,6 +16,59 @@ class NotificationWidget extends StatefulWidget {
 }
 
 class _NotificationWidgetState extends State<NotificationWidget> {
+  TextSpan _buildTextSpan(String message) {
+    RegExp boldRegex = RegExp(r'<bold>(.*?)<\/bold>');
+    RegExp linkRegex = RegExp(r'<link>([^<]+)<\/link>');
+
+    List<TextSpan> children = [];
+
+    while (message.isNotEmpty) {
+      if (boldRegex.hasMatch(message)) {
+        Match match = boldRegex.firstMatch(message)!;
+        String beforeMatch = message.substring(0, match.start);
+        String boldMatch = match.group(1)!;
+
+        if (beforeMatch.isNotEmpty) {
+          children.add(TextSpan(text: beforeMatch));
+        }
+
+        children.add(TextSpan(
+          text: boldMatch,
+          style:
+              TextStyle(fontWeight: FontWeight.bold, color: Helper.baseBlack),
+        ));
+
+        message = message.substring(match.end);
+      } else if (linkRegex.hasMatch(message)) {
+        Match match = linkRegex.firstMatch(message)!;
+        String beforeMatch = message.substring(0, match.start);
+        String linkMatch = match.group(1)!;
+
+        if (beforeMatch.isNotEmpty) {
+          children.add(TextSpan(
+              text: beforeMatch, style: TextStyle(color: Helper.textColor700)));
+        }
+
+        children.add(TextSpan(
+          text: linkMatch,
+          style: TextStyle(
+            color: Helper.primary, // Change color according to your design
+            decoration: TextDecoration.underline,
+          ),
+        ));
+
+        message = message.substring(match.end);
+      } else {
+        children.add(TextSpan(
+            text: message, style: TextStyle(color: Helper.textColor700)));
+        break;
+      }
+    }
+
+    return TextSpan(
+        children: children, style: TextStyle(color: Helper.textColor700));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,13 +92,8 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      widget.notificationsData!.message!,
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Helper.textColor700,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500),
+                    RichText(
+                      text: _buildTextSpan(widget.notificationsData!.message!),
                     ),
                     Text(
                       "Replied to your comment in Uncool Project  ",
