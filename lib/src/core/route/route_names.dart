@@ -37,6 +37,7 @@ const String addDocsRoute = 'addDocs';
 const String userProfileRoute = 'userProfile';
 const String createTicketRoute = 'createTicket';
 const String ticketByIdRoute = 'ticketById';
+const String accountRoute = 'account';
 const String notificationsRoute = 'notifications';
 
 const String noInternetRoute = 'noInternet';

@@ -72,6 +72,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
   GlobalKey _listViewKey = GlobalKey();
   TransformationController viewTransformationController =
       TransformationController();
+  SwiperController _swipperontroller = SwiperController();
 
   @override
   void initState() {
@@ -167,6 +168,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     animationController!.dispose();
     ref.invalidate(imagesByCameraIdInterProvider);
     ref.invalidate(currentImageProvider);
+    ref.invalidate(imagesByCamIdControllerProvider);
     super.dispose();
   }
 
@@ -421,6 +423,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                   child: Swiper(
                                       // axisDirection: AxisDirection.left,
                                       loop: false,
+                                      controller: _swipperontroller,
                                       itemCount:
                                           imagesByCameraIdInter.images!.length,
                                       itemBuilder: (BuildContext context,
@@ -467,6 +470,10 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                         );
                                       },
                                       onIndexChanged: (index) {
+                                        _scrollController.jumpTo(
+                                            _scrollController
+                                                    .position.maxScrollExtent -
+                                                index * 44.0);
                                         log("onindex change" +
                                             index.toString());
                                         final reversedIndex =

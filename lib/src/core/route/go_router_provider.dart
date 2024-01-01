@@ -5,6 +5,7 @@ import 'package:progresscenter_app_v4/main.dart';
 import 'package:progresscenter_app_v4/src/common/error/no_internet_connection_screen.dart';
 import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
 import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
+import 'package:progresscenter_app_v4/src/feature/account/presentation/view/account_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/forgot_password/change_password_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/forgot_password/forgot_password_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/onboarding_screen.dart';
@@ -28,7 +29,6 @@ import 'package:progresscenter_app_v4/src/feature/notifications/presentation/vie
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/timeline_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/progressline_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_by_id_model.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/add_member_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/camera_360.dart';
 import 'package:progresscenter_app_v4/src/feature/cctv_view/presentation/view/cctv_view_screen.dart';
@@ -177,15 +177,22 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           StatefulShellBranch(
             navigatorKey: _shellNavigatorEKey,
             routes: [
-              // Support
+              // Account
               GoRoute(
-                path: '/support',
+                path: '/account',
                 pageBuilder: (context, state) => const NoTransitionPage(
-                  child: SupportScreen(
-                      label: 'Support', detailsPath: '/support/details'),
+                  child: AccountScreen(),
                 ),
                 routes: [],
               ),
+              // GoRoute(
+              //   path: '/support',
+              //   pageBuilder: (context, state) => const NoTransitionPage(
+              //     child: SupportScreen(
+              //         label: 'Support', detailsPath: '/support/details'),
+              //   ),
+              //   routes: [],
+              // ),
             ],
           ),
         ],
