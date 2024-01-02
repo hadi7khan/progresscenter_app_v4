@@ -185,14 +185,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 ),
                 routes: [],
               ),
-              // GoRoute(
-              //   path: '/support',
-              //   pageBuilder: (context, state) => const NoTransitionPage(
-              //     child: SupportScreen(
-              //         label: 'Support', detailsPath: '/support/details'),
-              //   ),
-              //   routes: [],
-              // ),
             ],
           ),
         ],
@@ -465,7 +457,15 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
 
       // ---------------------------------Support Route--------------------------------
-
+      GoRoute(
+        path: '/support',
+        parentNavigatorKey: _rootNavigatorKey,
+        pageBuilder: (context, state) => const NoTransitionPage(
+          child:
+              SupportScreen(label: 'Support', detailsPath: '/support/details'),
+        ),
+        routes: [],
+      ),
       GoRoute(
         path: '/createTicket',
         parentNavigatorKey: _rootNavigatorKey,
