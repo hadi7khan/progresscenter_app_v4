@@ -381,51 +381,6 @@ class _ProjectDetailsScreenState
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 20.w, top: 20.h),
-                  child: InkWell(
-                    onTap: () {
-                      showModalBottomSheet(
-                          useRootNavigator: true,
-                          isScrollControlled: true,
-                          context: context,
-                          backgroundColor: Colors.transparent,
-                          builder: (context) => Padding(
-                                padding: EdgeInsets.only(
-                                        bottom: MediaQuery.of(context)
-                                            .viewInsets
-                                            .bottom) *
-                                    0.6,
-                                child: ViewedByWidget(
-                                  data: widget.projectUsers,
-                                  showText: "Current members",
-                                  projectId: widget.projectId,
-                                  showExtra: true,
-                                ),
-                              ));
-                    },
-                    child: Container(
-                      // width: 150,
-                      height: 45,
-                      // padding: EdgeInsets.symmetric(horizontal: 4.w),
-                      // blur: 3,
-                      // borderRadius: BorderRadius.circular(30.r),
-                      // color: Colors.transparent,
-                      child: AvatarGroupWidget(
-                        avatars:
-                            (widget.projectUsers as List<User>).map((user) {
-                          return {
-                            'dpUrl': user.dp != null ? user.dpUrl : "",
-                            'name': user.name,
-                            'backgroundColor': user.preset!.color,
-                          };
-                        }).toList(),
-                        size: 40.h,
-                        max: 3,
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
                   child: projectByIdData.when(
@@ -489,6 +444,52 @@ class _ProjectDetailsScreenState
                       return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            InkWell(
+                              onTap: () {
+                                showModalBottomSheet(
+                                    useRootNavigator: true,
+                                    isScrollControlled: true,
+                                    context: context,
+                                    backgroundColor: Colors.transparent,
+                                    builder: (context) => Padding(
+                                          padding: EdgeInsets.only(
+                                                  bottom: MediaQuery.of(context)
+                                                      .viewInsets
+                                                      .bottom) *
+                                              0.6,
+                                          child: ViewedByWidget(
+                                            data: data.users,
+                                            showText: "Current members",
+                                            projectId: widget.projectId,
+                                            showExtra: true,
+                                          ),
+                                        ));
+                              },
+                              child: Container(
+                                // width: 150,
+                                height: 45,
+                                // padding: EdgeInsets.symmetric(horizontal: 4.w),
+                                // blur: 3,
+                                // borderRadius: BorderRadius.circular(30.r),
+                                // color: Colors.transparent,
+                                child: AvatarGroupWidget(
+                                  avatars: (data.users as List<model.User>)
+                                      .map((user) {
+                                    return {
+                                      'dpUrl':
+                                          user.dp != null ? user.dpUrl : "",
+                                      'name': user.name,
+                                      'backgroundColor': user.preset!.color,
+                                    };
+                                  }).toList(),
+                                  size: 40.h,
+                                  max: 3,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20.h,
+                            ),
                             // Container(
                             //   margin: EdgeInsets.zero,
                             //   padding: EdgeInsets.zero,
