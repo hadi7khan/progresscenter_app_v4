@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,27 +14,27 @@ import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
-import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/provider/site_gallery_controller.dart';
+import 'package:video_player/video_player.dart';
 
 class FullViewSitegalleryScreen extends ConsumerStatefulWidget {
-  final String projectId;
-  final String name;
-  final String url;
-  final String type;
-  final String siteGalleryId;
-  final String projectName;
+  final String? projectId;
+  final String? name;
+  final String? url;
+  final String? type;
+  final String? siteGalleryId;
+  final String? projectName;
   final createdAt;
-  final String uploadedBy;
+  final String? uploadedBy;
   const FullViewSitegalleryScreen({
     super.key,
-    required this.projectId,
-    required this.name,
-    required this.url,
-    required this.type,
-    required this.siteGalleryId,
-    required this.projectName,
-    required this.createdAt,
-    required this.uploadedBy,
+    this.projectId,
+    this.name,
+    this.url,
+    this.type,
+    this.siteGalleryId,
+    this.projectName,
+    this.createdAt,
+    this.uploadedBy,
   });
 
   @override
@@ -43,21 +44,84 @@ class FullViewSitegalleryScreen extends ConsumerStatefulWidget {
 
 class _FullViewSitegalleryScreenState
     extends BaseConsumerState<FullViewSitegalleryScreen> {
-  VlcPlayerController? _videoPlayerController;
+  // VlcPlayerController? _videoPlayerController;
+  VideoPlayerController? controller;
+  ChewieController? chewieController;
+
   @override
   void initState() {
     super.initState();
+    _initPlayer();
+
     if (widget.type == "VIDEO") {
-      _videoPlayerController = VlcPlayerController.network(
-        widget.url,
-        autoPlay: true,
-        options: VlcPlayerOptions(),
-      );
+      _initPlayer();
+      // _videoPlayerController = VlcPlayerController.network(
+      //   widget.url,
+      //   autoPlay: true,
+      //   options: VlcPlayerOptions(),
+      // );
+      // controller = VideoPlayerController.networkUrl(Uri.parse(widget.url),
+      //   videoPlayerOptions: VideoPlayerOptions(
+      //     mixWithOthers: true,
+      //     allowBackgroundPlayback: true,
+      //   ))
+      // ..initialize().then((_) {
+      //   print("url " + widget.url.toString());
+
+      //   // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+
+      //   Future.delayed(Duration(milliseconds: 100), () {
+      //     setState(() {
+      //       VideoPlayer(controller!);
+      //       controller!.play();
+      //     });
+      //   });
+      // }).then((value) {
+      //   print("video player error" + controller!.value.errorDescription!);
+      // });
     }
+  }
+
+  Future _initPlayer() async {
+    controller = VideoPlayerController.networkUrl(Uri.parse(widget.url!));
+    await controller!.initialize().then((value) {
+      chewieController = ChewieController(
+        videoPlayerController: controller!,
+        autoPlay: true,
+        looping: true,
+        additionalOptions: (context) {
+          return <OptionItem>[
+            OptionItem(
+              onTap: () => debugPrint('Option 1 pressed!'),
+              iconData: Icons.chat,
+              title: 'Option 1',
+            ),
+            OptionItem(
+              onTap: () => debugPrint('Option 2 pressed!'),
+              iconData: Icons.share,
+              title: 'Option 2',
+            ),
+          ];
+        },
+      );
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    controller!.dispose();
+    chewieController!.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    // if (chewieController == null) {
+    //   return Container(
+    //     child: CircularProgressIndicator(),
+    //   );
+    // }
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.h),
@@ -82,7 +146,7 @@ class _FullViewSitegalleryScreenState
               ),
               leadingWidth: 24,
               title: Text(
-                widget.name,
+                widget.name!,
                 style: TextStyle(
                     letterSpacing: -0.3,
                     color: Helper.baseBlack,
@@ -115,7 +179,7 @@ class _FullViewSitegalleryScreenState
                     maxScale: 10,
                     child: Image.network(
                       gaplessPlayback: true,
-                      widget.url,
+                      widget.url!,
                       fit: BoxFit.fill,
                       errorBuilder: (BuildContext context, Object exception,
                           StackTrace? stackTrace) {
@@ -130,12 +194,17 @@ class _FullViewSitegalleryScreenState
                   )
                 : AspectRatio(
                     aspectRatio: 16 / 9,
-                    child: VlcPlayer(
-                      controller: _videoPlayerController!,
-                      aspectRatio: 16 / 9,
-                      placeholder: Center(child: CircularProgressIndicator()),
+                    child: chewieController == null
+                        ? Center(child: Text("Loading...."))
+                        : Chewie(
+                            controller: chewieController!,
+                          )
+                    // VlcPlayer(
+                    //   controller: _videoPlayerController!,
+                    //   aspectRatio: 16 / 9,
+                    //   placeholder: Center(child: CircularProgressIndicator()),
+                    // ),
                     ),
-                  ),
           ])),
         ),
       ),
@@ -231,7 +300,7 @@ class _FullViewSitegalleryScreenState
                       CustomInputWidget(
                         title: "Project name: ",
                         formField: Text(
-                          widget.projectName,
+                          widget.projectName!,
                           style: TextStyle(
                               letterSpacing: -0.3,
                               color: Helper.textColor900,
@@ -243,7 +312,7 @@ class _FullViewSitegalleryScreenState
                       CustomInputWidget(
                         title: "Name: ",
                         formField: Text(
-                          widget.name,
+                          widget.name!,
                           style: TextStyle(
                               letterSpacing: -0.3,
                               color: Helper.textColor900,
@@ -269,7 +338,7 @@ class _FullViewSitegalleryScreenState
                       CustomInputWidget(
                         title: "Uploaded by: ",
                         formField: Text(
-                          widget.uploadedBy,
+                          widget.uploadedBy!,
                           style: TextStyle(
                               letterSpacing: -0.3,
                               color: Helper.textColor900,
