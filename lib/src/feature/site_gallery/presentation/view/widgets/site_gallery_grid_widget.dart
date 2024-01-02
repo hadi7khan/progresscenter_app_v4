@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:video_player/video_player.dart';
 
 class SiteGalleryGridViewWidget extends StatefulWidget {
   final data;
@@ -18,8 +21,8 @@ class SiteGalleryGridViewWidget extends StatefulWidget {
 
 class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
   VlcPlayerController? _videoPlayerController;
+  VideoPlayerController? controller;
   Image? image1;
-  
 
   @override
   void initState() {
@@ -31,10 +34,41 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
         options: VlcPlayerOptions(),
       );
     }
-    // else{
-    //    image1 = Image.network(widget.data.url,);
-    // }
+    controller = VideoPlayerController.networkUrl(Uri.parse(widget.data.url),
+        videoPlayerOptions: VideoPlayerOptions(
+          mixWithOthers: true,
+          allowBackgroundPlayback: true,
+        ))
+      ..initialize().then((_) {
+        print("url " + widget.data.url.toString());
+        // VideoPlayer(controller!);
+        // controller!.play();
+        // controller!.addListener(() {
+        //   if (controller!.value.hasError) {
+        //     print("video player error" + controller!.value.errorDescription!);
+        //   }
+        //   if (controller!.value.isPlaying) {
+        //     print("video player playing" + controller!.value.errorDescription!);
+        //   }
+        //   if (controller!.value.isInitialized) {
+        //     print("video player initialized" +
+        //         controller!.value.isInitialized!);
+        //   }
+        // });
 
+        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+
+        Future.delayed(Duration(milliseconds: 100), () {
+          setState(() {
+            VideoPlayer(controller!);
+            controller!.play();
+          });
+        });
+
+        log(widget.data.url + "is playing----------------------------");
+      }).then((value) {
+        print("video player error" + controller!.value.errorDescription!);
+      });
   }
 
   // @override
@@ -82,7 +116,8 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
             child: Stack(alignment: Alignment.center, children: [
               AspectRatio(
                 aspectRatio: 1 / 1,
-                child: widget.data.type == "IMAGE" ?
+                child: widget.data.type == "IMAGE"
+                    ?
                     // ? Image(image: image1!.image)
                     CachedNetworkImage(
                         imageUrl: widget.data.url!,

@@ -178,7 +178,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
   @override
   void dispose() {
     controller!.dispose();
-    animationController!.dispose();
     ref.invalidate(imagesByCameraIdInterProvider);
     ref.invalidate(currentImageProvider);
     ref.invalidate(imagesByCamIdControllerProvider);
@@ -202,151 +201,167 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     final currentImage = ref.watch(currentImageProvider);
     log("new current image" + currentImage.toString());
 
-    return RefreshIndicator(
-      color: Helper.primary,
-      onRefresh: () async {
-        HapticFeedback.mediumImpact();
-        return await ref
-            .refresh(imagesByCamIdControllerProvider.notifier)
-            .getImagesByCamId(widget.projectId, widget.cameraId);
-      },
-      child: Scaffold(
-        backgroundColor: Color.fromRGBO(247, 247, 247, 1),
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60.h),
-          child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: EdgeInsets.only(right: 16.w, left: 16.w),
-              child: AppBar(
-                backgroundColor: Colors.white,
-                surfaceTintColor: Colors.white,
-                centerTitle: true,
-                automaticallyImplyLeading: false,
-                titleSpacing: 0.0,
-                leading: InkWell(
-                  onTap: () {
-                    context.pop();
-                  },
-                  child: Transform.rotate(
-                    angle: 180 * (3.1415926535 / 180),
-                    child: SvgPicture.asset('assets/images/chevron-right.svg',
-                        color: Helper.iconColor, fit: BoxFit.contain),
-                  ),
+    return Scaffold(
+      backgroundColor: Color.fromRGBO(247, 247, 247, 1),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(60.h),
+        child: Container(
+          color: Colors.white,
+          child: Padding(
+            padding: EdgeInsets.only(right: 16.w, left: 16.w),
+            child: AppBar(
+              backgroundColor: Colors.white,
+              surfaceTintColor: Colors.white,
+              centerTitle: true,
+              automaticallyImplyLeading: false,
+              titleSpacing: 0.0,
+              leading: InkWell(
+                onTap: () {
+                  context.pop();
+                },
+                child: Transform.rotate(
+                  angle: 180 * (3.1415926535 / 180),
+                  child: SvgPicture.asset('assets/images/chevron-right.svg',
+                      color: Helper.iconColor, fit: BoxFit.contain),
                 ),
-                leadingWidth: 24,
-                title: cameraByIdData.when(
-                  // skipLoadingOnRefresh: false,
-                  // skipLoadingOnReload: false,
-                  data: (cameraData) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        camerasListData.when(
-                          data: (data) {
-                            return InkWell(
-                              onTap: () {
-                                showModalBottomSheet(
-                                    useRootNavigator: true,
-                                    isScrollControlled: true,
-                                    context: context,
-                                    backgroundColor: Colors.transparent,
-                                    builder: (context) => Padding(
-                                          padding: EdgeInsets.only(
-                                                  bottom: MediaQuery.of(context)
-                                                      .viewInsets
-                                                      .bottom) *
-                                              0.6,
-                                          child: CamerasWidget(
-                                            data: data,
-                                            projectId: widget.projectId,
-                                            projectName: widget.projectName,
-                                          ),
-                                        ));
-                              },
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Text(
-                                          cameraData.name!,
-                                          style: TextStyle(
-                                              color: Helper.baseBlack,
-                                              fontSize: 18.sp,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        SizedBox(
-                                          width: 6.w,
-                                        ),
-                                        // SvgPicture.asset('assets/images/chevron-down.svg'),
-                                      ],
-                                    ),
-                                    Text(
-                                      widget.projectName,
-                                      style: TextStyle(
-                                          color:
-                                              Helper.baseBlack.withOpacity(0.5),
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                  ]),
-                            );
-                          },
-                          error: (err, _) {
-                            return const Text("Error",
-                                style: TextStyle(color: Helper.errorColor));
-                          },
-                          loading: () => LoadingAppBar(),
-                        ),
-                        Transform.rotate(
-                          angle: 90 * (3.1415926535 / 180),
-                          child: SvgPicture.asset(
-                            'assets/images/chevron-right.svg',
-                            color: Helper.iconColor,
-                            fit: BoxFit.contain,
-                            allowDrawingOutsideViewBox: true,
-                            width: 16.w,
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                  error: (err, _) {
-                    return const Text("Error",
-                        style: TextStyle(color: Helper.errorColor));
-                  },
-                  loading: () => LoadingAppBar(),
-                ),
-                actions: [
-                  InkWell(
-                      onTap: () {
-                        _showCameraBottomSheet(context);
-                      },
-                      child:
-                          SvgPicture.asset('assets/images/dots-vertical.svg')),
-                ],
-                actionsIconTheme: IconThemeData(color: Helper.iconColor),
               ),
+              leadingWidth: 24,
+              title: cameraByIdData.when(
+                // skipLoadingOnRefresh: false,
+                // skipLoadingOnReload: false,
+                data: (cameraData) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      camerasListData.when(
+                        data: (data) {
+                          return InkWell(
+                            onTap: () {
+                              showModalBottomSheet(
+                                  useRootNavigator: true,
+                                  isScrollControlled: true,
+                                  context: context,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (context) => Padding(
+                                        padding: EdgeInsets.only(
+                                                bottom: MediaQuery.of(context)
+                                                    .viewInsets
+                                                    .bottom) *
+                                            0.6,
+                                        child: CamerasWidget(
+                                          data: data,
+                                          projectId: widget.projectId,
+                                          projectName: widget.projectName,
+                                        ),
+                                      ));
+                            },
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Text(
+                                        cameraData.name!,
+                                        style: TextStyle(
+                                            color: Helper.baseBlack,
+                                            fontSize: 18.sp,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      SizedBox(
+                                        width: 6.w,
+                                      ),
+                                      // SvgPicture.asset('assets/images/chevron-down.svg'),
+                                    ],
+                                  ),
+                                  Text(
+                                    widget.projectName,
+                                    style: TextStyle(
+                                        color:
+                                            Helper.baseBlack.withOpacity(0.5),
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                ]),
+                          );
+                        },
+                        error: (err, _) {
+                          return const Text("Error",
+                              style: TextStyle(color: Helper.errorColor));
+                        },
+                        loading: () => LoadingAppBar(),
+                      ),
+                      Transform.rotate(
+                        angle: 90 * (3.1415926535 / 180),
+                        child: SvgPicture.asset(
+                          'assets/images/chevron-right.svg',
+                          color: Helper.iconColor,
+                          fit: BoxFit.contain,
+                          allowDrawingOutsideViewBox: true,
+                          width: 16.w,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+                error: (err, _) {
+                  return const Text("Error",
+                      style: TextStyle(color: Helper.errorColor));
+                },
+                loading: () => LoadingAppBar(),
+              ),
+              actions: [
+                InkWell(
+                    onTap: () {
+                      _showCameraBottomSheet(context);
+                    },
+                    child: SvgPicture.asset('assets/images/dots-vertical.svg')),
+              ],
+              actionsIconTheme: IconThemeData(color: Helper.iconColor),
             ),
           ),
         ),
-        body: SafeArea(
+      ),
+      body: SafeArea(
+        top: true,
+        child: RefreshIndicator(
+          triggerMode: RefreshIndicatorTriggerMode.anywhere,
+          color: Helper.primary,
+          displacement: 10,
+          onRefresh: () async {
+            HapticFeedback.mediumImpact();
+            return await ref
+                .refresh(imagesByCamIdControllerProvider.notifier)
+                .getImagesByCamId(widget.projectId, widget.cameraId)
+                .then((value) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                Timer(Duration(seconds: 1), () {
+                  _scrollController.animateTo(
+                    _scrollController.position.maxScrollExtent,
+                    duration: Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                });
+              });
+            });
+          },
           child: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
             child: Container(
               // padding: EdgeInsets.only(bottom: kBottomNavigationBarHeight),
               child: Consumer(builder: (context, ref, child) {
                 // print("state printed" + selectedImageData.toString());
                 return imagesByCameraIdData.when(
                     data: (imagesData) {
+                      // setState(() {
+                      showBottomBar = true;
+                      // });
                       if (imagesData.images!.isEmpty) {
                         showBottomBar = false;
 
@@ -478,7 +493,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                             );
                                           },
                                         );
-                                        ;
                                       },
                                       onPageChanged: (int index) {
                                         // Handle page change if needed
@@ -1143,103 +1157,103 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
             ),
           ),
         ),
-        bottomNavigationBar: showBottomBar
-            ? SafeArea(
-                child: Container(
-                  // padding: EdgeInsets.only(bottom: Platform.isIOS ? 50.h : 0.h),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    border: Border(
-                      top: BorderSide(
-                          color: Colors.white.withOpacity(0.2), width: 0.5),
-                    ),
-                  ),
-                  height: 50.h,
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            HapticFeedback.mediumImpact();
-                            context.push('/livelapse', extra: {
-                              "projectId": widget.projectId,
-                              "projectName": widget.projectName,
-                              "cameraId": widget.cameraId
-                            });
-                          },
-                          child: IconBottomBar(
-                            icon: 'assets/images/video-recorder.svg',
-                            selected: true,
-                            text: 'LiveLapse',
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            HapticFeedback.mediumImpact();
-                            context.push('/slider', extra: {
-                              "projectId": widget.projectId,
-                              "projectName": widget.projectName,
-                              "cameraId": widget.cameraId
-                            });
-                          },
-                          child: IconBottomBar(
-                            icon: 'assets/images/sliders.svg',
-                            selected: true,
-                            text: 'Slider',
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            HapticFeedback.mediumImpact();
-                            context.push('/compare', extra: {
-                              "projectId": widget.projectId,
-                              "projectName": widget.projectName,
-                              "cameraId": widget.cameraId
-                            });
-                          },
-                          child: IconBottomBar(
-                            icon: 'assets/images/rows.svg',
-                            selected: true,
-                            text: 'Compare',
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            HapticFeedback.mediumImpact();
-                            context.push('/splitview', extra: {
-                              "projectId": widget.projectId,
-                              "projectName": widget.projectName,
-                              "cameraId": widget.cameraId
-                            });
-                          },
-                          child: IconBottomBar(
-                            icon: 'assets/images/layout-left.svg',
-                            selected: true,
-                            text: 'Split View',
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            HapticFeedback.mediumImpact();
-                            context.push('/report', extra: {
-                              "projectId": widget.projectId,
-                              "projectName": widget.projectName,
-                              "cameraId": widget.cameraId
-                            });
-                          },
-                          child: IconBottomBar(
-                            icon: 'assets/images/file-download.svg',
-                            selected: true,
-                            text: 'Report',
-                          ),
-                        )
-                      ]),
-                ),
-              )
-            : SizedBox(),
       ),
+      bottomNavigationBar: showBottomBar
+          ? SafeArea(
+              child: Container(
+                // padding: EdgeInsets.only(bottom: Platform.isIOS ? 50.h : 0.h),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  border: Border(
+                    top: BorderSide(
+                        color: Colors.white.withOpacity(0.2), width: 0.5),
+                  ),
+                ),
+                height: 50.h,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          HapticFeedback.mediumImpact();
+                          context.push('/livelapse', extra: {
+                            "projectId": widget.projectId,
+                            "projectName": widget.projectName,
+                            "cameraId": widget.cameraId
+                          });
+                        },
+                        child: IconBottomBar(
+                          icon: 'assets/images/video-recorder.svg',
+                          selected: true,
+                          text: 'LiveLapse',
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          HapticFeedback.mediumImpact();
+                          context.push('/slider', extra: {
+                            "projectId": widget.projectId,
+                            "projectName": widget.projectName,
+                            "cameraId": widget.cameraId
+                          });
+                        },
+                        child: IconBottomBar(
+                          icon: 'assets/images/sliders.svg',
+                          selected: true,
+                          text: 'Slider',
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          HapticFeedback.mediumImpact();
+                          context.push('/compare', extra: {
+                            "projectId": widget.projectId,
+                            "projectName": widget.projectName,
+                            "cameraId": widget.cameraId
+                          });
+                        },
+                        child: IconBottomBar(
+                          icon: 'assets/images/rows.svg',
+                          selected: true,
+                          text: 'Compare',
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          HapticFeedback.mediumImpact();
+                          context.push('/splitview', extra: {
+                            "projectId": widget.projectId,
+                            "projectName": widget.projectName,
+                            "cameraId": widget.cameraId
+                          });
+                        },
+                        child: IconBottomBar(
+                          icon: 'assets/images/layout-left.svg',
+                          selected: true,
+                          text: 'Split View',
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          HapticFeedback.mediumImpact();
+                          context.push('/report', extra: {
+                            "projectId": widget.projectId,
+                            "projectName": widget.projectName,
+                            "cameraId": widget.cameraId
+                          });
+                        },
+                        child: IconBottomBar(
+                          icon: 'assets/images/file-download.svg',
+                          selected: true,
+                          text: 'Report',
+                        ),
+                      )
+                    ]),
+              ),
+            )
+          : SizedBox(),
     );
   }
 
