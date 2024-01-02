@@ -246,6 +246,65 @@ class Service {
     }
   }
 
+  // method to upload a photo in site gallery
+  Future<dynamic> uploadImageForSitegallery(
+      String projectId, String? filePath) async {
+    Dio dio = Dio();
+    print("filepath---" + filePath.toString());
+    Map<String, String> headers = {
+      // "Accept": "application/json",
+      'Authorization': "Bearer ${_prefsLocator.getUserToken()}",
+      "Content-Type": "multipart/form-data"
+    };
+
+    try {
+      // List<File> files = [];
+      // for (int i = 0; i < filePaths.length; i++) {
+      //   files.add(File(filePaths[i]!));
+      // // }
+
+      FormData formData = FormData();
+      formData = FormData.fromMap({});
+      // for (int i = 0; i < files.length; i++) {
+      String fileName = filePath!.split('/').last;
+
+      formData.files.add(MapEntry(
+          'files',
+          await MultipartFile.fromFile(
+            filePath,
+            filename: fileName,
+            contentType: Helper.getMediaType(fileName),
+          )));
+      // }
+
+      print("formdata passed " + formData.toString());
+
+      dio.options.headers = headers;
+      dio.options.contentType = Headers.formUrlEncodedContentType;
+
+      await dio
+          .post(
+        Endpoints.siteGalleryListUrl(projectId),
+        data: formData,
+      )
+          .then((response) {
+        print("response body " + response.data.toString());
+        // Check if the response is successful
+        if (response.statusCode == 200) {
+          // Parse the response data
+          final responseData = response.data;
+          return responseData;
+        } else {
+          // Handle error
+          throw Exception("Error uploading files: ${response.statusCode}");
+        }
+      });
+    } catch (e) {
+      print(e.toString());
+      throw Exception("Error uploading files: ${e.toString()}");
+    }
+  }
+
   // method to upload a list of files
   Future<dynamic> uploadFiles(String projectId, List<String?> filePaths) async {
     Dio dio = Dio();
