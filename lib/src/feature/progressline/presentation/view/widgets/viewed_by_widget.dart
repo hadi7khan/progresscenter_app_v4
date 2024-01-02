@@ -17,6 +17,7 @@ import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_by_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/add_member_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/widgets/add_member_widget.dart';
+import 'dart:developer';
 
 class ViewedByWidget extends ConsumerStatefulWidget {
   final data;
@@ -41,7 +42,8 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
   List<String> _teamList = [];
   List<String> _selectedTeams = [];
   List<String> _roles = ["Admin", "Editor", "Viewer"];
-  String _roleSelected = "";
+  String _roleSelected = "Admin";
+  int _selectedRoleCupertino = 0;
 
   @override
   void initState() {
@@ -56,6 +58,54 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
         _teamList = teams;
       });
     });
+  }
+
+  void _showDialog(Widget child) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => Container(
+        alignment: Alignment.center,
+        height: 216,
+        // padding: const EdgeInsets.only(top: 6.0),
+        // The Bottom margin is provided to align the popup above the system navigation bar.
+        // margin: EdgeInsets.only(
+        //   bottom: MediaQuery.of(context).viewInsets.bottom,
+        // ),
+        // Provide a background color for the popup.
+        color: CupertinoColors.systemBackground.resolveFrom(context),
+        // Use a SafeArea widget to avoid system overlaps.
+        child: SafeArea(
+          top: false,
+          child: Center(child: child),
+        ),
+      ),
+    );
+  }
+
+  void _showPicker(BuildContext ctx) {
+    showCupertinoModalPopup(
+        context: ctx,
+        builder: (_) => SizedBox(
+              width: 300,
+              height: 250,
+              child: CupertinoPicker(
+                backgroundColor: Colors.white,
+                itemExtent: 30,
+                scrollController: FixedExtentScrollController(initialItem: 1),
+                children: _roles.map((e) {
+                  return Text(
+                    e,
+                    style: const TextStyle(
+                        letterSpacing: -0.3, color: Colors.black),
+                  );
+                }).toList(),
+                onSelectedItemChanged: (value) {
+                  setState(() {
+                    // _selectedValue = value;
+                  });
+                },
+              ),
+            ));
   }
 
   _getColor(
@@ -376,94 +426,247 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                                                 fontWeight: FontWeight.w500),
                                           ),
                                           SizedBox(height: 6.h),
-                                          FormBuilderDropdown(
-                                            name: "roles",
-                                            dropdownColor: Colors.white,
-                                            icon: SizedBox(),
-                                            decoration: InputDecoration(
-                                              // labelText: 'Training',
-                                              hintText: "Select roles",
-                                              hintStyle: TextStyle(
-                                                letterSpacing: -0.3,
-                                                color: Helper.textColor500,
-                                                fontSize: 16.sp,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-
-                                              contentPadding:
-                                                  EdgeInsets.symmetric(
-                                                      vertical: 10.h,
-                                                      horizontal: 14.w),
-                                              suffixIcon: Padding(
-                                                padding: EdgeInsets.only(
-                                                    right: 14.w),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Icon(Icons.help_outline,
+                                          Platform.isIOS
+                                              ? InkWell(
+                                                  onTap: () {
+                                                    _showDialog(
+                                                      CupertinoPicker(
+                                                        magnification: 1.22,
+                                                        squeeze: 1.2,
+                                                        useMagnifier: true,
+                                                        itemExtent: 30.0,
+                                                        // This sets the initial item.
+                                                        scrollController:
+                                                            FixedExtentScrollController(
+                                                          initialItem:
+                                                              _selectedRoleCupertino,
+                                                        ),
+                                                        // This is called when selected item is changed.
+                                                        onSelectedItemChanged:
+                                                            (int selectedItem) {
+                                                          setState(() {
+                                                            _selectedRoleCupertino =
+                                                                selectedItem;
+                                                            log(_selectedRoleCupertino
+                                                                .toString());
+                                                            _roleSelected =
+                                                                _selectedRoleCupertino ==
+                                                                        0
+                                                                    ? "Admin"
+                                                                    : _selectedRoleCupertino ==
+                                                                            1
+                                                                        ? "Editor"
+                                                                        : "Viewer";
+                                                            log(_roleSelected
+                                                                .toString());
+                                                          });
+                                                        },
+                                                        children:
+                                                            _roles.map((e) {
+                                                          return Text(
+                                                            e,
+                                                            style: const TextStyle(
+                                                                letterSpacing:
+                                                                    -0.3,
+                                                                color: Colors
+                                                                    .black),
+                                                          );
+                                                        }).toList(),
+                                                        //     List<Widget>.generate(_fruitNames.length, (int index) {
+                                                        //   return Center(child: Text(_fruitNames[index]));
+                                                        // }),
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10.h,
+                                                        bottom: 10.h,
+                                                        left: 14.w),
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.r),
+                                                      border: Border.all(
+                                                          color: Helper
+                                                              .textColor300),
+                                                    ),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          _roleSelected,
+                                                          style: TextStyle(
+                                                            letterSpacing: -0.3,
+                                                            color: Helper
+                                                                .textColor500,
+                                                            fontSize: 16.sp,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  right: 14.w),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            children: [
+                                                              Icon(
+                                                                  Icons
+                                                                      .help_outline,
+                                                                  color: Helper
+                                                                      .textColor500,
+                                                                  size: 18),
+                                                              SizedBox(
+                                                                width: 5.w,
+                                                              ),
+                                                              Icon(
+                                                                  Icons
+                                                                      .keyboard_arrow_down_outlined,
+                                                                  color: Helper
+                                                                      .textColor500)
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              : ButtonTheme(
+                                                  alignedDropdown: true,
+                                                  child: FormBuilderDropdown(
+                                                    name: "roles",
+                                                    dropdownColor: Colors.white,
+                                                    icon: SizedBox(),
+                                                    decoration: InputDecoration(
+                                                      // labelText: 'Training',
+                                                      hintText: "Select roles",
+                                                      hintStyle: TextStyle(
+                                                        letterSpacing: -0.3,
                                                         color:
                                                             Helper.textColor500,
-                                                        size: 18),
-                                                    SizedBox(
-                                                      width: 5.w,
-                                                    ),
-                                                    Icon(
-                                                        Icons
-                                                            .keyboard_arrow_down_outlined,
-                                                        color:
-                                                            Helper.textColor500)
-                                                  ],
-                                                ),
-                                              ),
+                                                        fontSize: 16.sp,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
+                                                      constraints: BoxConstraints(
+                                                          maxWidth: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.9),
+                                                      isDense: true,
 
-                                              enabledBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(8.r),
-                                                borderSide: BorderSide(
-                                                    color: Helper.textColor300),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(8.r),
-                                                borderSide: BorderSide(
-                                                    color: Helper.primary),
-                                              ),
-                                              focusedErrorBorder:
-                                                  OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(8.r),
-                                                borderSide: const BorderSide(
-                                                    color: Colors.red),
-                                              ),
-                                              errorBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(8.r),
-                                                borderSide: const BorderSide(
-                                                    color: Colors.red),
-                                              ),
-                                              // filled: true,
-                                            ),
-                                            onChanged: (value) {
-                                              setState(() {
-                                                _roleSelected = value!;
-                                              });
-                                            },
-                                            items: _roles.map((e) {
-                                              return DropdownMenuItem<String>(
-                                                value: e,
-                                                child: Text(
-                                                  e,
-                                                  style: const TextStyle(
-                                                      letterSpacing: -0.3,
-                                                      color: Colors.black),
+                                                      contentPadding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 10.h,
+                                                              horizontal: 14.w),
+                                                      suffixIcon: Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                right: 14.w),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: [
+                                                            Icon(
+                                                                Icons
+                                                                    .help_outline,
+                                                                color: Helper
+                                                                    .textColor500,
+                                                                size: 18),
+                                                            SizedBox(
+                                                              width: 5.w,
+                                                            ),
+                                                            Icon(
+                                                                Icons
+                                                                    .keyboard_arrow_down_outlined,
+                                                                color: Helper
+                                                                    .textColor500)
+                                                          ],
+                                                        ),
+                                                      ),
+
+                                                      enabledBorder:
+                                                          OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.r),
+                                                        borderSide: BorderSide(
+                                                            color: Helper
+                                                                .textColor300),
+                                                      ),
+                                                      focusedBorder:
+                                                          OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.r),
+                                                        borderSide: BorderSide(
+                                                            color:
+                                                                Helper.primary),
+                                                      ),
+                                                      focusedErrorBorder:
+                                                          OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.r),
+                                                        borderSide:
+                                                            const BorderSide(
+                                                                color:
+                                                                    Colors.red),
+                                                      ),
+                                                      errorBorder:
+                                                          OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.r),
+                                                        borderSide:
+                                                            const BorderSide(
+                                                                color:
+                                                                    Colors.red),
+                                                      ),
+                                                      // filled: true,
+                                                    ),
+                                                    onChanged: (value) {
+                                                      setState(() {
+                                                        _roleSelected = value!;
+                                                      });
+                                                    },
+                                                    items: _roles.map((e) {
+                                                      return DropdownMenuItem<
+                                                          String>(
+                                                        value: e,
+                                                        child: Text(
+                                                          e,
+                                                          style:
+                                                              const TextStyle(
+                                                                  letterSpacing:
+                                                                      -0.3,
+                                                                  color: Colors
+                                                                      .black),
+                                                        ),
+                                                        onTap: () {},
+                                                      );
+                                                    }).toList(),
+                                                  ),
                                                 ),
-                                                onTap: () {},
-                                              );
-                                            }).toList(),
-                                          ),
                                           SizedBox(height: 24.h),
                                           Text(
                                             "Team",
@@ -667,7 +870,8 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                                                 "Are you sure you want to remove " +
                                                     '\"' +
                                                     widget.data[index].name! +
-                                                    '\"',
+                                                    '\"' +
+                                                    "from this project",
                                               ),
                                               content: Text(
                                                 "You cannot undo this action ",
@@ -698,10 +902,12 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                                                     onPressed: () {
                                                       Service()
                                                           .revokeMember(
-                                                        widget.projectId,
-                                                        widget.data[index].id,
-                                                      )
+                                                              widget.projectId,
+                                                              widget.data[index]
+                                                                  .id)
                                                           .then((value) {
+                                                        context.pop();
+                                                        context.pop();
                                                         ref
                                                             .read(
                                                                 projectByIdControllerProvider
@@ -709,14 +915,13 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                                                             .getProjectById(
                                                                 widget
                                                                     .projectId);
-                                                        context.pop();
                                                         ScaffoldMessenger.of(
                                                                 context)
                                                             .showSnackBar(const SnackBar(
                                                                 backgroundColor:
                                                                     Colors.red,
                                                                 content: Text(
-                                                                    "Member Revoked")));
+                                                                    "Access Revoked")));
                                                       });
                                                       setState(() {});
                                                     }),
