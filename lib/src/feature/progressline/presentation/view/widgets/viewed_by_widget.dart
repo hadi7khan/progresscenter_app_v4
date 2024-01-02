@@ -3,19 +3,22 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:go_router/go_router.dart';
+import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean_model.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_by_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/add_member_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/widgets/add_member_widget.dart';
 
-class ViewedByWidget extends StatefulWidget {
+class ViewedByWidget extends ConsumerStatefulWidget {
   final data;
   final showText;
   final projectId;
@@ -24,10 +27,10 @@ class ViewedByWidget extends StatefulWidget {
       {super.key, this.data, this.showText, this.projectId, this.showExtra});
 
   @override
-  State<ViewedByWidget> createState() => _ViewedByWidgetState();
+  ConsumerState<ViewedByWidget> createState() => _ViewedByWidgetState();
 }
 
-class _ViewedByWidgetState extends State<ViewedByWidget> {
+class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
   bool showAddMember = false;
   TextEditingController _emailController = TextEditingController();
   bool _changeState = false;
@@ -386,6 +389,7 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                                                 fontSize: 16.sp,
                                                 fontWeight: FontWeight.w400,
                                               ),
+
                                               contentPadding:
                                                   EdgeInsets.symmetric(
                                                       vertical: 10.h,
@@ -695,10 +699,16 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                                                       Service()
                                                           .revokeMember(
                                                         widget.projectId,
-                                                        widget
-                                                            .data[index].userId,
+                                                        widget.data[index].id,
                                                       )
                                                           .then((value) {
+                                                        ref
+                                                            .read(
+                                                                projectByIdControllerProvider
+                                                                    .notifier)
+                                                            .getProjectById(
+                                                                widget
+                                                                    .projectId);
                                                         context.pop();
                                                         ScaffoldMessenger.of(
                                                                 context)
@@ -804,7 +814,7 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                                                             "project user data " +
                                                                 widget
                                                                     .data[index]
-                                                                    .userId
+                                                                    .id
                                                                     .toString());
                                                         Service()
                                                             .revokeMember(
@@ -812,10 +822,17 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                                                                     .projectId,
                                                                 widget
                                                                     .data[index]
-                                                                    .userId)
+                                                                    .id)
                                                             .then((value) {
                                                           context.pop();
                                                           context.pop();
+                                                          ref
+                                                              .read(
+                                                                  projectByIdControllerProvider
+                                                                      .notifier)
+                                                              .getProjectById(
+                                                                  widget
+                                                                      .projectId);
                                                           ScaffoldMessenger
                                                                   .of(context)
                                                               .showSnackBar(const SnackBar(
@@ -950,6 +967,9 @@ class _ViewedByWidgetState extends State<ViewedByWidget> {
                   };
                   Service().projectInvite(widget.projectId, data).then((value) {
                     Service().fetchUserList();
+                    ref
+                        .read(projectByIdControllerProvider.notifier)
+                        .getProjectById(widget.projectId);
                     context.pop();
                     Utils.toastSuccessMessage("User Added");
                     _emailController.clear();
