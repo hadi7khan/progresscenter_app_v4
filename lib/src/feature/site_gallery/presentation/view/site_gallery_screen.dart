@@ -316,22 +316,27 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
             CupertinoActionSheetAction(
               child: const Text('Take Photo'),
               onPressed: () {
-                // _pickImage(ImageSource.camera).then((value) async {
-                //   await Service()
-                //       .uploadPhoto(
-                //           widget.data.id!, _image!.path, calculateProgress)
-                //       .then((value) {
-                //     setState(() {
-                //       _progress = progress;
-                //       print("progress" + _progress.toString());
-                //     });
-                //     print("progress" + _progress.toString());
-                //     context.pop();
-                //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                //         backgroundColor: Colors.green,
-                //         content: Text("Image Uploaded")));
-                //   });
-                // });
+                _pickImage(ImageSource.camera).then((value) async {
+                  await Service()
+                      .uploadImageForSitegallery(
+                    widget.projectId,
+                    _image!.path,
+                  )
+                      .then((value) {
+                    setState(() {
+                      // _progress = progress;
+                      // print("progress" + _progress.toString());
+                    });
+                    // print("progress" + _progress.toString());
+                    context.pop();
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        backgroundColor: Colors.green,
+                        content: Text("Image Uploaded")));
+                  });
+                  ref
+                      .watch(siteGalleryControllerProvider.notifier)
+                      .getSiteGallery(widget.projectId);
+                });
               },
             ),
             CupertinoActionSheetAction(
@@ -430,10 +435,12 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                     onTap: () async {
                       // calculateProgress(0);
                       _pickImage(ImageSource.camera).then((value) async {
-                        await Service().uploadFiles(
+                        await Service()
+                            .uploadImageForSitegallery(
                           widget.projectId,
-                          [_image!.path],
-                        ).then((value) {
+                          _image!.path,
+                        )
+                            .then((value) {
                           setState(() {
                             // _progress = progress;
                             // print("progress" + _progress.toString());
@@ -445,6 +452,9 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                                   backgroundColor: Colors.green,
                                   content: Text("Image Uploaded")));
                         });
+                        ref
+                            .watch(siteGalleryControllerProvider.notifier)
+                            .getSiteGallery(widget.projectId);
                       });
                     },
                     child: Container(

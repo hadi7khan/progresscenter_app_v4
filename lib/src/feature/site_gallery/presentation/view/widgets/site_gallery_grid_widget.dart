@@ -151,17 +151,17 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
                         // alignment: Alignment.center,
                         children: [
                           AspectRatio(
-                            aspectRatio: 1 / 1,
-                            child: controller!.value.isInitialized
-                                ? VideoPlayer(controller!)
-                                : Center(child: Text("Loading....")),
-                            // VlcPlayer(
-                            //   controller: _videoPlayerController!,
-                            //   aspectRatio: 16 / 9,
-                            //   placeholder:
-                            //       Center(child: CircularProgressIndicator()),
-                            // ),
-                          ),
+                              aspectRatio: 1 / 1,
+                              child: controller!.value.isInitialized
+                                  ? VideoPlayer(controller!)
+                                  : SizedBox()
+                              // VlcPlayer(
+                              //   controller: _videoPlayerController!,
+                              //   aspectRatio: 16 / 9,
+                              //   placeholder:
+                              //       Center(child: CircularProgressIndicator()),
+                              // ),
+                              ),
                           Align(
                             alignment: Alignment.center,
                             child: Icon(Icons.play_circle_outline_outlined,
