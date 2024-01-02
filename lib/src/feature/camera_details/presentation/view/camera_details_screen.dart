@@ -96,9 +96,15 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
           );
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref.read(imagesByCamIdControllerProvider.notifier).getImagesByCamId(
-          widget.projectId, widget.cameraId,
-          searchDate: _searchDate);
+      ref
+          .read(imagesByCamIdControllerProvider.notifier)
+          .getImagesByCamId(widget.projectId, widget.cameraId,
+              searchDate: _searchDate)
+          .then((value) {
+        log("value passed" + value.toString());
+        getDaysInMonth(value.endDate, true);
+        showDate(value.endDate);
+      });
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(cameraControllerProvider.notifier).getCameras(widget.projectId);
@@ -123,13 +129,13 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
 
       return daysInMonth;
     }
-    print("datetime format" + currentMonth.toString());
+    log("datetime format" + currentMonth.toString());
     final firstDayOfMonth = DateTime(currentMonth.year, currentMonth.month, 1);
     final lastDayOfMonth =
         DateTime(currentMonth.year, currentMonth.month + 1, 0);
 
-    print(firstDayOfMonth.toString());
-    print(lastDayOfMonth.toString());
+    log("firstDayOfMonth" + firstDayOfMonth.toString());
+    print("lastDayOfMonth" + lastDayOfMonth.toString());
     // final daysInMonth = <DateTime>[];
     for (var i = firstDayOfMonth.day; i <= lastDayOfMonth.day; i++) {
       daysInMonth.add(DateTime(currentMonth.year, currentMonth.month, i));
@@ -144,7 +150,9 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
 
     // Format the DateTime object into the desired format
     String formattedDate = DateFormat('dd MMM yyyy').format(parsedDate);
+    log("formatted date" + formattedDate.toString());
     showMonth = DateFormat.MMM().format(parsedDate).toUpperCase();
+    log("showMonth display" + showMonth.toString());
     return formattedDate;
   }
 
@@ -155,11 +163,15 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     return formattedTime;
   }
 
-  parseEndDateTimeString(String datetime) {
+  parseEndDateTimeString(String datetime, bool showMonthOnly) {
     String dateWithT = datetime.substring(0, 8) + 'T' + datetime.substring(8);
     DateTime dateTime = DateTime.parse(dateWithT);
-    final String formattedTime =
-        DateFormat('dd MMM yyyy h:mm a').format(dateTime);
+    String formattedTime;
+    if (showMonthOnly) {
+      formattedTime = DateFormat('MMM').format(dateTime);
+      return formattedTime;
+    }
+    formattedTime = DateFormat('dd MMM yyyy h:mm a').format(dateTime);
     return formattedTime;
   }
 
@@ -361,7 +373,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                         );
                       }
                       ;
-                      getDaysInMonth(imagesData.endDate, true);
+
                       return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.max,
@@ -726,6 +738,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                         imagesByCameraIdInter.endDate!,
                                         _selectedDate,
                                         widget.cameraId,
+                                        currentImage.datetime!,
                                         widget.projectId,
                                         ref,
                                         currentMonth);
@@ -755,7 +768,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                           //         fontSize: 12.sp)),
                                           Text(
                                               parseEndDateTimeString(
-                                                  currentImage.datetime!),
+                                                  currentImage.datetime!,
+                                                  false),
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w500,
@@ -973,6 +987,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                           imagesByCameraIdInter.endDate!,
                                           _selectedDate,
                                           widget.cameraId,
+                                          currentImage.datetime!,
                                           widget.projectId,
                                           ref,
                                           currentMonth);
@@ -982,7 +997,11 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 10.w, vertical: 14.h),
                                         child: Text(
-                                          "- $showMonth -",
+                                          "-" +
+                                              parseEndDateTimeString(
+                                                  currentImage.datetime!,
+                                                  true) +
+                                              "-",
                                           style: TextStyle(
                                               letterSpacing: -0.3,
                                               fontSize: 10.sp,
@@ -1534,6 +1553,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
       String endDate,
       String selectedDate,
       String cameraId,
+      String showMonthText,
       String projectId,
       WidgetRef ref,
       DateTime currentMonth) {
@@ -1584,7 +1604,9 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                     DateTime date = DateTime.parse(value[0].toString());
                     selectedDate = DateFormat("yyyyMMdd").format(date);
                     print("selectedDate " + selectedDate);
+                    log("value0 " + value[0]!.toString());
                     currentMonth = value[0]!;
+                    log("currentMonth" + currentMonth.toString());
                   },
                 ),
                 // SizedBox(height: 20.h),
@@ -1623,9 +1645,10 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                       });
 
                       context.pop();
+                      log("passed showmonth" + showMonthText.toString());
                       setState(() {
                         getDaysInMonth(currentMonth, false);
-                        showDate(endDate);
+                        showDate(showMonthText);
                       });
                     },
                   ),

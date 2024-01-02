@@ -13,6 +13,7 @@ class ImagesByCamIdController extends StateNotifier<ImagesByCamIdState> {
   final CameraDetailsRepositoryImpl service;
 
   Future getImagesByCamId(projectId, cameraId, {searchDate = ''}) async {
+    var value;
     state = state.copyWith(isFetching: true);
     final result = await service.imagesByCameraId(projectId, cameraId,
         searchDate: searchDate);
@@ -23,6 +24,8 @@ class ImagesByCamIdController extends StateNotifier<ImagesByCamIdState> {
     }, (r) {
       state =
           state.copyWith(isFetching: false, imagesByCamId: AsyncValue.data(r));
+      value = r;
     });
+    return value;
   }
 }
