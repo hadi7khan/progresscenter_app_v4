@@ -57,7 +57,18 @@ class _SupportScreenState extends BaseConsumerState<SupportScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SvgPicture.asset('assets/images/home.svg'),
+                          InkWell(
+                            onTap: () {
+                              context.pop();
+                            },
+                            child: Transform.rotate(
+                              angle: 180 * (3.1415926535 / 180),
+                              child: SvgPicture.asset(
+                                  'assets/images/chevron-right.svg',
+                                  color: Helper.iconColor,
+                                  fit: BoxFit.contain),
+                            ),
+                          ),
                           Row(
                             children: [
                               SvgPicture.asset('assets/images/search.svg'),
