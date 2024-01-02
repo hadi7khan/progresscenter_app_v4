@@ -28,47 +28,47 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
   void initState() {
     super.initState();
     if (widget.data.type == "VIDEO") {
-      _videoPlayerController = VlcPlayerController.network(
-        widget.data.url,
-        autoPlay: false,
-        options: VlcPlayerOptions(),
-      );
-    }
-    controller = VideoPlayerController.networkUrl(Uri.parse(widget.data.url),
-        videoPlayerOptions: VideoPlayerOptions(
-          mixWithOthers: true,
-          allowBackgroundPlayback: true,
-        ))
-      ..initialize().then((_) {
-        print("url " + widget.data.url.toString());
-        // VideoPlayer(controller!);
-        // controller!.play();
-        // controller!.addListener(() {
-        //   if (controller!.value.hasError) {
-        //     print("video player error" + controller!.value.errorDescription!);
-        //   }
-        //   if (controller!.value.isPlaying) {
-        //     print("video player playing" + controller!.value.errorDescription!);
-        //   }
-        //   if (controller!.value.isInitialized) {
-        //     print("video player initialized" +
-        //         controller!.value.isInitialized!);
-        //   }
-        // });
+      // _videoPlayerController = VlcPlayerController.network(
+      //   widget.data.url,
+      //   autoPlay: false,
+      //   options: VlcPlayerOptions(),
+      // );
+      controller = VideoPlayerController.networkUrl(Uri.parse(widget.data.url),
+          videoPlayerOptions: VideoPlayerOptions(
+            mixWithOthers: true,
+            allowBackgroundPlayback: true,
+          ))
+        ..initialize().then((_) {
+          print("url " + widget.data.url.toString());
+          // VideoPlayer(controller!);
+          // controller!.play();
+          // controller!.addListener(() {
+          //   if (controller!.value.hasError) {
+          //     print("video player error" + controller!.value.errorDescription!);
+          //   }
+          //   if (controller!.value.isPlaying) {
+          //     print("video player playing" + controller!.value.errorDescription!);
+          //   }
+          //   if (controller!.value.isInitialized) {
+          //     print("video player initialized" +
+          //         controller!.value.isInitialized!);
+          //   }
+          // });
 
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+          // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
 
-        Future.delayed(Duration(milliseconds: 100), () {
-          setState(() {
-            VideoPlayer(controller!);
-            controller!.play();
+          Future.delayed(Duration(milliseconds: 100), () {
+            setState(() {
+              VideoPlayer(controller!);
+              controller!.play();
+            });
           });
-        });
 
-        log(widget.data.url + "is playing----------------------------");
-      }).then((value) {
-        print("video player error" + controller!.value.errorDescription!);
-      });
+          log(widget.data.url + "is playing----------------------------");
+        }).then((value) {
+          print("video player error" + controller!.value.errorDescription!);
+        });
+    }
   }
 
   // @override
@@ -148,21 +148,25 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
                     //     },
                     //   )
                     : Stack(
-                        alignment: Alignment.center,
+                        // alignment: Alignment.center,
                         children: [
                           AspectRatio(
-                            aspectRatio: 16 / 9,
-                            child: VlcPlayer(
-                              controller: _videoPlayerController!,
-                              aspectRatio: 16 / 9,
-                              placeholder:
-                                  Center(child: CircularProgressIndicator()),
-                            ),
+                            aspectRatio: 1 / 1,
+                            child: controller!.value.isInitialized
+                                ? VideoPlayer(controller!)
+                                : Center(child: Text("Loading....")),
+                            // VlcPlayer(
+                            //   controller: _videoPlayerController!,
+                            //   aspectRatio: 16 / 9,
+                            //   placeholder:
+                            //       Center(child: CircularProgressIndicator()),
+                            // ),
                           ),
-                          Positioned(
-                              top: 83,
-                              child: Icon(Icons.play_circle_outline_outlined,
-                                  color: Colors.white, size: 44))
+                          Align(
+                            alignment: Alignment.center,
+                            child: Icon(Icons.play_circle_outline_outlined,
+                                color: Colors.white, size: 44),
+                          )
                         ],
                       ),
               )
