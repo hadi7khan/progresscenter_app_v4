@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/images_by_cam_id_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/images_controller_watcher.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/selected_imagedata_provider.dart';
 
 class LandscapeCameraDetailsScreen extends ConsumerStatefulWidget {
@@ -77,6 +78,7 @@ class _LandscapeCameraDetailsScreenState
   @override
   Widget build(BuildContext context) {
     final selectedImageData = ref.watch(selectedImageDataProvider);
+    final currentImage = ref.watch(currentImageProvider);
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
@@ -99,9 +101,9 @@ class _LandscapeCameraDetailsScreenState
                               maxScale: 10,
                               // minScale: 4,
                               child: Image.network(
-                                selectedImageData == null
+                                currentImage == null
                                     ? widget.imagesData.images![0].urlPreview!
-                                    : selectedImageData.urlPreview!,
+                                    : currentImage.urlPreview!,
                                 gaplessPlayback: true,
                                 // width: double.infinity,
                                 height: MediaQuery.of(context).size.height,

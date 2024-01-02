@@ -811,7 +811,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                             LandscapeCameraDetailsScreen(
                                           projectId: widget.projectId,
                                           cameraId: widget.cameraId,
-                                          imagesData: imagesData,
+                                          imagesData: imagesByCameraIdInter,
                                           projectName: widget.projectName,
                                         ),
                                         transitionsBuilder: (context, animation,
