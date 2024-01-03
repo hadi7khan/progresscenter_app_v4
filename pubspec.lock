@@ -153,6 +153,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.2"
+  camera_gallery_image_picker:
+    dependency: "direct main"
+    description:
+      name: camera_gallery_image_picker
+      sha256: "626997d3a799d6b23b4933270701e08e8be445dd0e189af285c405f58da3afbd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   carousel_slider:
     dependency: "direct main"
     description:
