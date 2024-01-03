@@ -79,7 +79,7 @@ class _ChangePasswordScreenState
                     Text(
                       "Choose new password",
                       style: TextStyle(
-                          letterSpacing: -0.3,
+                          letterSpacing: -1,
                           color: Helper.baseBlack,
                           fontWeight: FontWeight.w600,
                           fontSize: 28.sp),
