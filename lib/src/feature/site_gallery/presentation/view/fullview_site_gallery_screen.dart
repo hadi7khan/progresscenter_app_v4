@@ -139,6 +139,7 @@ class _FullViewSitegalleryScreenState
             child: Padding(
               padding: EdgeInsets.only(right: 16.w, left: 16.w),
               child: AppBar(
+                systemOverlayStyle: SystemUiOverlayStyle.light,
                 // backgroundColor: Colors.black,
                 // surfaceTintColor: Colors.black,
                 automaticallyImplyLeading: false,
