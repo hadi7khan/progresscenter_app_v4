@@ -126,6 +126,7 @@ dependencies:
   photo_view: 0.14.0
   flutter_swiper_view: 1.1.8
   camera_gallery_image_picker: 0.0.4
+  # wechat_camera_picker: 4.1.2
 
 dev_dependencies:
   flutter_test:
@@ -134,6 +135,7 @@ dev_dependencies:
   build_runner: 2.3.3
   freezed: 2.3.2
   freezed_annotation: 2.2.0
+  photo_manager: ^3.0.0-dev.2
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

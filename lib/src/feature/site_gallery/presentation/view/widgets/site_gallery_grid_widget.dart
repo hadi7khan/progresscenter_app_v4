@@ -152,7 +152,7 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
                         children: [
                           AspectRatio(
                               aspectRatio: 1 / 1,
-                              child: controller!.value.isInitialized
+                              child: controller != null
                                   ? VideoPlayer(controller!)
                                   : SizedBox()
                               // VlcPlayer(

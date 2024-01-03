@@ -19,6 +19,8 @@ import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/provider/site_gallery_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/view/widgets/site_gallery_grid_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/view/widgets/site_gallery_list_widget.dart';
+// import 'package:wechat_camera_picker/wechat_camera_picker.dart';
+import 'dart:developer';
 
 class SiteGalleryScreen extends ConsumerStatefulWidget {
   final String projectId;
@@ -56,12 +58,29 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
       maxWidth: 1024,
       maxHeight: 1024,
     );
+    // final pickedFile = await CameraPicker.pickFromCamera(context,
+    //     pickerConfig: CameraPickerConfig());
     // final pickedFile = await _picker.pickImage(
     //   source: source,
     //   maxWidth: 1024,
     //   maxHeight: 1024,
     //   imageQuality: 80,
     // );
+
+    // if (pickedFile != null) {
+    //   try {
+    //     final File? file = await pickedFile.file;
+
+    //     if (file != null) {
+    //       String filePath = file.path;
+    //       log('File path: $filePath');
+    //     } else {
+    //       print('Error: Unable to load file.');
+    //     }
+    //   } catch (e) {
+    //     print('Error: $e');
+    //   }
+    // }
 
     if (pickedFile != null) {
       final file = XFile(pickedFile.path);
@@ -72,7 +91,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
       setState(() {
         _image = file;
       });
-      print("image path" + _image!.path.toString());
+      log("image path" + _image!.path.toString());
     } else {
       return null;
     }
@@ -457,15 +476,16 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                             // print("progress" + _progress.toString());
                           });
                           // print("progress" + _progress.toString());
+
                           context.pop();
+                          ref
+                              .refresh(siteGalleryControllerProvider.notifier)
+                              .getSiteGallery(widget.projectId);
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                   backgroundColor: Colors.green,
                                   content: Text("Image Uploaded")));
                         });
-                        ref
-                            .watch(siteGalleryControllerProvider.notifier)
-                            .getSiteGallery(widget.projectId);
                       });
                     },
                     child: Container(
