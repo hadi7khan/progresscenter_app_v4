@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
@@ -52,6 +53,7 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
         resizeToAvoidBottomInset: true,
         body: SafeArea(
             child: RefreshIndicator(
+          displacement: 10.0,
           color: Helper.primary,
           onRefresh: () async {
             HapticFeedback.mediumImpact();
@@ -69,7 +71,11 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SvgPicture.asset('assets/images/home.svg'),
+                      InkWell(
+                          onTap: () {
+                            context.push('/notifications');
+                          },
+                          child: SvgPicture.asset('assets/images/home.svg')),
                       Row(
                         children: [
                           SvgPicture.asset('assets/images/search.svg'),

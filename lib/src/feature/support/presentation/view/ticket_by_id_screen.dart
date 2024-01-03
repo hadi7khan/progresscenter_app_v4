@@ -163,6 +163,7 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
           body: SafeArea(
             top: true,
             child: RefreshIndicator(
+              displacement: 10.0,
               color: Helper.primary,
               onRefresh: () async {
                 HapticFeedback.mediumImpact();
@@ -171,6 +172,7 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
                     .getTicketById(widget.ticketId);
               },
               child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
                 child: Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),

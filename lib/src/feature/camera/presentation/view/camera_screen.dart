@@ -103,6 +103,7 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
         body: SafeArea(
           top: true,
           child: RefreshIndicator(
+            displacement: 10.0,
             color: Helper.primary,
             onRefresh: () async {
               HapticFeedback.mediumImpact();

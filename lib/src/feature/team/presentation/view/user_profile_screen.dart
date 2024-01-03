@@ -293,6 +293,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
           ),
           body: SafeArea(
             child: RefreshIndicator(
+              displacement: 10.0,
               color: Helper.primary,
               onRefresh: () async {
                 HapticFeedback.mediumImpact();

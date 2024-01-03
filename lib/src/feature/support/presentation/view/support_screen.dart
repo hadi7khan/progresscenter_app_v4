@@ -38,6 +38,7 @@ class _SupportScreenState extends BaseConsumerState<SupportScreen> {
     return Scaffold(
       body: SafeArea(
           child: RefreshIndicator(
+        displacement: 10.0,
         color: Helper.primary,
         onRefresh: () async {
           HapticFeedback.mediumImpact();

@@ -103,8 +103,10 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
         body: SafeArea(
           top: true,
           child: RefreshIndicator(
+            displacement: 10.0,
             color: Helper.primary,
             onRefresh: () async {
+              HapticFeedback.mediumImpact();
               HapticFeedback.mediumImpact();
               return await ref
                   .refresh(droneFootageControllerProvider.notifier)

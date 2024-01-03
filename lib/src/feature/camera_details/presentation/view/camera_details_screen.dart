@@ -1032,6 +1032,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                       itemCount: daysInMonth.length,
                                       itemBuilder: (context, index) {
                                         final day = daysInMonth[index];
+                                        // String daycompare =
                                         final formattedDay =
                                             DateFormat.EEEE().format(day);
                                         final formattedDate =
@@ -1043,7 +1044,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                         log("current Image date" +
                                             currentImage.date.toString());
                                         log("formatted day to compare" +
-                                            day.toString());
+                                            compareDate.toString());
 
                                         return InkWell(
                                           onTap: () {
@@ -1072,7 +1073,10 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                             padding: EdgeInsets.zero,
                                             decoration: BoxDecoration(
                                               border: Border.all(
-                                                color: isSelected
+                                                color: currentImage.date ==
+                                                        DateFormat('yyyyMMdd')
+                                                            .format(daysInMonth[
+                                                                index])
                                                     ? Helper.baseBlack
                                                         .withOpacity(0.06)
                                                     : Colors.transparent,
@@ -1114,7 +1118,10 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                                   ],
                                                 ),
                                               ),
-                                              isSelected
+                                              currentImage.date ==
+                                                      DateFormat('yyyyMMdd')
+                                                          .format(daysInMonth[
+                                                              index])
                                                   ? Positioned.fill(
                                                       // top: -2,
                                                       child: Align(

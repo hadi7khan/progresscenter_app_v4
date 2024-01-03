@@ -179,6 +179,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
       ),
       body: SafeArea(
         child: RefreshIndicator(
+          displacement: 10.0,
           color: Helper.primary,
           onRefresh: () async {
             HapticFeedback.mediumImpact();
@@ -187,7 +188,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                 .getImagesByCamId(widget.projectId, widget.cameraId);
           },
           child: SingleChildScrollView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: AlwaysScrollableScrollPhysics(),
             child: splitViewData2.when(
               data: (data2) {
                 return Padding(

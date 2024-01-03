@@ -48,8 +48,10 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
     return Scaffold(
       body: SafeArea(
           child: RefreshIndicator(
+        displacement: 10.0,
         color: Helper.primary,
         onRefresh: () async {
+          HapticFeedback.mediumImpact();
           HapticFeedback.mediumImpact();
           return await ref.refresh(docsControllerProvider.notifier).getDocs();
         },
@@ -117,7 +119,11 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        SvgPicture.asset('assets/images/home.svg'),
+                        InkWell(
+                            onTap: () {
+                              context.push('/notifications');
+                            },
+                            child: SvgPicture.asset('assets/images/home.svg')),
                         Row(
                           children: [
                             SvgPicture.asset('assets/images/search.svg'),

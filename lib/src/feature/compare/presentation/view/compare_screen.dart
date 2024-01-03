@@ -1,6 +1,7 @@
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -107,7 +108,10 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
       ),
       body: SafeArea(
         child: RefreshIndicator(
+          displacement: 10.0,
+          color: Helper.primary,
           onRefresh: () async {
+            HapticFeedback.mediumImpact();
             return await ref
                 .refresh(compare1ControllerProvider.notifier)
                 .getImagesByCamId(widget.projectId, widget.cameraId);
