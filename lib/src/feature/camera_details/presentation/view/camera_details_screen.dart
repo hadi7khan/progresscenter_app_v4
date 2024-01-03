@@ -537,6 +537,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                             .images![index].name,
                                         datetime: imagesByCameraIdInter
                                             .images![index].datetime,
+                                        date: imagesByCameraIdInter
+                                            .images![index].date,
                                         urlPreview: imagesByCameraIdInter
                                             .images![index].urlPreview,
                                         urlThumb: imagesByCameraIdInter

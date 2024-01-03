@@ -83,7 +83,7 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                         // Note: Styles for TextSpans must be explicitly defined.
                         // Child text spans will inherit styles from parent
                         style: TextStyle(
-                          letterSpacing: -0.3,
+                          letterSpacing: -1,
                           fontSize: 32.sp,
                           fontWeight: FontWeight.w600,
                           color: Helper.baseBlack,

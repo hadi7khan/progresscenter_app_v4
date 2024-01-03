@@ -71,7 +71,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           TextSpan(
                             text: 'Sign in to \nget started',
                             style: TextStyle(
-                              letterSpacing: -0.3,
+                              letterSpacing: -1,
                               fontSize: 32.sp,
                               fontWeight: FontWeight.w600,
                               color: Helper.baseBlack,
@@ -98,7 +98,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       height: 34.h,
                     ),
                     Text(
-                      "Email",
+                      "Email or username",
                       style: TextStyle(
                           letterSpacing: -0.3,
                           color: Helper.textColor700,

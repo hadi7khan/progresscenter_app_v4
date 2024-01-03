@@ -82,7 +82,7 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                                     Text(
                                       contents[i].title!,
                                       style: TextStyle(
-                                        letterSpacing: -0.3,
+                                        letterSpacing: -1,
                                         fontSize: 32.sp,
                                         fontWeight: FontWeight.w600,
                                         color: Helper.textColor800,
