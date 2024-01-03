@@ -1038,6 +1038,12 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                             DateFormat.d().format(day);
                                         final isSelected =
                                             index == _selectedIndex;
+                                        final compareDate =
+                                            DateFormat('yyyyMMdd').format(day);
+                                        log("current Image date" +
+                                            currentImage.date.toString());
+                                        log("formatted day to compare" +
+                                            day.toString());
 
                                         return InkWell(
                                           onTap: () {
@@ -1045,12 +1051,12 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                               _selectedIndex =
                                                   index; // Update the selected index when an item is tapped
                                             });
-                                            print(day.toString());
+
                                             // DateTime date =
                                             //     DateTime.parse(value[0].toString());
                                             _searchDate = DateFormat("yyyyMMdd")
                                                 .format(day);
-                                            print("month list date" +
+                                            log("month list date" +
                                                 _searchDate);
                                             ref
                                                 .watch(

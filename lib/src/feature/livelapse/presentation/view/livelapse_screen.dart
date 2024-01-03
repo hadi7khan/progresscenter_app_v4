@@ -116,6 +116,7 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
                 .getLivelapse(widget.projectId, widget.cameraId);
           },
           child: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
               child: livelapseData.when(
@@ -152,131 +153,150 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
                             return SizedBox(height: 20.h);
                           },
                           itemBuilder: (context, index) {
-                            return Container(
-                              margin: EdgeInsets.zero,
-                              padding: EdgeInsets.zero,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    flex: 4,
-                                    child: data[index].coverImageUrl != null
-                                        ? ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8.r),
-                                            child: Stack(
-                                                alignment: Alignment.center,
-                                                children: [
-                                                  AspectRatio(
-                                                    aspectRatio: 16 / 9,
-                                                    child: Image.network(
-                                                      data[index]
-                                                          .coverImageUrl!,
-                                                      fit: BoxFit.fill,
-                                                      gaplessPlayback: true,
-                                                      errorBuilder:
-                                                          (BuildContext context,
-                                                              Object exception,
-                                                              StackTrace?
-                                                                  stackTrace) {
-                                                        return ClipRRect(
-                                                          child: Image.asset(
-                                                            'assets/images/error_image.jpeg',
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                        );
-                                                      },
+                            return InkWell(
+                              onTap: () {
+                                if (data[index].status == "COMPLETED") {
+                                  context.push("/fullViewlivelapse", extra: {
+                                    "projectId": widget.projectId,
+                                    "projectName": widget.projectName,
+                                    "cameraId": widget.cameraId,
+                                    "url": data[index].url!,
+                                    "name": data[index].name!
+                                  });
+                                }
+                              },
+                              child: Container(
+                                margin: EdgeInsets.zero,
+                                padding: EdgeInsets.zero,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 4,
+                                      child: data[index].coverImageUrl != null
+                                          ? ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.r),
+                                              child: Stack(
+                                                  alignment: Alignment.center,
+                                                  children: [
+                                                    AspectRatio(
+                                                      aspectRatio: 16 / 9,
+                                                      child: Image.network(
+                                                        data[index]
+                                                            .coverImageUrl!,
+                                                        fit: BoxFit.fill,
+                                                        gaplessPlayback: true,
+                                                        errorBuilder:
+                                                            (BuildContext
+                                                                    context,
+                                                                Object
+                                                                    exception,
+                                                                StackTrace?
+                                                                    stackTrace) {
+                                                          return ClipRRect(
+                                                            child: Image.asset(
+                                                              'assets/images/error_image.jpeg',
+                                                              fit: BoxFit.cover,
+                                                            ),
+                                                          );
+                                                        },
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Positioned(
-                                                      top: 26,
-                                                      child: Container(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 7.w,
-                                                                top: 5.45.h,
-                                                                bottom: 5.45.h,
-                                                                right: 5.w),
-                                                        height: 24.h,
-                                                        width: 24.w,
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.white
-                                                                .withOpacity(
-                                                                    0.3),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        24.r)),
-                                                        child: SvgPicture.asset(
-                                                          // height: 13,
-                                                          // width: 13,
-                                                          'assets/images/icon_after.svg',
-                                                        ),
-                                                      ))
-                                                ]))
-                                        : ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(16.r),
-                                            child: AspectRatio(
-                                              aspectRatio: 16 / 9,
-                                              child: Image.asset(
-                                                'assets/images/error_image.jpeg',
-                                                fit: BoxFit.fill,
+                                                    Positioned(
+                                                        top: 26,
+                                                        child: Container(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 7.w,
+                                                                  top: 5.45.h,
+                                                                  bottom:
+                                                                      5.45.h,
+                                                                  right: 5.w),
+                                                          height: 24.h,
+                                                          width: 24.w,
+                                                          decoration: BoxDecoration(
+                                                              color: Colors
+                                                                  .white
+                                                                  .withOpacity(
+                                                                      0.3),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          24.r)),
+                                                          child:
+                                                              SvgPicture.asset(
+                                                            // height: 13,
+                                                            // width: 13,
+                                                            'assets/images/icon_after.svg',
+                                                          ),
+                                                        ))
+                                                  ]))
+                                          : ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(16.r),
+                                              child: AspectRatio(
+                                                aspectRatio: 16 / 9,
+                                                child: Image.asset(
+                                                  'assets/images/error_image.jpeg',
+                                                  fit: BoxFit.fill,
+                                                ),
                                               ),
                                             ),
+                                    ),
+                                    Expanded(
+                                        flex: 6,
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 12.w),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(data[index].name!,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      letterSpacing: -0.3,
+                                                      color: Helper.baseBlack,
+                                                      fontSize: 14.sp,
+                                                      fontWeight:
+                                                          FontWeight.w500)),
+                                              Text(
+                                                  data[index]
+                                                          .duration!
+                                                          .toString() +
+                                                      " days ·" +
+                                                      getDay(data[index]
+                                                          .startDate) +
+                                                      "-" +
+                                                      getDate(
+                                                          data[index].endDate),
+                                                  style: TextStyle(
+                                                      letterSpacing: -0.3,
+                                                      color: Helper.baseBlack
+                                                          .withOpacity(0.5),
+                                                      fontSize: 12.sp,
+                                                      fontWeight:
+                                                          FontWeight.w400)),
+                                              SizedBox(
+                                                height: 12.h,
+                                              ),
+                                              Text(data[index].status!,
+                                                  style: TextStyle(
+                                                      letterSpacing: -0.3,
+                                                      color: data[index]
+                                                                  .status! !=
+                                                              "EXPIRED"
+                                                          ? Helper.textColor400
+                                                          : Helper.errorColor,
+                                                      fontSize: 8.sp,
+                                                      fontWeight:
+                                                          FontWeight.w600))
+                                            ],
                                           ),
-                                  ),
-                                  Expanded(
-                                      flex: 6,
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 12.w),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(data[index].name!,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    letterSpacing: -0.3,
-                                                    color: Helper.baseBlack,
-                                                    fontSize: 14.sp,
-                                                    fontWeight:
-                                                        FontWeight.w500)),
-                                            Text(
-                                                data[index]
-                                                        .duration!
-                                                        .toString() +
-                                                    " days ·" +
-                                                    getDay(
-                                                        data[index].startDate) +
-                                                    "-" +
-                                                    getDate(
-                                                        data[index].endDate),
-                                                style: TextStyle(
-                                                    letterSpacing: -0.3,
-                                                    color: Helper.baseBlack
-                                                        .withOpacity(0.5),
-                                                    fontSize: 12.sp,
-                                                    fontWeight:
-                                                        FontWeight.w400)),
-                                            SizedBox(
-                                              height: 12.h,
-                                            ),
-                                            Text(data[index].status!,
-                                                style: TextStyle(
-                                                    letterSpacing: -0.3,
-                                                    color: data[index]
-                                                                .status! !=
-                                                            "EXPIRED"
-                                                        ? Helper.textColor400
-                                                        : Helper.errorColor,
-                                                    fontSize: 8.sp,
-                                                    fontWeight:
-                                                        FontWeight.w600))
-                                          ],
-                                        ),
-                                      ))
-                                ],
+                                        ))
+                                  ],
+                                ),
                               ),
                             );
                           })

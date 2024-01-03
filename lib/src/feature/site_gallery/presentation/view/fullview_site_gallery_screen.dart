@@ -51,7 +51,7 @@ class _FullViewSitegalleryScreenState
   @override
   void initState() {
     super.initState();
-    _initPlayer();
+    // _initPlayer();
 
     if (widget.type == "VIDEO") {
       _initPlayer();

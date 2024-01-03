@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
@@ -5,10 +7,12 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
@@ -39,9 +43,14 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
   var color;
   bool _isSelected = false;
   double _progress = 0.0;
+  PersistentBottomSheetController? _bottomSheetController;
 
-  calculateProgress(double sentBytes) {
+  double calculateProgress(double sentBytes) {
     print("sentBytes--------------" + sentBytes.toString());
+    setState(() {
+      _progress = sentBytes;
+    });
+    log("ppppp" + _progress.toString());
     return sentBytes;
   }
 
@@ -243,34 +252,6 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.start,
-                    //   mainAxisSize: MainAxisSize.max,
-                    //   children: [
-                    //     Container(
-                    //       height: 24.h,
-                    //       child: IconButton(
-                    //         padding: EdgeInsets.zero,
-                    //         alignment: Alignment.centerLeft,
-                    //         icon: Icon(
-                    //           Icons.arrow_back,
-                    //         ),
-                    //         onPressed: () => context.pop(),
-                    //       ),
-                    //     ),
-                    //     SizedBox(width: 8.w),
-                    //     Center(
-                    //       child: Text(
-                    //         "Edit project",
-                    //         style: TextStyle(
-                    //             color: Helper.baseBlack,
-                    //             fontSize: 18.sp,
-                    //             fontWeight: FontWeight.w500),
-                    //       ),
-                    //     )
-                    //   ],
-                    // ),
-                    // SizedBox(height: 24.h),
                     Text(
                       "Project Name",
                       style: TextStyle(
@@ -459,316 +440,6 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                         padding: const EdgeInsets.all(4),
                         children: _getChildren()),
                     SizedBox(height: 28.h),
-                    // Row(
-                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //     children: [
-                    //       Text(
-                    //         "Members · " + widget.data.users!.length.toString(),
-                    //         style: TextStyle(
-                    //             color: Helper.textColor700,
-                    //             fontSize: 14.sp,
-                    //             fontWeight: FontWeight.w500),
-                    //       ),
-                    // InkWell(
-                    //   onTap: () {
-                    //     context.push('/addmember',
-                    //         extra: {"projectId": widget.data.id});
-                    //   },
-                    //   child: Text(
-                    //     "Add members",
-                    //     style: TextStyle(
-                    //         color: Helper.blueDark,
-                    //         fontSize: 14.sp,
-                    //         fontWeight: FontWeight.w500),
-                    //   ),
-                    // ),
-                    // ]),
-                    SizedBox(height: 12.h),
-                    // ListView.separated(
-                    //   separatorBuilder: (context, index) {
-                    //     return SizedBox(height: 16.h);
-                    //   },
-                    //   shrinkWrap: true,
-                    //   physics: NeverScrollableScrollPhysics(),
-                    //   itemCount: widget.data.users!.length,
-                    //   itemBuilder: ((context, index) {
-                    //     return Container(
-                    //       decoration: BoxDecoration(
-                    //         color: Helper.widgetBackground,
-                    //         borderRadius: BorderRadius.circular(12.r),
-                    //       ),
-                    //       child: ListTile(
-                    //         leading: AvatarWidget(
-                    //           dpUrl: widget.data.users![index].dp != null
-                    //               ? widget.data.users![index].dpUrl!
-                    //               : "",
-                    //           name: widget.data.users![index].name!,
-                    //           size: 32.h,
-                    //           backgroundColor:
-                    //               widget.data.users![index].preset!.color!,
-                    //         ),
-                    //         title: Text(
-                    //           widget.data.users![index].name!,
-                    //           style: TextStyle(
-                    //               color: Helper.textColor700,
-                    //               fontSize: 14.sp,
-                    //               fontWeight: FontWeight.w600),
-                    //         ),
-                    //         subtitle: Text(
-                    //           widget.data.users![index].email!,
-                    //           style: TextStyle(
-                    //               color: Helper.textColor600,
-                    //               fontSize: 12.sp,
-                    //               fontWeight: FontWeight.w400),
-                    //         ),
-                    //         trailing: InkWell(
-                    //             radius: 40,
-                    //             excludeFromSemantics: true,
-                    //             onTap: () {
-                    //               Platform.isIOS
-                    //                   ? showCupertinoDialog(
-                    //                       context: context,
-                    //                       builder: (context) =>
-                    //                           CupertinoAlertDialog(
-                    //                         title: Text(
-                    //                           "Are you sure you want to remove " +
-                    //                               '\"' +
-                    //                               widget.data.users![index]
-                    //                                   .name! +
-                    //                               '\"',
-                    //                         ),
-                    //                         content: Text(
-                    //                           "You cannot undo this action ",
-                    //                         ),
-                    //                         actions: <Widget>[
-                    //                           // if (cancelActionText != null)
-
-                    //                           CupertinoDialogAction(
-                    //                             child: Text(
-                    //                               "Cancel",
-                    //                               style: TextStyle(
-                    //                                   color: Colors.blue,
-                    //                                   fontWeight:
-                    //                                       FontWeight.w500),
-                    //                             ),
-                    //                             onPressed: () =>
-                    //                                 Navigator.of(context)
-                    //                                     .pop(true),
-                    //                           ),
-                    //                           CupertinoDialogAction(
-                    //                               child: Text(
-                    //                                 "Remove",
-                    //                                 style: TextStyle(
-                    //                                   color: Helper.errorColor,
-                    //                                 ),
-                    //                               ),
-                    //                               onPressed: () {
-                    //                                 Service()
-                    //                                     .revokeMember(
-                    //                                         widget.data.id,
-                    //                                         widget
-                    //                                             .data
-                    //                                             .users![index]
-                    //                                             .id)
-                    //                                     .then((value) {
-                    //                                   context.pop();
-                    //                                   ScaffoldMessenger.of(
-                    //                                           context)
-                    //                                       .showSnackBar(
-                    //                                           const SnackBar(
-                    //                                               backgroundColor:
-                    //                                                   Colors
-                    //                                                       .red,
-                    //                                               content: Text(
-                    //                                                   "Member Revoked")));
-                    //                                 });
-                    //                                 setState(() {});
-                    //                               }),
-                    //                         ],
-                    //                       ),
-                    //                     )
-                    //                   : showDialog(
-                    //                       context: context,
-                    //                       builder: ((context) {
-                    //                         return FormBuilder(
-                    //                           key: _dialogKey,
-                    //                           child: AlertDialog(
-                    //                             shape: RoundedRectangleBorder(
-                    //                               borderRadius:
-                    //                                   BorderRadius.circular(
-                    //                                       14.r),
-                    //                             ),
-                    //                             content: StatefulBuilder(
-                    //                                 builder: (BuildContext
-                    //                                         context,
-                    //                                     StateSetter setState) {
-                    //                               return SingleChildScrollView(
-                    //                                 child: Column(
-                    //                                   mainAxisSize:
-                    //                                       MainAxisSize.min,
-                    //                                   mainAxisAlignment:
-                    //                                       MainAxisAlignment
-                    //                                           .start,
-                    //                                   crossAxisAlignment:
-                    //                                       CrossAxisAlignment
-                    //                                           .start,
-                    //                                   children: [
-                    //                                     RichText(
-                    //                                       text: TextSpan(
-                    //                                         text:
-                    //                                             "Are you sure you want to remove ",
-                    //                                         style: TextStyle(
-                    //                                             fontSize: 14.sp,
-                    //                                             fontWeight:
-                    //                                                 FontWeight
-                    //                                                     .w500,
-                    //                                             color: Helper
-                    //                                                 .textColor500),
-                    //                                         children: [
-                    //                                           TextSpan(
-                    //                                             text: '\"' +
-                    //                                                 widget
-                    //                                                     .data
-                    //                                                     .users![
-                    //                                                         index]
-                    //                                                     .name! +
-                    //                                                 '\"',
-                    //                                             style: TextStyle(
-                    //                                                 fontSize:
-                    //                                                     14.sp,
-                    //                                                 fontWeight:
-                    //                                                     FontWeight
-                    //                                                         .w500,
-                    //                                                 color: Helper
-                    //                                                     .baseBlack),
-                    //                                           ),
-                    //                                           TextSpan(
-                    //                                             text:
-                    //                                                 ' from this project?',
-                    //                                             style: TextStyle(
-                    //                                                 fontSize:
-                    //                                                     14.sp,
-                    //                                                 fontWeight:
-                    //                                                     FontWeight
-                    //                                                         .w500,
-                    //                                                 color: Helper
-                    //                                                     .textColor500),
-                    //                                           ),
-                    //                                         ],
-                    //                                       ),
-                    //                                     ),
-                    //                                   ],
-                    //                                 ),
-                    //                               );
-                    //                             }),
-                    //                             actionsPadding:
-                    //                                 const EdgeInsets.only(
-                    //                                     left: 32,
-                    //                                     bottom: 32,
-                    //                                     right: 32),
-                    //                             actions: [
-                    //                               TextButton(
-                    //                                 onPressed: () async {
-                    //                                   Service()
-                    //                                       .revokeMember(
-                    //                                           widget.data.id,
-                    //                                           widget
-                    //                                               .data
-                    //                                               .users![index]
-                    //                                               .id)
-                    //                                       .then((value) {
-                    //                                     context.pop();
-                    //                                     ScaffoldMessenger.of(
-                    //                                             context)
-                    //                                         .showSnackBar(const SnackBar(
-                    //                                             backgroundColor:
-                    //                                                 Colors.red,
-                    //                                             content: Text(
-                    //                                                 "Member Revoked")));
-                    //                                   });
-                    //                                   setState(() {});
-                    //                                 },
-                    //                                 style: TextButton.styleFrom(
-                    //                                     padding:
-                    //                                         const EdgeInsets
-                    //                                             .symmetric(
-                    //                                             horizontal: 16,
-                    //                                             vertical: 11),
-                    //                                     shape:
-                    //                                         RoundedRectangleBorder(
-                    //                                       borderRadius:
-                    //                                           BorderRadius
-                    //                                               .circular(
-                    //                                                   8.r),
-                    //                                     ),
-                    //                                     backgroundColor:
-                    //                                         Helper.errorColor,
-                    //                                     fixedSize:
-                    //                                         Size.infinite),
-                    //                                 child: const Text(
-                    //                                   "Remove",
-                    //                                   style: TextStyle(
-                    //                                       color: Colors.white,
-                    //                                       fontSize: 14,
-                    //                                       fontWeight:
-                    //                                           FontWeight.w600),
-                    //                                 ),
-                    //                               ),
-                    //                               TextButton(
-                    //                                 onPressed: () {
-                    //                                   context.pop();
-                    //                                 },
-                    //                                 style: TextButton.styleFrom(
-                    //                                     shape:
-                    //                                         RoundedRectangleBorder(
-                    //                                       borderRadius:
-                    //                                           BorderRadius
-                    //                                               .circular(
-                    //                                                   8.r),
-                    //                                     ),
-                    //                                     padding:
-                    //                                         const EdgeInsets
-                    //                                             .symmetric(
-                    //                                             horizontal: 16,
-                    //                                             vertical: 11),
-                    //                                     backgroundColor:
-                    //                                         Colors.white,
-                    //                                     side: BorderSide(
-                    //                                         color: Helper
-                    //                                             .textColor300),
-                    //                                     fixedSize:
-                    //                                         Size.infinite),
-                    //                                 child: Text(
-                    //                                   "Cancel",
-                    //                                   style: TextStyle(
-                    //                                       color: Helper
-                    //                                           .textColor500,
-                    //                                       fontSize: 14,
-                    //                                       fontWeight:
-                    //                                           FontWeight.w600),
-                    //                                 ),
-                    //                               ),
-                    //                             ],
-                    //                             actionsAlignment:
-                    //                                 MainAxisAlignment.center,
-                    //                           ),
-                    //                         );
-                    //                       }),
-                    //                     );
-                    //             },
-                    //             child: Padding(
-                    //               padding: EdgeInsets.only(
-                    //                   top: 16.0, bottom: 16.0, left: 16.0),
-                    //               child: SvgPicture.asset(
-                    //                   width: 15,
-                    //                   height: 15,
-                    //                   'assets/images/close-x.svg',
-                    //                   color: Helper.errorColor),
-                    //             )),
-                    //       ),
-                    //     );
-                    //   }),
-                    // ),
                   ]),
             ),
           ),
@@ -861,6 +532,196 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
       backgroundColor: Colors.transparent,
       builder: (context) => BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+        child: StatefulBuilder(builder: (context, setState) {
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16.r),
+                  topRight: Radius.circular(16.r)),
+              color: Colors.white,
+            ),
+            height: 340.h,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Upload Media',
+                      style: TextStyle(
+                          color: Helper.baseBlack,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20.h),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    InkWell(
+                      onTap: () async {
+                        // calculateProgress(0);
+                        _pickImage(ImageSource.camera).then((value) async {
+                          await Service()
+                              .uploadPhoto(widget.data.id!, _image!.path,
+                                  calculateProgress)
+                              .then((value) {
+                            setState(() {
+                              _progress = progress;
+                              log("progress" + _progress.toString());
+                            });
+                            log("progress" + _progress.toString());
+                            context.pop();
+                            _showProgressBottomSheet(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    backgroundColor: Colors.green,
+                                    content: Text("Image Uploaded")));
+                          });
+                        });
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10.w, vertical: 16.h),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.r),
+                            color: Colors.white),
+                        child: Text(
+                          'Take Photo',
+                          style: TextStyle(
+                              color: Helper.baseBlack,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        context.pop();
+                        _pickImage(ImageSource.gallery).then((value) async {
+                          await await Service()
+                              .uploadPhoto(widget.data.id!, _image!.path,
+                                  calculateProgress)
+                              .then((value) {
+                            setState(() {
+                              _progress = progress;
+                              print("progress" + _progress.toString());
+                            });
+                            print("progress" + _progress.toString());
+                            // _showProgressBottomSheet(cntx);
+
+                            // context.pop();
+                            // ScaffoldMessenger.of(context).showSnackBar(
+                            //     const SnackBar(
+                            //         backgroundColor: Colors.green,
+                            //         content: Text("Image Uploaded")));
+                          });
+                          _showDeleteBottomSheet(
+                              context, "projectId", "imageId");
+                        });
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10.w, vertical: 16.h),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.r),
+                            color: Colors.white),
+                        child: Text(
+                          'Choose Photo',
+                          style: TextStyle(
+                              color: Helper.baseBlack,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        _pickImage(ImageSource.gallery).then((value) async {
+                          await Service()
+                              .uploadPhoto(widget.data.id!, _image!.path,
+                                  calculateProgress)
+                              .then((value) {
+                            setState(() {
+                              _progress = progress;
+                              print("progress" + _progress.toString());
+                            });
+                            context.pop();
+                            _showProgressBottomSheet(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    backgroundColor: Colors.green,
+                                    content: Text("Image Uploaded")));
+                          });
+                        });
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10.w, vertical: 16.h),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.r),
+                            color: Colors.white),
+                        child: Text(
+                          'Browse from files',
+                          style: TextStyle(
+                              color: Helper.baseBlack,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20.h),
+                    Container(
+                      height: 52.h,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500),
+                          // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                        ),
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(
+                                _changeState
+                                    ? Helper.primary
+                                    : Helper.baseBlack),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                            )),
+                        onPressed: () {
+                          context.pop();
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        }),
+      ),
+    );
+  }
+
+  _showProgressBottomSheet(cntx) async {
+    _bottomSheetController =
+        await Scaffold.of(cntx).showBottomSheet((BuildContext context) {
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
           decoration: BoxDecoration(
@@ -869,7 +730,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                 topRight: Radius.circular(16.r)),
             color: Colors.white,
           ),
-          height: 340.h,
+          height: 270.h,
           width: MediaQuery.of(context).size.width,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -879,8 +740,9 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'Upload Media',
+                    'Uploading Image',
                     style: TextStyle(
+                        letterSpacing: -0.3,
                         color: Helper.baseBlack,
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500),
@@ -892,114 +754,77 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  InkWell(
-                    onTap: () async {
-                      // calculateProgress(0);
-                      _pickImage(ImageSource.camera).then((value) async {
-                        await Service()
-                            .uploadPhoto(widget.data.id!, _image!.path,
-                                calculateProgress)
-                            .then((value) {
-                          setState(() {
-                            _progress = progress;
-                            print("progress" + _progress.toString());
-                          });
-                          print("progress" + _progress.toString());
-                          context.pop();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  backgroundColor: Colors.green,
-                                  content: Text("Image Uploaded")));
-                        });
-                      });
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 10.w, vertical: 16.h),
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    isThreeLine: true,
+                    leading: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 6.w, vertical: 6.h),
+                      width: 32.w,
+                      height: 32.h,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.r),
-                          color: Colors.white),
-                      child: Text(
-                        'Take Photo',
-                        style: TextStyle(
-                            color: Helper.baseBlack,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500),
+                          color: Color.fromRGBO(229, 240, 255, 1),
+                          borderRadius: BorderRadius.circular(32.r),
+                          border: Border.all(
+                              color: Color.fromRGBO(245, 249, 255, 1),
+                              width: 4.w)),
+                      child: SvgPicture.asset(
+                        'assets/images/film.svg',
                       ),
                     ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      _pickImage(ImageSource.gallery).then((value) async {
-                        await await Service()
-                            .uploadPhoto(widget.data.id!, _image!.path,
-                                calculateProgress)
-                            .then((value) {
-                          setState(() {
-                            _progress = progress;
-                            print("progress" + _progress.toString());
-                          });
-                          print("progress" + _progress.toString());
-                          context.pop();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  backgroundColor: Colors.green,
-                                  content: Text("Image Uploaded")));
-                        });
-                      });
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 10.w, vertical: 16.h),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.r),
-                          color: Colors.white),
-                      child: Text(
-                        'Choose Photo',
-                        style: TextStyle(
-                            color: Helper.baseBlack,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500),
-                      ),
+                    title: Text(
+                      "Image",
+                      style: TextStyle(
+                          letterSpacing: -0.3,
+                          color: Helper.textColor700,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500),
                     ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      _pickImage(ImageSource.gallery).then((value) async {
-                        await Service()
-                            .uploadPhoto(widget.data.id!, _image!.path,
-                                calculateProgress)
-                            .then((value) {
-                          setState(() {
-                            _progress = progress;
-                            print("progress" + _progress.toString());
-                          });
-                          print("progress" + _progress.toString());
-                          context.pop();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  backgroundColor: Colors.green,
-                                  content: Text("Image Uploaded")));
-                        });
-                      });
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 10.w, vertical: 16.h),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.r),
-                          color: Colors.white),
-                      child: Text(
-                        'Browse from files',
-                        style: TextStyle(
-                            color: Helper.baseBlack,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
+                    subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Uploading",
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Helper.textColor600,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          SizedBox(height: 10.h),
+                          Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(4.r),
+                                  child: LinearPercentIndicator(
+                                      width: 210.w,
+                                      fillColor: Helper.textColor300,
+                                      backgroundColor: Helper.textColor300,
+                                      progressColor: Helper.primary,
+                                      padding: EdgeInsets.zero,
+                                      curve: Curves.easeInOut,
+                                      barRadius: Radius.circular(4.r),
+                                      lineHeight: 8.h,
+                                      percent: _progress),
+                                ),
+                                //             Text(
+                                //               "${(_progressBar).toInt()}%",
+                                //               style: TextStyle(
+                                // letterSpacing: -0.3,
+                                //                   color: Helper.textColor700,
+                                //                   fontSize: 14,
+                                //                   fontWeight: FontWeight.w500),
+                                //             )
+                              ])
+                        ]),
+                    trailing: calculateProgress == 100.0
+                        ? SvgPicture.asset(
+                            'assets/images/checkbox_base.svg',
+                          )
+                        : SizedBox(),
                   ),
                   SizedBox(height: 20.h),
                   Container(
@@ -1007,16 +832,17 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                     width: double.infinity,
                     child: ElevatedButton(
                       child: Text(
-                        "Cancel",
+                        "Close",
                         style: TextStyle(
+                            letterSpacing: -0.3,
                             color: Colors.white,
                             fontSize: 16,
                             fontWeight: FontWeight.w500),
                         // currentIndex == contents.length - 1 ? "Continue" : "Next"
                       ),
                       style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll(
-                              _changeState ? Helper.primary : Helper.baseBlack),
+                          backgroundColor:
+                              MaterialStatePropertyAll(Helper.baseBlack),
                           shape: MaterialStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.r),
@@ -1032,8 +858,8 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
             ],
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   _showDeleteBottomSheet(context, projectId, imageId) {

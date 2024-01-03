@@ -24,6 +24,7 @@ import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/vie
 import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/view/add_youtube_video_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/view/drone_footage_fullview.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/create_livelapse_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/fullview_livelapse.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/livelapse_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/notifications/presentation/view/notifications_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/timeline_details_screen.dart';
@@ -292,6 +293,25 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               projectId: args['projectId'],
               projectName: args['projectName'],
               cameraId: args['cameraId'],
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/fullViewlivelapse',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: fullViewlivelapseRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: FullviewLivelapse(
+              key: state.pageKey,
+              projectId: args['projectId'],
+              projectName: args['projectName'],
+              cameraId: args['cameraId'],
+              url: args['url'],
+              name: args['name'],
             ),
           );
         },
