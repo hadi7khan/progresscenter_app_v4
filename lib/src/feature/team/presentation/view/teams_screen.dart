@@ -48,6 +48,7 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
         ref.watch(teamControllerProvider.select((value) => value.users));
     return Scaffold(
       body: RefreshIndicator(
+        displacement: 10.0,
         color: Helper.primary,
         onRefresh: () async {
           HapticFeedback.mediumImpact();
@@ -73,7 +74,12 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SvgPicture.asset('assets/images/home.svg'),
+                          InkWell(
+                              onTap: () {
+                                context.push('/notifications');
+                              },
+                              child:
+                                  SvgPicture.asset('assets/images/home.svg')),
                           Row(
                             children: [
                               SvgPicture.asset('assets/images/search.svg'),

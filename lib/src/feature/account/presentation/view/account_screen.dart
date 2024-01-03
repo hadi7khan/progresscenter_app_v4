@@ -38,7 +38,11 @@ class _AccountScreenState extends State<AccountScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SvgPicture.asset('assets/images/home.svg'),
+                      InkWell(
+                          onTap: () {
+                            context.push('/notifications');
+                          },
+                          child: SvgPicture.asset('assets/images/home.svg')),
                       // Row(
                       //   children: [
                       //     SvgPicture.asset('assets/images/search.svg'),
