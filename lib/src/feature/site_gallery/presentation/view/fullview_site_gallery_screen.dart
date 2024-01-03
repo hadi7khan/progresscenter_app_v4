@@ -15,6 +15,7 @@ import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/provider/site_gallery_controller.dart';
 import 'package:video_player/video_player.dart';
 
 class FullViewSitegalleryScreen extends ConsumerStatefulWidget {
@@ -485,6 +486,11 @@ class _FullViewSitegalleryScreenState
                                   .deleteSitegallery(projectId, imageId)
                                   .then((value) {
                                 context.pop();
+                                context.pop();
+                                ref
+                                    .read(
+                                        siteGalleryControllerProvider.notifier)
+                                    .getSiteGallery(widget.projectId);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                         backgroundColor: Colors.red,
@@ -576,9 +582,9 @@ class _FullViewSitegalleryScreenState
                 Service().deleteSitegallery(projectId, imageId).then((value) {
                   context.pop();
                   context.pop();
-                  // ref
-                  //     .watch(siteGalleryControllerProvider.notifier)
-                  //     .getSiteGallery(widget.projectId);
+                  ref
+                      .read(siteGalleryControllerProvider.notifier)
+                      .getSiteGallery(widget.projectId);
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       backgroundColor: Colors.red,
