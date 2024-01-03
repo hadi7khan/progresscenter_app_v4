@@ -123,6 +123,7 @@ class _FullViewSitegalleryScreenState
     //   );
     // }
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.h),
         child: Container(
@@ -195,7 +196,10 @@ class _FullViewSitegalleryScreenState
                 : AspectRatio(
                     aspectRatio: 16 / 9,
                     child: chewieController == null
-                        ? Center(child: Text("Loading...."))
+                        ? Center(
+                            child: CircularProgressIndicator(
+                            color: Helper.primary,
+                          ))
                         : Chewie(
                             controller: chewieController!,
                           )
@@ -210,7 +214,7 @@ class _FullViewSitegalleryScreenState
       ),
       bottomNavigationBar: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-        color: Colors.white,
+        color: Colors.black,
         alignment: Alignment.center,
         height: 76.h,
         child: Container(
@@ -228,9 +232,9 @@ class _FullViewSitegalleryScreenState
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.r),
                   ),
-                  backgroundColor: Colors.white,
+                  backgroundColor: Colors.black,
                   fixedSize: Size.infinite),
-              child: Icon(Icons.info_outline, color: Helper.primary),
+              child: Icon(Icons.info_outline, color: Colors.white),
             ),
             TextButton(
               onPressed: () async {
@@ -243,7 +247,7 @@ class _FullViewSitegalleryScreenState
                   ),
                   padding:
                       EdgeInsets.symmetric(horizontal: 32.w, vertical: 11.h),
-                  backgroundColor: Colors.white,
+                  backgroundColor: Colors.black,
                   // side: BorderSide(color: Helper.textColor300),
                   fixedSize: Size.infinite),
               child: Icon(Icons.delete, color: Helper.errorColor),
