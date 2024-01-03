@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:camera_gallery_image_picker/camera_gallery_image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -48,13 +49,19 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
     });
   }
 
-  Future<void> _pickImage(ImageSource source) async {
-    final pickedFile = await _picker.pickImage(
-      source: source,
+  Future<void> _pickImage(ImageSource source, context) async {
+    final pickedFile = await CameraGalleryImagePicker.pickImage(
+      context: context,
+      source: ImagePickerSource.camera,
       maxWidth: 1024,
       maxHeight: 1024,
-      imageQuality: 80,
     );
+    // final pickedFile = await _picker.pickImage(
+    //   source: source,
+    //   maxWidth: 1024,
+    //   maxHeight: 1024,
+    //   imageQuality: 80,
+    // );
 
     if (pickedFile != null) {
       final file = XFile(pickedFile.path);
@@ -66,6 +73,8 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
         _image = file;
       });
       print("image path" + _image!.path.toString());
+    } else {
+      return null;
     }
   }
 
@@ -317,7 +326,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
             CupertinoActionSheetAction(
               child: const Text('Take Photo'),
               onPressed: () {
-                _pickImage(ImageSource.camera).then((value) async {
+                _pickImage(ImageSource.camera, context).then((value) async {
                   await Service()
                       .uploadImageForSitegallery(
                     widget.projectId,
@@ -435,7 +444,8 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                   InkWell(
                     onTap: () async {
                       // calculateProgress(0);
-                      _pickImage(ImageSource.camera).then((value) async {
+                      _pickImage(ImageSource.camera, context)
+                          .then((value) async {
                         await Service()
                             .uploadImageForSitegallery(
                           widget.projectId,

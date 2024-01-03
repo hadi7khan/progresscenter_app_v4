@@ -175,6 +175,12 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     return formattedTime;
   }
 
+  bool _isCurrentItemFullyVisible() {
+    double currentItemPosition = _scrollController.position.pixels;
+    double itemWidth = 44.0; // Replace with your actual item width
+    return currentItemPosition >= 0 && currentItemPosition < itemWidth;
+  }
+
   @override
   void dispose() {
     controller!.dispose();
@@ -517,6 +523,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                     _scrollController.jumpTo(_scrollController
                                             .position.maxScrollExtent -
                                         index * 44.0);
+
                                     log("onindex change" + index.toString());
                                     final reversedIndex =
                                         imagesByCameraIdInter.images!.length -
@@ -777,100 +784,99 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                             ]),
                             SizedBox(
                               height: 76.h,
-                              child: ListView.separated(
-                                  separatorBuilder: (context, builder) {
-                                    return SizedBox(
-                                      width: 2.w,
-                                    );
-                                  },
-                                  itemCount:
-                                      imagesByCameraIdInter.images!.length,
-                                  key: _listViewKey,
-                                  shrinkWrap: true,
-                                  physics: BouncingScrollPhysics(),
-                                  scrollDirection: Axis.horizontal,
-                                  controller: _scrollController,
-                                  itemBuilder: ((context, index) {
-                                    // _scrollDown();
+                              child: NotificationListener<ScrollNotification>(
+                                // onNotification:
+                                //     (ScrollNotification notification) {
+                                //   if (notification is ScrollEndNotification) {
+                                //     // Check if the user has reached the end of the screen
+                                //     if (notification.metrics.pixels ==
+                                //         notification.metrics.maxScrollExtent) {
+                                //       // Scroll the ListView to the next item
+                                //       _scrollController.animateTo(
+                                //           _scrollController.offset +
+                                //               MediaQuery.of(context).size.width,
+                                //           duration: Duration(milliseconds: 500),
+                                //           curve: Curves.easeInOut);
+                                //     }
+                                //   }
+                                //   return false;
+                                // },
+                                child: ListView.separated(
+                                    separatorBuilder: (context, builder) {
+                                      return SizedBox(
+                                        width: 2.w,
+                                      );
+                                    },
+                                    itemCount:
+                                        imagesByCameraIdInter.images!.length,
+                                    key: _listViewKey,
+                                    shrinkWrap: true,
+                                    physics: BouncingScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    controller: _scrollController,
+                                    itemBuilder: ((context, index) {
+                                      // _scrollDown();
 
-                                    final reversedIndex =
-                                        imagesByCameraIdInter.images!.length -
-                                            1 -
-                                            index;
+                                      final reversedIndex =
+                                          imagesByCameraIdInter.images!.length -
+                                              1 -
+                                              index;
 
-                                    return InkWell(
-                                      onTap: () {
-                                        // setState(() {
-                                        //   _selectedImageIndex = reversedIndex;
-                                        // });
-                                        final image = model.Image(
-                                          id: imagesByCameraIdInter
-                                              .images![reversedIndex].id,
-                                          name: imagesByCameraIdInter
-                                              .images![reversedIndex].name,
-                                          datetime: imagesByCameraIdInter
-                                              .images![reversedIndex].datetime,
-                                          urlPreview: imagesByCameraIdInter
-                                              .images![reversedIndex]
-                                              .urlPreview,
-                                          urlThumb: imagesByCameraIdInter
-                                              .images![reversedIndex]
-                                              .urlThumb, // You can copy the URL from the first image
-                                        );
-                                        ref
-                                            .read(currentImageProvider.notifier)
-                                            .setCurrentImage(image);
-                                        // ref
-                                        //     .read(imagesByCameraIdModelProvider
-                                        //         .notifier)
-                                        //     .state = model.ImagesByCameraIdModel(
-                                        //   startDate:
-                                        //       imagesByCameraIdModel.startDate,
-                                        //   endDate:
-                                        //       imagesByCameraIdModel.endDate,
-                                        //   images: imagesByCameraIdModel.images,
-                                        //   currentImage: currentImage,
-                                        // );
-                                        // ref
-                                        //       .read(
-                                        //           currentImageProvider.notifier)
-                                        //       .state = model.Image(
-                                        //         id: imagesByCameraIdModel.images![index].id,
-                                        //     datetime: imagesByCameraIdModel.images![index].datetime,
-                                        //     imageId: imagesByCameraIdModel.images![index].imageId,
-                                        //     urlThumb: imagesByCameraIdModel.images![index].urlThumb,
-                                        //     urlPreview: imagesByCameraIdModel.images![index].urlPreview,
-                                        //   );
-                                      },
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 4.w, vertical: 4.h),
-                                        child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Container(
-                                                padding: EdgeInsets.zero,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          6.r),
-                                                  border: currentImage.id ==
-                                                          imagesByCameraIdInter
-                                                              .images![
-                                                                  reversedIndex]
-                                                              .id!
-                                                      ? Border.all(
-                                                          color: Helper.primary,
-                                                          width: 2.w,
-                                                        )
-                                                      : Border.all(
-                                                          width: 2.w,
-                                                          color: Colors
-                                                              .transparent),
-                                                ),
-                                                child: Container(
+                                      return InkWell(
+                                        onTap: () {
+                                          // setState(() {
+                                          //   _selectedImageIndex = reversedIndex;
+                                          // });
+                                          final image = model.Image(
+                                            id: imagesByCameraIdInter
+                                                .images![reversedIndex].id,
+                                            name: imagesByCameraIdInter
+                                                .images![reversedIndex].name,
+                                            datetime: imagesByCameraIdInter
+                                                .images![reversedIndex]
+                                                .datetime,
+                                            urlPreview: imagesByCameraIdInter
+                                                .images![reversedIndex]
+                                                .urlPreview,
+                                            urlThumb: imagesByCameraIdInter
+                                                .images![reversedIndex]
+                                                .urlThumb, // You can copy the URL from the first image
+                                          );
+                                          ref
+                                              .read(
+                                                  currentImageProvider.notifier)
+                                              .setCurrentImage(image);
+                                          // ref
+                                          //     .read(imagesByCameraIdModelProvider
+                                          //         .notifier)
+                                          //     .state = model.ImagesByCameraIdModel(
+                                          //   startDate:
+                                          //       imagesByCameraIdModel.startDate,
+                                          //   endDate:
+                                          //       imagesByCameraIdModel.endDate,
+                                          //   images: imagesByCameraIdModel.images,
+                                          //   currentImage: currentImage,
+                                          // );
+                                          // ref
+                                          //       .read(
+                                          //           currentImageProvider.notifier)
+                                          //       .state = model.Image(
+                                          //         id: imagesByCameraIdModel.images![index].id,
+                                          //     datetime: imagesByCameraIdModel.images![index].datetime,
+                                          //     imageId: imagesByCameraIdModel.images![index].imageId,
+                                          //     urlThumb: imagesByCameraIdModel.images![index].urlThumb,
+                                          //     urlPreview: imagesByCameraIdModel.images![index].urlPreview,
+                                          //   );
+                                        },
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 4.w, vertical: 4.h),
+                                          child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Container(
                                                   padding: EdgeInsets.zero,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
@@ -882,63 +888,89 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                                                     reversedIndex]
                                                                 .id!
                                                         ? Border.all(
-                                                            color: Colors.white,
-                                                            width: 0.7.w,
+                                                            color:
+                                                                Helper.primary,
+                                                            width: 2.w,
                                                           )
                                                         : Border.all(
-                                                            width: 0.6.w,
+                                                            width: 2.w,
                                                             color: Colors
                                                                 .transparent),
                                                   ),
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            4.r),
-                                                    child: Image.network(
-                                                      imagesByCameraIdInter
-                                                          .images![
-                                                              reversedIndex]
-                                                          .urlThumb!,
-                                                      gaplessPlayback: true,
-                                                      width: 44.w,
-                                                      height: 44.h,
-                                                      fit: BoxFit.fill,
-                                                      errorBuilder:
-                                                          (BuildContext context,
-                                                              Object exception,
-                                                              StackTrace?
-                                                                  stackTrace) {
-                                                        return ClipRRect(
-                                                          child: Image.asset(
-                                                            'assets/images/error_image.jpeg',
-                                                            width: 44.w,
-                                                            height: 44.h,
-                                                            fit: BoxFit.fill,
-                                                          ),
-                                                        );
-                                                      },
+                                                  child: Container(
+                                                    padding: EdgeInsets.zero,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              6.r),
+                                                      border: currentImage.id ==
+                                                              imagesByCameraIdInter
+                                                                  .images![
+                                                                      reversedIndex]
+                                                                  .id!
+                                                          ? Border.all(
+                                                              color:
+                                                                  Colors.white,
+                                                              width: 0.7.w,
+                                                            )
+                                                          : Border.all(
+                                                              width: 0.6.w,
+                                                              color: Colors
+                                                                  .transparent),
+                                                    ),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4.r),
+                                                      child: Image.network(
+                                                        imagesByCameraIdInter
+                                                            .images![
+                                                                reversedIndex]
+                                                            .urlThumb!,
+                                                        gaplessPlayback: true,
+                                                        width: 44.w,
+                                                        height: 44.h,
+                                                        fit: BoxFit.fill,
+                                                        errorBuilder:
+                                                            (BuildContext
+                                                                    context,
+                                                                Object
+                                                                    exception,
+                                                                StackTrace?
+                                                                    stackTrace) {
+                                                          return ClipRRect(
+                                                            child: Image.asset(
+                                                              'assets/images/error_image.jpeg',
+                                                              width: 44.w,
+                                                              height: 44.h,
+                                                              fit: BoxFit.fill,
+                                                            ),
+                                                          );
+                                                        },
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                              SizedBox(
-                                                height: 6.h,
-                                              ),
-                                              Text(
-                                                parseDateTimeString(imagesData
-                                                    .images![reversedIndex]
-                                                    .datetime!),
-                                                style: TextStyle(
-                                                    letterSpacing: -0.3,
-                                                    color: Helper.textColor700,
-                                                    fontSize: 8.sp,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              )
-                                            ]),
-                                      ),
-                                    );
-                                  })),
+                                                SizedBox(
+                                                  height: 6.h,
+                                                ),
+                                                Text(
+                                                  parseDateTimeString(imagesData
+                                                      .images![reversedIndex]
+                                                      .datetime!),
+                                                  style: TextStyle(
+                                                      letterSpacing: -0.3,
+                                                      color:
+                                                          Helper.textColor700,
+                                                      fontSize: 8.sp,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                )
+                                              ]),
+                                        ),
+                                      );
+                                    })),
+                              ),
                             ),
                             SizedBox(
                               height: 74.h,
