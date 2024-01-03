@@ -460,51 +460,56 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
 
                                         // Your item UI here
 
-                                        return Image.network(
-                                          currentImage.urlPreview!,
-                                          width: double.infinity,
-                                          gaplessPlayback: true,
-                                          scale: 1,
-                                          loadingBuilder: (context, child,
-                                              loadingProgress) {
-                                            if (loadingProgress == null)
-                                              return child;
-
-                                            return Center(
-                                              child: Container(
+                                        return Stack(
+                                          alignment: Alignment.center,
+                                          children: [
+                                            BlurryContainer(
+                                                blur: 30,
+                                                borderRadius: BorderRadius.zero,
                                                 height: 250.h,
                                                 width: MediaQuery.of(context)
                                                     .size
                                                     .width,
-                                                color: Colors.white,
-                                                child: Stack(
-                                                  alignment: Alignment.center,
-                                                  children: [
-                                                    CircularProgressIndicator(
-                                                      color: Helper.primary,
-                                                      value: (loadingProgress !=
-                                                              null)
-                                                          ? (loadingProgress
-                                                                  .cumulativeBytesLoaded /
-                                                              loadingProgress
-                                                                  .expectedTotalBytes!)
-                                                          : 0,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                          errorBuilder: (BuildContext context,
-                                              Object exception,
-                                              StackTrace? stackTrace) {
-                                            return ClipRRect(
-                                              child: Image.asset(
-                                                'assets/images/error_image.jpeg',
-                                                fit: BoxFit.cover,
-                                              ),
-                                            );
-                                          },
+                                                color: Colors.white
+                                                    .withOpacity(0.4),
+                                                child: SizedBox()),
+                                            Image.network(
+                                              currentImage.urlPreview!,
+                                              width: double.infinity,
+                                              gaplessPlayback: true,
+                                              scale: 1,
+                                              loadingBuilder: (context, child,
+                                                  loadingProgress) {
+                                                if (loadingProgress == null)
+                                                  return child;
+
+                                                return Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    color: Helper.primary,
+                                                    value: (loadingProgress !=
+                                                            null)
+                                                        ? (loadingProgress
+                                                                .cumulativeBytesLoaded /
+                                                            loadingProgress
+                                                                .expectedTotalBytes!)
+                                                        : 0,
+                                                  ),
+                                                );
+                                              },
+                                              errorBuilder:
+                                                  (BuildContext context,
+                                                      Object exception,
+                                                      StackTrace? stackTrace) {
+                                                return ClipRRect(
+                                                  child: Image.asset(
+                                                    'assets/images/error_image.jpeg',
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          ],
                                         );
                                       },
                                       onPageChanged: (int index) {
@@ -859,7 +864,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                               ),
                             ]),
                             SizedBox(
-                              height: 75.h,
+                              height: 76.h,
                               child: ListView.separated(
                                   separatorBuilder: (context, builder) {
                                     return SizedBox(
@@ -966,10 +971,10 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                                                 .id!
                                                         ? Border.all(
                                                             color: Colors.white,
-                                                            width: 0.5.w,
+                                                            width: 0.7.w,
                                                           )
                                                         : Border.all(
-                                                            width: 0.5.w,
+                                                            width: 0.6.w,
                                                             color: Colors
                                                                 .transparent),
                                                   ),
