@@ -333,7 +333,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
         child: RefreshIndicator(
           triggerMode: RefreshIndicatorTriggerMode.anywhere,
           color: Helper.primary,
-          displacement: 10,
+          displacement: 40,
           onRefresh: () async {
             HapticFeedback.mediumImpact();
             return await ref
@@ -446,190 +446,102 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                 borderRadius: BorderRadius.zero,
                                 // filter: ImageFilter.blur(sigmaX: 105, sigmaY: 105),
                                 // blendMode: BlendMode.clear,
-                                child: PinchZoom(
-                                    maxScale: 10,
-                                    child: PageView.builder(
-                                      controller: _pageController,
-                                      itemCount:
-                                          imagesByCameraIdInter.images!.length,
-                                      reverse:
-                                          true, // Set this to true if you want to reverse the scrolling direction
-                                      itemBuilder: (BuildContext context,
-                                          int itemIndex) {
-                                        // final item = yourItemList[index];
+                                child: PageView.builder(
+                                  controller: _pageController,
+                                  itemCount:
+                                      imagesByCameraIdInter.images!.length,
+                                  reverse:
+                                      true, // Set this to true if you want to reverse the scrolling direction
+                                  itemBuilder:
+                                      (BuildContext context, int itemIndex) {
+                                    // final item = yourItemList[index];
 
-                                        // Your item UI here
+                                    // Your item UI here
 
-                                        return Stack(
-                                          alignment: Alignment.center,
-                                          children: [
-                                            BlurryContainer(
-                                                blur: 30,
-                                                borderRadius: BorderRadius.zero,
-                                                height: 250.h,
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                color: Colors.white
-                                                    .withOpacity(0.4),
-                                                child: SizedBox()),
-                                            Image.network(
-                                              currentImage.urlPreview!,
-                                              width: double.infinity,
-                                              gaplessPlayback: true,
-                                              scale: 1,
-                                              loadingBuilder: (context, child,
-                                                  loadingProgress) {
-                                                if (loadingProgress == null)
-                                                  return child;
+                                    return Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        BlurryContainer(
+                                            blur: 30,
+                                            borderRadius: BorderRadius.zero,
+                                            height: 250.h,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            color:
+                                                Colors.white.withOpacity(0.4),
+                                            child: SizedBox()),
+                                        PinchZoom(
+                                          maxScale: 10,
+                                          child: Image.network(
+                                            currentImage.urlPreview!,
+                                            width: double.infinity,
+                                            gaplessPlayback: true,
+                                            scale: 1,
+                                            loadingBuilder: (context, child,
+                                                loadingProgress) {
+                                              if (loadingProgress == null)
+                                                return child;
 
-                                                return Center(
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    color: Helper.primary,
-                                                    value: (loadingProgress !=
-                                                            null)
-                                                        ? (loadingProgress
-                                                                .cumulativeBytesLoaded /
-                                                            loadingProgress
-                                                                .expectedTotalBytes!)
-                                                        : 0,
-                                                  ),
-                                                );
-                                              },
-                                              errorBuilder:
-                                                  (BuildContext context,
-                                                      Object exception,
-                                                      StackTrace? stackTrace) {
-                                                return ClipRRect(
-                                                  child: Image.asset(
-                                                    'assets/images/error_image.jpeg',
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                      onPageChanged: (int index) {
-                                        // Handle page change if needed
-                                        _scrollController.jumpTo(
-                                            _scrollController
-                                                    .position.maxScrollExtent -
-                                                index * 44.0);
-                                        log("onindex change" +
-                                            index.toString());
-                                        final reversedIndex =
-                                            imagesByCameraIdInter
-                                                    .images!.length -
-                                                index;
-                                        log("reversed" +
-                                            reversedIndex.toString());
-                                        setState(() {
-                                          final image = model.Image(
-                                            id: imagesByCameraIdInter
-                                                .images![index].id,
-                                            name: imagesByCameraIdInter
-                                                .images![index].name,
-                                            datetime: imagesByCameraIdInter
-                                                .images![index].datetime,
-                                            urlPreview: imagesByCameraIdInter
-                                                .images![index].urlPreview,
-                                            urlThumb: imagesByCameraIdInter
-                                                .images![index]
-                                                .urlThumb, // You can copy the URL from the first image
-                                          );
-                                          ref
-                                              .read(
-                                                  currentImageProvider.notifier)
-                                              .setCurrentImage(image);
-                                        });
-                                      },
-                                    )
-                                    // Swiper(
-                                    //     // axisDirection: AxisDirection.left,
-                                    //     loop: false,
-                                    //     controller: _swipperontroller,
-                                    //     itemCount:
-                                    //         imagesByCameraIdInter.images!.length,
-                                    //     itemBuilder: (BuildContext context,
-                                    //         int itemIndex) {
-                                    //       log("length" +
-                                    //           imagesByCameraIdInter.images!.length
-                                    //               .toString());
-                                    //       final reversedIndex =
-                                    //           imagesByCameraIdInter
-                                    //                   .images!.length -
-                                    //               1;
-                                    //       return Image.network(
-                                    //         currentImage.urlPreview!,
-                                    //         width: double.infinity,
-                                    //         gaplessPlayback: true,
-                                    //         scale: 1,
-                                    //         loadingBuilder: (context, child,
-                                    //             loadingProgress) {
-                                    //           if (loadingProgress == null)
-                                    //             return child;
-
-                                    //           return Center(
-                                    //             child: CircularProgressIndicator(
-                                    //               color: Helper.primary,
-                                    //               value: (loadingProgress != null)
-                                    //                   ? (loadingProgress
-                                    //                           .cumulativeBytesLoaded /
-                                    //                       loadingProgress
-                                    //                           .expectedTotalBytes!)
-                                    //                   : 0,
-                                    //             ),
-                                    //           );
-                                    //         },
-                                    //         errorBuilder: (BuildContext context,
-                                    //             Object exception,
-                                    //             StackTrace? stackTrace) {
-                                    //           return ClipRRect(
-                                    //             child: Image.asset(
-                                    //               'assets/images/error_image.jpeg',
-                                    //               fit: BoxFit.cover,
-                                    //             ),
-                                    //           );
-                                    //         },
-                                    //       );
-                                    //     },
-                                    //     onIndexChanged: (index) {
-                                    //       _scrollController.jumpTo(
-                                    //           _scrollController
-                                    //                   .position.maxScrollExtent -
-                                    //               index * 44.0);
-                                    //       log("onindex change" +
-                                    //           index.toString());
-                                    //       final reversedIndex =
-                                    //           imagesByCameraIdInter
-                                    //                   .images!.length -
-                                    //               index;
-                                    //       log("reversed" +
-                                    //           reversedIndex.toString());
-                                    //       setState(() {
-                                    //         final image = model.Image(
-                                    //           id: imagesByCameraIdInter
-                                    //               .images![index].id,
-                                    //           name: imagesByCameraIdInter
-                                    //               .images![index].name,
-                                    //           datetime: imagesByCameraIdInter
-                                    //               .images![index].datetime,
-                                    //           urlPreview: imagesByCameraIdInter
-                                    //               .images![index].urlPreview,
-                                    //           urlThumb: imagesByCameraIdInter
-                                    //               .images![index]
-                                    //               .urlThumb, // You can copy the URL from the first image
-                                    //         );
-                                    //         ref
-                                    //             .read(
-                                    //                 currentImageProvider.notifier)
-                                    //             .setCurrentImage(image);
-                                    //       });
-                                    //     }),
-                                    ),
+                                              return Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: Helper.primary,
+                                                  value: (loadingProgress !=
+                                                          null)
+                                                      ? (loadingProgress
+                                                              .cumulativeBytesLoaded /
+                                                          loadingProgress
+                                                              .expectedTotalBytes!)
+                                                      : 0,
+                                                ),
+                                              );
+                                            },
+                                            errorBuilder: (BuildContext context,
+                                                Object exception,
+                                                StackTrace? stackTrace) {
+                                              return ClipRRect(
+                                                child: Image.asset(
+                                                  'assets/images/error_image.jpeg',
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                  onPageChanged: (int index) {
+                                    // Handle page change if needed
+                                    _scrollController.jumpTo(_scrollController
+                                            .position.maxScrollExtent -
+                                        index * 44.0);
+                                    log("onindex change" + index.toString());
+                                    final reversedIndex =
+                                        imagesByCameraIdInter.images!.length -
+                                            index;
+                                    log("reversed" + reversedIndex.toString());
+                                    setState(() {
+                                      final image = model.Image(
+                                        id: imagesByCameraIdInter
+                                            .images![index].id,
+                                        name: imagesByCameraIdInter
+                                            .images![index].name,
+                                        datetime: imagesByCameraIdInter
+                                            .images![index].datetime,
+                                        urlPreview: imagesByCameraIdInter
+                                            .images![index].urlPreview,
+                                        urlThumb: imagesByCameraIdInter
+                                            .images![index]
+                                            .urlThumb, // You can copy the URL from the first image
+                                      );
+                                      ref
+                                          .read(currentImageProvider.notifier)
+                                          .setCurrentImage(image);
+                                    });
+                                  },
+                                ),
 
                                 // CarouselSlider.builder(
                                 //     carouselController: carouselController,
