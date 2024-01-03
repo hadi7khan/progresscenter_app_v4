@@ -105,20 +105,20 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                       fontWeight: FontWeight.w500),
                 ),
                 actions: [
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        if (list == true) {
-                          list = false;
-                        } else {
-                          list = true;
-                        }
-                      });
-                    },
-                    child: list
-                        ? SvgPicture.asset('assets/images/grid_view.svg')
-                        : SvgPicture.asset('assets/images/list_view.svg'),
-                  ),
+                  // InkWell(
+                  //   onTap: () {
+                  //     setState(() {
+                  //       if (list == true) {
+                  //         list = false;
+                  //       } else {
+                  //         list = true;
+                  //       }
+                  //     });
+                  //   },
+                  //   child: list
+                  //       ? SvgPicture.asset('assets/images/grid_view.svg')
+                  //       : SvgPicture.asset('assets/images/list_view.svg'),
+                  // ),
                   SizedBox(width: 5.w),
                   InkWell(
                     child: SvgPicture.asset('assets/images/plus.svg'),

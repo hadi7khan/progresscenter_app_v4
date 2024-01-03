@@ -471,14 +471,27 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                               return child;
 
                                             return Center(
-                                              child: CircularProgressIndicator(
-                                                color: Helper.primary,
-                                                value: (loadingProgress != null)
-                                                    ? (loadingProgress
-                                                            .cumulativeBytesLoaded /
-                                                        loadingProgress
-                                                            .expectedTotalBytes!)
-                                                    : 0,
+                                              child: Container(
+                                                height: 250.h,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                color: Colors.white,
+                                                child: Stack(
+                                                  alignment: Alignment.center,
+                                                  children: [
+                                                    CircularProgressIndicator(
+                                                      color: Helper.primary,
+                                                      value: (loadingProgress !=
+                                                              null)
+                                                          ? (loadingProgress
+                                                                  .cumulativeBytesLoaded /
+                                                              loadingProgress
+                                                                  .expectedTotalBytes!)
+                                                          : 0,
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             );
                                           },
@@ -940,32 +953,54 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                                           color: Colors
                                                               .transparent),
                                                 ),
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          4.r),
-                                                  child: Image.network(
-                                                    imagesByCameraIdInter
-                                                        .images![reversedIndex]
-                                                        .urlThumb!,
-                                                    gaplessPlayback: true,
-                                                    width: 44.w,
-                                                    height: 44.h,
-                                                    fit: BoxFit.fill,
-                                                    errorBuilder:
-                                                        (BuildContext context,
-                                                            Object exception,
-                                                            StackTrace?
-                                                                stackTrace) {
-                                                      return ClipRRect(
-                                                        child: Image.asset(
-                                                          'assets/images/error_image.jpeg',
-                                                          width: 44.w,
-                                                          height: 44.h,
-                                                          fit: BoxFit.fill,
-                                                        ),
-                                                      );
-                                                    },
+                                                child: Container(
+                                                  padding: EdgeInsets.zero,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            6.r),
+                                                    border: currentImage.id ==
+                                                            imagesByCameraIdInter
+                                                                .images![
+                                                                    reversedIndex]
+                                                                .id!
+                                                        ? Border.all(
+                                                            color: Colors.white,
+                                                            width: 0.5.w,
+                                                          )
+                                                        : Border.all(
+                                                            width: 0.5.w,
+                                                            color: Colors
+                                                                .transparent),
+                                                  ),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4.r),
+                                                    child: Image.network(
+                                                      imagesByCameraIdInter
+                                                          .images![
+                                                              reversedIndex]
+                                                          .urlThumb!,
+                                                      gaplessPlayback: true,
+                                                      width: 44.w,
+                                                      height: 44.h,
+                                                      fit: BoxFit.fill,
+                                                      errorBuilder:
+                                                          (BuildContext context,
+                                                              Object exception,
+                                                              StackTrace?
+                                                                  stackTrace) {
+                                                        return ClipRRect(
+                                                          child: Image.asset(
+                                                            'assets/images/error_image.jpeg',
+                                                            width: 44.w,
+                                                            height: 44.h,
+                                                            fit: BoxFit.fill,
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
                                                   ),
                                                 ),
                                               ),

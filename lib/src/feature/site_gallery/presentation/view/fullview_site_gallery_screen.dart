@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -51,6 +52,11 @@ class _FullViewSitegalleryScreenState
   @override
   void initState() {
     super.initState();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.white,
+        statusBarIconBrightness: Brightness.light));
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
     // _initPlayer();
 
     if (widget.type == "VIDEO") {
@@ -110,8 +116,8 @@ class _FullViewSitegalleryScreenState
 
   @override
   void dispose() {
-    controller!.dispose();
-    chewieController!.dispose();
+    // controller!.dispose();
+    // chewieController!.dispose();
     super.dispose();
   }
 
@@ -122,137 +128,141 @@ class _FullViewSitegalleryScreenState
     //     child: CircularProgressIndicator(),
     //   );
     // }
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60.h),
-        child: Container(
-          color: Colors.white,
-          child: Padding(
-            padding: EdgeInsets.only(right: 16.w, left: 16.w),
-            child: AppBar(
-              backgroundColor: Colors.white,
-              surfaceTintColor: Colors.white,
-              automaticallyImplyLeading: false,
-              titleSpacing: 12.0.w,
-              leading: InkWell(
-                onTap: () {
-                  context.pop();
-                },
-                child: Transform.rotate(
-                  angle: 180 * (3.1415926535 / 180),
-                  child: SvgPicture.asset('assets/images/chevron-right.svg',
-                      color: Helper.iconColor, fit: BoxFit.contain),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light,
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(60.h),
+          child: Container(
+            color: Colors.black,
+            child: Padding(
+              padding: EdgeInsets.only(right: 16.w, left: 16.w),
+              child: AppBar(
+                // backgroundColor: Colors.black,
+                // surfaceTintColor: Colors.black,
+                automaticallyImplyLeading: false,
+                titleSpacing: 12.0.w,
+                leading: InkWell(
+                  onTap: () {
+                    context.pop();
+                  },
+                  child: Transform.rotate(
+                    angle: 180 * (3.1415926535 / 180),
+                    child: SvgPicture.asset('assets/images/chevron-right.svg',
+                        color: Colors.white, fit: BoxFit.contain),
+                  ),
                 ),
-              ),
-              leadingWidth: 24,
-              title: Text(
-                widget.name!,
-                style: TextStyle(
-                    letterSpacing: -0.3,
-                    color: Helper.baseBlack,
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w500),
-              ),
-              // actions: [
+                leadingWidth: 24,
+                title: Text(
+                  widget.name!,
+                  style: TextStyle(
+                      letterSpacing: -0.3,
+                      color: Colors.white,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w500),
+                ),
+                // actions: [
 
-              //   SizedBox(width: 5.w),
-              //   InkWell(
-              //     child: SvgPicture.asset('assets/images/plus.svg'),
-              //     onTap: () {
-              //       _showDroneFootageBottomSheet(context);
-              //     },
-              //   ),
-              // ],
+                //   SizedBox(width: 5.w),
+                //   InkWell(
+                //     child: SvgPicture.asset('assets/images/plus.svg'),
+                //     onTap: () {
+                //       _showDroneFootageBottomSheet(context);
+                //     },
+                //   ),
+                // ],
+              ),
             ),
           ),
         ),
-      ),
-      body: SafeArea(
-        child: Center(
-          child: ClipRRect(
-              // borderRadius: BorderRadius.only(
-              //     topLeft: Radius.circular(16.r),
-              //     topRight: Radius.circular(16.r)),
-              child: Stack(alignment: Alignment.center, children: [
-            widget.type == "IMAGE"
-                ? InteractiveViewer(
-                    maxScale: 10,
-                    child: Image.network(
-                      gaplessPlayback: true,
-                      widget.url!,
-                      fit: BoxFit.fill,
-                      errorBuilder: (BuildContext context, Object exception,
-                          StackTrace? stackTrace) {
-                        return ClipRRect(
-                          child: Image.asset(
-                            'assets/images/error_image.jpeg',
-                            fit: BoxFit.cover,
-                          ),
-                        );
-                      },
-                    ),
-                  )
-                : AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: chewieController == null
-                        ? Center(
-                            child: CircularProgressIndicator(
-                            color: Helper.primary,
-                          ))
-                        : Chewie(
-                            controller: chewieController!,
-                          )
-                    // VlcPlayer(
-                    //   controller: _videoPlayerController!,
-                    //   aspectRatio: 16 / 9,
-                    //   placeholder: Center(child: CircularProgressIndicator()),
-                    // ),
-                    ),
-          ])),
+        body: SafeArea(
+          child: Center(
+            child: ClipRRect(
+                // borderRadius: BorderRadius.only(
+                //     topLeft: Radius.circular(16.r),
+                //     topRight: Radius.circular(16.r)),
+                child: Stack(alignment: Alignment.center, children: [
+              widget.type == "IMAGE"
+                  ? InteractiveViewer(
+                      maxScale: 10,
+                      child: Image.network(
+                        gaplessPlayback: true,
+                        widget.url!,
+                        fit: BoxFit.fill,
+                        errorBuilder: (BuildContext context, Object exception,
+                            StackTrace? stackTrace) {
+                          return ClipRRect(
+                            child: Image.asset(
+                              'assets/images/error_image.jpeg',
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  : AspectRatio(
+                      aspectRatio: 16 / 9,
+                      child: chewieController == null
+                          ? Center(
+                              child: CircularProgressIndicator(
+                              color: Helper.primary,
+                            ))
+                          : Chewie(
+                              controller: chewieController!,
+                            )
+                      // VlcPlayer(
+                      //   controller: _videoPlayerController!,
+                      //   aspectRatio: 16 / 9,
+                      //   placeholder: Center(child: CircularProgressIndicator()),
+                      // ),
+                      ),
+            ])),
+          ),
         ),
-      ),
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-        color: Colors.black,
-        alignment: Alignment.center,
-        height: 76.h,
-        child: Container(
-          height: 52.h,
-          width: double.infinity,
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-            TextButton(
-              onPressed: () async {
-                _showInfoBottomSheet(context);
-              },
-              style: TextButton.styleFrom(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 32.w, vertical: 11.h),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r),
+        bottomNavigationBar: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+          color: Colors.black,
+          alignment: Alignment.center,
+          height: 76.h,
+          child: Container(
+            height: 52.h,
+            width: double.infinity,
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  TextButton(
+                    onPressed: () async {
+                      _showInfoBottomSheet(context);
+                    },
+                    style: TextButton.styleFrom(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 32.w, vertical: 11.h),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        backgroundColor: Colors.black,
+                        fixedSize: Size.infinite),
+                    child: Icon(Icons.info_outline, color: Colors.white),
                   ),
-                  backgroundColor: Colors.black,
-                  fixedSize: Size.infinite),
-              child: Icon(Icons.info_outline, color: Colors.white),
-            ),
-            TextButton(
-              onPressed: () async {
-                _showDeleteBottomSheet(
-                    context, widget.projectId, widget.siteGalleryId);
-              },
-              style: TextButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r),
+                  TextButton(
+                    onPressed: () async {
+                      _showDeleteBottomSheet(
+                          context, widget.projectId, widget.siteGalleryId);
+                    },
+                    style: TextButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 32.w, vertical: 11.h),
+                        backgroundColor: Colors.black,
+                        // side: BorderSide(color: Helper.textColor300),
+                        fixedSize: Size.infinite),
+                    child: Icon(Icons.delete, color: Helper.errorColor),
                   ),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 32.w, vertical: 11.h),
-                  backgroundColor: Colors.black,
-                  // side: BorderSide(color: Helper.textColor300),
-                  fixedSize: Size.infinite),
-              child: Icon(Icons.delete, color: Helper.errorColor),
-            ),
-          ]),
+                ]),
+          ),
         ),
       ),
     );
