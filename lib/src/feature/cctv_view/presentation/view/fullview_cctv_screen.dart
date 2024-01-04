@@ -35,6 +35,7 @@ class _FullViewCCTVScreenState extends State<FullViewCCTVScreen> {
               backgroundColor: Colors.white,
               surfaceTintColor: Colors.white,
               automaticallyImplyLeading: false,
+              centerTitle: true,
               titleSpacing: 12.0.w,
               leading: InkWell(
                 onTap: () {
@@ -55,7 +56,6 @@ class _FullViewCCTVScreenState extends State<FullViewCCTVScreen> {
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w500),
               ),
-              
             ),
           ),
         ),
@@ -67,8 +67,10 @@ class _FullViewCCTVScreenState extends State<FullViewCCTVScreen> {
               //     topLeft: Radius.circular(16.r),
               //     topRight: Radius.circular(16.r)),
               child: Stack(alignment: Alignment.center, children: [
-                CCTVWidget(url: widget.streamingUrl,)
-              ])),
+            CCTVWidget(
+              url: widget.streamingUrl,
+            )
+          ])),
         ),
       ),
     );

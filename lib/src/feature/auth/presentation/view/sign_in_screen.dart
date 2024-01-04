@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/common/data/extension.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
@@ -55,7 +56,11 @@ class _SignInScreenState extends State<SignInScreen> {
                       height: 24.h,
                     ),
                     SizedBox(
-                      height: 38.h,
+                      height: 28.h,
+                    ),
+                    SvgPicture.asset("assets/images/progress_tick.svg"),
+                    SizedBox(
+                      height: 10.h,
                     ),
                     RichText(
                       text: TextSpan(

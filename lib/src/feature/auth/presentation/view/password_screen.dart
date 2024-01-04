@@ -3,11 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/signin_controller.dart';
+import 'dart:developer';
 
 class PasswordScreen extends ConsumerStatefulWidget {
   final email;
@@ -76,7 +78,11 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: 38.h,
+                      height: 28.h,
+                    ),
+                    SvgPicture.asset("assets/images/progress_tick.svg"),
+                    SizedBox(
+                      height: 10.h,
                     ),
                     RichText(
                       text: TextSpan(
@@ -243,7 +249,7 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                                 .read(signInProvider.notifier)
                                 .signIn(data)
                                 .then((value) {
-                              print(value.toString());
+                              log("value" + value.toString());
                               context.go('/projects');
                               Utils.toastSuccessMessage(
                                   "Signed in successfully");

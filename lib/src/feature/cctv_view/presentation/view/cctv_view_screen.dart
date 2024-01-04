@@ -49,6 +49,7 @@ class _CCTVScreenState extends BaseConsumerState<CCTVScreen> {
           child: Padding(
             padding: EdgeInsets.only(right: 16.w, left: 16.w),
             child: AppBar(
+              centerTitle: true,
               backgroundColor: Colors.white,
               surfaceTintColor: Colors.white,
               automaticallyImplyLeading: false,

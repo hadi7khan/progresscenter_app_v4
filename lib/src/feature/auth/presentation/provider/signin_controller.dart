@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/data/repository/auth_repository_impl.dart';
 
@@ -14,15 +16,18 @@ class SignInController extends StateNotifier<SignInState> {
   SignInController(super.state, this.service);
 
   Future signIn(data) async {
+    var value;
     state = state.copyWith(isSubmitting: true);
     final result = await service.signIn(data);
     if (!mounted) return;
     result.fold((l) {
       state = state.copyWith(isSubmitting: false, errorMessage: l.message);
     }, (r) {
-      state = state.copyWith(
-          isSubmitting: false, successMessage: 'Sign In.');
+      state = state.copyWith(isSubmitting: false, successMessage: 'Sign In.');
+      value = r;
     });
+    log("value response" + value.toString());
+    return value;
   }
 }
 
