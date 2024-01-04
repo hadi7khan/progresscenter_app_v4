@@ -121,7 +121,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
         child: Padding(
           padding: EdgeInsets.only(right: 16.w, left: 16.w),
           child: AppBar(
-            centerTitle: true,
+            centerTitle: false,
             automaticallyImplyLeading: false,
             // titleSpacing: 12.0.w,
             leading: InkWell(

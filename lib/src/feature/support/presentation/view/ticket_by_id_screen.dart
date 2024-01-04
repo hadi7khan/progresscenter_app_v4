@@ -111,7 +111,7 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
               child: AppBar(
                 // surfaceTintColor: Colors.white,
                 automaticallyImplyLeading: false,
-                centerTitle: true,
+                centerTitle: false,
                 titleSpacing: 12.0.w,
                 leading: InkWell(
                   onTap: () {

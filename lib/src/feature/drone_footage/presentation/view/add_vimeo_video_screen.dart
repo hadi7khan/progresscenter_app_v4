@@ -21,7 +21,8 @@ class AddVimeoVideoScreen extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<AddVimeoVideoScreen> createState() => _AddVimeoVideoScreenState();
+  ConsumerState<AddVimeoVideoScreen> createState() =>
+      _AddVimeoVideoScreenState();
 }
 
 class _AddVimeoVideoScreenState extends BaseConsumerState<AddVimeoVideoScreen> {
@@ -30,7 +31,7 @@ class _AddVimeoVideoScreenState extends BaseConsumerState<AddVimeoVideoScreen> {
   TextEditingController _urlController = TextEditingController();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
 
-   // Regular expression for a Vimeo link
+  // Regular expression for a Vimeo link
   RegExp regExp = RegExp(
     r'^https?:\/\/(www\.|player\.)?vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/([^/]*)\/videos\/|video\/|)(\d+)(?:|\/\?)',
   );
@@ -48,7 +49,7 @@ class _AddVimeoVideoScreenState extends BaseConsumerState<AddVimeoVideoScreen> {
             child: AppBar(
               surfaceTintColor: Colors.white,
               automaticallyImplyLeading: false,
-              centerTitle: true,
+              centerTitle: false,
               titleSpacing: 12.w,
               leading: InkWell(
                 onTap: () {
@@ -84,186 +85,186 @@ class _AddVimeoVideoScreenState extends BaseConsumerState<AddVimeoVideoScreen> {
                       Text(
                         "You can add one drone video at a time from here",
                         style: TextStyle(
-                    letterSpacing: -0.3,
+                            letterSpacing: -0.3,
                             fontWeight: FontWeight.w400,
                             fontSize: 16.sp,
                             color: Helper.textColor600),
                       ),
                       SizedBox(height: 20.h),
                       CustomInputWidget(
-                              title: "Name",
-                              formField: FormBuilderTextField(
-                                name: '_name',
-                                controller: _nameController,
-                                // focusNode: focusNode,
-                        
-                                validator: (val) {
-                                  if (val == null || val.isEmpty) {
-                                    return 'Name is required';
-                                  }
-                                  return null;
-                                },
-                                textInputAction: TextInputAction.done,
-                                style: TextStyle(
-                    letterSpacing: -0.3,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                textCapitalization: TextCapitalization.none,
-                                keyboardType: TextInputType.name,
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 10.h, horizontal: 14.w),
-                                  hintText: "Enter name",
-                                  hintStyle: TextStyle(
-                    letterSpacing: -0.3,
-                                    color: Helper.textColor500,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  // hintText: widget.control.label,
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                    borderSide:
-                                        BorderSide(color: Helper.textColor300),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                    borderSide: BorderSide(color: Helper.primary),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                    borderSide: const BorderSide(color: Colors.red),
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                    borderSide: const BorderSide(color: Colors.red),
-                                  ),
-                                ),
-                                onTap: () {},
-                              ),
+                        title: "Name",
+                        formField: FormBuilderTextField(
+                          name: '_name',
+                          controller: _nameController,
+                          // focusNode: focusNode,
+
+                          validator: (val) {
+                            if (val == null || val.isEmpty) {
+                              return 'Name is required';
+                            }
+                            return null;
+                          },
+                          textInputAction: TextInputAction.done,
+                          style: TextStyle(
+                            letterSpacing: -0.3,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          textCapitalization: TextCapitalization.none,
+                          keyboardType: TextInputType.name,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10.h, horizontal: 14.w),
+                            hintText: "Enter name",
+                            hintStyle: TextStyle(
+                              letterSpacing: -0.3,
+                              color: Helper.textColor500,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w400,
                             ),
-                            SizedBox(height: 12.h),
-                            CustomInputWidget(
-                              title: "Location",
-                              formField: FormBuilderTextField(
-                                name: '_location',
-                                controller: _locationController,
-                                // focusNode: focusNode,
-                        
-                                validator: (val) {
-                                  if (val == null || val.isEmpty) {
-                                    return 'Location is required';
-                                  }
-                                  return null;
-                                },
-                                textInputAction: TextInputAction.done,
-                                style: TextStyle(
-                    letterSpacing: -0.3,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                textCapitalization: TextCapitalization.none,
-                                keyboardType: TextInputType.name,
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 10.h, horizontal: 14.w),
-                                  hintText: "Enter location",
-                                  hintStyle: TextStyle(
-                    letterSpacing: -0.3,
-                                    color: Helper.textColor500,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  // hintText: widget.control.label,
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                    borderSide:
-                                        BorderSide(color: Helper.textColor300),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                    borderSide: BorderSide(color: Helper.primary),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                    borderSide: const BorderSide(color: Colors.red),
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                    borderSide: const BorderSide(color: Colors.red),
-                                  ),
-                                ),
-                                onTap: () {},
-                              ),
+                            // hintText: widget.control.label,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide:
+                                  BorderSide(color: Helper.textColor300),
                             ),
-                            SizedBox(height: 12.h),
-                            CustomInputWidget(
-                              title: "Vimeo Url",
-                              formField: FormBuilderTextField(
-                                name: '_url',
-                                controller: _urlController,
-                                // focusNode: focusNode,
-                        
-                                validator: (val) {
-                                  if (val == null || val.isEmpty) {
-                                    return 'Url is required';
-                                  }
-                                  if (!regExp.hasMatch(val)) {
-                  return 'Enter a valid Vimeo URL';
-                }
-                                  return null;
-                                },
-                                textInputAction: TextInputAction.done,
-                                style: TextStyle(
-                    letterSpacing: -0.3,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                textCapitalization: TextCapitalization.none,
-                                keyboardType: TextInputType.name,
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 10.h, horizontal: 14.w),
-                                  hintText: "Enter url",
-                                  hintStyle: TextStyle(
-                    letterSpacing: -0.3,
-                                    color: Helper.textColor500,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  // hintText: widget.control.label,
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                    borderSide:
-                                        BorderSide(color: Helper.textColor300),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                    borderSide: BorderSide(color: Helper.primary),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                    borderSide: const BorderSide(color: Colors.red),
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                    borderSide: const BorderSide(color: Colors.red),
-                                  ),
-                                ),
-                                onTap: () {},
-                              ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: BorderSide(color: Helper.primary),
                             ),
-                            SizedBox(height: 12.h),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
+                          ),
+                          onTap: () {},
+                        ),
+                      ),
+                      SizedBox(height: 12.h),
+                      CustomInputWidget(
+                        title: "Location",
+                        formField: FormBuilderTextField(
+                          name: '_location',
+                          controller: _locationController,
+                          // focusNode: focusNode,
+
+                          validator: (val) {
+                            if (val == null || val.isEmpty) {
+                              return 'Location is required';
+                            }
+                            return null;
+                          },
+                          textInputAction: TextInputAction.done,
+                          style: TextStyle(
+                            letterSpacing: -0.3,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          textCapitalization: TextCapitalization.none,
+                          keyboardType: TextInputType.name,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10.h, horizontal: 14.w),
+                            hintText: "Enter location",
+                            hintStyle: TextStyle(
+                              letterSpacing: -0.3,
+                              color: Helper.textColor500,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            // hintText: widget.control.label,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide:
+                                  BorderSide(color: Helper.textColor300),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: BorderSide(color: Helper.primary),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
+                          ),
+                          onTap: () {},
+                        ),
+                      ),
+                      SizedBox(height: 12.h),
+                      CustomInputWidget(
+                        title: "Vimeo Url",
+                        formField: FormBuilderTextField(
+                          name: '_url',
+                          controller: _urlController,
+                          // focusNode: focusNode,
+
+                          validator: (val) {
+                            if (val == null || val.isEmpty) {
+                              return 'Url is required';
+                            }
+                            if (!regExp.hasMatch(val)) {
+                              return 'Enter a valid Vimeo URL';
+                            }
+                            return null;
+                          },
+                          textInputAction: TextInputAction.done,
+                          style: TextStyle(
+                            letterSpacing: -0.3,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          textCapitalization: TextCapitalization.none,
+                          keyboardType: TextInputType.name,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10.h, horizontal: 14.w),
+                            hintText: "Enter url",
+                            hintStyle: TextStyle(
+                              letterSpacing: -0.3,
+                              color: Helper.textColor500,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            // hintText: widget.control.label,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide:
+                                  BorderSide(color: Helper.textColor300),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: BorderSide(color: Helper.primary),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                              borderSide: const BorderSide(color: Colors.red),
+                            ),
+                          ),
+                          onTap: () {},
+                        ),
+                      ),
+                      SizedBox(height: 12.h),
                     ]),
               ),
             ),
           ),
         ),
-       bottomNavigationBar: Container(
+        bottomNavigationBar: Container(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
           color: Colors.white,
           alignment: Alignment.center,
@@ -289,7 +290,7 @@ class _AddVimeoVideoScreenState extends BaseConsumerState<AddVimeoVideoScreen> {
                     child: Text(
                       "Cancel",
                       style: TextStyle(
-                    letterSpacing: -0.3,
+                          letterSpacing: -0.3,
                           color: Helper.neutral500,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -320,7 +321,7 @@ class _AddVimeoVideoScreenState extends BaseConsumerState<AddVimeoVideoScreen> {
                           ref
                               .watch(droneFootageControllerProvider.notifier)
                               .getDroneFootage(widget.projectId);
-                              context.pop();
+                          context.pop();
                           // setState(() {
                           //   _isLoading = false;
                           // });
@@ -339,7 +340,7 @@ class _AddVimeoVideoScreenState extends BaseConsumerState<AddVimeoVideoScreen> {
                     child: Text(
                       "Upload",
                       style: TextStyle(
-                    letterSpacing: -0.3,
+                          letterSpacing: -0.3,
                           color: Colors.white,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),

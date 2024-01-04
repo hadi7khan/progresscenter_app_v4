@@ -68,7 +68,7 @@ class _AddFileVideoScreenState extends BaseConsumerState<AddFileVideoScreen> {
             child: AppBar(
               surfaceTintColor: Colors.white,
               automaticallyImplyLeading: false,
-              centerTitle: true,
+              centerTitle: false,
               titleSpacing: 12.w,
               leading: InkWell(
                 onTap: () {
@@ -102,7 +102,7 @@ class _AddFileVideoScreenState extends BaseConsumerState<AddFileVideoScreen> {
                     Text(
                       "You can add one drone video at a time from here",
                       style: TextStyle(
-                    letterSpacing: -0.3,
+                          letterSpacing: -0.3,
                           fontWeight: FontWeight.w400,
                           fontSize: 16.sp,
                           color: Helper.textColor600),
@@ -123,7 +123,7 @@ class _AddFileVideoScreenState extends BaseConsumerState<AddFileVideoScreen> {
                         },
                         textInputAction: TextInputAction.done,
                         style: TextStyle(
-                    letterSpacing: -0.3,
+                          letterSpacing: -0.3,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w400,
                         ),
@@ -135,7 +135,7 @@ class _AddFileVideoScreenState extends BaseConsumerState<AddFileVideoScreen> {
                               vertical: 10.h, horizontal: 14.w),
                           hintText: "Enter name",
                           hintStyle: TextStyle(
-                    letterSpacing: -0.3,
+                            letterSpacing: -0.3,
                             color: Helper.textColor500,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
@@ -177,7 +177,7 @@ class _AddFileVideoScreenState extends BaseConsumerState<AddFileVideoScreen> {
                         },
                         textInputAction: TextInputAction.done,
                         style: TextStyle(
-                    letterSpacing: -0.3,
+                          letterSpacing: -0.3,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w400,
                         ),
@@ -189,7 +189,7 @@ class _AddFileVideoScreenState extends BaseConsumerState<AddFileVideoScreen> {
                               vertical: 10.h, horizontal: 14.w),
                           hintText: "Enter location",
                           hintStyle: TextStyle(
-                    letterSpacing: -0.3,
+                            letterSpacing: -0.3,
                             color: Helper.textColor500,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
@@ -259,7 +259,7 @@ class _AddFileVideoScreenState extends BaseConsumerState<AddFileVideoScreen> {
                                             }
                                           },
                                         style: TextStyle(
-                    letterSpacing: -0.3,
+                                            letterSpacing: -0.3,
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.w600,
                                             color: Helper.primary)),
@@ -270,7 +270,7 @@ class _AddFileVideoScreenState extends BaseConsumerState<AddFileVideoScreen> {
                             Text(
                               "Browse JPG/PNG/MP4",
                               style: TextStyle(
-                    letterSpacing: -0.3,
+                                  letterSpacing: -0.3,
                                   fontWeight: FontWeight.w400,
                                   fontSize: 12.sp,
                                   color: Helper.textColor600),
@@ -315,7 +315,7 @@ class _AddFileVideoScreenState extends BaseConsumerState<AddFileVideoScreen> {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                    letterSpacing: -0.3,
+                                      letterSpacing: -0.3,
                                       color: Helper.baseBlack,
                                       fontSize: 16.sp,
                                       fontWeight: FontWeight.w600)),
@@ -323,7 +323,7 @@ class _AddFileVideoScreenState extends BaseConsumerState<AddFileVideoScreen> {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                    letterSpacing: -0.3,
+                                      letterSpacing: -0.3,
                                       color: Helper.textColor400,
                                       fontSize: 16.sp,
                                       fontWeight: FontWeight.w600)),
@@ -379,7 +379,7 @@ class _AddFileVideoScreenState extends BaseConsumerState<AddFileVideoScreen> {
                     child: Text(
                       "Cancel",
                       style: TextStyle(
-                    letterSpacing: -0.3,
+                          letterSpacing: -0.3,
                           color: Helper.neutral500,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),
@@ -439,7 +439,7 @@ class _AddFileVideoScreenState extends BaseConsumerState<AddFileVideoScreen> {
                     child: Text(
                       "Upload",
                       style: TextStyle(
-                    letterSpacing: -0.3,
+                          letterSpacing: -0.3,
                           color: Colors.white,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500),

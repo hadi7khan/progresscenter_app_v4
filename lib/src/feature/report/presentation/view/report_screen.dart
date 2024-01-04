@@ -23,7 +23,7 @@ class _ReportScreenState extends State<ReportScreen> {
         child: Padding(
           padding: EdgeInsets.only(right: 16.w, left: 16.w),
           child: AppBar(
-            centerTitle: true,
+            centerTitle: false,
             automaticallyImplyLeading: false,
             leading: InkWell(
               onTap: () {
