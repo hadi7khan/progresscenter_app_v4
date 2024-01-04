@@ -29,58 +29,70 @@ class AuthDataSourceImpl implements AuthDataSource {
 
   @override
   Future forgotPassword(data) async {
-    final response = await dioClient.post(Endpoints.forgotPasswordUrl(), data: data);
+    final response =
+        await dioClient.post(Endpoints.forgotPasswordUrl(), data: data);
     if (response.statusCode == 200) {
       return response.data;
     } else {
       return ServerException();
     }
   }
-  
+
   @override
-  Future changePassword(data, token) async{
-    final response = await dioClient.post(Endpoints.changePasswordUrl(token), data: data);
+  Future changePassword(data, token) async {
+    final response =
+        await dioClient.post(Endpoints.changePasswordUrl(token), data: data);
     if (response.statusCode == 200) {
       return response.data;
     } else {
       return ServerException();
     }
   }
-  
+
   @override
-  Future signIn(data) async{
+  Future signIn(data) async {
     print("data passed" + data.toString());
     final body = json.encode(data);
     print("body encoded" + body);
     final client = http.Client();
-    final response = await client.post(Uri.parse(Endpoints.signinUrl()), body: body, headers: {"Content-Type": "application/json"},);
-    // log("login response" + response.body.toString());
+    try {
+      final response = await client.post(
+        Uri.parse(Endpoints.signinUrl()),
+        body: body,
+        headers: {"Content-Type": "application/json"},
+      );
+      log("login response" + response.body.toString());
 
-    if (response.statusCode == 200) {
-      final responseBody = json.decode(response.body);
-      final token = responseBody['token'];
-      print("token"+ token.toString());
-      await locator.setUserToken(userToken: token).then((value) {
-        return response.body;
-      });
-    } else {
-      return ServerException();
+      if (response.statusCode == 200) {
+        final responseBody = json.decode(response.body);
+        final token = responseBody['token'];
+        print("token" + token.toString());
+        await locator.setUserToken(userToken: token).then((value) {});
+        return responseBody;
+      } else {
+        // log("exception " + e.toString());
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      log("exception " + e.toString());
+      throw Exception(e);
     }
   }
-  
+
   @override
-  Future resendOTP(token) async{
+  Future resendOTP(token) async {
     final response = await dioClient.post(Endpoints.resendOtpUrl(token));
     if (response.statusCode == 200) {
       return response.data;
     } else {
       return ServerException();
     }
-}
+  }
 
   @override
-  Future verifyEmail(data, token) async{
-    final response = await dioClient.post(Endpoints.verifyEmailUrl(token), data: data);
+  Future verifyEmail(data, token) async {
+    final response =
+        await dioClient.post(Endpoints.verifyEmailUrl(token), data: data);
     if (response.statusCode == 200) {
       return response.data;
     } else {

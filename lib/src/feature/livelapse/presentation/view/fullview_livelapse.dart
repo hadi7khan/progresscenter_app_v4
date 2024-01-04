@@ -1,6 +1,7 @@
 import 'package:better_player/better_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -45,7 +46,7 @@ class _FullviewLivelapseState extends State<FullviewLivelapse> {
           fullScreenByDefault: false,
           // fullScreenAspectRatio: 16 / 9,
           fit: BoxFit.fitHeight,
-          looping: true,
+          looping: false,
         ),
         betterPlayerDataSource: betterPlayerDataSource);
     betterController!.addEventsListener((BetterPlayerEvent event) {
@@ -89,70 +90,74 @@ class _FullviewLivelapseState extends State<FullviewLivelapse> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60.h),
-        child: Container(
-          color: Colors.white,
-          child: Padding(
-            padding: EdgeInsets.only(right: 16.w, left: 16.w),
-            child: AppBar(
-              backgroundColor: Colors.white,
-              surfaceTintColor: Colors.white,
-              automaticallyImplyLeading: false,
-              titleSpacing: 12.0.w,
-              leading: InkWell(
-                onTap: () {
-                  context.pop();
-                },
-                child: Transform.rotate(
-                  angle: 180 * (3.1415926535 / 180),
-                  child: SvgPicture.asset('assets/images/chevron-right.svg',
-                      color: Helper.iconColor, fit: BoxFit.contain),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light,
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(60.h),
+          child: Container(
+            color: Colors.black,
+            child: Padding(
+              padding: EdgeInsets.only(right: 16.w, left: 16.w),
+              child: AppBar(
+                backgroundColor: Colors.black,
+                surfaceTintColor: Colors.black,
+                systemOverlayStyle: SystemUiOverlayStyle.light,
+                automaticallyImplyLeading: false,
+                titleSpacing: 12.0.w,
+                leading: InkWell(
+                  onTap: () {
+                    context.pop();
+                  },
+                  child: Transform.rotate(
+                    angle: 180 * (3.1415926535 / 180),
+                    child: SvgPicture.asset('assets/images/chevron-right.svg',
+                        color: Colors.white, fit: BoxFit.contain),
+                  ),
                 ),
-              ),
-              leadingWidth: 24,
-              title: Text(
-                widget.name,
-                style: TextStyle(
-                    letterSpacing: -0.3,
-                    color: Helper.baseBlack,
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w500),
-              ),
-              // actions: [
+                leadingWidth: 24,
+                title: Text(
+                  widget.name,
+                  style: TextStyle(
+                      letterSpacing: -0.3,
+                      color: Colors.white,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w500),
+                ),
+                // actions: [
 
-              //   SizedBox(width: 5.w),
-              //   InkWell(
-              //     child: SvgPicture.asset('assets/images/plus.svg'),
-              //     onTap: () {
-              //       _showDroneFootageBottomSheet(context);
-              //     },
-              //   ),
-              // ],
+                //   SizedBox(width: 5.w),
+                //   InkWell(
+                //     child: SvgPicture.asset('assets/images/plus.svg'),
+                //     onTap: () {
+                //       _showDroneFootageBottomSheet(context);
+                //     },
+                //   ),
+                // ],
+              ),
             ),
           ),
         ),
-      ),
-      body: SafeArea(
-        child: Center(
-          child: AspectRatio(
-            aspectRatio:
-                betterController!.videoPlayerController!.value.aspectRatio,
-            child:
-                // chewieController == null
-                //     ? Center(
-                //         child: CircularProgressIndicator(
-                //         color: Helper.primary,
-                //       ))
-                //     :
-                BetterPlayer(
-              controller: betterController!,
+        body: SafeArea(
+          child: Center(
+            child: AspectRatio(
+              aspectRatio:
+                  betterController!.videoPlayerController!.value.aspectRatio,
+              child:
+                  // chewieController == null
+                  //     ? Center(
+                  //         child: CircularProgressIndicator(
+                  //         color: Helper.primary,
+                  //       ))
+                  //     :
+                  BetterPlayer(
+                controller: betterController!,
+              ),
+              //  Chewie(
+              //     controller: chewieController!,
+              //   )
             ),
-            //  Chewie(
-            //     controller: chewieController!,
-            //   )
           ),
         ),
       ),

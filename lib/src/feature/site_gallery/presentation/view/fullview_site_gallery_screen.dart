@@ -100,7 +100,7 @@ class _FullViewSitegalleryScreenState
           fullScreenByDefault: false,
           // fullScreenAspectRatio: 16 / 9,
           fit: BoxFit.fitHeight,
-          looping: true,
+          looping: false,
         ),
         betterPlayerDataSource: betterPlayerDataSource);
     betterController!.addEventsListener((BetterPlayerEvent event) {

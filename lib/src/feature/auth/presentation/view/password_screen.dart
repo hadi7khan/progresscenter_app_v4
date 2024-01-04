@@ -215,8 +215,11 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                       width: double.infinity,
                       child: ElevatedButton(
                         child: isLoading
-                            ? CircularProgressIndicator(
-                                color: Colors.white,
+                            ? Transform.scale(
+                                scale: 0.5,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
                               )
                             : Text(
                                 "Continue",
@@ -251,7 +254,10 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                                 .read(signInProvider.notifier)
                                 .signIn(data)
                                 .then((value) {
-                              log("value" + value.toString());
+                              // log("value" +
+                              // value.replaceAll(
+                              //   {},
+                              // ).toString());
                               context.go('/projects');
                               Utils.toastSuccessMessage(
                                   "Signed in successfully");

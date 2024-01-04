@@ -84,7 +84,7 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
             ),
             leadingWidth: 24,
             title: Text(
-              "Livelapse",
+              "LiveLapse",
               style: TextStyle(
                   letterSpacing: -0.3,
                   color: Helper.baseBlack,
