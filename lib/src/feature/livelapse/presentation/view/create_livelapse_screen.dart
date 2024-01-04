@@ -32,7 +32,7 @@ class _CreateLivelapseScreenState extends State<CreateLivelapseScreen> {
             child: Padding(
               padding: EdgeInsets.only(right: 16.w, left: 16.w),
               child: AppBar(
-                centerTitle: true,
+                centerTitle: false,
                 surfaceTintColor: Colors.white,
                 automaticallyImplyLeading: false,
                 titleSpacing: 12.0.w,

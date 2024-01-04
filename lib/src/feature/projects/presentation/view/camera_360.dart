@@ -30,7 +30,7 @@ class _Camera360ScreenState extends State<Camera360Screen> {
               backgroundColor: Colors.white,
               surfaceTintColor: Colors.white,
               automaticallyImplyLeading: false,
-              centerTitle: true,
+              centerTitle: false,
               titleSpacing: 12.0.w,
               leading: InkWell(
                 onTap: () {

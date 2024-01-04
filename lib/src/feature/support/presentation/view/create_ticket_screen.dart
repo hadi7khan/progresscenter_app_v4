@@ -40,7 +40,7 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
             child: AppBar(
               surfaceTintColor: Colors.white,
               automaticallyImplyLeading: false,
-              centerTitle: true,
+              centerTitle: false,
               titleSpacing: 12.0.w,
               leading: InkWell(
                 onTap: () {
@@ -84,7 +84,7 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                             // labelText: 'Training',
                             hintText: "Select a topic",
                             hintStyle: TextStyle(
-                    letterSpacing: -0.3,
+                              letterSpacing: -0.3,
                               color: Helper.textColor500,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w400,
@@ -137,7 +137,7 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                               child: Text(
                                 e,
                                 style: const TextStyle(
-                    letterSpacing: -0.3,color: Colors.black),
+                                    letterSpacing: -0.3, color: Colors.black),
                               ),
                               onTap: () {},
                             );
@@ -160,7 +160,7 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                           },
                           textInputAction: TextInputAction.done,
                           style: TextStyle(
-                    letterSpacing: -0.3,
+                            letterSpacing: -0.3,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
                           ),
@@ -172,7 +172,7 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                                 vertical: 10.h, horizontal: 14.w),
                             hintText: "Enter text here",
                             hintStyle: TextStyle(
-                    letterSpacing: -0.3,
+                              letterSpacing: -0.3,
                               color: Helper.textColor500,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w400,
@@ -218,7 +218,7 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                           maxLines: null,
                           textInputAction: TextInputAction.done,
                           style: TextStyle(
-                    letterSpacing: -0.3,
+                            letterSpacing: -0.3,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
                           ),
@@ -231,7 +231,7 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                             hintText:
                                 "Enter details or reasons for opening ticket",
                             hintStyle: TextStyle(
-                    letterSpacing: -0.3,
+                              letterSpacing: -0.3,
                               color: Helper.textColor500,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w400,

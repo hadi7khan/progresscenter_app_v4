@@ -218,7 +218,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
             child: AppBar(
               backgroundColor: Colors.white,
               surfaceTintColor: Colors.white,
-              centerTitle: true,
+              centerTitle: false,
               automaticallyImplyLeading: false,
               titleSpacing: 0.0,
               leading: InkWell(

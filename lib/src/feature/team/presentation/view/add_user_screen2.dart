@@ -197,7 +197,7 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
             child: AppBar(
               surfaceTintColor: Colors.white,
               automaticallyImplyLeading: false,
-              centerTitle: true,
+              centerTitle: false,
               titleSpacing: 12.0.w,
               leading: InkWell(
                 onTap: () {
