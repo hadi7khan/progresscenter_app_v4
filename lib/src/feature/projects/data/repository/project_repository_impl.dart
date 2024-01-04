@@ -26,9 +26,11 @@ class ProjectRepositoryImpl implements ProjectRepository {
   });
 
   @override
-  Future<Either<Failure, List<ProjectModel>>> projectList() async {
+  Future<Either<Failure, List<ProjectModel>>> projectList(
+      {searchText = ''}) async {
     try {
-      final result = await projectDataSource.projectList();
+      final result =
+          await projectDataSource.projectList(searchText: searchText);
       return Right(
           (result as List).map((e) => ProjectModel.fromJson(e)).toList());
     } on DioError catch (e) {

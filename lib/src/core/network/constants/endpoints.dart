@@ -25,8 +25,12 @@ class Endpoints {
 
   //---------------------------- Projects ---------------------------------------
 
-  static projectListUrl() {
-    return '$baseUrl/api/v4/projects';
+  static projectListUrl({searchText = ''}) {
+    if (searchText == '') {
+      return '$baseUrl/api/v4/projects?q=$searchText';
+    } else {
+      return '$baseUrl/api/v4/search/projects?q=$searchText';
+    }
   }
 
   static projectLeanListUrl() {

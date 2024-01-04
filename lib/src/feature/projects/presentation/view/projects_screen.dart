@@ -62,7 +62,12 @@ class _ProjectsScreenState extends BaseConsumerState<ProjectsScreen> {
                             child: SvgPicture.asset('assets/images/home.svg')),
                         Row(
                           children: [
-                            SvgPicture.asset('assets/images/search.svg'),
+                            InkWell(
+                                onTap: () {
+                                  context.push("/projectSearch");
+                                },
+                                child: SvgPicture.asset(
+                                    'assets/images/search.svg')),
                             SizedBox(width: 12.w),
                             SvgPicture.asset('assets/images/archive.svg'),
                           ],

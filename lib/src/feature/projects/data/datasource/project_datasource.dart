@@ -27,7 +27,8 @@ class ProjectDataSourceImpl implements ProjectDataSource {
   Future projectList({
     searchText = '',
   }) async {
-    final response = await dioClient.get(Endpoints.projectListUrl());
+    final response =
+        await dioClient.get(Endpoints.projectListUrl(searchText: searchText));
     if (response.statusCode == 200) {
       return response.data;
     } else {
