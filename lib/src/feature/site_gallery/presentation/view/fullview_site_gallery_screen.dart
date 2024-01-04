@@ -97,11 +97,18 @@ class _FullViewSitegalleryScreenState
     betterController = BetterPlayerController(
         BetterPlayerConfiguration(
           autoPlay: true,
-          // fullScreenByDefault: true,
+          fullScreenByDefault: false,
           fullScreenAspectRatio: 16 / 9,
           looping: true,
         ),
         betterPlayerDataSource: betterPlayerDataSource);
+    betterController!.addEventsListener((BetterPlayerEvent event) {
+      if (event.betterPlayerEventType == BetterPlayerEventType.initialized) {
+        betterController!.setOverriddenAspectRatio(
+            betterController!.videoPlayerController!.value.aspectRatio);
+        setState(() {});
+      }
+    });
     // controller = VideoPlayerController.networkUrl(Uri.parse(widget.url!));
     // await controller!.initialize().then((value) {
     //   chewieController = ChewieController(
@@ -216,7 +223,8 @@ class _FullViewSitegalleryScreenState
                       ),
                     )
                   : AspectRatio(
-                      aspectRatio: 16 / 9,
+                      aspectRatio: betterController!
+                          .videoPlayerController!.value.aspectRatio,
                       child:
                           // betterController.
                           // ? Center(
