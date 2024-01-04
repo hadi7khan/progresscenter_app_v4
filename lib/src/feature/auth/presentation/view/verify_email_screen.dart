@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -73,14 +75,14 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                     SizedBox(
                       height: 28.h,
                     ),
-                    SvgPicture.asset("assets/images/progress_tick.svg"),
+                    SvgPicture.asset("assets/images/Group 1171280126.svg"),
                     SizedBox(
-                      height: 10.h,
+                      height: 30.h,
                     ),
                     Text(
                       "Verify your email",
                       style: TextStyle(
-                          letterSpacing: -0.3,
+                          letterSpacing: Platform.isIOS ? -1 : -0.6,
                           color: Helper.baseBlack,
                           fontWeight: FontWeight.w600,
                           fontSize: 28.sp),
@@ -93,7 +95,7 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                         // Note: Styles for TextSpans must be explicitly defined.
                         // Child text spans will inherit styles from parent
                         style: TextStyle(
-                          letterSpacing: -0.3,
+                          letterSpacing: Platform.isIOS ? -1 : -0.6,
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w400,
                           color: Helper.color128,
