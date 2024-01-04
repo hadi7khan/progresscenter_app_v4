@@ -70,6 +70,7 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
           child: AppBar(
             surfaceTintColor: Colors.white,
             automaticallyImplyLeading: false,
+            centerTitle: true,
             titleSpacing: 12.0.w,
             leading: InkWell(
               onTap: () {

@@ -253,6 +253,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                   backgroundColor: Colors.white,
                   surfaceTintColor: Colors.white,
                   automaticallyImplyLeading: false,
+                  centerTitle: true,
                   titleSpacing: 12.0.w,
                   leading: InkWell(
                     onTap: () {

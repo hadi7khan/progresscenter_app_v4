@@ -44,6 +44,7 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
             child: Padding(
               padding: EdgeInsets.only(right: 16.w, left: 16.w),
               child: AppBar(
+                centerTitle: true,
                 backgroundColor: Colors.white,
                 surfaceTintColor: Colors.white,
                 automaticallyImplyLeading: false,
