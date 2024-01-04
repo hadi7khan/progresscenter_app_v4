@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -58,16 +60,16 @@ class _SignInScreenState extends State<SignInScreen> {
                     SizedBox(
                       height: 28.h,
                     ),
-                    SvgPicture.asset("assets/images/progress_tick.svg"),
+                    SvgPicture.asset("assets/images/Group 1171280126.svg"),
                     SizedBox(
-                      height: 10.h,
+                      height: 30.h,
                     ),
                     RichText(
                       text: TextSpan(
                         // Note: Styles for TextSpans must be explicitly defined.
                         // Child text spans will inherit styles from parent
                         style: TextStyle(
-                          letterSpacing: -0.3,
+                          letterSpacing: Platform.isIOS ? -1 : -0.6,
                           fontSize: 32.sp,
                           fontWeight: FontWeight.w600,
                           color: Helper.baseBlack,
@@ -76,7 +78,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           TextSpan(
                             text: 'Sign in to \nget started',
                             style: TextStyle(
-                              letterSpacing: -1,
+                              letterSpacing: Platform.isIOS ? -1 : -0.6,
                               fontSize: 32.sp,
                               fontWeight: FontWeight.w600,
                               color: Helper.baseBlack,

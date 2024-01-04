@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -81,14 +82,14 @@ class _ForgotPasswordScreenState
                     SizedBox(
                       height: 28.h,
                     ),
-                    SvgPicture.asset("assets/images/progress_tick.svg"),
+                    SvgPicture.asset("assets/images/Group 1171280126.svg"),
                     SizedBox(
-                      height: 10.h,
+                      height: 30.h,
                     ),
                     Text(
                       "Forgot your password?",
                       style: TextStyle(
-                          letterSpacing: -1,
+                          letterSpacing: Platform.isIOS ? -1 : -0.6,
                           color: Helper.baseBlack,
                           fontWeight: FontWeight.w600,
                           fontSize: 28),
