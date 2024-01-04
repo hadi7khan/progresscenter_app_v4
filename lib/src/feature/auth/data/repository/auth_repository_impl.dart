@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -23,7 +24,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, dynamic>> forgotPassword(data) async {
     try {
       final result = await authDataSource.forgotPassword(data);
-      print("result: " +result.toString());
+      print("result: " + result.toString());
       return Right(result);
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
@@ -52,8 +53,9 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, dynamic>> signIn(data) async {
     try {
       final result = await authDataSource.signIn(data);
+      log("Right result " + result.toString());
       return Right(result);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
       print(errorMessage.toString());
       rethrow;
@@ -61,9 +63,9 @@ class AuthRepositoryImpl implements AuthRepository {
       return const Left(ConnectionFailure('Failed to connect to the network'));
     }
   }
-  
+
   @override
-  Future<Either<Failure, dynamic>> resendOTP(token) async{
+  Future<Either<Failure, dynamic>> resendOTP(token) async {
     try {
       final result = await authDataSource.resendOTP(token);
       return Right(result);
@@ -75,9 +77,9 @@ class AuthRepositoryImpl implements AuthRepository {
       return const Left(ConnectionFailure('Failed to connect to the network'));
     }
   }
-  
+
   @override
-  Future<Either<Failure, dynamic>> verifyEmail(data, token) async{
+  Future<Either<Failure, dynamic>> verifyEmail(data, token) async {
     try {
       final result = await authDataSource.verifyEmail(data, token);
       return Right(result);

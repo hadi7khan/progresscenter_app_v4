@@ -55,22 +55,27 @@ class AuthDataSourceImpl implements AuthDataSource {
     final body = json.encode(data);
     print("body encoded" + body);
     final client = http.Client();
-    final response = await client.post(
-      Uri.parse(Endpoints.signinUrl()),
-      body: body,
-      headers: {"Content-Type": "application/json"},
-    );
-    log("login response" + response.body.toString());
+    try {
+      final response = await client.post(
+        Uri.parse(Endpoints.signinUrl()),
+        body: body,
+        headers: {"Content-Type": "application/json"},
+      );
+      log("login response" + response.body.toString());
 
-    if (response.statusCode == 200) {
-      final responseBody = json.decode(response.body);
-      final token = responseBody['token'];
-      print("token" + token.toString());
-      await locator.setUserToken(userToken: token).then((value) {
-        return response.body;
-      });
-    } else {
-      return ServerException();
+      if (response.statusCode == 200) {
+        final responseBody = json.decode(response.body);
+        final token = responseBody['token'];
+        print("token" + token.toString());
+        await locator.setUserToken(userToken: token).then((value) {});
+        return responseBody;
+      } else {
+        // log("exception " + e.toString());
+        throw Exception(response.statusCode);
+      }
+    } catch (e) {
+      log("exception " + e.toString());
+      throw Exception(e);
     }
   }
 
