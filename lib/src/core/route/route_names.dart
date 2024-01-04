@@ -6,6 +6,7 @@ const String forgotpasswordRoute = 'forgotpassword';
 const String changepasswordRoute = 'changePassword';
 const String onbordingRoute = 'onbording';
 const String projectDetailRoute = 'details';
+const String projectSearchRoute = 'projectSearch';
 const String cameraRoute = 'camera';
 const String dronefootageRoute = 'dronefootage';
 const String addFileVideoRoute = 'addFileVideo';
