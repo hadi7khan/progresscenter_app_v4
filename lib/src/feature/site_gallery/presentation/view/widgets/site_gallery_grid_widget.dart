@@ -1,8 +1,10 @@
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -22,53 +24,83 @@ class SiteGalleryGridViewWidget extends StatefulWidget {
 class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
   VlcPlayerController? _videoPlayerController;
   VideoPlayerController? controller;
+  ChewieController? chewieController;
   Image? image1;
 
   @override
   void initState() {
     super.initState();
     if (widget.data.type == "VIDEO") {
+      _initPlayer();
       // _videoPlayerController = VlcPlayerController.network(
       //   widget.data.url,
       //   autoPlay: false,
       //   options: VlcPlayerOptions(),
       // );
-      controller = VideoPlayerController.networkUrl(Uri.parse(widget.data.url),
-          videoPlayerOptions: VideoPlayerOptions(
-            mixWithOthers: true,
-            allowBackgroundPlayback: true,
-          ))
-        ..initialize().then((_) {
-          print("url " + widget.data.url.toString());
-          // VideoPlayer(controller!);
-          // controller!.play();
-          // controller!.addListener(() {
-          //   if (controller!.value.hasError) {
-          //     print("video player error" + controller!.value.errorDescription!);
-          //   }
-          //   if (controller!.value.isPlaying) {
-          //     print("video player playing" + controller!.value.errorDescription!);
-          //   }
-          //   if (controller!.value.isInitialized) {
-          //     print("video player initialized" +
-          //         controller!.value.isInitialized!);
-          //   }
-          // });
+      // controller = VideoPlayerController.networkUrl(Uri.parse(widget.data.url),
+      //     videoPlayerOptions: VideoPlayerOptions(
+      //       mixWithOthers: true,
+      //       allowBackgroundPlayback: true,
+      //     ))
+      //   ..initialize().then((_) {
+      //     print("url " + widget.data.url.toString());
+      // VideoPlayer(controller!);
+      // controller!.play();
+      // controller!.addListener(() {
+      //   if (controller!.value.hasError) {
+      //     print("video player error" + controller!.value.errorDescription!);
+      //   }
+      //   if (controller!.value.isPlaying) {
+      //     print("video player playing" + controller!.value.errorDescription!);
+      //   }
+      //   if (controller!.value.isInitialized) {
+      //     print("video player initialized" +
+      //         controller!.value.isInitialized!);
+      //   }
+      // });
 
-          // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
 
-          Future.delayed(Duration(milliseconds: 100), () {
-            setState(() {
-              VideoPlayer(controller!);
-              controller!.play();
-            });
-          });
+      //   Future.delayed(Duration(milliseconds: 100), () {
+      //     setState(() {
+      //       VideoPlayer(controller!);
+      //       controller!.play();
+      //     });
+      //   });
 
-          log(widget.data.url + "is playing----------------------------");
-        }).then((value) {
-          print("video player error" + controller!.value.errorDescription!);
-        });
+      //   log(widget.data.url + "is playing----------------------------");
+      // }).then((value) {
+      //   print("video player error" + controller!.value.errorDescription!);
+      // });
     }
+  }
+
+  Future _initPlayer() async {
+    controller = VideoPlayerController.networkUrl(Uri.parse(widget.data.url!));
+    await controller!.initialize().then((value) {
+      chewieController = ChewieController(
+        aspectRatio: 1 / 1,
+        videoPlayerController: controller!,
+        autoPlay: false,
+        looping: false,
+        showControls: false,
+        additionalOptions: (context) {
+          return <OptionItem>[
+            OptionItem(
+              onTap: () => debugPrint('Option 1 pressed!'),
+              iconData: Icons.chat,
+              title: 'Option 1',
+            ),
+            OptionItem(
+              onTap: () => debugPrint('Option 2 pressed!'),
+              iconData: Icons.share,
+              title: 'Option 2',
+            ),
+          ];
+        },
+      );
+      setState(() {});
+    });
   }
 
   // @override
@@ -152,8 +184,12 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
                         children: [
                           AspectRatio(
                               aspectRatio: 1 / 1,
-                              child: controller != null
-                                  ? VideoPlayer(controller!)
+                              child: chewieController != null &&
+                                      chewieController!.videoPlayerController
+                                          .value.isInitialized
+                                  ? Chewie(
+                                      controller: chewieController!,
+                                    )
                                   : SizedBox()
                               // VlcPlayer(
                               //   controller: _videoPlayerController!,
@@ -163,10 +199,24 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
                               // ),
                               ),
                           Align(
-                            alignment: Alignment.center,
-                            child: Icon(Icons.play_circle_outline_outlined,
-                                color: Colors.white, size: 44),
-                          )
+                              alignment: Alignment.center,
+                              child: Container(
+                                padding: EdgeInsets.only(
+                                    left: 7.w,
+                                    top: 5.45.h,
+                                    bottom: 5.45.h,
+                                    right: 5.w),
+                                height: 24.h,
+                                width: 24.w,
+                                decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.3),
+                                    borderRadius: BorderRadius.circular(24.r)),
+                                child: SvgPicture.asset(
+                                  // height: 13,
+                                  // width: 13,
+                                  'assets/images/icon_after.svg',
+                                ),
+                              ))
                         ],
                       ),
               )
