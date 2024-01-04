@@ -97,6 +97,8 @@ class _FullViewSitegalleryScreenState
     betterController = BetterPlayerController(
         BetterPlayerConfiguration(
           autoPlay: true,
+          // fullScreenByDefault: true,
+          fullScreenAspectRatio: 16 / 9,
           looping: true,
         ),
         betterPlayerDataSource: betterPlayerDataSource);
