@@ -520,9 +520,11 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                   },
                                   onPageChanged: (int index) {
                                     // Handle page change if needed
-                                    _scrollController.jumpTo(_scrollController
-                                            .position.maxScrollExtent -
-                                        index * 44.0);
+                                    if (_scrollController.position.atEdge) {
+                                      _scrollController.jumpTo(_scrollController
+                                              .position.maxScrollExtent -
+                                          index * 44.0);
+                                    }
 
                                     log("onindex change" + index.toString());
                                     final reversedIndex =
