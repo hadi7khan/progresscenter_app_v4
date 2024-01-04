@@ -98,7 +98,8 @@ class _FullViewSitegalleryScreenState
         BetterPlayerConfiguration(
           autoPlay: true,
           fullScreenByDefault: false,
-          fullScreenAspectRatio: 16 / 9,
+          // fullScreenAspectRatio: 16 / 9,
+          fit: BoxFit.fitHeight,
           looping: true,
         ),
         betterPlayerDataSource: betterPlayerDataSource);
