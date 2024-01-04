@@ -51,6 +51,48 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
     });
   }
 
+  Future<void> _pickVideo(ImageSource source, context) async {
+    final ImagePicker picker = ImagePicker();
+    final pickedFile = await picker.pickVideo(source: source);
+    // final pickedFile = await CameraPicker.pickFromCamera(context,
+    //     pickerConfig: CameraPickerConfig());
+    // final pickedFile = await _picker.pickImage(
+    //   source: source,
+    //   maxWidth: 1024,
+    //   maxHeight: 1024,
+    //   imageQuality: 80,
+    // );
+
+    // if (pickedFile != null) {
+    //   try {
+    //     final File? file = await pickedFile.file;
+
+    //     if (file != null) {
+    //       String filePath = file.path;
+    //       log('File path: $filePath');
+    //     } else {
+    //       print('Error: Unable to load file.');
+    //     }
+    //   } catch (e) {
+    //     print('Error: $e');
+    //   }
+    // }
+
+    if (pickedFile != null) {
+      final file = XFile(pickedFile.path);
+      if (await file.length() > 10000000) {
+        // The file is too large, show an error message
+        return;
+      }
+      setState(() {
+        _image = file;
+      });
+      log("image path" + _image!.path.toString());
+    } else {
+      return null;
+    }
+  }
+
   Future<void> _pickImage(ImageSource source, context) async {
     final pickedFile = await CameraGalleryImagePicker.pickImage(
       context: context,
@@ -370,6 +412,33 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
               },
             ),
             CupertinoActionSheetAction(
+              child: const Text('Take Video'),
+              onPressed: () {
+                _pickVideo(ImageSource.camera, context).then((value) async {
+                  await Service()
+                      .uploadImageForSitegallery(
+                    widget.projectId,
+                    _image!.path,
+                  )
+                      .then((value) {
+                    setState(() {
+                      // _progress = progress;
+                      // print("progress" + _progress.toString());
+                    });
+                    // print("progress" + _progress.toString());
+
+                    context.pop();
+                    ref
+                        .refresh(siteGalleryControllerProvider.notifier)
+                        .getSiteGallery(widget.projectId);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        backgroundColor: Colors.green,
+                        content: Text("Video Uploaded")));
+                  });
+                });
+              },
+            ),
+            CupertinoActionSheetAction(
               child: const Text(
                 'Choose Photo',
               ),
@@ -438,7 +507,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                 topRight: Radius.circular(16.r)),
             color: Colors.white,
           ),
-          height: 280.h,
+          height: 340.h,
           width: MediaQuery.of(context).size.width,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -498,6 +567,50 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                           color: Colors.white),
                       child: Text(
                         'Take Photo',
+                        style: TextStyle(
+                            color: Helper.baseBlack,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      // calculateProgress(0);
+                      _pickVideo(ImageSource.camera, context)
+                          .then((value) async {
+                        await Service()
+                            .uploadImageForSitegallery(
+                          widget.projectId,
+                          _image!.path,
+                        )
+                            .then((value) {
+                          setState(() {
+                            // _progress = progress;
+                            // print("progress" + _progress.toString());
+                          });
+                          // print("progress" + _progress.toString());
+
+                          context.pop();
+                          ref
+                              .refresh(siteGalleryControllerProvider.notifier)
+                              .getSiteGallery(widget.projectId);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  backgroundColor: Colors.green,
+                                  content: Text("Video Uploaded")));
+                        });
+                      });
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10.w, vertical: 16.h),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.r),
+                          color: Colors.white),
+                      child: Text(
+                        'Take Video',
                         style: TextStyle(
                             color: Helper.baseBlack,
                             fontSize: 16.sp,
