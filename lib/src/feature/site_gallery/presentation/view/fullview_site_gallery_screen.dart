@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:better_player/better_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -49,6 +50,7 @@ class _FullViewSitegalleryScreenState
   // VlcPlayerController? _videoPlayerController;
   VideoPlayerController? controller;
   ChewieController? chewieController;
+  BetterPlayerController? betterController;
 
   @override
   void initState() {
@@ -90,29 +92,37 @@ class _FullViewSitegalleryScreenState
   }
 
   Future _initPlayer() async {
-    controller = VideoPlayerController.networkUrl(Uri.parse(widget.url!));
-    await controller!.initialize().then((value) {
-      chewieController = ChewieController(
-        videoPlayerController: controller!,
-        autoPlay: true,
-        looping: true,
-        additionalOptions: (context) {
-          return <OptionItem>[
-            OptionItem(
-              onTap: () => debugPrint('Option 1 pressed!'),
-              iconData: Icons.chat,
-              title: 'Option 1',
-            ),
-            OptionItem(
-              onTap: () => debugPrint('Option 2 pressed!'),
-              iconData: Icons.share,
-              title: 'Option 2',
-            ),
-          ];
-        },
-      );
-      setState(() {});
-    });
+    BetterPlayerDataSource betterPlayerDataSource =
+        BetterPlayerDataSource(BetterPlayerDataSourceType.network, widget.url!);
+    betterController = BetterPlayerController(
+        BetterPlayerConfiguration(
+          autoPlay: true,
+          looping: true,
+        ),
+        betterPlayerDataSource: betterPlayerDataSource);
+    // controller = VideoPlayerController.networkUrl(Uri.parse(widget.url!));
+    // await controller!.initialize().then((value) {
+    //   chewieController = ChewieController(
+    //     videoPlayerController: controller!,
+    //     autoPlay: true,
+    //     looping: true,
+    //     additionalOptions: (context) {
+    //       return <OptionItem>[
+    //         OptionItem(
+    //           onTap: () => debugPrint('Option 1 pressed!'),
+    //           iconData: Icons.chat,
+    //           title: 'Option 1',
+    //         ),
+    //         OptionItem(
+    //           onTap: () => debugPrint('Option 2 pressed!'),
+    //           iconData: Icons.share,
+    //           title: 'Option 2',
+    //         ),
+    //       ];
+    //     },
+    //   );
+    //   setState(() {});
+    // });
   }
 
   @override
@@ -205,20 +215,25 @@ class _FullViewSitegalleryScreenState
                     )
                   : AspectRatio(
                       aspectRatio: 16 / 9,
-                      child: chewieController == null
-                          ? Center(
-                              child: CircularProgressIndicator(
-                              color: Helper.primary,
-                            ))
-                          : Chewie(
-                              controller: chewieController!,
-                            )
+                      child:
+                          // betterController.
+                          // ? Center(
+                          //     child: CircularProgressIndicator(
+                          //     color: Helper.primary,
+                          //   ))
+                          // :
+                          BetterPlayer(
+                        controller: betterController!,
+                      ),
+                      //  Chewie(
+                      //     controller: chewieController!,
+                      //   )
                       // VlcPlayer(
                       //   controller: _videoPlayerController!,
                       //   aspectRatio: 16 / 9,
                       //   placeholder: Center(child: CircularProgressIndicator()),
                       // ),
-                      ),
+                    ),
             ])),
           ),
         ),
