@@ -422,6 +422,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_better_camera:
+    dependency: "direct main"
+    description:
+      name: flutter_better_camera
+      sha256: "42bd308e95cb366d9bd2a2567c51b6bd086be906ebae496f6d19218cffba7741"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   flutter_cache_manager:
     dependency: "direct main"
     description:
