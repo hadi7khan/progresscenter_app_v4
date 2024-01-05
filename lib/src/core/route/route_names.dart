@@ -37,6 +37,7 @@ const String addUserRoute2 = 'addUser2';
 const String inviteByMailRoute = 'inviteByMail';
 const String addDocsRoute = 'addDocs';
 const String userProfileRoute = 'userProfile';
+const String teamSearchRoute = 'teamSearch';
 const String supportRoute = 'support';
 const String createTicketRoute = 'createTicket';
 const String ticketByIdRoute = 'ticketById';

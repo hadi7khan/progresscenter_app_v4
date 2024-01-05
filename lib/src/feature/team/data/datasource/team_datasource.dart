@@ -23,7 +23,8 @@ class TeamDataSourceImpl implements TeamDataSource {
 
   @override
   Future userList({searchText = ''}) async {
-    final response = await dioClient.get(Endpoints.userListUrl());
+    final response =
+        await dioClient.get(Endpoints.userListUrl(searchText: searchText));
     if (response.statusCode == 200) {
       return response.data;
     } else {
