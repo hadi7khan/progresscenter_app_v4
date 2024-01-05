@@ -193,6 +193,37 @@ class _SearchProjectScreenState extends BaseConsumerState<SearchTeamScreen> {
                   ),
                   teamData.when(
                     data: (data) {
+                      if (data.isEmpty) {
+                        return Container(
+                          alignment: Alignment.center,
+                          height: MediaQuery.of(context).size.height * 0.6.h,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                  'assets/images/illustration.svg'),
+                              SizedBox(height: 16.h),
+                              Text(
+                                "Oops, we couldn’t find that",
+                                style: TextStyle(
+                                    letterSpacing: -0.3,
+                                    color: Helper.textColor900,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              Text(
+                                "Please try searching for something else.",
+                                style: TextStyle(
+                                    letterSpacing: -0.3,
+                                    color: Helper.textColor600,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
                       final _filteredUserList = _selectedTeam == null
                           ? data
                           : data
