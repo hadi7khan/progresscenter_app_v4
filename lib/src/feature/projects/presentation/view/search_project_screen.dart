@@ -46,42 +46,42 @@ class _SearchProjectScreenState extends BaseConsumerState<SearchProjectScreen> {
     super.dispose();
   }
 
-  // List<ProjectModel> filterProjects(List<ProjectModel> projects, String query) {
-  //   return projects
-  //     .where((project) =>
-  //         project.name!.contains(query.toLowerCase()) ||
-  //         project.location!.name!.contains(query.toLowerCase()) ||
-  //         // Add conditions based on other properties
-  //         project.images?.any((image) =>
-  //                 image..toLowerCase().contains(query.toLowerCase())) ==
-  //             true
-  //         // Add more conditions as needed
-  //     )
-  //     .toList();
-
-  // }
+  List<ProjectModel> filterProjects(List<ProjectModel> projects, String query) {
+    return projects
+        .where((project) =>
+                project.name!.toLowerCase()!.contains(query.toLowerCase())
+            // project.location!.name!.contains(query.toLowerCase()) ||
+            // Add conditions based on other properties
+            // project.images?.any((image) => image.url!
+            //         .toLowerCase()
+            //         .contains(query.toLowerCase())) ==
+            //     true
+            // Add more conditions as needed
+            )
+        .toList();
+  }
 
   @override
   Widget build(BuildContext context) {
     final projectData =
         ref.watch(projectControllerProvider.select((value) => value.projects));
     // Extract the list of projects from AsyncValue
-    // List<ProjectModel> projects = projectData.when(
-    //   loading: () => [], // Return an empty list or loading indicator as needed
-    //   error: (error, stackTrace) =>
-    //       [], // Handle error state, return an empty list or show an error message
-    //   data: (projects) =>
-    //       projects ?? [], // Use the projects or return an empty list if null
-    // );
-    // List<ProjectModel> filteredProjects =
-    //     filterProjects(projects, _searchController.text);
+    List<ProjectModel> projects = projectData.when(
+      loading: () => [], // Return an empty list or loading indicator as needed
+      error: (error, stackTrace) =>
+          [], // Handle error state, return an empty list or show an error message
+      data: (projects) =>
+          projects ?? [], // Use the projects or return an empty list if null
+    );
+    List<ProjectModel> filteredProjects =
+        filterProjects(projects, _searchController.text);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(70.h),
+          preferredSize: Size.fromHeight(60.h),
           child: Padding(
             padding: EdgeInsets.only(right: 20.w, left: 20.w),
             child: AppBar(
@@ -128,9 +128,16 @@ class _SearchProjectScreenState extends BaseConsumerState<SearchProjectScreen> {
                         setState(() {
                           searchText = text!;
                         });
-                        ref
-                            .read(projectControllerProvider.notifier)
-                            .getProjects(searchText: searchText);
+                        // ref
+                        //     .read(projectControllerProvider.notifier)
+                        //     .getProjects(searchText: searchText);
+                        List<ProjectModel> _filteredProjects =
+                            filterProjects(projects, searchText);
+
+                        // Update the UI with the filtered projects
+                        setState(() {
+                          filteredProjects = _filteredProjects;
+                        });
                       });
                     },
                     onSubmitted: (text) {
@@ -211,72 +218,73 @@ class _SearchProjectScreenState extends BaseConsumerState<SearchProjectScreen> {
                   SizedBox(
                     height: 24.h,
                   ),
-                  projectData.when(
-                    data: (data) {
-                      if (data.isEmpty) {
-                        return Container(
-                          alignment: Alignment.center,
-                          height: MediaQuery.of(context).size.height * 0.6.h,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                  'assets/images/illustration.svg'),
-                              SizedBox(height: 16.h),
-                              Text(
-                                "Oops, we couldn’t find that",
-                                style: TextStyle(
-                                    letterSpacing: -0.3,
-                                    color: Helper.textColor900,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              Text(
-                                "Please try searching for something else.",
-                                style: TextStyle(
-                                    letterSpacing: -0.3,
-                                    color: Helper.textColor600,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w400),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                      return ListView.separated(
-                        separatorBuilder: (context, index) {
-                          return SizedBox(height: 30.h);
-                        },
-                        shrinkWrap: true,
-                        padding: EdgeInsets.zero,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: data.length,
-                        itemBuilder: ((context, index) {
-                          return ProjectCard(
-                              index: index, project: data[index]);
-                        }),
-                      );
-                    },
-                    error: (err, _) {
-                      return const Text("Failed to load Projects",
-                          style: TextStyle(color: Helper.errorColor));
-                    },
-                    loading: () => LoadingCardListScreen(),
-                  )
-                  //           if (filteredProjects.isNotEmpty)
-                  //           ListView.separated(
-                  //   separatorBuilder: (context, index) {
-                  //     return SizedBox(height: 30.h);
+                  // projectData.when(
+                  //   data: (data) {
+                  //     if (data.isEmpty) {
+                  //       return Container(
+                  //         alignment: Alignment.center,
+                  //         height: MediaQuery.of(context).size.height * 0.6.h,
+                  //         child: Column(
+                  //           mainAxisAlignment: MainAxisAlignment.center,
+                  //           crossAxisAlignment: CrossAxisAlignment.center,
+                  //           children: [
+                  //             SvgPicture.asset(
+                  //                 'assets/images/illustration.svg'),
+                  //             SizedBox(height: 16.h),
+                  //             Text(
+                  //               "Oops, we couldn’t find that",
+                  //               style: TextStyle(
+                  //                   letterSpacing: -0.3,
+                  //                   color: Helper.textColor900,
+                  //                   fontSize: 16.sp,
+                  //                   fontWeight: FontWeight.w600),
+                  //             ),
+                  //             Text(
+                  //               "Please try searching for something else.",
+                  //               style: TextStyle(
+                  //                   letterSpacing: -0.3,
+                  //                   color: Helper.textColor600,
+                  //                   fontSize: 14.sp,
+                  //                   fontWeight: FontWeight.w400),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       );
+                  //     }
+                  //     return ListView.separated(
+                  //       separatorBuilder: (context, index) {
+                  //         return SizedBox(height: 30.h);
+                  //       },
+                  //       shrinkWrap: true,
+                  //       padding: EdgeInsets.zero,
+                  //       physics: NeverScrollableScrollPhysics(),
+                  //       itemCount: data.length,
+                  //       itemBuilder: ((context, index) {
+                  //         return ProjectCard(
+                  //             index: index, project: data[index]);
+                  //       }),
+                  //     );
                   //   },
-                  //   shrinkWrap: true,
-                  //   padding: EdgeInsets.zero,
-                  //   physics: NeverScrollableScrollPhysics(),
-                  //   itemCount: filteredProjects.length,
-                  //   itemBuilder: ((context, index) {
-                  //     return ProjectCard(index: index, project: filteredProjects[index]);
-                  //   }),
-                  // ),
+                  //   error: (err, _) {
+                  //     return const Text("Failed to load Projects",
+                  //         style: TextStyle(color: Helper.errorColor));
+                  //   },
+                  //   loading: () => LoadingCardListScreen(),
+                  // )
+                  if (filteredProjects.isNotEmpty)
+                    ListView.separated(
+                      separatorBuilder: (context, index) {
+                        return SizedBox(height: 30.h);
+                      },
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: filteredProjects.length,
+                      itemBuilder: ((context, index) {
+                        return ProjectCard(
+                            index: index, project: filteredProjects[index]);
+                      }),
+                    ),
                   // ListView.builder(
                   //   shrinkWrap: true,
                   //   itemCount: filteredProjects.length,
@@ -288,12 +296,36 @@ class _SearchProjectScreenState extends BaseConsumerState<SearchProjectScreen> {
                   //   },
                   // ),
                   // Add a message when no projects are found
-                  // if (filteredProjects.isEmpty &&
-                  //     _searchController.text.isNotEmpty)
-                  //   Text(
-                  //     'No projects found.',
-                  //     style: TextStyle(color: Colors.red),
-                  //   ),
+                  if (filteredProjects.isEmpty &&
+                      _searchController.text.isNotEmpty)
+                    Container(
+                      alignment: Alignment.center,
+                      height: MediaQuery.of(context).size.height * 0.6.h,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset('assets/images/illustration.svg'),
+                          SizedBox(height: 16.h),
+                          Text(
+                            "Oops, we couldn’t find that",
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Helper.textColor900,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            "Please try searching for something else.",
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Helper.textColor600,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ],
+                      ),
+                    ),
                 ],
               ),
             ),
