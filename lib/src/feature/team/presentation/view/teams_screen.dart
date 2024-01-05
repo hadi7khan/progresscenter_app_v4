@@ -56,7 +56,7 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
         },
         child: SafeArea(
             child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: AlwaysScrollableScrollPhysics(),
           child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
               child: teamData.when(
@@ -82,7 +82,12 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                                   SvgPicture.asset('assets/images/home.svg')),
                           Row(
                             children: [
-                              SvgPicture.asset('assets/images/search.svg'),
+                              InkWell(
+                                  onTap: () {
+                                    context.push("/teamSearch");
+                                  },
+                                  child: SvgPicture.asset(
+                                      'assets/images/search.svg')),
                               SizedBox(width: 12.w),
                               ConstrainedBox(
                                 constraints: new BoxConstraints(

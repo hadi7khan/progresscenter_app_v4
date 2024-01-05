@@ -12,9 +12,9 @@ class UserController extends StateNotifier<UserState> {
   UserController(super.state, this.service);
   final TeamRepositoryImpl service;
 
-  Future getUser() async {
+  Future getUser({searchText = ''}) async {
     state = state.copyWith(isFetching: true);
-    final result = await service.userList();
+    final result = await service.userList(searchText: searchText);
     if (!mounted) return;
     result.fold((l) {
       // error handle

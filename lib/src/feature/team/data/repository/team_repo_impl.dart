@@ -24,9 +24,9 @@ class TeamRepositoryImpl implements TeamRepository {
   });
 
   @override
-  Future<Either<Failure, List<UserModel>>> userList() async {
+  Future<Either<Failure, List<UserModel>>> userList({searchText = ''}) async {
     try {
-      final result = await teamDataSource.userList();
+      final result = await teamDataSource.userList(searchText: searchText);
       return Right((result as List).map((e) => UserModel.fromJson(e)).toList());
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
@@ -71,7 +71,7 @@ class TeamRepositoryImpl implements TeamRepository {
   Future<Either<Failure, UserProfileModel>> userProfile(userId) async {
     try {
       final result = await teamDataSource.userProfile(userId);
-      return  Right((UserProfileModel.fromJson(result)));
+      return Right((UserProfileModel.fromJson(result)));
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
       print(errorMessage.toString());

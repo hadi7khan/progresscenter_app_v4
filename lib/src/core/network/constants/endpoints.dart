@@ -106,8 +106,12 @@ class Endpoints {
     return '$baseUrl/api/v4/teams';
   }
 
-  static userListUrl() {
-    return '$baseUrl/api/v4/users/';
+  static userListUrl({searchText = ''}) {
+    if (searchText == '') {
+      return '$baseUrl/api/v4/search/users/?q=$searchText';
+    } else {
+      return '$baseUrl/api/v4/search/users/?q=$searchText';
+    }
   }
 
   static inviteByMailUrl() {
