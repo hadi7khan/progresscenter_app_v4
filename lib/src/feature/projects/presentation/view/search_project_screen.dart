@@ -49,15 +49,7 @@ class _SearchProjectScreenState extends BaseConsumerState<SearchProjectScreen> {
   List<ProjectModel> filterProjects(List<ProjectModel> projects, String query) {
     return projects
         .where((project) =>
-                project.name!.toLowerCase()!.contains(query.toLowerCase())
-            // project.location!.name!.contains(query.toLowerCase()) ||
-            // Add conditions based on other properties
-            // project.images?.any((image) => image.url!
-            //         .toLowerCase()
-            //         .contains(query.toLowerCase())) ==
-            //     true
-            // Add more conditions as needed
-            )
+            project.name!.toLowerCase()!.contains(query.toLowerCase()))
         .toList();
   }
 

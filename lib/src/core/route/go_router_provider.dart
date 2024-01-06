@@ -496,12 +496,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: _rootNavigatorKey,
         name: teamSearchRoute,
         pageBuilder: (context, state) {
-          // Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
           return NoTransitionPage(
             key: state.pageKey,
-            child: SearchTeamScreen(
-              key: state.pageKey,
-            ),
+            child: SearchTeamScreen(key: state.pageKey, data: args['data']),
           );
         },
       ),
