@@ -12,6 +12,7 @@ import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_team_list.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/provider/user_controller.dart';
+import 'dart:developer';
 
 import 'widgets/team_widget.dart';
 
@@ -43,6 +44,12 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
   }
 
   @override
+  void dispose() {
+    ref.invalidate(teamControllerProvider);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final teamData =
         ref.watch(teamControllerProvider.select((value) => value.users));
@@ -66,7 +73,7 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                       : data
                           .where((item) => item.tags!.contains(_selectedTeam))
                           .toList();
-                  print("_filteredUserList: $_filteredUserList");
+                  log("_filteredUserList: $_filteredUserList");
 
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +91,8 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                             children: [
                               InkWell(
                                   onTap: () {
-                                    context.push("/teamSearch");
+                                    context.push("/teamSearch",
+                                        extra: {"data": data});
                                   },
                                   child: SvgPicture.asset(
                                       'assets/images/search.svg')),
