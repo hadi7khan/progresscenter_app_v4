@@ -11,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
@@ -43,6 +44,10 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
   XFile? _image;
   FilePickerResult? result;
   List<PlatformFile> docFiles = [];
+  double _progress = 0.0;
+  PersistentBottomSheetController? _bottomSheetController;
+  double _progressBar = 0.0;
+
   @override
   void initState() {
     super.initState();
@@ -51,6 +56,15 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
           .read(siteGalleryControllerProvider.notifier)
           .getSiteGallery(widget.projectId);
     });
+  }
+
+  double calculateProgress(double sentBytes) {
+    print("sentBytes--------------" + sentBytes.toString());
+    setState(() {
+      _progress = sentBytes;
+    });
+    log("ppppp" + _progress.toString());
+    return sentBytes;
   }
 
   Future<void> _pickVideo(ImageSource source, context) async {
@@ -106,7 +120,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
     await CameraPicker.pickFromCamera(context,
         pickerConfig: CameraPickerConfig(
           enableRecording: true,
-          textDelegate: CameraPickerTextDelegate(),
+          textDelegate: EnglishCameraPickerTextDelegate(),
           onEntitySaving: (context, viewType, file) {
             pickedFile = file;
           },
@@ -132,6 +146,25 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
           log('File path: $filePath');
           setState(() {
             _image = XFile(filePath);
+          });
+
+          await Service()
+              .uploadImageForSitegallery(
+                  widget.projectId, _image!.path, calculateProgress)
+              .then((value) {
+            _bottomSheetController!.setState!(() {
+              _progressBar = _progress;
+            });
+            setState(() {
+              // _progress = progress;
+              // print("progress" + _progress.toString());
+            });
+            _showProgressBottomSheet(context);
+
+            context.pop();
+            ref
+                .refresh(siteGalleryControllerProvider.notifier)
+                .getSiteGallery(widget.projectId);
           });
         } else {
           print('Error: Unable to load file.');
@@ -408,9 +441,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                 _pickImage(ImageSource.camera, context).then((value) async {
                   await Service()
                       .uploadImageForSitegallery(
-                    widget.projectId,
-                    _image!.path,
-                  )
+                          widget.projectId, _image!.path, calculateProgress)
                       .then((value) {
                     setState(() {
                       // _progress = progress;
@@ -552,27 +583,10 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                       // calculateProgress(0);
                       _pickImage(ImageSource.camera, context)
                           .then((value) async {
-                        await Service()
-                            .uploadImageForSitegallery(
-                          widget.projectId,
-                          _image!.path,
-                        )
-                            .then((value) {
-                          setState(() {
-                            // _progress = progress;
-                            // print("progress" + _progress.toString());
-                          });
-                          // print("progress" + _progress.toString());
-
-                          context.pop();
-                          ref
-                              .refresh(siteGalleryControllerProvider.notifier)
-                              .getSiteGallery(widget.projectId);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  backgroundColor: Colors.green,
-                                  content: Text("Image Uploaded")));
-                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                backgroundColor: Colors.green,
+                                content: Text("Image Uploaded")));
                       });
                     },
                     child: Container(
@@ -675,25 +689,26 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                   ),
                   InkWell(
                     onTap: () async {
-                      result = await FilePicker.platform.pickFiles(
-                        allowMultiple: true,
-                        type: FileType.custom,
-                        allowedExtensions: ['jpg', 'jpeg', 'png', 'mp4'],
-                      );
-                      await Service()
-                          .uploadFiles(
-                        widget.projectId,
-                        result!.paths.map((path) => path).toList(),
-                      )
-                          .then((value) {
-                        context.pop();
-                        Utils.toastSuccessMessage(
-                          "Site Gallery Added",
-                        );
-                        ref
-                            .watch(siteGalleryControllerProvider.notifier)
-                            .getSiteGallery(widget.projectId);
-                      });
+                      // result = await FilePicker.platform.pickFiles(
+                      //   allowMultiple: true,
+                      //   type: FileType.custom,
+                      //   allowedExtensions: ['jpg', 'jpeg', 'png', 'mp4'],
+                      // );
+                      // await Service()
+                      //     .uploadFiles(
+                      //   widget.projectId,
+                      //   result!.paths.map((path) => path).toList(),
+                      // )
+                      //     .then((value) {
+                      //   context.pop();
+                      //   Utils.toastSuccessMessage(
+                      //     "Site Gallery Added",
+                      //   );
+                      //   ref
+                      //       .watch(siteGalleryControllerProvider.notifier)
+                      //       .getSiteGallery(widget.projectId);
+                      // });
+                      context.pop();
                     },
                     child: Container(
                       width: double.infinity,
@@ -744,5 +759,151 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
         ),
       ),
     );
+  }
+
+  _showProgressBottomSheet(context) async {
+    log("progress sheet " + _progress.toString());
+    _bottomSheetController =
+        Scaffold.of(context).showBottomSheet((BuildContext context) {
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r)),
+            color: Colors.white,
+          ),
+          height: 270.h,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Generating LiveLapse',
+                    style: TextStyle(
+                        letterSpacing: -0.3,
+                        color: Helper.baseBlack,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20.h),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    isThreeLine: true,
+                    leading: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 6.w, vertical: 6.h),
+                      width: 32.w,
+                      height: 32.h,
+                      decoration: BoxDecoration(
+                          color: Color.fromRGBO(229, 240, 255, 1),
+                          borderRadius: BorderRadius.circular(32.r),
+                          border: Border.all(
+                              color: Color.fromRGBO(245, 249, 255, 1),
+                              width: 4.w)),
+                      child: SvgPicture.asset(
+                        'assets/images/film.svg',
+                      ),
+                    ),
+                    title: Text(
+                      "Camera 2 - The Bridges.mp4",
+                      style: TextStyle(
+                          letterSpacing: -0.3,
+                          color: Helper.textColor700,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Fetching images",
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Helper.textColor600,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          SizedBox(height: 10.h),
+                          Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(4.r),
+                                  child: LinearPercentIndicator(
+                                      width: 210.w,
+                                      fillColor: Helper.textColor300,
+                                      backgroundColor: Helper.textColor300,
+                                      progressColor: Helper.primary,
+                                      padding: EdgeInsets.zero,
+                                      curve: Curves.easeInOut,
+                                      barRadius: Radius.circular(4.r),
+                                      lineHeight: 8.h,
+                                      percent: _progressBar / 100),
+                                ),
+                                Text(
+                                  "${(_progressBar).toInt()}%",
+                                  style: TextStyle(
+                                      letterSpacing: -0.3,
+                                      color: Helper.textColor700,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
+                                )
+                              ])
+                        ]),
+                    trailing: _progressBar == 100.0
+                        ? SvgPicture.asset(
+                            'assets/images/checkbox_base.svg',
+                          )
+                        : SizedBox(),
+                  ),
+                  SizedBox(height: 20.h),
+                  Container(
+                    height: 52.h,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      child: Text(
+                        "Close",
+                        style: TextStyle(
+                            letterSpacing: -0.3,
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500),
+                        // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                      ),
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(Helper.baseBlack),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                          )),
+                      onPressed: () {
+                        context.pop();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    });
   }
 }

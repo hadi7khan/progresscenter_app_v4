@@ -248,7 +248,7 @@ class Service {
 
   // method to upload a photo in site gallery
   Future<dynamic> uploadImageForSitegallery(
-      String projectId, String? filePath) async {
+      String projectId, String? filePath, ProgressCallback onProgress) async {
     Dio dio = Dio();
     print("filepath---" + filePath.toString());
     Map<String, String> headers = {
@@ -282,12 +282,11 @@ class Service {
       dio.options.headers = headers;
       dio.options.contentType = Headers.formUrlEncodedContentType;
 
-      await dio
-          .post(
-        Endpoints.siteGalleryListUrl(projectId),
-        data: formData,
-      )
-          .then((response) {
+      await dio.post(Endpoints.siteGalleryListUrl(projectId), data: formData,
+          onSendProgress: (sentBytes, totalBytes) {
+        double progress = sentBytes.toDouble() / totalBytes.toDouble();
+        onProgress(progress);
+      }).then((response) {
         print("response body " + response.data.toString());
         // Check if the response is successful
         if (response.statusCode == 200) {
