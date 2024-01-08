@@ -57,253 +57,253 @@ class _TeamCardState extends BaseConsumerState<TeamCard> {
               fontSize: 12.sp,
               fontWeight: FontWeight.w400),
         ),
-        trailing: PopupMenuButton(
-          icon: SvgPicture.asset('assets/images/dots-vertical.svg'),
-          position: PopupMenuPosition.under,
-          itemBuilder: (BuildContext context) => [
-            PopupMenuItem<String>(
-              value: 'password',
-              child: Text(
-                'Reset Password',
-                style: TextStyle(
-                    letterSpacing: -0.3,
-                    color: Helper.baseBlack,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500),
-              ),
-            ),
-            PopupMenuItem<String>(
-              value: 'delete',
-              child: Text(
-                'Delete',
-                style: TextStyle(
-                    letterSpacing: -0.3,
-                    color: Helper.errorColor,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500),
-              ),
-            ),
-          ],
-          onSelected: (value) {
-            print(value.toString());
-            if (value == 'delete') {
-              Platform.isIOS
-                  ? showCupertinoDialog(
-                      context: context,
-                      builder: (context) => CupertinoAlertDialog(
-                        title: Text(
-                          "We will remove all of " +
-                              '\"' +
-                              widget.teamData.name! +
-                              '\"' +
-                              ' personal details.',
-                        ),
-                        content: Text(
-                          "This action is irreversible! You might prefer to disable the user instead.",
-                        ),
-                        actions: <Widget>[
-                          // if (cancelActionText != null)
+        // trailing: PopupMenuButton(
+        //   icon: SvgPicture.asset('assets/images/dots-vertical.svg'),
+        //   position: PopupMenuPosition.under,
+        //   itemBuilder: (BuildContext context) => [
+        //     PopupMenuItem<String>(
+        //       value: 'password',
+        //       child: Text(
+        //         'Reset Password',
+        //         style: TextStyle(
+        //             letterSpacing: -0.3,
+        //             color: Helper.baseBlack,
+        //             fontSize: 14.sp,
+        //             fontWeight: FontWeight.w500),
+        //       ),
+        //     ),
+        //     PopupMenuItem<String>(
+        //       value: 'delete',
+        //       child: Text(
+        //         'Delete',
+        //         style: TextStyle(
+        //             letterSpacing: -0.3,
+        //             color: Helper.errorColor,
+        //             fontSize: 14.sp,
+        //             fontWeight: FontWeight.w500),
+        //       ),
+        //     ),
+        //   ],
+        //   onSelected: (value) {
+        //     print(value.toString());
+        //     if (value == 'delete') {
+        //       Platform.isIOS
+        //           ? showCupertinoDialog(
+        //               context: context,
+        //               builder: (context) => CupertinoAlertDialog(
+        //                 title: Text(
+        //                   "We will remove all of " +
+        //                       '\"' +
+        //                       widget.teamData.name! +
+        //                       '\"' +
+        //                       ' personal details.',
+        //                 ),
+        //                 content: Text(
+        //                   "This action is irreversible! You might prefer to disable the user instead.",
+        //                 ),
+        //                 actions: <Widget>[
+        //                   // if (cancelActionText != null)
 
-                          CupertinoDialogAction(
-                            child: Text(
-                              "Cancel",
-                              style: TextStyle(
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            onPressed: () => Navigator.of(context).pop(true),
-                          ),
-                          CupertinoDialogAction(
-                              child: Text(
-                                "Delete",
-                                style: TextStyle(
-                                  color: Helper.errorColor,
-                                ),
-                              ),
-                              onPressed: () {
-                                Service()
-                                    .deleteUser(widget.teamData.id)
-                                    .then((value) {
-                                  context.pop();
-                                  Utils.flushBarErrorMessage(
-                                      "User deleted", context);
-                                  ref
-                                      .watch(teamControllerProvider.notifier)
-                                      .getUser();
-                                });
+        //                   CupertinoDialogAction(
+        //                     child: Text(
+        //                       "Cancel",
+        //                       style: TextStyle(
+        //                           color: Colors.blue,
+        //                           fontWeight: FontWeight.w500),
+        //                     ),
+        //                     onPressed: () => Navigator.of(context).pop(true),
+        //                   ),
+        //                   CupertinoDialogAction(
+        //                       child: Text(
+        //                         "Delete",
+        //                         style: TextStyle(
+        //                           color: Helper.errorColor,
+        //                         ),
+        //                       ),
+        //                       onPressed: () {
+        //                         Service()
+        //                             .deleteUser(widget.teamData.id)
+        //                             .then((value) {
+        //                           context.pop();
+        //                           Utils.flushBarErrorMessage(
+        //                               "User deleted", context);
+        //                           ref
+        //                               .watch(teamControllerProvider.notifier)
+        //                               .getUser();
+        //                         });
 
-                                setState(() {});
-                              }),
-                        ],
-                      ),
-                    )
-                  : showDialog(
-                      context: context,
-                      builder: ((context) {
-                        return FormBuilder(
-                          key: _dialogKey,
-                          child: AlertDialog(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(14.r),
-                            ),
-                            content: StatefulBuilder(builder:
-                                (BuildContext context, StateSetter setState) {
-                              return SingleChildScrollView(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    RichText(
-                                      text: TextSpan(
-                                        text: "We will remove all of ",
-                                        style: TextStyle(
-                                            letterSpacing: -0.3,
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w500,
-                                            color: Helper.textColor500),
-                                        children: [
-                                          TextSpan(
-                                            text: '\"' +
-                                                widget.teamData.name! +
-                                                '\"',
-                                            style: TextStyle(
-                                                letterSpacing: -0.3,
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w500,
-                                                color: Helper.baseBlack),
-                                          ),
-                                          TextSpan(
-                                            text: ' personal details.',
-                                            style: TextStyle(
-                                                letterSpacing: -0.3,
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w500,
-                                                color: Helper.textColor500),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 5.h,
-                                    ),
-                                    RichText(
-                                      text: TextSpan(
-                                        text:
-                                            '\"' + widget.teamData.name! + '\"',
-                                        style: TextStyle(
-                                            letterSpacing: -0.3,
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w500,
-                                            color: Helper.baseBlack),
-                                        children: [
-                                          TextSpan(
-                                            text:
-                                                "updates and generated content will remain available anonymously.",
-                                            style: TextStyle(
-                                                letterSpacing: -0.3,
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w500,
-                                                color: Helper.textColor500),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10.h,
-                                    ),
-                                    RichText(
-                                      text: TextSpan(
-                                        text: "Attention:",
-                                        style: TextStyle(
-                                            letterSpacing: -0.3,
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w500,
-                                            color: Helper.baseBlack),
-                                        children: [
-                                          TextSpan(
-                                            text:
-                                                "This action is irreversible! You might prefer to disable the user instead.",
-                                            style: TextStyle(
-                                                letterSpacing: -0.3,
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w500,
-                                                color: Helper.textColor500),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }),
-                            actionsPadding: const EdgeInsets.only(
-                                left: 32, bottom: 32, right: 32),
-                            actions: [
-                              TextButton(
-                                onPressed: () async {
-                                  Service()
-                                      .deleteUser(widget.teamData.id)
-                                      .then((value) {
-                                    context.pop();
-                                    Utils.flushBarErrorMessage(
-                                        "User deleted", context);
-                                    ref
-                                        .watch(teamControllerProvider.notifier)
-                                        .getUser();
-                                  });
+        //                         setState(() {});
+        //                       }),
+        //                 ],
+        //               ),
+        //             )
+        //           : showDialog(
+        //               context: context,
+        //               builder: ((context) {
+        //                 return FormBuilder(
+        //                   key: _dialogKey,
+        //                   child: AlertDialog(
+        //                     shape: RoundedRectangleBorder(
+        //                       borderRadius: BorderRadius.circular(14.r),
+        //                     ),
+        //                     content: StatefulBuilder(builder:
+        //                         (BuildContext context, StateSetter setState) {
+        //                       return SingleChildScrollView(
+        //                         child: Column(
+        //                           mainAxisSize: MainAxisSize.min,
+        //                           mainAxisAlignment: MainAxisAlignment.start,
+        //                           crossAxisAlignment: CrossAxisAlignment.start,
+        //                           children: [
+        //                             RichText(
+        //                               text: TextSpan(
+        //                                 text: "We will remove all of ",
+        //                                 style: TextStyle(
+        //                                     letterSpacing: -0.3,
+        //                                     fontSize: 14.sp,
+        //                                     fontWeight: FontWeight.w500,
+        //                                     color: Helper.textColor500),
+        //                                 children: [
+        //                                   TextSpan(
+        //                                     text: '\"' +
+        //                                         widget.teamData.name! +
+        //                                         '\"',
+        //                                     style: TextStyle(
+        //                                         letterSpacing: -0.3,
+        //                                         fontSize: 14.sp,
+        //                                         fontWeight: FontWeight.w500,
+        //                                         color: Helper.baseBlack),
+        //                                   ),
+        //                                   TextSpan(
+        //                                     text: ' personal details.',
+        //                                     style: TextStyle(
+        //                                         letterSpacing: -0.3,
+        //                                         fontSize: 14.sp,
+        //                                         fontWeight: FontWeight.w500,
+        //                                         color: Helper.textColor500),
+        //                                   ),
+        //                                 ],
+        //                               ),
+        //                             ),
+        //                             SizedBox(
+        //                               height: 5.h,
+        //                             ),
+        //                             RichText(
+        //                               text: TextSpan(
+        //                                 text:
+        //                                     '\"' + widget.teamData.name! + '\"',
+        //                                 style: TextStyle(
+        //                                     letterSpacing: -0.3,
+        //                                     fontSize: 14.sp,
+        //                                     fontWeight: FontWeight.w500,
+        //                                     color: Helper.baseBlack),
+        //                                 children: [
+        //                                   TextSpan(
+        //                                     text:
+        //                                         "updates and generated content will remain available anonymously.",
+        //                                     style: TextStyle(
+        //                                         letterSpacing: -0.3,
+        //                                         fontSize: 14.sp,
+        //                                         fontWeight: FontWeight.w500,
+        //                                         color: Helper.textColor500),
+        //                                   ),
+        //                                 ],
+        //                               ),
+        //                             ),
+        //                             SizedBox(
+        //                               height: 10.h,
+        //                             ),
+        //                             RichText(
+        //                               text: TextSpan(
+        //                                 text: "Attention:",
+        //                                 style: TextStyle(
+        //                                     letterSpacing: -0.3,
+        //                                     fontSize: 14.sp,
+        //                                     fontWeight: FontWeight.w500,
+        //                                     color: Helper.baseBlack),
+        //                                 children: [
+        //                                   TextSpan(
+        //                                     text:
+        //                                         "This action is irreversible! You might prefer to disable the user instead.",
+        //                                     style: TextStyle(
+        //                                         letterSpacing: -0.3,
+        //                                         fontSize: 14.sp,
+        //                                         fontWeight: FontWeight.w500,
+        //                                         color: Helper.textColor500),
+        //                                   ),
+        //                                 ],
+        //                               ),
+        //                             ),
+        //                           ],
+        //                         ),
+        //                       );
+        //                     }),
+        //                     actionsPadding: const EdgeInsets.only(
+        //                         left: 32, bottom: 32, right: 32),
+        //                     actions: [
+        //                       TextButton(
+        //                         onPressed: () async {
+        //                           Service()
+        //                               .deleteUser(widget.teamData.id)
+        //                               .then((value) {
+        //                             context.pop();
+        //                             Utils.flushBarErrorMessage(
+        //                                 "User deleted", context);
+        //                             ref
+        //                                 .watch(teamControllerProvider.notifier)
+        //                                 .getUser();
+        //                           });
 
-                                  setState(() {});
-                                },
-                                style: TextButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 11),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8.r),
-                                    ),
-                                    backgroundColor: Helper.errorColor,
-                                    fixedSize: Size.infinite),
-                                child: const Text(
-                                  "Delete",
-                                  style: TextStyle(
-                                      letterSpacing: -0.3,
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  context.pop();
-                                },
-                                style: TextButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8.r),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 11),
-                                    backgroundColor: Colors.white,
-                                    side:
-                                        BorderSide(color: Helper.textColor300),
-                                    fixedSize: Size.infinite),
-                                child: Text(
-                                  "Cancel",
-                                  style: TextStyle(
-                                      letterSpacing: -0.3,
-                                      color: Helper.textColor500,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ],
-                            actionsAlignment: MainAxisAlignment.center,
-                          ),
-                        );
-                      }),
-                    );
-            } else if (value == 'password') {}
-          },
-        ),
+        //                           setState(() {});
+        //                         },
+        //                         style: TextButton.styleFrom(
+        //                             padding: const EdgeInsets.symmetric(
+        //                                 horizontal: 16, vertical: 11),
+        //                             shape: RoundedRectangleBorder(
+        //                               borderRadius: BorderRadius.circular(8.r),
+        //                             ),
+        //                             backgroundColor: Helper.errorColor,
+        //                             fixedSize: Size.infinite),
+        //                         child: const Text(
+        //                           "Delete",
+        //                           style: TextStyle(
+        //                               letterSpacing: -0.3,
+        //                               color: Colors.white,
+        //                               fontSize: 14,
+        //                               fontWeight: FontWeight.w600),
+        //                         ),
+        //                       ),
+        //                       TextButton(
+        //                         onPressed: () {
+        //                           context.pop();
+        //                         },
+        //                         style: TextButton.styleFrom(
+        //                             shape: RoundedRectangleBorder(
+        //                               borderRadius: BorderRadius.circular(8.r),
+        //                             ),
+        //                             padding: const EdgeInsets.symmetric(
+        //                                 horizontal: 16, vertical: 11),
+        //                             backgroundColor: Colors.white,
+        //                             side:
+        //                                 BorderSide(color: Helper.textColor300),
+        //                             fixedSize: Size.infinite),
+        //                         child: Text(
+        //                           "Cancel",
+        //                           style: TextStyle(
+        //                               letterSpacing: -0.3,
+        //                               color: Helper.textColor500,
+        //                               fontSize: 14,
+        //                               fontWeight: FontWeight.w600),
+        //                         ),
+        //                       ),
+        //                     ],
+        //                     actionsAlignment: MainAxisAlignment.center,
+        //                   ),
+        //                 );
+        //               }),
+        //             );
+        //     } else if (value == 'password') {}
+        //   },
+        // ),
       ),
     );
   }
