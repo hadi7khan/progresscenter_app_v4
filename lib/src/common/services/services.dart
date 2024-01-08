@@ -10,6 +10,7 @@ import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
 import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/data/model/progressline_project_model.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -33,6 +34,25 @@ class Service {
           .toList();
     } else {
       throw Exception('Failed to fetch progressline project list');
+    }
+  }
+
+  //method to fetch user list with minimum data
+  Future<ProjectModel> fetchProjectsList(
+      String projectId, bool includeChildren) async {
+    final client = http.Client();
+    final response = await client.get(
+        Uri.parse(Endpoints.projectByIdUrl(projectId, includeChildren)),
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+        });
+    if (response.statusCode == 200) {
+      final parsed = json.decode(response.body);
+      log("parsed " + parsed.toString());
+      return ProjectModel.fromJson(parsed);
+    } else {
+      throw Exception('Failed to fetch user list');
     }
   }
 
