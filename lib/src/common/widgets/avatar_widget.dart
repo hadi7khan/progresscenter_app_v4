@@ -82,7 +82,7 @@ class _AvatarWidgetState extends State<AvatarWidget> {
                 child: Center(
                   child: Text(
                     _getNameInitials(widget.name),
-                    style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                    style: TextStyle(color: Colors.white, fontSize: 18.sp),
                   ),
                 )),
       ),
