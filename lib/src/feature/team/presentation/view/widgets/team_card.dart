@@ -37,7 +37,7 @@ class _TeamCardState extends BaseConsumerState<TeamCard> {
           dpUrl: widget.teamData.dp != null ? widget.teamData.dpUrl : "",
           name: widget.teamData.name,
           backgroundColor: widget.teamData.preset.color,
-          size: 32,
+          size: 42,
         ),
         title: Text(
           widget.teamData.name,

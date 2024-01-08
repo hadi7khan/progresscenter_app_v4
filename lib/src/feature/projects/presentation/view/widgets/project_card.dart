@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/super_projects_screen.dart';
 
 class ProjectCard extends StatefulWidget {
   final int? index;
@@ -37,7 +38,7 @@ class _ProjectCardState extends State<ProjectCard> {
             "projectUsers": widget.project.users
           });
         } else {
-          context.push('/superProject/' + widget.project.id, extra: {
+          context.push('/superProject/${widget.project.id}', extra: {
             "projectId": widget.project.id,
           });
         }
@@ -124,7 +125,12 @@ class _ProjectCardState extends State<ProjectCard> {
                                     //   },
                                     // ),
                                     )
-                                : SizedBox(),
+                                : ClipRRect(
+                                    child: Image.asset(
+                                      'assets/images/error_image.jpeg',
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
                           ),
                         ),
                       ),

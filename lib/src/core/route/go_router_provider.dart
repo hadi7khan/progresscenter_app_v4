@@ -238,6 +238,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: _rootNavigatorKey,
         name: superProjectRoute,
         pageBuilder: (context, state) {
+          // final family = Families.family(state.p['fid']!);
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
           return NoTransitionPage(
             key: state.pageKey,

@@ -417,7 +417,7 @@ class _ProjectDetailsScreenState
                       assetMap = {};
                       for (var asset in data.assets!) {
                         String name = asset.name!;
-                        int count = asset.count!;
+                        int count = asset.count != null ? asset.count! : 0;
                         assetMap[name] = count;
                       }
                       print("this is the assetMap" + assetMap.toString());
