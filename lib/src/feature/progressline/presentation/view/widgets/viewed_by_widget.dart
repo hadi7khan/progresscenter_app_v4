@@ -837,6 +837,7 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                             name: widget.data[index].name!,
                             backgroundColor: widget.data[index].preset!.color!,
                             size: 35.h,
+                            fontSize: 14,
                           ),
                           title: Text(
                             widget.data[index].name!,

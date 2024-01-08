@@ -6,12 +6,14 @@ class AvatarWidget extends StatefulWidget {
   final String name;
   final String backgroundColor;
   final double size;
+  final double fontSize;
   const AvatarWidget(
       {super.key,
       required this.dpUrl,
       required this.name,
       required this.backgroundColor,
-      required this.size});
+      required this.size,
+      required this.fontSize});
 
   @override
   State<AvatarWidget> createState() => _AvatarWidgetState();
@@ -82,7 +84,8 @@ class _AvatarWidgetState extends State<AvatarWidget> {
                 child: Center(
                   child: Text(
                     _getNameInitials(widget.name),
-                    style: TextStyle(color: Colors.white, fontSize: 18.sp),
+                    style: TextStyle(
+                        color: Colors.white, fontSize: widget.fontSize.sp),
                   ),
                 )),
       ),

@@ -197,7 +197,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
               child: AppBar(
                 backgroundColor: Colors.white,
                 surfaceTintColor: Colors.white,
-                centerTitle: true,
+                centerTitle: false,
                 automaticallyImplyLeading: false,
                 titleSpacing: 12.0.w,
                 leading: InkWell(

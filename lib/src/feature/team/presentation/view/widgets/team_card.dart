@@ -42,6 +42,7 @@ class _TeamCardState extends BaseConsumerState<TeamCard> {
           name: widget.teamData.name,
           backgroundColor: widget.teamData.preset.color,
           size: 42,
+          fontSize: 16,
         ),
         title: Text(
           widget.teamData.name,

@@ -38,17 +38,20 @@ class _AvatarGroupWidgetState extends State<AvatarGroupWidget> {
 
   _getPositionedWidgets() {
     int? index;
-    List<Widget> positioned = widget.avatars.take(widget.max!.round()).map((avatar) {
+    List<Widget> positioned =
+        widget.avatars.take(widget.max!.round()).map((avatar) {
       index = widget.avatars.indexOf(avatar);
       return Positioned(
         width: widget.size,
         height: widget.size,
         left: calculateOverlay(index),
         child: AvatarWidget(
-            dpUrl: avatar['dpUrl'] != "" ? avatar['dpUrl'] : "",
-            name: avatar['name'],
-            backgroundColor: avatar['backgroundColor'],
-            size: widget.size!),
+          dpUrl: avatar['dpUrl'] != "" ? avatar['dpUrl'] : "",
+          name: avatar['name'],
+          backgroundColor: avatar['backgroundColor'],
+          size: widget.size!,
+          fontSize: 14,
+        ),
       );
     }).toList();
     if (avatarsLength! > maxCount!) {
@@ -66,8 +69,11 @@ class _AvatarGroupWidgetState extends State<AvatarGroupWidget> {
               ),
               child: Center(
                 child: Text(
-                  "+"+ count.toString(),
-                  style: TextStyle(color:Helper.textColor700, fontSize: 16.sp, fontWeight: FontWeight.w500),
+                  "+" + count.toString(),
+                  style: TextStyle(
+                      color: Helper.textColor700,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500),
                 ),
               )),
         ),

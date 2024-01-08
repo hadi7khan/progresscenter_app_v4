@@ -182,6 +182,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                 name: widget.progresslineData.user.name,
                 backgroundColor: widget.progresslineData.user.preset.color,
                 size: 24,
+                fontSize: 14,
               ),
               title: Text(
                 widget.progresslineData.user.name,
@@ -335,6 +336,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                               name: "HADI",
                               backgroundColor: "#0F9555",
                               size: 32,
+                              fontSize: 14,
                             ),
                             title: FlutterMentions(
                               key: key,
@@ -368,6 +370,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                           name: data['display'],
                                           backgroundColor: data['color'],
                                           size: 24,
+                                          fontSize: 14,
                                         ),
                                         title: Text(
                                           data['display'],
