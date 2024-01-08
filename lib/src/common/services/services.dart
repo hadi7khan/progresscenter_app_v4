@@ -100,13 +100,13 @@ class Service {
     print("put data" + data.toString());
     try {
       final client = http.Client();
-      final response =
-          await client.put(Uri.parse(Endpoints.projectByIdUrl(projectId)),
-              headers: {
-                "content-type": "application/json",
-                "Authorization": "Bearer " + _prefsLocator.getUserToken(),
-              },
-              body: postData);
+      final response = await client.put(
+          Uri.parse(Endpoints.projectByIdUrl(projectId, false)),
+          headers: {
+            "content-type": "application/json",
+            "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+          },
+          body: postData);
       print(response.statusCode.toString());
       if (response.statusCode == 200) {
         print("project edited");

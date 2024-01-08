@@ -28,13 +28,19 @@ class _ProjectCardState extends State<ProjectCard> {
       highlightColor: Colors.transparent,
       onTap: () async {
         // await DefaultCacheManager().emptyCache();
-        context.push('/details', extra: {
-          "projectId": widget.project.id,
-          "projectName": widget.project.name!,
-          "projectImages": widget.project.images,
-          "projectLocation": widget.project.location.name,
-          "projectUsers": widget.project.users
-        });
+        if (widget.project.hasCameras) {
+          context.push('/details', extra: {
+            "projectId": widget.project.id,
+            "projectName": widget.project.name!,
+            "projectImages": widget.project.images,
+            "projectLocation": widget.project.location.name,
+            "projectUsers": widget.project.users
+          });
+        } else {
+          context.push('/superProject/' + widget.project.id, extra: {
+            "projectId": widget.project.id,
+          });
+        }
       },
       child: Hero(
         tag: "project_card",

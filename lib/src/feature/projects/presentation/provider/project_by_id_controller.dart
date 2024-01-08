@@ -13,9 +13,9 @@ class ProjectController extends StateNotifier<ProjectByIdState> {
   ProjectController(super.state, this.service);
   final ProjectRepositoryImpl service;
 
-  Future getProjectById(id) async {
+  Future getProjectById(id, includeChildren) async {
     state = state.copyWith(isFetching: true);
-    final result = await service.projectById(id);
+    final result = await service.projectById(id, includeChildren);
 
     result.fold((l) {
       // error handle

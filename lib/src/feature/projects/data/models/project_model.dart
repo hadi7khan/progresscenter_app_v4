@@ -16,9 +16,10 @@ class ProjectModel with _$ProjectModel {
     Location? location,
     @JsonKey(name: '_id') String? id,
     String? name,
-    List<Asset>? images,
+    List<ProjectImage>? images,
     String? status,
     List<Asset>? assets,
+    String? activity,
     DateTime? lastUpdated,
     dynamic parentId,
     bool? hasCameras,
@@ -29,6 +30,7 @@ class ProjectModel with _$ProjectModel {
     int? constructionDays,
     String? projectModelId,
     List<User>? users,
+    List<ProjectModel>? children,
   }) = _ProjectModel;
 
   factory ProjectModel.fromJson(Map<String, dynamic> json) =>
@@ -47,14 +49,22 @@ class AiStats with _$AiStats {
 }
 
 @freezed
+class ProjectImage with _$ProjectImage {
+  const factory ProjectImage({
+    @JsonKey(name: '_id') String? imageId,
+    String? url,
+  }) = _ProjectImage;
+
+  factory ProjectImage.fromJson(Map<String, dynamic> json) =>
+      _$ProjectImageFromJson(json);
+}
+
+@freezed
 class Asset with _$Asset {
   const factory Asset({
     String? name,
-    String? id,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    String? assetId,
-    String? url,
+    @JsonKey(name: '_id') String? id,
+    int? count,
   }) = _Asset;
 
   factory Asset.fromJson(Map<String, dynamic> json) => _$AssetFromJson(json);
@@ -80,6 +90,7 @@ class User with _$User {
     String? name,
     String? email,
     String? dp,
+    String? role,
     List<String>? projects,
     String? dpUrl,
   }) = _User;

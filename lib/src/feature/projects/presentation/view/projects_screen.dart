@@ -113,7 +113,7 @@ class _ProjectsScreenState extends BaseConsumerState<ProjectsScreen> {
                       ],
                     ),
                     SizedBox(height: 15.h),
-                    ProjectWidget(widget.detailsPath),
+                    ProjectWidget(),
                   ],
                 ),
               ),
