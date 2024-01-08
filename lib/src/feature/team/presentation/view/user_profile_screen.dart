@@ -272,21 +272,21 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          data.name,
+                          "User details",
                           style: TextStyle(
                               letterSpacing: -0.3,
                               color: Helper.baseBlack,
                               fontSize: 18.sp,
                               fontWeight: FontWeight.w500),
                         ),
-                        Text(
-                          data.designation,
-                          style: TextStyle(
-                              letterSpacing: -0.3,
-                              color: Helper.baseBlack,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400),
-                        )
+                        // Text(
+                        //   data.designation,
+                        //   style: TextStyle(
+                        //       letterSpacing: -0.3,
+                        //       color: Helper.baseBlack,
+                        //       fontSize: 14.sp,
+                        //       fontWeight: FontWeight.w400),
+                        // )
                       ]),
                 ),
               ),
@@ -346,7 +346,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                           fontWeight: FontWeight.w500),
                                     ),
                                     Text(
-                                      data.email,
+                                      data.designation,
                                       style: TextStyle(
                                           letterSpacing: -0.3,
                                           color: Helper.textColor600,
@@ -358,15 +358,15 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                               ),
                               SizedBox(height: 16.h),
                               Container(
+                                width: MediaQuery.of(context).size.width,
                                 padding: EdgeInsets.all(16.w),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(16.r),
                                   color: Colors.white,
                                 ),
-                                child: Column(children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       CustomInputWidget(
                                         title: "Username",
@@ -379,6 +379,54 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                               fontWeight: FontWeight.w600),
                                         ),
                                       ),
+                                      SizedBox(height: 20.h),
+                                      CustomInputWidget(
+                                        title: "Email",
+                                        formField: Text(
+                                          data.email,
+                                          style: TextStyle(
+                                              letterSpacing: -0.3,
+                                              color: Helper.textColor900,
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                      // CustomInputWidget(
+                                      //   title: "Status",
+                                      //   formField: Switch.adaptive(
+                                      //       trackOutlineColor:
+                                      //           MaterialStateProperty.all(
+                                      //               Colors.transparent),
+                                      //       inactiveTrackColor: Color.fromRGBO(
+                                      //           120, 120, 128, 0.16),
+                                      //       activeTrackColor:
+                                      //           Helper.switchActiveColor,
+                                      //       thumbColor:
+                                      //           MaterialStateProperty.all(
+                                      //               Colors.white),
+                                      //       value: _status,
+                                      //       onChanged: (value) {
+                                      //         setState(() {
+                                      //           _status = value;
+                                      //           if (value) {
+                                      //             _userStatus = "ENABLED";
+                                      //           } else {
+                                      //             _userStatus = "DISABLED";
+                                      //           }
+                                      //         });
+
+                                      //         Map<String, dynamic> statusData =
+                                      //             {"status": _userStatus};
+                                      //         Service()
+                                      //             .statusChange(
+                                      //                 data.id, statusData)
+                                      //             .then((val) {
+                                      //           Utils.toastSuccessMessage(
+                                      //               "Status updated");
+                                      //         });
+                                      //       }),
+                                      // ),
+                                      SizedBox(height: 20.h),
                                       CustomInputWidget(
                                         title: "Last Active",
                                         formField: Text(
@@ -396,62 +444,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                               fontWeight: FontWeight.w600),
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 20.h),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      CustomInputWidget(
-                                        title: "Email",
-                                        formField: Text(
-                                          data.email,
-                                          style: TextStyle(
-                                              letterSpacing: -0.3,
-                                              color: Helper.textColor900,
-                                              fontSize: 16.sp,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                      ),
-                                      CustomInputWidget(
-                                        title: "Status",
-                                        formField: Switch.adaptive(
-                                            trackOutlineColor:
-                                                MaterialStateProperty.all(
-                                                    Colors.transparent),
-                                            inactiveTrackColor: Color.fromRGBO(
-                                                120, 120, 128, 0.16),
-                                            activeTrackColor:
-                                                Helper.switchActiveColor,
-                                            thumbColor:
-                                                MaterialStateProperty.all(
-                                                    Colors.white),
-                                            value: _status,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                _status = value;
-                                                if (value) {
-                                                  _userStatus = "ENABLED";
-                                                } else {
-                                                  _userStatus = "DISABLED";
-                                                }
-                                              });
-
-                                              Map<String, dynamic> statusData =
-                                                  {"status": _userStatus};
-                                              Service()
-                                                  .statusChange(
-                                                      data.id, statusData)
-                                                  .then((val) {
-                                                Utils.toastSuccessMessage(
-                                                    "Status updated");
-                                              });
-                                            }),
-                                      ),
-                                    ],
-                                  ),
-                                ]),
+                                    ]),
                               ),
                               SizedBox(
                                 height: 12.h,
