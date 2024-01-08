@@ -33,6 +33,9 @@ class _TeamCardState extends BaseConsumerState<TeamCard> {
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: ListTile(
+        // contentPadding: EdgeInsets.zero,
+        minVerticalPadding: 0,
+        visualDensity: VisualDensity(horizontal: 0, vertical: 0),
         leading: AvatarWidget(
           dpUrl: widget.teamData.dp != null ? widget.teamData.dpUrl : "",
           name: widget.teamData.name,
@@ -44,7 +47,7 @@ class _TeamCardState extends BaseConsumerState<TeamCard> {
           style: TextStyle(
               letterSpacing: -0.3,
               color: Helper.textColor700,
-              fontSize: 14.sp,
+              fontSize: 16.sp,
               fontWeight: FontWeight.w600),
         ),
         subtitle: Text(
