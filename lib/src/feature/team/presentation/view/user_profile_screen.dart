@@ -343,7 +343,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                           letterSpacing: -0.3,
                                           color: Helper.baseBlack,
                                           fontSize: 16.sp,
-                                          fontWeight: FontWeight.w500),
+                                          fontWeight: FontWeight.w600),
                                     ),
                                     Text(
                                       data.designation,
