@@ -54,15 +54,15 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
     final teamData =
         ref.watch(teamControllerProvider.select((value) => value.users));
     return Scaffold(
-      body: RefreshIndicator(
+      body: SafeArea(
+          child: RefreshIndicator(
         displacement: 10.0,
         color: Helper.primary,
         onRefresh: () async {
           HapticFeedback.mediumImpact();
           return await ref.refresh(teamControllerProvider.notifier).getUser();
         },
-        child: SafeArea(
-            child: SingleChildScrollView(
+        child: SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
           child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
@@ -176,8 +176,8 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                 },
                 loading: () => LoadingTeamList(),
               )),
-        )),
-      ),
+        ),
+      )),
     );
   }
 
