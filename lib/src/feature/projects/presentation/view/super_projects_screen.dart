@@ -10,6 +10,12 @@ import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dar
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_by_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/widgets/project_card.dart';
+import 'dart:developer';
+
+final superProjectScreenProvider =
+    Provider.autoDispose.family<SuperProjectScreen, String>((ref, projectId) {
+  return SuperProjectScreen(key: ValueKey(projectId), projectId: projectId);
+});
 
 class SuperProjectScreen extends ConsumerStatefulWidget {
   final String projectId;
@@ -34,6 +40,12 @@ class _SuperProjectScreenState extends BaseConsumerState<SuperProjectScreen> {
   }
 
   @override
+  void dispose() {
+    // ref.invalidate(projectByIdControllerProvider);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final superProjectData = ref.watch(
         projectByIdControllerProvider.select((value) => value.projectDetails));
@@ -54,6 +66,7 @@ class _SuperProjectScreenState extends BaseConsumerState<SuperProjectScreen> {
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
               child: superProjectData.when(
                 data: (data) {
+                  log("data current  " + data.toString());
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
