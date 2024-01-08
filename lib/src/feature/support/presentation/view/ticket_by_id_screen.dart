@@ -361,6 +361,7 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
                   name: "HADI",
                   backgroundColor: "#0F9555",
                   size: 32,
+                  fontSize: 14,
                 ),
                 title: FormBuilderTextField(
                   name: 'support',

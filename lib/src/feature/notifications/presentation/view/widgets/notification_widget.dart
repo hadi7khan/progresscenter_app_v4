@@ -497,6 +497,7 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                 backgroundColor:
                     widget.notificationsData!.createdBy!.preset!.color!,
                 size: 32,
+                fontSize: 14,
               )
             : CircleAvatar(
                 child: Icon(

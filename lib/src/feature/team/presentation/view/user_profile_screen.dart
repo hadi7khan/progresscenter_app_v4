@@ -249,12 +249,6 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                   var values =
                       projectHierarchySelection!.changeSelected(project, value);
                   print("valueeeeee" + values.toString());
-                  Map<String, dynamic> projectData = {"projects": selectedIds};
-                  Service()
-                      .assignProjectChange(userId, projectData)
-                      .then((val) {
-                    Utils.toastSuccessMessage("Projects updated");
-                  });
                 }),
             // trailing: projectHierarchySelection!.hasChildren(project.projectId)
             //     ? SvgPicture.asset(
@@ -336,6 +330,40 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                         //       fontWeight: FontWeight.w400),
                         // )
                       ]),
+                  actions: [
+                    InkWell(
+                      onTap: () {
+                        Map<String, dynamic> roleData = {
+                          "role": _roleSelected.toUpperCase()
+                        };
+                        // assignedRole= value;
+                        Service().roleChange(data.id, roleData).then((val) {
+                          Utils.toastSuccessMessage("User updated");
+                        });
+                        Map<String, dynamic> teamData = {
+                          "tags": _selectedTeams
+                        };
+                        Service().teamChange(data.id, teamData).then((val) {
+                          Utils.toastSuccessMessage("User updated");
+                        });
+                        Map<String, dynamic> projectData = {
+                          "projects": selectedIds
+                        };
+                        Service()
+                            .assignProjectChange(userId, projectData)
+                            .then((val) {
+                          Utils.toastSuccessMessage("Projects updated");
+                        });
+                      },
+                      child: Text(
+                        "Save",
+                        style: TextStyle(
+                            color: Helper.primary,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16.sp),
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),
@@ -379,11 +407,12 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     AvatarWidget(
-                                        dpUrl:
-                                            data.dp != null ? data.dpUrl : "",
-                                        name: data.name,
-                                        backgroundColor: data.preset.color,
-                                        size: 72),
+                                      dpUrl: data.dp != null ? data.dpUrl : "",
+                                      name: data.name,
+                                      backgroundColor: data.preset.color,
+                                      size: 72,
+                                      fontSize: 24,
+                                    ),
                                     SizedBox(height: 16.h),
                                     Text(
                                       data.name,
@@ -555,7 +584,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                       ),
                                       CustomInputWidget(
                                         title: "Role",
-                                        formField: !Platform.isIOS
+                                        formField: Platform.isIOS
                                             ? InkWell(
                                                 onTap: () {
                                                   _showDialog(
@@ -589,19 +618,19 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                                           log(_roleSelected
                                                               .toString());
                                                         });
-                                                        Map<String, dynamic>
-                                                            roleData = {
-                                                          "role": _roleSelected
-                                                              .toUpperCase()
-                                                        };
-                                                        // assignedRole= value;
-                                                        Service()
-                                                            .roleChange(data.id,
-                                                                roleData)
-                                                            .then((val) {
-                                                          Utils.toastSuccessMessage(
-                                                              "Role updated");
-                                                        });
+                                                        // Map<String, dynamic>
+                                                        //     roleData = {
+                                                        //   "role": _roleSelected
+                                                        //       .toUpperCase()
+                                                        // };
+                                                        // // assignedRole= value;
+                                                        // Service()
+                                                        //     .roleChange(data.id,
+                                                        //         roleData)
+                                                        //     .then((val) {
+                                                        //   Utils.toastSuccessMessage(
+                                                        //       "Role updated");
+                                                        // });
                                                       },
                                                       children: _roles.map((e) {
                                                         return Text(
@@ -722,7 +751,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                                     contentPadding:
                                                         EdgeInsets.symmetric(
                                                             vertical: 10.h,
-                                                            horizontal: 14.w),
+                                                            horizontal: 0.w),
                                                     suffixIcon: Padding(
                                                       padding: EdgeInsets.only(
                                                           right: 14.w),
@@ -794,19 +823,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                                     orElse: () => _roles.first,
                                                   ),
                                                   onChanged: (value) {
-                                                    Map<String, dynamic>
-                                                        roleData = {
-                                                      "role":
-                                                          value!.toUpperCase()
-                                                    };
-                                                    // assignedRole= value;
-                                                    Service()
-                                                        .roleChange(
-                                                            data.id, roleData)
-                                                        .then((val) {
-                                                      Utils.toastSuccessMessage(
-                                                          "Role updated");
-                                                    });
+                                                    _roleSelected = value!;
                                                   },
                                                   items: _roles.map((e) {
                                                     return DropdownMenuItem<
@@ -916,15 +933,6 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                                   .add(team.toString());
                                               _teamsController.clear();
                                             });
-                                            Map<String, dynamic> teamData = {
-                                              "tags": _selectedTeams
-                                            };
-                                            Service()
-                                                .teamChange(data.id, teamData)
-                                                .then((val) {
-                                              Utils.toastSuccessMessage(
-                                                  "Team updated");
-                                            });
                                           },
                                           noItemsFoundBuilder: (value) {
                                             return SizedBox();
@@ -950,15 +958,15 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                                     .remove(suggestion);
                                                 print(_selectedTeams);
                                               });
-                                              Map<String, dynamic> teamData = {
-                                                "tags": _selectedTeams
-                                              };
-                                              Service()
-                                                  .teamChange(data.id, teamData)
-                                                  .then((val) {
-                                                Utils.toastSuccessMessage(
-                                                    "Team updated");
-                                              });
+                                              // Map<String, dynamic> teamData = {
+                                              //   "tags": _selectedTeams
+                                              // };
+                                              // Service()
+                                              //     .teamChange(data.id, teamData)
+                                              //     .then((val) {
+                                              //   Utils.toastSuccessMessage(
+                                              //       "Team updated");
+                                              // });
                                             },
                                             deleteIcon: SvgPicture.asset(
                                               'assets/images/close-x.svg',

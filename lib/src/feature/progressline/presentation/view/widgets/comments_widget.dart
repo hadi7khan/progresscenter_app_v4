@@ -197,6 +197,7 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                                 backgroundColor:
                                     data[reversedIndex].user!.preset!.color!,
                                 size: 32,
+                                fontSize: 14,
                               ),
                               title: Text(
                                 data[reversedIndex].user!.name!,
@@ -233,13 +234,14 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                   name: "HADI",
                   backgroundColor: "#0F9555",
                   size: 32,
+                  fontSize: 14,
                 ),
                 title: FlutterMentions(
                   key: key,
                   suggestionListDecoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.r),
-                    color: Colors.white,
-                    border: Border.all(color: Helper.textColor300)),
+                      borderRadius: BorderRadius.circular(8.r),
+                      color: Colors.white,
+                      border: Border.all(color: Helper.textColor300)),
                   suggestionPosition: SuggestionPosition.Top,
                   maxLines: 5,
                   minLines: 1,
@@ -256,8 +258,7 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                         print("builder data" + data.toString());
                         return Container(
                           margin: EdgeInsets.all(10),
-                          width: MediaQuery.of(context).size.width ,
-                          
+                          width: MediaQuery.of(context).size.width,
                           padding: EdgeInsets.all(10.0),
                           child: ListTile(
                             horizontalTitleGap: 8.w,
@@ -270,6 +271,7 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                               name: data['display'],
                               backgroundColor: data['color'],
                               size: 24,
+                              fontSize: 14,
                             ),
                             title: Text(
                               data['display'],
