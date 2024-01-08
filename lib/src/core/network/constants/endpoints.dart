@@ -37,8 +37,8 @@ class Endpoints {
     return '$baseUrl/api/v4/projects/lean';
   }
 
-  static projectByIdUrl(id) {
-    return '$baseUrl/api/v4/projects/$id/';
+  static projectByIdUrl(id, includeChildren) {
+    return '$baseUrl/api/v4/projects/$id/?includeChildren=$includeChildren';
   }
 
   static projectInviteUrl(id) {

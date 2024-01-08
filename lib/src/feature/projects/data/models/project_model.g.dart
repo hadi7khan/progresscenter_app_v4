@@ -14,12 +14,13 @@ _$_ProjectModel _$$_ProjectModelFromJson(Map<String, dynamic> json) =>
       id: json['_id'] as String?,
       name: json['name'] as String?,
       images: (json['images'] as List<dynamic>?)
-          ?.map((e) => Asset.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => ProjectImage.fromJson(e as Map<String, dynamic>))
           .toList(),
       status: json['status'] as String?,
       assets: (json['assets'] as List<dynamic>?)
           ?.map((e) => Asset.fromJson(e as Map<String, dynamic>))
           .toList(),
+      activity: json['activity'] as String?,
       lastUpdated: json['lastUpdated'] == null
           ? null
           : DateTime.parse(json['lastUpdated'] as String),
@@ -40,6 +41,9 @@ _$_ProjectModel _$$_ProjectModelFromJson(Map<String, dynamic> json) =>
       users: (json['users'] as List<dynamic>?)
           ?.map((e) => User.fromJson(e as Map<String, dynamic>))
           .toList(),
+      children: (json['children'] as List<dynamic>?)
+          ?.map((e) => ProjectModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$_ProjectModelToJson(_$_ProjectModel instance) =>
@@ -50,6 +54,7 @@ Map<String, dynamic> _$$_ProjectModelToJson(_$_ProjectModel instance) =>
       'images': instance.images,
       'status': instance.status,
       'assets': instance.assets,
+      'activity': instance.activity,
       'lastUpdated': instance.lastUpdated?.toIso8601String(),
       'parentId': instance.parentId,
       'hasCameras': instance.hasCameras,
@@ -60,6 +65,7 @@ Map<String, dynamic> _$$_ProjectModelToJson(_$_ProjectModel instance) =>
       'constructionDays': instance.constructionDays,
       'projectModelId': instance.projectModelId,
       'users': instance.users,
+      'children': instance.children,
     };
 
 _$_AiStats _$$_AiStatsFromJson(Map<String, dynamic> json) => _$_AiStats(
@@ -73,26 +79,28 @@ Map<String, dynamic> _$$_AiStatsToJson(_$_AiStats instance) =>
       'ppeScore': instance.ppeScore,
     };
 
+_$_ProjectImage _$$_ProjectImageFromJson(Map<String, dynamic> json) =>
+    _$_ProjectImage(
+      imageId: json['_id'] as String?,
+      url: json['url'] as String?,
+    );
+
+Map<String, dynamic> _$$_ProjectImageToJson(_$_ProjectImage instance) =>
+    <String, dynamic>{
+      '_id': instance.imageId,
+      'url': instance.url,
+    };
+
 _$_Asset _$$_AssetFromJson(Map<String, dynamic> json) => _$_Asset(
       name: json['name'] as String?,
-      id: json['id'] as String?,
-      createdAt: json['createdAt'] == null
-          ? null
-          : DateTime.parse(json['createdAt'] as String),
-      updatedAt: json['updatedAt'] == null
-          ? null
-          : DateTime.parse(json['updatedAt'] as String),
-      assetId: json['assetId'] as String?,
-      url: json['url'] as String?,
+      id: json['_id'] as String?,
+      count: json['count'] as int?,
     );
 
 Map<String, dynamic> _$$_AssetToJson(_$_Asset instance) => <String, dynamic>{
       'name': instance.name,
-      'id': instance.id,
-      'createdAt': instance.createdAt?.toIso8601String(),
-      'updatedAt': instance.updatedAt?.toIso8601String(),
-      'assetId': instance.assetId,
-      'url': instance.url,
+      '_id': instance.id,
+      'count': instance.count,
     };
 
 _$_Location _$$_LocationFromJson(Map<String, dynamic> json) => _$_Location(
@@ -116,6 +124,7 @@ _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
       name: json['name'] as String?,
       email: json['email'] as String?,
       dp: json['dp'] as String?,
+      role: json['role'] as String?,
       projects: (json['projects'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -128,6 +137,7 @@ Map<String, dynamic> _$$_UserToJson(_$_User instance) => <String, dynamic>{
       'name': instance.name,
       'email': instance.email,
       'dp': instance.dp,
+      'role': instance.role,
       'projects': instance.projects,
       'dpUrl': instance.dpUrl,
     };

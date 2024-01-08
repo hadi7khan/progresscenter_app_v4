@@ -47,6 +47,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
   double _progress = 0.0;
   PersistentBottomSheetController? _bottomSheetController;
   double _progressBar = 0.0;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -147,24 +148,9 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
           setState(() {
             _image = XFile(filePath);
           });
-
-          await Service()
-              .uploadImageForSitegallery(
-                  widget.projectId, _image!.path, calculateProgress)
-              .then((value) {
-            _bottomSheetController!.setState!(() {
-              _progressBar = _progress;
-            });
-            setState(() {
-              // _progress = progress;
-              // print("progress" + _progress.toString());
-            });
-            _showProgressBottomSheet(context);
-
-            context.pop();
-            ref
-                .refresh(siteGalleryControllerProvider.notifier)
-                .getSiteGallery(widget.projectId);
+          // _showProgressBottomSheet(context);
+          _bottomSheetController!.setState!(() {
+            _progressBar = _progress;
           });
         } else {
           print('Error: Unable to load file.');
@@ -194,6 +180,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
     final siteGalleryData = ref.watch(
         siteGalleryControllerProvider.select((value) => value.siteGallery));
     return Scaffold(
+        key: _scaffoldKey,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(60.h),
           child: Container(
@@ -583,10 +570,26 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                       // calculateProgress(0);
                       _pickImage(ImageSource.camera, context)
                           .then((value) async {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                backgroundColor: Colors.green,
-                                content: Text("Image Uploaded")));
+                        await Service()
+                            .uploadImageForSitegallery(widget.projectId,
+                                _image!.path, calculateProgress)
+                            .then((value) {
+                          // _showProgressBottomSheet(context);
+                          setState(() {
+                            // _progress = progress;
+                            // print("progress" + _progress.toString());
+                          });
+                          // print("progress" + _progress.toString());
+                          context.pop();
+
+                          ref
+                              .refresh(siteGalleryControllerProvider.notifier)
+                              .getSiteGallery(widget.projectId);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  backgroundColor: Colors.green,
+                                  content: Text("Image Uploaded")));
+                        });
                       });
                     },
                     child: Container(
@@ -762,9 +765,8 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
   }
 
   _showProgressBottomSheet(context) async {
-    log("progress sheet " + _progress.toString());
     _bottomSheetController =
-        Scaffold.of(context).showBottomSheet((BuildContext context) {
+        _scaffoldKey.currentState!.showBottomSheet((BuildContext context) {
       return BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
         child: Container(

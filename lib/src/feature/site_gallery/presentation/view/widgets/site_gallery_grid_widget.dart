@@ -9,6 +9,7 @@ import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/view/widgets/video_player_widget.dart';
 import 'package:video_player/video_player.dart';
 
 class SiteGalleryGridViewWidget extends StatefulWidget {
@@ -27,53 +28,53 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
   ChewieController? chewieController;
   Image? image1;
 
-  @override
-  void initState() {
-    super.initState();
-    if (widget.data.type == "VIDEO") {
-      _initPlayer();
-      // _videoPlayerController = VlcPlayerController.network(
-      //   widget.data.url,
-      //   autoPlay: false,
-      //   options: VlcPlayerOptions(),
-      // );
-      // controller = VideoPlayerController.networkUrl(Uri.parse(widget.data.url),
-      //     videoPlayerOptions: VideoPlayerOptions(
-      //       mixWithOthers: true,
-      //       allowBackgroundPlayback: true,
-      //     ))
-      //   ..initialize().then((_) {
-      //     print("url " + widget.data.url.toString());
-      // VideoPlayer(controller!);
-      // controller!.play();
-      // controller!.addListener(() {
-      //   if (controller!.value.hasError) {
-      //     print("video player error" + controller!.value.errorDescription!);
-      //   }
-      //   if (controller!.value.isPlaying) {
-      //     print("video player playing" + controller!.value.errorDescription!);
-      //   }
-      //   if (controller!.value.isInitialized) {
-      //     print("video player initialized" +
-      //         controller!.value.isInitialized!);
-      //   }
-      // });
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   if (widget.data.type == "VIDEO") {
+  //     _initPlayer();
+  // _videoPlayerController = VlcPlayerController.network(
+  //   widget.data.url,
+  //   autoPlay: false,
+  //   options: VlcPlayerOptions(),
+  // );
+  // controller = VideoPlayerController.networkUrl(Uri.parse(widget.data.url),
+  //     videoPlayerOptions: VideoPlayerOptions(
+  //       mixWithOthers: true,
+  //       allowBackgroundPlayback: true,
+  //     ))
+  //   ..initialize().then((_) {
+  //     print("url " + widget.data.url.toString());
+  // VideoPlayer(controller!);
+  // controller!.play();
+  // controller!.addListener(() {
+  //   if (controller!.value.hasError) {
+  //     print("video player error" + controller!.value.errorDescription!);
+  //   }
+  //   if (controller!.value.isPlaying) {
+  //     print("video player playing" + controller!.value.errorDescription!);
+  //   }
+  //   if (controller!.value.isInitialized) {
+  //     print("video player initialized" +
+  //         controller!.value.isInitialized!);
+  //   }
+  // });
 
-      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+  // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
 
-      //   Future.delayed(Duration(milliseconds: 100), () {
-      //     setState(() {
-      //       VideoPlayer(controller!);
-      //       controller!.play();
-      //     });
-      //   });
+  //   Future.delayed(Duration(milliseconds: 100), () {
+  //     setState(() {
+  //       VideoPlayer(controller!);
+  //       controller!.play();
+  //     });
+  //   });
 
-      //   log(widget.data.url + "is playing----------------------------");
-      // }).then((value) {
-      //   print("video player error" + controller!.value.errorDescription!);
-      // });
-    }
-  }
+  //   log(widget.data.url + "is playing----------------------------");
+  // }).then((value) {
+  //   print("video player error" + controller!.value.errorDescription!);
+  // });
+  // }
+  // }
 
   Future _initPlayer() async {
     controller = VideoPlayerController.networkUrl(Uri.parse(widget.data.url!));
@@ -147,79 +148,80 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
             ),
             child: Stack(alignment: Alignment.center, children: [
               AspectRatio(
-                aspectRatio: 1 / 1,
-                child: widget.data.type == "IMAGE"
-                    ?
-                    // ? Image(image: image1!.image)
-                    CachedNetworkImage(
-                        imageUrl: widget.data.url!,
-                        // memCacheHeight: height.toInt(), memCacheWidth: width.toInt()
-                        fit: BoxFit.cover,
-                        // placeholder: (context, url) =>
-                        //     CircularProgressIndicator(),
-                        errorWidget: (context, url, error) => ClipRRect(
-                          child: Image.asset(
-                            'assets/images/error_image.jpeg',
-                            fit: BoxFit.cover,
+                  aspectRatio: 1 / 1,
+                  child: widget.data.type == "IMAGE"
+                      ?
+                      // ? Image(image: image1!.image)
+                      CachedNetworkImage(
+                          imageUrl: widget.data.url!,
+                          // memCacheHeight: height.toInt(), memCacheWidth: width.toInt()
+                          fit: BoxFit.cover,
+                          // placeholder: (context, url) =>
+                          //     CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => ClipRRect(
+                            child: Image.asset(
+                              'assets/images/error_image.jpeg',
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        ),
-                      )
-                    // Image.network(
-                    //     widget.data.url!,
-                    //     // height: MediaQuery.of(context).size.height,
-                    //     // width: MediaQuery.of(context).size.width,
-                    //     fit: BoxFit.cover,
-                    //     errorBuilder: (BuildContext context, Object exception,
-                    //         StackTrace? stackTrace) {
-                    //       return ClipRRect(
-                    //         child: Image.asset(
-                    //           'assets/images/error_image.jpeg',
-                    //           fit: BoxFit.cover,
-                    //         ),
-                    //       );
-                    //     },
-                    //   )
-                    : Stack(
-                        // alignment: Alignment.center,
-                        children: [
-                          AspectRatio(
-                              aspectRatio: 1 / 1,
-                              child: chewieController != null &&
-                                      chewieController!.videoPlayerController
-                                          .value.isInitialized
-                                  ? Chewie(
-                                      controller: chewieController!,
-                                    )
-                                  : SizedBox()
-                              // VlcPlayer(
-                              //   controller: _videoPlayerController!,
-                              //   aspectRatio: 16 / 9,
-                              //   placeholder:
-                              //       Center(child: CircularProgressIndicator()),
-                              // ),
-                              ),
-                          Align(
-                              alignment: Alignment.center,
-                              child: Container(
-                                padding: EdgeInsets.only(
-                                    left: 7.w,
-                                    top: 5.45.h,
-                                    bottom: 5.45.h,
-                                    right: 5.w),
-                                height: 24.h,
-                                width: 24.w,
-                                decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.3),
-                                    borderRadius: BorderRadius.circular(24.r)),
-                                child: SvgPicture.asset(
-                                  // height: 13,
-                                  // width: 13,
-                                  'assets/images/icon_after.svg',
-                                ),
-                              ))
-                        ],
-                      ),
-              )
+                        )
+                      // Image.network(
+                      //     widget.data.url!,
+                      //     // height: MediaQuery.of(context).size.height,
+                      //     // width: MediaQuery.of(context).size.width,
+                      //     fit: BoxFit.cover,
+                      //     errorBuilder: (BuildContext context, Object exception,
+                      //         StackTrace? stackTrace) {
+                      //       return ClipRRect(
+                      //         child: Image.asset(
+                      //           'assets/images/error_image.jpeg',
+                      //           fit: BoxFit.cover,
+                      //         ),
+                      //       );
+                      //     },
+                      //   )
+                      : VideoPlayerWidget(data: widget.data)
+                  // : Stack(
+                  //     // alignment: Alignment.center,
+                  //     children: [
+                  //       AspectRatio(
+                  //           aspectRatio: 1 / 1,
+                  //           child: chewieController != null &&
+                  //                   chewieController!.videoPlayerController
+                  //                       .value.isInitialized
+                  //               ? Chewie(
+                  //                   controller: chewieController!,
+                  //                 )
+                  //               : SizedBox()
+                  //           // VlcPlayer(
+                  //           //   controller: _videoPlayerController!,
+                  //           //   aspectRatio: 16 / 9,
+                  //           //   placeholder:
+                  //           //       Center(child: CircularProgressIndicator()),
+                  //           // ),
+                  //           ),
+                  //       Align(
+                  //           alignment: Alignment.center,
+                  //           child: Container(
+                  //             padding: EdgeInsets.only(
+                  //                 left: 7.w,
+                  //                 top: 5.45.h,
+                  //                 bottom: 5.45.h,
+                  //                 right: 5.w),
+                  //             height: 24.h,
+                  //             width: 24.w,
+                  //             decoration: BoxDecoration(
+                  //                 color: Colors.white.withOpacity(0.3),
+                  //                 borderRadius: BorderRadius.circular(24.r)),
+                  //             child: SvgPicture.asset(
+                  //               // height: 13,
+                  //               // width: 13,
+                  //               'assets/images/icon_after.svg',
+                  //             ),
+                  //           ))
+                  //     ],
+                  //   ),
+                  )
             ]),
           ),
           // Positioned.fill(

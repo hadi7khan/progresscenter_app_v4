@@ -914,7 +914,8 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                                                                     .notifier)
                                                             .getProjectById(
                                                                 widget
-                                                                    .projectId);
+                                                                    .projectId,
+                                                                false);
                                                         ScaffoldMessenger.of(
                                                                 context)
                                                             .showSnackBar(const SnackBar(
@@ -1037,7 +1038,8 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                                                                       .notifier)
                                                               .getProjectById(
                                                                   widget
-                                                                      .projectId);
+                                                                      .projectId,
+                                                                  false);
                                                           ScaffoldMessenger
                                                                   .of(context)
                                                               .showSnackBar(const SnackBar(
@@ -1174,7 +1176,7 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                     Service().fetchUserList();
                     ref
                         .read(projectByIdControllerProvider.notifier)
-                        .getProjectById(widget.projectId);
+                        .getProjectById(widget.projectId, false);
                     context.pop();
                     Utils.toastSuccessMessage("User Added");
                     _emailController.clear();

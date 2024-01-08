@@ -43,12 +43,11 @@ class ProjectRepositoryImpl implements ProjectRepository {
   }
 
   @override
-  Future<Either<Failure, ProjectByIdModel>> projectById(String id) async {
+  Future<Either<Failure, ProjectModel>> projectById(
+      String id, bool includeChildren) async {
     try {
-      final result = await projectDataSource.projectById(
-        id,
-      );
-      return Right((ProjectByIdModel.fromJson(result)));
+      final result = await projectDataSource.projectById(id, includeChildren);
+      return Right((ProjectModel.fromJson(result)));
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
       print(errorMessage.toString());

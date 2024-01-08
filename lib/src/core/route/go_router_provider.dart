@@ -30,6 +30,7 @@ import 'package:progresscenter_app_v4/src/feature/notifications/presentation/vie
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/timeline_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/progressline_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_by_id_model.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/add_member_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/camera_360.dart';
 import 'package:progresscenter_app_v4/src/feature/cctv_view/presentation/view/cctv_view_screen.dart';
@@ -39,6 +40,7 @@ import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/equ
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/project_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/projects_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/search_project_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/super_projects_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/view/add_site_gallery_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/view/fullview_site_gallery_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/view/site_gallery_screen.dart';
@@ -228,6 +230,21 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 projectImages: args['projectImages'],
                 projectLocation: args['projectLocation'],
                 projectUsers: args['projectUsers']),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/superProject/:projectId',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: superProjectRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: SuperProjectScreen(
+              key: state.pageKey,
+              projectId: args['projectId'],
+            ),
           );
         },
       ),
@@ -761,7 +778,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: _rootNavigatorKey,
         name: editProjectRoute,
         pageBuilder: (context, state) {
-          ProjectByIdModel model = state.extra as ProjectByIdModel;
+          ProjectModel model = state.extra as ProjectModel;
           return NoTransitionPage(
             key: state.pageKey,
             child: EditProjectScreen(key: state.pageKey, data: model),

@@ -9,8 +9,7 @@ import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/widgets/project_card.dart';
 
 class ProjectWidget extends ConsumerStatefulWidget {
-  final String detailsPath;
-  ProjectWidget(this.detailsPath, {super.key});
+  ProjectWidget({super.key});
 
   @override
   ConsumerState<ProjectWidget> createState() => _ProjectWidgetState();

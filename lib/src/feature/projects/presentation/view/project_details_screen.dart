@@ -55,7 +55,8 @@ class ProjectDetailsScreen extends ConsumerStatefulWidget {
 class _ProjectDetailsScreenState
     extends BaseConsumerState<ProjectDetailsScreen> {
   int? _currentIndex;
-  model.ProjectByIdModel? projectByIdData;
+  ProjectModel? projectByIdData;
+  bool includeChildren = false;
 
   @override
   void initState() {
@@ -67,7 +68,7 @@ class _ProjectDetailsScreenState
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref
           .read(projectByIdControllerProvider.notifier)
-          .getProjectById(widget.projectId);
+          .getProjectById(widget.projectId, includeChildren);
     });
   }
 
@@ -143,7 +144,7 @@ class _ProjectDetailsScreenState
             HapticFeedback.mediumImpact();
             return await ref
                 .refresh(projectByIdControllerProvider.notifier)
-                .getProjectById(widget.projectId);
+                .getProjectById(widget.projectId, includeChildren);
           },
           child: SingleChildScrollView(
             child: Column(
@@ -475,8 +476,8 @@ class _ProjectDetailsScreenState
                                 // borderRadius: BorderRadius.circular(30.r),
                                 // color: Colors.transparent,
                                 child: AvatarGroupWidget(
-                                  avatars: (data.users as List<model.User>)
-                                      .map((user) {
+                                  avatars:
+                                      (data.users as List<User>).map((user) {
                                     return {
                                       'dpUrl':
                                           user.dp != null ? user.dpUrl : "",

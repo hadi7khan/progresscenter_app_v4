@@ -19,9 +19,10 @@ import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_by_id_model.dart'
     as model;
+import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 
 class EditProjectScreen extends StatefulWidget {
-  final model.ProjectByIdModel data;
+  final ProjectModel data;
   const EditProjectScreen({super.key, required this.data});
 
   @override
