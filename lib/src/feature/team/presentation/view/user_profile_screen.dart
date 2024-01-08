@@ -205,24 +205,24 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w400),
           ),
-          trailing: Switch.adaptive(
-              trackOutlineColor: MaterialStateProperty.all(Colors.transparent),
-              inactiveTrackColor: Color.fromRGBO(120, 120, 128, 0.16),
-              activeTrackColor: Helper.switchActiveColor,
-              thumbColor: MaterialStateProperty.all(Colors.white),
-              value: selectedIds.contains(project.projectId),
-              onChanged: (value) {
-                setState(() {
-                  switchValues[project.projectId] = value;
-                });
-                var values =
-                    projectHierarchySelection!.changeSelected(project, value);
-                print("valueeeeee" + values.toString());
-                Map<String, dynamic> projectData = {"projects": selectedIds};
-                Service().assignProjectChange(userId, projectData).then((val) {
-                  Utils.toastSuccessMessage("Projects updated");
-                });
-              }),
+          // trailing: Switch.adaptive(
+          //     trackOutlineColor: MaterialStateProperty.all(Colors.transparent),
+          //     inactiveTrackColor: Color.fromRGBO(120, 120, 128, 0.16),
+          //     activeTrackColor: Helper.switchActiveColor,
+          //     thumbColor: MaterialStateProperty.all(Colors.white),
+          //     value: selectedIds.contains(project.projectId),
+          //     onChanged: (value) {
+          //       setState(() {
+          //         switchValues[project.projectId] = value;
+          //       });
+          //       var values =
+          //           projectHierarchySelection!.changeSelected(project, value);
+          //       print("valueeeeee" + values.toString());
+          //       Map<String, dynamic> projectData = {"projects": selectedIds};
+          //       Service().assignProjectChange(userId, projectData).then((val) {
+          //         Utils.toastSuccessMessage("Projects updated");
+          //       });
+          //     }),
         );
 
         Widget children = _buildProjectTree(projects, project.projectId);
@@ -235,15 +235,36 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.r)),
             tilePadding: EdgeInsets.zero,
-            trailing: projectHierarchySelection!.hasChildren(project.projectId)
-                ? SvgPicture.asset(
-                    'assets/images/chevron-down.svg',
-                    color: Helper.baseBlack.withOpacity(0.2),
-                    width: 24.w,
-                  )
-                : SizedBox(
-                    width: 24.w,
-                  ),
+            trailing: Switch.adaptive(
+                trackOutlineColor:
+                    MaterialStateProperty.all(Colors.transparent),
+                inactiveTrackColor: Color.fromRGBO(120, 120, 128, 0.16),
+                activeTrackColor: Helper.switchActiveColor,
+                thumbColor: MaterialStateProperty.all(Colors.white),
+                value: selectedIds.contains(project.projectId),
+                onChanged: (value) {
+                  setState(() {
+                    switchValues[project.projectId] = value;
+                  });
+                  var values =
+                      projectHierarchySelection!.changeSelected(project, value);
+                  print("valueeeeee" + values.toString());
+                  Map<String, dynamic> projectData = {"projects": selectedIds};
+                  Service()
+                      .assignProjectChange(userId, projectData)
+                      .then((val) {
+                    Utils.toastSuccessMessage("Projects updated");
+                  });
+                }),
+            // trailing: projectHierarchySelection!.hasChildren(project.projectId)
+            //     ? SvgPicture.asset(
+            //         'assets/images/chevron-down.svg',
+            //         color: Helper.baseBlack.withOpacity(0.2),
+            //         width: 24.w,
+            //       )
+            //     : SizedBox(
+            //         width: 24.w,
+            //       ),
             title: mainListTile,
             children: [
               Padding(
@@ -384,6 +405,20 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                 ),
                               ),
                               SizedBox(height: 16.h),
+                              Padding(
+                                padding: EdgeInsets.only(left: 16.w),
+                                child: Text(
+                                  "Basic details",
+                                  style: TextStyle(
+                                      letterSpacing: -0.3,
+                                      color: Helper.textColor500,
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5.h,
+                              ),
                               Container(
                                 width: MediaQuery.of(context).size.width,
                                 padding: EdgeInsets.all(16.w),
@@ -395,17 +430,6 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        "Basic details",
-                                        style: TextStyle(
-                                            letterSpacing: -0.3,
-                                            color: Helper.textColor500,
-                                            fontSize: 18.sp,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      SizedBox(
-                                        height: 20.h,
-                                      ),
                                       Text(
                                         "Username",
                                         style: TextStyle(
@@ -498,7 +522,21 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                     ]),
                               ),
                               SizedBox(
-                                height: 12.h,
+                                height: 20.h,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 16.w),
+                                child: Text(
+                                  "Teams & role",
+                                  style: TextStyle(
+                                      letterSpacing: -0.3,
+                                      color: Helper.textColor500,
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5.h,
                               ),
                               Container(
                                 width: MediaQuery.of(context).size.width,
@@ -512,20 +550,12 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        "Teams & role",
-                                        style: TextStyle(
-                                            letterSpacing: -0.3,
-                                            color: Helper.textColor500,
-                                            fontSize: 18.sp,
-                                            fontWeight: FontWeight.w500),
-                                      ),
                                       SizedBox(
                                         height: 20.h,
                                       ),
                                       CustomInputWidget(
                                         title: "Role",
-                                        formField: Platform.isIOS
+                                        formField: !Platform.isIOS
                                             ? InkWell(
                                                 onTap: () {
                                                   _showDialog(
@@ -558,6 +588,19 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                                                       : "Viewer";
                                                           log(_roleSelected
                                                               .toString());
+                                                        });
+                                                        Map<String, dynamic>
+                                                            roleData = {
+                                                          "role": _roleSelected
+                                                              .toUpperCase()
+                                                        };
+                                                        // assignedRole= value;
+                                                        Service()
+                                                            .roleChange(data.id,
+                                                                roleData)
+                                                            .then((val) {
+                                                          Utils.toastSuccessMessage(
+                                                              "Role updated");
                                                         });
                                                       },
                                                       children: _roles.map((e) {
@@ -600,17 +643,33 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                                         MainAxisAlignment
                                                             .spaceBetween,
                                                     children: [
-                                                      Text(
-                                                        _roleSelected,
-                                                        style: TextStyle(
-                                                          letterSpacing: -0.3,
-                                                          color: Helper
-                                                              .textColor500,
-                                                          fontSize: 16.sp,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                        ),
-                                                      ),
+                                                      _roleSelected != ""
+                                                          ? Text(
+                                                              _roleSelected,
+                                                              style: TextStyle(
+                                                                letterSpacing:
+                                                                    -0.3,
+                                                                color: Helper
+                                                                    .textColor500,
+                                                                fontSize: 16.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                              ),
+                                                            )
+                                                          : Text(
+                                                              '${_roles.firstWhere((role) => role.toLowerCase() == assignedRole.toLowerCase())}',
+                                                              style: TextStyle(
+                                                                letterSpacing:
+                                                                    -0.3,
+                                                                color: Helper
+                                                                    .textColor500,
+                                                                fontSize: 16.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                              ),
+                                                            ),
                                                       Padding(
                                                         padding:
                                                             EdgeInsets.only(
@@ -918,7 +977,21 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                     ]),
                               ),
                               SizedBox(
-                                height: 12.h,
+                                height: 20.h,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 16.w),
+                                child: Text(
+                                  "Assigned projects",
+                                  style: TextStyle(
+                                      letterSpacing: -0.3,
+                                      color: Helper.textColor500,
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5.h,
                               ),
                               Container(
                                 width: MediaQuery.of(context).size.width,
@@ -932,17 +1005,6 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        "Assigned projects",
-                                        style: TextStyle(
-                                            letterSpacing: -0.3,
-                                            color: Helper.textColor500,
-                                            fontSize: 18.sp,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      SizedBox(
-                                        height: 6,
-                                      ),
                                       _buildProjectTree(
                                           projectHierarchySelection!.projects,
                                           null),
