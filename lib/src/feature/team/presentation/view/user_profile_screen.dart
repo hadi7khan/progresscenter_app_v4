@@ -497,7 +497,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                         height: 20.h,
                                       ),
                                       CustomInputWidget(
-                                        title: "Assigned Roles",
+                                        title: "Roles",
                                         formField: FormBuilderDropdown(
                                           name: "roles",
                                           dropdownColor: Colors.white,
@@ -760,15 +760,29 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      CustomInputWidget(
-                                        title: "Assigned Projects",
-                                        formField: // Display the hierarchical structure
-
-                                            _buildProjectTree(
-                                                projectHierarchySelection!
-                                                    .projects,
-                                                null),
+                                      Text(
+                                        "Assigned projects",
+                                        style: TextStyle(
+                                            letterSpacing: -0.3,
+                                            color: Helper.textColor500,
+                                            fontSize: 18.sp,
+                                            fontWeight: FontWeight.w500),
                                       ),
+                                      SizedBox(
+                                        height: 6,
+                                      ),
+                                      _buildProjectTree(
+                                          projectHierarchySelection!.projects,
+                                          null),
+                                      // CustomInputWidget(
+                                      //   title: "",
+                                      //   formField: // Display the hierarchical structure
+
+                                      //       _buildProjectTree(
+                                      //           projectHierarchySelection!
+                                      //               .projects,
+                                      //           null),
+                                      // ),
                                     ]),
                               ),
                             ],
