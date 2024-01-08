@@ -43,7 +43,7 @@ class _TeamCardState extends BaseConsumerState<TeamCard> {
           size: 42,
         ),
         title: Text(
-          widget.teamData.name,
+          widget.teamData.name + "s",
           style: TextStyle(
               letterSpacing: -0.3,
               color: Helper.textColor700,
