@@ -486,7 +486,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Teams and Role",
+                                        "Teams & role",
                                         style: TextStyle(
                                             letterSpacing: -0.3,
                                             color: Helper.textColor500,
