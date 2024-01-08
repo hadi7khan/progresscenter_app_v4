@@ -368,29 +368,49 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      CustomInputWidget(
-                                        title: "Username",
-                                        formField: Text(
-                                          data.username,
-                                          style: TextStyle(
-                                              letterSpacing: -0.3,
-                                              color: Helper.textColor900,
-                                              fontSize: 16.sp,
-                                              fontWeight: FontWeight.w600),
-                                        ),
+                                      Text(
+                                        "Basic details",
+                                        style: TextStyle(
+                                            letterSpacing: -0.3,
+                                            color: Helper.textColor500,
+                                            fontSize: 18.sp,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      SizedBox(
+                                        height: 20.h,
+                                      ),
+                                      Text(
+                                        "Username",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: Helper.textColor700,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      Text(
+                                        data.username,
+                                        style: TextStyle(
+                                            letterSpacing: -0.3,
+                                            color: Helper.textColor900,
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w600),
                                       ),
                                       SizedBox(height: 20.h),
-                                      CustomInputWidget(
-                                        title: "Email",
-                                        formField: Text(
-                                          data.email,
-                                          style: TextStyle(
-                                              letterSpacing: -0.3,
-                                              color: Helper.textColor900,
-                                              fontSize: 16.sp,
-                                              fontWeight: FontWeight.w600),
-                                        ),
+                                      Text(
+                                        "Email",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: Helper.textColor700,
+                                            fontWeight: FontWeight.w500),
                                       ),
+                                      Text(
+                                        data.email,
+                                        style: TextStyle(
+                                            letterSpacing: -0.3,
+                                            color: Helper.textColor900,
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+
                                       // CustomInputWidget(
                                       //   title: "Status",
                                       //   formField: Switch.adaptive(
@@ -427,22 +447,26 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                       //       }),
                                       // ),
                                       SizedBox(height: 20.h),
-                                      CustomInputWidget(
-                                        title: "Last Active",
-                                        formField: Text(
-                                          data.lastActive != null
-                                              ? formatTimeDifference(
-                                                  data.lastActive!,
-                                                  timezone:
-                                                      'Asia/Kolkata', // Replace with the actual time zone
-                                                )
-                                              : "-",
-                                          style: TextStyle(
-                                              letterSpacing: -0.3,
-                                              color: Helper.textColor900,
-                                              fontSize: 16.sp,
-                                              fontWeight: FontWeight.w600),
-                                        ),
+                                      Text(
+                                        "Last Active",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: Helper.textColor700,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      Text(
+                                        data.lastActive != null
+                                            ? formatTimeDifference(
+                                                data.lastActive!,
+                                                timezone:
+                                                    'Asia/Kolkata', // Replace with the actual time zone
+                                              )
+                                            : "-",
+                                        style: TextStyle(
+                                            letterSpacing: -0.3,
+                                            color: Helper.textColor900,
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w600),
                                       ),
                                     ]),
                               ),
@@ -461,6 +485,17 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
+                                      Text(
+                                        "Teams and Role",
+                                        style: TextStyle(
+                                            letterSpacing: -0.3,
+                                            color: Helper.textColor500,
+                                            fontSize: 18.sp,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      SizedBox(
+                                        height: 20.h,
+                                      ),
                                       CustomInputWidget(
                                         title: "Assigned Roles",
                                         formField: FormBuilderDropdown(
@@ -563,7 +598,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                         height: 12.h,
                                       ),
                                       CustomInputWidget(
-                                        title: "Team",
+                                        title: "Teams",
                                         formField: TypeAheadFormField(
                                           textFieldConfiguration:
                                               TextFieldConfiguration(
