@@ -55,6 +55,7 @@ import 'package:progresscenter_app_v4/src/feature/support/presentation/view/tick
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/add_user_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/add_user_screen2.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/invite_bymail_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/team/presentation/view/roles_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/search_teams_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/teams_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/user_profile_screen.dart';
@@ -505,6 +506,21 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             child: UserProfileScreen(
               key: state.pageKey,
               userId: args['userId'],
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/roles',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: rolesRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: RolesScreen(
+              key: state.pageKey,
+              roles: args['roles'],
             ),
           );
         },
