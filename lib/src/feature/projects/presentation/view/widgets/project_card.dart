@@ -54,7 +54,7 @@ class _ProjectCardState extends State<ProjectCard> {
               padding: EdgeInsets.zero,
               height: MediaQuery.of(context).size.width - 2 * 20.w,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Helper.widgetBackground,
                 borderRadius: BorderRadius.circular(16.r),
               ),
               child: Stack(
@@ -66,73 +66,82 @@ class _ProjectCardState extends State<ProjectCard> {
                       // left: 0,
                       child: Align(
                         alignment: Alignment.topCenter,
-                        child: CarouselSlider.builder(
-                          carouselController: carouselController,
-                          itemCount: widget.project.images!.length,
-                          options: CarouselOptions(
-                              // height: 198.h,
-                              viewportFraction: 1,
-                              aspectRatio: 1 / 1,
-                              initialPage: 0,
-                              autoPlay: false,
-                              enlargeCenterPage: true,
-                              autoPlayCurve: Curves.fastOutSlowIn,
-                              scrollDirection: Axis.horizontal,
-                              onPageChanged: (index, reason) {
-                                setState(() {
-                                  _currentIndex = index;
-                                });
-                              }),
-                          itemBuilder: (BuildContext context, int itemIndex,
-                                  int pageViewIndex) =>
-                              Container(
-                            width: double.infinity,
-                            margin: EdgeInsets.zero,
-                            padding: EdgeInsets.zero,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16.r),
-                              color: Color.fromRGBO(235, 235, 235, 1),
-                            ),
-                            child: widget.project!.images!.isNotEmpty
-                                ? ClipRRect(
+                        child: widget.project!.images!.isNotEmpty
+                            ? CarouselSlider.builder(
+                                carouselController: carouselController,
+                                itemCount: widget.project.images!.length,
+                                options: CarouselOptions(
+                                    // height: 198.h,
+                                    viewportFraction: 1,
+                                    aspectRatio: 1 / 1,
+                                    initialPage: 0,
+                                    autoPlay: false,
+                                    enlargeCenterPage: true,
+                                    autoPlayCurve: Curves.fastOutSlowIn,
+                                    scrollDirection: Axis.horizontal,
+                                    onPageChanged: (index, reason) {
+                                      setState(() {
+                                        _currentIndex = index;
+                                      });
+                                    }),
+                                itemBuilder: (BuildContext context,
+                                        int itemIndex, int pageViewIndex) =>
+                                    Container(
+                                  width: double.infinity,
+                                  margin: EdgeInsets.zero,
+                                  padding: EdgeInsets.zero,
+                                  decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(16.r),
-                                    child: CachedNetworkImage(
-                                      imageUrl: widget
-                                          .project.images![itemIndex].url!,
-                                      // memCacheHeight: height.toInt(), memCacheWidth: width.toInt()
-                                      fit: BoxFit.fill,
-                                      // placeholder: (context, url) =>
-                                      //     CircularProgressIndicator(),
-                                      errorWidget: (context, url, error) =>
-                                          ClipRRect(
-                                        child: Image.asset(
-                                          'assets/images/error_image.jpeg',
-                                          fit: BoxFit.fill,
-                                        ),
-                                      ),
-                                    )
-                                    // Image.network(
-                                    //   widget.project.images![itemIndex].url!,
-                                    //   fit: BoxFit.cover,
-                                    //   errorBuilder: (BuildContext context,
-                                    //       Object exception,
-                                    //       StackTrace? stackTrace) {
-                                    //     return ClipRRect(
-                                    //       child: Image.asset(
-                                    //           'assets/images/error_image.jpeg',
-                                    //           fit: BoxFit.cover),
-                                    //     );
-                                    //   },
-                                    // ),
-                                    )
-                                : ClipRRect(
-                                    child: Image.asset(
-                                      'assets/images/error_image.jpeg',
-                                      fit: BoxFit.fill,
-                                    ),
+                                    color: Helper.widgetBackground,
                                   ),
-                          ),
-                        ),
+                                  child: widget.project!.images!.isNotEmpty
+                                      ? ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(16.r),
+                                          child: CachedNetworkImage(
+                                            imageUrl: widget.project
+                                                .images![itemIndex].url!,
+                                            // memCacheHeight: height.toInt(), memCacheWidth: width.toInt()
+                                            fit: BoxFit.fill,
+                                            // placeholder: (context, url) =>
+                                            //     CircularProgressIndicator(),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    ClipRRect(
+                                              child: Image.asset(
+                                                'assets/images/error_image.jpeg',
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                          )
+                                          // Image.network(
+                                          //   widget.project.images![itemIndex].url!,
+                                          //   fit: BoxFit.cover,
+                                          //   errorBuilder: (BuildContext context,
+                                          //       Object exception,
+                                          //       StackTrace? stackTrace) {
+                                          //     return ClipRRect(
+                                          //       child: Image.asset(
+                                          //           'assets/images/error_image.jpeg',
+                                          //           fit: BoxFit.cover),
+                                          //     );
+                                          //   },
+                                          // ),
+                                          )
+                                      : ClipRRect(
+                                          child: Image.asset(
+                                            'assets/images/error_image.jpeg',
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                ),
+                              )
+                            : ClipRRect(
+                                child: Image.asset(
+                                  'assets/images/error_image.jpeg',
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
                       ),
                     ),
                     // Positioned(

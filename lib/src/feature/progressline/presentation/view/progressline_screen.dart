@@ -78,7 +78,7 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
                           child: SvgPicture.asset('assets/images/home.svg')),
                       Row(
                         children: [
-                          SvgPicture.asset('assets/images/search.svg'),
+                          // SvgPicture.asset('assets/images/search.svg'),
                           SizedBox(width: 12.w),
                           ConstrainedBox(
                             constraints: new BoxConstraints(
