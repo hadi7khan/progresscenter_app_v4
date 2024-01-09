@@ -8,14 +8,12 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_user_profile.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
-import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_lean_model.dart'
@@ -74,7 +72,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
         _status = value.status == "ENABLED" ? true : false;
         assignedRole = value.role;
         _selectedTeams = value.tags.toList();
-        print("role " + assignedRole.toString());
+        log("_selectedTeams " + _selectedTeams.toString());
         setState(() {});
       });
     });
@@ -305,6 +303,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    log("id " + widget.userId.toString());
     final projectData = ref.watch(
         projectleanControllerProvider.select((value) => value.projectlean));
     final userData = ref.watch(
@@ -369,12 +368,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                         Service().roleChange(data.id, roleData).then((val) {
                           Utils.toastSuccessMessage("User updated");
                         });
-                        Map<String, dynamic> teamData = {
-                          "tags": _selectedTeams
-                        };
-                        Service().teamChange(data.id, teamData).then((val) {
-                          Utils.toastSuccessMessage("User updated");
-                        });
+
                         Map<String, dynamic> projectData = {
                           "projects": selectedIds
                         };
@@ -678,8 +672,9 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                     children: [
                                       InkWell(
                                         onTap: () {
-                                          context.push('/roles',
-                                              extra: {"roles": _roles});
+                                          context.push('/roles', extra: {
+                                            "roles": _roles,
+                                          });
                                         },
                                         child: Row(
                                           mainAxisAlignment:
@@ -730,7 +725,8 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                         onTap: () {
                                           context.push('/selectTeams', extra: {
                                             "teamsList": _teamList,
-                                            "selectedTeams": _selectedTeams
+                                            "selectedTeams": _selectedTeams,
+                                            "userId": data.id
                                           });
                                         },
                                         child: Row(

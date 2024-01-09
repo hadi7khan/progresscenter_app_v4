@@ -2,29 +2,59 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:go_router/go_router.dart';
-import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dart';
+import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/loading_user_profile.dart';
+import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/common/services/services.dart'
+    as service;
+import 'package:progresscenter_app_v4/src/feature/team/presentation/provider/user_profile_controller.dart';
 
-class SelectTeamsScreen extends StatefulWidget {
+class SelectTeamsScreen extends ConsumerStatefulWidget {
   final List<String>? teamsList;
   final List<String>? selectedTeams;
-  const SelectTeamsScreen({super.key, this.teamsList, this.selectedTeams});
+  final String? userId;
+  const SelectTeamsScreen(
+      {super.key, this.teamsList, this.selectedTeams, this.userId});
 
   @override
-  State<SelectTeamsScreen> createState() => _SelectTeamsScreenState();
+  ConsumerState<SelectTeamsScreen> createState() => _SelectTeamsScreenState();
 }
 
-class _SelectTeamsScreenState extends State<SelectTeamsScreen> {
+class _SelectTeamsScreenState extends BaseConsumerState<SelectTeamsScreen> {
   TextEditingController _teamsController = TextEditingController();
   List<String>? _selectedTeams;
   List<String> _teamList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref
+          .read(userProfileControllerProvider.notifier)
+          .getUserProfile(widget.userId)
+          .then((value) {
+        _selectedTeams = value.tags.toList();
+        log("_selectedTeams " + _selectedTeams.toString());
+        setState(() {});
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    log("selectedteams passed" + widget.selectedTeams.toString());
+    // log("selectedteams passed" + w.toString());
+    log("id passed" + widget.userId.toString());
+    log("roles passed" + widget.teamsList.toString());
+    if (_selectedTeams == null) {
+      return LoadingUserProfile();
+    }
     return Scaffold(
       backgroundColor: Helper.screenBackground,
       appBar: PreferredSize(
@@ -65,13 +95,23 @@ class _SelectTeamsScreenState extends State<SelectTeamsScreen> {
                     ),
                   ]),
               actions: [
-                //  Text(
-                //     "Save",
-                //     style: TextStyle(
-                //         color: Helper.primary,
-                //         fontWeight: FontWeight.w500,
-                //         fontSize: 16.sp),
-                //   ),
+                InkWell(
+                  onTap: () {
+                    Map<String, dynamic> teamData = {"tags": _selectedTeams};
+                    service.Service()
+                        .teamChange(widget.userId, teamData)
+                        .then((val) {
+                      Utils.toastSuccessMessage("Teams updated");
+                    });
+                  },
+                  child: Text(
+                    "Save",
+                    style: TextStyle(
+                        color: Helper.primary,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16.sp),
+                  ),
+                ),
               ],
             ),
           ),
@@ -82,93 +122,91 @@ class _SelectTeamsScreenState extends State<SelectTeamsScreen> {
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
         child: Container(
           width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.only(left: 16.w, top: 16.h, bottom: 16.h),
+          padding:
+              EdgeInsets.only(left: 16.w, top: 16.h, bottom: 16.h, right: 16.w),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16.r),
             color: Colors.white,
           ),
           child: Wrap(
             children: [
-              CustomInputWidget(
-                title: "Teams",
-                formField: TypeAheadFormField(
-                  textFieldConfiguration: TextFieldConfiguration(
-                    controller: _teamsController,
-                    onSubmitted: (value) {
-                      setState(() {
-                        if (value.isNotEmpty) {
-                          widget.selectedTeams!.add(value);
-                          _teamsController.clear();
-                        }
-                      });
-                    },
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(
-                          vertical: 10.h, horizontal: 14.w),
-                      hintText: "Search or add here",
-                      hintStyle: TextStyle(
-                        letterSpacing: -0.3,
-                        color: Helper.textColor500,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                        borderSide: BorderSide(color: Helper.textColor300),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                        borderSide: BorderSide(color: Helper.primary),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                        borderSide: const BorderSide(color: Colors.red),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                        borderSide: const BorderSide(color: Colors.red),
-                      ),
-                    ),
-                  ),
-                  suggestionsCallback: (pattern) async {
-                    if (pattern != null && pattern.length > 0) {
-                      return widget.teamsList!.where((name) => name
-                          .toLowerCase()
-                          .contains(pattern.trim().toLowerCase()));
-                    } else {
-                      return [];
-                    }
-                  },
-                  itemBuilder: (context, team) {
-                    return ListTile(
-                        minVerticalPadding: 0,
-                        dense: true,
-                        title: Text(
-                          team.toString(),
-                          style: TextStyle(
-                              letterSpacing: -0.3,
-                              color: Helper.textColor700,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600),
-                        ));
-                  },
-                  onSuggestionSelected: (team) {
-                    // Do something with the selected user
-                    // print('Selected user: ${user.email}');
+              TypeAheadFormField(
+                textFieldConfiguration: TextFieldConfiguration(
+                  controller: _teamsController,
+                  onSubmitted: (value) {
                     setState(() {
-                      widget.selectedTeams!.add(team.toString());
-                      _teamsController.clear();
+                      if (value.isNotEmpty) {
+                        _selectedTeams!.add(value);
+                        _teamsController.clear();
+                      }
                     });
                   },
-                  noItemsFoundBuilder: (value) {
-                    return SizedBox();
-                  },
+                  decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10.h, horizontal: 14.w),
+                    hintText: "Search or add here",
+                    hintStyle: TextStyle(
+                      letterSpacing: -0.3,
+                      color: Helper.textColor500,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                      borderSide: BorderSide(color: Helper.textColor300),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                      borderSide: BorderSide(color: Helper.primary),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                      borderSide: const BorderSide(color: Colors.red),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                      borderSide: const BorderSide(color: Colors.red),
+                    ),
+                  ),
                 ),
+                suggestionsCallback: (pattern) async {
+                  if (pattern != null && pattern.length > 0) {
+                    return widget.teamsList!.where((name) => name
+                        .toLowerCase()
+                        .contains(pattern.trim().toLowerCase()));
+                  } else {
+                    return [];
+                  }
+                },
+                itemBuilder: (context, team) {
+                  return ListTile(
+                      minVerticalPadding: 0,
+                      dense: true,
+                      title: Text(
+                        team.toString(),
+                        style: TextStyle(
+                            letterSpacing: -0.3,
+                            color: Helper.textColor700,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600),
+                      ));
+                },
+                onSuggestionSelected: (team) {
+                  // Do something with the selected user
+                  // print('Selected user: ${user.email}');
+                  setState(() {
+                    _selectedTeams!.add(team.toString());
+                    _teamsController.clear();
+                  });
+                },
+                noItemsFoundBuilder: (value) {
+                  return SizedBox();
+                },
               ),
               SizedBox(height: 10.h),
               Wrap(
                 spacing: 5.w,
-                children: widget.selectedTeams!.toSet().map((suggestion) {
+                children: _selectedTeams!.toSet().map((suggestion) {
                   return Chip(
                     label: Text(suggestion),
                     labelStyle: TextStyle(
@@ -178,8 +216,8 @@ class _SelectTeamsScreenState extends State<SelectTeamsScreen> {
                         fontWeight: FontWeight.w500),
                     onDeleted: () {
                       setState(() {
-                        widget.selectedTeams!.remove(suggestion);
-                        print(widget.selectedTeams);
+                        _selectedTeams!.remove(suggestion);
+                        print(_selectedTeams);
                       });
                       // Map<String, dynamic> teamData = {
                       //   "tags": _selectedTeams

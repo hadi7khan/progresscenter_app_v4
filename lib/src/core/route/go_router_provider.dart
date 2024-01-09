@@ -538,6 +538,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               key: state.pageKey,
               teamsList: args['teamsList'],
               selectedTeams: args['selectedTeams'],
+              userId: args['userId'],
             ),
           );
         },
