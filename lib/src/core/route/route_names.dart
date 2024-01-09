@@ -39,6 +39,7 @@ const String inviteByMailRoute = 'inviteByMail';
 const String addDocsRoute = 'addDocs';
 const String userProfileRoute = 'userProfile';
 const String rolesRoute = 'roles';
+const String selectTeamsRoute = 'selectTeams';
 const String teamSearchRoute = 'teamSearch';
 const String supportRoute = 'support';
 const String createTicketRoute = 'createTicket';
