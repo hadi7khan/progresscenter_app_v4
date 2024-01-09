@@ -79,69 +79,73 @@ class _SuperProjectScreenState extends BaseConsumerState<SuperProjectScreen> {
                     //   data: (data) {
                     //     log("data current  " + data.toString());
                     //     return
-                    Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            context.pop();
-                          },
-                          child: Transform.rotate(
-                            angle: 180 * (3.1415926535 / 180),
-                            child: SvgPicture.asset(
-                                'assets/images/chevron-right.svg',
-                                color: Helper.iconColor,
-                                fit: BoxFit.cover),
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            // InkWell(
-                            //     onTap: () {
-                            //       context.push("/projectSearch");
-                            //     },
-                            //     child:
-                            //         SvgPicture.asset('assets/images/search.svg')),
-                            SizedBox(width: 12.w),
-                            // SvgPicture.asset('assets/images/archive.svg'),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 14.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          projectModel!.name!,
-                          style: TextStyle(
-                              letterSpacing: -1,
-                              color: Helper.textColor700,
-                              fontSize: 36.sp,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 15.h),
-                    ListView.separated(
-                      separatorBuilder: (context, index) {
-                        return SizedBox(height: 30.h);
-                      },
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: projectModel!.children!.length,
-                      itemBuilder: ((context, index) {
-                        return ProjectCard(
-                            index: index,
-                            project: projectModel!.children![index]);
-                      }),
-                    )
-                  ],
-                )
+                    projectModel == null
+                        ? LoadingCardListScreen()
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      context.pop();
+                                    },
+                                    child: Transform.rotate(
+                                      angle: 180 * (3.1415926535 / 180),
+                                      child: SvgPicture.asset(
+                                          'assets/images/chevron-right.svg',
+                                          color: Helper.iconColor,
+                                          fit: BoxFit.cover),
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      // InkWell(
+                                      //     onTap: () {
+                                      //       context.push("/projectSearch");
+                                      //     },
+                                      //     child:
+                                      //         SvgPicture.asset('assets/images/search.svg')),
+                                      SizedBox(width: 12.w),
+                                      // SvgPicture.asset('assets/images/archive.svg'),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 14.h),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    projectModel!.name!,
+                                    style: TextStyle(
+                                        letterSpacing: -1,
+                                        color: Helper.textColor700,
+                                        fontSize: 36.sp,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 15.h),
+                              ListView.separated(
+                                separatorBuilder: (context, index) {
+                                  return SizedBox(height: 30.h);
+                                },
+                                shrinkWrap: true,
+                                padding: EdgeInsets.zero,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: projectModel!.children!.length,
+                                itemBuilder: ((context, index) {
+                                  return ProjectCard(
+                                      index: index,
+                                      project: projectModel!.children![index]);
+                                }),
+                              )
+                            ],
+                          )
                 //   },
                 //   error: (err, _) {
                 //     return const Text("Failed to load Projects",
