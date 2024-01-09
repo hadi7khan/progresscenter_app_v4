@@ -71,6 +71,30 @@ class _RolesScreenState extends State<RolesScreen> {
           ),
         ),
       ),
+      body: SafeArea(
+          child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.only(left: 16.w, top: 16.h, bottom: 16.h),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16.r),
+            color: Colors.white,
+          ),
+          child: ListView.separated(
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Text(widget.roles[index]);
+              },
+              separatorBuilder: (context, index) {
+                return Divider(
+                  thickness: 0.1,
+                  color: Helper.textColor700,
+                );
+              },
+              itemCount: widget.roles.length),
+        ),
+      )),
     );
   }
 }

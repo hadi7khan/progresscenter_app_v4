@@ -113,6 +113,7 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                   .getCameras(widget.projectId);
             },
             child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
               child: Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),

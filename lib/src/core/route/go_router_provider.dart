@@ -57,6 +57,7 @@ import 'package:progresscenter_app_v4/src/feature/team/presentation/view/add_use
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/invite_bymail_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/roles_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/search_teams_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/team/presentation/view/select_teams_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/teams_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/user_profile_screen.dart';
 
@@ -521,6 +522,22 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             child: RolesScreen(
               key: state.pageKey,
               roles: args['roles'],
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/selectTeams',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: selectTeamsRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: SelectTeamsScreen(
+              key: state.pageKey,
+              teamsList: args['teamsList'],
+              selectedTeams: args['selectedTeams'],
             ),
           );
         },

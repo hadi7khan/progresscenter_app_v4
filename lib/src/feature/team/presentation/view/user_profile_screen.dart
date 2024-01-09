@@ -448,7 +448,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                       size: 50,
                                       fontSize: 24,
                                     ),
-                                    SizedBox(width: 16.h),
+                                    SizedBox(width: 10.h),
                                     Wrap(
                                       direction: Axis.vertical,
 
@@ -502,7 +502,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                               Container(
                                 width: MediaQuery.of(context).size.width,
                                 padding: EdgeInsets.only(
-                                    left: 16.w, top: 16.h, bottom: 16.h),
+                                    left: 16.w, top: 10.h, bottom: 10.h),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(16.r),
                                   color: Colors.white,
@@ -519,6 +519,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                             "Username",
                                             style: TextStyle(
                                                 fontSize: 14,
+                                                letterSpacing: -0.3,
                                                 color: Helper.textColor700,
                                                 fontWeight: FontWeight.w400),
                                           ),
@@ -550,6 +551,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                             "Email",
                                             style: TextStyle(
                                                 fontSize: 14,
+                                                letterSpacing: -0.3,
                                                 color: Helper.textColor700,
                                                 fontWeight: FontWeight.w400),
                                           ),
@@ -617,6 +619,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                             "Last Active",
                                             style: TextStyle(
                                                 fontSize: 14,
+                                                letterSpacing: -0.3,
                                                 color: Helper.textColor700,
                                                 fontWeight: FontWeight.w400),
                                           ),
@@ -663,7 +666,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                               Container(
                                 width: MediaQuery.of(context).size.width,
                                 padding: EdgeInsets.only(
-                                    left: 16.w, top: 16.h, bottom: 16.h),
+                                    left: 16.w, top: 10.h, bottom: 10.h),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(16.r),
                                   color: Colors.white,
@@ -686,6 +689,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                               "Role",
                                               style: TextStyle(
                                                   fontSize: 14,
+                                                  letterSpacing: -0.3,
                                                   color: Helper.textColor700,
                                                   fontWeight: FontWeight.w400),
                                             ),
@@ -724,8 +728,10 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                       ),
                                       InkWell(
                                         onTap: () {
-                                          // context.push('/roles',
-                                          //     extra: {"roles": _roles});
+                                          context.push('/selectTeams', extra: {
+                                            "teamsList": _teamList,
+                                            "selectedTeams": _selectedTeams
+                                          });
                                         },
                                         child: Row(
                                           mainAxisAlignment:
@@ -735,6 +741,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                               "Teams",
                                               style: TextStyle(
                                                   fontSize: 14,
+                                                  letterSpacing: -0.3,
                                                   color: Helper.textColor700,
                                                   fontWeight: FontWeight.w400),
                                             ),
@@ -1176,7 +1183,11 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                               ),
                               Container(
                                 width: MediaQuery.of(context).size.width,
-                                padding: EdgeInsets.all(16.w),
+                                padding: EdgeInsets.only(
+                                    left: 16.w,
+                                    // top: 10.h,
+                                    // bottom: 10.h,
+                                    right: 16.w),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(16.r),
                                   color: Colors.white,
