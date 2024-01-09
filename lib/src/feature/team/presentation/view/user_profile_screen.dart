@@ -502,7 +502,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                               Container(
                                 width: MediaQuery.of(context).size.width,
                                 padding: EdgeInsets.only(
-                                    left: 16.w, top: 10.h, bottom: 10.h),
+                                    left: 16.w, top: 12.h, bottom: 12.h),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(16.r),
                                   color: Colors.white,
@@ -666,7 +666,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                               Container(
                                 width: MediaQuery.of(context).size.width,
                                 padding: EdgeInsets.only(
-                                    left: 16.w, top: 10.h, bottom: 10.h),
+                                    left: 16.w, top: 12.h, bottom: 12.h),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(16.r),
                                   color: Colors.white,
@@ -1185,8 +1185,8 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                 width: MediaQuery.of(context).size.width,
                                 padding: EdgeInsets.only(
                                     left: 16.w,
-                                    // top: 10.h,
-                                    // bottom: 10.h,
+                                    top: 2.h,
+                                    bottom: 2.h,
                                     right: 16.w),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(16.r),
