@@ -163,7 +163,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
               ? ClipRRect(
                   borderRadius: BorderRadius.circular(4.r),
                   child: AspectRatio(
-                    aspectRatio: 16 / 9,
+                    aspectRatio: 1 / 1,
                     child: Image.network(
                       project.coverImageUrl!,
                       gaplessPlayback: true,
@@ -182,7 +182,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
               : ClipRRect(
                   borderRadius: BorderRadius.circular(4.r),
                   child: AspectRatio(
-                    aspectRatio: 16 / 9,
+                    aspectRatio: 1 / 1,
                     child: Image.asset(
                       'assets/images/error_image.jpeg',
                       fit: BoxFit.fill,
@@ -192,6 +192,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
           title: Text(
             project.name,
             style: TextStyle(
+                height: 1.1,
                 letterSpacing: -0.3,
                 color: Helper.baseBlack,
                 fontSize: 16.sp,
@@ -241,6 +242,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                 inactiveTrackColor: Color.fromRGBO(120, 120, 128, 0.16),
                 activeTrackColor: Helper.switchActiveColor,
                 thumbColor: MaterialStateProperty.all(Colors.white),
+                // splashRadius: 10,
                 value: selectedIds.contains(project.projectId),
                 onChanged: (value) {
                   setState(() {
@@ -263,7 +265,15 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
             children: [
               Padding(
                 padding: EdgeInsets.only(left: 8.0.w),
-                child: children,
+                child: Column(
+                  children: [
+                    children,
+                    Divider(
+                      thickness: 0.1,
+                      color: Helper.textColor700,
+                    ),
+                  ],
+                ),
               ),
             ],
             onExpansionChanged: (bool expanding) =>
@@ -381,7 +391,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
               child: SingleChildScrollView(
                   child: Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: 20.w, vertical: 24.h),
+                          horizontal: 20.w, vertical: 20.h),
                       child: projectData.when(
                         data: (projectData) {
                           // Update the projects in ProjectHierarchySelection
@@ -400,36 +410,58 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Center(
-                                child: Column(
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                padding: EdgeInsets.all(16.w),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16.r),
+                                  color: Colors.white,
+                                ),
+                                child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     AvatarWidget(
                                       dpUrl: data.dp != null ? data.dpUrl : "",
                                       name: data.name,
                                       backgroundColor: data.preset.color,
-                                      size: 72,
+                                      size: 50,
                                       fontSize: 24,
                                     ),
-                                    SizedBox(height: 16.h),
-                                    Text(
-                                      data.name,
-                                      style: TextStyle(
-                                          letterSpacing: -0.3,
-                                          color: Helper.baseBlack,
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    Text(
-                                      data.designation,
-                                      style: TextStyle(
-                                          letterSpacing: -0.3,
-                                          color: Helper.textColor600,
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.w500),
-                                    ),
+                                    SizedBox(width: 16.h),
+                                    Wrap(
+                                      direction: Axis.vertical,
+
+                                      // mainAxisSize: MainAxisSize.min,
+                                      // crossAxisAlignment:
+                                      //     CrossAxisAlignment.start,
+                                      // mainAxisAlignment:
+                                      //     MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          data.name,
+                                          style: TextStyle(
+                                              height: 1.1,
+                                              letterSpacing: -0.3,
+                                              color: Helper.baseBlack,
+                                              fontSize: 20.sp,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        // SizedBox(
+                                        //   height: -0.5,
+                                        // ),
+                                        Text(
+                                          data.designation,
+                                          style: TextStyle(
+                                              letterSpacing: -0.3,
+                                              color: Helper.baseBlack
+                                                  .withOpacity(0.5),
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ],
+                                    )
                                   ],
                                 ),
                               ),
@@ -437,11 +469,11 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                               Padding(
                                 padding: EdgeInsets.only(left: 16.w),
                                 child: Text(
-                                  "Basic details",
+                                  "BASIC DETAILS",
                                   style: TextStyle(
                                       letterSpacing: -0.3,
                                       color: Helper.textColor500,
-                                      fontSize: 18.sp,
+                                      fontSize: 13.sp,
                                       fontWeight: FontWeight.w500),
                                 ),
                               ),
@@ -450,7 +482,8 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                               ),
                               Container(
                                 width: MediaQuery.of(context).size.width,
-                                padding: EdgeInsets.all(16.w),
+                                padding: EdgeInsets.only(
+                                    left: 16.w, top: 16.h, bottom: 16.h),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(16.r),
                                   color: Colors.white,
@@ -459,36 +492,66 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        "Username",
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Helper.textColor700,
-                                            fontWeight: FontWeight.w500),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Username",
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Helper.textColor700,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                              right: 16.w,
+                                            ),
+                                            child: Text(
+                                              data.username,
+                                              style: TextStyle(
+                                                  letterSpacing: -0.3,
+                                                  color: Helper.textColor900,
+                                                  fontSize: 15.sp,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      Text(
-                                        data.username,
-                                        style: TextStyle(
-                                            letterSpacing: -0.3,
-                                            color: Helper.textColor900,
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.w600),
+                                      Divider(
+                                        thickness: 0.1,
+                                        color: Helper.textColor700,
                                       ),
-                                      SizedBox(height: 20.h),
-                                      Text(
-                                        "Email",
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Helper.textColor700,
-                                            fontWeight: FontWeight.w500),
+                                      // SizedBox(height: 10.h),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Email",
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Helper.textColor700,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                              right: 16.w,
+                                            ),
+                                            child: Text(
+                                              data.email,
+                                              style: TextStyle(
+                                                  letterSpacing: -0.3,
+                                                  color: Helper.textColor900,
+                                                  fontSize: 14.sp,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      Text(
-                                        data.email,
-                                        style: TextStyle(
-                                            letterSpacing: -0.3,
-                                            color: Helper.textColor900,
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.w600),
+                                      Divider(
+                                        thickness: 0.1,
+                                        color: Helper.textColor700,
                                       ),
 
                                       // CustomInputWidget(
@@ -526,28 +589,39 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                       //         });
                                       //       }),
                                       // ),
-                                      SizedBox(height: 20.h),
-                                      Text(
-                                        "Last Active",
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Helper.textColor700,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      Text(
-                                        data.lastActive != null
-                                            ? formatTimeDifference(
-                                                data.lastActive!,
-                                                timezone:
-                                                    'Asia/Kolkata', // Replace with the actual time zone
-                                              )
-                                            : "-",
-                                        style: TextStyle(
-                                            letterSpacing: -0.3,
-                                            color: Helper.textColor900,
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.w600),
-                                      ),
+                                      // SizedBox(height: 10.h),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Last Active",
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Helper.textColor700,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                              right: 16.w,
+                                            ),
+                                            child: Text(
+                                              data.lastActive != null
+                                                  ? formatTimeDifference(
+                                                      data.lastActive!,
+                                                      timezone:
+                                                          'Asia/Kolkata', // Replace with the actual time zone
+                                                    )
+                                                  : "-",
+                                              style: TextStyle(
+                                                  letterSpacing: -0.3,
+                                                  color: Helper.textColor900,
+                                                  fontSize: 14.sp,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ),
+                                        ],
+                                      )
                                     ]),
                               ),
                               SizedBox(
@@ -556,11 +630,11 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                               Padding(
                                 padding: EdgeInsets.only(left: 16.w),
                                 child: Text(
-                                  "Teams & role",
+                                  "TEAMS & ROLE",
                                   style: TextStyle(
                                       letterSpacing: -0.3,
                                       color: Helper.textColor500,
-                                      fontSize: 18.sp,
+                                      fontSize: 13.sp,
                                       fontWeight: FontWeight.w500),
                                 ),
                               ),
@@ -579,9 +653,6 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      SizedBox(
-                                        height: 20.h,
-                                      ),
                                       CustomInputWidget(
                                         title: "Role",
                                         formField: Platform.isIOS
@@ -990,11 +1061,11 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                               Padding(
                                 padding: EdgeInsets.only(left: 16.w),
                                 child: Text(
-                                  "Assigned projects",
+                                  "ASSIGNED PROJECTS",
                                   style: TextStyle(
                                       letterSpacing: -0.3,
                                       color: Helper.textColor500,
-                                      fontSize: 18.sp,
+                                      fontSize: 13.sp,
                                       fontWeight: FontWeight.w500),
                                 ),
                               ),

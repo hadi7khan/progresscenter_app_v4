@@ -126,7 +126,7 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                             child: SvgPicture.asset('assets/images/home.svg')),
                         Row(
                           children: [
-                            SvgPicture.asset('assets/images/search.svg'),
+                            // SvgPicture.asset('assets/images/search.svg'),
                             SizedBox(width: 12.w),
                             ConstrainedBox(
                               constraints: new BoxConstraints(

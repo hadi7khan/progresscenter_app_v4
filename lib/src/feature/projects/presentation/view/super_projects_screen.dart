@@ -66,9 +66,14 @@ class _SuperProjectScreenState extends BaseConsumerState<SuperProjectScreen> {
           color: Helper.primary,
           onRefresh: () async {
             HapticFeedback.mediumImpact();
-            return await ref
-                .refresh(projectByIdControllerProvider.notifier)
-                .getProjectById(widget.projectId, includeChildren);
+            return await service.Service()
+                .fetchProjectsList(widget.projectId, true)
+                .then((data) {
+              setState(() {
+                projectModel = data;
+              });
+              log("data passed superr " + projectModel.toString());
+            });
           },
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),

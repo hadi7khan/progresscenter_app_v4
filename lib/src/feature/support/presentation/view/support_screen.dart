@@ -72,7 +72,7 @@ class _SupportScreenState extends BaseConsumerState<SupportScreen> {
                           ),
                           Row(
                             children: [
-                              SvgPicture.asset('assets/images/search.svg'),
+                              // SvgPicture.asset('assets/images/search.svg'),
                               SizedBox(width: 12.w),
                               InkWell(
                                   onTap: () {
