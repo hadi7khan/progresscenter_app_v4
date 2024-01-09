@@ -517,11 +517,14 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         name: rolesRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          Function(String) onRoleSelection = args['onRoleSelection'];
           return NoTransitionPage(
             key: state.pageKey,
             child: RolesScreen(
               key: state.pageKey,
               roles: args['roles'],
+              assignedRole: args['assignedRole'],
+              onRoleSelection: onRoleSelection,
             ),
           );
         },

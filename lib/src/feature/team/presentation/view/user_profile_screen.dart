@@ -145,6 +145,16 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
     }
   }
 
+  void handleRoleSelection(String selectedRole) {
+    // Handle the result returned from RolesScreen
+    if (selectedRole != null) {
+      _roleSelected = selectedRole;
+      assignedRole = selectedRole;
+      // Do something with the result (selected role)
+      log('Selected Role: $selectedRole');
+    }
+  }
+
   Widget _buildProjectTree(
       List<model.ProjectLeanModel> projects, String? parentId) {
     return Column(
@@ -366,6 +376,9 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                         };
                         // assignedRole= value;
                         Service().roleChange(data.id, roleData).then((val) {
+                          ref
+                              .watch(userProfileControllerProvider.notifier)
+                              .getUserProfile(widget.userId);
                           Utils.toastSuccessMessage("User updated");
                         });
 
@@ -674,6 +687,9 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                         onTap: () {
                                           context.push('/roles', extra: {
                                             "roles": _roles,
+                                            "assignedRole": assignedRole,
+                                            "onRoleSelection":
+                                                handleRoleSelection
                                           });
                                         },
                                         child: Row(
@@ -695,7 +711,9 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                               child: Row(
                                                 children: [
                                                   Text(
-                                                    '${_roles.firstWhere((role) => role.toLowerCase() == assignedRole.toLowerCase())}',
+                                                    _roleSelected.isNotEmpty
+                                                        ? '${_roles.firstWhere((role) => role.toLowerCase() == _roleSelected.toLowerCase())}'
+                                                        : '${_roles.firstWhere((role) => role.toLowerCase() == assignedRole.toLowerCase())}',
                                                     style: TextStyle(
                                                         letterSpacing: -0.3,
                                                         color:

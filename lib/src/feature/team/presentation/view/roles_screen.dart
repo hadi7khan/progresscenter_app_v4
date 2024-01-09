@@ -9,13 +9,27 @@ import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 
 class RolesScreen extends StatefulWidget {
   final roles;
-  const RolesScreen({super.key, this.roles});
+  final assignedRole;
+  final Function(String)? onRoleSelection;
+  const RolesScreen(
+      {super.key, this.roles, this.assignedRole, this.onRoleSelection});
 
   @override
   State<RolesScreen> createState() => _RolesScreenState();
 }
 
 class _RolesScreenState extends State<RolesScreen> {
+  String? selectedRole;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.roles.isNotEmpty) {
+      // Set the initially selected role to the first role in the list
+      selectedRole = widget.assignedRole.toString().toLowerCase();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     log("roles passed" + widget.roles.toString());
@@ -84,7 +98,34 @@ class _RolesScreenState extends State<RolesScreen> {
           child: ListView.separated(
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                return Text(widget.roles[index]);
+                final role = widget.roles[index];
+                return ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  minVerticalPadding: 0,
+                  visualDensity: VisualDensity(vertical: -4),
+                  dense: true,
+                  title: Text(
+                    role,
+                    style: TextStyle(
+                        letterSpacing: -0.3,
+                        color: Helper.textColor900,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w400),
+                  ),
+                  onTap: () {
+                    setState(() {
+                      selectedRole = role;
+                    });
+                    widget.onRoleSelection!(selectedRole!);
+                  },
+                  trailing: selectedRole!.toLowerCase() ==
+                          role.toString().toLowerCase()
+                      ? Padding(
+                          padding: EdgeInsets.only(right: 16.w),
+                          child: Icon(Icons.check, color: Helper.primary),
+                        )
+                      : null,
+                );
               },
               separatorBuilder: (context, index) {
                 return Divider(

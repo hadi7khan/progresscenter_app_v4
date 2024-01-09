@@ -52,7 +52,7 @@ dependencies:
   # https://pub.dev/packages/logging
   logging: 1.2.0
   # https://pub.dev/packages/connectivity_plus
-  connectivity_plus: 4.0.1
+  connectivity_plus: 5.0.2
   # https://pub.dev/packages/font_awesome_flutter
   font_awesome_flutter: 10.4.0
   # https://pub.dev/packages/google_fonts

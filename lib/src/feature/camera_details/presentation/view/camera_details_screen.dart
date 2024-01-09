@@ -54,6 +54,7 @@ class CameraDetailsSreen extends ConsumerStatefulWidget {
 class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     with SingleTickerProviderStateMixin {
   int _selectedIndex = 0;
+  final dataKey = new GlobalKey();
   int _selectedImageIndex = 0;
   List<DateTime> daysInMonth = [];
   String _selectedDate = '';
@@ -78,6 +79,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
   @override
   void initState() {
     super.initState();
+    // WidgetsBinding.instance.addPostFrameCallback(
+    //     (_) => Scrollable.ensureVisible(dataKey.currentContext!));
     controller = TransformationController();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Timer(Duration(seconds: 1), () {
