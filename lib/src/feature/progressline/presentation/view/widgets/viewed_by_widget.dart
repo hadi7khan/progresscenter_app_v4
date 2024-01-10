@@ -900,12 +900,12 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                                                             Helper.errorColor,
                                                       ),
                                                     ),
-                                                    onPressed: () {
-                                                      Service()
+                                                    onPressed: () async {
+                                                      await Service()
                                                           .revokeMember(
                                                               widget.projectId,
                                                               widget.data[index]
-                                                                  .id)
+                                                                  .userId)
                                                           .then((value) {
                                                         context.pop();
                                                         context.pop();
@@ -1029,7 +1029,7 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                                                                     .projectId,
                                                                 widget
                                                                     .data[index]
-                                                                    .id)
+                                                                    .userId)
                                                             .then((value) {
                                                           context.pop();
                                                           context.pop();
