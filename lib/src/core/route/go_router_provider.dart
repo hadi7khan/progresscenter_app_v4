@@ -6,6 +6,8 @@ import 'package:progresscenter_app_v4/src/common/error/no_internet_connection_sc
 import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
 import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
 import 'package:progresscenter_app_v4/src/feature/account/presentation/view/account_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/account/presentation/view/organisation_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/account/presentation/view/profile_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/forgot_password/change_password_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/forgot_password/forgot_password_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/onboarding_screen.dart';
@@ -838,6 +840,37 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           );
         },
       ),
+
+      // ---------------------------------Account--------------------------------
+      GoRoute(
+        path: '/profile',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: profileRoute,
+        pageBuilder: (context, state) {
+          // Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: ProfileScreen(
+              key: state.pageKey,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/organisation',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: organisationRoute,
+        pageBuilder: (context, state) {
+          // Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: OrganisationScreen(
+              key: state.pageKey,
+            ),
+          );
+        },
+      ),
+
       GoRoute(
         path: '/notifications',
         parentNavigatorKey: _rootNavigatorKey,

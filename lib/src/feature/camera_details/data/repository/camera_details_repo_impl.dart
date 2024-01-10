@@ -18,7 +18,7 @@ final cameraDetailsProvider = Provider.autoDispose<CameraDetailsRepositoryImpl>(
 );
 
 class CameraDetailsRepositoryImpl implements CameraDetailsRepository {
-  final CameraDetailsDataSource cameraDetailsDataSource;
+  final AccountsDataSource cameraDetailsDataSource;
   CameraDetailsRepositoryImpl({
     required this.cameraDetailsDataSource,
   });
@@ -41,10 +41,11 @@ class CameraDetailsRepositoryImpl implements CameraDetailsRepository {
 
   @override
   Future<Either<Failure, ImagesByCameraIdModel>> imagesByCameraId(
-      String projectId, String cameraId, {String searchDate = ''}) async {
+      String projectId, String cameraId,
+      {String searchDate = ''}) async {
     try {
-      final result =
-          await cameraDetailsDataSource.imagesByCameraId(projectId, cameraId, searchDate: searchDate);
+      final result = await cameraDetailsDataSource
+          .imagesByCameraId(projectId, cameraId, searchDate: searchDate);
       return Right((ImagesByCameraIdModel.fromJson(result)));
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);

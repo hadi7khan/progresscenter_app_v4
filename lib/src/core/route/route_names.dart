@@ -45,6 +45,8 @@ const String supportRoute = 'support';
 const String createTicketRoute = 'createTicket';
 const String ticketByIdRoute = 'ticketById';
 const String accountRoute = 'account';
+const String profileRoute = 'profile';
+const String organisationRoute = 'organisation';
 const String notificationsRoute = 'notifications';
 
 const String noInternetRoute = 'noInternet';

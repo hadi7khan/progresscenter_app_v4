@@ -7,16 +7,16 @@ import 'package:progresscenter_app_v4/src/core/network/dio_client.dart';
 import 'package:progresscenter_app_v4/src/core/providers/dio_provider.dart';
 
 final cameraDataSourceProvider =
-    Provider.autoDispose<CameraDetailsDataSource>((ref) {
+    Provider.autoDispose<AccountsDataSource>((ref) {
   return CameraDetailsDataSourceImpl(dioClient: ref.watch(dioClientProvider));
 });
 
-abstract class CameraDetailsDataSource {
+abstract class AccountsDataSource {
   Future imagesByCameraId(String projectId, String cameraId, {searchDate = ''});
   Future cameraById(String projectId, String cameraId);
 }
 
-class CameraDetailsDataSourceImpl implements CameraDetailsDataSource {
+class CameraDetailsDataSourceImpl implements AccountsDataSource {
   final DioClient dioClient;
   CameraDetailsDataSourceImpl({
     required this.dioClient,
@@ -34,14 +34,16 @@ class CameraDetailsDataSourceImpl implements CameraDetailsDataSource {
   }
 
   @override
-  Future imagesByCameraId(String projectId, String cameraId, {searchDate = ''}) async {
-    DateTime date= DateTime.now();
+  Future imagesByCameraId(String projectId, String cameraId,
+      {searchDate = ''}) async {
+    DateTime date = DateTime.now();
     log("before res" + date.toString());
 
-    final response =
-        await dioClient.get(Endpoints.imagesByCameraIdUrl(projectId, cameraId, searchDate: searchDate));
+    final response = await dioClient.get(Endpoints.imagesByCameraIdUrl(
+        projectId, cameraId,
+        searchDate: searchDate));
     if (response.statusCode == 200) {
-    log("after res" + date.toString());
+      log("after res" + date.toString());
       return response.data;
     } else {
       return ServerException();
