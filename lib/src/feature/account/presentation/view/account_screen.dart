@@ -21,6 +21,7 @@ class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Helper.screenBackground,
       body: SafeArea(
           child: RefreshIndicator(
         color: Helper.primary,
@@ -72,43 +73,102 @@ class _AccountScreenState extends State<AccountScreen> {
                     ],
                   ),
                   SizedBox(height: 16.h),
-                  Center(
-                    child: Column(
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.all(16.w),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16.r),
+                      color: Colors.white,
+                    ),
+                    child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        // AvatarWidget(
-                        //     dpUrl:
-                        //         data.dp != null ? data.dpUrl : "",
-                        //     name: data.name,
-                        //     backgroundColor: data.preset.color,
-                        //     size: 72),
                         CircleAvatar(
                           backgroundColor: Helper.widgetBackground,
-                          minRadius: 36,
+                          minRadius: 30,
                           child: Text("H"),
                         ),
-                        SizedBox(height: 16.h),
-                        Text(
-                          "Mahesh Jethani",
-                          style: TextStyle(
-                              letterSpacing: -0.3,
-                              color: Helper.baseBlack,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        Text(
-                          "View Profile",
-                          style: TextStyle(
-                              letterSpacing: -0.3,
-                              color: Helper.textColor600,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400),
-                        ),
+                        // AvatarWidget(
+                        //   dpUrl: data.dp != null ? data.dpUrl : "",
+                        //   name: data.name,
+                        //   backgroundColor: data.preset.color,
+                        //   size: 50,
+                        //   fontSize: 24,
+                        // ),
+                        SizedBox(width: 10.h),
+                        Wrap(
+                          direction: Axis.vertical,
+
+                          // mainAxisSize: MainAxisSize.min,
+                          // crossAxisAlignment:
+                          //     CrossAxisAlignment.start,
+                          // mainAxisAlignment:
+                          //     MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Mahesh Jethani",
+                              style: TextStyle(
+                                  height: 1.1,
+                                  letterSpacing: -0.3,
+                                  color: Helper.baseBlack,
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            // SizedBox(
+                            //   height: -0.5,
+                            // ),
+                            Text(
+                              "developer",
+                              style: TextStyle(
+                                  letterSpacing: -0.3,
+                                  color: Helper.baseBlack.withOpacity(0.5),
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),
+                  // Center(
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.center,
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     mainAxisSize: MainAxisSize.max,
+                  //     children: [
+                  //       // AvatarWidget(
+                  //       //     dpUrl:
+                  //       //         data.dp != null ? data.dpUrl : "",
+                  //       //     name: data.name,
+                  //       //     backgroundColor: data.preset.color,
+                  //       //     size: 72),
+                  //       CircleAvatar(
+                  //         backgroundColor: Helper.widgetBackground,
+                  //         minRadius: 36,
+                  //         child: Text("H"),
+                  //       ),
+                  //       SizedBox(height: 16.h),
+                  //       Text(
+                  //         "Mahesh Jethani",
+                  //         style: TextStyle(
+                  //             letterSpacing: -0.3,
+                  //             color: Helper.baseBlack,
+                  //             fontSize: 16.sp,
+                  //             fontWeight: FontWeight.w500),
+                  //       ),
+                  //       Text(
+                  //         "View Profile",
+                  //         style: TextStyle(
+                  //             letterSpacing: -0.3,
+                  //             color: Helper.textColor600,
+                  //             fontSize: 12.sp,
+                  //             fontWeight: FontWeight.w400),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   SizedBox(
                     height: 24.h,
                   ),

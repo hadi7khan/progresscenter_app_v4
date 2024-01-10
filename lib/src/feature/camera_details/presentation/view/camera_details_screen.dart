@@ -76,6 +76,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
       TransformationController();
   SwiperController _swipperontroller = SwiperController();
   PageController _pageController = PageController();
+  GlobalKey<ScrollableState> listViewKey = GlobalKey<ScrollableState>();
 
   @override
   void initState() {
@@ -156,6 +157,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     String formattedDate = DateFormat('dd MMM yyyy').format(parsedDate);
     log("formatted date" + formattedDate.toString());
     showMonth = DateFormat.MMM().format(parsedDate).toUpperCase();
+    scrollToItem(10, listViewKey);
 
     log("showMonth display" + showMonth.toString());
     return formattedDate;
@@ -184,6 +186,11 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     double currentItemPosition = _scrollController.position.pixels;
     double itemWidth = 44.0; // Replace with your actual item width
     return currentItemPosition >= 0 && currentItemPosition < itemWidth;
+  }
+
+  void scrollToItem(int index, GlobalKey<ScrollableState> key) {
+    Scrollable.ensureVisible(key.currentContext!,
+        alignment: 0.5, duration: Duration(seconds: 1));
   }
 
   @override
@@ -537,11 +544,11 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                               .toString(),
                                         ).currentContext!,
                                         alignment: 0.1);
-                                    // Scrollable.ensureVisible(
-                                    //     GlobalObjectKey(
-                                    //             currentImage.date.toString())
-                                    //         .currentContext!,
-                                    //     alignment: 0.1);
+                                    Scrollable.ensureVisible(
+                                        GlobalObjectKey(
+                                                currentImage.id.toString())
+                                            .currentContext!,
+                                        alignment: 0.1);
 
                                     log("onindex change" + index.toString());
                                     final reversedIndex =
@@ -1011,6 +1018,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                   ),
                                   Expanded(
                                     child: ListView.builder(
+                                      key: listViewKey,
                                       shrinkWrap: true,
                                       scrollDirection: Axis.horizontal,
                                       physics: BouncingScrollPhysics(),
@@ -1018,9 +1026,11 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                       itemCount: daysInMonth.length,
                                       itemBuilder: (context, index) {
                                         // Scrollable.ensureVisible(
-                                        //     GlobalObjectKey(daysInMonth[index])
+                                        //     GlobalObjectKey(
+                                        //             currentImage.id.toString())
                                         //         .currentContext!,
                                         //     alignment: 0.1);
+
                                         final day = daysInMonth[index];
                                         // String daycompare =
                                         final formattedDay =
@@ -1083,8 +1093,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                                     vertical: 12.h),
                                                 child: Column(
                                                   // key: GlobalObjectKey(
-                                                  //   currentImage.date
-                                                  //       .toString(),
+                                                  //   currentImage.id.toString(),
                                                   // ),
                                                   children: [
                                                     Text(
