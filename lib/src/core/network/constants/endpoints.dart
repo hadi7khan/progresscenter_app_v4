@@ -23,6 +23,11 @@ class Endpoints {
     return '$baseUrl/api/v4/auth/forgot-password/$token/validate';
   }
 
+  //---------------------------- Accounts ---------------------------------------
+  static getProfileUrl() {
+    return '$baseUrl/api/v4/account';
+  }
+
   //---------------------------- Projects ---------------------------------------
 
   static projectListUrl({searchText = ''}) {

@@ -8,7 +8,6 @@ part 'camera_by_id_state.freezed.dart';
 class CameraByIdState with _$CameraByIdState {
   const factory CameraByIdState(
       {@Default(false) bool isFetching,
-      @Default(AsyncValue.loading())
-      AsyncValue<CameraByIdModel> cameraById,
+      @Default(AsyncValue.loading()) AsyncValue<CameraByIdModel> cameraById,
       String? errorMessage}) = _CameraByIdState;
 }

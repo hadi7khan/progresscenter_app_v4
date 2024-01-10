@@ -297,7 +297,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          "User detail",
+                          "User details",
                           style: TextStyle(
                               letterSpacing: -0.3,
                               color: Helper.baseBlack,
