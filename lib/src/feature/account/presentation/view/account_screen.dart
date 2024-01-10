@@ -183,7 +183,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       visualDensity: VisualDensity(horizontal: 0, vertical: -4),
                       leading: SvgPicture.asset('assets/images/profile.svg'),
                       title: Text(
-                        "Organisation Profile",
+                        "Organisation Profil",
                         style: TextStyle(
                             letterSpacing: -0.3,
                             color: Helper.textColor700,
