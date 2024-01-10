@@ -21,7 +21,6 @@ class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Helper.screenBackground,
       body: SafeArea(
           child: RefreshIndicator(
         color: Helper.primary,
@@ -78,7 +77,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     padding: EdgeInsets.all(16.w),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16.r),
-                      color: Colors.white,
+                      color: Helper.screenBackground,
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -86,9 +85,9 @@ class _AccountScreenState extends State<AccountScreen> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         CircleAvatar(
-                          backgroundColor: Helper.widgetBackground,
+                          backgroundColor: Colors.white,
                           minRadius: 30,
-                          child: Text("H"),
+                          child: Text("Y"),
                         ),
                         // AvatarWidget(
                         //   dpUrl: data.dp != null ? data.dpUrl : "",
@@ -108,7 +107,7 @@ class _AccountScreenState extends State<AccountScreen> {
                           //     MainAxisAlignment.start,
                           children: [
                             Text(
-                              "Mahesh Jethani",
+                              "Yafer Nazir",
                               style: TextStyle(
                                   height: 1.1,
                                   letterSpacing: -0.3,
