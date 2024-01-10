@@ -68,6 +68,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
   Animation<Matrix4>? animation;
   OverlayEntry? entry;
   ScrollController _scrollController = ScrollController();
+  ScrollController _dateController = ScrollController();
   CarouselController carouselController = CarouselController();
   ImageData? imageData;
   GlobalKey _listViewKey = GlobalKey();
@@ -155,6 +156,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     String formattedDate = DateFormat('dd MMM yyyy').format(parsedDate);
     log("formatted date" + formattedDate.toString());
     showMonth = DateFormat.MMM().format(parsedDate).toUpperCase();
+
     log("showMonth display" + showMonth.toString());
     return formattedDate;
   }
@@ -535,6 +537,11 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                               .toString(),
                                         ).currentContext!,
                                         alignment: 0.1);
+                                    // Scrollable.ensureVisible(
+                                    //     GlobalObjectKey(
+                                    //             currentImage.date.toString())
+                                    //         .currentContext!,
+                                    //     alignment: 0.1);
 
                                     log("onindex change" + index.toString());
                                     final reversedIndex =
@@ -1007,8 +1014,13 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                       shrinkWrap: true,
                                       scrollDirection: Axis.horizontal,
                                       physics: BouncingScrollPhysics(),
+                                      controller: _dateController,
                                       itemCount: daysInMonth.length,
                                       itemBuilder: (context, index) {
+                                        // Scrollable.ensureVisible(
+                                        //     GlobalObjectKey(daysInMonth[index])
+                                        //         .currentContext!,
+                                        //     alignment: 0.1);
                                         final day = daysInMonth[index];
                                         // String daycompare =
                                         final formattedDay =
@@ -1070,6 +1082,10 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                                     horizontal: 10.w,
                                                     vertical: 12.h),
                                                 child: Column(
+                                                  // key: GlobalObjectKey(
+                                                  //   currentImage.date
+                                                  //       .toString(),
+                                                  // ),
                                                   children: [
                                                     Text(
                                                       formattedDate,
