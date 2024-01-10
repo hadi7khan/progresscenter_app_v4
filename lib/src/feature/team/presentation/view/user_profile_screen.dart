@@ -21,6 +21,7 @@ import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_l
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_lean_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/provider/assigned_projects.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/provider/user_profile_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/team/presentation/view/widgets/expansion_widget.dart';
 import 'package:timezone/data/latest.dart';
 import 'package:timezone/timezone.dart';
 import 'dart:developer';
@@ -48,6 +49,16 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
   String? userId;
   String assignedRole = '';
   int _selectedRoleCupertino = 0;
+  Map<String, bool> isFirstTapMap = {};
+//  Map<String, GlobalKey<ExpansionTileState>> expansionTileKeys = {};
+  bool expandFlag = false;
+  final _tileKeys = [];
+  var _selectedIndex = 0;
+
+  void resetExpansionTileKeysAndSelectedIndex() {
+    _tileKeys.clear();
+    _selectedIndex = 0;
+  }
 
   @override
   void initState() {
@@ -162,6 +173,10 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
       children: projects
           .where((project) => project.parentId == parentId)
           .map((project) {
+        ExpansionTileController controller = ExpansionTileController();
+        int index = projects.indexOf(project);
+        bool isFirstTap = switchValues[project.projectId] == null;
+        bool hasChildren = projects.any((p) => p.parentId == project.projectId);
         Widget mainListTile = ListTile(
           horizontalTitleGap: 8.w,
           // dense: true,
@@ -214,97 +229,27 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w400),
           ),
-          // trailing: Switch.adaptive(
-          //     trackOutlineColor: MaterialStateProperty.all(Colors.transparent),
-          //     inactiveTrackColor: Color.fromRGBO(120, 120, 128, 0.16),
-          //     activeTrackColor: Helper.switchActiveColor,
-          //     thumbColor: MaterialStateProperty.all(Colors.white),
-          //     value: selectedIds.contains(project.projectId),
-          //     onChanged: (value) {
-          //       setState(() {
-          //         switchValues[project.projectId] = value;
-          //       });
-          //       var values =
-          //           projectHierarchySelection!.changeSelected(project, value);
-          //       print("valueeeeee" + values.toString());
-          //       Map<String, dynamic> projectData = {"projects": selectedIds};
-          //       Service().assignProjectChange(userId, projectData).then((val) {
-          //         Utils.toastSuccessMessage("Projects updated");
-          //       });
-          //     }),
         );
 
         Widget children = _buildProjectTree(projects, project.projectId);
 
         return Theme(
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-          child: ExpansionTile(
-            backgroundColor:
-                isExpanded ? Helper.widgetBackground : Colors.transparent,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.r)),
-            tilePadding: EdgeInsets.zero,
-            trailing: Platform.isAndroid
-                ? Switch(
-                    trackOutlineColor:
-                        MaterialStateProperty.all(Colors.transparent),
-                    inactiveTrackColor: Color.fromRGBO(120, 120, 128, 0.16),
-                    activeTrackColor: Helper.switchActiveColor,
-                    thumbColor: MaterialStateProperty.all(Colors.white),
-                    value: selectedIds.contains(project.projectId),
-                    onChanged: (value) {
-                      setState(() {
-                        switchValues[project.projectId] = value;
-                      });
-                      var values = projectHierarchySelection!
-                          .changeSelected(project, value);
-                      print("valueeeeee" + values.toString());
-                    })
-                : CupertinoSwitch(
-                    value: selectedIds.contains(project.projectId),
-                    onChanged: (value) {
-                      setState(() {
-                        switchValues[project.projectId] = value;
-                      });
-                      var values = projectHierarchySelection!
-                          .changeSelected(project, value);
-                      print("valueeeeee" + values.toString());
-                    }),
+          child: ExpansionWidget(
+            mainListTile: mainListTile,
+            children: children,
+            index: index,
+            selected: selectedIds.contains(project.projectId),
+            hasChildren: hasChildren,
+            onSelectedChange: (value) {
+              setState(() {
+                switchValues[project.projectId] = value;
+              });
 
-            //  Switch.adaptive(
-            //     trackOutlineColor:
-            //         MaterialStateProperty.all(Colors.transparent),
-            //     inactiveTrackColor: Color.fromRGBO(120, 120, 128, 0.16),
-            //     activeTrackColor: Helper.switchActiveColor,
-            //     thumbColor: MaterialStateProperty.all(Colors.white),
-            //     // splashRadius: 10,
-            //     value: selectedIds.contains(project.projectId),
-            //     onChanged: (value) {
-            //       setState(() {
-            //         switchValues[project.projectId] = value;
-            //       });
-            //       var values =
-            //           projectHierarchySelection!.changeSelected(project, value);
-            //       print("valueeeeee" + values.toString());
-            //     }),
-            // trailing: projectHierarchySelection!.hasChildren(project.projectId)
-            //     ? SvgPicture.asset(
-            //         'assets/images/chevron-down.svg',
-            //         color: Helper.baseBlack.withOpacity(0.2),
-            //         width: 24.w,
-            //       )
-            //     : SizedBox(
-            //         width: 24.w,
-            //       ),
-            title: mainListTile,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: 8.0.w),
-                child: children,
-              ),
-            ],
-            onExpansionChanged: (bool expanding) =>
-                setState(() => this.isExpanded = expanding),
+              var values =
+                  projectHierarchySelection!.changeSelected(project, value);
+              print("valueeeeee" + values.toString());
+            },
           ),
         );
       }).toList(),
@@ -765,6 +710,35 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                               ),
                                               child: Row(
                                                 children: [
+                                                  _selectedTeams!.length > 1
+                                                      ? Text(
+                                                          "Multiple",
+                                                          style: TextStyle(
+                                                              letterSpacing:
+                                                                  -0.3,
+                                                              color: Helper
+                                                                  .textColor900,
+                                                              fontSize: 14.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                        )
+                                                      : Text(
+                                                          _selectedTeams!
+                                                                  .isNotEmpty
+                                                              ? _selectedTeams!
+                                                                  .first
+                                                              : "",
+                                                          style: TextStyle(
+                                                              letterSpacing:
+                                                                  -0.3,
+                                                              color: Helper
+                                                                  .textColor900,
+                                                              fontSize: 14.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                        ),
                                                   SizedBox(width: 5.w),
                                                   SvgPicture.asset(
                                                     'assets/images/chevron-right.svg',
