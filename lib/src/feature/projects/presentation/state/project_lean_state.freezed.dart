@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ProjectLeanState {
   bool get isFetching => throw _privateConstructorUsedError;
-  AsyncValue<List<ProjectLeanModel>> get projectlean =>
+  AsyncValue<List<ProjectModel>> get projectlean =>
       throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
 
@@ -34,7 +34,7 @@ abstract class $ProjectLeanStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool isFetching,
-      AsyncValue<List<ProjectLeanModel>> projectlean,
+      AsyncValue<List<ProjectModel>> projectlean,
       String? errorMessage});
 }
 
@@ -63,7 +63,7 @@ class _$ProjectLeanStateCopyWithImpl<$Res, $Val extends ProjectLeanState>
       projectlean: null == projectlean
           ? _value.projectlean
           : projectlean // ignore: cast_nullable_to_non_nullable
-              as AsyncValue<List<ProjectLeanModel>>,
+              as AsyncValue<List<ProjectModel>>,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -82,7 +82,7 @@ abstract class _$$_ProjectLeanStateCopyWith<$Res>
   @useResult
   $Res call(
       {bool isFetching,
-      AsyncValue<List<ProjectLeanModel>> projectlean,
+      AsyncValue<List<ProjectModel>> projectlean,
       String? errorMessage});
 }
 
@@ -109,7 +109,7 @@ class __$$_ProjectLeanStateCopyWithImpl<$Res>
       projectlean: null == projectlean
           ? _value.projectlean
           : projectlean // ignore: cast_nullable_to_non_nullable
-              as AsyncValue<List<ProjectLeanModel>>,
+              as AsyncValue<List<ProjectModel>>,
       errorMessage: freezed == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -131,7 +131,7 @@ class _$_ProjectLeanState implements _ProjectLeanState {
   final bool isFetching;
   @override
   @JsonKey()
-  final AsyncValue<List<ProjectLeanModel>> projectlean;
+  final AsyncValue<List<ProjectModel>> projectlean;
   @override
   final String? errorMessage;
 
@@ -167,13 +167,13 @@ class _$_ProjectLeanState implements _ProjectLeanState {
 abstract class _ProjectLeanState implements ProjectLeanState {
   const factory _ProjectLeanState(
       {final bool isFetching,
-      final AsyncValue<List<ProjectLeanModel>> projectlean,
+      final AsyncValue<List<ProjectModel>> projectlean,
       final String? errorMessage}) = _$_ProjectLeanState;
 
   @override
   bool get isFetching;
   @override
-  AsyncValue<List<ProjectLeanModel>> get projectlean;
+  AsyncValue<List<ProjectModel>> get projectlean;
   @override
   String? get errorMessage;
   @override

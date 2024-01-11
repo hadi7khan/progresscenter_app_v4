@@ -11,5 +11,5 @@ abstract class ProjectRepository {
       String id, bool includeChildren);
   Future<Either<Failure, List<UserLeanModel>>> userleanList();
   Future<Either<Failure, dynamic>> inviteMembers(data, id);
-  Future<Either<Failure, List<ProjectLeanModel>>> projectLeanList();
+  Future<Either<Failure, List<ProjectModel>>> projectLeanList();
 }

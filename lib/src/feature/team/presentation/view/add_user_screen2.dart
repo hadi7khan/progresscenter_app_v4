@@ -11,7 +11,9 @@ import 'package:progresscenter_app_v4/src/common/skeletons/loading_add_user2.dar
 import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_lean_model.dart'
+// import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_lean_model.dart'
+//     as model;
+import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart'
     as model;
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_lean_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/provider/assigned_projects.dart';
@@ -67,7 +69,7 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
   }
 
   Widget _buildProjectTree(
-      List<model.ProjectLeanModel> projects, String? parentId) {
+      List<model.ProjectModel> projects, String? parentId) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: projects
@@ -109,7 +111,7 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
                   ),
                 ),
           title: Text(
-            project.name,
+            project.name!,
             style: TextStyle(
                 letterSpacing: -0.3,
                 color: Helper.baseBlack,
@@ -117,7 +119,7 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
                 fontWeight: FontWeight.w500),
           ),
           subtitle: Text(
-            project.location.name,
+            project.location!.name!,
             style: TextStyle(
                 letterSpacing: -0.3,
                 color: Helper.baseBlack.withOpacity(0.5),
@@ -129,10 +131,10 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
               inactiveTrackColor: Color.fromRGBO(120, 120, 128, 0.16),
               activeTrackColor: Helper.switchActiveColor,
               thumbColor: MaterialStateProperty.all(Colors.white),
-              value: selectedIds.contains(project.projectId),
+              value: selectedIds.contains(project.id),
               onChanged: (value) {
                 setState(() {
-                  switchValues[project.projectId] = value;
+                  switchValues[project.id] = value;
                 });
                 var values =
                     projectHierarchySelection!.changeSelected(project, value);
@@ -146,7 +148,7 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
               }),
         );
 
-        Widget children = _buildProjectTree(projects, project.projectId);
+        Widget children = _buildProjectTree(projects, project.id);
 
         return Theme(
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
@@ -156,7 +158,7 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.r)),
             tilePadding: EdgeInsets.zero,
-            trailing: projectHierarchySelection!.hasChildren(project.projectId)
+            trailing: projectHierarchySelection!.hasChildren(project.id)
                 ? SvgPicture.asset(
                     'assets/images/chevron-down.svg',
                     color: Helper.baseBlack.withOpacity(0.2),

@@ -22,9 +22,10 @@ ProjectModel _$ProjectModelFromJson(Map<String, dynamic> json) {
 mixin _$ProjectModel {
   Location? get location => throw _privateConstructorUsedError;
   @JsonKey(name: '_id')
-  String? get id => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   List<ProjectImage>? get images => throw _privateConstructorUsedError;
+  String? get coverImageUrl => throw _privateConstructorUsedError;
   String? get status => throw _privateConstructorUsedError;
   List<Asset>? get assets => throw _privateConstructorUsedError;
   String? get activity => throw _privateConstructorUsedError;
@@ -54,9 +55,10 @@ abstract class $ProjectModelCopyWith<$Res> {
   @useResult
   $Res call(
       {Location? location,
-      @JsonKey(name: '_id') String? id,
+      @JsonKey(name: '_id') String id,
       String? name,
       List<ProjectImage>? images,
+      String? coverImageUrl,
       String? status,
       List<Asset>? assets,
       String? activity,
@@ -90,9 +92,10 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
   @override
   $Res call({
     Object? location = freezed,
-    Object? id = freezed,
+    Object? id = null,
     Object? name = freezed,
     Object? images = freezed,
+    Object? coverImageUrl = freezed,
     Object? status = freezed,
     Object? assets = freezed,
     Object? activity = freezed,
@@ -113,10 +116,10 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as Location?,
-      id: freezed == id
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -125,6 +128,10 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
               as List<ProjectImage>?,
+      coverImageUrl: freezed == coverImageUrl
+          ? _value.coverImageUrl
+          : coverImageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -219,9 +226,10 @@ abstract class _$$_ProjectModelCopyWith<$Res>
   @useResult
   $Res call(
       {Location? location,
-      @JsonKey(name: '_id') String? id,
+      @JsonKey(name: '_id') String id,
       String? name,
       List<ProjectImage>? images,
+      String? coverImageUrl,
       String? status,
       List<Asset>? assets,
       String? activity,
@@ -255,9 +263,10 @@ class __$$_ProjectModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? location = freezed,
-    Object? id = freezed,
+    Object? id = null,
     Object? name = freezed,
     Object? images = freezed,
+    Object? coverImageUrl = freezed,
     Object? status = freezed,
     Object? assets = freezed,
     Object? activity = freezed,
@@ -278,10 +287,10 @@ class __$$_ProjectModelCopyWithImpl<$Res>
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as Location?,
-      id: freezed == id
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -290,6 +299,10 @@ class __$$_ProjectModelCopyWithImpl<$Res>
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
               as List<ProjectImage>?,
+      coverImageUrl: freezed == coverImageUrl
+          ? _value.coverImageUrl
+          : coverImageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -355,9 +368,10 @@ class __$$_ProjectModelCopyWithImpl<$Res>
 class _$_ProjectModel implements _ProjectModel {
   const _$_ProjectModel(
       {this.location,
-      @JsonKey(name: '_id') this.id,
+      @JsonKey(name: '_id') required this.id,
       this.name,
       final List<ProjectImage>? images,
+      this.coverImageUrl,
       this.status,
       final List<Asset>? assets,
       this.activity,
@@ -384,7 +398,7 @@ class _$_ProjectModel implements _ProjectModel {
   final Location? location;
   @override
   @JsonKey(name: '_id')
-  final String? id;
+  final String id;
   @override
   final String? name;
   final List<ProjectImage>? _images;
@@ -397,6 +411,8 @@ class _$_ProjectModel implements _ProjectModel {
     return EqualUnmodifiableListView(value);
   }
 
+  @override
+  final String? coverImageUrl;
   @override
   final String? status;
   final List<Asset>? _assets;
@@ -451,7 +467,7 @@ class _$_ProjectModel implements _ProjectModel {
 
   @override
   String toString() {
-    return 'ProjectModel(location: $location, id: $id, name: $name, images: $images, status: $status, assets: $assets, activity: $activity, lastUpdated: $lastUpdated, parentId: $parentId, hasCameras: $hasCameras, hierarchyLevel: $hierarchyLevel, createdAt: $createdAt, updatedAt: $updatedAt, aiStats: $aiStats, constructionDays: $constructionDays, projectModelId: $projectModelId, users: $users, children: $children)';
+    return 'ProjectModel(location: $location, id: $id, name: $name, images: $images, coverImageUrl: $coverImageUrl, status: $status, assets: $assets, activity: $activity, lastUpdated: $lastUpdated, parentId: $parentId, hasCameras: $hasCameras, hierarchyLevel: $hierarchyLevel, createdAt: $createdAt, updatedAt: $updatedAt, aiStats: $aiStats, constructionDays: $constructionDays, projectModelId: $projectModelId, users: $users, children: $children)';
   }
 
   @override
@@ -464,6 +480,8 @@ class _$_ProjectModel implements _ProjectModel {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality().equals(other._images, _images) &&
+            (identical(other.coverImageUrl, coverImageUrl) ||
+                other.coverImageUrl == coverImageUrl) &&
             (identical(other.status, status) || other.status == status) &&
             const DeepCollectionEquality().equals(other._assets, _assets) &&
             (identical(other.activity, activity) ||
@@ -490,26 +508,28 @@ class _$_ProjectModel implements _ProjectModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      location,
-      id,
-      name,
-      const DeepCollectionEquality().hash(_images),
-      status,
-      const DeepCollectionEquality().hash(_assets),
-      activity,
-      lastUpdated,
-      const DeepCollectionEquality().hash(parentId),
-      hasCameras,
-      hierarchyLevel,
-      createdAt,
-      updatedAt,
-      aiStats,
-      constructionDays,
-      projectModelId,
-      const DeepCollectionEquality().hash(_users),
-      const DeepCollectionEquality().hash(_children));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        location,
+        id,
+        name,
+        const DeepCollectionEquality().hash(_images),
+        coverImageUrl,
+        status,
+        const DeepCollectionEquality().hash(_assets),
+        activity,
+        lastUpdated,
+        const DeepCollectionEquality().hash(parentId),
+        hasCameras,
+        hierarchyLevel,
+        createdAt,
+        updatedAt,
+        aiStats,
+        constructionDays,
+        projectModelId,
+        const DeepCollectionEquality().hash(_users),
+        const DeepCollectionEquality().hash(_children)
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -528,9 +548,10 @@ class _$_ProjectModel implements _ProjectModel {
 abstract class _ProjectModel implements ProjectModel {
   const factory _ProjectModel(
       {final Location? location,
-      @JsonKey(name: '_id') final String? id,
+      @JsonKey(name: '_id') required final String id,
       final String? name,
       final List<ProjectImage>? images,
+      final String? coverImageUrl,
       final String? status,
       final List<Asset>? assets,
       final String? activity,
@@ -553,11 +574,13 @@ abstract class _ProjectModel implements ProjectModel {
   Location? get location;
   @override
   @JsonKey(name: '_id')
-  String? get id;
+  String get id;
   @override
   String? get name;
   @override
   List<ProjectImage>? get images;
+  @override
+  String? get coverImageUrl;
   @override
   String? get status;
   @override
