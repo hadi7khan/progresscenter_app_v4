@@ -6,6 +6,7 @@ import 'package:progresscenter_app_v4/src/common/error/no_internet_connection_sc
 import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
 import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
 import 'package:progresscenter_app_v4/src/feature/account/presentation/view/account_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/account/presentation/view/change_password_profile_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/account/presentation/view/organisation_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/account/presentation/view/profile_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/account/presentation/view/profile_team_screen.dart';
@@ -870,6 +871,20 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               teamsList: args['teamsList'],
               selectedTeams: args['selectedTeams'],
               userId: args['userId'],
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/changePasswordProfile',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: changePasswordProfileRoute,
+        pageBuilder: (context, state) {
+          // Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: ChangePasswordProfileScreen(
+              key: state.pageKey,
             ),
           );
         },
