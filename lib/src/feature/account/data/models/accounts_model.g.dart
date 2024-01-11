@@ -25,12 +25,14 @@ _$_AccountsModel _$$_AccountsModelFromJson(Map<String, dynamic> json) =>
       designation: json['designation'] as String?,
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
       projects: (json['projects'] as List<dynamic>?)
-          ?.map((e) => Project.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => ProjectModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       phone: json['phone'] == null
           ? null
           : Phone.fromJson(json['phone'] as Map<String, dynamic>),
-      hiddenProjects: json['hiddenProjects'] as List<dynamic>?,
+      hiddenProjects: (json['hiddenProjects'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       accountsModelId: json['accountsModelId'] as String?,
       dpUrl: json['dpUrl'] as String?,
     );
@@ -106,37 +108,6 @@ Map<String, dynamic> _$$_PresetToJson(_$_Preset instance) => <String, dynamic>{
       'totalSpace': instance.totalSpace,
       'totalSpaceUsed': instance.totalSpaceUsed,
       'color': instance.color,
-    };
-
-_$_Project _$$_ProjectFromJson(Map<String, dynamic> json) => _$_Project(
-      location: json['location'] == null
-          ? null
-          : Location.fromJson(json['location'] as Map<String, dynamic>),
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-      images: (json['images'] as List<dynamic>?)
-          ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      status: json['status'] as String?,
-      parentId: json['parentId'] as String?,
-      hasCameras: json['hasCameras'] as bool?,
-      hierarchyLevel: json['hierarchyLevel'] as int?,
-      projectId: json['projectId'] as String?,
-      coverImageUrl: json['coverImageUrl'] as String?,
-    );
-
-Map<String, dynamic> _$$_ProjectToJson(_$_Project instance) =>
-    <String, dynamic>{
-      'location': instance.location,
-      'id': instance.id,
-      'name': instance.name,
-      'images': instance.images,
-      'status': instance.status,
-      'parentId': instance.parentId,
-      'hasCameras': instance.hasCameras,
-      'hierarchyLevel': instance.hierarchyLevel,
-      'projectId': instance.projectId,
-      'coverImageUrl': instance.coverImageUrl,
     };
 
 _$_Image _$$_ImageFromJson(Map<String, dynamic> json) => _$_Image(

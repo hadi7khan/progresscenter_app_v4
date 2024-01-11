@@ -16,7 +16,9 @@ import 'package:progresscenter_app_v4/src/common/skeletons/loading_user_profile.
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_lean_model.dart'
+// import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_lean_model.dart'
+//     as model;
+import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart'
     as model;
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_lean_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/provider/assigned_projects.dart';
@@ -167,7 +169,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
   }
 
   Widget _buildProjectTree(
-      List<model.ProjectLeanModel> projects, String? parentId) {
+      List<model.ProjectModel> projects, String? parentId) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: projects
@@ -175,8 +177,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
           .map((project) {
         ExpansionTileController controller = ExpansionTileController();
         int index = projects.indexOf(project);
-        bool isFirstTap = switchValues[project.projectId] == null;
-        bool hasChildren = projects.any((p) => p.parentId == project.projectId);
+        bool hasChildren = projects.any((p) => p.parentId == project.id);
         Widget mainListTile = ListTile(
           horizontalTitleGap: 8.w,
           // dense: true,
@@ -213,7 +214,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                   ),
                 ),
           title: Text(
-            project.name,
+            project.name!,
             style: TextStyle(
                 height: 1.1,
                 letterSpacing: -0.3,
@@ -222,7 +223,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                 fontWeight: FontWeight.w500),
           ),
           subtitle: Text(
-            project.location.name,
+            project.location!.name!,
             style: TextStyle(
                 letterSpacing: -0.3,
                 color: Helper.baseBlack.withOpacity(0.5),
@@ -231,7 +232,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
           ),
         );
 
-        Widget children = _buildProjectTree(projects, project.projectId);
+        Widget children = _buildProjectTree(projects, project.id);
 
         return Theme(
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
@@ -239,11 +240,11 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
             mainListTile: mainListTile,
             children: children,
             index: index,
-            selected: selectedIds.contains(project.projectId),
+            selected: selectedIds.contains(project.id),
             hasChildren: hasChildren,
             onSelectedChange: (value) {
               setState(() {
-                switchValues[project.projectId] = value;
+                switchValues[project.id] = value;
               });
 
               var values =

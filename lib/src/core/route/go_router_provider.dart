@@ -8,6 +8,7 @@ import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_hel
 import 'package:progresscenter_app_v4/src/feature/account/presentation/view/account_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/account/presentation/view/organisation_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/account/presentation/view/profile_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/account/presentation/view/profile_team_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/forgot_password/change_password_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/forgot_password/forgot_password_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/onboarding_screen.dart';
@@ -852,6 +853,23 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             key: state.pageKey,
             child: ProfileScreen(
               key: state.pageKey,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/profileTeam',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: profileteamRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: ProfileTeamScreen(
+              key: state.pageKey,
+              teamsList: args['teamsList'],
+              selectedTeams: args['selectedTeams'],
+              userId: args['userId'],
             ),
           );
         },

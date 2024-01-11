@@ -422,6 +422,46 @@ class Service {
     }
   }
 
+  // method to update tags for a account
+  Future changeAccountTags(data) async {
+    var putData = json.encode(data);
+    print("put data" + data.toString());
+    final client = http.Client();
+    final response = await client.put(Uri.parse(Endpoints.accountTagsUrl()),
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+        },
+        body: putData);
+    print(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print("team updated");
+      return response.body;
+    } else {
+      throw Exception('Failed to fetch user list');
+    }
+  }
+
+  // method to update tags for a account
+  Future changeProfile(data) async {
+    var putData = json.encode(data);
+    print("put data" + data.toString());
+    final client = http.Client();
+    final response = await client.put(Uri.parse(Endpoints.getProfileUrl()),
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+        },
+        body: putData);
+    print(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print("profile updated");
+      return response.body;
+    } else {
+      throw Exception('Failed to change profile');
+    }
+  }
+
   // method to update staus for a specific user
   Future statusChange(userId, data) async {
     var putData = json.encode(data);

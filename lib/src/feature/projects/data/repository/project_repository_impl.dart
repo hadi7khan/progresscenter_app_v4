@@ -88,11 +88,11 @@ class ProjectRepositoryImpl implements ProjectRepository {
   }
 
   @override
-  Future<Either<Failure, List<ProjectLeanModel>>> projectLeanList() async {
+  Future<Either<Failure, List<ProjectModel>>> projectLeanList() async {
     try {
       final result = await projectDataSource.projectLeanList();
       return Right(
-          (result as List).map((e) => ProjectLeanModel.fromJson(e)).toList());
+          (result as List).map((e) => ProjectModel.fromJson(e)).toList());
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
       print(errorMessage.toString());

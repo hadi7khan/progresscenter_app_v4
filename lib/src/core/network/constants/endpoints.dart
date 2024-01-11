@@ -28,6 +28,10 @@ class Endpoints {
     return '$baseUrl/api/v4/account';
   }
 
+  static accountTagsUrl() {
+    return '$baseUrl/api/v4/account/tags';
+  }
+
   //---------------------------- Projects ---------------------------------------
 
   static projectListUrl({searchText = ''}) {

@@ -14,9 +14,10 @@ String projectModelToJson(List<ProjectModel> data) =>
 class ProjectModel with _$ProjectModel {
   const factory ProjectModel({
     Location? location,
-    @JsonKey(name: '_id') String? id,
+    @JsonKey(name: '_id') required String id,
     String? name,
     List<ProjectImage>? images,
+    String? coverImageUrl,
     String? status,
     List<Asset>? assets,
     String? activity,

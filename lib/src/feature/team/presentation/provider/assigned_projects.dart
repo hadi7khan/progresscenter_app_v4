@@ -1,9 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_lean_model.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 
 class ProjectHierarchySelection {
-  List<ProjectLeanModel> projects = [];
+  List<ProjectModel> projects = [];
   List<String> selectedIds;
   final Function(List<String>)? onSelectedIdsChange;
 
@@ -13,7 +14,7 @@ class ProjectHierarchySelection {
     this.onSelectedIdsChange,
   });
 
-  Map<String, List<ProjectLeanModel>> get projectChildrenMap {
+  Map<String, List<ProjectModel>> get projectChildrenMap {
     return projects.fold({}, (acc, cur) {
       if (cur.parentId == null) {
         acc['root'] = acc['root'] ?? [];
@@ -27,8 +28,8 @@ class ProjectHierarchySelection {
   }
 
   Set<String> addParentId(Set<String> ids, String parentId) {
-    final parent = projects.firstWhere((p) => p.projectId == parentId);
-    ids.add(parent.projectId);
+    final parent = projects.firstWhere((p) => p.id == parentId);
+    ids.add(parent.id!);
 
     if (parent.parentId != null) {
       addParentId(ids, parent.parentId!);
@@ -38,13 +39,13 @@ class ProjectHierarchySelection {
   }
 
   void removeParentId(Set<String> ids, String parentId) {
-    final parent = projects.firstWhere((p) => p.projectId == parentId);
-    final children = getChildren(parent.projectId);
-    final childrenIds = children.map((child) => child.projectId).toList();
+    final parent = projects.firstWhere((p) => p.id == parentId);
+    final children = getChildren(parent.id!);
+    final childrenIds = children.map((child) => child.id).toList();
     final isAnotherChildSelected = ids.any((id) => childrenIds.contains(id));
 
     if (!isAnotherChildSelected) {
-      ids.remove(parent.projectId);
+      ids.remove(parent.id);
 
       if (parent.parentId != null) {
         removeParentId(ids, parent.parentId!);
@@ -52,27 +53,27 @@ class ProjectHierarchySelection {
     }
   }
 
-  void addChildrenIds(Set<String> ids, List<ProjectLeanModel> children) {
+  void addChildrenIds(Set<String> ids, List<ProjectModel> children) {
     children.forEach((child) {
-      ids.add(child.projectId);
+      ids.add(child.id);
 
-      if (hasChildren(child.projectId)) {
-        addChildrenIds(ids, getChildren(child.projectId!));
+      if (hasChildren(child.id)) {
+        addChildrenIds(ids, getChildren(child.id!));
       }
     });
   }
 
-  void removeChildrenIds(Set<String> ids, List<ProjectLeanModel> children) {
+  void removeChildrenIds(Set<String> ids, List<ProjectModel> children) {
     children.forEach((child) {
-      ids.remove(child.projectId);
+      ids.remove(child.id);
 
-      if (hasChildren(child.projectId)) {
-        removeChildrenIds(ids, getChildren(child.projectId));
+      if (hasChildren(child.id)) {
+        removeChildrenIds(ids, getChildren(child.id));
       }
     });
   }
 
-  List<ProjectLeanModel> getChildren(String projectId) {
+  List<ProjectModel> getChildren(String projectId) {
     return projectChildrenMap[projectId] ?? [];
   }
 
@@ -84,9 +85,9 @@ class ProjectHierarchySelection {
     return selectedIds.contains(projectId);
   }
 
-  List<String> changeSelected(ProjectLeanModel project, bool isChecked) {
+  List<String> changeSelected(ProjectModel project, bool isChecked) {
     final _selectedProjectIds = Set<String>.from(selectedIds);
-    final projectId = project.projectId;
+    final projectId = project.id;
 
     if (isChecked) {
       // Add project id to the selected list
@@ -96,8 +97,8 @@ class ProjectHierarchySelection {
         addParentId(_selectedProjectIds, project.parentId!);
       }
 
-      if (hasChildren(project.projectId)) {
-        addChildrenIds(_selectedProjectIds, getChildren(project.projectId));
+      if (hasChildren(project.id)) {
+        addChildrenIds(_selectedProjectIds, getChildren(project.id));
       }
     } else {
       // Delete project id from the selected list
@@ -107,8 +108,8 @@ class ProjectHierarchySelection {
         removeParentId(_selectedProjectIds, project.parentId!);
       }
 
-      if (hasChildren(project.projectId)) {
-        removeChildrenIds(_selectedProjectIds, getChildren(project.projectId));
+      if (hasChildren(project.id)) {
+        removeChildrenIds(_selectedProjectIds, getChildren(project.id));
       }
     }
 

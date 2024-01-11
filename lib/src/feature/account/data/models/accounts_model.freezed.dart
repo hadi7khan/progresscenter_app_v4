@@ -33,9 +33,9 @@ mixin _$AccountsModel {
   String? get dp => throw _privateConstructorUsedError;
   String? get designation => throw _privateConstructorUsedError;
   List<String>? get tags => throw _privateConstructorUsedError;
-  List<Project>? get projects => throw _privateConstructorUsedError;
+  List<ProjectModel>? get projects => throw _privateConstructorUsedError;
   Phone? get phone => throw _privateConstructorUsedError;
-  List<dynamic>? get hiddenProjects => throw _privateConstructorUsedError;
+  List<String>? get hiddenProjects => throw _privateConstructorUsedError;
   String? get accountsModelId => throw _privateConstructorUsedError;
   String? get dpUrl => throw _privateConstructorUsedError;
 
@@ -64,9 +64,9 @@ abstract class $AccountsModelCopyWith<$Res> {
       String? dp,
       String? designation,
       List<String>? tags,
-      List<Project>? projects,
+      List<ProjectModel>? projects,
       Phone? phone,
-      List<dynamic>? hiddenProjects,
+      List<String>? hiddenProjects,
       String? accountsModelId,
       String? dpUrl});
 
@@ -158,7 +158,7 @@ class _$AccountsModelCopyWithImpl<$Res, $Val extends AccountsModel>
       projects: freezed == projects
           ? _value.projects
           : projects // ignore: cast_nullable_to_non_nullable
-              as List<Project>?,
+              as List<ProjectModel>?,
       phone: freezed == phone
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
@@ -166,7 +166,7 @@ class _$AccountsModelCopyWithImpl<$Res, $Val extends AccountsModel>
       hiddenProjects: freezed == hiddenProjects
           ? _value.hiddenProjects
           : hiddenProjects // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as List<String>?,
       accountsModelId: freezed == accountsModelId
           ? _value.accountsModelId
           : accountsModelId // ignore: cast_nullable_to_non_nullable
@@ -236,9 +236,9 @@ abstract class _$$_AccountsModelCopyWith<$Res>
       String? dp,
       String? designation,
       List<String>? tags,
-      List<Project>? projects,
+      List<ProjectModel>? projects,
       Phone? phone,
-      List<dynamic>? hiddenProjects,
+      List<String>? hiddenProjects,
       String? accountsModelId,
       String? dpUrl});
 
@@ -331,7 +331,7 @@ class __$$_AccountsModelCopyWithImpl<$Res>
       projects: freezed == projects
           ? _value._projects
           : projects // ignore: cast_nullable_to_non_nullable
-              as List<Project>?,
+              as List<ProjectModel>?,
       phone: freezed == phone
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
@@ -339,7 +339,7 @@ class __$$_AccountsModelCopyWithImpl<$Res>
       hiddenProjects: freezed == hiddenProjects
           ? _value._hiddenProjects
           : hiddenProjects // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>?,
+              as List<String>?,
       accountsModelId: freezed == accountsModelId
           ? _value.accountsModelId
           : accountsModelId // ignore: cast_nullable_to_non_nullable
@@ -368,9 +368,9 @@ class _$_AccountsModel implements _AccountsModel {
       this.dp,
       this.designation,
       final List<String>? tags,
-      final List<Project>? projects,
+      final List<ProjectModel>? projects,
       this.phone,
-      final List<dynamic>? hiddenProjects,
+      final List<String>? hiddenProjects,
       this.accountsModelId,
       this.dpUrl})
       : _tags = tags,
@@ -413,9 +413,9 @@ class _$_AccountsModel implements _AccountsModel {
     return EqualUnmodifiableListView(value);
   }
 
-  final List<Project>? _projects;
+  final List<ProjectModel>? _projects;
   @override
-  List<Project>? get projects {
+  List<ProjectModel>? get projects {
     final value = _projects;
     if (value == null) return null;
     if (_projects is EqualUnmodifiableListView) return _projects;
@@ -425,9 +425,9 @@ class _$_AccountsModel implements _AccountsModel {
 
   @override
   final Phone? phone;
-  final List<dynamic>? _hiddenProjects;
+  final List<String>? _hiddenProjects;
   @override
-  List<dynamic>? get hiddenProjects {
+  List<String>? get hiddenProjects {
     final value = _hiddenProjects;
     if (value == null) return null;
     if (_hiddenProjects is EqualUnmodifiableListView) return _hiddenProjects;
@@ -524,9 +524,9 @@ abstract class _AccountsModel implements AccountsModel {
       final String? dp,
       final String? designation,
       final List<String>? tags,
-      final List<Project>? projects,
+      final List<ProjectModel>? projects,
       final Phone? phone,
-      final List<dynamic>? hiddenProjects,
+      final List<String>? hiddenProjects,
       final String? accountsModelId,
       final String? dpUrl}) = _$_AccountsModel;
 
@@ -559,11 +559,11 @@ abstract class _AccountsModel implements AccountsModel {
   @override
   List<String>? get tags;
   @override
-  List<Project>? get projects;
+  List<ProjectModel>? get projects;
   @override
   Phone? get phone;
   @override
-  List<dynamic>? get hiddenProjects;
+  List<String>? get hiddenProjects;
   @override
   String? get accountsModelId;
   @override
@@ -1241,364 +1241,6 @@ abstract class _Preset implements Preset {
   @override
   @JsonKey(ignore: true)
   _$$_PresetCopyWith<_$_Preset> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-Project _$ProjectFromJson(Map<String, dynamic> json) {
-  return _Project.fromJson(json);
-}
-
-/// @nodoc
-mixin _$Project {
-  Location? get location => throw _privateConstructorUsedError;
-  String? get id => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
-  List<Image>? get images => throw _privateConstructorUsedError;
-  String? get status => throw _privateConstructorUsedError;
-  String? get parentId => throw _privateConstructorUsedError;
-  bool? get hasCameras => throw _privateConstructorUsedError;
-  int? get hierarchyLevel => throw _privateConstructorUsedError;
-  String? get projectId => throw _privateConstructorUsedError;
-  String? get coverImageUrl => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $ProjectCopyWith<Project> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ProjectCopyWith<$Res> {
-  factory $ProjectCopyWith(Project value, $Res Function(Project) then) =
-      _$ProjectCopyWithImpl<$Res, Project>;
-  @useResult
-  $Res call(
-      {Location? location,
-      String? id,
-      String? name,
-      List<Image>? images,
-      String? status,
-      String? parentId,
-      bool? hasCameras,
-      int? hierarchyLevel,
-      String? projectId,
-      String? coverImageUrl});
-
-  $LocationCopyWith<$Res>? get location;
-}
-
-/// @nodoc
-class _$ProjectCopyWithImpl<$Res, $Val extends Project>
-    implements $ProjectCopyWith<$Res> {
-  _$ProjectCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? location = freezed,
-    Object? id = freezed,
-    Object? name = freezed,
-    Object? images = freezed,
-    Object? status = freezed,
-    Object? parentId = freezed,
-    Object? hasCameras = freezed,
-    Object? hierarchyLevel = freezed,
-    Object? projectId = freezed,
-    Object? coverImageUrl = freezed,
-  }) {
-    return _then(_value.copyWith(
-      location: freezed == location
-          ? _value.location
-          : location // ignore: cast_nullable_to_non_nullable
-              as Location?,
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      images: freezed == images
-          ? _value.images
-          : images // ignore: cast_nullable_to_non_nullable
-              as List<Image>?,
-      status: freezed == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as String?,
-      parentId: freezed == parentId
-          ? _value.parentId
-          : parentId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      hasCameras: freezed == hasCameras
-          ? _value.hasCameras
-          : hasCameras // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      hierarchyLevel: freezed == hierarchyLevel
-          ? _value.hierarchyLevel
-          : hierarchyLevel // ignore: cast_nullable_to_non_nullable
-              as int?,
-      projectId: freezed == projectId
-          ? _value.projectId
-          : projectId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      coverImageUrl: freezed == coverImageUrl
-          ? _value.coverImageUrl
-          : coverImageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $LocationCopyWith<$Res>? get location {
-    if (_value.location == null) {
-      return null;
-    }
-
-    return $LocationCopyWith<$Res>(_value.location!, (value) {
-      return _then(_value.copyWith(location: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$_ProjectCopyWith<$Res> implements $ProjectCopyWith<$Res> {
-  factory _$$_ProjectCopyWith(
-          _$_Project value, $Res Function(_$_Project) then) =
-      __$$_ProjectCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {Location? location,
-      String? id,
-      String? name,
-      List<Image>? images,
-      String? status,
-      String? parentId,
-      bool? hasCameras,
-      int? hierarchyLevel,
-      String? projectId,
-      String? coverImageUrl});
-
-  @override
-  $LocationCopyWith<$Res>? get location;
-}
-
-/// @nodoc
-class __$$_ProjectCopyWithImpl<$Res>
-    extends _$ProjectCopyWithImpl<$Res, _$_Project>
-    implements _$$_ProjectCopyWith<$Res> {
-  __$$_ProjectCopyWithImpl(_$_Project _value, $Res Function(_$_Project) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? location = freezed,
-    Object? id = freezed,
-    Object? name = freezed,
-    Object? images = freezed,
-    Object? status = freezed,
-    Object? parentId = freezed,
-    Object? hasCameras = freezed,
-    Object? hierarchyLevel = freezed,
-    Object? projectId = freezed,
-    Object? coverImageUrl = freezed,
-  }) {
-    return _then(_$_Project(
-      location: freezed == location
-          ? _value.location
-          : location // ignore: cast_nullable_to_non_nullable
-              as Location?,
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      images: freezed == images
-          ? _value._images
-          : images // ignore: cast_nullable_to_non_nullable
-              as List<Image>?,
-      status: freezed == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as String?,
-      parentId: freezed == parentId
-          ? _value.parentId
-          : parentId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      hasCameras: freezed == hasCameras
-          ? _value.hasCameras
-          : hasCameras // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      hierarchyLevel: freezed == hierarchyLevel
-          ? _value.hierarchyLevel
-          : hierarchyLevel // ignore: cast_nullable_to_non_nullable
-              as int?,
-      projectId: freezed == projectId
-          ? _value.projectId
-          : projectId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      coverImageUrl: freezed == coverImageUrl
-          ? _value.coverImageUrl
-          : coverImageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$_Project implements _Project {
-  const _$_Project(
-      {this.location,
-      this.id,
-      this.name,
-      final List<Image>? images,
-      this.status,
-      this.parentId,
-      this.hasCameras,
-      this.hierarchyLevel,
-      this.projectId,
-      this.coverImageUrl})
-      : _images = images;
-
-  factory _$_Project.fromJson(Map<String, dynamic> json) =>
-      _$$_ProjectFromJson(json);
-
-  @override
-  final Location? location;
-  @override
-  final String? id;
-  @override
-  final String? name;
-  final List<Image>? _images;
-  @override
-  List<Image>? get images {
-    final value = _images;
-    if (value == null) return null;
-    if (_images is EqualUnmodifiableListView) return _images;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  @override
-  final String? status;
-  @override
-  final String? parentId;
-  @override
-  final bool? hasCameras;
-  @override
-  final int? hierarchyLevel;
-  @override
-  final String? projectId;
-  @override
-  final String? coverImageUrl;
-
-  @override
-  String toString() {
-    return 'Project(location: $location, id: $id, name: $name, images: $images, status: $status, parentId: $parentId, hasCameras: $hasCameras, hierarchyLevel: $hierarchyLevel, projectId: $projectId, coverImageUrl: $coverImageUrl)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_Project &&
-            (identical(other.location, location) ||
-                other.location == location) &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
-            const DeepCollectionEquality().equals(other._images, _images) &&
-            (identical(other.status, status) || other.status == status) &&
-            (identical(other.parentId, parentId) ||
-                other.parentId == parentId) &&
-            (identical(other.hasCameras, hasCameras) ||
-                other.hasCameras == hasCameras) &&
-            (identical(other.hierarchyLevel, hierarchyLevel) ||
-                other.hierarchyLevel == hierarchyLevel) &&
-            (identical(other.projectId, projectId) ||
-                other.projectId == projectId) &&
-            (identical(other.coverImageUrl, coverImageUrl) ||
-                other.coverImageUrl == coverImageUrl));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      location,
-      id,
-      name,
-      const DeepCollectionEquality().hash(_images),
-      status,
-      parentId,
-      hasCameras,
-      hierarchyLevel,
-      projectId,
-      coverImageUrl);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$_ProjectCopyWith<_$_Project> get copyWith =>
-      __$$_ProjectCopyWithImpl<_$_Project>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_ProjectToJson(
-      this,
-    );
-  }
-}
-
-abstract class _Project implements Project {
-  const factory _Project(
-      {final Location? location,
-      final String? id,
-      final String? name,
-      final List<Image>? images,
-      final String? status,
-      final String? parentId,
-      final bool? hasCameras,
-      final int? hierarchyLevel,
-      final String? projectId,
-      final String? coverImageUrl}) = _$_Project;
-
-  factory _Project.fromJson(Map<String, dynamic> json) = _$_Project.fromJson;
-
-  @override
-  Location? get location;
-  @override
-  String? get id;
-  @override
-  String? get name;
-  @override
-  List<Image>? get images;
-  @override
-  String? get status;
-  @override
-  String? get parentId;
-  @override
-  bool? get hasCameras;
-  @override
-  int? get hierarchyLevel;
-  @override
-  String? get projectId;
-  @override
-  String? get coverImageUrl;
-  @override
-  @JsonKey(ignore: true)
-  _$$_ProjectCopyWith<_$_Project> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

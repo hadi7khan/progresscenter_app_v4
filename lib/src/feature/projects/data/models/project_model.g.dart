@@ -11,11 +11,12 @@ _$_ProjectModel _$$_ProjectModelFromJson(Map<String, dynamic> json) =>
       location: json['location'] == null
           ? null
           : Location.fromJson(json['location'] as Map<String, dynamic>),
-      id: json['_id'] as String?,
+      id: json['_id'] as String,
       name: json['name'] as String?,
       images: (json['images'] as List<dynamic>?)
           ?.map((e) => ProjectImage.fromJson(e as Map<String, dynamic>))
           .toList(),
+      coverImageUrl: json['coverImageUrl'] as String?,
       status: json['status'] as String?,
       assets: (json['assets'] as List<dynamic>?)
           ?.map((e) => Asset.fromJson(e as Map<String, dynamic>))
@@ -52,6 +53,7 @@ Map<String, dynamic> _$$_ProjectModelToJson(_$_ProjectModel instance) =>
       '_id': instance.id,
       'name': instance.name,
       'images': instance.images,
+      'coverImageUrl': instance.coverImageUrl,
       'status': instance.status,
       'assets': instance.assets,
       'activity': instance.activity,
