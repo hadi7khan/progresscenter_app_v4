@@ -156,25 +156,31 @@ class _AccountScreenState extends BaseConsumerState<AccountScreen> {
                     SizedBox(
                       height: 24.h,
                     ),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 16.w, vertical: 10.h),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12.r),
-                          color: Helper.widgetBackground),
-                      child: ListTile(
-                        dense: true,
-                        contentPadding: EdgeInsets.zero,
-                        visualDensity:
-                            VisualDensity(horizontal: 0, vertical: -4),
-                        leading: SvgPicture.asset('assets/images/profile.svg'),
-                        title: Text(
-                          "Organisation Profile",
-                          style: TextStyle(
-                              letterSpacing: -0.3,
-                              color: Helper.textColor700,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600),
+                    InkWell(
+                      onTap: () {
+                        context.push('/organisation');
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 16.w, vertical: 10.h),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12.r),
+                            color: Helper.widgetBackground),
+                        child: ListTile(
+                          dense: true,
+                          contentPadding: EdgeInsets.zero,
+                          visualDensity:
+                              VisualDensity(horizontal: 0, vertical: -4),
+                          leading:
+                              SvgPicture.asset('assets/images/profile.svg'),
+                          title: Text(
+                            "Organisation Profile",
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Helper.textColor700,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
                         ),
                       ),
                     ),

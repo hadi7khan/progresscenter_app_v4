@@ -106,7 +106,8 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
   }
 
   showDate(date, dateFormat) {
-    log(date);
+    log("called" + date);
+    setState(() {});
     // Parse the installationDate string into a DateTime object
     DateTime parsedDate = DateTime.parse(date);
 
@@ -856,6 +857,9 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
 
                                 InkWell(
                                   onTap: () {
+                                    _isNameEditing = false;
+                                    _isDesignationEditing = false;
+                                    _isMobileEditing = false;
                                     _showStartDateBottomSheet(
                                         context, data.dob!);
                                   },
@@ -1239,6 +1243,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                           _selectedDate = dob;
                         },
                       );
+                      showDate(_selectedDate, "dd MMM, yyyy ");
                       log(_selectedDate.toString());
                       context.pop();
                     },

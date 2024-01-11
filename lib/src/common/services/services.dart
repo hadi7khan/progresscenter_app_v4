@@ -482,6 +482,27 @@ class Service {
     }
   }
 
+  // method to update change password for account
+  Future changePassword(data) async {
+    var putData = json.encode(data);
+    print("post data" + data.toString());
+    final client = http.Client();
+    final response =
+        await client.put(Uri.parse(Endpoints.changePasswordAccountUrl()),
+            headers: {
+              "content-type": "application/json",
+              "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+            },
+            body: putData);
+    print(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print("password changed");
+      return response.body;
+    } else {
+      throw Exception('Failed to change password');
+    }
+  }
+
   // method to update staus for a specific user
   Future statusChange(userId, data) async {
     var putData = json.encode(data);
