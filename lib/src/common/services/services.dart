@@ -462,6 +462,26 @@ class Service {
     }
   }
 
+  // method to update projects for account
+  Future hideProjects(data) async {
+    var putData = json.encode(data);
+    print("put data" + data.toString());
+    final client = http.Client();
+    final response = await client.put(Uri.parse(Endpoints.hideProjectsUrl()),
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+        },
+        body: putData);
+    print(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print("projects updated");
+      return response.body;
+    } else {
+      throw Exception('Failed to change project list');
+    }
+  }
+
   // method to update staus for a specific user
   Future statusChange(userId, data) async {
     var putData = json.encode(data);

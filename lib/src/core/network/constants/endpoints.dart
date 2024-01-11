@@ -32,6 +32,10 @@ class Endpoints {
     return '$baseUrl/api/v4/account/tags';
   }
 
+  static hideProjectsUrl() {
+    return '$baseUrl/api/v4/account/projects/hide';
+  }
+
   //---------------------------- Projects ---------------------------------------
 
   static projectListUrl({searchText = ''}) {

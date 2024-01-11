@@ -13,6 +13,7 @@ import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_add_user2.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_team_list.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/loading_user_profile.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
@@ -80,8 +81,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
         _designationEditingController.text =
             value.designation != null ? value.designation : "-";
         _mobileEditingController.text = value.phone.number.toString();
-        _countryCode = value.countryCode;
-        _countryDialCode = value.dialCode;
+
         log("number" + value.phone.number.toString());
         List<String> allProjects = value.projects.map<String>((project) {
           return project.id.toString();
@@ -90,11 +90,14 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
         List<String> visibleProjects = allProjects
             .filter((id) => !value.hiddenProjects.contains(id))
             .toList();
-        log("visibleProjects" + visibleProjects.toString());
 
         setState(() {
           selectedIds = visibleProjects;
+          _countryCode = value.phone.countryCode;
+          _countryDialCode = value.phone.dialCode;
+          _selectedDate = value.dob;
         });
+        log("_countryDialCode" + _countryDialCode.toString());
       });
       if (mounted) {
         setState(() {}); // Trigger a rebuild after setting the text
@@ -209,564 +212,304 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
         projectleanControllerProvider.select((value) => value.projectlean));
 
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          _isNameEditing = false;
-          _isDesignationEditing = false;
-          _isMobileEditing = false;
-        });
-      },
-      child: Scaffold(
-        backgroundColor: Helper.widgetBackground,
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60.h),
-          child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: EdgeInsets.only(right: 16.w, left: 16.w),
-              child: AppBar(
-                backgroundColor: Colors.white,
-                surfaceTintColor: Colors.white,
-                automaticallyImplyLeading: false,
-                centerTitle: false,
-                titleSpacing: 12.0.w,
-                leading: InkWell(
-                  onTap: () {
-                    context.pop();
-                  },
-                  child: Transform.rotate(
-                    angle: 180 * (3.1415926535 / 180),
-                    child: SvgPicture.asset('assets/images/chevron-right.svg',
-                        color: Helper.iconColor, fit: BoxFit.contain),
+        onTap: () {
+          setState(() {
+            _isNameEditing = false;
+            _isDesignationEditing = false;
+            _isMobileEditing = false;
+          });
+        },
+        child: accountData.when(
+          data: (data) {
+            return Scaffold(
+              backgroundColor: Helper.widgetBackground,
+              appBar: PreferredSize(
+                preferredSize: Size.fromHeight(60.h),
+                child: Container(
+                  color: Colors.white,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 16.w, left: 16.w),
+                    child: AppBar(
+                      backgroundColor: Colors.white,
+                      surfaceTintColor: Colors.white,
+                      automaticallyImplyLeading: false,
+                      centerTitle: false,
+                      titleSpacing: 12.0.w,
+                      leading: InkWell(
+                        onTap: () {
+                          context.pop();
+                        },
+                        child: Transform.rotate(
+                          angle: 180 * (3.1415926535 / 180),
+                          child: SvgPicture.asset(
+                              'assets/images/chevron-right.svg',
+                              color: Helper.iconColor,
+                              fit: BoxFit.contain),
+                        ),
+                      ),
+                      leadingWidth: 24,
+                      title: Text(
+                        "Profile",
+                        style: TextStyle(
+                            letterSpacing: -0.3,
+                            color: Helper.baseBlack,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      actions: [
+                        InkWell(
+                          onTap: () {
+                            Map<String, dynamic> profile = {
+                              "name": _nameEditingController.text,
+                              "designation": _designationEditingController.text,
+                              "phone": {
+                                "countryCode": _countryCode.toLowerCase(),
+                                "dialCode": _countryDialCode,
+                                "number": _mobileEditingController.text
+                              },
+                              "dob": _selectedDate,
+                              "email": _emailEditingController.text,
+                              "preferences": {"timezone": "Asia/Kolkata"}
+                            };
+
+                            service.Service()
+                                .changeProfile(profile)
+                                .then((val) {
+                              ref
+                                  .watch(accountsControllerProvider.notifier)
+                                  .getProfile();
+                              Utils.toastSuccessMessage("Profile updated");
+                            });
+                            List<String> hiddenProjects = data.projects!
+                                .map<String>((project) {
+                                  return project.id.toString();
+                                })
+                                .filter((id) => !selectedIds.contains(id))
+                                .toList();
+
+                            Map<String, dynamic> project = {
+                              "hiddenProjects": hiddenProjects
+                            };
+                            service.Service().hideProjects(project).then((val) {
+                              Utils.toastSuccessMessage("Projects updated");
+                            });
+                          },
+                          child: Text(
+                            "Save",
+                            style: TextStyle(
+                                color: Helper.primary,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16.sp),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-                leadingWidth: 24,
-                title: Text(
-                  "Profile",
-                  style: TextStyle(
-                      letterSpacing: -0.3,
-                      color: Helper.baseBlack,
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500),
-                ),
-                actions: [
-                  InkWell(
-                    onTap: () {
-                      Map<String, dynamic> profile = {
-                        "name": _nameEditingController.text,
-                        "designation": _designationEditingController.text,
-                        "phone": _mobileEditingController.text,
-                        "dob": _selectedDate,
-                        "email": _emailEditingController.text,
-                        "preferences": {"timezone": "Asia/Kolkata"}
-                      };
-                      // assignedRole= value;
-                      service.Service().changeProfile(profile).then((val) {
-                        ref
-                            .watch(accountsControllerProvider.notifier)
-                            .getProfile();
-                        Utils.toastSuccessMessage("Profile updated");
-                      });
-
-                      // Map<String, dynamic> projectData = {
-                      //   "projects": selectedIds
-                      // };
-                      // Service()
-                      //     .assignProjectChange(userId, projectData)
-                      //     .then((val) {
-                      //   Utils.toastSuccessMessage("Projects updated");
-                      // });
-                    },
-                    child: Text(
-                      "Save",
-                      style: TextStyle(
-                          color: Helper.primary,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.sp),
-                    ),
-                  )
-                ],
               ),
-            ),
-          ),
-        ),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-              child: accountData.when(
-                data: (data) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.all(16.w),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.r),
-                          color: Colors.white,
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            AvatarWidget(
-                              dpUrl: data.dp != null ? data.dpUrl! : "",
-                              name: data.name!,
-                              backgroundColor: data.preset!.color!,
-                              size: 50,
-                              fontSize: 24,
-                            ),
-                            SizedBox(width: 10.h),
-                            Wrap(
-                              direction: Axis.vertical,
-                              children: [
-                                Text(
-                                  data.name!,
-                                  style: TextStyle(
-                                      height: 1.1,
-                                      letterSpacing: -0.3,
-                                      color: Helper.baseBlack,
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Text(
-                                  data.designation != null
-                                      ? data.designation!
-                                      : "-",
-                                  style: TextStyle(
-                                      letterSpacing: -0.3,
-                                      color: Helper.baseBlack.withOpacity(0.5),
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 16.h),
-                      Padding(
-                        padding: EdgeInsets.only(left: 16.w),
-                        child: Text(
-                          "BASIC DETAILS",
-                          style: TextStyle(
-                              letterSpacing: -0.3,
-                              color: Helper.textColor500,
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.only(
-                            left: 16.w, top: 12.h, bottom: 12.h),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.r),
-                          color: Colors.white,
-                        ),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+              body: SafeArea(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.all(16.w),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16.r),
+                            color: Colors.white,
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
                             children: [
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    _isNameEditing = true;
-                                    _isDesignationEditing = false;
-                                    _isMobileEditing = false;
-                                    _nameNode.requestFocus();
-                                  });
-                                },
-                                child: !_isNameEditing
-                                    ? Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Name",
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                letterSpacing: -0.3,
-                                                color: Helper.textColor700,
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                              right: 16.w,
-                                            ),
-                                            child: Text(
-                                              _nameEditingController
-                                                      .text.isNotEmpty
-                                                  ? _nameEditingController.text
-                                                  : data.name!,
-                                              style: TextStyle(
-                                                  letterSpacing: -0.3,
-                                                  color: Helper.textColor900,
-                                                  fontSize: 15.sp,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    : FormBuilderTextField(
-                                        name: 'nameEdit',
-                                        controller: _nameEditingController,
-                                        focusNode: _nameNode,
-                                        // onChanged: (text) {
-                                        //   setState(() {});
-                                        //   _changeState = true;
-                                        // },
-                                        // onSubmitted: (text){
-                                        //   setState(() {
-                                        //     _changeState = true;
-                                        //   });
-                                        // },
-
-                                        textInputAction: TextInputAction.done,
-                                        style: TextStyle(
-                                          letterSpacing: -0.3,
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                        textCapitalization:
-                                            TextCapitalization.sentences,
-                                        keyboardType: TextInputType.name,
-                                        autovalidateMode:
-                                            AutovalidateMode.onUserInteraction,
-                                        decoration: InputDecoration(
-                                          contentPadding: EdgeInsets.symmetric(
-                                              vertical: 8.h, horizontal: 14.w),
-                                          hintText: "",
-                                          hintStyle: TextStyle(
-                                            letterSpacing: -0.3,
-                                            color: Helper.textColor500,
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-
-                                          // hintText: widget.control.label,
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8.r),
-                                            borderSide: BorderSide(
-                                                color: Helper.textColor300),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8.r),
-                                            borderSide: BorderSide(
-                                                color: Helper.primary),
-                                          ),
-                                          focusedErrorBorder:
-                                              OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8.r),
-                                            borderSide: const BorderSide(
-                                                color: Colors.red),
-                                          ),
-                                          errorBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            borderSide: const BorderSide(
-                                                color: Colors.red),
-                                          ),
-                                        ),
-                                        onTap: () {},
-                                      ),
+                              AvatarWidget(
+                                dpUrl: data.dp != null ? data.dpUrl! : "",
+                                name: data.name!,
+                                backgroundColor: data.preset!.color!,
+                                size: 50,
+                                fontSize: 24,
                               ),
-                              Divider(
-                                thickness: 0.1,
-                                color: Helper.textColor700,
-                              ),
-                              // SizedBox(height: 10.h),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                              SizedBox(width: 10.h),
+                              Wrap(
+                                direction: Axis.vertical,
                                 children: [
                                   Text(
-                                    "Email",
+                                    data.name!,
                                     style: TextStyle(
-                                        fontSize: 14,
+                                        height: 1.1,
                                         letterSpacing: -0.3,
-                                        color: Helper.textColor700,
-                                        fontWeight: FontWeight.w400),
+                                        color: Helper.baseBlack,
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.w600),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      right: 16.w,
-                                    ),
-                                    child: Text(
-                                      data.email!,
-                                      style: TextStyle(
-                                          letterSpacing: -0.3,
-                                          color: Helper.textColor900,
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Divider(
-                                thickness: 0.1,
-                                color: Helper.textColor700,
-                              ),
-
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
                                   Text(
-                                    "Timezone",
+                                    data.designation != null
+                                        ? data.designation!
+                                        : "-",
                                     style: TextStyle(
-                                        fontSize: 14,
                                         letterSpacing: -0.3,
-                                        color: Helper.textColor700,
+                                        color:
+                                            Helper.baseBlack.withOpacity(0.5),
+                                        fontSize: 14.sp,
                                         fontWeight: FontWeight.w400),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      right: 16.w,
-                                    ),
-                                    child: Text(
-                                      data.preferences!.timezone!,
-                                      style: TextStyle(
-                                          letterSpacing: -0.3,
-                                          color: Helper.textColor900,
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
                                 ],
-                              ),
-                              Divider(
-                                thickness: 0.1,
-                                color: Helper.textColor700,
-                              ),
-
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    _isMobileEditing = true;
-                                    _isNameEditing = false;
-                                    _isDesignationEditing = false;
-                                    _mobileNode.requestFocus();
-                                  });
-                                },
-                                child: !_isMobileEditing
-                                    ? Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Mobile",
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                letterSpacing: -0.3,
-                                                color: Helper.textColor700,
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                              right: 16.w,
-                                            ),
-                                            child: Text(
-                                              _mobileEditingController
-                                                      .text.isNotEmpty
-                                                  ? _mobileEditingController
-                                                      .text
-                                                  : data.phone!.number
-                                                      .toString(),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 16.h),
+                        Padding(
+                          padding: EdgeInsets.only(left: 16.w),
+                          child: Text(
+                            "BASIC DETAILS",
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Helper.textColor500,
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.only(
+                              left: 16.w, top: 12.h, bottom: 12.h),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16.r),
+                            color: Colors.white,
+                          ),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      _isNameEditing = true;
+                                      _isDesignationEditing = false;
+                                      _isMobileEditing = false;
+                                      _nameNode.requestFocus();
+                                    });
+                                  },
+                                  child: !_isNameEditing
+                                      ? Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "Name",
                                               style: TextStyle(
+                                                  fontSize: 14,
                                                   letterSpacing: -0.3,
-                                                  color: Helper.textColor900,
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.w500),
+                                                  color: Helper.textColor700,
+                                                  fontWeight: FontWeight.w400),
                                             ),
-                                          ),
-                                        ],
-                                      )
-                                    : FormBuilderTextField(
-                                        controller: _mobileEditingController,
-                                        keyboardType: TextInputType.number,
-                                        autovalidateMode:
-                                            AutovalidateMode.onUserInteraction,
-                                        focusNode: _mobileNode,
-                                        decoration: InputDecoration(
-                                          hintText: 'Enter number',
-                                          prefixIcon: Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 10),
-                                            child: CountryCodePicker(
-                                              onChanged:
-                                                  (CountryCode countryCode) {
-                                                _countryDialCode =
-                                                    countryCode.dialCode!;
-                                                _countryCode =
-                                                    countryCode.code!;
-                                              },
-                                              // initialSelection: countryDialCode,
-                                              // favorite: [countryDialCode!],
-                                              showDropDownButton: true,
-                                              padding: EdgeInsets.zero,
-                                              showFlagMain: true,
-                                              hideMainText: true,
-                                              dialogSize: Size(
-                                                  MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.3,
-                                                  MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.5),
-                                              dialogBackgroundColor:
-                                                  Theme.of(context).cardColor,
-                                              flagWidth: 22,
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                right: 16.w,
+                                              ),
+                                              child: Text(
+                                                _nameEditingController
+                                                        .text.isNotEmpty
+                                                    ? _nameEditingController
+                                                        .text
+                                                    : data.name!,
+                                                style: TextStyle(
+                                                    letterSpacing: -0.3,
+                                                    color: Helper.textColor900,
+                                                    fontSize: 15.sp,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
                                             ),
-                                          ),
-                                          // filled: true,
-                                          border: OutlineInputBorder(),
-                                          contentPadding: EdgeInsets.symmetric(
-                                            horizontal: 16,
-                                          ),
-                                        ),
-                                        name: 'phone',
-                                      ),
-                              ),
-                              Divider(
-                                thickness: 0.1,
-                                color: Helper.textColor700,
-                              ),
+                                          ],
+                                        )
+                                      : FormBuilderTextField(
+                                          name: 'nameEdit',
+                                          controller: _nameEditingController,
+                                          focusNode: _nameNode,
+                                          // onChanged: (text) {
+                                          //   setState(() {});
+                                          //   _changeState = true;
+                                          // },
+                                          // onSubmitted: (text){
+                                          //   setState(() {
+                                          //     _changeState = true;
+                                          //   });
+                                          // },
 
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    _isDesignationEditing = true;
-                                    _isMobileEditing = false;
-                                    _isNameEditing = false;
-                                    _designationNode.requestFocus();
-                                  });
-                                },
-                                child: !_isDesignationEditing
-                                    ? Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Designation",
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                letterSpacing: -0.3,
-                                                color: Helper.textColor700,
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                              right: 16.w,
-                                            ),
-                                            child: Text(
-                                              _designationEditingController
-                                                      .text.isNotEmpty
-                                                  ? _designationEditingController
-                                                      .text
-                                                  : data.designation != null
-                                                      ? data.designation!
-                                                      : "-",
-                                              style: TextStyle(
-                                                  letterSpacing: -0.3,
-                                                  color: Helper.textColor900,
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    : FormBuilderTextField(
-                                        name: 'designationEdit',
-                                        controller:
-                                            _designationEditingController,
-                                        focusNode: _designationNode,
-                                        // onChanged: (text) {
-                                        //   setState(() {});
-                                        //   _changeState = true;
-                                        // },
-                                        // onSubmitted: (text){
-                                        //   setState(() {
-                                        //     _changeState = true;
-                                        //   });
-                                        // },
-
-                                        textInputAction: TextInputAction.done,
-                                        style: TextStyle(
-                                          letterSpacing: -0.3,
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                        textCapitalization:
-                                            TextCapitalization.sentences,
-                                        keyboardType: TextInputType.name,
-                                        autovalidateMode:
-                                            AutovalidateMode.onUserInteraction,
-                                        decoration: InputDecoration(
-                                          contentPadding: EdgeInsets.symmetric(
-                                              vertical: 8.h, horizontal: 14.w),
-                                          hintText: "",
-                                          hintStyle: TextStyle(
+                                          textInputAction: TextInputAction.done,
+                                          style: TextStyle(
                                             letterSpacing: -0.3,
-                                            color: Helper.textColor500,
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.w400,
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w500,
                                           ),
+                                          textCapitalization:
+                                              TextCapitalization.sentences,
+                                          keyboardType: TextInputType.name,
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
+                                          decoration: InputDecoration(
+                                            contentPadding:
+                                                EdgeInsets.symmetric(
+                                                    vertical: 8.h,
+                                                    horizontal: 14.w),
+                                            hintText: "",
+                                            hintStyle: TextStyle(
+                                              letterSpacing: -0.3,
+                                              color: Helper.textColor500,
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w400,
+                                            ),
 
-                                          // hintText: widget.control.label,
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8.r),
-                                            borderSide: BorderSide(
-                                                color: Helper.textColor300),
+                                            // hintText: widget.control.label,
+                                            enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.r),
+                                              borderSide: BorderSide(
+                                                  color: Helper.textColor300),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.r),
+                                              borderSide: BorderSide(
+                                                  color: Helper.primary),
+                                            ),
+                                            focusedErrorBorder:
+                                                OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.r),
+                                              borderSide: const BorderSide(
+                                                  color: Colors.red),
+                                            ),
+                                            errorBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              borderSide: const BorderSide(
+                                                  color: Colors.red),
+                                            ),
                                           ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8.r),
-                                            borderSide: BorderSide(
-                                                color: Helper.primary),
-                                          ),
-                                          focusedErrorBorder:
-                                              OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8.r),
-                                            borderSide: const BorderSide(
-                                                color: Colors.red),
-                                          ),
-                                          errorBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            borderSide: const BorderSide(
-                                                color: Colors.red),
-                                          ),
+                                          onTap: () {},
                                         ),
-                                        onTap: () {},
-                                      ),
-                              ),
-                              Divider(
-                                thickness: 0.1,
-                                color: Helper.textColor700,
-                              ),
-
-                              InkWell(
-                                onTap: () {
-                                  _showStartDateBottomSheet(context, data.dob!);
-                                },
-                                child: Row(
+                                ),
+                                Divider(
+                                  thickness: 0.1,
+                                  color: Helper.textColor700,
+                                ),
+                                // SizedBox(height: 10.h),
+                                Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "Date of Birth",
+                                      "Email",
                                       style: TextStyle(
                                           fontSize: 14,
                                           letterSpacing: -0.3,
@@ -778,7 +521,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                         right: 16.w,
                                       ),
                                       child: Text(
-                                        showDate(data.dob, "dd MMM, yyyy "),
+                                        data.email!,
                                         style: TextStyle(
                                             letterSpacing: -0.3,
                                             color: Helper.textColor900,
@@ -788,102 +531,17 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                     ),
                                   ],
                                 ),
-                              ),
-                            ]),
-                      ),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 16.w),
-                        child: Text(
-                          "YOUR TEAMS & ROLE",
-                          style: TextStyle(
-                              letterSpacing: -0.3,
-                              color: Helper.textColor500,
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.only(
-                            left: 16.w, top: 12.h, bottom: 12.h),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.r),
-                          color: Colors.white,
-                        ),
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  // context.push('/roles', extra: {
-                                  //   "roles": _roles,
-                                  //   "assignedRole": assignedRole,
-                                  //   "onRoleSelection": handleRoleSelection
-                                  // });
-                                },
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Role",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          letterSpacing: -0.3,
-                                          color: Helper.textColor700,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                    Padding(
-                                        padding: EdgeInsets.only(
-                                          right: 16.w,
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              assignedRole,
-                                              style: TextStyle(
-                                                  letterSpacing: -0.3,
-                                                  color: Helper.textColor900,
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                            // SizedBox(width: 5.w),
-                                            // SvgPicture.asset(
-                                            //   'assets/images/chevron-right.svg',
-                                            //   color: Helper.iconColor,
-                                            //   fit: BoxFit.contain,
-                                            //   height: 16,
-                                            // ),
-                                          ],
-                                        )),
-                                  ],
+                                Divider(
+                                  thickness: 0.1,
+                                  color: Helper.textColor700,
                                 ),
-                              ),
-                              Divider(
-                                thickness: 0.1,
-                                color: Helper.textColor700,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  context.push('/profileTeam', extra: {
-                                    "teamsList": _teamList,
-                                    "selectedTeams": _selectedTeams,
-                                    "userId": data.id
-                                  });
-                                },
-                                child: Row(
+
+                                Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "Teams",
+                                      "Timezone",
                                       style: TextStyle(
                                           fontSize: 14,
                                           letterSpacing: -0.3,
@@ -894,157 +552,530 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                       padding: EdgeInsets.only(
                                         right: 16.w,
                                       ),
-                                      child: Row(
-                                        children: [
-                                          _selectedTeams.length > 1
-                                              ? Text(
-                                                  "Multiple",
-                                                  style: TextStyle(
-                                                      letterSpacing: -0.3,
-                                                      color:
-                                                          Helper.textColor900,
-                                                      fontSize: 14.sp,
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                )
-                                              : Text(
-                                                  _selectedTeams!.isNotEmpty
-                                                      ? _selectedTeams!.first
-                                                      : "",
-                                                  style: TextStyle(
-                                                      letterSpacing: -0.3,
-                                                      color:
-                                                          Helper.textColor900,
-                                                      fontSize: 14.sp,
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                ),
-                                          SizedBox(width: 5.w),
-                                          SvgPicture.asset(
-                                            'assets/images/chevron-right.svg',
-                                            color: Helper.iconColor,
-                                            fit: BoxFit.contain,
-                                            height: 16,
-                                          ),
-                                        ],
+                                      child: Text(
+                                        data.preferences!.timezone!,
+                                        style: TextStyle(
+                                            letterSpacing: -0.3,
+                                            color: Helper.textColor900,
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w500),
                                       ),
                                     ),
                                   ],
                                 ),
+                                Divider(
+                                  thickness: 0.1,
+                                  color: Helper.textColor700,
+                                ),
+
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      _isMobileEditing = true;
+                                      _isNameEditing = false;
+                                      _isDesignationEditing = false;
+                                      _mobileNode.requestFocus();
+                                    });
+                                  },
+                                  child: !_isMobileEditing
+                                      ? Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "Mobile",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  letterSpacing: -0.3,
+                                                  color: Helper.textColor700,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                right: 16.w,
+                                              ),
+                                              child: Text(
+                                                _mobileEditingController
+                                                        .text.isNotEmpty
+                                                    ? _mobileEditingController
+                                                        .text
+                                                    : data.phone!.number
+                                                        .toString(),
+                                                style: TextStyle(
+                                                    letterSpacing: -0.3,
+                                                    color: Helper.textColor900,
+                                                    fontSize: 14.sp,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      : FormBuilderTextField(
+                                          controller: _mobileEditingController,
+                                          keyboardType: TextInputType.number,
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
+                                          focusNode: _mobileNode,
+                                          decoration: InputDecoration(
+                                            hintText: 'Enter number',
+                                            prefixIcon: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10),
+                                              child: CountryCodePicker(
+                                                onChanged:
+                                                    (CountryCode countryCode) {
+                                                  _countryDialCode =
+                                                      countryCode.dialCode!;
+                                                  _countryCode =
+                                                      countryCode.code!;
+                                                },
+                                                // initialSelection: countryDialCode,
+                                                // favorite: [countryDialCode!],
+                                                showDropDownButton: true,
+                                                padding: EdgeInsets.zero,
+                                                showFlagMain: true,
+                                                hideMainText: true,
+                                                dialogSize: Size(
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        0.3,
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .height *
+                                                        0.5),
+                                                dialogBackgroundColor:
+                                                    Theme.of(context).cardColor,
+                                                flagWidth: 22,
+                                              ),
+                                            ),
+                                            // filled: true,
+                                            border: OutlineInputBorder(),
+                                            contentPadding:
+                                                EdgeInsets.symmetric(
+                                              horizontal: 16,
+                                            ),
+                                          ),
+                                          name: 'phone',
+                                        ),
+                                ),
+                                Divider(
+                                  thickness: 0.1,
+                                  color: Helper.textColor700,
+                                ),
+
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      _isDesignationEditing = true;
+                                      _isMobileEditing = false;
+                                      _isNameEditing = false;
+                                      _designationNode.requestFocus();
+                                    });
+                                  },
+                                  child: !_isDesignationEditing
+                                      ? Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "Designation",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  letterSpacing: -0.3,
+                                                  color: Helper.textColor700,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                right: 16.w,
+                                              ),
+                                              child: Text(
+                                                _designationEditingController
+                                                        .text.isNotEmpty
+                                                    ? _designationEditingController
+                                                        .text
+                                                    : data.designation != null
+                                                        ? data.designation!
+                                                        : "-",
+                                                style: TextStyle(
+                                                    letterSpacing: -0.3,
+                                                    color: Helper.textColor900,
+                                                    fontSize: 14.sp,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      : FormBuilderTextField(
+                                          name: 'designationEdit',
+                                          controller:
+                                              _designationEditingController,
+                                          focusNode: _designationNode,
+                                          // onChanged: (text) {
+                                          //   setState(() {});
+                                          //   _changeState = true;
+                                          // },
+                                          // onSubmitted: (text){
+                                          //   setState(() {
+                                          //     _changeState = true;
+                                          //   });
+                                          // },
+
+                                          textInputAction: TextInputAction.done,
+                                          style: TextStyle(
+                                            letterSpacing: -0.3,
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          textCapitalization:
+                                              TextCapitalization.sentences,
+                                          keyboardType: TextInputType.name,
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
+                                          decoration: InputDecoration(
+                                            contentPadding:
+                                                EdgeInsets.symmetric(
+                                                    vertical: 8.h,
+                                                    horizontal: 14.w),
+                                            hintText: "",
+                                            hintStyle: TextStyle(
+                                              letterSpacing: -0.3,
+                                              color: Helper.textColor500,
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+
+                                            // hintText: widget.control.label,
+                                            enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.r),
+                                              borderSide: BorderSide(
+                                                  color: Helper.textColor300),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.r),
+                                              borderSide: BorderSide(
+                                                  color: Helper.primary),
+                                            ),
+                                            focusedErrorBorder:
+                                                OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.r),
+                                              borderSide: const BorderSide(
+                                                  color: Colors.red),
+                                            ),
+                                            errorBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              borderSide: const BorderSide(
+                                                  color: Colors.red),
+                                            ),
+                                          ),
+                                          onTap: () {},
+                                        ),
+                                ),
+                                Divider(
+                                  thickness: 0.1,
+                                  color: Helper.textColor700,
+                                ),
+
+                                InkWell(
+                                  onTap: () {
+                                    _showStartDateBottomSheet(
+                                        context, data.dob!);
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Date of Birth",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            letterSpacing: -0.3,
+                                            color: Helper.textColor700,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          right: 16.w,
+                                        ),
+                                        child: Text(
+                                          showDate(data.dob, "dd MMM, yyyy "),
+                                          style: TextStyle(
+                                              letterSpacing: -0.3,
+                                              color: Helper.textColor900,
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ]),
+                        ),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 16.w),
+                          child: Text(
+                            "YOUR TEAMS & ROLE",
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Helper.textColor500,
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.only(
+                              left: 16.w, top: 12.h, bottom: 12.h),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16.r),
+                            color: Colors.white,
+                          ),
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    // context.push('/roles', extra: {
+                                    //   "roles": _roles,
+                                    //   "assignedRole": assignedRole,
+                                    //   "onRoleSelection": handleRoleSelection
+                                    // });
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Role",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            letterSpacing: -0.3,
+                                            color: Helper.textColor700,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                      Padding(
+                                          padding: EdgeInsets.only(
+                                            right: 16.w,
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                assignedRole,
+                                                style: TextStyle(
+                                                    letterSpacing: -0.3,
+                                                    color: Helper.textColor900,
+                                                    fontSize: 14.sp,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                              // SizedBox(width: 5.w),
+                                              // SvgPicture.asset(
+                                              //   'assets/images/chevron-right.svg',
+                                              //   color: Helper.iconColor,
+                                              //   fit: BoxFit.contain,
+                                              //   height: 16,
+                                              // ),
+                                            ],
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                                Divider(
+                                  thickness: 0.1,
+                                  color: Helper.textColor700,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    context.push('/profileTeam', extra: {
+                                      "teamsList": _teamList,
+                                      "selectedTeams": _selectedTeams,
+                                      "userId": data.id
+                                    });
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Teams",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            letterSpacing: -0.3,
+                                            color: Helper.textColor700,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          right: 16.w,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            _selectedTeams.length > 1
+                                                ? Text(
+                                                    "Multiple",
+                                                    style: TextStyle(
+                                                        letterSpacing: -0.3,
+                                                        color:
+                                                            Helper.textColor900,
+                                                        fontSize: 14.sp,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  )
+                                                : Text(
+                                                    _selectedTeams!.isNotEmpty
+                                                        ? _selectedTeams!.first
+                                                        : "",
+                                                    style: TextStyle(
+                                                        letterSpacing: -0.3,
+                                                        color:
+                                                            Helper.textColor900,
+                                                        fontSize: 14.sp,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                            SizedBox(width: 5.w),
+                                            SvgPicture.asset(
+                                              'assets/images/chevron-right.svg',
+                                              color: Helper.iconColor,
+                                              fit: BoxFit.contain,
+                                              height: 16,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ]),
+                        ),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 16.w),
+                          child: Text(
+                            "ACCESSIBLE PROJECTS",
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Helper.textColor500,
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        projectData.when(
+                          data: (projectdata) {
+                            // Update the projects in ProjectHierarchySelection
+                            projectHierarchySelection =
+                                ProjectHierarchySelection(
+                              projects: data.projects!,
+                              selectedIds: selectedIds,
+                              onSelectedIdsChange: (ids) {
+                                // Handle selected IDs change if needed
+                                setState(() {
+                                  selectedIds = ids;
+                                });
+                              },
+                            );
+                            return Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding: EdgeInsets.only(
+                                  left: 16.w,
+                                  top: 2.h,
+                                  bottom: 2.h,
+                                  right: 16.w),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16.r),
+                                color: Colors.white,
                               ),
-                            ]),
-                      ),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 16.w),
-                        child: Text(
-                          "ACCESSIBLE PROJECTS",
-                          style: TextStyle(
-                              letterSpacing: -0.3,
-                              color: Helper.textColor500,
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.w500),
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    _buildProjectTree(
+                                        projectHierarchySelection!.projects,
+                                        null),
+                                  ]),
+                            );
+                          },
+                          error: (err, _) {
+                            return const Text("Failed to load profile",
+                                style: TextStyle(
+                                    letterSpacing: -0.3,
+                                    color: Helper.errorColor));
+                          },
+                          loading: () => LoadingTeamList(),
                         ),
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      projectData.when(
-                        data: (projectdata) {
-                          // Update the projects in ProjectHierarchySelection
-                          projectHierarchySelection = ProjectHierarchySelection(
-                            projects: data.projects!,
-                            selectedIds: selectedIds,
-                            onSelectedIdsChange: (ids) {
-                              // Handle selected IDs change if needed
-                              setState(() {
-                                selectedIds = ids;
-                              });
-                            },
-                          );
-                          return Container(
-                            width: MediaQuery.of(context).size.width,
-                            padding: EdgeInsets.only(
-                                left: 16.w, top: 2.h, bottom: 2.h, right: 16.w),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16.r),
-                              color: Colors.white,
-                            ),
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  _buildProjectTree(
-                                      projectHierarchySelection!.projects,
-                                      null),
-                                ]),
-                          );
-                        },
-                        error: (err, _) {
-                          return const Text("Failed to load profile",
-                              style: TextStyle(
-                                  letterSpacing: -0.3,
-                                  color: Helper.errorColor));
-                        },
-                        loading: () => LoadingTeamList(),
-                      ),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.only(
-                            left: 16.w, top: 16.h, bottom: 16.h, right: 16.w),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.r),
-                          color: Colors.white,
+                        SizedBox(
+                          height: 20.h,
                         ),
-                        child: Text(
-                          "Change password",
-                          style: TextStyle(
-                              letterSpacing: -0.3,
-                              color: Helper.primary,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.only(
+                              left: 16.w, top: 16.h, bottom: 16.h, right: 16.w),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16.r),
+                            color: Colors.white,
+                          ),
+                          child: Text(
+                            "Change password",
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Helper.primary,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.only(
-                            left: 16.w, top: 16.h, bottom: 16.h, right: 16.w),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.r),
-                          color: Colors.white,
+                        SizedBox(
+                          height: 20.h,
                         ),
-                        child: Text(
-                          "Delete account",
-                          style: TextStyle(
-                              letterSpacing: -0.3,
-                              color: Helper.errorColor,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      )
-                    ],
-                  );
-                },
-                error: (err, _) {
-                  return const Text("Failed to load profile",
-                      style: TextStyle(
-                          letterSpacing: -0.3, color: Helper.errorColor));
-                },
-                loading: () => LoadingAddUser2(),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.only(
+                              left: 16.w, top: 16.h, bottom: 16.h, right: 16.w),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16.r),
+                            color: Colors.white,
+                          ),
+                          child: Text(
+                            "Delete account",
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Helper.errorColor,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
-      ),
-    );
+            );
+          },
+          error: (err, _) {
+            return const Text("Failed to load profile",
+                style:
+                    TextStyle(letterSpacing: -0.3, color: Helper.errorColor));
+          },
+          loading: () => LoadingUserProfile(),
+        ));
   }
 
   _showStartDateBottomSheet(context, String dob) {
@@ -1124,7 +1155,12 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                           ),
                         )),
                     onPressed: () {
-                      _selectedDate = dob;
+                      setState(
+                        () {
+                          _selectedDate = dob;
+                        },
+                      );
+                      log(_selectedDate.toString());
                       context.pop();
                     },
                   ),
