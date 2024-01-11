@@ -131,7 +131,7 @@ class _ChangePasswordScreenState
                       // },
                       validator: (val) {
                         if (val == null || val.isEmpty) {
-                          return 'Email is required';
+                          return 'Password is required';
                         }
                         if (val.length < 5) {
                           return 'Password is short';
@@ -216,7 +216,7 @@ class _ChangePasswordScreenState
                       },
                       validator: (val) {
                         if (val == null || val.isEmpty) {
-                          return 'Email is required';
+                          return 'Password is required';
                         }
                         if (val.length < 5) {
                           return 'Password is short';

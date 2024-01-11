@@ -36,6 +36,10 @@ class Endpoints {
     return '$baseUrl/api/v4/account/projects/hide';
   }
 
+  static changePasswordAccountUrl() {
+    return '$baseUrl/api/v4/account/password';
+  }
+
   //---------------------------- Projects ---------------------------------------
 
   static projectListUrl({searchText = ''}) {
