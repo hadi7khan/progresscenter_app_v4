@@ -453,6 +453,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                                     controller:
                                                         _nameEditingController,
                                                     focusNode: _nameNode,
+                                                    textAlign: TextAlign.end,
                                                     // onChanged: (text) {
                                                     //   setState(() {});
                                                     //   _changeState = true;
@@ -659,6 +660,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                                         _mobileEditingController,
                                                     keyboardType:
                                                         TextInputType.number,
+                                                    textAlign: TextAlign.end,
                                                     autovalidateMode:
                                                         AutovalidateMode
                                                             .onUserInteraction,
@@ -781,6 +783,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                                     controller:
                                                         _designationEditingController,
                                                     focusNode: _designationNode,
+                                                    textAlign: TextAlign.end,
                                                     // onChanged: (text) {
                                                     //   setState(() {});
                                                     //   _changeState = true;
