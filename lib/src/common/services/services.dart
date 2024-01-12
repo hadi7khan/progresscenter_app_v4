@@ -485,7 +485,7 @@ class Service {
   // method to update change password for account
   Future changePassword(data) async {
     var putData = json.encode(data);
-    print("post data" + data.toString());
+    print("put data" + data.toString());
     final client = http.Client();
     final response =
         await client.put(Uri.parse(Endpoints.changePasswordAccountUrl()),
@@ -500,6 +500,46 @@ class Service {
       return response.body;
     } else {
       throw Exception('Failed to change password');
+    }
+  }
+
+  // method to submit domain change request
+  Future domainChange(data) async {
+    var postData = json.encode(data);
+    print("post data" + data.toString());
+    final client = http.Client();
+    final response = await client.post(Uri.parse(Endpoints.domainRequestUrl()),
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+        },
+        body: postData);
+    print(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print("domain change req sent");
+      return response.body;
+    } else {
+      throw Exception('Failed to submit request');
+    }
+  }
+
+  // method to change organisation
+  Future organisationChange(data) async {
+    var putData = json.encode(data);
+    print("put data" + data.toString());
+    final client = http.Client();
+    final response = await client.put(Uri.parse(Endpoints.getOrganisationUrl()),
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+        },
+        body: putData);
+    print(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print("organisation changed");
+      return response.body;
+    } else {
+      throw Exception('Failed to change organisation');
     }
   }
 
