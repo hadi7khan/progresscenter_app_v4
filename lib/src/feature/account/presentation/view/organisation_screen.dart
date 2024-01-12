@@ -297,6 +297,7 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                                                 name: 'nameEdit',
                                                 controller:
                                                     _organisationNameController,
+                                                textAlign: TextAlign.end,
                                                 focusNode:
                                                     _organisationNameNode,
                                                 textInputAction:
