@@ -172,7 +172,7 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 16.h),
+                      SizedBox(height: 20.h),
                       Container(
                         width: MediaQuery.of(context).size.width,
                         padding: EdgeInsets.all(16.w),
@@ -223,7 +223,7 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 16.h),
+                      SizedBox(height: 20.h),
                       Padding(
                         padding: EdgeInsets.only(left: 16.w),
                         child: Text(
@@ -278,11 +278,11 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                                                         .text.isNotEmpty
                                                     ? _organisationNameController
                                                         .text
-                                                    : "",
+                                                    : data.name!,
                                                 style: TextStyle(
                                                     letterSpacing: -0.3,
                                                     color: Helper.textColor900,
-                                                    fontSize: 15.sp,
+                                                    fontSize: 14.sp,
                                                     fontWeight:
                                                         FontWeight.w500),
                                               ),
@@ -418,6 +418,63 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                                   ],
                                 ),
                               ),
+                            ]),
+                      ),
+                      SizedBox(height: 20.h),
+                      Padding(
+                        padding: EdgeInsets.only(left: 16.w),
+                        child: Text(
+                          "COLOR CONFIGURATION",
+                          style: TextStyle(
+                              letterSpacing: -0.3,
+                              color: Helper.textColor500,
+                              fontSize: 13.sp,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5.h,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.only(
+                            left: 16.w, top: 12.h, bottom: 12.h),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16.r),
+                          color: Colors.white,
+                        ),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              InkWell(
+                                  onTap: () {},
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Current Theme",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            letterSpacing: -0.3,
+                                            color: Helper.textColor700,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          right: 16.w,
+                                        ),
+                                        child: Text(
+                                          data.preferences!.primaryColor!,
+                                          style: TextStyle(
+                                              letterSpacing: -0.3,
+                                              color: Helper.textColor900,
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      )
+                                    ],
+                                  )),
                             ]),
                       ),
                     ],

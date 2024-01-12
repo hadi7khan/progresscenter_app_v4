@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
@@ -30,6 +32,22 @@ class Helper {
   static const fillsBackground = Color.fromRGBO(118, 118, 128, 0.12);
   static const bottomIconBack = Color.fromRGBO(235, 243, 255, 1);
   static const cardBackground = Color.fromRGBO(246, 246, 246, 1);
+
+  static setPrimaryColor(String hexColor) {
+    primary = _hexToColor(hexColor);
+    log("primary changed" + primary.toString());
+  }
+
+  static Color _hexToColor(String hexCode) {
+    // Remove the leading # if present
+    hexCode = hexCode.replaceAll("#", "");
+
+    // Parse the hex code to an integer
+    int colorValue = int.parse(hexCode, radix: 16);
+
+    // Create a Color object from the integer value
+    return Color(colorValue);
+  }
 
   static getMediaType(String filename) {
     var contentType;
