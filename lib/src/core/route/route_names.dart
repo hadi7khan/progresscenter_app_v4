@@ -49,6 +49,7 @@ const String profileRoute = 'profile';
 const String profileteamRoute = 'profileTeam';
 const String changePasswordProfileRoute = 'changePasswordProfile';
 const String organisationRoute = 'organisation';
+const String organisationUrlRoute = 'organisationUrl';
 const String notificationsRoute = 'notifications';
 
 const String noInternetRoute = 'noInternet';

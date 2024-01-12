@@ -40,6 +40,14 @@ class Endpoints {
     return '$baseUrl/api/v4/account/password';
   }
 
+  static getOrganisationUrl() {
+    return '$baseUrl/api/v4/account/organisation';
+  }
+
+  static domainRequestUrl() {
+    return '$baseUrl/api/v4/account/client-domain-requests';
+  }
+
   //---------------------------- Projects ---------------------------------------
 
   static projectListUrl({searchText = ''}) {

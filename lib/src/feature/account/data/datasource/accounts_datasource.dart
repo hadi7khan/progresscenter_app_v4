@@ -11,6 +11,7 @@ final accountsDataSourceProvider =
 
 abstract class AccountsDataSource {
   Future getProfile();
+  Future getOrganisation();
 }
 
 class AccountsDataSourceImpl implements AccountsDataSource {
@@ -22,6 +23,16 @@ class AccountsDataSourceImpl implements AccountsDataSource {
   @override
   Future getProfile() async {
     final response = await dioClient.get(Endpoints.getProfileUrl());
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      return ServerException();
+    }
+  }
+
+  @override
+  Future getOrganisation() async {
+    final response = await dioClient.get(Endpoints.getOrganisationUrl());
     if (response.statusCode == 200) {
       return response.data;
     } else {

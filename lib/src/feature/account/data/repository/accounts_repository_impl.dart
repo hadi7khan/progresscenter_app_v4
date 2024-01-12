@@ -7,6 +7,7 @@ import 'package:progresscenter_app_v4/src/core/network/dio_exception.dart';
 import 'package:progresscenter_app_v4/src/core/network/failure.dart';
 import 'package:progresscenter_app_v4/src/feature/account/data/datasource/accounts_datasource.dart';
 import 'package:progresscenter_app_v4/src/feature/account/data/models/accounts_model.dart';
+import 'package:progresscenter_app_v4/src/feature/account/data/models/organisation_model.dart';
 import 'package:progresscenter_app_v4/src/feature/account/domain/accounts_repository.dart';
 
 final accountsProvider = Provider.autoDispose<AccountsRepositoryImpl>(
@@ -27,6 +28,20 @@ class AccountsRepositoryImpl implements AccountsRepository {
     try {
       final result = await accountsDataSource.getProfile();
       return Right((AccountsModel.fromJson(result)));
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e);
+      print(errorMessage.toString());
+      rethrow;
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, OrganisationModel>> getOrganisation() async {
+    try {
+      final result = await accountsDataSource.getOrganisation();
+      return Right((OrganisationModel.fromJson(result)));
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
       print(errorMessage.toString());
