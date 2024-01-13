@@ -261,6 +261,11 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                       actions: [
                         InkWell(
                           onTap: () {
+                            setState(() {
+                              _isNameEditing = false;
+                              _isDesignationEditing = false;
+                              _isMobileEditing = false;
+                            });
                             Map<String, dynamic> profile = {
                               "name": _nameEditingController.text,
                               "designation": _designationEditingController.text,

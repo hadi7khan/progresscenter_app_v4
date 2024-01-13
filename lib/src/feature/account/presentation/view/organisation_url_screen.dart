@@ -47,7 +47,7 @@ class _OrganisationUrlScreenState extends State<OrganisationUrlScreen> {
               ),
               leadingWidth: 24,
               title: Text(
-                "Add custom url",
+                "Add custom URL",
                 style: TextStyle(
                     letterSpacing: -0.3,
                     color: Helper.baseBlack,
@@ -67,7 +67,7 @@ class _OrganisationUrlScreenState extends State<OrganisationUrlScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Enter Url",
+                  "Enter URL",
                   style: TextStyle(
                       letterSpacing: -0.3,
                       color: Helper.textColor700,

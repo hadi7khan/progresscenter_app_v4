@@ -90,6 +90,9 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                       actions: [
                         InkWell(
                           onTap: () {
+                            setState(() {
+                              _isOrganisationNameEditing = false;
+                            });
                             Map<String, dynamic> org = {
                               "name": _organisationNameController.text,
                               "domain": data.domain,
@@ -148,7 +151,7 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                               direction: Axis.vertical,
                               children: [
                                 Text(
-                                  "Organisation Logo",
+                                  data.name!,
                                   style: TextStyle(
                                       height: 1.1,
                                       letterSpacing: -0.3,
@@ -172,57 +175,47 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 20.h),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.all(16.w),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.r),
-                          color: Colors.white,
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            AvatarWidget(
-                              dpUrl: data.emailHeaderLogoUrl != null
-                                  ? data.emailHeaderLogoUrl!
-                                  : "",
-                              name: data.name!,
-                              backgroundColor: data.preferences!.primaryColor!,
-                              size: 50,
-                              fontSize: 24,
-                            ),
-                            SizedBox(width: 10.h),
-                            Wrap(
-                              direction: Axis.vertical,
-                              children: [
-                                Text(
-                                  "Email Header",
-                                  style: TextStyle(
-                                      height: 1.1,
-                                      letterSpacing: -0.3,
-                                      color: Helper.baseBlack,
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                // Text(
-                                //   data.designation != null
-                                //       ? data.designation!
-                                //       : "-",
-                                //   style: TextStyle(
-                                //       letterSpacing: -0.3,
-                                //       color:
-                                //           Helper.baseBlack.withOpacity(0.5),
-                                //       fontSize: 14.sp,
-                                //       fontWeight: FontWeight.w400),
-                                // ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
+                      // SizedBox(height: 20.h),
+                      // Container(
+                      //   width: MediaQuery.of(context).size.width,
+                      //   padding: EdgeInsets.all(16.w),
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(16.r),
+                      //     color: Colors.white,
+                      //   ),
+                      //   child: Row(
+                      //     crossAxisAlignment: CrossAxisAlignment.center,
+                      //     mainAxisAlignment: MainAxisAlignment.start,
+                      //     mainAxisSize: MainAxisSize.max,
+                      //     children: [
+                      //       AvatarWidget(
+                      //         dpUrl: data.emailHeaderLogoUrl != null
+                      //             ? data.emailHeaderLogoUrl!
+                      //             : "",
+                      //         name: data.name!,
+                      //         backgroundColor: data.preferences!.primaryColor!,
+                      //         size: 50,
+                      //         fontSize: 24,
+                      //       ),
+                      //       SizedBox(width: 10.h),
+                      //       Wrap(
+                      //         direction: Axis.vertical,
+                      //         children: [
+                      //           Text(
+                      //             "Email Header",
+                      //             style: TextStyle(
+                      //                 height: 1.1,
+                      //                 letterSpacing: -0.3,
+                      //                 color: Helper.baseBlack,
+                      //                 fontSize: 18.sp,
+                      //                 fontWeight: FontWeight.w600),
+                      //           ),
+
+                      //         ],
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
                       SizedBox(height: 20.h),
                       Padding(
                         padding: EdgeInsets.only(left: 16.w),
@@ -383,7 +376,7 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "Organisation Url",
+                                      "Organisation URL",
                                       style: TextStyle(
                                           fontSize: 14,
                                           letterSpacing: -0.3,

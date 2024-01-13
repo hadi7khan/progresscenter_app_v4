@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -305,12 +308,146 @@ class _AccountScreenState extends BaseConsumerState<AccountScreen> {
                     ),
                     InkWell(
                       onTap: () {
-                        locator.logout().then((value) {
-                          context.pushReplacement("/signin");
-                        });
+                        Platform.isIOS
+                            ? showCupertinoDialog(
+                                context: context,
+                                builder: (context) => CupertinoAlertDialog(
+                                  title: Text(
+                                    "Are you sure you want to sign out ",
+                                  ),
+                                  // content: Text(
+                                  //   "You cannot undo this action ",
+                                  // ),
+                                  actions: <Widget>[
+                                    // if (cancelActionText != null)
+
+                                    CupertinoDialogAction(
+                                      child: Text(
+                                        "Cancel",
+                                        style: TextStyle(
+                                            color: Colors.blue,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(true),
+                                    ),
+                                    CupertinoDialogAction(
+                                        child: Text(
+                                          "Sign out",
+                                          style: TextStyle(
+                                            color: Helper.errorColor,
+                                          ),
+                                        ),
+                                        onPressed: () async {
+                                          locator.logout().then((value) {
+                                            context.pushReplacement("/signin");
+                                          });
+                                        }),
+                                  ],
+                                ),
+                              )
+                            : showDialog(
+                                context: context,
+                                builder: ((context) {
+                                  return FormBuilder(
+                                    child: AlertDialog(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(14.r),
+                                      ),
+                                      content: StatefulBuilder(builder:
+                                          (BuildContext context,
+                                              StateSetter setState) {
+                                        return SingleChildScrollView(
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              RichText(
+                                                text: TextSpan(
+                                                  text:
+                                                      "Are you sure you want to sign out ",
+                                                  style: TextStyle(
+                                                      fontSize: 14.sp,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color:
+                                                          Helper.textColor500),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }),
+                                      actionsPadding: const EdgeInsets.only(
+                                          left: 32, bottom: 32, right: 32),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () async {
+                                            locator.logout().then((value) {
+                                              context
+                                                  .pushReplacement("/signin");
+                                            });
+                                          },
+                                          style: TextButton.styleFrom(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 16,
+                                                      vertical: 11),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.r),
+                                              ),
+                                              backgroundColor:
+                                                  Helper.errorColor,
+                                              fixedSize: Size.infinite),
+                                          child: const Text(
+                                            "Sign Out",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            context.pop();
+                                          },
+                                          style: TextButton.styleFrom(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.r),
+                                              ),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 16,
+                                                      vertical: 11),
+                                              backgroundColor: Colors.white,
+                                              side: BorderSide(
+                                                  color: Helper.textColor300),
+                                              fixedSize: Size.infinite),
+                                          child: Text(
+                                            "Cancel",
+                                            style: TextStyle(
+                                                color: Helper.textColor500,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                        ),
+                                      ],
+                                      actionsAlignment:
+                                          MainAxisAlignment.center,
+                                    ),
+                                  );
+                                }),
+                              );
                       },
                       child: Center(
                         child: Column(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
                               "Sign out from my account",
@@ -320,19 +457,25 @@ class _AccountScreenState extends BaseConsumerState<AccountScreen> {
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w600),
                             ),
-                            SizedBox(
-                              height: 10.h,
-                            ),
-                            Text(
-                              "Version 4.0",
-                              style: TextStyle(
-                                  letterSpacing: -0.3,
-                                  color: Helper.textColor400,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w400),
-                            ),
                           ],
                         ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 25.h,
+                    ),
+                    Center(
+                      child: Column(
+                        children: [
+                          Text(
+                            "Version 4.0.0",
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Helper.textColor400,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ],
                       ),
                     )
                   ],
