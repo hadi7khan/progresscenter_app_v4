@@ -9,6 +9,7 @@ import 'package:progresscenter_app_v4/src/core/network/constants/endpoints.dart'
 import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
 import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/data/models/account_user_model.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/data/model/progressline_project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean_model.dart';
@@ -18,6 +19,23 @@ typedef ProgressCallback = void Function(double progress);
 
 class Service {
   final _prefsLocator = getIt.get<SharedPreferenceHelper>();
+
+  //method to fetch user after login
+  Future<AccountUserModel> fetchUser() async {
+    final client = http.Client();
+    final response =
+        await client.get(Uri.parse(Endpoints.getUserUrl()), headers: {
+      "content-type": "application/json",
+      "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+    });
+    if (response.statusCode == 200) {
+      final parsed = json.decode(response.body);
+      log("parsed " + parsed.toString());
+      return AccountUserModel.fromJson(parsed);
+    } else {
+      throw Exception('Failed to fetch user list');
+    }
+  }
 
   //method to fetch progressline project list with minimum data
   Future<List<ProgresslineProjectModel>> progresslineProjectsList() async {
@@ -438,7 +456,27 @@ class Service {
       print("team updated");
       return response.body;
     } else {
-      throw Exception('Failed to fetch user list');
+      throw Exception('Failed to change tags');
+    }
+  }
+
+  // method to update tags for a account
+  Future changePrimarycolor(data) async {
+    var putData = json.encode(data);
+    print("put data" + data.toString());
+    final client = http.Client();
+    final response = await client.put(Uri.parse(Endpoints.primaryColorUrl()),
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+        },
+        body: putData);
+    print(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print("color updated");
+      return response.body;
+    } else {
+      throw Exception('Failed to change color');
     }
   }
 

@@ -23,6 +23,10 @@ class Endpoints {
     return '$baseUrl/api/v4/auth/forgot-password/$token/validate';
   }
 
+  static getUserUrl() {
+    return '$baseUrl/api/v4/account/user';
+  }
+
   //---------------------------- Accounts ---------------------------------------
   static getProfileUrl() {
     return '$baseUrl/api/v4/account';
@@ -46,6 +50,10 @@ class Endpoints {
 
   static domainRequestUrl() {
     return '$baseUrl/api/v4/account/client-domain-requests';
+  }
+
+  static primaryColorUrl() {
+    return '$baseUrl/api/v4/account/preferences/primary-color';
   }
 
   //---------------------------- Projects ---------------------------------------

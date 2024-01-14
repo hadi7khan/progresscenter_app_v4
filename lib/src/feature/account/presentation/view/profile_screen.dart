@@ -4,6 +4,7 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,9 +17,12 @@ import 'package:progresscenter_app_v4/src/common/skeletons/loading_add_user2.dar
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_team_list.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_user_profile.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
+import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
+import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/account/presentation/provider/accounts_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 // import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_lean_model.dart'
 //     as model;
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart'
@@ -60,10 +64,13 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
   FocusNode _nameNode = FocusNode();
   FocusNode _designationNode = FocusNode();
   FocusNode _mobileNode = FocusNode();
+  final _prefsLocator = getIt.get<SharedPreferenceHelper>();
+  var colorToPass;
 
   @override
   void initState() {
     super.initState();
+    _prefsLocator.getPrimaryColor();
     service.Service().fetchTeamList().then((teams) {
       setState(() {
         _teamList = teams;
@@ -75,7 +82,9 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(accountsControllerProvider.notifier).getProfile().then((value) {
-        assignedRole = value.role;
+        colorToPass = value.preferences.primaryColor;
+        assignedRole = _roles.firstWhere(
+            (role) => role.toLowerCase() == value.role.toLowerCase());
         _selectedTeams = value.tags.toList();
         _nameEditingController.text = value.name;
         _emailEditingController.text = value.email;
@@ -261,6 +270,11 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                       actions: [
                         InkWell(
                           onTap: () {
+                            setState(() {
+                              _isNameEditing = false;
+                              _isDesignationEditing = false;
+                              _isMobileEditing = false;
+                            });
                             Map<String, dynamic> profile = {
                               "name": _nameEditingController.text,
                               "designation": _designationEditingController.text,
@@ -294,6 +308,16 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                             };
                             service.Service().hideProjects(project).then((val) {
                               Utils.toastSuccessMessage("Projects updated");
+                            });
+                            Map<String, dynamic> color = {
+                              "primaryColor": colorToPass
+                            };
+                            service.Service()
+                                .changePrimarycolor(color)
+                                .then((val) {
+                              _prefsLocator.setPrimaryColor(color: colorToPass);
+                              Utils.toastSuccessMessage(
+                                  "primary color updated");
                             });
                           },
                           child: Text(
@@ -1087,7 +1111,58 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                 children: [
                                   InkWell(
                                       onTap: () {
-                                        Helper.setPrimaryColor("#CF14AC");
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              titlePadding:
+                                                  const EdgeInsets.all(0),
+                                              contentPadding:
+                                                  const EdgeInsets.all(0),
+                                              content: SingleChildScrollView(
+                                                child: ColorPicker(
+                                                  pickerColor: ref.watch(
+                                                      primaryColorProvider),
+                                                  onColorChanged: (color) {
+                                                    setState(() {
+                                                      colorToPass = "#" +
+                                                          color.value
+                                                              .toRadixString(16)
+                                                              .substring(2, 8);
+                                                    });
+                                                    log(colorToPass.toString());
+                                                    ref
+                                                        .read(
+                                                            primaryColorProvider
+                                                                .notifier)
+                                                        .state = color;
+                                                  },
+                                                  colorPickerWidth: 300,
+                                                  pickerAreaHeightPercent: 0.7,
+                                                  enableAlpha: true,
+                                                  labelTypes: [
+                                                    ColorLabelType.rgb,
+                                                    ColorLabelType.hsv,
+                                                    ColorLabelType.hsl
+                                                  ],
+                                                  displayThumbColor: true,
+                                                  // paletteType: _paletteType,
+                                                  pickerAreaBorderRadius:
+                                                      const BorderRadius.only(
+                                                    topLeft: Radius.circular(2),
+                                                    topRight:
+                                                        Radius.circular(2),
+                                                  ),
+                                                  hexInputBar: true,
+                                                  // colorHistory:
+                                                  //     false,
+                                                  // onHistoryChanged:
+                                                  //     widget.onHistoryChanged,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        );
                                       },
                                       child: Row(
                                         mainAxisAlignment:
@@ -1106,7 +1181,10 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                               right: 16.w,
                                             ),
                                             child: Text(
-                                              data.preferences!.primaryColor!,
+                                              colorToPass != null
+                                                  ? colorToPass
+                                                  : data.preferences!
+                                                      .primaryColor!,
                                               style: TextStyle(
                                                   letterSpacing: -0.3,
                                                   color: Helper.textColor900,

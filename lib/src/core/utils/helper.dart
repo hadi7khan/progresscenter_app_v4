@@ -1,10 +1,12 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
+import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
 
 class Helper {
+  final _prefsLocator = getIt.get<SharedPreferenceHelper>();
   static Color primary = const Color.fromRGBO(0, 82, 204, 1);
   static Color secondary = const Color.fromRGBO(1, 1, 1, 1);
   static Color blendmode = const Color.fromRGBO(71, 71, 71, 1);
@@ -32,20 +34,22 @@ class Helper {
   static const fillsBackground = Color.fromRGBO(118, 118, 128, 0.12);
   static const bottomIconBack = Color.fromRGBO(235, 243, 255, 1);
   static const cardBackground = Color.fromRGBO(246, 246, 246, 1);
+  Color change = Color.fromRGBO(0, 82, 204, 1);
 
-  static setPrimaryColor(String hexColor) {
-    primary = _hexToColor(hexColor);
-    log("primary changed" + primary.toString());
+  Color primaryColor() {
+    change = _hexToColor(_prefsLocator.getPrimaryColor());
+    log("primary changed" + change.toString());
+    return change;
   }
 
-  static Color _hexToColor(String hexCode) {
+  Color _hexToColor(String hexCode) {
     // Remove the leading # if present
     hexCode = hexCode.replaceAll("#", "");
 
     // Parse the hex code to an integer
     int colorValue = int.parse(hexCode, radix: 16);
+    log("color value" + colorValue.toString());
 
-    // Create a Color object from the integer value
     return Color(colorValue);
   }
 
