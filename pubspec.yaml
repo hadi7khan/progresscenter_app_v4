@@ -131,6 +131,7 @@ dependencies:
   better_player: 0.0.83
   # flutter_better_camera: 1.0.3
   flutter_localization: 0.2.0
+  flutter_colorpicker: 1.0.3
 
 dependency_overrides: 
   photo_manager: ^3.0.0-dev.2

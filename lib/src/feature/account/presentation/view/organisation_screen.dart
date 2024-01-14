@@ -13,6 +13,9 @@ import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/account/presentation/provider/organisation_controller.dart';
+import 'dart:developer';
+
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 
 class OrganisationScreen extends ConsumerStatefulWidget {
   const OrganisationScreen({super.key});
@@ -109,7 +112,7 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                           child: Text(
                             "Save",
                             style: TextStyle(
-                                color: Helper.primary,
+                                color: ref.watch(primaryColorProvider),
                                 fontWeight: FontWeight.w500,
                                 fontSize: 16.sp),
                           ),

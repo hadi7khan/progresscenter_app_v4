@@ -14,17 +14,18 @@ class SharedPreferenceHelper {
 
   Future<void> setPrimaryColor({required String color}) async {
     await prefs.setString(primary, color);
-    log("prefs" + prefs.toString());
+    log("prefs color" + prefs.toString());
   }
 
   String getPrimaryColor() {
     primaryColor = prefs.getString(primary);
+    log("prefs color" + primaryColor.toString());
     return primaryColor!;
   }
 
   Future<void> setUserToken({required String userToken}) async {
     await prefs.setString(token, userToken);
-    print("prefs" + prefs.toString());
+    log("prefs" + prefs.toString());
   }
 
   String getUserToken() {
