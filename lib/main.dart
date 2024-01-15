@@ -97,15 +97,6 @@ class _SplashScreenState extends BaseConsumerState<SplashScreen> {
   void initState() {
     super.initState();
     navigateInitialRoute();
-    Service().fetchUser().then((value) {
-      _prefsLocator.setPrimaryColor(color: value.preferences!.primaryColor!);
-      color = _prefsLocator.getPrimaryColor();
-    });
-
-    dev.log("color" + color.toString());
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref.read(primaryColorProvider.notifier).state = _hexToColor(color);
-    });
   }
 
   Color _hexToColor(String hexCode) {
@@ -124,6 +115,10 @@ class _SplashScreenState extends BaseConsumerState<SplashScreen> {
       if (!hasToken) {
         context.pushReplacement('/onbording');
       } else {
+        Service().fetchUser().then((value) async {
+          await _prefsLocator.setPrimaryColor(
+              color: value.preferences!.primaryColor!);
+        });
         context.go('/projects');
       }
       // _prefsLocator.userToken != null  ? context.go('/projects')   : context.pushReplacement('/onbording');
@@ -132,12 +127,15 @@ class _SplashScreenState extends BaseConsumerState<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // ref.read(primaryColorProvider.notifier).state =
-    //     Color.fromRGBO(255, 0, 123, 1);
+    color = _prefsLocator.getPrimaryColor();
+    dev.log("color" + color.toString());
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref.read(primaryColorProvider.notifier).state = _hexToColor(color);
+    });
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
-        backgroundColor: ref.watch(primaryColorProvider),
+        backgroundColor: Helper.primary,
         body: SafeArea(
           child: Center(
             child: Column(
