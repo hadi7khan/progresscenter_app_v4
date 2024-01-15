@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -5,8 +7,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
+import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
+import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/sign_in_screen.dart';
 
 class DeleteAccountScreen extends StatefulWidget {
   const DeleteAccountScreen({super.key});
@@ -20,6 +25,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   bool isLoading = false;
   bool _changeState = false;
+  final locator = getIt.get<SharedPreferenceHelper>();
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -69,9 +75,11 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
               child: FormBuilder(
                 key: _fbKey,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'To confirm, type "delete/account" in the box below',
+                      'To confirm, type "delete account" in the box below',
                       style: TextStyle(
                           letterSpacing: -0.3,
                           color: Helper.textColor700,
@@ -86,15 +94,19 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                       controller: _deleteController,
                       onChanged: (text) {
                         setState(() {
-                          if (_deleteController.text == "delete/account") {
+                          if (_deleteController.text == "delete account") {
                             _changeState = true;
+                          } else {
+                            _changeState = false;
                           }
                         });
                       },
                       onSubmitted: (text) {
                         setState(() {
-                          if (_deleteController.text == "delete/account") {
+                          if (_deleteController.text == "delete account") {
                             _changeState = true;
+                          } else {
+                            _changeState = false;
                           }
                         });
                       },
@@ -173,7 +185,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                               ),
                             )),
                         onPressed: () async {
-                          if (_deleteController.text == "delete/account") {
+                          if (_deleteController.text == "delete account") {
                             setState(() {
                               isLoading = true;
                             });
@@ -181,21 +193,210 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                               setState(() {
                                 isLoading = true;
                               });
-                              // await Service().deleteAccount().then((value) {
-                              //   print(value.toString());
 
-                              //   context.pushReplacement('/signin');
-                              //   Utils.toastSuccessMessage("Account deleted");
-                              //   setState(() {
-                              //     isLoading = false;
-                              //   });
-                              // }).onError((error, stackTrace) {
-                              //   setState(() {
-                              //     isLoading = false;
-                              //   });
-                              //   Utils.flushBarErrorMessage(
-                              //       "Something went wrong", context);
+                              // WidgetsBinding.instance.addPostFrameCallback((_) {
+                              //   Navigator.pushReplacement(
+                              //     context,
+                              //     MaterialPageRoute<void>(
+                              //       builder: (BuildContext context) =>
+                              //           const SignInScreen(),
+                              //     ),
+                              //   );
                               // });
+
+                              Platform.isIOS
+                                  ? showCupertinoDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          CupertinoAlertDialog(
+                                        title: Text(
+                                          "Are you sure you want to delete this account ",
+                                        ),
+                                        content: Text(
+                                          "You cannot undo this action ",
+                                        ),
+                                        actions: <Widget>[
+                                          // if (cancelActionText != null)
+
+                                          CupertinoDialogAction(
+                                            child: Text(
+                                              "Cancel",
+                                              style: TextStyle(
+                                                  color: Colors.blue,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(true),
+                                          ),
+                                          CupertinoDialogAction(
+                                              isDestructiveAction: true,
+                                              child: Text(
+                                                "Delete",
+                                                style: TextStyle(
+                                                  color: Helper.errorColor,
+                                                ),
+                                              ),
+                                              onPressed: () async {
+                                                await Service()
+                                                    .deleteAccount()
+                                                    .then((value) {
+                                                  context.go('/signin');
+                                                  Utils.toastSuccessMessage(
+                                                      "Account deleted");
+                                                  setState(() {
+                                                    isLoading = false;
+                                                  });
+                                                }).onError((error, stackTrace) {
+                                                  setState(() {
+                                                    isLoading = false;
+                                                  });
+                                                  Utils.flushBarErrorMessage(
+                                                      "Something went wrong",
+                                                      context);
+                                                });
+                                                setState(() {});
+                                              }),
+                                        ],
+                                      ),
+                                    )
+                                  : showDialog(
+                                      context: context,
+                                      builder: ((context) {
+                                        return FormBuilder(
+                                          child: AlertDialog(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(14.r),
+                                            ),
+                                            content: StatefulBuilder(builder:
+                                                (BuildContext context,
+                                                    StateSetter setState) {
+                                              return SingleChildScrollView(
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    RichText(
+                                                      text: TextSpan(
+                                                        text:
+                                                            "Are you sure you want to delete this ",
+                                                        style: TextStyle(
+                                                            fontSize: 14.sp,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: Helper
+                                                                .textColor500),
+                                                        children: [
+                                                          TextSpan(
+                                                            text: "account",
+                                                            style: TextStyle(
+                                                                fontSize: 14.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Helper
+                                                                    .baseBlack),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            }),
+                                            actionsPadding:
+                                                const EdgeInsets.only(
+                                                    left: 32,
+                                                    bottom: 32,
+                                                    right: 32),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () async {
+                                                  await Service()
+                                                      .deleteAccount()
+                                                      .then((value) {
+                                                    context.go('/signin');
+                                                    Utils.toastSuccessMessage(
+                                                        "Account deleted");
+                                                    setState(() {
+                                                      isLoading = false;
+                                                    });
+                                                  }).onError(
+                                                          (error, stackTrace) {
+                                                    setState(() {
+                                                      isLoading = false;
+                                                    });
+                                                    Utils.flushBarErrorMessage(
+                                                        "Something went wrong",
+                                                        context);
+                                                  });
+                                                  setState(() {});
+                                                },
+                                                style: TextButton.styleFrom(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 16,
+                                                        vertical: 11),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.r),
+                                                    ),
+                                                    backgroundColor:
+                                                        Helper.errorColor,
+                                                    fixedSize: Size.infinite),
+                                                child: const Text(
+                                                  "Delete",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  context.pop();
+                                                },
+                                                style: TextButton.styleFrom(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.r),
+                                                    ),
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 16,
+                                                        vertical: 11),
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    side: BorderSide(
+                                                        color: Helper
+                                                            .textColor300),
+                                                    fixedSize: Size.infinite),
+                                                child: Text(
+                                                  "Cancel",
+                                                  style: TextStyle(
+                                                      color:
+                                                          Helper.textColor500,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                              ),
+                                            ],
+                                            actionsAlignment:
+                                                MainAxisAlignment.center,
+                                          ),
+                                        );
+                                      }),
+                                    );
                             }
                           } else {
                             setState(() {

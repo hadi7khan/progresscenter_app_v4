@@ -92,6 +92,8 @@ class SplashScreen extends ConsumerStatefulWidget {
 
 class _SplashScreenState extends BaseConsumerState<SplashScreen> {
   final _prefsLocator = getIt.get<SharedPreferenceHelper>();
+  bool hasColor = false;
+
   var color;
   @override
   void initState() {
@@ -111,6 +113,7 @@ class _SplashScreenState extends BaseConsumerState<SplashScreen> {
   navigateInitialRoute() async {
     Future.delayed(const Duration(milliseconds: 1500), () async {
       bool hasToken = _prefsLocator.containsToken();
+      hasColor = _prefsLocator.containsPrimary();
       context.pushReplacement('/onbording');
       if (!hasToken) {
         context.pushReplacement('/onbording');
@@ -127,11 +130,13 @@ class _SplashScreenState extends BaseConsumerState<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    color = _prefsLocator.getPrimaryColor();
-    dev.log("color" + color.toString());
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ref.read(primaryColorProvider.notifier).state = _hexToColor(color);
-    });
+    if (hasColor) {
+      color = _prefsLocator.getPrimaryColor();
+      dev.log("color" + color.toString());
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        ref.read(primaryColorProvider.notifier).state = _hexToColor(color);
+      });
+    }
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
