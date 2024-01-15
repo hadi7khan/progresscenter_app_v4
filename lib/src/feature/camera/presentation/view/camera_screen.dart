@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/camera/presentation/provider/camera_controller.dart';
 
 import 'widgets/grid_view_widget.dart';
@@ -105,7 +106,7 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
           top: true,
           child: RefreshIndicator(
             displacement: 10.0,
-            color: Helper.primary,
+            color: ref.watch(primaryColorProvider),
             onRefresh: () async {
               HapticFeedback.mediumImpact();
               return await ref

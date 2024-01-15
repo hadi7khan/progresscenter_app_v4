@@ -13,6 +13,7 @@ import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/provider/site_gallery_controller.dart';
 
 class AddSiteGalleryScreen extends ConsumerStatefulWidget {
@@ -149,7 +150,8 @@ class _AddSiteGalleryScreenState
                                         letterSpacing: -0.3,
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w600,
-                                        color: Helper.primary)),
+                                        color:
+                                            ref.watch(primaryColorProvider))),
                               ],
                             ),
                           ),
@@ -320,8 +322,9 @@ class _AddSiteGalleryScreenState
                 // currentIndex == contents.length - 1 ? "Continue" : "Next"
               ),
               style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(
-                      docFiles.isNotEmpty ? Helper.primary : Helper.blendmode),
+                  backgroundColor: MaterialStatePropertyAll(docFiles.isNotEmpty
+                      ? ref.watch(primaryColorProvider)
+                      : Helper.blendmode),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.r),

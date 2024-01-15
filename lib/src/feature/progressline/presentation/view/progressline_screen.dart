@@ -8,6 +8,7 @@ import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/data/model/progressline_project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/progressline_controller.dart';
 
@@ -54,7 +55,7 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
         body: SafeArea(
             child: RefreshIndicator(
           displacement: 10.0,
-          color: Helper.primary,
+          color: ref.watch(primaryColorProvider),
           onRefresh: () async {
             HapticFeedback.mediumImpact();
             return await ref

@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_cam_details.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/compare/presentation/provider/compare1_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/selected_imagedata_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/compare/presentation/provider/compare1_controller.dart';
@@ -109,7 +110,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
       body: SafeArea(
         child: RefreshIndicator(
           displacement: 10.0,
-          color: Helper.primary,
+          color: ref.watch(primaryColorProvider),
           onRefresh: () async {
             HapticFeedback.mediumImpact();
             return await ref
@@ -169,7 +170,8 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
 
                                       return Center(
                                         child: CircularProgressIndicator(
-                                          color: Helper.primary,
+                                          color:
+                                              ref.watch(primaryColorProvider),
                                           value: (loadingProgress != null)
                                               ? (loadingProgress
                                                       .cumulativeBytesLoaded /
@@ -293,7 +295,8 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                                                 border: _selectedImageIndex1 ==
                                                         index
                                                     ? Border.all(
-                                                        color: Helper.primary,
+                                                        color: ref.watch(
+                                                            primaryColorProvider),
                                                         width: 2.w,
                                                       )
                                                     : Border.all(
@@ -408,7 +411,8 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
 
                                       return Center(
                                         child: CircularProgressIndicator(
-                                          color: Helper.primary,
+                                          color:
+                                              ref.watch(primaryColorProvider),
                                           value: (loadingProgress != null)
                                               ? (loadingProgress
                                                       .cumulativeBytesLoaded /
@@ -532,7 +536,8 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                                                 border: _selectedImageIndex2 ==
                                                         index
                                                     ? Border.all(
-                                                        color: Helper.primary,
+                                                        color: ref.watch(
+                                                            primaryColorProvider),
                                                         width: 2.w,
                                                       )
                                                     : Border.all(
@@ -646,7 +651,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                 config: CalendarDatePicker2Config(
                   lastDate: DateTime.parse(endDate),
                   firstDate: DateTime.parse(startDate),
-                  selectedDayHighlightColor: Helper.primary,
+                  selectedDayHighlightColor: ref.watch(primaryColorProvider),
                 ),
                 value: [],
                 onValueChanged: (value) {
@@ -672,7 +677,8 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                     // currentIndex == contents.length - 1 ? "Continue" : "Next"
                   ),
                   style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Helper.primary),
+                      backgroundColor: MaterialStatePropertyAll(
+                          ref.watch(primaryColorProvider)),
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.r),
@@ -747,7 +753,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                 config: CalendarDatePicker2Config(
                   lastDate: DateTime.parse(endDate),
                   firstDate: DateTime.parse(startDate),
-                  selectedDayHighlightColor: Helper.primary,
+                  selectedDayHighlightColor: ref.watch(primaryColorProvider),
                 ),
                 value: [],
                 onValueChanged: (value) {
@@ -773,7 +779,8 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                     // currentIndex == contents.length - 1 ? "Continue" : "Next"
                   ),
                   style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Helper.primary),
+                      backgroundColor: MaterialStatePropertyAll(
+                          ref.watch(primaryColorProvider)),
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.r),

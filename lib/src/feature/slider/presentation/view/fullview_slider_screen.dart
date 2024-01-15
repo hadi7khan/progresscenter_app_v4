@@ -1,12 +1,15 @@
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 
-class FullviewSliderScreen extends StatefulWidget {
+class FullviewSliderScreen extends ConsumerStatefulWidget {
   final String projectId;
   final String projectName;
   final String cameraId;
@@ -21,10 +24,12 @@ class FullviewSliderScreen extends StatefulWidget {
       required this.imagesBytes});
 
   @override
-  State<FullviewSliderScreen> createState() => _FullviewSliderScreenState();
+  ConsumerState<FullviewSliderScreen> createState() =>
+      _FullviewSliderScreenState();
 }
 
-class _FullviewSliderScreenState extends State<FullviewSliderScreen> {
+class _FullviewSliderScreenState
+    extends BaseConsumerState<FullviewSliderScreen> {
   int currentslider = 0;
 
   @override
@@ -122,7 +127,7 @@ class _FullviewSliderScreenState extends State<FullviewSliderScreen> {
                       activeTickMarkColor: Colors.transparent,
                       inactiveTickMarkColor: Colors.transparent,
                       disabledInactiveTickMarkColor: Colors.grey,
-                      activeTrackColor: Helper.primary,
+                      activeTrackColor: ref.watch(primaryColorProvider),
                       thumbColor: Colors.white,
                     ),
                     child: Slider.adaptive(

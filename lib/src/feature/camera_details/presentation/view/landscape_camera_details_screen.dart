@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/images_by_cam_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/images_controller_watcher.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/selected_imagedata_provider.dart';
@@ -114,7 +115,7 @@ class _LandscapeCameraDetailsScreenState
 
                                   return Center(
                                     child: CircularProgressIndicator(
-                                      color: Helper.primary,
+                                      color: ref.watch(primaryColorProvider),
                                       value: (loadingProgress != null)
                                           ? (loadingProgress
                                                   .cumulativeBytesLoaded /
@@ -218,7 +219,8 @@ class _LandscapeCameraDetailsScreenState
                     config: CalendarDatePicker2Config(
                       lastDate: DateTime.parse(endDate),
                       firstDate: DateTime.parse(startDate),
-                      selectedDayHighlightColor: Helper.primary,
+                      selectedDayHighlightColor:
+                          ref.watch(primaryColorProvider),
                     ),
                     value: [],
                     onValueChanged: (value) {
@@ -245,8 +247,8 @@ class _LandscapeCameraDetailsScreenState
                         // currentIndex == contents.length - 1 ? "Continue" : "Next"
                       ),
                       style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(Helper.primary),
+                          backgroundColor: MaterialStatePropertyAll(
+                              ref.watch(primaryColorProvider)),
                           shape: MaterialStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.r),

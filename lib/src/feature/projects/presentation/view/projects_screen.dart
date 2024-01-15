@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/widgets/project_widget.dart';
 
@@ -38,7 +39,7 @@ class _ProjectsScreenState extends BaseConsumerState<ProjectsScreen> {
         body: SafeArea(
           child: RefreshIndicator(
             displacement: 10.0,
-            color: Helper.primary,
+            color: ref.watch(primaryColorProvider),
             onRefresh: () async {
               HapticFeedback.mediumImpact();
               return await ref

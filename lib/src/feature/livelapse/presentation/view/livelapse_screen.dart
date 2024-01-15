@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_livelapse_list.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/provider/livelapse_controller.dart';
 
 class LivelapseScreen extends ConsumerStatefulWidget {
@@ -110,7 +111,7 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
       body: SafeArea(
         child: RefreshIndicator(
           displacement: 10.0,
-          color: Helper.primary,
+          color: ref.watch(primaryColorProvider),
           onRefresh: () async {
             HapticFeedback.mediumImpact();
             return await ref

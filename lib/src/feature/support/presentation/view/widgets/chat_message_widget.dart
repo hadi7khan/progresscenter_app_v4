@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 
-class ChatMessageWidget extends StatelessWidget {
+class ChatMessageWidget extends ConsumerStatefulWidget {
   final String message;
   final String userType;
   final String userName;
@@ -20,6 +22,11 @@ class ChatMessageWidget extends StatelessWidget {
   });
 
   @override
+  ConsumerState<ChatMessageWidget> createState() => _ChatMessageWidgetState();
+}
+
+class _ChatMessageWidgetState extends ConsumerState<ChatMessageWidget> {
+  @override
   Widget build(BuildContext context) {
     showDateTimeString(String date, dateFormat) {
       // DateTime timestamp = DateTime.parse(date).toLocal();
@@ -32,19 +39,24 @@ class ChatMessageWidget extends StatelessWidget {
     }
 
     return Align(
-      alignment:
-          userType == 'User' ? Alignment.centerRight : Alignment.centerLeft,
+      alignment: widget.userType == 'User'
+          ? Alignment.centerRight
+          : Alignment.centerLeft,
       child: Container(
         width: MediaQuery.of(context).size.width * 0.7,
         margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         padding: EdgeInsets.all(12.0),
         decoration: BoxDecoration(
-          color: userType == 'User' ? Helper.primary : Helper.widgetBackground,
+          color: widget.userType == 'User'
+              ? ref.watch(primaryColorProvider)
+              : Helper.widgetBackground,
           borderRadius: BorderRadius.only(
-            topLeft:
-                userType == 'User' ? Radius.circular(8.r) : Radius.circular(0),
-            topRight:
-                userType == 'User' ? Radius.circular(0) : Radius.circular(8.r),
+            topLeft: widget.userType == 'User'
+                ? Radius.circular(8.r)
+                : Radius.circular(0),
+            topRight: widget.userType == 'User'
+                ? Radius.circular(0)
+                : Radius.circular(8.r),
             bottomLeft: Radius.circular(8.r),
             bottomRight: Radius.circular(8.r),
           ),
@@ -54,21 +66,23 @@ class ChatMessageWidget extends StatelessWidget {
           children: [
             Row(
               children: [
-                userType == 'ConsoleUser'
+                widget.userType == 'ConsoleUser'
                     ? AvatarWidget(
-                        dpUrl: dpUrl != null ? dpUrl : "",
-                        name: userName,
+                        dpUrl: widget.dpUrl != null ? widget.dpUrl : "",
+                        name: widget.userName,
                         backgroundColor: "",
                         size: 24,
                         fontSize: 14,
                       )
                     : SizedBox(),
-                userType == 'ConsoleUser' ? SizedBox(width: 8.w) : SizedBox(),
+                widget.userType == 'ConsoleUser'
+                    ? SizedBox(width: 8.w)
+                    : SizedBox(),
                 Text(
-                  userName,
+                  widget.userName,
                   style: TextStyle(
                       letterSpacing: -0.3,
-                      color: userType == 'ConsoleUser'
+                      color: widget.userType == 'ConsoleUser'
                           ? Helper.textColor700
                           : Colors.white,
                       fontSize: 14.sp,
@@ -78,10 +92,10 @@ class ChatMessageWidget extends StatelessWidget {
             ),
             const SizedBox(height: 4.0),
             Text(
-              message,
+              widget.message,
               style: TextStyle(
                   letterSpacing: -0.3,
-                  color: userType == 'ConsoleUser'
+                  color: widget.userType == 'ConsoleUser'
                       ? Helper.textColor900
                       : Colors.white,
                   fontSize: 16.sp,
@@ -89,7 +103,7 @@ class ChatMessageWidget extends StatelessWidget {
             ),
             const SizedBox(height: 4.0),
             Text(
-              showDateTimeString(createdAt.toIso8601String(), 'hh:mm a'),
+              showDateTimeString(widget.createdAt.toIso8601String(), 'hh:mm a'),
               style: TextStyle(
                   letterSpacing: -0.3,
                   color: Helper.baseBlack,

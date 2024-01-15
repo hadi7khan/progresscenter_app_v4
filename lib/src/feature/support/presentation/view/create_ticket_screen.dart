@@ -8,6 +8,7 @@ import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/support/presentation/provider/create_ticket_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/support/presentation/provider/support_controller.dart';
 
@@ -114,7 +115,8 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.r),
-                              borderSide: BorderSide(color: Helper.primary),
+                              borderSide: BorderSide(
+                                  color: ref.watch(primaryColorProvider)),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.r),
@@ -185,7 +187,8 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.r),
-                              borderSide: BorderSide(color: Helper.primary),
+                              borderSide: BorderSide(
+                                  color: ref.watch(primaryColorProvider)),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.r),
@@ -244,7 +247,8 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.r),
-                              borderSide: BorderSide(color: Helper.primary),
+                              borderSide: BorderSide(
+                                  color: ref.watch(primaryColorProvider)),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.r),
@@ -286,7 +290,7 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                   backgroundColor: MaterialStatePropertyAll(
                       _subjectController.text.isNotEmpty &&
                               _detailsController.text.isNotEmpty
-                          ? Helper.primary
+                          ? ref.watch(primaryColorProvider)
                           : Helper.blendmode),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(

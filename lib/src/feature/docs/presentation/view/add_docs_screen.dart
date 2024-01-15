@@ -17,6 +17,7 @@ import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/provider/add_doc_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/provider/docs_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean_model.dart';
@@ -195,7 +196,8 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                                             letterSpacing: -0.3,
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.w600,
-                                            color: Helper.primary)),
+                                            color: ref
+                                                .watch(primaryColorProvider))),
                                   ],
                                 ),
                               ),
@@ -300,7 +302,8 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.r),
-                              borderSide: BorderSide(color: Helper.primary),
+                              borderSide: BorderSide(
+                                  color: ref.watch(primaryColorProvider)),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.r),
@@ -355,7 +358,8 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.r),
-                              borderSide: BorderSide(color: Helper.primary),
+                              borderSide: BorderSide(
+                                  color: ref.watch(primaryColorProvider)),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.r),
@@ -422,7 +426,8 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8.r),
-                                  borderSide: BorderSide(color: Helper.primary),
+                                  borderSide: BorderSide(
+                                      color: ref.watch(primaryColorProvider)),
                                 ),
                                 focusedErrorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8.r),
@@ -579,7 +584,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                       _nameController.text.isNotEmpty &&
                               _doc != null &&
                               _selectedUserIds.isNotEmpty
-                          ? Helper.primary
+                          ? ref.watch(primaryColorProvider)
                           : Helper.blendmode),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(

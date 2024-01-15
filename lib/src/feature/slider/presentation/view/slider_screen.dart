@@ -11,6 +11,7 @@ import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/data/exception.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_slider.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/slider/presentation/provider/progress_slider_controller.dart';
 import 'package:http/http.dart' as http;
 
@@ -269,7 +270,7 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
                               activeTickMarkColor: Colors.transparent,
                               inactiveTickMarkColor: Colors.transparent,
                               disabledInactiveTickMarkColor: Colors.grey,
-                              activeTrackColor: Helper.primary,
+                              activeTrackColor: ref.watch(primaryColorProvider),
                               thumbColor: Colors.white,
                             ),
                             child: Slider.adaptive(

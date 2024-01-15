@@ -8,6 +8,7 @@ import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/add_drone_container.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/provider/drone_footage_controller.dart';
 
 import 'widgets/drone_gridview_widget.dart';
@@ -105,7 +106,7 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
           top: true,
           child: RefreshIndicator(
             displacement: 10.0,
-            color: Helper.primary,
+            color: ref.watch(primaryColorProvider),
             onRefresh: () async {
               HapticFeedback.mediumImpact();
               HapticFeedback.mediumImpact();

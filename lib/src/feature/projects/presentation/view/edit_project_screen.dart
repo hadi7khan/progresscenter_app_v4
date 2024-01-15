@@ -13,23 +13,25 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_by_id_model.dart'
     as model;
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 
-class EditProjectScreen extends StatefulWidget {
+class EditProjectScreen extends ConsumerStatefulWidget {
   final ProjectModel data;
   const EditProjectScreen({super.key, required this.data});
 
   @override
-  State<EditProjectScreen> createState() => _EditProjectScreenState();
+  ConsumerState<EditProjectScreen> createState() => _EditProjectScreenState();
 }
 
-class _EditProjectScreenState extends State<EditProjectScreen> {
+class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
   TextEditingController _controller = TextEditingController();
   TextEditingController _locationController = TextEditingController();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
@@ -235,7 +237,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                     child: Text(
                       "Save",
                       style: TextStyle(
-                          color: Helper.primary,
+                          color: ref.watch(primaryColorProvider),
                           fontWeight: FontWeight.w500,
                           fontSize: 16.sp),
                     ),
@@ -325,7 +327,8 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide(color: Helper.primary),
+                          borderSide: BorderSide(
+                              color: ref.watch(primaryColorProvider)),
                         ),
                         focusedErrorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.r),
@@ -410,7 +413,8 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide(color: Helper.primary),
+                          borderSide: BorderSide(
+                              color: ref.watch(primaryColorProvider)),
                         ),
                         focusedErrorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.r),
@@ -697,7 +701,7 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                         style: ButtonStyle(
                             backgroundColor: MaterialStatePropertyAll(
                                 _changeState
-                                    ? Helper.primary
+                                    ? ref.watch(primaryColorProvider)
                                     : Helper.baseBlack),
                             shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(
@@ -805,7 +809,8 @@ class _EditProjectScreenState extends State<EditProjectScreen> {
                                       width: 210.w,
                                       fillColor: Helper.textColor300,
                                       backgroundColor: Helper.textColor300,
-                                      progressColor: Helper.primary,
+                                      progressColor:
+                                          ref.watch(primaryColorProvider),
                                       padding: EdgeInsets.zero,
                                       curve: Curves.easeInOut,
                                       barRadius: Radius.circular(4.r),

@@ -16,6 +16,7 @@ import 'package:progresscenter_app_v4/src/common/skeletons/loading_user_profile.
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 // import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_lean_model.dart'
 //     as model;
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart'
@@ -340,7 +341,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                       child: Text(
                         "Save",
                         style: TextStyle(
-                            color: Helper.primary,
+                            color: ref.watch(primaryColorProvider),
                             fontWeight: FontWeight.w500,
                             fontSize: 16.sp),
                       ),
@@ -353,7 +354,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
           body: SafeArea(
             child: RefreshIndicator(
               displacement: 10.0,
-              color: Helper.primary,
+              color: ref.watch(primaryColorProvider),
               onRefresh: () async {
                 HapticFeedback.mediumImpact();
                 return await ref
@@ -961,7 +962,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                       //                         8.r),
                                       //                 borderSide: BorderSide(
                                       //                     color:
-                                      //                         Helper.primary),
+                                      //                         ref.watch(primaryColorProvider)),
                                       //               ),
                                       //               focusedErrorBorder:
                                       //                   OutlineInputBorder(
@@ -1050,7 +1051,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                       //           borderRadius:
                                       //               BorderRadius.circular(8.r),
                                       //           borderSide: BorderSide(
-                                      //               color: Helper.primary),
+                                      //               color: ref.watch(primaryColorProvider)),
                                       //         ),
                                       //         focusedErrorBorder:
                                       //             OutlineInputBorder(

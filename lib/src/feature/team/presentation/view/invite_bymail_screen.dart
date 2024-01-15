@@ -13,6 +13,7 @@ import 'package:progresscenter_app_v4/src/common/skeletons/loading_invite_mail.d
 import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 // import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_lean_model.dart'
 //     as model;
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart'
@@ -263,7 +264,8 @@ class _InviteByMailScreenState extends BaseConsumerState<InviteByMailScreen> {
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8.r),
-                                borderSide: BorderSide(color: Helper.primary),
+                                borderSide: BorderSide(
+                                    color: ref.watch(primaryColorProvider)),
                               ),
                               focusedErrorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8.r),
@@ -317,7 +319,8 @@ class _InviteByMailScreenState extends BaseConsumerState<InviteByMailScreen> {
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8.r),
-                                borderSide: BorderSide(color: Helper.primary),
+                                borderSide: BorderSide(
+                                    color: ref.watch(primaryColorProvider)),
                               ),
                               focusedErrorBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8.r),
@@ -378,7 +381,8 @@ class _InviteByMailScreenState extends BaseConsumerState<InviteByMailScreen> {
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8.r),
-                                  borderSide: BorderSide(color: Helper.primary),
+                                  borderSide: BorderSide(
+                                      color: ref.watch(primaryColorProvider)),
                                 ),
                                 focusedErrorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8.r),
@@ -542,7 +546,7 @@ class _InviteByMailScreenState extends BaseConsumerState<InviteByMailScreen> {
                   ),
                   padding:
                       EdgeInsets.symmetric(horizontal: 32.w, vertical: 11.h),
-                  backgroundColor: Helper.primary,
+                  backgroundColor: ref.watch(primaryColorProvider),
                   side: BorderSide(color: Helper.textColor300),
                   fixedSize: Size.infinite),
               child: Text(

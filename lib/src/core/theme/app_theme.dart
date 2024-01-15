@@ -24,7 +24,6 @@ mixin AppThemeMixin {
   );
 
   lightTheme() {
-    
     final lightTheme = ThemeData(
       primarySwatch: primarySwatch,
       brightness: Brightness.light,
@@ -33,7 +32,7 @@ mixin AppThemeMixin {
       fontFamily: 'Inter',
       useMaterial3: true,
       appBarTheme: AppBarTheme(
-        systemOverlayStyle: SystemUiOverlayStyle.dark,
+          systemOverlayStyle: SystemUiOverlayStyle.dark,
           iconTheme: const IconThemeData(color: Colors.black),
           toolbarTextStyle: TextStyle(color: Helper.secondary),
           backgroundColor: Colors.transparent,
@@ -103,32 +102,34 @@ mixin AppThemeMixin {
     return lightTheme;
   }
 
-  darkTheme(){
+  darkTheme() {
     final darkTheme = ThemeData(
-    primarySwatch: primarySwatch,
-    brightness: Brightness.dark,
-    floatingActionButtonTheme:
-        FloatingActionButtonThemeData(backgroundColor: Helper.primary),
-    appBarTheme:
-        const AppBarTheme( systemOverlayStyle: SystemUiOverlayStyle.dark,backgroundColor: Colors.transparent, elevation: 0),
-    fontFamily: GoogleFonts.montserrat().fontFamily,
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: Colors.black38,
-      selectedItemColor: Helper.primary,
-      unselectedItemColor: Colors.grey,
-      selectedLabelStyle: TextStyle(
-        color: Helper.primary,
-        fontSize: 11.sp,
-        fontWeight: FontWeight.w500,
+      primarySwatch: primarySwatch,
+      brightness: Brightness.dark,
+      floatingActionButtonTheme:
+          FloatingActionButtonThemeData(backgroundColor: Helper.primary),
+      appBarTheme: const AppBarTheme(
+          systemOverlayStyle: SystemUiOverlayStyle.dark,
+          backgroundColor: Colors.transparent,
+          elevation: 0),
+      fontFamily: GoogleFonts.montserrat().fontFamily,
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: Colors.black38,
+        selectedItemColor: Helper.primary,
+        unselectedItemColor: Colors.grey,
+        selectedLabelStyle: TextStyle(
+          color: Helper.primary,
+          fontSize: 11.sp,
+          fontWeight: FontWeight.w500,
+        ),
+        unselectedLabelStyle: TextStyle(
+          color: Colors.grey,
+          fontSize: 11.sp,
+          fontWeight: FontWeight.w400,
+        ),
       ),
-      unselectedLabelStyle: TextStyle(
-        color: Colors.grey,
-        fontSize: 11.sp,
-        fontWeight: FontWeight.w400,
-      ),
-    ),
-  );
-  return darkTheme;
+    );
+    return darkTheme;
   }
 
   ThemeMode currentTheme(String theme) {

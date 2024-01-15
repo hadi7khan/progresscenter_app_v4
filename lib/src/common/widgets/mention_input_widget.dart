@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 
-class MentionInput<T> extends StatefulWidget {
+class MentionInput<T> extends ConsumerStatefulWidget {
   final List<T> suggestions;
   final String Function(T) displayField;
   final Widget Function(T) renderSuggestion;
@@ -22,7 +25,7 @@ class MentionInput<T> extends StatefulWidget {
   _MentionInputState<T> createState() => _MentionInputState<T>();
 }
 
-class _MentionInputState<T> extends State<MentionInput<T>> {
+class _MentionInputState<T> extends BaseConsumerState<MentionInput<T>> {
   TextEditingController _controller = TextEditingController();
   bool showSuggestions = false;
   List<T> filteredSuggestions = [];
@@ -115,7 +118,8 @@ class _MentionInputState<T> extends State<MentionInput<T>> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.r),
-                    borderSide: BorderSide(color: Helper.primary),
+                    borderSide:
+                        BorderSide(color: ref.watch(primaryColorProvider)),
                   ),
                   focusedErrorBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.r),
@@ -130,7 +134,9 @@ class _MentionInputState<T> extends State<MentionInput<T>> {
               ),
               if (showSuggestions)
                 Positioned(
-                  top: MediaQuery.of(context).viewInsets.bottom,  // Adjust this value based on your UI design
+                  top: MediaQuery.of(context)
+                      .viewInsets
+                      .bottom, // Adjust this value based on your UI design
                   left: 0,
                   right: 0,
                   child: Container(

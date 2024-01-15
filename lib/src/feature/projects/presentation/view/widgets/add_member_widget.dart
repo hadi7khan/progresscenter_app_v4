@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean_model.dart';
 
-class AddMemberWidget extends StatefulWidget {
+class AddMemberWidget extends ConsumerStatefulWidget {
   const AddMemberWidget({super.key});
 
   @override
-  State<AddMemberWidget> createState() => _AddMemberWidgetState();
+  ConsumerState<AddMemberWidget> createState() => _AddMemberWidgetState();
 }
 
-class _AddMemberWidgetState extends State<AddMemberWidget> {
+class _AddMemberWidgetState extends BaseConsumerState<AddMemberWidget> {
   TextEditingController _emailController = TextEditingController();
   bool _changeState = false;
   GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
@@ -112,7 +115,8 @@ class _AddMemberWidgetState extends State<AddMemberWidget> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.r),
-                  borderSide: BorderSide(color: Helper.primary),
+                  borderSide:
+                      BorderSide(color: ref.watch(primaryColorProvider)),
                 ),
                 focusedErrorBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.r),

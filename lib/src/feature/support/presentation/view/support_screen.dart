@@ -9,6 +9,7 @@ import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_support_list.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/support/presentation/provider/support_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/support/presentation/view/widgets/support_widget.dart';
 
@@ -39,7 +40,7 @@ class _SupportScreenState extends BaseConsumerState<SupportScreen> {
       body: SafeArea(
           child: RefreshIndicator(
         displacement: 10.0,
-        color: Helper.primary,
+        color: ref.watch(primaryColorProvider),
         onRefresh: () async {
           HapticFeedback.mediumImpact();
           return await ref

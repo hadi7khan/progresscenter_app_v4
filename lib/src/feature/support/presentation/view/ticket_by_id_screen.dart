@@ -12,6 +12,7 @@ import 'package:progresscenter_app_v4/src/common/skeletons/load_ticket_by_id.dar
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_user_profile.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/support/data/model/ticket_replies_model.dart';
 import 'package:progresscenter_app_v4/src/feature/support/presentation/provider/post_ticket_reply_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/support/presentation/provider/ticket_by_id_controller.dart';
@@ -164,7 +165,7 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
             top: true,
             child: RefreshIndicator(
               displacement: 10.0,
-              color: Helper.primary,
+              color: ref.watch(primaryColorProvider),
               onRefresh: () async {
                 HapticFeedback.mediumImpact();
                 return await ref
@@ -443,7 +444,8 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.r),
-                      borderSide: BorderSide(color: Helper.primary),
+                      borderSide:
+                          BorderSide(color: ref.watch(primaryColorProvider)),
                     ),
                     focusedErrorBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.r),

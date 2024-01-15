@@ -13,6 +13,7 @@ import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart'
     as service;
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 
 class ProfileTeamScreen extends ConsumerStatefulWidget {
   final List<String>? teamsList;
@@ -94,7 +95,7 @@ class _ProfileTeamScreenState extends BaseConsumerState<ProfileTeamScreen> {
                   child: Text(
                     "Save",
                     style: TextStyle(
-                        color: Helper.primary,
+                        color: ref.watch(primaryColorProvider),
                         fontWeight: FontWeight.w500,
                         fontSize: 16.sp),
                   ),
@@ -144,7 +145,8 @@ class _ProfileTeamScreenState extends BaseConsumerState<ProfileTeamScreen> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.r),
-                      borderSide: BorderSide(color: Helper.primary),
+                      borderSide:
+                          BorderSide(color: ref.watch(primaryColorProvider)),
                     ),
                     focusedErrorBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.r),

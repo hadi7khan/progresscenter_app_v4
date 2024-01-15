@@ -22,6 +22,7 @@ import 'package:progresscenter_app_v4/src/common/skeletons/loading_cam_details.d
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/sekeleton.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/bottom_navigation/view/camera_view_bottom_nav.dart';
 import 'package:progresscenter_app_v4/src/feature/camera/presentation/provider/camera_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/data/model/images_by_camera_id_model.dart'
@@ -350,7 +351,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
         top: true,
         child: RefreshIndicator(
           triggerMode: RefreshIndicatorTriggerMode.anywhere,
-          color: Helper.primary,
+          color: ref.watch(primaryColorProvider),
           displacement: 40,
           onRefresh: () async {
             HapticFeedback.mediumImpact();
@@ -432,7 +433,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
 
                                   //   return Center(
                                   //     child: CircularProgressIndicator(
-                                  //       color: Helper.primary,
+                                  //       color: ref.watch(primaryColorProvider),
                                   //       value: (loadingProgress != null)
                                   //           ? (loadingProgress.cumulativeBytesLoaded /
                                   //               loadingProgress.expectedTotalBytes!)
@@ -504,7 +505,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                               return Center(
                                                 child:
                                                     CircularProgressIndicator(
-                                                  color: Helper.primary,
+                                                  color: ref.watch(
+                                                      primaryColorProvider),
                                                   value: (loadingProgress !=
                                                           null)
                                                       ? (loadingProgress
@@ -683,7 +685,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
 
                                 //           return Center(
                                 //             child: CircularProgressIndicator(
-                                //               color: Helper.primary,
+                                //               color: ref.watch(primaryColorProvider),
                                 //               value: (loadingProgress != null)
                                 //                   ? (loadingProgress
                                 //                           .cumulativeBytesLoaded /
@@ -902,7 +904,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                                                   reversedIndex]
                                                               .id!
                                                       ? Border.all(
-                                                          color: Helper.primary,
+                                                          color: ref.watch(
+                                                              primaryColorProvider),
                                                           width: 2.w,
                                                         )
                                                       : Border.all(
@@ -1138,8 +1141,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                                                       5.w),
                                                           decoration:
                                                               BoxDecoration(
-                                                            color:
-                                                                Helper.primary,
+                                                            color: ref.watch(
+                                                                primaryColorProvider),
                                                             borderRadius: BorderRadius.only(
                                                                 bottomLeft: Radius
                                                                     .circular(
@@ -1349,7 +1352,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                               // height: 44.h,
                               fit: BoxFit.cover,
                               colorFilter: ColorFilter.mode(
-                                  Helper.primary, BlendMode.srcIn))),
+                                  ref.watch(primaryColorProvider),
+                                  BlendMode.srcIn))),
                       title: Text(
                         'Download',
                         style: TextStyle(
@@ -1385,7 +1389,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                               // height: 44.h,
                               fit: BoxFit.cover,
                               colorFilter: ColorFilter.mode(
-                                  Helper.primary, BlendMode.srcIn))),
+                                  ref.watch(primaryColorProvider),
+                                  BlendMode.srcIn))),
                       title: Text(
                         'Share',
                         style: TextStyle(
@@ -1421,7 +1426,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                               // height: 44.h,
                               fit: BoxFit.cover,
                               colorFilter: ColorFilter.mode(
-                                  Helper.primary, BlendMode.srcIn))),
+                                  ref.watch(primaryColorProvider),
+                                  BlendMode.srcIn))),
                       title: Text(
                         'Comment',
                         style: TextStyle(
@@ -1457,7 +1463,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                               height: 24.h,
                               fit: BoxFit.cover,
                               colorFilter: ColorFilter.mode(
-                                  Helper.primary, BlendMode.srcIn))),
+                                  ref.watch(primaryColorProvider),
+                                  BlendMode.srcIn))),
                       title: Text(
                         'AI Insights',
                         style: TextStyle(
@@ -1493,7 +1500,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                               // height: 44.h,
                               fit: BoxFit.cover,
                               colorFilter: ColorFilter.mode(
-                                  Helper.primary, BlendMode.srcIn))),
+                                  ref.watch(primaryColorProvider),
+                                  BlendMode.srcIn))),
                       title: Text(
                         'Image quality',
                         style: TextStyle(
@@ -1530,7 +1538,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                               // height: 44.h,
                               fit: BoxFit.cover,
                               colorFilter: ColorFilter.mode(
-                                  Helper.primary, BlendMode.srcIn))),
+                                  ref.watch(primaryColorProvider),
+                                  BlendMode.srcIn))),
                       title: Text(
                         'Default view',
                         style: TextStyle(
@@ -1626,7 +1635,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                   config: CalendarDatePicker2Config(
                     lastDate: DateTime.parse(endDate),
                     firstDate: DateTime.parse(startDate),
-                    selectedDayHighlightColor: Helper.primary,
+                    selectedDayHighlightColor: ref.watch(primaryColorProvider),
                   ),
                   value: [],
                   onValueChanged: (value) {
@@ -1655,8 +1664,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                       // currentIndex == contents.length - 1 ? "Continue" : "Next"
                     ),
                     style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(Helper.primary),
+                        backgroundColor: MaterialStatePropertyAll(
+                            ref.watch(primaryColorProvider)),
                         shape: MaterialStateProperty.all(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.r),

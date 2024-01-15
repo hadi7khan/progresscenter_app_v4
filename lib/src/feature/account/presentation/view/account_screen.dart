@@ -15,6 +15,7 @@ import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
 import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/account/presentation/provider/accounts_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 
 class AccountScreen extends ConsumerStatefulWidget {
   const AccountScreen({super.key});
@@ -49,7 +50,7 @@ class _AccountScreenState extends BaseConsumerState<AccountScreen> {
       body: SafeArea(
           child: RefreshIndicator(
         displacement: 10.0,
-        color: Helper.primary,
+        color: ref.watch(primaryColorProvider),
         onRefresh: () async {
           HapticFeedback.mediumImpact();
           return await ref
@@ -274,7 +275,9 @@ class _AccountScreenState extends BaseConsumerState<AccountScreen> {
                             horizontal: 16.w, vertical: 10.h),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12.r),
-                            color: Helper.primary.withOpacity(0.07)),
+                            color: ref
+                                .watch(primaryColorProvider)
+                                .withOpacity(0.07)),
                         child: ListTile(
                           dense: true,
                           contentPadding: EdgeInsets.zero,
@@ -282,13 +285,13 @@ class _AccountScreenState extends BaseConsumerState<AccountScreen> {
                               VisualDensity(horizontal: 0, vertical: -4),
                           leading: SvgPicture.asset(
                             'assets/images/headphones.svg',
-                            color: Helper.primary,
+                            color: ref.watch(primaryColorProvider),
                           ),
                           title: Text(
                             "Support & Feedback",
                             style: TextStyle(
                                 letterSpacing: -0.3,
-                                color: Helper.primary,
+                                color: ref.watch(primaryColorProvider),
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w600),
                           ),
@@ -296,7 +299,7 @@ class _AccountScreenState extends BaseConsumerState<AccountScreen> {
                             "Please allow us to assist you",
                             style: TextStyle(
                                 letterSpacing: -0.3,
-                                color: Helper.primary,
+                                color: ref.watch(primaryColorProvider),
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w400),
                           ),

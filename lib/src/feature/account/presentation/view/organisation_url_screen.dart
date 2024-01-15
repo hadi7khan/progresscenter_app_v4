@@ -1,21 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 
-class OrganisationUrlScreen extends StatefulWidget {
+class OrganisationUrlScreen extends ConsumerStatefulWidget {
   const OrganisationUrlScreen({super.key});
 
   @override
-  State<OrganisationUrlScreen> createState() => _OrganisationUrlScreenState();
+  ConsumerState<OrganisationUrlScreen> createState() =>
+      _OrganisationUrlScreenState();
 }
 
-class _OrganisationUrlScreenState extends State<OrganisationUrlScreen> {
+class _OrganisationUrlScreenState
+    extends BaseConsumerState<OrganisationUrlScreen> {
   TextEditingController _urlController = TextEditingController();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   bool _changeState = false;
@@ -125,7 +130,8 @@ class _OrganisationUrlScreenState extends State<OrganisationUrlScreen> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.r),
-                      borderSide: BorderSide(color: Helper.primary),
+                      borderSide:
+                          BorderSide(color: ref.watch(primaryColorProvider)),
                     ),
                     focusedErrorBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.r),
@@ -156,8 +162,9 @@ class _OrganisationUrlScreenState extends State<OrganisationUrlScreen> {
                             // currentIndex == contents.length - 1 ? "Continue" : "Next"
                           ),
                     style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(
-                            _changeState ? Helper.primary : Helper.blendmode),
+                        backgroundColor: MaterialStatePropertyAll(_changeState
+                            ? ref.watch(primaryColorProvider)
+                            : Helper.blendmode),
                         shape: MaterialStateProperty.all(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.r),

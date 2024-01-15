@@ -13,6 +13,7 @@ import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_by_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/add_member_screen.dart';
@@ -208,7 +209,8 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                                   // height: 44.h,
                                   fit: BoxFit.cover,
                                   colorFilter: ColorFilter.mode(
-                                      Helper.primary, BlendMode.srcIn))),
+                                      ref.watch(primaryColorProvider),
+                                      BlendMode.srcIn))),
                           title: Text(
                             "Add member",
                             style: TextStyle(
@@ -226,7 +228,7 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                       //   child:
                       // Row(children: [
                       //   SvgPicture.asset('assets/images/plus.svg',
-                      //       color: Helper.primary),
+                      //       color: ref.watch(primaryColorProvider)),
                       //   SizedBox(width: 5.h),
                       //   Padding(
                       //     padding: EdgeInsets.symmetric(
@@ -307,8 +309,9 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                                       focusedBorder: OutlineInputBorder(
                                         borderRadius:
                                             BorderRadius.circular(8.r),
-                                        borderSide:
-                                            BorderSide(color: Helper.primary),
+                                        borderSide: BorderSide(
+                                            color: ref
+                                                .watch(primaryColorProvider)),
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
                                         borderRadius:
@@ -619,8 +622,8 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                                                             BorderRadius
                                                                 .circular(8.r),
                                                         borderSide: BorderSide(
-                                                            color:
-                                                                Helper.primary),
+                                                            color: ref.watch(
+                                                                primaryColorProvider)),
                                                       ),
                                                       focusedErrorBorder:
                                                           OutlineInputBorder(
@@ -716,7 +719,8 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                                                       BorderRadius.circular(
                                                           8.r),
                                                   borderSide: BorderSide(
-                                                      color: Helper.primary),
+                                                      color: ref.watch(
+                                                          primaryColorProvider)),
                                                 ),
                                                 focusedErrorBorder:
                                                     OutlineInputBorder(
@@ -1159,7 +1163,8 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                   // currentIndex == contents.length - 1 ? "Continue" : "Next"
                 ),
                 style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Helper.primary),
+                    backgroundColor: MaterialStatePropertyAll(
+                        ref.watch(primaryColorProvider)),
                     shape: MaterialStateProperty.all(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.r),
@@ -1219,7 +1224,7 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
             //         EdgeInsets.symmetric(horizontal: 5.w, vertical: 22.h),
             //     child: Row(children: [
             //       SvgPicture.asset('assets/images/plus.svg',
-            //           color: Helper.primary),
+            //           color: ref.watch(primaryColorProvider)),
             //       SizedBox(width: 5.h),
             //       Padding(
             //         padding: EdgeInsets.symmetric(
@@ -1229,7 +1234,7 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
             //           _userExists ? "Add to project" : "Send invite",
             //           style: TextStyle(
             //               letterSpacing: -0.3,
-            //               color: Helper.primary,
+            //               color: ref.watch(primaryColorProvider),
             //               fontSize: 18.sp,
             //               fontWeight: FontWeight.w500),
             //         ),
