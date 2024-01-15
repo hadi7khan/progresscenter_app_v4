@@ -7,6 +7,7 @@ import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
 import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
 import 'package:progresscenter_app_v4/src/feature/account/presentation/view/account_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/account/presentation/view/change_password_profile_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/account/presentation/view/delete_account_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/account/presentation/view/organisation_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/account/presentation/view/organisation_url_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/account/presentation/view/profile_screen.dart';
@@ -885,6 +886,20 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return NoTransitionPage(
             key: state.pageKey,
             child: ChangePasswordProfileScreen(
+              key: state.pageKey,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/deleteAccount',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: deleteAccountRoute,
+        pageBuilder: (context, state) {
+          // Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: DeleteAccountScreen(
               key: state.pageKey,
             ),
           );

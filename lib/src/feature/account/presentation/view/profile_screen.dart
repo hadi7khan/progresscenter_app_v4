@@ -1410,24 +1410,29 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                           SizedBox(
                             height: 20.h,
                           ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            padding: EdgeInsets.only(
-                                left: 16.w,
-                                top: 16.h,
-                                bottom: 16.h,
-                                right: 16.w),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16.r),
-                              color: Colors.white,
-                            ),
-                            child: Text(
-                              "Delete account",
-                              style: TextStyle(
-                                  letterSpacing: -0.3,
-                                  color: Helper.errorColor,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w500),
+                          InkWell(
+                            onTap: () {
+                              context.push("/deleteAccount");
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding: EdgeInsets.only(
+                                  left: 16.w,
+                                  top: 16.h,
+                                  bottom: 16.h,
+                                  right: 16.w),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16.r),
+                                color: Colors.white,
+                              ),
+                              child: Text(
+                                "Delete account",
+                                style: TextStyle(
+                                    letterSpacing: -0.3,
+                                    color: Helper.errorColor,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w500),
+                              ),
                             ),
                           )
                         ],
