@@ -288,7 +288,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                                                     RichText(
                                                       text: TextSpan(
                                                         text:
-                                                            "Are you sure you want to delete this ",
+                                                            "Are you sure you want to delete this account",
                                                         style: TextStyle(
                                                             fontSize: 14.sp,
                                                             fontWeight:
@@ -296,16 +296,16 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                                                             color: Helper
                                                                 .textColor500),
                                                         children: [
-                                                          TextSpan(
-                                                            text: "account",
-                                                            style: TextStyle(
-                                                                fontSize: 14.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                color: Helper
-                                                                    .baseBlack),
-                                                          ),
+                                                          // TextSpan(
+                                                          //   text: "account",
+                                                          //   style: TextStyle(
+                                                          //       fontSize: 14.sp,
+                                                          //       fontWeight:
+                                                          //           FontWeight
+                                                          //               .w500,
+                                                          //       color: Helper
+                                                          //           .baseBlack),
+                                                          // ),
                                                         ],
                                                       ),
                                                     ),

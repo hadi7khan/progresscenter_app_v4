@@ -34,6 +34,7 @@ import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/pr
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/selected_imagedata_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/landscape_camera_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/widgets/cameras_widget.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/widgets/date_slider_widget.dart';
 import 'package:zoom_pinch_overlay/zoom_pinch_overlay.dart';
 import 'dart:developer';
 
@@ -546,11 +547,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                               .toString(),
                                         ).currentContext!,
                                         alignment: 0.1);
-                                    Scrollable.ensureVisible(
-                                        GlobalObjectKey(
-                                                currentImage.id.toString())
-                                            .currentContext!,
-                                        alignment: 0.1);
 
                                     log("onindex change" + index.toString());
                                     final reversedIndex =
@@ -1020,146 +1016,160 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                         )),
                                   ),
                                   Expanded(
-                                    child: ListView.builder(
-                                      key: listViewKey,
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.horizontal,
-                                      physics: BouncingScrollPhysics(),
-                                      controller: _dateController,
-                                      itemCount: daysInMonth.length,
-                                      itemBuilder: (context, index) {
-                                        // Scrollable.ensureVisible(
-                                        //     GlobalObjectKey(
-                                        //             currentImage.id.toString())
-                                        //         .currentContext!,
-                                        //     alignment: 0.1);
-
-                                        final day = daysInMonth[index];
-                                        // String daycompare =
-                                        final formattedDay =
-                                            DateFormat.EEEE().format(day);
-                                        final formattedDate =
-                                            DateFormat.d().format(day);
-                                        final isSelected =
-                                            index == _selectedIndex;
-                                        final compareDate =
-                                            DateFormat('yyyyMMdd').format(day);
-                                        log("current Image date" +
-                                            currentImage.date.toString());
-                                        log("formatted day to compare" +
-                                            compareDate.toString());
-
-                                        return InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              _selectedIndex =
-                                                  index; // Update the selected index when an item is tapped
-                                            });
-
-                                            // DateTime date =
-                                            //     DateTime.parse(value[0].toString());
-                                            _searchDate = DateFormat("yyyyMMdd")
-                                                .format(day);
-                                            log("month list date" +
-                                                _searchDate);
-                                            ref
-                                                .watch(
-                                                    imagesByCamIdControllerProvider
-                                                        .notifier)
-                                                .getImagesByCamId(
-                                                    widget.projectId,
-                                                    widget.cameraId,
-                                                    searchDate: _searchDate);
-                                          },
-                                          child: Container(
-                                            margin: EdgeInsets.zero,
-                                            padding: EdgeInsets.zero,
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: currentImage.date ==
-                                                        DateFormat('yyyyMMdd')
-                                                            .format(daysInMonth[
-                                                                index])
-                                                    ? Helper.baseBlack
-                                                        .withOpacity(0.06)
-                                                    : Colors.transparent,
-                                                width:
-                                                    1, // Set the border width
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(6.r),
-                                            ),
-                                            child: Stack(children: [
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 10.w,
-                                                    vertical: 12.h),
-                                                child: Column(
-                                                  // key: GlobalObjectKey(
-                                                  //   currentImage.id.toString(),
-                                                  // ),
-                                                  children: [
-                                                    Text(
-                                                      formattedDate,
-                                                      style: TextStyle(
-                                                          letterSpacing: -0.3,
-                                                          color:
-                                                              Helper.baseBlack,
-                                                          fontSize: 16.sp,
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                    Text(
-                                                      formattedDay
-                                                          .substring(0, 3)
-                                                          .toUpperCase(),
-                                                      style: TextStyle(
-                                                          letterSpacing: -0.3,
-                                                          color:
-                                                              Helper.baseBlack,
-                                                          fontSize: 10.sp,
-                                                          fontWeight:
-                                                              FontWeight.w400),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              currentImage.date ==
-                                                      DateFormat('yyyyMMdd')
-                                                          .format(daysInMonth[
-                                                              index])
-                                                  ? Positioned.fill(
-                                                      // top: -2,
-                                                      child: Align(
-                                                        alignment:
-                                                            Alignment.topCenter,
-                                                        child: Container(
-                                                          height: 4.h,
-                                                          margin: EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      5.w),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: ref.watch(
-                                                                primaryColorProvider),
-                                                            borderRadius: BorderRadius.only(
-                                                                bottomLeft: Radius
-                                                                    .circular(
-                                                                        4.r),
-                                                                bottomRight: Radius
-                                                                    .circular(
-                                                                        4.r)),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  : SizedBox(),
-                                            ]),
-                                          ),
-                                        );
+                                    child: DateSliderWidget(
+                                      daysInMonth: daysInMonth,
+                                      selectedDate: currentImage.date,
+                                      onChange: (value) {
+                                        log(value.toString());
+                                        ref
+                                            .watch(
+                                                imagesByCamIdControllerProvider
+                                                    .notifier)
+                                            .getImagesByCamId(widget.projectId,
+                                                widget.cameraId,
+                                                searchDate: value);
                                       },
                                     ),
+                                    // ListView.builder(
+                                    //   key: listViewKey,
+                                    //   shrinkWrap: true,
+                                    //   scrollDirection: Axis.horizontal,
+                                    //   physics: BouncingScrollPhysics(),
+                                    //   controller: _dateController,
+                                    //   itemCount: daysInMonth.length,
+                                    //   itemBuilder: (context, index) {
+                                    //     // Scrollable.ensureVisible(
+                                    //     //     GlobalObjectKey(
+                                    //     //             currentImage.id.toString())
+                                    //     //         .currentContext!,
+                                    //     //     alignment: 0.1);
+
+                                    //     final day = daysInMonth[index];
+                                    //     // String daycompare =
+                                    //     final formattedDay =
+                                    //         DateFormat.EEEE().format(day);
+                                    //     final formattedDate =
+                                    //         DateFormat.d().format(day);
+                                    //     final isSelected =
+                                    //         index == _selectedIndex;
+                                    //     final compareDate =
+                                    //         DateFormat('yyyyMMdd').format(day);
+                                    //     log("current Image date" +
+                                    //         currentImage.date.toString());
+                                    //     log("formatted day to compare" +
+                                    //         compareDate.toString());
+
+                                    //     return InkWell(
+                                    //       onTap: () {
+                                    //         setState(() {
+                                    //           _selectedIndex =
+                                    //               index; // Update the selected index when an item is tapped
+                                    //         });
+
+                                    //         // DateTime date =
+                                    //         //     DateTime.parse(value[0].toString());
+                                    //         _searchDate = DateFormat("yyyyMMdd")
+                                    //             .format(day);
+                                    //         log("month list date" +
+                                    //             _searchDate);
+                                    //         ref
+                                    //             .watch(
+                                    //                 imagesByCamIdControllerProvider
+                                    //                     .notifier)
+                                    //             .getImagesByCamId(
+                                    //                 widget.projectId,
+                                    //                 widget.cameraId,
+                                    //                 searchDate: _searchDate);
+                                    //       },
+                                    //       child: Container(
+                                    //         margin: EdgeInsets.zero,
+                                    //         padding: EdgeInsets.zero,
+                                    //         decoration: BoxDecoration(
+                                    //           border: Border.all(
+                                    //             color: currentImage.date ==
+                                    //                     DateFormat('yyyyMMdd')
+                                    //                         .format(daysInMonth[
+                                    //                             index])
+                                    //                 ? Helper.baseBlack
+                                    //                     .withOpacity(0.06)
+                                    //                 : Colors.transparent,
+                                    //             width:
+                                    //                 1, // Set the border width
+                                    //           ),
+                                    //           borderRadius:
+                                    //               BorderRadius.circular(6.r),
+                                    //         ),
+                                    //         child: Stack(children: [
+                                    //           Padding(
+                                    //             padding: EdgeInsets.symmetric(
+                                    //                 horizontal: 10.w,
+                                    //                 vertical: 12.h),
+                                    //             child: Column(
+                                    //               // key: GlobalObjectKey(
+                                    //               //   currentImage.id.toString(),
+                                    //               // ),
+                                    //               children: [
+                                    //                 Text(
+                                    //                   formattedDate,
+                                    //                   style: TextStyle(
+                                    //                       letterSpacing: -0.3,
+                                    //                       color:
+                                    //                           Helper.baseBlack,
+                                    //                       fontSize: 16.sp,
+                                    //                       fontWeight:
+                                    //                           FontWeight.w600),
+                                    //                 ),
+                                    //                 Text(
+                                    //                   formattedDay
+                                    //                       .substring(0, 3)
+                                    //                       .toUpperCase(),
+                                    //                   style: TextStyle(
+                                    //                       letterSpacing: -0.3,
+                                    //                       color:
+                                    //                           Helper.baseBlack,
+                                    //                       fontSize: 10.sp,
+                                    //                       fontWeight:
+                                    //                           FontWeight.w400),
+                                    //                 ),
+                                    //               ],
+                                    //             ),
+                                    //           ),
+                                    //           currentImage.date ==
+                                    //                   DateFormat('yyyyMMdd')
+                                    //                       .format(daysInMonth[
+                                    //                           index])
+                                    //               ? Positioned.fill(
+                                    //                   // top: -2,
+                                    //                   child: Align(
+                                    //                     alignment:
+                                    //                         Alignment.topCenter,
+                                    //                     child: Container(
+                                    //                       height: 4.h,
+                                    //                       margin: EdgeInsets
+                                    //                           .symmetric(
+                                    //                               horizontal:
+                                    //                                   5.w),
+                                    //                       decoration:
+                                    //                           BoxDecoration(
+                                    //                         color: ref.watch(
+                                    //                             primaryColorProvider),
+                                    //                         borderRadius: BorderRadius.only(
+                                    //                             bottomLeft: Radius
+                                    //                                 .circular(
+                                    //                                     4.r),
+                                    //                             bottomRight: Radius
+                                    //                                 .circular(
+                                    //                                     4.r)),
+                                    //                       ),
+                                    //                     ),
+                                    //                   ),
+                                    //                 )
+                                    //               : SizedBox(),
+                                    //         ]),
+                                    //       ),
+                                    //     );
+                                    //   },
+                                    // ),
                                   ),
                                 ],
                               ),
