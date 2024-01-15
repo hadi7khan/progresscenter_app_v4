@@ -1191,16 +1191,29 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                                       ),
                                                       TextButton(
                                                         child: Text(
-                                                          'Reset to Default',
+                                                          'Reset to default',
                                                           style: TextStyle(
                                                               fontSize: 14.sp,
                                                               color: Helper
                                                                   .primary),
                                                         ),
                                                         onPressed: () {
-                                                          setState(() {});
-                                                          Navigator.of(context)
-                                                              .pop();
+                                                          setState(() {
+                                                            ref
+                                                                    .read(primaryColorProvider
+                                                                        .notifier)
+                                                                    .state =
+                                                                Color.fromRGBO(
+                                                                    0,
+                                                                    82,
+                                                                    204,
+                                                                    1);
+                                                            _prefsLocator
+                                                                .setPrimaryColor(
+                                                                    color:
+                                                                        "#0052CC");
+                                                            context.pop();
+                                                          });
                                                         },
                                                       ),
                                                     ],
