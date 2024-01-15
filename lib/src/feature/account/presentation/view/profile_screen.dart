@@ -1115,52 +1115,97 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                           context: context,
                                           builder: (BuildContext context) {
                                             return AlertDialog(
-                                              titlePadding:
-                                                  const EdgeInsets.all(0),
-                                              contentPadding:
-                                                  const EdgeInsets.all(0),
-                                              content: SingleChildScrollView(
-                                                child: ColorPicker(
-                                                  pickerColor: ref.watch(
-                                                      primaryColorProvider),
-                                                  onColorChanged: (color) {
-                                                    setState(() {
-                                                      colorToPass = "#" +
-                                                          color.value
-                                                              .toRadixString(16)
-                                                              .substring(2, 8);
-                                                    });
-                                                    log(colorToPass.toString());
-                                                    ref
-                                                        .read(
-                                                            primaryColorProvider
-                                                                .notifier)
-                                                        .state = color;
-                                                  },
-                                                  colorPickerWidth: 300,
-                                                  pickerAreaHeightPercent: 0.7,
-                                                  enableAlpha: true,
-                                                  labelTypes: [
-                                                    ColorLabelType.rgb,
-                                                    ColorLabelType.hsv,
-                                                    ColorLabelType.hsl
-                                                  ],
-                                                  displayThumbColor: true,
-                                                  // paletteType: _paletteType,
-                                                  pickerAreaBorderRadius:
-                                                      const BorderRadius.only(
-                                                    topLeft: Radius.circular(2),
-                                                    topRight:
-                                                        Radius.circular(2),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.zero),
+                                                titlePadding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 0),
+                                                contentPadding:
+                                                    const EdgeInsets.all(0),
+                                                content: SingleChildScrollView(
+                                                  child: ColorPicker(
+                                                    pickerColor: ref.watch(
+                                                        primaryColorProvider),
+                                                    onColorChanged: (color) {
+                                                      setState(() {
+                                                        colorToPass = "#" +
+                                                            color.value
+                                                                .toRadixString(
+                                                                    16)
+                                                                .substring(
+                                                                    2, 8);
+                                                      });
+                                                      log(colorToPass
+                                                          .toString());
+                                                      ref
+                                                          .read(
+                                                              primaryColorProvider
+                                                                  .notifier)
+                                                          .state = color;
+                                                    },
+                                                    colorPickerWidth: 300,
+                                                    pickerAreaHeightPercent:
+                                                        0.7,
+                                                    enableAlpha: true,
+                                                    labelTypes: [
+                                                      ColorLabelType.rgb,
+                                                      ColorLabelType.hsv,
+                                                      ColorLabelType.hsl
+                                                    ],
+                                                    displayThumbColor: true,
+                                                    // paletteType: _paletteType,
+                                                    pickerAreaBorderRadius:
+                                                        const BorderRadius.only(
+                                                      topLeft:
+                                                          Radius.circular(2),
+                                                      topRight:
+                                                          Radius.circular(2),
+                                                    ),
+                                                    hexInputBar: true,
+                                                    // colorHistory:
+                                                    //     false,
+                                                    // onHistoryChanged:
+                                                    //     widget.onHistoryChanged,
                                                   ),
-                                                  hexInputBar: true,
-                                                  // colorHistory:
-                                                  //     false,
-                                                  // onHistoryChanged:
-                                                  //     widget.onHistoryChanged,
                                                 ),
-                                              ),
-                                            );
+                                                actions: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      TextButton(
+                                                        child: Text(
+                                                          'Cancel',
+                                                          style: TextStyle(
+                                                              fontSize: 14.sp,
+                                                              color: Helper
+                                                                  .primary),
+                                                        ),
+                                                        onPressed: () {
+                                                          setState(() {});
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                      ),
+                                                      TextButton(
+                                                        child: Text(
+                                                          'Reset to Default',
+                                                          style: TextStyle(
+                                                              fontSize: 14.sp,
+                                                              color: Helper
+                                                                  .primary),
+                                                        ),
+                                                        onPressed: () {
+                                                          setState(() {});
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ]);
                                           },
                                         );
                                       },
