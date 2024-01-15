@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -50,6 +51,13 @@ class _ScaffoldWithNestedNavigationState
         child: BottomNavigationBar(
           currentIndex: widget.navigationShell.currentIndex,
           backgroundColor: Colors.white.withOpacity(0.8),
+          selectedItemColor: ref.watch(primaryColorProvider),
+          selectedLabelStyle: TextStyle(
+            color: ref.watch(primaryColorProvider),
+            fontSize: 11.sp,
+            letterSpacing: -0.3,
+            fontWeight: FontWeight.w500,
+          ),
           items: [
             BottomNavigationBarItem(
                 label: 'Projects',

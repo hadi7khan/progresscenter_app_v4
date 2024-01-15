@@ -75,14 +75,14 @@ mixin AppThemeMixin {
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: Helper.primary,
+        // selectedItemColor: Helper.primary,
         unselectedItemColor: Helper.textColor700,
-        selectedLabelStyle: TextStyle(
-          color: Helper.primary,
-          fontSize: 11.sp,
-          letterSpacing: -0.3,
-          fontWeight: FontWeight.w500,
-        ),
+        // selectedLabelStyle: TextStyle(
+        //   color: Helper.primary,
+        //   fontSize: 11.sp,
+        //   letterSpacing: -0.3,
+        //   fontWeight: FontWeight.w500,
+        // ),
         unselectedLabelStyle: TextStyle(
           color: Helper.secondary,
           fontSize: 11.sp,
