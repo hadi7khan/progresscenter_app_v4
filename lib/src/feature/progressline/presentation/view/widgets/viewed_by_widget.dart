@@ -1021,12 +1021,10 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                                                                 widget
                                                                     .data[index]
                                                                     .toString());
-                                                        print(
-                                                            "project user data " +
-                                                                widget
-                                                                    .data[index]
-                                                                    .id
-                                                                    .toString());
+                                                        log("project user data " +
+                                                            widget.data[index]
+                                                                .userId
+                                                                .toString());
                                                         Service()
                                                             .revokeMember(
                                                                 widget
