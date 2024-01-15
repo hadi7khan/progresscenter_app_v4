@@ -240,7 +240,12 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                                                 await Service()
                                                     .deleteAccount()
                                                     .then((value) {
-                                                  context.go('/signin');
+                                                  locator
+                                                      .logout()
+                                                      .then((value) {
+                                                    context.go('/signin');
+                                                  });
+
                                                   Utils.toastSuccessMessage(
                                                       "Account deleted");
                                                   setState(() {
@@ -319,7 +324,11 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                                                   await Service()
                                                       .deleteAccount()
                                                       .then((value) {
-                                                    context.go('/signin');
+                                                    locator
+                                                        .logout()
+                                                        .then((value) {
+                                                      context.go('/signin');
+                                                    });
                                                     Utils.toastSuccessMessage(
                                                         "Account deleted");
                                                     setState(() {
