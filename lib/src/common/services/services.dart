@@ -480,6 +480,23 @@ class Service {
     }
   }
 
+  // method to delete account
+  Future deleteAccount() async {
+    final client = http.Client();
+    final response =
+        await client.delete(Uri.parse(Endpoints.getProfileUrl()), headers: {
+      "content-type": "application/json",
+      "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+    });
+    print(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print("account deleted");
+      return response.body;
+    } else {
+      throw Exception('Failed to delete account');
+    }
+  }
+
   // method to update tags for a account
   Future changeProfile(data) async {
     var putData = json.encode(data);

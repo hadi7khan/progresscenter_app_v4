@@ -48,6 +48,7 @@ const String accountRoute = 'account';
 const String profileRoute = 'profile';
 const String profileteamRoute = 'profileTeam';
 const String changePasswordProfileRoute = 'changePasswordProfile';
+const String deleteAccountRoute = 'deleteAccount';
 const String organisationRoute = 'organisation';
 const String organisationUrlRoute = 'organisationUrl';
 const String notificationsRoute = 'notifications';
