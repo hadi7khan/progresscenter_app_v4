@@ -8,6 +8,7 @@ import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
 import 'package:progresscenter_app_v4/src/core/utils/debouncer_delay.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/widgets/project_card.dart';
@@ -194,7 +195,8 @@ class _SearchProjectScreenState extends BaseConsumerState<SearchProjectScreen> {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.r),
-                        borderSide: BorderSide(color: Helper.primary),
+                        borderSide:
+                            BorderSide(color: ref.watch(primaryColorProvider)),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.r),

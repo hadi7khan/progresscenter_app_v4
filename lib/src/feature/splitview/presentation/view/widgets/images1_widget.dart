@@ -4,11 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/selected_imagedata_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/splitview/presentation/provider/split_view1_provider.dart';
 
-class Images1Widget extends StatefulWidget {
+class Images1Widget extends ConsumerStatefulWidget {
   final int selectedImageIndex;
   final data;
   WidgetRef ref;
@@ -21,10 +23,10 @@ class Images1Widget extends StatefulWidget {
       required this.data});
 
   @override
-  State<Images1Widget> createState() => _Images1WidgetState();
+  ConsumerState<Images1Widget> createState() => _Images1WidgetState();
 }
 
-class _Images1WidgetState extends State<Images1Widget> {
+class _Images1WidgetState extends BaseConsumerState<Images1Widget> {
   int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -110,7 +112,8 @@ class _Images1WidgetState extends State<Images1Widget> {
                                   borderRadius: BorderRadius.circular(6.r),
                                   border: selectedIndex == index
                                       ? Border.all(
-                                          color: Helper.primary,
+                                          color:
+                                              ref.watch(primaryColorProvider),
                                           width: 2.w,
                                         )
                                       : Border.all(

@@ -11,6 +11,7 @@ import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/mention_input_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/post_comment_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/progressline_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/widgets/comments_widget.dart';
@@ -319,7 +320,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                     " comments",
                                 style: TextStyle(
                                     letterSpacing: -0.3,
-                                    color: Helper.primary,
+                                    color: ref.watch(primaryColorProvider),
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w500),
                               ),
@@ -385,7 +386,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                   },
                                   style: TextStyle(
                                       letterSpacing: -0.3,
-                                      color: Helper.primary,
+                                      color: ref.watch(primaryColorProvider),
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14.sp),
                                   data: getMentionsList(),
@@ -463,7 +464,8 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8.r),
-                                  borderSide: BorderSide(color: Helper.primary),
+                                  borderSide: BorderSide(
+                                      color: ref.watch(primaryColorProvider)),
                                 ),
                                 focusedErrorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8.r),

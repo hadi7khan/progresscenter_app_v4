@@ -230,7 +230,7 @@ class _FullViewSitegalleryScreenState
                           // betterController.
                           // ? Center(
                           //     child: CircularProgressIndicator(
-                          //     color: Helper.primary,
+                          //     color: ref.watch(primaryColorProvider),
                           //   ))
                           // :
                           BetterPlayer(
@@ -421,7 +421,7 @@ class _FullViewSitegalleryScreenState
                       //             ),
                       //             padding: const EdgeInsets.symmetric(
                       //                 horizontal: 16, vertical: 11),
-                      //             backgroundColor: Helper.primary,
+                      //             backgroundColor: ref.watch(primaryColorProvider),
                       //             side: BorderSide(color: Helper.textColor300),
                       //             fixedSize: Size.infinite),
                       //         child: Text(

@@ -11,6 +11,7 @@ import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_team_list.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/provider/user_controller.dart';
 import 'dart:developer';
 
@@ -57,7 +58,7 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
       body: SafeArea(
           child: RefreshIndicator(
         displacement: 10.0,
-        color: Helper.primary,
+        color: ref.watch(primaryColorProvider),
         onRefresh: () async {
           HapticFeedback.mediumImpact();
           return await ref.refresh(teamControllerProvider.notifier).getUser();

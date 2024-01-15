@@ -10,6 +10,7 @@ import 'package:image_compare_slider/image_compare_slider.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/selected_imagedata_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/splitview/presentation/provider/split_view1_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/splitview/presentation/provider/split_view1_provider.dart';
@@ -180,7 +181,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
       body: SafeArea(
         child: RefreshIndicator(
           displacement: 10.0,
-          color: Helper.primary,
+          color: ref.watch(primaryColorProvider),
           onRefresh: () async {
             HapticFeedback.mediumImpact();
             return await ref
@@ -243,7 +244,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                   aspectRatio,
                               child: ImageCompareSlider(
                                 // handleFollowsPosition: true,
-                                dividerColor: Helper.primary,
+                                dividerColor: ref.watch(primaryColorProvider),
                                 handleColor: Colors.white,
                                 handlePosition: 0.96,
                                 fillHandle: true,
@@ -260,7 +261,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                     if (loadingProgress == null) return child;
                                     return Center(
                                       child: CircularProgressIndicator(
-                                        color: Helper.primary,
+                                        color: ref.watch(primaryColorProvider),
                                         value: (loadingProgress != null)
                                             ? (loadingProgress
                                                     .cumulativeBytesLoaded /
@@ -295,7 +296,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
 
                                     return Center(
                                       child: CircularProgressIndicator(
-                                        color: Helper.primary,
+                                        color: ref.watch(primaryColorProvider),
                                         value: (loadingProgress != null)
                                             ? (loadingProgress
                                                     .cumulativeBytesLoaded /
@@ -608,7 +609,8 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                       borderRadius: BorderRadius.circular(6.r),
                                       border: _selectedImageIndex2 == index
                                           ? Border.all(
-                                              color: Helper.primary,
+                                              color: ref
+                                                  .watch(primaryColorProvider),
                                               width: 2.w,
                                             )
                                           : Border.all(
@@ -757,7 +759,8 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                       borderRadius: BorderRadius.circular(6.r),
                                       border: _selectedImageIndex2 == index
                                           ? Border.all(
-                                              color: Helper.primary,
+                                              color: ref
+                                                  .watch(primaryColorProvider),
                                               width: 2.w,
                                             )
                                           : Border.all(
@@ -883,7 +886,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                 config: CalendarDatePicker2Config(
                   lastDate: DateTime.parse(endDate),
                   firstDate: DateTime.parse(startDate),
-                  selectedDayHighlightColor: Helper.primary,
+                  selectedDayHighlightColor: ref.watch(primaryColorProvider),
                 ),
                 value: [],
                 onValueChanged: (value) {
@@ -909,7 +912,8 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                     // currentIndex == contents.length - 1 ? "Continue" : "Next"
                   ),
                   style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Helper.primary),
+                      backgroundColor: MaterialStatePropertyAll(
+                          ref.watch(primaryColorProvider)),
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.r),

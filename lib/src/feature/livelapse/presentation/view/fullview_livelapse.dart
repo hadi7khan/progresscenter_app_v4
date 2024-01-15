@@ -148,7 +148,7 @@ class _FullviewLivelapseState extends State<FullviewLivelapse> {
                   // chewieController == null
                   //     ? Center(
                   //         child: CircularProgressIndicator(
-                  //         color: Helper.primary,
+                  //         color: ref.watch(primaryColorProvider),
                   //       ))
                   //     :
                   BetterPlayer(

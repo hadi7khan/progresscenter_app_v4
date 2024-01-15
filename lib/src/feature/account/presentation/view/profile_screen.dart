@@ -323,7 +323,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                           child: Text(
                             "Save",
                             style: TextStyle(
-                                color: Helper.primary,
+                                color: ref.watch(primaryColorProvider),
                                 fontWeight: FontWeight.w500,
                                 fontSize: 16.sp),
                           ),
@@ -336,7 +336,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
               body: SafeArea(
                 child: RefreshIndicator(
                   displacement: 10.0,
-                  color: Helper.primary,
+                  color: ref.watch(primaryColorProvider),
                   onRefresh: () async {
                     HapticFeedback.mediumImpact();
                     return await ref
@@ -1279,7 +1279,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                 "Change password",
                                 style: TextStyle(
                                     letterSpacing: -0.3,
-                                    color: Helper.primary,
+                                    color: ref.watch(primaryColorProvider),
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w500),
                               ),
@@ -1362,7 +1362,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                 ),
                 CalendarDatePicker2(
                   config: CalendarDatePicker2Config(
-                    selectedDayHighlightColor: Helper.primary,
+                    selectedDayHighlightColor: ref.watch(primaryColorProvider),
                     currentDate: DateTime.parse(dob),
                     lastDate: DateTime.parse(dob),
                   ),
@@ -1394,8 +1394,8 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                       // currentIndex == contents.length - 1 ? "Continue" : "Next"
                     ),
                     style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(Helper.primary),
+                        backgroundColor: MaterialStatePropertyAll(
+                            ref.watch(primaryColorProvider)),
                         shape: MaterialStateProperty.all(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.r),

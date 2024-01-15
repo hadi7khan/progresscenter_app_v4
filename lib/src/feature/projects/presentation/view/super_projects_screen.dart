@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_by_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/widgets/project_card.dart';
@@ -63,7 +64,7 @@ class _SuperProjectScreenState extends BaseConsumerState<SuperProjectScreen> {
       body: SafeArea(
         child: RefreshIndicator(
           displacement: 10.0,
-          color: Helper.primary,
+          color: ref.watch(primaryColorProvider),
           onRefresh: () async {
             HapticFeedback.mediumImpact();
             return await service.Service()

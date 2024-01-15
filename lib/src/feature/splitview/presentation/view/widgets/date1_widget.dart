@@ -4,31 +4,34 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/splitview/presentation/provider/split_view1_controller.dart';
 
-class Date1Widget extends StatefulWidget {
+class Date1Widget extends ConsumerStatefulWidget {
   final String startDate;
   final String endDate;
-   String selectedDate;
+  String selectedDate;
   final String cameraId;
   final String projectId;
   final WidgetRef ref;
   final ValueChanged<String> changeDate;
-   Date1Widget(
+  Date1Widget(
       {super.key,
       required this.startDate,
       required this.endDate,
       required this.selectedDate,
       required this.cameraId,
       required this.projectId,
-      required this.ref, required this.changeDate});
+      required this.ref,
+      required this.changeDate});
 
   @override
-  State<Date1Widget> createState() => _Date1WidgetState();
+  ConsumerState<Date1Widget> createState() => _Date1WidgetState();
 }
 
-class _Date1WidgetState extends State<Date1Widget> {
+class _Date1WidgetState extends BaseConsumerState<Date1Widget> {
   String changeDate = "";
   @override
   Widget build(BuildContext context) {
@@ -63,7 +66,7 @@ class _Date1WidgetState extends State<Date1Widget> {
             config: CalendarDatePicker2Config(
               lastDate: DateTime.parse(widget.endDate),
               firstDate: DateTime.parse(widget.startDate),
-              selectedDayHighlightColor: Helper.primary,
+              selectedDayHighlightColor: ref.watch(primaryColorProvider),
             ),
             value: [],
             onValueChanged: (value) {
@@ -89,7 +92,8 @@ class _Date1WidgetState extends State<Date1Widget> {
                 // currentIndex == contents.length - 1 ? "Continue" : "Next"
               ),
               style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Helper.primary),
+                  backgroundColor:
+                      MaterialStatePropertyAll(ref.watch(primaryColorProvider)),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.r),

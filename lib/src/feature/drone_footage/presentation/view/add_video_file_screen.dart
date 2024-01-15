@@ -16,6 +16,7 @@ import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dar
 import 'package:progresscenter_app_v4/src/core/network/constants/endpoints.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/provider/add_file_video_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/provider/drone_footage_controller.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -147,7 +148,8 @@ class _AddFileVideoScreenState extends BaseConsumerState<AddFileVideoScreen> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.r),
-                            borderSide: BorderSide(color: Helper.primary),
+                            borderSide: BorderSide(
+                                color: ref.watch(primaryColorProvider)),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.r),
@@ -201,7 +203,8 @@ class _AddFileVideoScreenState extends BaseConsumerState<AddFileVideoScreen> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.r),
-                            borderSide: BorderSide(color: Helper.primary),
+                            borderSide: BorderSide(
+                                color: ref.watch(primaryColorProvider)),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.r),
@@ -262,7 +265,8 @@ class _AddFileVideoScreenState extends BaseConsumerState<AddFileVideoScreen> {
                                             letterSpacing: -0.3,
                                             fontSize: 14.sp,
                                             fontWeight: FontWeight.w600,
-                                            color: Helper.primary)),
+                                            color: ref
+                                                .watch(primaryColorProvider))),
                                   ],
                                 ),
                               ),
@@ -433,7 +437,7 @@ class _AddFileVideoScreenState extends BaseConsumerState<AddFileVideoScreen> {
                         ),
                         padding: EdgeInsets.symmetric(
                             horizontal: 32.w, vertical: 11.h),
-                        backgroundColor: Helper.primary,
+                        backgroundColor: ref.watch(primaryColorProvider),
                         side: BorderSide(color: Helper.textColor300),
                         fixedSize: Size.infinite),
                     child: Text(

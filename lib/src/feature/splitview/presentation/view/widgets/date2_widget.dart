@@ -4,10 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/splitview/presentation/provider/split_view2_controller.dart';
 
-class Date2Widget extends StatefulWidget {
+class Date2Widget extends ConsumerStatefulWidget {
   final String startDate;
   final String endDate;
   String selectedDate;
@@ -26,10 +28,10 @@ class Date2Widget extends StatefulWidget {
       required this.changeDate});
 
   @override
-  State<Date2Widget> createState() => _Date2WidgetState();
+  ConsumerState<Date2Widget> createState() => _Date2WidgetState();
 }
 
-class _Date2WidgetState extends State<Date2Widget> {
+class _Date2WidgetState extends BaseConsumerState<Date2Widget> {
   String changeDate = "";
   @override
   Widget build(BuildContext context) {
@@ -64,7 +66,7 @@ class _Date2WidgetState extends State<Date2Widget> {
             config: CalendarDatePicker2Config(
               lastDate: DateTime.parse(widget.endDate),
               firstDate: DateTime.parse(widget.startDate),
-              selectedDayHighlightColor: Helper.primary,
+              selectedDayHighlightColor: ref.watch(primaryColorProvider),
             ),
             value: [],
             onValueChanged: (value) {
@@ -90,7 +92,8 @@ class _Date2WidgetState extends State<Date2Widget> {
                 // currentIndex == contents.length - 1 ? "Continue" : "Next"
               ),
               style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Helper.primary),
+                  backgroundColor:
+                      MaterialStatePropertyAll(ref.watch(primaryColorProvider)),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.r),

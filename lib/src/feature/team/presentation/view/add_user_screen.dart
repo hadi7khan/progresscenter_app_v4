@@ -3,24 +3,27 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/data/extension.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 
 import 'package:timezone/data/latest.dart' as tz;
 
-class AddUserScreen extends StatefulWidget {
+class AddUserScreen extends ConsumerStatefulWidget {
   const AddUserScreen({super.key});
 
   @override
-  State<AddUserScreen> createState() => _AddUserScreenState();
+  ConsumerState<AddUserScreen> createState() => _AddUserScreenState();
 }
 
-class _AddUserScreenState extends State<AddUserScreen> {
+class _AddUserScreenState extends BaseConsumerState<AddUserScreen> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _userNameController = TextEditingController();
@@ -129,7 +132,8 @@ class _AddUserScreenState extends State<AddUserScreen> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.r),
-                            borderSide: BorderSide(color: Helper.primary),
+                            borderSide: BorderSide(
+                                color: ref.watch(primaryColorProvider)),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.r),
@@ -184,7 +188,8 @@ class _AddUserScreenState extends State<AddUserScreen> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.r),
-                            borderSide: BorderSide(color: Helper.primary),
+                            borderSide: BorderSide(
+                                color: ref.watch(primaryColorProvider)),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.r),
@@ -238,7 +243,8 @@ class _AddUserScreenState extends State<AddUserScreen> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.r),
-                            borderSide: BorderSide(color: Helper.primary),
+                            borderSide: BorderSide(
+                                color: ref.watch(primaryColorProvider)),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.r),
@@ -369,7 +375,8 @@ class _AddUserScreenState extends State<AddUserScreen> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.r),
-                            borderSide: BorderSide(color: Helper.primary),
+                            borderSide: BorderSide(
+                                color: ref.watch(primaryColorProvider)),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.r),
@@ -422,7 +429,8 @@ class _AddUserScreenState extends State<AddUserScreen> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.r),
-                            borderSide: BorderSide(color: Helper.primary),
+                            borderSide: BorderSide(
+                                color: ref.watch(primaryColorProvider)),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.r),
@@ -517,7 +525,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                         ),
                         padding: EdgeInsets.symmetric(
                             horizontal: 32.w, vertical: 11.h),
-                        backgroundColor: Helper.primary,
+                        backgroundColor: ref.watch(primaryColorProvider),
                         side: BorderSide(color: Helper.textColor300),
                         fixedSize: Size.infinite),
                     child: Text(
@@ -573,7 +581,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                 ),
                 CalendarDatePicker2(
                   config: CalendarDatePicker2Config(
-                    selectedDayHighlightColor: Helper.primary,
+                    selectedDayHighlightColor: ref.watch(primaryColorProvider),
                     // lastDate: DateTime.parse(endDate),
                     // firstDate: DateTime.parse(startDate),
                   ),
@@ -605,8 +613,8 @@ class _AddUserScreenState extends State<AddUserScreen> {
                       // currentIndex == contents.length - 1 ? "Continue" : "Next"
                     ),
                     style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(Helper.primary),
+                        backgroundColor: MaterialStatePropertyAll(
+                            ref.watch(primaryColorProvider)),
                         shape: MaterialStateProperty.all(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.r),

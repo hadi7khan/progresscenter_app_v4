@@ -17,6 +17,7 @@ import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/provider/site_gallery_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/view/widgets/site_gallery_grid_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/view/widgets/site_gallery_list_widget.dart';
@@ -247,7 +248,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
           top: true,
           child: RefreshIndicator(
             displacement: 10.0,
-            color: Helper.primary,
+            color: ref.watch(primaryColorProvider),
             onRefresh: () async {
               HapticFeedback.mediumImpact();
               return await ref
@@ -744,7 +745,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                   //     ),
                   //     style: ButtonStyle(
                   //         backgroundColor: MaterialStatePropertyAll(
-                  //             _changeState ? Helper.primary : Helper.baseBlack),
+                  //             _changeState ? ref.watch(primaryColorProvider) : Helper.baseBlack),
                   //         shape: MaterialStateProperty.all(
                   //           RoundedRectangleBorder(
                   //             borderRadius: BorderRadius.circular(8.r),
@@ -850,7 +851,8 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                                       width: 210.w,
                                       fillColor: Helper.textColor300,
                                       backgroundColor: Helper.textColor300,
-                                      progressColor: Helper.primary,
+                                      progressColor:
+                                          ref.watch(primaryColorProvider),
                                       padding: EdgeInsets.zero,
                                       curve: Curves.easeInOut,
                                       barRadius: Radius.circular(4.r),

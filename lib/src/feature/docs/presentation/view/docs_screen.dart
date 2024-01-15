@@ -14,6 +14,7 @@ import 'package:progresscenter_app_v4/src/common/skeletons/loading_docs_list.dar
 import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/provider/create_doc_folder_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/provider/docs_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/widgets/docs_widget.dart';
@@ -49,7 +50,7 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
       body: SafeArea(
           child: RefreshIndicator(
         displacement: 10.0,
-        color: Helper.primary,
+        color: ref.watch(primaryColorProvider),
         onRefresh: () async {
           HapticFeedback.mediumImpact();
           HapticFeedback.mediumImpact();
@@ -409,7 +410,8 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide(color: Helper.primary),
+                          borderSide: BorderSide(
+                              color: ref.watch(primaryColorProvider)),
                         ),
                         focusedErrorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.r),
@@ -475,7 +477,7 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                               ),
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 11),
-                              backgroundColor: Helper.primary,
+                              backgroundColor: ref.watch(primaryColorProvider),
                               side: BorderSide(color: Helper.textColor300),
                               fixedSize: Size.infinite),
                           child: Text(

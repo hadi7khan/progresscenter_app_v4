@@ -15,6 +15,7 @@ import 'package:progresscenter_app_v4/src/common/skeletons/sekeleton.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_group.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:blurrycontainer/blurrycontainer.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/widgets/viewed_by_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_by_id_model.dart'
     as model;
@@ -138,7 +139,7 @@ class _ProjectDetailsScreenState
         // maintainBottomViewPadding: true,
         child: RefreshIndicator(
           displacement: 10.0,
-          color: Helper.primary,
+          color: ref.watch(primaryColorProvider),
           onRefresh: () async {
             HapticFeedback.mediumImpact();
             HapticFeedback.mediumImpact();

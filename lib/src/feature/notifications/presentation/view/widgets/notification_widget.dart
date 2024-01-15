@@ -1,23 +1,26 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/notifications/data/models/notifications_model.dart'
     as model;
 
-class NotificationWidget extends StatefulWidget {
+class NotificationWidget extends ConsumerStatefulWidget {
   final model.Notification? notificationsData;
   const NotificationWidget({super.key, this.notificationsData});
 
   @override
-  State<NotificationWidget> createState() => _NotificationWidgetState();
+  ConsumerState<NotificationWidget> createState() => _NotificationWidgetState();
 }
 
-class _NotificationWidgetState extends State<NotificationWidget> {
+class _NotificationWidgetState extends BaseConsumerState<NotificationWidget> {
   TextSpan _buildTextSpan(String message) {
     List<TextSpan> children = [];
 
@@ -41,7 +44,8 @@ class _NotificationWidgetState extends State<NotificationWidget> {
           text: linkContent,
           style: TextStyle(
             height: 1,
-            color: Helper.primary, // Change color according to your design
+            color: ref.watch(
+                primaryColorProvider), // Change color according to your design
             decoration: TextDecoration.underline,
           ),
         ));

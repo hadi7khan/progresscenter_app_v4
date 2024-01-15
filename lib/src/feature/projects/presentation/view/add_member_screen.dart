@@ -11,6 +11,7 @@ import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/invite_members_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/userlean_controller.dart';
@@ -207,7 +208,8 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.r),
-                            borderSide: BorderSide(color: Helper.primary),
+                            borderSide: BorderSide(
+                                color: ref.watch(primaryColorProvider)),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.r),
@@ -347,7 +349,8 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide(color: Helper.primary),
+                          borderSide: BorderSide(
+                              color: ref.watch(primaryColorProvider)),
                         ),
                         focusedErrorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.r),
@@ -413,7 +416,8 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.r),
-                            borderSide: BorderSide(color: Helper.primary),
+                            borderSide: BorderSide(
+                                color: ref.watch(primaryColorProvider)),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.r),
@@ -504,7 +508,7 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                             backgroundColor: MaterialStatePropertyAll(
                                 _emailController.text.isNotEmpty &&
                                         _selectedTeams.isNotEmpty
-                                    ? Helper.primary
+                                    ? ref.watch(primaryColorProvider)
                                     : Helper.blendmode),
                             shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(
@@ -703,8 +707,8 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                             // currentIndex == contents.length - 1 ? "Continue" : "Next"
                           ),
                           style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStatePropertyAll(Helper.primary),
+                              backgroundColor: MaterialStatePropertyAll(
+                                  ref.watch(primaryColorProvider)),
                               shape: MaterialStateProperty.all(
                                 RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8.r),

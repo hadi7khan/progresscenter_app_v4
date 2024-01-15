@@ -2,12 +2,14 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 
-class RolesScreen extends StatefulWidget {
+class RolesScreen extends ConsumerStatefulWidget {
   final roles;
   final assignedRole;
   final Function(String)? onRoleSelection;
@@ -15,10 +17,10 @@ class RolesScreen extends StatefulWidget {
       {super.key, this.roles, this.assignedRole, this.onRoleSelection});
 
   @override
-  State<RolesScreen> createState() => _RolesScreenState();
+  ConsumerState<RolesScreen> createState() => _RolesScreenState();
 }
 
-class _RolesScreenState extends State<RolesScreen> {
+class _RolesScreenState extends ConsumerState<RolesScreen> {
   String? selectedRole;
 
   @override
@@ -76,7 +78,7 @@ class _RolesScreenState extends State<RolesScreen> {
                 //  Text(
                 //     "Save",
                 //     style: TextStyle(
-                //         color: Helper.primary,
+                //         color: ref.watch(primaryColorProvider),
                 //         fontWeight: FontWeight.w500,
                 //         fontSize: 16.sp),
                 //   ),
@@ -122,7 +124,8 @@ class _RolesScreenState extends State<RolesScreen> {
                           role.toString().toLowerCase()
                       ? Padding(
                           padding: EdgeInsets.only(right: 16.w),
-                          child: Icon(Icons.check, color: Helper.primary),
+                          child: Icon(Icons.check,
+                              color: ref.watch(primaryColorProvider)),
                         )
                       : null,
                 );

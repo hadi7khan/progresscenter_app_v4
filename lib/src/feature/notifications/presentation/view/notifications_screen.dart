@@ -11,6 +11,7 @@ import 'dart:developer';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_team_list.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/notifications/presentation/provider/notifications_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/notifications/presentation/view/widgets/notification_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/notifications/data/models/notifications_model.dart'
@@ -112,7 +113,7 @@ class _NotificationsScreenState extends BaseConsumerState<NotificationsScreen> {
       body: SafeArea(
           child: RefreshIndicator(
         displacement: 10.0,
-        color: Helper.primary,
+        color: ref.watch(primaryColorProvider),
         onRefresh: () async {
           HapticFeedback.mediumImpact();
           return await ref

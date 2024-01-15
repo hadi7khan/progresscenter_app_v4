@@ -92,14 +92,16 @@ class SplashScreen extends ConsumerStatefulWidget {
 
 class _SplashScreenState extends BaseConsumerState<SplashScreen> {
   final _prefsLocator = getIt.get<SharedPreferenceHelper>();
+  var color;
   @override
   void initState() {
     super.initState();
     navigateInitialRoute();
     Service().fetchUser().then((value) {
       _prefsLocator.setPrimaryColor(color: value.preferences!.primaryColor!);
+      color = _prefsLocator.getPrimaryColor();
     });
-    var color = _prefsLocator.getPrimaryColor();
+
     dev.log("color" + color.toString());
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(primaryColorProvider.notifier).state = _hexToColor(color);
@@ -135,7 +137,7 @@ class _SplashScreenState extends BaseConsumerState<SplashScreen> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
-        backgroundColor: Helper.primary,
+        backgroundColor: ref.watch(primaryColorProvider),
         body: SafeArea(
           child: Center(
             child: Column(
