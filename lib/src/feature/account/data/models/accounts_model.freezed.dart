@@ -364,12 +364,12 @@ class _$_AccountsModel implements _AccountsModel {
       this.email,
       this.role,
       this.status,
-      this.dob,
+      this.dob = "",
       this.dp,
       this.designation,
       final List<String>? tags,
       final List<ProjectModel>? projects,
-      this.phone,
+      this.phone = const Phone(),
       final List<String>? hiddenProjects,
       this.accountsModelId,
       this.dpUrl})
@@ -398,6 +398,7 @@ class _$_AccountsModel implements _AccountsModel {
   @override
   final String? status;
   @override
+  @JsonKey()
   final String? dob;
   @override
   final String? dp;
@@ -424,6 +425,7 @@ class _$_AccountsModel implements _AccountsModel {
   }
 
   @override
+  @JsonKey()
   final Phone? phone;
   final List<String>? _hiddenProjects;
   @override
@@ -706,20 +708,29 @@ class __$$_PhoneCopyWithImpl<$Res> extends _$PhoneCopyWithImpl<$Res, _$_Phone>
 @JsonSerializable()
 class _$_Phone implements _Phone {
   const _$_Phone(
-      {this.dialCode, this.countryCode, this.number, this.fullNumber, this.id});
+      {this.dialCode = "",
+      this.countryCode = "",
+      this.number = "",
+      this.fullNumber = "",
+      this.id = ""});
 
   factory _$_Phone.fromJson(Map<String, dynamic> json) =>
       _$$_PhoneFromJson(json);
 
   @override
+  @JsonKey()
   final String? dialCode;
   @override
+  @JsonKey()
   final String? countryCode;
   @override
+  @JsonKey()
   final String? number;
   @override
+  @JsonKey()
   final String? fullNumber;
   @override
+  @JsonKey()
   final String? id;
 
   @override

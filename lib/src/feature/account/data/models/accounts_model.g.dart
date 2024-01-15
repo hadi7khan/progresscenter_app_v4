@@ -20,7 +20,7 @@ _$_AccountsModel _$$_AccountsModelFromJson(Map<String, dynamic> json) =>
       email: json['email'] as String?,
       role: json['role'] as String?,
       status: json['status'] as String?,
-      dob: json['dob'] as String?,
+      dob: json['dob'] as String? ?? "",
       dp: json['dp'] as String?,
       designation: json['designation'] as String?,
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
@@ -28,7 +28,7 @@ _$_AccountsModel _$$_AccountsModelFromJson(Map<String, dynamic> json) =>
           ?.map((e) => ProjectModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       phone: json['phone'] == null
-          ? null
+          ? const Phone()
           : Phone.fromJson(json['phone'] as Map<String, dynamic>),
       hiddenProjects: (json['hiddenProjects'] as List<dynamic>?)
           ?.map((e) => e as String)
@@ -59,11 +59,11 @@ Map<String, dynamic> _$$_AccountsModelToJson(_$_AccountsModel instance) =>
     };
 
 _$_Phone _$$_PhoneFromJson(Map<String, dynamic> json) => _$_Phone(
-      dialCode: json['dialCode'] as String?,
-      countryCode: json['countryCode'] as String?,
-      number: json['number'] as String?,
-      fullNumber: json['fullNumber'] as String?,
-      id: json['id'] as String?,
+      dialCode: json['dialCode'] as String? ?? "",
+      countryCode: json['countryCode'] as String? ?? "",
+      number: json['number'] as String? ?? "",
+      fullNumber: json['fullNumber'] as String? ?? "",
+      id: json['id'] as String? ?? "",
     );
 
 Map<String, dynamic> _$$_PhoneToJson(_$_Phone instance) => <String, dynamic>{

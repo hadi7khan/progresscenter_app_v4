@@ -22,6 +22,7 @@ import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_hel
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/account/presentation/provider/accounts_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/account/presentation/view/delete_account_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 // import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_lean_model.dart'
 //     as model;
@@ -933,7 +934,10 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                             right: 16.w,
                                           ),
                                           child: Text(
-                                            showDate(data.dob, "dd MMM, yyyy "),
+                                            data.dob != ""
+                                                ? showDate(
+                                                    data.dob, "dd MMM, yyyy ")
+                                                : "",
                                             style: TextStyle(
                                                 letterSpacing: -0.3,
                                                 color: Helper.textColor900,
@@ -1490,8 +1494,9 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                 CalendarDatePicker2(
                   config: CalendarDatePicker2Config(
                     selectedDayHighlightColor: ref.watch(primaryColorProvider),
-                    currentDate: DateTime.parse(dob),
-                    lastDate: DateTime.parse(dob),
+                    currentDate:
+                        dob != "" ? DateTime.parse(dob) : DateTime.now(),
+                    lastDate: dob != "" ? DateTime.parse(dob) : DateTime.now(),
                   ),
                   value: [],
                   onValueChanged: (value) {

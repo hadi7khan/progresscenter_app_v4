@@ -22,12 +22,12 @@ class AccountsModel with _$AccountsModel {
     String? email,
     String? role,
     String? status,
-    String? dob,
+    @Default("") String? dob,
     String? dp,
     String? designation,
     List<String>? tags,
     List<ProjectModel>? projects,
-    Phone? phone,
+    @Default(Phone()) Phone? phone,
     List<String>? hiddenProjects,
     String? accountsModelId,
     String? dpUrl,
@@ -40,11 +40,11 @@ class AccountsModel with _$AccountsModel {
 @freezed
 class Phone with _$Phone {
   const factory Phone({
-    String? dialCode,
-    String? countryCode,
-    String? number,
-    String? fullNumber,
-    String? id,
+    @Default("") String? dialCode,
+    @Default("") String? countryCode,
+    @Default("") String? number,
+    @Default("") String? fullNumber,
+    @Default("") String? id,
   }) = _Phone;
 
   factory Phone.fromJson(Map<String, dynamic> json) => _$PhoneFromJson(json);

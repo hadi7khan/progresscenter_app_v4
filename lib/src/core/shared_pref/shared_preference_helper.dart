@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferenceHelper {
   static const String token = "token";
-  String primary = "";
+  String primary = "primary";
   final SharedPreferences prefs;
   var userToken;
   var primaryColor;
@@ -20,7 +20,11 @@ class SharedPreferenceHelper {
   String getPrimaryColor() {
     primaryColor = prefs.getString(primary);
     log("prefs color" + primaryColor.toString());
-    return primaryColor!;
+    return primaryColor;
+  }
+
+  bool containsPrimary() {
+    return prefs.containsKey("primary") && prefs.getString("primary") != null;
   }
 
   Future<void> setUserToken({required String userToken}) async {
