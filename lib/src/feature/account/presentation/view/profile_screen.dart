@@ -73,7 +73,6 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    _prefsLocator.getPrimaryColor();
     service.Service().fetchTeamList().then((teams) {
       setState(() {
         _teamList = teams;

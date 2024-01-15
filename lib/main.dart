@@ -98,6 +98,9 @@ class _SplashScreenState extends BaseConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    Service().fetchUser().then((value) {
+      _prefsLocator.setPrimaryColor(color: value.preferences!.primaryColor!);
+    });
     navigateInitialRoute();
   }
 
@@ -118,10 +121,6 @@ class _SplashScreenState extends BaseConsumerState<SplashScreen> {
       if (!hasToken) {
         context.pushReplacement('/onbording');
       } else {
-        Service().fetchUser().then((value) async {
-          await _prefsLocator.setPrimaryColor(
-              color: value.preferences!.primaryColor!);
-        });
         context.go('/projects');
       }
       // _prefsLocator.userToken != null  ? context.go('/projects')   : context.pushReplacement('/onbording');
