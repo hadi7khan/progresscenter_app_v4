@@ -66,6 +66,8 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
   FocusNode _mobileNode = FocusNode();
   final _prefsLocator = getIt.get<SharedPreferenceHelper>();
   var colorToPass;
+  var onChangePass;
+  Color? valueToPass;
 
   @override
   void initState() {
@@ -316,6 +318,8 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                 .changePrimarycolor(color)
                                 .then((val) {
                               _prefsLocator.setPrimaryColor(color: colorToPass);
+                              ref.read(primaryColorProvider.notifier).state =
+                                  valueToPass!;
                               Utils.toastSuccessMessage(
                                   "primary color updated");
                             });
@@ -1115,6 +1119,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                           context: context,
                                           builder: (BuildContext context) {
                                             return AlertDialog(
+                                                alignment: Alignment.center,
                                                 shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.zero),
@@ -1129,20 +1134,16 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                                         primaryColorProvider),
                                                     onColorChanged: (color) {
                                                       setState(() {
-                                                        colorToPass = "#" +
+                                                        onChangePass = "#" +
                                                             color.value
                                                                 .toRadixString(
                                                                     16)
                                                                 .substring(
                                                                     2, 8);
+                                                        valueToPass = color;
                                                       });
                                                       log(colorToPass
                                                           .toString());
-                                                      ref
-                                                          .read(
-                                                              primaryColorProvider
-                                                                  .notifier)
-                                                          .state = color;
                                                     },
                                                     colorPickerWidth: 300,
                                                     pickerAreaHeightPercent:
@@ -1170,24 +1171,47 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                                   ),
                                                 ),
                                                 actions: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
+                                                  Column(
                                                     children: [
-                                                      TextButton(
-                                                        child: Text(
-                                                          'Cancel',
-                                                          style: TextStyle(
-                                                              fontSize: 14.sp,
-                                                              color: Helper
-                                                                  .primary),
-                                                        ),
-                                                        onPressed: () {
-                                                          setState(() {});
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          TextButton(
+                                                            child: Text(
+                                                              'Cancel',
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      14.sp,
+                                                                  color: Helper
+                                                                      .primary),
+                                                            ),
+                                                            onPressed: () {
+                                                              setState(() {});
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                          ),
+                                                          TextButton(
+                                                            child: Text(
+                                                              'Save',
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      14.sp,
+                                                                  color: Helper
+                                                                      .primary),
+                                                            ),
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                colorToPass =
+                                                                    onChangePass;
+                                                              });
+                                                              context.pop();
+                                                            },
+                                                          ),
+                                                        ],
                                                       ),
                                                       TextButton(
                                                         child: Text(
