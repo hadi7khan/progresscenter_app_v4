@@ -217,6 +217,11 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
     );
   }
 
+  _getColor(String hex) {
+    String formattedHex = "FF" + hex.toUpperCase().replaceAll("#", "");
+    return int.parse(formattedHex, radix: 16);
+  }
+
   @override
   Widget build(BuildContext context) {
     final accountData =
@@ -1185,7 +1190,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                                                   fontSize:
                                                                       14.sp,
                                                                   color: Helper
-                                                                      .primary),
+                                                                      .baseBlack),
                                                             ),
                                                             onPressed: () {
                                                               setState(() {});
@@ -1219,23 +1224,39 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                                           style: TextStyle(
                                                               fontSize: 14.sp,
                                                               color: Helper
-                                                                  .primary),
+                                                                  .errorColor),
                                                         ),
                                                         onPressed: () {
                                                           setState(() {
-                                                            ref
-                                                                    .read(primaryColorProvider
-                                                                        .notifier)
-                                                                    .state =
-                                                                Color.fromRGBO(
-                                                                    0,
-                                                                    82,
-                                                                    204,
-                                                                    1);
-                                                            _prefsLocator
-                                                                .setPrimaryColor(
-                                                                    color:
-                                                                        "#0052CC");
+                                                            colorToPass =
+                                                                "#0052CC";
+                                                            Map<String, dynamic>
+                                                                color = {
+                                                              "primaryColor":
+                                                                  colorToPass
+                                                            };
+                                                            service.Service()
+                                                                .changePrimarycolor(
+                                                                    color)
+                                                                .then((val) {
+                                                              _prefsLocator
+                                                                  .setPrimaryColor(
+                                                                      color:
+                                                                          "#0052CC");
+                                                              ref
+                                                                      .read(primaryColorProvider
+                                                                          .notifier)
+                                                                      .state =
+                                                                  Color
+                                                                      .fromRGBO(
+                                                                          0,
+                                                                          82,
+                                                                          204,
+                                                                          1);
+                                                              Utils.toastSuccessMessage(
+                                                                  "primary color updated");
+                                                            });
+
                                                             context.pop();
                                                           });
                                                         },
@@ -1262,16 +1283,35 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                             padding: EdgeInsets.only(
                                               right: 16.w,
                                             ),
-                                            child: Text(
-                                              colorToPass != null
-                                                  ? colorToPass
-                                                  : data.preferences!
-                                                      .primaryColor!,
-                                              style: TextStyle(
-                                                  letterSpacing: -0.3,
-                                                  color: Helper.textColor900,
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.w500),
+                                            child: Row(
+                                              children: [
+                                                CircleAvatar(
+                                                  backgroundColor:
+                                                      Color(_getColor(
+                                                    colorToPass != null
+                                                        ? colorToPass
+                                                        : data.preferences!
+                                                            .primaryColor!,
+                                                  )),
+                                                  maxRadius: 5,
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  colorToPass != null
+                                                      ? colorToPass
+                                                      : data.preferences!
+                                                          .primaryColor!,
+                                                  style: TextStyle(
+                                                      letterSpacing: -0.3,
+                                                      color:
+                                                          Helper.textColor900,
+                                                      fontSize: 14.sp,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
+                                              ],
                                             ),
                                           )
                                         ],
