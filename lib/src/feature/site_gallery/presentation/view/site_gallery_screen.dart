@@ -447,33 +447,6 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                 });
               },
             ),
-            // CupertinoActionSheetAction(
-            //   child: const Text('Take Video'),
-            //   onPressed: () {
-            //     _pickVideo(ImageSource.camera, context).then((value) async {
-            //       await Service()
-            //           .uploadImageForSitegallery(
-            //         widget.projectId,
-            //         _image!.path,
-            //       )
-            //           .then((value) {
-            //         setState(() {
-            //           // _progress = progress;
-            //           // print("progress" + _progress.toString());
-            //         });
-            //         // print("progress" + _progress.toString());
-
-            //         context.pop();
-            //         ref
-            //             .refresh(siteGalleryControllerProvider.notifier)
-            //             .getSiteGallery(widget.projectId);
-            //         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            //             backgroundColor: Colors.green,
-            //             content: Text("Video Uploaded")));
-            //       });
-            //     });
-            //   },
-            // ),
             CupertinoActionSheetAction(
               child: const Text(
                 'Choose Photo',
@@ -527,6 +500,12 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
               },
             ),
           ],
+          cancelButton: CupertinoActionSheetAction(
+            child: Text('Cancel'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ),
       );
     }

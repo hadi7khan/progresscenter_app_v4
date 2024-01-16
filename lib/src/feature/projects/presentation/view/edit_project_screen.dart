@@ -530,6 +530,12 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
               },
             ),
           ],
+          cancelButton: CupertinoActionSheetAction(
+            child: Text('Cancel'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ),
       );
     }

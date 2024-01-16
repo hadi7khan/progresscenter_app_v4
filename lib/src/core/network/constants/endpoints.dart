@@ -56,6 +56,14 @@ class Endpoints {
     return '$baseUrl/api/v4/account/preferences/primary-color';
   }
 
+  static uploadImageProfileUrl() {
+    return '$baseUrl/api/v4/account/dp';
+  }
+
+  static uploadOrganisationLogoUrl() {
+    return '$baseUrl/api/v4/account/organisation/logo';
+  }
+
   //---------------------------- Projects ---------------------------------------
 
   static projectListUrl({searchText = ''}) {

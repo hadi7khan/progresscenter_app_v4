@@ -212,6 +212,12 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
               },
             ),
           ],
+          cancelButton: CupertinoActionSheetAction(
+            child: Text('Cancel'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ),
       );
     }
