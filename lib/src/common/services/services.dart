@@ -342,6 +342,108 @@ class Service {
     }
   }
 
+  // method to upload a photo in site gallery
+  Future<dynamic> uploadImageForProfile(String? filePath) async {
+    Dio dio = Dio();
+    log("filepath---" + filePath.toString());
+    Map<String, String> headers = {
+      // "Accept": "application/json",
+      'Authorization': "Bearer ${_prefsLocator.getUserToken()}",
+      "Content-Type": "multipart/form-data"
+    };
+
+    try {
+      FormData formData = FormData();
+      formData = FormData.fromMap({});
+      String fileName = filePath!.split('/').last;
+
+      formData.files.add(MapEntry(
+          'file',
+          await MultipartFile.fromFile(
+            filePath,
+            filename: fileName,
+            contentType: Helper.getMediaType(fileName),
+          )));
+
+      log("formdata passed " + formData.toString());
+
+      dio.options.headers = headers;
+      dio.options.contentType = Headers.formUrlEncodedContentType;
+
+      await dio
+          .put(
+        Endpoints.uploadImageProfileUrl(),
+        data: formData,
+      )
+          .then((response) {
+        log("response body " + response.data.toString());
+        // Check if the response is successful
+        if (response.statusCode == 200) {
+          // Parse the response data
+          final responseData = response.data;
+          return responseData;
+        } else {
+          // Handle error
+          throw Exception("Error uploading file: ${response.statusCode}");
+        }
+      });
+    } catch (e) {
+      log(e.toString());
+      throw Exception("Error uploading file: ${e.toString()}");
+    }
+  }
+
+  // method to upload a photo in site gallery
+  Future<dynamic> uploadOrganisationLogo(String? filePath) async {
+    Dio dio = Dio();
+    log("filepath---" + filePath.toString());
+    Map<String, String> headers = {
+      // "Accept": "application/json",
+      'Authorization': "Bearer ${_prefsLocator.getUserToken()}",
+      "Content-Type": "multipart/form-data"
+    };
+
+    try {
+      FormData formData = FormData();
+      formData = FormData.fromMap({});
+      String fileName = filePath!.split('/').last;
+
+      formData.files.add(MapEntry(
+          'file',
+          await MultipartFile.fromFile(
+            filePath,
+            filename: fileName,
+            contentType: Helper.getMediaType(fileName),
+          )));
+
+      log("formdata passed " + formData.toString());
+
+      dio.options.headers = headers;
+      dio.options.contentType = Headers.formUrlEncodedContentType;
+
+      await dio
+          .put(
+        Endpoints.uploadOrganisationLogoUrl(),
+        data: formData,
+      )
+          .then((response) {
+        log("response body " + response.data.toString());
+        // Check if the response is successful
+        if (response.statusCode == 200) {
+          // Parse the response data
+          final responseData = response.data;
+          return responseData;
+        } else {
+          // Handle error
+          throw Exception("Error uploading file: ${response.statusCode}");
+        }
+      });
+    } catch (e) {
+      log(e.toString());
+      throw Exception("Error uploading file: ${e.toString()}");
+    }
+  }
+
   // method to upload a list of files
   Future<dynamic> uploadFiles(String projectId, List<String?> filePaths) async {
     Dio dio = Dio();
@@ -494,6 +596,23 @@ class Service {
       return response.body;
     } else {
       throw Exception('Failed to delete account');
+    }
+  }
+
+  // method to delete organisation logo
+  Future deleteOrganisationLogo() async {
+    final client = http.Client();
+    final response = await client
+        .delete(Uri.parse(Endpoints.uploadOrganisationLogoUrl()), headers: {
+      "content-type": "application/json",
+      "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+    });
+    print(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print("logo deleted");
+      return response.body;
+    } else {
+      throw Exception('Failed to delete logo');
     }
   }
 

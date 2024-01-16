@@ -1,4 +1,6 @@
-import 'package:another_flushbar/flushbar.dart';
+import 'dart:io';
+import 'dart:ui';
+
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,9 +13,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
-import 'package:progresscenter_app_v4/src/common/skeletons/loading_add_user2.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_team_list.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_user_profile.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
@@ -22,10 +24,8 @@ import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_hel
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/account/presentation/provider/accounts_controller.dart';
-import 'package:progresscenter_app_v4/src/feature/account/presentation/view/delete_account_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
-// import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_lean_model.dart'
-//     as model;
+
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart'
     as model;
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_lean_controller.dart';
@@ -69,6 +69,29 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
   var colorToPass;
   var onChangePass;
   Color? valueToPass;
+  final ImagePicker _picker = ImagePicker();
+  XFile? _image;
+
+  Future<void> _pickImage(ImageSource source) async {
+    final pickedFile = await _picker.pickImage(
+      source: source,
+      maxWidth: 1024,
+      maxHeight: 1024,
+      imageQuality: 80,
+    );
+
+    if (pickedFile != null) {
+      final file = XFile(pickedFile.path);
+      if (await file.length() > 1000000) {
+        // The file is too large, show an error message
+        return;
+      }
+      setState(() {
+        _image = file;
+      });
+      print("image path" + _image!.path.toString());
+    }
+  }
 
   @override
   void initState() {
@@ -360,52 +383,57 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            padding: EdgeInsets.all(16.w),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16.r),
-                              color: Colors.white,
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                AvatarWidget(
-                                  dpUrl: data.dp != null ? data.dpUrl! : "",
-                                  name: data.name!,
-                                  backgroundColor: data.preset!.color!,
-                                  size: 50,
-                                  fontSize: 24,
-                                ),
-                                SizedBox(width: 10.h),
-                                Wrap(
-                                  direction: Axis.vertical,
-                                  children: [
-                                    Text(
-                                      data.name!,
-                                      style: TextStyle(
-                                          height: 1.1,
-                                          letterSpacing: -0.3,
-                                          color: Helper.baseBlack,
-                                          fontSize: 18.sp,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    Text(
-                                      data.designation != null
-                                          ? data.designation!
-                                          : "-",
-                                      style: TextStyle(
-                                          letterSpacing: -0.3,
-                                          color:
-                                              Helper.baseBlack.withOpacity(0.5),
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                  ],
-                                )
-                              ],
+                          InkWell(
+                            onTap: () {
+                              _showBottomSheet(context);
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding: EdgeInsets.all(16.w),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16.r),
+                                color: Colors.white,
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  AvatarWidget(
+                                    dpUrl: data.dp != null ? data.dpUrl! : "",
+                                    name: data.name!,
+                                    backgroundColor: data.preset!.color!,
+                                    size: 50,
+                                    fontSize: 24,
+                                  ),
+                                  SizedBox(width: 10.h),
+                                  Wrap(
+                                    direction: Axis.vertical,
+                                    children: [
+                                      Text(
+                                        data.name!,
+                                        style: TextStyle(
+                                            height: 1.1,
+                                            letterSpacing: -0.3,
+                                            color: Helper.baseBlack,
+                                            fontSize: 18.sp,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      Text(
+                                        data.designation != null
+                                            ? data.designation!
+                                            : "-",
+                                        style: TextStyle(
+                                            letterSpacing: -0.3,
+                                            color: Helper.baseBlack
+                                                .withOpacity(0.5),
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                           SizedBox(height: 20.h),
@@ -1549,6 +1577,251 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
           );
         }),
       ]),
+    );
+  }
+
+  _showBottomSheet(context) {
+    if (Platform.isIOS) {
+      return showCupertinoModalPopup(
+        context: context,
+        builder: (context) => CupertinoActionSheet(
+          title: const Text('Upload Media'),
+          // message: const Text('Message'),
+          actions: <CupertinoActionSheetAction>[
+            CupertinoActionSheetAction(
+              child: const Text('Take Photo'),
+              onPressed: () {
+                _pickImage(ImageSource.camera).then((value) async {
+                  await service.Service()
+                      .uploadImageForProfile(_image!.path)
+                      .then((value) {
+                    ref.read(accountsControllerProvider.notifier).getProfile();
+                    context.pop();
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        backgroundColor: Colors.green,
+                        content: Text("Image Uploaded")));
+                  });
+                });
+              },
+            ),
+            CupertinoActionSheetAction(
+              child: const Text(
+                'Choose Photo',
+              ),
+              onPressed: () {
+                _pickImage(ImageSource.gallery).then((value) async {
+                  await await service.Service()
+                      .uploadImageForProfile(_image!.path)
+                      .then((value) {
+                    ref.read(accountsControllerProvider.notifier).getProfile();
+                    context.pop();
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        backgroundColor: Colors.green,
+                        content: Text("Image Uploaded")));
+                  });
+                });
+              },
+            ),
+            CupertinoActionSheetAction(
+              child: const Text(
+                'Browse from files',
+              ),
+              onPressed: () {
+                _pickImage(ImageSource.gallery).then((value) async {
+                  await service.Service()
+                      .uploadImageForProfile(_image!.path)
+                      .then((value) {
+                    ref.read(accountsControllerProvider.notifier).getProfile();
+                    context.pop();
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        backgroundColor: Colors.green,
+                        content: Text("Image Uploaded")));
+                  });
+                });
+              },
+            ),
+          ],
+          cancelButton: CupertinoActionSheetAction(
+            child: Text('Cancel'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+      );
+    }
+    return showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+        child: StatefulBuilder(builder: (context, setState) {
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16.r),
+                  topRight: Radius.circular(16.r)),
+              color: Colors.white,
+            ),
+            height: 340.h,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Upload Media',
+                      style: TextStyle(
+                          color: Helper.baseBlack,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20.h),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    InkWell(
+                      onTap: () async {
+                        _pickImage(ImageSource.camera).then((value) async {
+                          await service.Service()
+                              .uploadImageForProfile(_image!.path)
+                              .then((value) {
+                            ref
+                                .read(accountsControllerProvider.notifier)
+                                .getProfile();
+                            context.pop();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    backgroundColor: Colors.green,
+                                    content: Text("Image Uploaded")));
+                          });
+                        });
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10.w, vertical: 16.h),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.r),
+                            color: Colors.white),
+                        child: Text(
+                          'Take Photo',
+                          style: TextStyle(
+                              color: Helper.baseBlack,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        context.pop();
+                        _pickImage(ImageSource.gallery).then((value) async {
+                          await await service.Service()
+                              .uploadImageForProfile(_image!.path)
+                              .then((value) {
+                            ref
+                                .read(accountsControllerProvider.notifier)
+                                .getProfile();
+                            context.pop();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    backgroundColor: Colors.green,
+                                    content: Text("Image Uploaded")));
+                          });
+                        });
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10.w, vertical: 16.h),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.r),
+                            color: Colors.white),
+                        child: Text(
+                          'Choose Photo',
+                          style: TextStyle(
+                              color: Helper.baseBlack,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        _pickImage(ImageSource.gallery).then((value) async {
+                          await service.Service()
+                              .uploadImageForProfile(
+                            _image!.path,
+                          )
+                              .then((value) {
+                            ref
+                                .read(accountsControllerProvider.notifier)
+                                .getProfile();
+                            context.pop();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    backgroundColor: Colors.green,
+                                    content: Text("Image Uploaded")));
+                          });
+                        });
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10.w, vertical: 16.h),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.r),
+                            color: Colors.white),
+                        child: Text(
+                          'Browse from files',
+                          style: TextStyle(
+                              color: Helper.baseBlack,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20.h),
+                    Container(
+                      height: 52.h,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500),
+                          // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                        ),
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll(Helper.baseBlack),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                            )),
+                        onPressed: () {
+                          context.pop();
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        }),
+      ),
     );
   }
 }

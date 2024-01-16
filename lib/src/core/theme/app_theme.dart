@@ -25,6 +25,12 @@ mixin AppThemeMixin {
 
   lightTheme() {
     final lightTheme = ThemeData(
+      pageTransitionsTheme: PageTransitionsTheme(
+        builders: {
+          //this is default transition
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        },
+      ),
       primarySwatch: primarySwatch,
       brightness: Brightness.light,
       splashColor: Colors.transparent,
