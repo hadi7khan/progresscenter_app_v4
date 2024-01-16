@@ -616,6 +616,23 @@ class Service {
     }
   }
 
+  // method to delete profile logo
+  Future deleteProfileDp() async {
+    final client = http.Client();
+    final response = await client
+        .delete(Uri.parse(Endpoints.uploadImageProfileUrl()), headers: {
+      "content-type": "application/json",
+      "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+    });
+    print(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      print("dp deleted");
+      return response.body;
+    } else {
+      throw Exception('Failed to delete dp');
+    }
+  }
+
   // method to update tags for a account
   Future changeProfile(data) async {
     var putData = json.encode(data);
