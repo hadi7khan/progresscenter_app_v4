@@ -8,7 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
-import 'package:progresscenter_app_v4/src/common/skeletons/loading_cam_details.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/loading_compare.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/compare/presentation/provider/compare1_provider.dart';
@@ -352,10 +352,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                           style: TextStyle(
                               letterSpacing: -0.3, color: Helper.errorColor));
                     },
-                    loading: () => LoadingCamDetails(
-                      showCalendarList: false,
-                      topPadding: 0,
-                    ),
+                    loading: () => LoadingCompare(),
                   ),
                   SizedBox(height: 24.h),
 
@@ -593,8 +590,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                           style: TextStyle(
                               letterSpacing: -0.3, color: Helper.errorColor));
                     },
-                    loading: () => LoadingCamDetails(
-                        showCalendarList: false, topPadding: 0),
+                    loading: () => LoadingCompare(),
                   )
                 ],
               ),

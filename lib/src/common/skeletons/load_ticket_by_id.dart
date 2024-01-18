@@ -4,14 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/sekeleton.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 
-class LoadingTicketById extends StatefulWidget {
+class LoadingTicketById extends StatelessWidget {
   const LoadingTicketById({super.key});
 
-  @override
-  State<LoadingTicketById> createState() => _LoadingTicketByIdState();
-}
-
-class _LoadingTicketByIdState extends State<LoadingTicketById> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

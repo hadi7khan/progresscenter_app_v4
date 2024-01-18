@@ -13,16 +13,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
-import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/loading_site_gallery.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/provider/site_gallery_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/view/widgets/site_gallery_grid_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/view/widgets/site_gallery_list_widget.dart';
-// import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 import 'dart:developer';
-
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 
 class SiteGalleryScreen extends ConsumerStatefulWidget {
@@ -379,7 +377,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
                                 padding: EdgeInsets.zero,
-                                // cacheExtent: 99999999,
+                                cacheExtent: 99999999,
                                 gridDelegate:
                                     SliverGridDelegateWithMaxCrossAxisExtent(
                                   maxCrossAxisExtent:
@@ -405,14 +403,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                       style: TextStyle(
                           letterSpacing: -0.3, color: Helper.errorColor));
                 },
-                loading: () => Column(
-                  children: [
-                    SizedBox(
-                      height: 44,
-                    ),
-                    LoadingCardListScreen(),
-                  ],
-                ),
+                loading: () => LoadingSiteGallery(),
               ),
             )),
           ),

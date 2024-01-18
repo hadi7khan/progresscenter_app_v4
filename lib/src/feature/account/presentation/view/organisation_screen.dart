@@ -13,15 +13,13 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
-import 'package:progresscenter_app_v4/src/common/skeletons/loading_user_profile.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/loading_organisation.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/account/presentation/provider/organisation_controller.dart';
-import 'package:progresscenter_app_v4/src/feature/account/presentation/view/camera_view_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/account/presentation/view/full_screen_preview.dart';
 import 'dart:developer';
-
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 
@@ -605,7 +603,7 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                 style:
                     TextStyle(letterSpacing: -0.3, color: Helper.errorColor));
           },
-          loading: () => LoadingUserProfile(),
+          loading: () => LoadingOrganisation(),
         ));
   }
 
