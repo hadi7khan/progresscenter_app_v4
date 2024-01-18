@@ -405,12 +405,6 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                     SizedBox(width: 10.h),
                                     Wrap(
                                       direction: Axis.vertical,
-
-                                      // mainAxisSize: MainAxisSize.min,
-                                      // crossAxisAlignment:
-                                      //     CrossAxisAlignment.start,
-                                      // mainAxisAlignment:
-                                      //     MainAxisAlignment.start,
                                       children: [
                                         Text(
                                           data.name,

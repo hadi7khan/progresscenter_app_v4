@@ -3,14 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/sekeleton.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dart';
 
-class LoadingAddUser2 extends StatefulWidget {
+class LoadingAddUser2 extends StatelessWidget {
   const LoadingAddUser2({super.key});
 
-  @override
-  State<LoadingAddUser2> createState() => _LoadingAddUser2State();
-}
-
-class _LoadingAddUser2State extends State<LoadingAddUser2> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -26,7 +21,6 @@ class _LoadingAddUser2State extends State<LoadingAddUser2> {
           ),
         ),
         SizedBox(height: 12.h),
-        
         CustomInputWidget(
           title: " ",
           formField: Skeleton(

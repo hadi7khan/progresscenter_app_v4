@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_compare_slider/image_compare_slider.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/loading_split_view.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/selected_imagedata_provider.dart';
@@ -499,7 +500,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                           style: TextStyle(
                               letterSpacing: -0.3, color: Helper.errorColor));
                     },
-                    loading: () => Center(child: CircularProgressIndicator()),
+                    loading: () => Center(child: LoadingSplitView()),
                   ),
                 );
               },
@@ -508,7 +509,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                     style: TextStyle(
                         letterSpacing: -0.3, color: Helper.errorColor));
               },
-              loading: () => Center(child: CircularProgressIndicator()),
+              loading: () => Center(child: LoadingSplitView()),
             ),
           ),
         ),

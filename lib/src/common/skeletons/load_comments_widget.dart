@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/sekeleton.dart';
 
-class LoadCommentsWidget extends StatefulWidget {
+class LoadCommentsWidget extends StatelessWidget {
   const LoadCommentsWidget({super.key});
 
-  @override
-  State<LoadCommentsWidget> createState() => _LoadCommentsWidgetState();
-}
-
-class _LoadCommentsWidgetState extends State<LoadCommentsWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(

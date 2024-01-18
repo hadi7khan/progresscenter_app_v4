@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:blurrycontainer/blurrycontainer.dart';
@@ -7,7 +6,6 @@ import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,8 +17,6 @@ import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_app_bar.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_cam_details.dart';
-import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
-import 'package:progresscenter_app_v4/src/common/skeletons/sekeleton.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/bottom_navigation/view/camera_view_bottom_nav.dart';
@@ -30,12 +26,10 @@ import 'package:progresscenter_app_v4/src/feature/camera_details/data/model/imag
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/camera_by_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/images_by_cam_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/images_controller_watcher.dart';
-import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/newprovider.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/selected_imagedata_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/landscape_camera_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/widgets/cameras_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/widgets/date_slider_widget.dart';
-import 'package:zoom_pinch_overlay/zoom_pinch_overlay.dart';
 import 'dart:developer';
 
 class CameraDetailsSreen extends ConsumerStatefulWidget {
@@ -222,7 +216,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     log("new current image" + currentImage.toString());
 
     return Scaffold(
-      backgroundColor: Color.fromRGBO(247, 247, 247, 1),
+      // backgroundColor: Color.fromRGBO(247, 247, 247, 1),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.h),
         child: Container(
@@ -1181,7 +1175,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                           style: TextStyle(
                               letterSpacing: -0.3, color: Helper.errorColor));
                     },
-                    loading: () => LoadingCardListScreen());
+                    loading: () => LoadingCamDetails());
               }),
             ),
           ),
