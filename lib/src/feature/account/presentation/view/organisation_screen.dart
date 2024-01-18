@@ -13,7 +13,6 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
-import 'package:progresscenter_app_v4/src/common/skeletons/loading_team_list.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_user_profile.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
@@ -43,22 +42,22 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
   final ImagePicker _picker = ImagePicker();
   XFile? _image;
 
-  Future<void> initCamera() async {
-    List<CameraDescription> cameras = await availableCameras();
-    // Initialize the first camera in the list (you can choose based on your requirements)
-    CameraController controller =
-        CameraController(cameras[0], ResolutionPreset.medium);
-    await controller.initialize();
-    // Set the controller to your state
-    setState(() {
-      _controller = controller;
-    });
-  }
+  // Future<void> initCamera() async {
+  //   List<CameraDescription> cameras = await availableCameras();
+  //   // Initialize the first camera in the list (you can choose based on your requirements)
+  //   CameraController controller =
+  //       CameraController(cameras[0], ResolutionPreset.medium);
+  //   await controller.initialize();
+  //   // Set the controller to your state
+  //   setState(() {
+  //     _controller = controller;
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
-    initCamera();
+    // initCamera();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref
@@ -112,18 +111,18 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
 
   Future<void> _pickImage(ImageSource source) async {
     final pickedFile = await _picker.pickImage(
-      source: source,
-      maxWidth: 1024,
-      maxHeight: 1024,
-      imageQuality: 80,
-    );
+        source: source,
+        maxWidth: 1024,
+        maxHeight: 1024,
+        imageQuality: 80,
+        preferredCameraDevice: CameraDevice.rear);
 
     if (pickedFile != null) {
       final file = XFile(pickedFile.path);
-      if (await file.length() > 1000000) {
-        // The file is too large, show an error message
-        return;
-      }
+      // if (await file.length() > 1000000) {
+      //   // The file is too large, show an error message
+      //   return;
+      // }
       setState(() {
         _image = file;
       });
@@ -886,7 +885,8 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                               .uploadOrganisationLogo(_image!.path)
                               .then((value) {
                             ref
-                                .read(organisationControllerProvider.notifier)
+                                .refresh(
+                                    organisationControllerProvider.notifier)
                                 .getOrganisation();
                             context.pop();
                             ScaffoldMessenger.of(context).showSnackBar(
