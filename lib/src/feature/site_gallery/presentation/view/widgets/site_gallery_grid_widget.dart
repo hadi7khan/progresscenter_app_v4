@@ -2,7 +2,10 @@ import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chewie/chewie.dart';
+import 'package:extended_image/extended_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
@@ -82,7 +85,7 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
       chewieController = ChewieController(
         aspectRatio: 1 / 1,
         videoPlayerController: controller!,
-        autoPlay: false,
+        autoPlay: true,
         looping: false,
         showControls: false,
         additionalOptions: (context) {
@@ -152,19 +155,44 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
                   child: widget.data.type == "IMAGE"
                       ?
                       // ? Image(image: image1!.image)
-                      CachedNetworkImage(
-                          imageUrl: widget.data.url!,
-                          // memCacheHeight: height.toInt(), memCacheWidth: width.toInt()
+                      ExtendedImage.network(
+                          widget.data.url!,
                           fit: BoxFit.cover,
-                          // placeholder: (context, url) =>
-                          //     CircularProgressIndicator(),
-                          errorWidget: (context, url, error) => ClipRRect(
-                            child: Image.asset(
-                              'assets/images/error_image.jpeg',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+                          cacheWidth: 200,
+                          cacheHeight: 200,
+                          cache: true,
+                          retries: 3,
+                          loadStateChanged: (ExtendedImageState state) {
+                            switch (state.extendedImageLoadState) {
+                              case LoadState.loading:
+                                return CupertinoActivityIndicator();
+                              case LoadState.failed:
+                                SchedulerBinding.instance
+                                    .addPostFrameCallback((Duration timeStamp) {
+                                  state.reLoadImage();
+                                });
+                              case LoadState.completed:
+                                return ExtendedRawImage(
+                                  image: state.extendedImageInfo?.image,
+                                );
+                            }
+                          },
+                          //cancelToken: cancellationToken,
                         )
+                      // CachedNetworkImage(
+                      //     imageUrl: widget.data.url!,
+                      //     memCacheWidth: 200,
+                      //     memCacheHeight: 200,
+                      //     fit: BoxFit.cover,
+                      //     // placeholder: (context, url) =>
+                      //     //     CircularProgressIndicator(),
+                      //     errorWidget: (context, url, error) => ClipRRect(
+                      //       child: Image.asset(
+                      //         'assets/images/error_image.jpeg',
+                      //         fit: BoxFit.cover,
+                      //       ),
+                      //     ),
+                      //   )
                       // Image.network(
                       //     widget.data.url!,
                       //     // height: MediaQuery.of(context).size.height,
@@ -224,50 +252,6 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
                   )
             ]),
           ),
-          // Positioned.fill(
-          //   // bottom: 20,
-          //   // left: 20,
-          //   child: Align(
-          //     alignment: Alignment.bottomCenter,
-          //     child: Container(
-          //         // height: 88.h,
-          //         width: double.infinity,
-          //         margin: EdgeInsets.zero,
-          //         padding: EdgeInsets.all(12.w),
-          //         decoration: BoxDecoration(
-          //             borderRadius: BorderRadius.circular(15.r),
-          //             color: Color.fromRGBO(246, 246, 246, 1)),
-          //         child: Column(
-          //           crossAxisAlignment: CrossAxisAlignment.start,
-          //           mainAxisSize: MainAxisSize.min,
-          //           children: [
-          //             Text(
-          //               widget.data.name!,
-          //               overflow: TextOverflow.ellipsis,
-          //               style: TextStyle(
-          //                 letterSpacing: -0.3,
-          //                 fontSize: 14.sp,
-          //                 fontWeight: FontWeight.w500,
-          //                 color: Helper.baseBlack,
-          //               ),
-          //             ),
-          //             // SizedBox(
-          //             //   height: 6.h,
-          //             // ),
-          //             Text(
-          //               showDate(widget.data.createdAt!.toIso8601String(),
-          //                   'dd MMM yyyy'),
-          //               style: TextStyle(
-          //                 letterSpacing: -0.3,
-          //                 fontSize: 12.sp,
-          //                 fontWeight: FontWeight.w400,
-          //                 color: Helper.baseBlack.withOpacity(0.5),
-          //               ),
-          //             ),
-          //           ],
-          //         )),
-          //   ),
-          // ),
         ]),
       ),
     );

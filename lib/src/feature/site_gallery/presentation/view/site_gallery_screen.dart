@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:camera_gallery_image_picker/camera_gallery_image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -112,16 +111,15 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
   }
 
   Future<void> _pickImage(ImageSource source, context) async {
-    // final pickedFile = await CameraGalleryImagePicker.pickImage(
-    //   context: context,
-    //   source: ImagePickerSource.camera,
-    //   maxWidth: 1024,
-    //   maxHeight: 1024,
-    // );
     var pickedFile;
     await CameraPicker.pickFromCamera(context,
         pickerConfig: CameraPickerConfig(
           enableRecording: true,
+          enableTapRecording: true,
+          resolutionPreset: ResolutionPreset.medium,
+          imageFormatGroup: Platform.isIOS
+              ? ImageFormatGroup.bgra8888
+              : ImageFormatGroup.yuv420,
           textDelegate: EnglishCameraPickerTextDelegate(),
           onEntitySaving: (context, viewType, file) {
             pickedFile = file;
@@ -129,7 +127,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
           onXFileCaptured: (p0, p1) {
             pickedFile = p0;
             Navigator.of(context).pop();
-            return pickedFile;
+            return true;
           },
         ));
     // final pickedFile = await _picker.pickImage(
@@ -150,9 +148,9 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
             _image = XFile(filePath);
           });
           // _showProgressBottomSheet(context);
-          _bottomSheetController!.setState!(() {
-            _progressBar = _progress;
-          });
+          // _bottomSheetController!.setState!(() {
+          //   _progressBar = _progress;
+          // });
         } else {
           print('Error: Unable to load file.');
         }
@@ -174,6 +172,12 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
     // } else {
     //   return null;
     // }
+  }
+
+  @override
+  void dispose() {
+    ref.invalidate(siteGalleryControllerProvider);
+    super.dispose();
   }
 
   @override
@@ -257,7 +261,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
             },
             child: SingleChildScrollView(
                 child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 12.h),
+              padding: EdgeInsets.symmetric(vertical: 0.h),
               child: siteGalleryData.when(
                 data: (data) {
                   if (data.isEmpty) {
