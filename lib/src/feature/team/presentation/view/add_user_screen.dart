@@ -169,7 +169,7 @@ class _AddUserScreenState extends BaseConsumerState<AddUserScreen> {
                           fontWeight: FontWeight.w400,
                         ),
                         textCapitalization: TextCapitalization.none,
-                        keyboardType: TextInputType.name,
+                        keyboardType: TextInputType.emailAddress,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(

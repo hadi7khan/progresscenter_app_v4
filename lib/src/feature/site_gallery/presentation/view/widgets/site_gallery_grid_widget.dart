@@ -161,11 +161,13 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
                           cacheWidth: 200,
                           cacheHeight: 200,
                           cache: true,
+                          clearMemoryCacheWhenDispose: true,
+                          cacheKey: widget.data.id,
                           retries: 3,
                           loadStateChanged: (ExtendedImageState state) {
                             switch (state.extendedImageLoadState) {
                               case LoadState.loading:
-                                return CupertinoActivityIndicator();
+                                return SizedBox();
                               case LoadState.failed:
                                 SchedulerBinding.instance
                                     .addPostFrameCallback((Duration timeStamp) {

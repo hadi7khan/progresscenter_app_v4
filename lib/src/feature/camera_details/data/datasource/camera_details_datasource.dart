@@ -14,6 +14,8 @@ final cameraDataSourceProvider =
 abstract class AccountsDataSource {
   Future imagesByCameraId(String projectId, String cameraId, {searchDate = ''});
   Future cameraById(String projectId, String cameraId);
+  Future createZip(String projectId, String cameraId, data);
+  Future multiImages(String projectId, String cameraId);
 }
 
 class CameraDetailsDataSourceImpl implements AccountsDataSource {
@@ -44,6 +46,28 @@ class CameraDetailsDataSourceImpl implements AccountsDataSource {
         searchDate: searchDate));
     if (response.statusCode == 200) {
       log("after res" + date.toString());
+      return response.data;
+    } else {
+      return ServerException();
+    }
+  }
+
+  @override
+  Future createZip(String projectId, String cameraId, data) async {
+    final response = await dioClient
+        .post(Endpoints.downloadMultiImageUrl(projectId, cameraId), data: data);
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      return ServerException();
+    }
+  }
+
+  @override
+  Future multiImages(String projectId, String cameraId) async {
+    final response = await dioClient
+        .get(Endpoints.downloadMultiImageUrl(projectId, cameraId));
+    if (response.statusCode == 200) {
       return response.data;
     } else {
       return ServerException();

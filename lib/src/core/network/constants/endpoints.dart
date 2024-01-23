@@ -141,6 +141,14 @@ class Endpoints {
   static imagesByCameraIdUrl(projectId, cameraId, {searchDate = ''}) {
     return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/images?date=$searchDate';
   }
+
+  static downloadSingleImageUrl(projectId, cameraId) {
+    return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/images/download';
+  }
+
+  static downloadMultiImageUrl(projectId, cameraId) {
+    return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/multi-image-downloads';
+  }
   //---------------------------- Teams ---------------------------------------
 
   static teamListUrl() {

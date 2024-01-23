@@ -28,6 +28,7 @@ import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/pr
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/images_controller_watcher.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/selected_imagedata_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/landscape_camera_details_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/widgets/camera_bottomsheet_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/widgets/cameras_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/widgets/date_slider_widget.dart';
 import 'dart:developer';
@@ -223,28 +224,26 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
           color: Colors.white,
           child: Padding(
             padding: EdgeInsets.only(right: 16.w, left: 16.w),
-            child: AppBar(
-              backgroundColor: Colors.white,
-              surfaceTintColor: Colors.white,
-              centerTitle: false,
-              automaticallyImplyLeading: false,
-              titleSpacing: 0.0,
-              leading: InkWell(
-                onTap: () {
-                  context.pop();
-                },
-                child: Transform.rotate(
-                  angle: 180 * (3.1415926535 / 180),
-                  child: SvgPicture.asset('assets/images/chevron-right.svg',
-                      color: Helper.iconColor, fit: BoxFit.contain),
-                ),
-              ),
-              leadingWidth: 24,
-              title: cameraByIdData.when(
-                // skipLoadingOnRefresh: false,
-                // skipLoadingOnReload: false,
-                data: (cameraData) {
-                  return Row(
+            child: cameraByIdData.when(
+              data: (cameraData) {
+                return AppBar(
+                  backgroundColor: Colors.white,
+                  surfaceTintColor: Colors.white,
+                  centerTitle: false,
+                  automaticallyImplyLeading: false,
+                  titleSpacing: 0.0,
+                  leading: InkWell(
+                    onTap: () {
+                      context.pop();
+                    },
+                    child: Transform.rotate(
+                      angle: 180 * (3.1415926535 / 180),
+                      child: SvgPicture.asset('assets/images/chevron-right.svg',
+                          color: Helper.iconColor, fit: BoxFit.contain),
+                    ),
+                  ),
+                  leadingWidth: 24,
+                  title: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -322,22 +321,34 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                         ),
                       ),
                     ],
-                  );
-                },
-                error: (err, _) {
-                  return const Text("Error",
-                      style: TextStyle(color: Helper.errorColor));
-                },
-                loading: () => LoadingAppBar(),
-              ),
-              actions: [
-                InkWell(
-                    onTap: () {
-                      _showCameraBottomSheet(context);
-                    },
-                    child: SvgPicture.asset('assets/images/dots-vertical.svg')),
-              ],
-              actionsIconTheme: IconThemeData(color: Helper.iconColor),
+                  ),
+                  actions: [
+                    InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                              useRootNavigator: true,
+                              isScrollControlled: true,
+                              context: context,
+                              backgroundColor: Colors.transparent,
+                              builder: (context) => CameraBottomSheet(
+                                    cameraName: cameraData.name!,
+                                    projectId: widget.projectId,
+                                    cameraId: widget.cameraId,
+                                    startDate: cameraData.installationDate!,
+                                    endDate: cameraData.latestImage!.date!,
+                                  ));
+                        },
+                        child: SvgPicture.asset(
+                            'assets/images/dots-vertical.svg')),
+                  ],
+                  actionsIconTheme: IconThemeData(color: Helper.iconColor),
+                );
+              },
+              error: (err, _) {
+                return const Text("Error",
+                    style: TextStyle(color: Helper.errorColor));
+              },
+              loading: () => LoadingAppBar(),
             ),
           ),
         ),

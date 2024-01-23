@@ -35,6 +35,8 @@ import 'dart:developer';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/widgets/expansion_widget.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart'
     as service;
+import 'package:progresscenter_app_v4/src/feature/team/presentation/provider/create_user_controller.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -71,6 +73,8 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
   Color? valueToPass;
   final ImagePicker _picker = ImagePicker();
   XFile? _image;
+  List<DropdownMenuItem<String>> timezoneList = [];
+  String? _selectedTimezone;
 
   Future<void> _pickImage(ImageSource source) async {
     final pickedFile = await _picker.pickImage(
@@ -96,6 +100,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
   @override
   void initState() {
     super.initState();
+    populateTimezones();
     service.Service().fetchTeamList().then((teams) {
       setState(() {
         _teamList = teams;
@@ -138,6 +143,18 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
         setState(() {}); // Trigger a rebuild after setting the text
       }
     });
+  }
+
+  void populateTimezones() {
+    for (String timezoneName in tz.timeZoneDatabase.locations.keys) {
+      timezoneList.add(
+        DropdownMenuItem(
+          value: timezoneName,
+          child: Text(timezoneName),
+        ),
+      );
+    }
+    log("timezone" + timezoneList.toString());
   }
 
   showDate(date, dateFormat) {
@@ -243,6 +260,99 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
   _getColor(String hex) {
     String formattedHex = "FF" + hex.toUpperCase().replaceAll("#", "");
     return int.parse(formattedHex, radix: 16);
+  }
+
+  void _showTimezonePicker(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: FormBuilderDropdown(
+            name: 'timezone',
+            items: timezoneList,
+            validator: (val) {
+              if (val == null || _selectedTimezone == '') {
+                return 'Timezone is required';
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+              hintText: "Select Timezone",
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10),
+                ),
+              ),
+              contentPadding: EdgeInsets.symmetric(horizontal: 16),
+            ),
+            onChanged: (value) {
+              setState(() {
+                _selectedTimezone = value;
+                print(_selectedTimezone.toString());
+              });
+              Navigator.pop(context); // Close the dialog
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  void _toggleOverlay() {
+    if (_overlayEntry == null) {
+      _overlayEntry = _createOverlayEntry();
+      Overlay.of(context)?.insert(_overlayEntry!);
+    } else {
+      _overlayEntry?.remove();
+      _overlayEntry = null;
+    }
+  }
+
+  OverlayEntry _createOverlayEntry() {
+    OverlayEntry overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        width: MediaQuery.of(context).size.width,
+        child: CompositedTransformFollower(
+          link: LayerLink(),
+          showWhenUnlinked: false,
+          child: Material(
+            child: Container(
+              height: timezoneList.length * 50.0,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  color: Colors.grey,
+                  width: 1.0,
+                ),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: ListView.builder(
+                itemCount: timezoneList.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(timezoneList[index].toString()),
+                    onTap: () {
+                      selectedTimezone(timezoneList[index].toString());
+                    },
+                  );
+                },
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+    return overlayEntry;
+  }
+
+  OverlayEntry? _overlayEntry;
+
+  void selectedTimezone(String selectedTimezone) {
+    setState(() {
+      _overlayEntry?.remove();
+      _overlayEntry = null;
+    });
+    print(selectedTimezone);
   }
 
   @override
@@ -639,32 +749,149 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                     color: Helper.textColor700,
                                   ),
 
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Timezone",
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            letterSpacing: -0.3,
-                                            color: Helper.textColor700,
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                          right: 16.w,
-                                        ),
-                                        child: Text(
-                                          data.preferences!.timezone!,
+                                  InkWell(
+                                    onTap: () {
+                                      _isNameEditing = false;
+                                      _isDesignationEditing = false;
+                                      _isMobileEditing = false;
+                                      _toggleOverlay();
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Timezone",
                                           style: TextStyle(
+                                              fontSize: 14,
                                               letterSpacing: -0.3,
-                                              color: Helper.textColor900,
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w500),
+                                              color: Helper.textColor700,
+                                              fontWeight: FontWeight.w400),
                                         ),
-                                      ),
-                                    ],
+                                        // SizedBox(
+                                        //   width: MediaQuery.of(context)
+                                        //           .size
+                                        //           .width *
+                                        //       0.6,
+                                        //   height: 20.h,
+                                        //   child:
+                                        // Padding(
+                                        //   padding: EdgeInsets.only(right: 16),
+                                        //   child:
+                                        //     DropdownButtonFormField<String>(
+                                        //   decoration: InputDecoration(
+                                        //     hintText: "Select Timezone",
+                                        //     enabledBorder: InputBorder.none,
+                                        //     focusedBorder: InputBorder.none,
+                                        //     contentPadding: EdgeInsets.zero,
+                                        //   ),
+                                        //   items: timezoneList,
+                                        //   onChanged: (value) {
+                                        //     setState(() {
+                                        //       _selectedTimezone = value!;
+                                        //       print(_selectedTimezone
+                                        //           .toString());
+                                        //     });
+                                        //   },
+                                        //   onSaved: (value) {
+                                        //     setState(() {
+                                        //       _selectedTimezone = value!;
+                                        //     });
+                                        //   },
+                                        //   value: _selectedTimezone != ""
+                                        //       ? _selectedTimezone
+                                        //       : null,
+                                        //   isExpanded: true,
+                                        //   dropdownColor: Colors.white,
+                                        //   icon: SizedBox(),
+                                        //   style: TextStyle(
+                                        //       letterSpacing: -0.3,
+                                        //       color: Helper.textColor900,
+                                        //       fontSize: 14.sp,
+                                        //       fontWeight: FontWeight.w500),
+                                        //   selectedItemBuilder:
+                                        //       (BuildContext context) {
+                                        //     return timezoneList.map<Widget>(
+                                        //         (DropdownMenuItem<String>
+                                        //             item) {
+                                        //       return Align(
+                                        //         alignment:
+                                        //             Alignment.centerRight,
+                                        //         child: Text(
+                                        //           item.value!,
+                                        //           style: TextStyle(
+                                        //             fontSize: 14,
+                                        //             color: Colors
+                                        //                 .black, // Change to your desired color
+                                        //             fontWeight:
+                                        //                 FontWeight.w500,
+                                        //           ),
+                                        //         ),
+                                        //       );
+                                        //     }).toList();
+                                        //   },
+                                        // ),
+                                        // ),
+                                        // ),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                            right: 16.w,
+                                          ),
+                                          child: Text(
+                                            data.preferences!.timezone!,
+                                            style: TextStyle(
+                                                letterSpacing: -0.3,
+                                                color: Helper.textColor900,
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ),
+                                        if (_overlayEntry != null)
+                                          Positioned(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            child: CompositedTransformFollower(
+                                              link: LayerLink(),
+                                              showWhenUnlinked: false,
+                                              child: Material(
+                                                child: Container(
+                                                  height: timezoneList.length *
+                                                      50.0,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    border: Border.all(
+                                                      color: Colors.grey,
+                                                      width: 1.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                  ),
+                                                  child: ListView.builder(
+                                                    itemCount:
+                                                        timezoneList.length,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      return ListTile(
+                                                        title: Text(
+                                                            timezoneList[index]
+                                                                .toString()),
+                                                        onTap: () {
+                                                          selectedTimezone(
+                                                              timezoneList[
+                                                                      index]
+                                                                  .toString());
+                                                        },
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                      ],
+                                    ),
                                   ),
                                   Divider(
                                     thickness: 0.1,
@@ -1722,7 +1949,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                           _selectedDate = dob;
                         },
                       );
-                      showDate(_selectedDate, "dd MMM, yyyy ");
+                      (_selectedDate, "dd MMM, yyyy ");
                       log(_selectedDate.toString());
                       context.pop();
                     },
