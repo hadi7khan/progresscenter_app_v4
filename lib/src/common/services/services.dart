@@ -245,6 +245,42 @@ class Service {
     }
   }
 
+  // method to download single image
+  Future<dynamic> downloadSinglePhoto(String projectId, String cameraId,
+      String imageName, String path, ProgressCallback onProgress) async {
+    Dio dio = Dio();
+
+    Map<String, String> headers = {
+      "Accept": "application/json",
+      'Authorization': "Bearer ${_prefsLocator.getUserToken()}"
+    };
+
+    Map<String, String> data = {"imageName": imageName};
+
+    try {
+      dio.options.headers = headers;
+      dio.options.responseType = ResponseType.stream;
+      dio.options.followRedirects = false;
+      dio.options.validateStatus = (status) => status! < 500;
+
+      await dio.download(
+          Endpoints.downloadSingleImageUrl(projectId, cameraId), path,
+          data: data, onReceiveProgress: (count, total) {
+        double progress = count.toDouble() / count.toDouble();
+        onProgress(progress);
+      }).then((response) {
+        if (response.statusCode == 200) {
+          return response.data;
+        } else {
+          throw Exception(response.data.toString());
+        }
+      });
+    } catch (e) {
+      print(e.toString());
+      throw Exception(e.toString());
+    }
+  }
+
   // method to upload image
   Future<dynamic> uploadPhoto(
       String projectId, String filePath, ProgressCallback onProgress) async {
