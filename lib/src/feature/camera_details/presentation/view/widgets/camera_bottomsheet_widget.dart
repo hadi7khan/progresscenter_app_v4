@@ -122,7 +122,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
     send!.send([id, status, progress]);
   }
 
-  Future<void> _downloadImage() async {
+  Future<void> _downloadImage(String image) async {
     String downloadDirPath;
     if (Platform.isIOS) {
       downloadDirPath =

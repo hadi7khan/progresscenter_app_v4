@@ -53,18 +53,28 @@ class _CreateZipTabviewState extends BaseConsumerState<CreateZipTabview> {
   ImageQuality? _character = ImageQuality.fourK;
   double _progressBar = 0.0;
   String _imageQuality = "HD";
+  String showEndText = "";
+  String showStartText = "";
+  String passStartDate = "";
+  bool has30daysDifference = true;
+
+  @override
+  void initState() {
+    super.initState();
+    showEndDate(widget.endDate);
+    showStartDate(widget.endDate, true);
+  }
 
   initSocket(String id) {
     socket = IO.io(Endpoints.baseUrl, <String, dynamic>{
       'autoConnect': true,
       'transports': ['websocket'],
     });
-    // socket.connect();
     socket!.onConnect((_) {
       print('Connection established');
       socket!.emit('joinRoom', "multiImageDownload:$id");
 
-      socket!.on('livelapse:progress', (data) {
+      socket!.on('multiImageDownload:progress', (data) {
         print("progress" + data.toString());
         print("operation" + data["operation"].toString());
         _controller!.setState!(() {
@@ -124,8 +134,46 @@ class _CreateZipTabviewState extends BaseConsumerState<CreateZipTabview> {
     return endParsedTime;
   }
 
+  showEndDate(String date) {
+    log("called" + date.toString());
+    DateTime parsedDate = DateTime.parse(date);
+
+    String formattedDate = DateFormat('dd MMM, yyyy').format(parsedDate);
+
+    log("called" + formattedDate.toString());
+    setState(() {
+      showEndText = formattedDate;
+    });
+    return formattedDate;
+  }
+
+  showStartDate(String date, bool showMonthBefore) {
+    log("called" + date.toString());
+    DateTime parsedDate = DateTime.parse(date);
+    // Subtract one month (30 days) from the parsed date
+    if (showMonthBefore) {
+      DateTime newDate = parsedDate.subtract(Duration(days: 30));
+      String formattedDate = DateFormat('dd MMM, yyyy').format(newDate);
+      String formattedPassDate = DateFormat('yyyyMMdd').format(newDate);
+      log("nov" + formattedPassDate.toString());
+      setState(() {
+        showStartText = formattedDate;
+        passStartDate = formattedPassDate;
+      });
+      return formattedDate;
+    }
+
+    String formattedDate = DateFormat('dd MMM, yyyy').format(parsedDate);
+    log("called" + formattedDate.toString());
+    setState(() {
+      showStartText = formattedDate;
+    });
+    return formattedDate;
+  }
+
   @override
   Widget build(BuildContext context) {
+    log(widget.endDate.toString());
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 24.h),
@@ -153,7 +201,7 @@ class _CreateZipTabviewState extends BaseConsumerState<CreateZipTabview> {
                     InkWell(
                       onTap: () {
                         _showStartDateBottomSheet(context, "23", "22",
-                            widget.startDate, widget.endDate);
+                            widget.startDate, widget.endDate, passStartDate);
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -166,7 +214,7 @@ class _CreateZipTabviewState extends BaseConsumerState<CreateZipTabview> {
                               'assets/images/calendar.svg',
                               color: Helper.textColor500),
                           title: Text(
-                            "31 Mar, 2023 - 21 Apr, 2023",
+                            showStartText,
                             style: TextStyle(
                                 letterSpacing: -0.3,
                                 color: Helper.textColor500,
@@ -207,7 +255,7 @@ class _CreateZipTabviewState extends BaseConsumerState<CreateZipTabview> {
                               'assets/images/calendar.svg',
                               color: Helper.textColor500),
                           title: Text(
-                            "31 Mar, 2023 - 21 Apr, 2023",
+                            showEndText,
                             style: TextStyle(
                                 letterSpacing: -0.3,
                                 color: Helper.textColor500,
@@ -222,6 +270,16 @@ class _CreateZipTabviewState extends BaseConsumerState<CreateZipTabview> {
                         ),
                       ),
                     ),
+                    SizedBox(height: 5.h),
+                    !has30daysDifference
+                        ? Text(
+                            "Date must be within the range of 30 days",
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Helper.errorColor,
+                                fontWeight: FontWeight.w400),
+                          )
+                        : SizedBox()
                   ]),
             ),
             SizedBox(height: 24.h),
@@ -354,47 +412,55 @@ class _CreateZipTabviewState extends BaseConsumerState<CreateZipTabview> {
                       ),
                     )),
                 onPressed: () async {
-                  Map<String, dynamic> data = {
-                    "startDate": _selectedStartDate,
-                    "endDate": _selectedEndDate,
-                    "startTime": startTime,
-                    "endTime": endTime,
-                    "hasTimestamp": _timeStamp,
-                    "imageQuality": _imageQuality
-                  };
+                  has30daysDifference =
+                      calculateDateDifference(showStartText, showEndText);
+                  if (has30daysDifference) {
+                    Map<String, dynamic> data = {
+                      "startDate": _selectedStartDate,
+                      "endDate": _selectedEndDate,
+                      "startTime": startTime,
+                      "endTime": endTime,
+                      "hasTimestamp": _timeStamp,
+                      "imageQuality": _imageQuality
+                    };
 
-                  setState(() {
-                    _isLoading = true;
-                  });
-                  await ref
-                      .watch(createZipProvider.notifier)
-                      .createZip(widget.projectId, widget.cameraId, data)
-                      .then((value) async {
-                    value.fold((failure) {
-                      print("errorrrrrr");
-                    }, (res) {
-                      print("response data" + res.toString());
-                      initSocket(res["_id"]);
-                      _showProgressBottomSheet(context, ref);
+                    setState(() {
+                      _isLoading = true;
                     });
+                    await ref
+                        .watch(createZipProvider.notifier)
+                        .createZip(widget.projectId, widget.cameraId, data)
+                        .then((value) async {
+                      value.fold((failure) {
+                        print("errorrrrrr");
+                      }, (res) {
+                        log("response data" + res["_id"].toString());
+                        initSocket(res["_id"]);
+                        _showProgressBottomSheet(context, ref);
+                      });
 
-                    Utils.toastSuccessMessage("Zip Created");
+                      Utils.toastSuccessMessage("Zip Created");
+
+                      setState(() {
+                        _isLoading = false;
+                      });
+                    });
+                    // .onError((error, stackTrace) {
+                    //   Utils.flushBarErrorMessage(
+                    //       "Error", context);
+                    //   setState(() {
+                    //     isLoading = false;
+                    //   });
+                    // });
 
                     setState(() {
                       _isLoading = false;
                     });
-                  });
-                  // .onError((error, stackTrace) {
-                  //   Utils.flushBarErrorMessage(
-                  //       "Error", context);
-                  //   setState(() {
-                  //     isLoading = false;
-                  //   });
-                  // });
-
-                  setState(() {
-                    _isLoading = false;
-                  });
+                  } else {
+                    setState(() {
+                      has30daysDifference = false;
+                    });
+                  }
                 },
               ),
             ),
@@ -402,6 +468,21 @@ class _CreateZipTabviewState extends BaseConsumerState<CreateZipTabview> {
         ),
       ),
     );
+  }
+
+  bool calculateDateDifference(String startDate, String endDate) {
+    // Parse the input date strings
+    DateTime parsedStartDate = DateFormat('dd MMM, yyyy').parse(startDate);
+    DateTime parsedEndDate = DateFormat('dd MMM, yyyy').parse(endDate);
+
+    // Calculate the difference in days
+    Duration difference = parsedEndDate.difference(parsedStartDate);
+    if (difference.inDays <= 30) {
+      setState(() {
+        has30daysDifference = true;
+      });
+    }
+    return difference.inDays <= 30;
   }
 
   _showProgressBottomSheet(context, WidgetRef ref) async {
@@ -551,7 +632,7 @@ class _CreateZipTabviewState extends BaseConsumerState<CreateZipTabview> {
   }
 
   _showStartDateBottomSheet(context, String startDate, String endDate,
-      String selectedStartDate, String selectedEndDate) {
+      String selectedStartDate, String selectedEndDate, String currentDate) {
     return showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -591,6 +672,7 @@ class _CreateZipTabviewState extends BaseConsumerState<CreateZipTabview> {
                     selectedDayHighlightColor: ref.watch(primaryColorProvider),
                     lastDate: DateTime.parse(selectedEndDate),
                     firstDate: DateTime.parse(selectedStartDate),
+                    currentDate: DateTime.parse(currentDate),
                   ),
                   value: [],
                   onValueChanged: (value) {
@@ -598,7 +680,9 @@ class _CreateZipTabviewState extends BaseConsumerState<CreateZipTabview> {
                     DateTime date = DateTime.parse(value[0].toString());
                     _selectedStartDate = DateFormat("yyyyMMdd").format(date);
                     print("selectedDate " + _selectedStartDate);
-                    // displayStartTime(_selectedStartDate);
+                    String formattedDate = DateFormat('yyyyMMdd').format(date);
+                    log("formatted" + formattedDate.toString());
+                    showStartDate(formattedDate, false);
                   },
                 ),
                 Divider(
@@ -735,10 +819,14 @@ class _CreateZipTabviewState extends BaseConsumerState<CreateZipTabview> {
                   ),
                   value: [],
                   onValueChanged: (value) {
-                    print(value.toString());
+                    log(value.toString());
                     DateTime date = DateTime.parse(value[0].toString());
                     _selectedEndDate = DateFormat("yyyyMMdd").format(date);
                     print("selectedDate " + _selectedEndDate);
+                    String formattedDate = DateFormat('yyyyMMdd').format(date);
+                    log("formatted" + formattedDate.toString());
+                    showEndDate(formattedDate);
+                    // setState(() {});
                   },
                 ),
                 Divider(
@@ -768,9 +856,9 @@ class _CreateZipTabviewState extends BaseConsumerState<CreateZipTabview> {
                                   DateTime.parse(newTime.toString());
                               String formattedTime =
                                   DateFormat('HHmmss').format(timeString);
+
                               setState(() {
                                 endTime = formattedTime;
-                                print("endtime " + endTime);
                                 displayEndTime(endTime);
                               });
                             },
