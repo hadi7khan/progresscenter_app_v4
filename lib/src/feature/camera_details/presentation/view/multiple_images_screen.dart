@@ -1,26 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
-import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/create_livelapse/advanced_tabview.dart';
-import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/create_livelapse/basic_tabview.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/multi_images_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/multiple_images/create_zip_tabview.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/multiple_images/previous_requests_tabview.dart';
 
-class CreateLivelapseScreen extends StatefulWidget {
+class MultipleImagesScreen extends ConsumerStatefulWidget {
   final String projectId;
-  final String projectName;
+  final String cameraName;
   final String cameraId;
-  const CreateLivelapseScreen(
+  final String startDate;
+  final String endDate;
+  const MultipleImagesScreen(
       {super.key,
       required this.projectId,
-      required this.projectName,
-      required this.cameraId});
+      required this.cameraName,
+      required this.cameraId,
+      required this.startDate,
+      required this.endDate});
 
   @override
-  State<CreateLivelapseScreen> createState() => _CreateLivelapseScreenState();
+  ConsumerState<MultipleImagesScreen> createState() =>
+      _MultipleImagesScreenState();
 }
 
-class _CreateLivelapseScreenState extends State<CreateLivelapseScreen> {
+class _MultipleImagesScreenState
+    extends BaseConsumerState<MultipleImagesScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref
+          .read(multiImageControllerProvider.notifier)
+          .getMultiImages(widget.projectId, widget.cameraId);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -48,7 +67,7 @@ class _CreateLivelapseScreenState extends State<CreateLivelapseScreen> {
                 ),
                 leadingWidth: 24,
                 title: Text(
-                  "Create LiveLapse",
+                  "Multiple Images",
                   style: TextStyle(
                       letterSpacing: -0.3,
                       color: Helper.baseBlack,
@@ -93,7 +112,7 @@ class _CreateLivelapseScreenState extends State<CreateLivelapseScreen> {
                           child: Align(
                             alignment: Alignment.center,
                             child: Text(
-                              "Basic",
+                              "Create Zip",
                               style: TextStyle(
                                   letterSpacing: -0.3,
                                   color: Helper.baseBlack,
@@ -112,7 +131,7 @@ class _CreateLivelapseScreenState extends State<CreateLivelapseScreen> {
                           child: Align(
                             alignment: Alignment.center,
                             child: Text(
-                              "Advanced",
+                              "Previous Requests",
                               style: TextStyle(
                                   letterSpacing: -0.3,
                                   color: Helper.baseBlack,
@@ -127,10 +146,17 @@ class _CreateLivelapseScreenState extends State<CreateLivelapseScreen> {
                 ),
                 Expanded(
                   child: TabBarView(children: [
-                    BasicTabView(
-                        projectId: widget.projectId, cameraId: widget.cameraId),
-                    AdvancedTabview(
-                        projectId: widget.projectId, cameraId: widget.cameraId)
+                    CreateZipTabview(
+                      projectId: widget.projectId,
+                      cameraName: widget.cameraName,
+                      cameraId: widget.cameraId,
+                      startDate: widget.startDate,
+                      endDate: widget.endDate,
+                    ),
+                    PreviousRequestsTabview(
+                        projectId: widget.projectId,
+                        cameraName: widget.cameraName,
+                        cameraId: widget.cameraId)
                   ]),
                 )
               ],

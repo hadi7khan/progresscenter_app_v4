@@ -86,9 +86,6 @@ class _DateSliderWidgetState extends BaseConsumerState<DateSliderWidget> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 12.h),
                 child: Column(
-                  // key: GlobalObjectKey(
-                  //   currentImage.id.toString(),
-                  // ),
                   children: [
                     Text(
                       formattedDate,
@@ -112,7 +109,6 @@ class _DateSliderWidgetState extends BaseConsumerState<DateSliderWidget> {
               widget.selectedDate ==
                       DateFormat('yyyyMMdd').format(widget.daysInMonth![index])
                   ? Positioned.fill(
-                      // top: -2,
                       child: Align(
                         alignment: Alignment.topCenter,
                         child: Container(

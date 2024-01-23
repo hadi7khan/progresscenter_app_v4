@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_mentions/flutter_mentions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,6 +22,12 @@ import 'dart:developer' as dev;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setup();
+  // await FlutterDownloader.initialize(
+  //     debug:
+  //         true, // optional: set to false to disable printing logs to console (default: true)
+  //     ignoreSsl:
+  //         true // option: set to false to disable working with http links (default: false)
+  //     );
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
   // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

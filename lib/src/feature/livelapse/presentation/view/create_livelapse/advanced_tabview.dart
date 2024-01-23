@@ -342,7 +342,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
             ),
             SizedBox(height: 24.h),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12.r),

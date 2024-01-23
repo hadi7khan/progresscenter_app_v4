@@ -21,6 +21,7 @@ import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/verify_
 import 'package:progresscenter_app_v4/src/feature/bottom_navigation/view/bottom_navigation.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/camera_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/landscape_camera_details_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/multiple_images_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/cctv_view/presentation/view/fullview_cctv_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/compare/presentation/view/compare_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/add_docs_screen.dart';
@@ -318,6 +319,25 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               projectName: args['projectName'],
               cameraId: args['cameraId'],
               imagesData: args['imagesData'],
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/multipleImages',
+        parentNavigatorKey: _rootNavigatorKey,
+        name: multipleImagesRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: MultipleImagesScreen(
+              key: state.pageKey,
+              projectId: args['projectId'],
+              cameraName: args['cameraName'],
+              cameraId: args['cameraId'],
+              startDate: args['startDate'],
+              endDate: args['endDate'],
             ),
           );
         },
