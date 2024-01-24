@@ -267,16 +267,17 @@ class Service {
           Endpoints.downloadSingleImageUrl(projectId, cameraId), path,
           data: data, onReceiveProgress: (count, total) {
         double progress = count.toDouble() / count.toDouble();
+        log("onreceive" + progress.toString());
         onProgress(progress);
       }).then((response) {
         if (response.statusCode == 200) {
           return response.data;
         } else {
-          throw Exception(response.data.toString());
+          throw Exception();
         }
       });
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
       throw Exception(e.toString());
     }
   }

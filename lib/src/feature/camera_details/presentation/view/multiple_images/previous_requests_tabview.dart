@@ -69,53 +69,26 @@ class _PreviousRequestsTabviewState
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 14.w, vertical: 8.h),
-                              decoration: BoxDecoration(
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 14.w, vertical: 8.h),
+                          decoration: BoxDecoration(
+                            color: data[index].status == "EXPIRED"
+                                ? Helper.errorColor.withOpacity(0.1)
+                                : Helper.successColor.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          child: Text(
+                            data[index].status!,
+                            maxLines: 1,
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 12,
                                 color: data[index].status == "EXPIRED"
-                                    ? Helper.errorColor.withOpacity(0.1)
-                                    : Helper.successColor.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(8.r),
-                              ),
-                              child: Text(
-                                data[index].status!,
-                                maxLines: 1,
-                                style: TextStyle(
-                                    letterSpacing: -0.3,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12,
-                                    color: data[index].status == "EXPIRED"
-                                        ? Helper.errorColor
-                                        : Helper.successColor),
-                              ),
-                            ),
-                            data[index].status == "COMPLETED"
-                                ? Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 14.w, vertical: 8.h),
-                                    decoration: BoxDecoration(
-                                      color: ref
-                                          .watch(primaryColorProvider)
-                                          .withOpacity(0.1),
-                                      borderRadius: BorderRadius.circular(8.r),
-                                    ),
-                                    child: Text(
-                                      "DOWNLOAD",
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                          letterSpacing: -0.3,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12,
-                                          color:
-                                              ref.watch(primaryColorProvider)),
-                                    ),
-                                  )
-                                : SizedBox(),
-                          ],
+                                    ? Helper.errorColor
+                                    : Helper.successColor),
+                          ),
                         ),
                         SizedBox(height: 10.h),
                         Text(

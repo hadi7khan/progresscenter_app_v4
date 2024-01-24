@@ -336,6 +336,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                     cameraId: widget.cameraId,
                                     startDate: cameraData.installationDate!,
                                     endDate: cameraData.latestImage!.date!,
+                                    imageName: currentImage!.name!,
                                   ));
                         },
                         child: SvgPicture.asset(
