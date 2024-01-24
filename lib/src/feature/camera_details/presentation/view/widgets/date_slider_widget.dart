@@ -38,7 +38,7 @@ class _DateSliderWidgetState extends BaseConsumerState<DateSliderWidget> {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           Timer(Duration(seconds: 1), () {
             _dateController.animateTo(
-              selectedIndex * 30, // Set your item width here
+              selectedIndex * 40, // Set your item width here
               duration: Duration(milliseconds: 500),
               curve: Curves.easeInOut,
             );

@@ -1,4 +1,6 @@
 PODS:
+  - background_downloader (0.0.1):
+    - Flutter
   - better_player (0.0.1):
     - Cache (~> 6.0.0)
     - Flutter
@@ -49,8 +51,6 @@ PODS:
     - DKImagePickerController/PhotoGallery
     - Flutter
   - Flutter (1.0.0)
-  - flutter_downloader (0.0.1):
-    - Flutter
   - flutter_inappwebview (0.0.1):
     - Flutter
     - flutter_inappwebview/Core (= 0.0.1)
@@ -118,13 +118,13 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - background_downloader (from `.symlinks/plugins/background_downloader/ios`)
   - better_player (from `.symlinks/plugins/better_player/ios`)
   - camera_avfoundation (from `.symlinks/plugins/camera_avfoundation/ios`)
   - camerawesome (from `.symlinks/plugins/camerawesome/ios`)
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
-  - flutter_downloader (from `.symlinks/plugins/flutter_downloader/ios`)
   - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
   - flutter_localization (from `.symlinks/plugins/flutter_localization/ios`)
@@ -159,6 +159,8 @@ SPEC REPOS:
     - Toast
 
 EXTERNAL SOURCES:
+  background_downloader:
+    :path: ".symlinks/plugins/background_downloader/ios"
   better_player:
     :path: ".symlinks/plugins/better_player/ios"
   camera_avfoundation:
@@ -171,8 +173,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/file_picker/ios"
   Flutter:
     :path: Flutter
-  flutter_downloader:
-    :path: ".symlinks/plugins/flutter_downloader/ios"
   flutter_inappwebview:
     :path: ".symlinks/plugins/flutter_inappwebview/ios"
   flutter_keyboard_visibility:
@@ -203,6 +203,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
+  background_downloader: 9f788ffc5de45acf87d6380e91ca0841066c18cf
   better_player: 2406bfe8175203c7a46fa15f9d778d73b12e1646
   Cache: 4ca7e00363fca5455f26534e5607634c820ffc2d
   camera_avfoundation: 3125e8cd1a4387f6f31c6c63abb8a55892a9eeeb
@@ -212,7 +213,6 @@ SPEC CHECKSUMS:
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
   file_picker: ce3938a0df3cc1ef404671531facef740d03f920
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_downloader: b7301ae057deadd4b1650dc7c05375f10ff12c39
   flutter_inappwebview: 3d32228f1304635e7c028b0d4252937730bbc6cf
   flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
   flutter_localization: f43b18844a2b3d2c71fd64f04ffd6b1e64dd54d4

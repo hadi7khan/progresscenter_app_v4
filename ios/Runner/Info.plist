@@ -66,5 +66,9 @@
 	<string>Download complete</string>
 	<key>FDMaximumConcurrentTasks</key>
 	<integer>5</integer>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 </dict>
 </plist>

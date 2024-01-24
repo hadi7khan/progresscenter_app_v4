@@ -1,19 +1,26 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
 
+import 'package:background_downloader/background_downloader.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
+import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/core/network/constants/endpoints.dart';
+import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
+import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
+import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
-import 'dart:developer';
+
+import 'dart:developer' as dev;
 
 class CameraBottomSheet extends ConsumerStatefulWidget {
   final String cameraName;
@@ -21,6 +28,7 @@ class CameraBottomSheet extends ConsumerStatefulWidget {
   final String cameraId;
   final String startDate;
   final String endDate;
+  final String imageName;
 
   const CameraBottomSheet(
       {super.key,
@@ -28,121 +36,167 @@ class CameraBottomSheet extends ConsumerStatefulWidget {
       required this.projectId,
       required this.cameraId,
       required this.startDate,
-      required this.endDate});
+      required this.endDate,
+      required this.imageName});
 
   @override
   ConsumerState<CameraBottomSheet> createState() => _CameraBottomSheetState();
 }
 
 class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
+  final _prefsLocator = getIt.get<SharedPreferenceHelper>();
   bool showDownloadOptions = false;
-  String? downloadTaskId;
-  ReceivePort _port = ReceivePort();
-
-  /// [downloadTaskStatus] is used to store the task status.
-  int downloadTaskStatus = 0;
-
-  /// [downloadTaskProgress] store the progress of the download task. ranging between 1 to 100.
-  int downloadTaskProgress = 0;
-
-  /// [isDownloading] is set to true if the file is being downloaded.
   bool isDownloading = false;
+  String? downloadTaskId;
+  DownloadTask? task;
+  double _progressBar = 0.0;
+
+  PersistentBottomSheetController? _controller;
+  Future<Directory?> getLocalDirectory() async {
+    return Platform.isAndroid
+        ? await getExternalStorageDirectory()
+        : await getApplicationSupportDirectory();
+  }
 
   @override
   void initState() {
     super.initState();
-    // initDownloadController();
   }
 
   @override
   void dispose() {
-    disposeDownloadController();
     super.dispose();
   }
 
-  /// [initDownloadController] method will initialize the downloader controller and perform certain operations like registering the port, initializing the register callback etc.
-  initDownloadController() {
-    log('DownloadsController - initDownloadController called');
-    _bindBackgroundIsolate();
-  }
+  Future<void> processLoadAndOpen() async {
+    var post = jsonEncode({'imageName': widget.imageName});
+    Directory downloadDirPath;
+    downloadDirPath = (await getApplicationDocumentsDirectory());
+    var task = DownloadTask(
+        url:
+            Endpoints.downloadSingleImageUrl(widget.projectId, widget.cameraId),
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+        },
+        post: post,
+        updates: Updates.statusAndProgress,
+        baseDirectory: Platform.isAndroid
+            ? BaseDirectory.applicationSupport
+            : BaseDirectory.applicationLibrary,
+        filename: widget.imageName);
 
-  /// [disposeDownloadController] is used to unbind the isolates and dispose the controller
-  disposeDownloadController() {
-    _unbindBackgroundIsolate();
-  }
-
-  /// [_bindBackgroundIsolate] is used to register the [SendPort] with the name [downloader_send_port].
-  /// If the registration is successful then it will return true else it will return false.
-  _bindBackgroundIsolate() async {
-    log('DownloadsController - _bindBackgroundIsolate called');
-    final isSuccess = IsolateNameServer.registerPortWithName(
-      _port.sendPort,
-      'downloader_send_port',
+    await FileDownloader().download(
+      task,
+      onProgress: (progress) {
+        dev.log('${progress * 100}');
+        setState(() {
+          _progressBar = progress;
+        });
+        dev.log('Progress: ${progress * 100}%');
+      },
+      onStatus: (status) => dev.log('Status: $status'),
     );
-
-    log('_bindBackgroundIsolate - isSuccess = $isSuccess');
-
-    if (!isSuccess) {
-      _unbindBackgroundIsolate();
-      _bindBackgroundIsolate();
-      return;
-    } else {
-      _port.listen((message) {
-        setState(
-          () {
-            downloadTaskId = message[0];
-            downloadTaskStatus = message[1];
-            downloadTaskProgress = message[2];
-          },
-        );
-
-        if (message[1] == 2) {
-          isDownloading = true;
-        } else {
-          isDownloading = false;
-        }
-      });
-      await FlutterDownloader.registerCallback(registerCallback);
+    await FileDownloader().openFile(task: task);
+    // if (Platform.isIOS) {
+    //   // add to photos library and print path
+    //   // If you need the path, ask full permissions beforehand by calling
+    //   var auth = await FileDownloader()
+    //       .permissions
+    //       .status(PermissionType.iosChangePhotoLibrary);
+    //   if (auth != PermissionStatus.granted) {
+    //     auth = await FileDownloader()
+    //         .permissions
+    //         .request(PermissionType.iosChangePhotoLibrary);
+    //   }
+    //   if (auth == PermissionStatus.granted) {
+    //     final identifier = await FileDownloader()
+    //         .moveToSharedStorage(task, SharedStorage.images);
+    //     if (identifier != null) {
+    //       final path = await FileDownloader()
+    //           .pathInSharedStorage(identifier, SharedStorage.images);
+    //       debugPrint(
+    //           'iOS path to dog picture in Photos Library = ${path ?? "permission denied"}');
+    //     } else {
+    //       debugPrint(
+    //           'Could not add file to Photos Library, likely because permission denied');
+    //     }
+    //   } else {
+    //     debugPrint('iOS Photo Library permission not granted');
+    //   }
+    // }
+    if (Platform.isAndroid) {
+      // on Android we move, not add, so we first wat for the
+      // openFile method to complete
+      await Future.delayed(const Duration(seconds: 3));
+      var auth = await FileDownloader()
+          .permissions
+          .status(PermissionType.androidSharedStorage);
+      if (auth != PermissionStatus.granted) {
+        auth = await FileDownloader()
+            .permissions
+            .request(PermissionType.androidSharedStorage);
+      }
+      if (auth == PermissionStatus.granted) {
+        final path = await FileDownloader()
+            .moveToSharedStorage(task, SharedStorage.images);
+        debugPrint(
+            'Android path to dog picture in .images = ${path ?? "permission denied"}');
+      } else {
+        debugPrint('androidSharedStorage permission not granted');
+      }
     }
   }
 
-  /// [_unbindBackgroundIsolate] is used to remove the registered [SendPort] [downloader_send_port]'s mapping.
-  void _unbindBackgroundIsolate() {
-    log('DownloadsController - _unbindBackgroundIsolate called');
-    IsolateNameServer.removePortNameMapping('downloader_send_port');
-  }
-
-  /// [registerCallback] is used to update the download progress
-  @pragma('vm:entry-point')
-  static registerCallback(String id, int status, int progress) {
-    log("DownloadsController - registerCallback - task id = $id, status = $status, progress = $progress");
-
-    final SendPort? send =
-        IsolateNameServer.lookupPortByName('downloader_send_port');
-    send!.send([id, status, progress]);
-  }
-
   Future<void> _downloadImage(String image) async {
+    var post = jsonEncode({'imageName': widget.imageName});
     String downloadDirPath;
     if (Platform.isIOS) {
       downloadDirPath =
           (await getApplicationDocumentsDirectory()).absolute.path;
     } else {
-      downloadDirPath = (await getApplicationDocumentsDirectory()).path;
+      downloadDirPath = (await getExternalStorageDirectory())!.absolute.path;
     }
-    downloadTaskId = await FlutterDownloader.enqueue(
-      url:
-          "https://miro.medium.com/v2/resize:fit:1200/1*5JFH1YSl7NHZ4kPghfXfEg.jpeg",
-      headers: {},
-      savedDir: downloadDirPath,
-      saveInPublicStorage: true,
-      showNotification: true,
-      openFileFromNotification: true,
+    dev.log(downloadDirPath.toString());
+    task = DownloadTask(
+        url:
+            "https://i2.wp.com/www.skiptomylou.org/wp-content/uploads/2019/06/dog-drawing.jpg",
+        // Endpoints.downloadSingleImageUrl(widget.projectId, widget.cameraId),
+        filename: 'dog.jpg',
+        // headers: {'myHeader': 'value'},
+        // directory: 'file',
+        baseDirectory: BaseDirectory.applicationDocuments,
+        updates:
+            Updates.statusAndProgress, // request status and progress updates
+        requiresWiFi: true,
+        retries: 5,
+        allowPause: true,
+        metaData: 'data for me');
+    final result = await FileDownloader().download(
+      task!,
+      onProgress: (progress) => dev.log('Progress: ${progress * 100}%'),
+      onStatus: (status) => dev.log('Status: $status'),
     );
+
+    // Act on the result
+    switch (result) {
+      case TaskStatus.complete:
+        dev.log('Success!');
+
+      case TaskStatus.canceled:
+        dev.log('Download was canceled');
+
+      case TaskStatus.paused:
+        dev.log('Download was paused');
+
+      default:
+        dev.log('Download not successful');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    dev.log("image name passed" + widget.imageName.toString());
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
       decoration: BoxDecoration(
@@ -162,6 +216,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                       onTap: () {
                         setState(() {
                           showDownloadOptions = false;
+                          isDownloading = false;
                         });
                       },
                       child: Transform.rotate(
@@ -451,112 +506,396 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                     ),
                   ],
                 )
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    InkWell(
-                      onTap: () async {
-                        // _downloadImage();
-                        // context.pop();
-                      },
-                      child: Container(
-                        height: 44.h,
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          leading: Container(
-                              decoration: BoxDecoration(
-                                color: Helper.bottomIconBack,
-                                borderRadius: BorderRadius.circular(8.r),
+              : !isDownloading
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        InkWell(
+                          onTap: () async {
+                            setState(() {
+                              isDownloading = true;
+                            });
+                            processLoadAndOpen();
+                            // var path = await getLocalDirectory();
+                            // dev.log(path.toString());
+                            // Service().downloadSinglePhoto(
+                            //     widget.projectId,
+                            //     widget.cameraId,
+                            //     widget.imageName,
+                            //     path!.absolute.path + "/" + widget.imageName,
+                            //     (progress) {
+                            //   dev.log("progress" + progress.toString());
+                            // }).then((value) {
+                            //   Utils.toastSuccessMessage("image downloaded");
+                            // });
+                            // context.pop();
+                          },
+                          child: Container(
+                            height: 44.h,
+                            child: ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              leading: Container(
+                                  decoration: BoxDecoration(
+                                    color: Helper.bottomIconBack,
+                                    borderRadius: BorderRadius.circular(8.r),
+                                  ),
+                                  padding: EdgeInsets.all(8.w),
+                                  child: SvgPicture.asset(
+                                      'assets/images/camera.svg',
+                                      fit: BoxFit.cover,
+                                      colorFilter: ColorFilter.mode(
+                                          ref.watch(primaryColorProvider),
+                                          BlendMode.srcIn))),
+                              title: Text(
+                                'Single',
+                                style: TextStyle(
+                                    letterSpacing: -0.3,
+                                    color: Helper.baseBlack,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w500),
                               ),
-                              padding: EdgeInsets.all(8.w),
-                              child: SvgPicture.asset(
-                                  'assets/images/camera.svg',
-                                  fit: BoxFit.cover,
-                                  colorFilter: ColorFilter.mode(
-                                      ref.watch(primaryColorProvider),
-                                      BlendMode.srcIn))),
-                          title: Text(
-                            'Single',
-                            style: TextStyle(
-                                letterSpacing: -0.3,
-                                color: Helper.baseBlack,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    SizedBox(height: 24.h),
-                    InkWell(
-                      onTap: () async {
-                        context.push('/multipleImages', extra: {
-                          "projectId": widget.projectId,
-                          "cameraName": widget.cameraName,
-                          "cameraId": widget.cameraId,
-                          "startDate": widget.startDate,
-                          "endDate": widget.endDate
-                        });
-                      },
-                      child: Container(
-                        height: 44.h,
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          leading: Container(
-                              decoration: BoxDecoration(
-                                color: Helper.bottomIconBack,
-                                borderRadius: BorderRadius.circular(8.r),
+                        SizedBox(height: 24.h),
+                        InkWell(
+                          onTap: () async {
+                            context.push('/multipleImages', extra: {
+                              "projectId": widget.projectId,
+                              "cameraName": widget.cameraName,
+                              "cameraId": widget.cameraId,
+                              "startDate": widget.startDate,
+                              "endDate": widget.endDate
+                            });
+                          },
+                          child: Container(
+                            height: 44.h,
+                            child: ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              leading: Container(
+                                  decoration: BoxDecoration(
+                                    color: Helper.bottomIconBack,
+                                    borderRadius: BorderRadius.circular(8.r),
+                                  ),
+                                  padding: EdgeInsets.all(8.w),
+                                  child: SvgPicture.asset(
+                                      'assets/images/add_image.svg',
+                                      // width: 44.w,
+                                      // height: 44.h,
+                                      fit: BoxFit.cover,
+                                      colorFilter: ColorFilter.mode(
+                                          ref.watch(primaryColorProvider),
+                                          BlendMode.srcIn))),
+                              title: Text(
+                                'Multiple',
+                                style: TextStyle(
+                                    letterSpacing: -0.3,
+                                    color: Helper.baseBlack,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w500),
                               ),
-                              padding: EdgeInsets.all(8.w),
-                              child: SvgPicture.asset(
-                                  'assets/images/add_image.svg',
-                                  // width: 44.w,
-                                  // height: 44.h,
-                                  fit: BoxFit.cover,
-                                  colorFilter: ColorFilter.mode(
-                                      ref.watch(primaryColorProvider),
-                                      BlendMode.srcIn))),
-                          title: Text(
-                            'Multiple',
-                            style: TextStyle(
-                                letterSpacing: -0.3,
-                                color: Helper.baseBlack,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    SizedBox(height: 24.h),
-                    Container(
-                      height: 52.h,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        child: Text(
-                          "Cancel",
-                          style: TextStyle(
-                              letterSpacing: -0.3,
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500),
-                          // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                        SizedBox(height: 24.h),
+                        Container(
+                          height: 52.h,
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            child: Text(
+                              "Cancel",
+                              style: TextStyle(
+                                  letterSpacing: -0.3,
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500),
+                              // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                            ),
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStatePropertyAll(Helper.baseBlack),
+                                shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                  ),
+                                )),
+                            onPressed: () {
+                              context.pop();
+                            },
+                          ),
                         ),
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll(Helper.baseBlack),
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.r),
+                      ],
+                    )
+                  : Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ListTile(
+                                contentPadding: EdgeInsets.zero,
+                                isThreeLine: true,
+                                leading: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 6.w, vertical: 6.h),
+                                  width: 32.w,
+                                  height: 32.h,
+                                  decoration: BoxDecoration(
+                                      color: Color.fromRGBO(229, 240, 255, 1),
+                                      borderRadius: BorderRadius.circular(32.r),
+                                      border: Border.all(
+                                          color:
+                                              Color.fromRGBO(245, 249, 255, 1),
+                                          width: 4.w)),
+                                  child: SvgPicture.asset(
+                                    'assets/images/film.svg',
+                                  ),
+                                ),
+                                title: Text(
+                                  widget.imageName,
+                                  style: TextStyle(
+                                      letterSpacing: -0.3,
+                                      color: Helper.textColor700,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        "Fetching image",
+                                        style: TextStyle(
+                                            letterSpacing: -0.3,
+                                            color: Helper.textColor600,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                      SizedBox(height: 10.h),
+                                      Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(4.r),
+                                              child: LinearPercentIndicator(
+                                                  width: 210.w,
+                                                  fillColor:
+                                                      Helper.textColor300,
+                                                  backgroundColor:
+                                                      Helper.textColor300,
+                                                  progressColor: ref.watch(
+                                                      primaryColorProvider),
+                                                  padding: EdgeInsets.zero,
+                                                  curve: Curves.easeInOut,
+                                                  barRadius:
+                                                      Radius.circular(4.r),
+                                                  lineHeight: 8.h,
+                                                  percent: _progressBar),
+                                            ),
+                                            Text(
+                                              "${(_progressBar * 100).toInt()}%",
+                                              style: TextStyle(
+                                                  letterSpacing: -0.3,
+                                                  color: Helper.textColor700,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500),
+                                            )
+                                          ])
+                                    ]),
+                                trailing: _progressBar == 100.0
+                                    ? SvgPicture.asset(
+                                        'assets/images/checkbox_base.svg',
+                                      )
+                                    : SizedBox(),
                               ),
-                            )),
-                        onPressed: () {
-                          context.pop();
-                        },
+                              SizedBox(height: 20.h),
+                              Container(
+                                height: 52.h,
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  child: Text(
+                                    "Close",
+                                    style: TextStyle(
+                                        letterSpacing: -0.3,
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                    // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                                  ),
+                                  style: ButtonStyle(
+                                      backgroundColor: MaterialStatePropertyAll(
+                                          Helper.baseBlack),
+                                      shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8.r),
+                                        ),
+                                      )),
+                                  onPressed: () {
+                                    context.pop();
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
         ],
       ),
     );
+  }
+
+  _showProgressBottomSheet(context, WidgetRef ref) async {
+    _controller =
+        await Scaffold.of(context).showBottomSheet((BuildContext context) {
+      return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r)),
+            color: Colors.white,
+          ),
+          height: 270.h,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Generating Zip',
+                    style: TextStyle(
+                        letterSpacing: -0.3,
+                        color: Helper.baseBlack,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20.h),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    isThreeLine: true,
+                    leading: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 6.w, vertical: 6.h),
+                      width: 32.w,
+                      height: 32.h,
+                      decoration: BoxDecoration(
+                          color: Color.fromRGBO(229, 240, 255, 1),
+                          borderRadius: BorderRadius.circular(32.r),
+                          border: Border.all(
+                              color: Color.fromRGBO(245, 249, 255, 1),
+                              width: 4.w)),
+                      child: SvgPicture.asset(
+                        'assets/images/film.svg',
+                      ),
+                    ),
+                    title: Text(
+                      "Camera 2 - The Bridges.mp4",
+                      style: TextStyle(
+                          letterSpacing: -0.3,
+                          color: Helper.textColor700,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Fetching image",
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Helper.textColor600,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          SizedBox(height: 10.h),
+                          Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(4.r),
+                                  child: LinearPercentIndicator(
+                                      width: 210.w,
+                                      fillColor: Helper.textColor300,
+                                      backgroundColor: Helper.textColor300,
+                                      progressColor:
+                                          ref.watch(primaryColorProvider),
+                                      padding: EdgeInsets.zero,
+                                      curve: Curves.easeInOut,
+                                      barRadius: Radius.circular(4.r),
+                                      lineHeight: 8.h,
+                                      percent: _progressBar / 100),
+                                ),
+                                Text(
+                                  "${(_progressBar).toInt()}%",
+                                  style: TextStyle(
+                                      letterSpacing: -0.3,
+                                      color: Helper.textColor700,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
+                                )
+                              ])
+                        ]),
+                    trailing: _progressBar == 100.0
+                        ? SvgPicture.asset(
+                            'assets/images/checkbox_base.svg',
+                          )
+                        : SizedBox(),
+                  ),
+                  SizedBox(height: 20.h),
+                  Container(
+                    height: 52.h,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      child: Text(
+                        "Close",
+                        style: TextStyle(
+                            letterSpacing: -0.3,
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500),
+                        // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                      ),
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(Helper.baseBlack),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                          )),
+                      onPressed: () {
+                        context.pop();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    });
   }
 }

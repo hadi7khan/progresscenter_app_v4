@@ -84,7 +84,7 @@ dependencies:
   # https://pub.dev/packages?q=get_it
   get_it: 7.6.0
   # https://pub.dev/packages/http
-  http: 1.0.0
+  http: 1.1.0
   # https://pub.dev/packages/intl/changelog
   intl: 0.18.1
   # https://pub.dev/packages/video_player
@@ -136,8 +136,8 @@ dependencies:
   camerawesome: 2.0.0
   flutter_camera: 1.0.0
   extended_image: 8.2.0
-  flutter_downloader: 1.11.6
   path_provider: 2.1.2
+  background_downloader: 8.0.5
 
 dependency_overrides: 
   photo_manager: ^3.0.0-dev.2
