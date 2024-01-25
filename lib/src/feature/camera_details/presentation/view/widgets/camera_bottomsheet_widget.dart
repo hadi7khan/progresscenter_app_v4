@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
@@ -31,6 +32,7 @@ class CameraBottomSheet extends ConsumerStatefulWidget {
   final String startDate;
   final String endDate;
   final String imageName;
+  final String imageUrl;
 
   const CameraBottomSheet(
       {super.key,
@@ -39,7 +41,8 @@ class CameraBottomSheet extends ConsumerStatefulWidget {
       required this.cameraId,
       required this.startDate,
       required this.endDate,
-      required this.imageName});
+      required this.imageName,
+      required this.imageUrl});
 
   @override
   ConsumerState<CameraBottomSheet> createState() => _CameraBottomSheetState();
@@ -52,6 +55,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
   String? downloadTaskId;
   DownloadTask? task;
   double _progressBar = 0.0;
+  var filePath;
 
   PersistentBottomSheetController? _controller;
   Future<Directory?> getLocalDirectory() async {
@@ -63,11 +67,42 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
   @override
   void initState() {
     super.initState();
+    _saveImage();
     // Service()
     //     .shareSocials(widget.projectId, widget.cameraId, data)
     //     .then((value) {
     //   dev.log("returned data" + value.toString());
     // });
+  }
+
+  Future<void> _saveImage() async {
+    try {
+      // Download image
+      final response = await http.get(Uri.parse(widget.imageUrl));
+
+      // Get temporary directory
+      final dir = await getTemporaryDirectory();
+
+      // Create an image name
+      var filename = '${dir.path}/image.png';
+
+      // Save to filesystem
+      final file = File(filename);
+      await file.writeAsBytes(response.bodyBytes);
+
+      dev.log("preview" + file.path.toString());
+      filePath = file.path;
+
+      // // Ask the user to save it
+      // final params = SaveFileDialogParams(sourceFilePath: file.path);
+      // final finalPath = await FlutterFileDialog.saveFile(params: params);
+
+      // if (finalPath != null) {
+      // message = 'Image saved to disk';
+      // }
+    } catch (e) {
+      dev.log(e.toString());
+    }
   }
 
   @override
@@ -314,7 +349,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                     SizedBox(height: 24.h),
                     InkWell(
                       onTap: () async {
-                        Share.share("Progress center");
+                        Share.shareXFiles([XFile(filePath)]);
                       },
                       child: Container(
                         height: 44.h,
