@@ -22,6 +22,8 @@ import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/pri
 
 import 'dart:developer' as dev;
 
+import 'package:share_plus/share_plus.dart';
+
 class CameraBottomSheet extends ConsumerStatefulWidget {
   final String cameraName;
   final String projectId;
@@ -312,7 +314,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                     SizedBox(height: 24.h),
                     InkWell(
                       onTap: () async {
-                        context.pop();
+                        Share.share("Progress center");
                       },
                       child: Container(
                         height: 44.h,
