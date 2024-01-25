@@ -61,6 +61,11 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
   @override
   void initState() {
     super.initState();
+    // Service()
+    //     .shareSocials(widget.projectId, widget.cameraId, data)
+    //     .then((value) {
+    //   dev.log("returned data" + value.toString());
+    // });
   }
 
   @override
@@ -73,31 +78,42 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
     Directory downloadDirPath;
     downloadDirPath = (await getApplicationDocumentsDirectory());
     var task = DownloadTask(
-        url:
-            Endpoints.downloadSingleImageUrl(widget.projectId, widget.cameraId),
-        headers: {
-          "content-type": "application/json",
-          "Authorization": "Bearer " + _prefsLocator.getUserToken(),
-        },
-        post: post,
-        updates: Updates.statusAndProgress,
-        baseDirectory: Platform.isAndroid
-            ? BaseDirectory.applicationSupport
-            : BaseDirectory.applicationLibrary,
-        filename: widget.imageName);
-
-    await FileDownloader().download(
-      task,
-      onProgress: (progress) {
-        dev.log('${progress * 100}');
-        setState(() {
-          _progressBar = progress;
-        });
-        dev.log('Progress: ${progress * 100}%');
+      url:
+          // 'https://storage.googleapis.com/approachcharts/test/5MB-test.ZIP',
+          Endpoints.downloadSingleImageUrl(widget.projectId, widget.cameraId),
+      headers: {
+        "content-type": "application/json",
+        "Authorization": "Bearer " + _prefsLocator.getUserToken(),
       },
-      onStatus: (status) => dev.log('Status: $status'),
+      priority: 1,
+      post: post,
+      updates: Updates.statusAndProgress,
+      baseDirectory: Platform.isAndroid
+          ? BaseDirectory.applicationSupport
+          : BaseDirectory.applicationLibrary,
+      filename:
+          //  'zipfile.zip',
+          widget.imageName,
     );
-    await FileDownloader().openFile(task: task);
+
+    await FileDownloader().enqueue(
+      task,
+      // onProgress: (progress) {
+      //   setState(() {
+      //     _progressBar = progress;
+      //   });
+      //   dev.log('Progress: ${progress * 100}%');
+      // },
+      // onStatus: (status) => dev.log('Status: $status'),
+    );
+    if (Platform.isIOS) {
+      await FileDownloader().openFile(task: task);
+    }
+
+    setState(() {
+      _progressBar = 1.0;
+    });
+
     // if (Platform.isIOS) {
     //   // add to photos library and print path
     //   // If you need the path, ask full permissions beforehand by calling
@@ -126,8 +142,6 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
     //   }
     // }
     if (Platform.isAndroid) {
-      // on Android we move, not add, so we first wat for the
-      // openFile method to complete
       await Future.delayed(const Duration(seconds: 3));
       var auth = await FileDownloader()
           .permissions

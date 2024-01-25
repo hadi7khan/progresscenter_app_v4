@@ -149,6 +149,10 @@ class Endpoints {
   static downloadMultiImageUrl(projectId, cameraId) {
     return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/multi-image-downloads';
   }
+
+  static shareSocials(projectId, cameraId) {
+    return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/social-share';
+  }
   //---------------------------- Teams ---------------------------------------
 
   static teamListUrl() {

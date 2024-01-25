@@ -245,40 +245,22 @@ class Service {
     }
   }
 
-  // method to download single image
-  Future<dynamic> downloadSinglePhoto(String projectId, String cameraId,
-      String imageName, String path, ProgressCallback onProgress) async {
-    Dio dio = Dio();
-
-    Map<String, String> headers = {
-      "Accept": "application/json",
-      'Authorization': "Bearer ${_prefsLocator.getUserToken()}"
-    };
-
-    Map<String, String> data = {"imageName": imageName};
-
-    try {
-      dio.options.headers = headers;
-      dio.options.responseType = ResponseType.stream;
-      dio.options.followRedirects = false;
-      dio.options.validateStatus = (status) => status! < 500;
-
-      await dio.download(
-          Endpoints.downloadSingleImageUrl(projectId, cameraId), path,
-          data: data, onReceiveProgress: (count, total) {
-        double progress = count.toDouble() / count.toDouble();
-        log("onreceive" + progress.toString());
-        onProgress(progress);
-      }).then((response) {
-        if (response.statusCode == 200) {
-          return response.data;
-        } else {
-          throw Exception();
-        }
-      });
-    } catch (e) {
-      log(e.toString());
-      throw Exception(e.toString());
+  // method to share image to socials
+  Future shareSocials(projectId, cameraId, data) async {
+    var postData = json.encode(data);
+    log("post data" + data.toString());
+    final client = http.Client();
+    final response = await client.post(
+        Uri.parse(Endpoints.shareSocials(projectId, cameraId)),
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+        },
+        body: postData);
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to share socials');
     }
   }
 
