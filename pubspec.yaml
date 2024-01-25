@@ -138,9 +138,11 @@ dependencies:
   extended_image: 8.2.0
   path_provider: 2.1.2
   background_downloader: 8.0.5
+  share_plus: ^6.3.4
 
 dependency_overrides: 
   photo_manager: ^3.0.0-dev.2
+  
 
 dev_dependencies:
   flutter_test:
