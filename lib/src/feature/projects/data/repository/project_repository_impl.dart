@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -35,7 +36,7 @@ class ProjectRepositoryImpl implements ProjectRepository {
           (result as List).map((e) => ProjectModel.fromJson(e)).toList());
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
-      print(errorMessage.toString());
+      log(errorMessage.toString());
       rethrow;
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));

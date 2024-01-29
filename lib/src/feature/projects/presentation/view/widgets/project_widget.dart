@@ -7,6 +7,7 @@ import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dar
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/widgets/project_card.dart';
+import 'dart:developer';
 
 class ProjectWidget extends ConsumerStatefulWidget {
   ProjectWidget({super.key});
@@ -46,6 +47,7 @@ class _ProjectWidgetState extends BaseConsumerState<ProjectWidget> {
         );
       },
       error: (err, _) {
+        log("errroorrrr" + err.toString());
         return const Text("Failed to load Projects",
             style: TextStyle(color: Helper.errorColor));
       },

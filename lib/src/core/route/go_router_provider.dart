@@ -71,7 +71,6 @@ import 'package:progresscenter_app_v4/src/feature/team/presentation/view/user_pr
 import 'notifier/go_router_notifier.dart';
 import 'route_names.dart';
 
-final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorAKey = GlobalKey<NavigatorState>(debugLabel: 'shellA');
 final _shellNavigatorBKey = GlobalKey<NavigatorState>(debugLabel: 'shellB');
 final _shellNavigatorCKey = GlobalKey<NavigatorState>(debugLabel: 'shellC');
@@ -87,7 +86,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
     // * https://github.com/flutter/flutter/issues/113757#issuecomment-1518421380
     // * However it's still necessary otherwise the navigator pops back to
     // * root on hot reload
-    navigatorKey: _rootNavigatorKey,
+    navigatorKey: rootNavigatorKey,
     debugLogDiagnostics: true,
     // redirect: (context, state){
     //    // if the user is not logged in, they need to login
@@ -204,7 +203,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         ],
       ),
       GoRoute(
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         path: '/noInternet',
         name: noInternetRoute,
         builder: (context, state) =>
@@ -212,7 +211,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: splashRoute,
         pageBuilder: (context, state) {
           return NoTransitionPage(
@@ -225,7 +224,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/details',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: projectDetailRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -244,7 +243,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/superProject/:projectId',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: superProjectRoute,
         pageBuilder: (context, state) {
           // final family = Families.family(state.p['fid']!);
@@ -260,7 +259,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/projectSearch',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: projectSearchRoute,
         pageBuilder: (context, state) {
           // Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -274,7 +273,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/camera',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: cameraRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -290,7 +289,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       // --------------------------Camera Details Route--------------------------
       GoRoute(
         path: '/cameradetails',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: cameraDetailsRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -307,7 +306,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/landscapeCameradetails',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: landscapeCameraDetailsRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -325,7 +324,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/multipleImages',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: multipleImagesRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -344,7 +343,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/livelapse',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: livelapseRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -361,7 +360,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/fullViewlivelapse',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: fullViewlivelapseRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -380,7 +379,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/slider',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: sliderRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -397,7 +396,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/fullviewSlider',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: fullviewSliderRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -415,7 +414,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/compare',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: compareRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -432,7 +431,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/splitview',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: splitviewRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -449,7 +448,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/report',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: reportRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -464,7 +463,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/createlivelapse',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: createLivelapseRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -483,7 +482,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 
       GoRoute(
         path: '/addUser',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: addUserRoute,
         pageBuilder: (context, state) {
           return NoTransitionPage(
@@ -497,7 +496,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 
       GoRoute(
         path: '/addUser2',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: addUserRoute2,
         pageBuilder: (context, state) {
           final args = state.extra;
@@ -510,7 +509,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 
       GoRoute(
         path: '/inviteByMail',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: inviteByMailRoute,
         pageBuilder: (context, state) {
           return NoTransitionPage(
@@ -524,7 +523,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 
       GoRoute(
         path: '/userProfile',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: userProfileRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -539,7 +538,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/roles',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: rolesRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -557,7 +556,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/selectTeams',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: selectTeamsRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -574,7 +573,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/teamSearch',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: teamSearchRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -588,7 +587,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       // ---------------------------------Support Route--------------------------------
       GoRoute(
         path: '/support',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         pageBuilder: (context, state) => const NoTransitionPage(
           child:
               SupportScreen(label: 'Support', detailsPath: '/support/details'),
@@ -597,7 +596,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/createTicket',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: createTicketRoute,
         pageBuilder: (context, state) {
           return NoTransitionPage(
@@ -611,7 +610,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 
       GoRoute(
         path: '/ticketById',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: ticketByIdRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -629,7 +628,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 
       GoRoute(
         path: '/addDocs',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: addDocsRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -646,7 +645,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       // ---------------------------------Drone Footage--------------------------------
       GoRoute(
         path: '/dronefootage',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: dronefootageRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -661,7 +660,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/addFileVideo',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: addFileVideoRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -676,7 +675,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/addVimeoVideo',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: addVimeoVideoRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -691,7 +690,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/addYoutubeVideo',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: addYoutubeVideoRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -706,7 +705,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/fullViewDrone',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: fullViewDroneRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -724,7 +723,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       // --------------------------------- CCTV --------------------------------
       GoRoute(
         path: '/cctv',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: cctvRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -739,7 +738,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/fullViewCCTV',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: fullViewCCTVRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -756,7 +755,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/camera360',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: camera360Route,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -772,7 +771,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       // ---------------------------------Site Gallery--------------------------------
       GoRoute(
         path: '/sitegallery',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: siteGalleryRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -787,7 +786,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/addSiteGallery',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: addSiteGalleryRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -802,7 +801,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/fullViewSitegallery',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: fullViewSitegalleryRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -824,7 +823,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/equipmentTracker',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: equipmentTrackerRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -839,7 +838,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/editproject',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: editProjectRoute,
         pageBuilder: (context, state) {
           ProjectModel model = state.extra as ProjectModel;
@@ -851,7 +850,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/addmember',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: addMemberRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -868,7 +867,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       // ---------------------------------Account--------------------------------
       GoRoute(
         path: '/profile',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: profileRoute,
         pageBuilder: (context, state) {
           // Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -882,7 +881,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/profileTeam',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: profileteamRoute,
         pageBuilder: (context, state) {
           Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -899,7 +898,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/changePasswordProfile',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: changePasswordProfileRoute,
         pageBuilder: (context, state) {
           // Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -913,7 +912,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/deleteAccount',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: deleteAccountRoute,
         pageBuilder: (context, state) {
           // Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -927,7 +926,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/organisation',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: organisationRoute,
         pageBuilder: (context, state) {
           // Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -941,7 +940,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/organisationUrl',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: organisationUrlRoute,
         pageBuilder: (context, state) {
           // Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -956,7 +955,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 
       GoRoute(
         path: '/notifications',
-        parentNavigatorKey: _rootNavigatorKey,
+        parentNavigatorKey: rootNavigatorKey,
         name: notificationsRoute,
         pageBuilder: (context, state) {
           // Map<String, dynamic> args = state.extra as Map<String, dynamic>;
@@ -1057,7 +1056,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 //   // * https://github.com/flutter/flutter/issues/113757#issuecomment-1518421380
 //   // * However it's still necessary otherwise the navigator pops back to
 //   // * root on hot reload
-//   navigatorKey: _rootNavigatorKey,
+//   navigatorKey: rootNavigatorKey,
 //   debugLogDiagnostics: true,
 //   routes: [
 //     // Stateful navigation based on:
@@ -1109,7 +1108,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 //       ],
 //     ),
 //     GoRoute(
-//       parentNavigatorKey: _rootNavigatorKey,
+//       parentNavigatorKey: rootNavigatorKey,
 //       path: '/noInternet',
 //       name: noInternetRoute,
 //       builder: (context, state) =>
@@ -1117,7 +1116,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 //     ),
 //     GoRoute(
 //       path: '/',
-//       parentNavigatorKey: _rootNavigatorKey,
+//       parentNavigatorKey: rootNavigatorKey,
 //       name: splashRoute,
 //       pageBuilder: (context, state) {
 //         return NoTransitionPage(
@@ -1210,7 +1209,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 //   ],
 // );
 
-// final GlobalKey<NavigatorState> _rootNavigatorKey =
+// final GlobalKey<NavigatorState> rootNavigatorKey =
 //     GlobalKey(debugLabel: 'root');
 // final GlobalKey<NavigatorState> _shellNavigatorKey =
 //     GlobalKey(debugLabel: 'shell');
@@ -1221,12 +1220,12 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 //   final notifier = ref.read(goRouterNotifierProvider);
 
 //   return GoRouter(
-//       navigatorKey: _rootNavigatorKey,
+//       navigatorKey: rootNavigatorKey,
 //       initialLocation: '/',
 //       refreshListenable: notifier,
 //       routes: <RouteBase>[
 //         GoRoute(
-//           parentNavigatorKey: _rootNavigatorKey,
+//           parentNavigatorKey: rootNavigatorKey,
 //           path: '/noInternet',
 //           name: noInternetRoute,
 //           builder: (context, state) =>
@@ -1241,7 +1240,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 //         //     ),
 //         GoRoute(
 //           path: '/',
-//           parentNavigatorKey: _rootNavigatorKey,
+//           parentNavigatorKey: rootNavigatorKey,
 //           name: splashRoute,
 //           pageBuilder: (context, state) {
 //             return NoTransitionPage(
