@@ -18,6 +18,8 @@ import 'src/core/utils/helper.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
 import 'dart:developer' as dev;
 
+final rootNavigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setup();

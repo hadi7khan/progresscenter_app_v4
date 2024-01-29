@@ -1,4 +1,4 @@
-const String signinRoute = 'sigin';
+const String signinRoute = 'signin';
 const String splashRoute = 'splash';
 const String passwordRoute = 'password';
 const String verifyemailRoute = 'verifyEmail';
