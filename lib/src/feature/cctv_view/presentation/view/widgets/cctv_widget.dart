@@ -21,7 +21,7 @@ class _CCTVWidgetState extends State<CCTVWidget>
     with AutomaticKeepAliveClientMixin<CCTVWidget> {
   // late VideoPlayerController? controller;
   // ChewieController? chewieController;
-  
+
   VlcPlayerController? _videoPlayerController;
   @override
   void initState() {
@@ -90,7 +90,7 @@ class _CCTVWidgetState extends State<CCTVWidget>
 
   @override
   void dispose() {
-    // controller!.dispose();
+    _videoPlayerController!.dispose();
     // chewieController!.dispose();
     super.dispose();
   }
@@ -108,11 +108,11 @@ class _CCTVWidgetState extends State<CCTVWidget>
       ),
       child: AspectRatio(
         aspectRatio: 16 / 9,
-        child:VlcPlayer(
-                controller: _videoPlayerController!,
-                aspectRatio: 16 / 9,
-                placeholder: Center(child: CircularProgressIndicator()),
-              ),
+        child: VlcPlayer(
+          controller: _videoPlayerController!,
+          aspectRatio: 16 / 9,
+          placeholder: Center(child: CircularProgressIndicator()),
+        ),
         // Chewie(
         //   controller: chewieController!,
         // )

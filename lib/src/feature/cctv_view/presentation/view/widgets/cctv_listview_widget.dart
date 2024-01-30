@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:dio/dio.dart';
@@ -18,25 +19,24 @@ class CctvListViewWidget extends StatefulWidget {
 }
 
 class _CctvListViewWidgetState extends State<CctvListViewWidget> {
-  late Timer _timer;
+  Timer? _timer;
   bool isOnline = false;
 
-  // @override
-  // void initState() {
-  //   super.initState();
+  @override
+  void initState() {
+    super.initState();
 
-  // // Start the timer when the widget is initialized
-  // _timer = Timer.periodic(Duration(seconds: 5), (timer) {
-  //   _checkStatus();
-  // });
+    // Start the timer when the widget is initialized
+    // _timer = Timer.periodic(Duration(seconds: 5), (timer) {
+    //   _checkStatus();
+    // });
 
-  // Initial check for the status
-  // _checkStatus();
-  // }
+    // Initial check for the status
+    _checkStatus();
+  }
 
   Future _checkStatus() async {
     try {
-      // Assume that widget.data.streamingUrl is not null
       final response =
           await Dio().get(widget.data.streamingUrl + "&q=hadikhan");
       print('streaming url   ' + widget.data.streamingUrl.toString());
@@ -44,22 +44,22 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
         isOnline = true;
         print('isOnline changed   ' + isOnline.toString());
       });
-      // print('cctv response   ' + response.data.toString());
-      // print('cctv response code   ' + response.statusCode.toString());
+      log('cctv response   ' + response.data.toString());
+      log('cctv response code   ' + response.statusCode.toString());
       // Check for a successful status code and a content-type header
-      // if (response.statusCode == 200) {
-      //   setState(() {
-      //     isOnline = true;
-      //     print('isOnline changed   ' + isOnline.toString());
-      //     print('streaming url   ' + widget.data.streamingUrl.toString());
-      //   });
-      // } else {
-      //   setState(() {
-      //     isOnline = false;
-      //   });
-      // }
+      if (response.statusCode == 200) {
+        setState(() {
+          isOnline = true;
+          log('isOnline changed   ' + isOnline.toString());
+          log('streaming url   ' + widget.data.streamingUrl.toString());
+        });
+      } else {
+        setState(() {
+          isOnline = false;
+        });
+      }
     } catch (e, stackTrace) {
-      print('error streaming url   ' + widget.data.streamingUrl.toString());
+      log('error streaming url   ' + widget.data.streamingUrl.toString());
       setState(() {
         isOnline = false;
       });
@@ -68,8 +68,7 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
 
   @override
   void dispose() {
-    // Cancel the timer when the widget is disposed
-    _timer.cancel();
+    // _timer!.cancel();
     super.dispose();
   }
 
@@ -146,12 +145,6 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
                               ? Helper.successColor
                               : Helper.errorColor,
                         ),
-                        // SvgPicture.asset(
-                        //   'assets/images/updated.svg',
-                        //   height: 10.h,
-                        //   width: 9.w,
-                        //   color: Colors.white,
-                        // ),
                         SizedBox(width: 4.w),
                         Text(isOnline ? "Online" : "Offline",
                             style: TextStyle(
@@ -165,8 +158,6 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
                     )),
               ),
               Positioned.fill(
-                // bottom: 20,
-                // left: 20,
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
@@ -217,30 +208,6 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
                               ],
                             ),
                           ),
-                          // TextButton(
-                          //     onPressed: () {
-                          //       context.push('/fullViewCCTV', extra: {
-                          //         "projectId": widget.data.project,
-                          //         "name": widget.data.name,
-                          //         "streamingUrl": widget.data.streamingUrl,
-                          //         // "type": widget.data.type
-                          //       });
-                          //     },
-                          //     style: ButtonStyle(
-                          //         shape: MaterialStateProperty.all(
-                          //             RoundedRectangleBorder(
-                          //           borderRadius: BorderRadius.circular(8.r),
-                          //         )),
-                          //         backgroundColor:
-                          //             MaterialStateProperty.all(Colors.white)),
-                          //     child: Text(
-                          //       "View",
-                          //       style: TextStyle(
-                          //           color: Helper.baseBlack,
-                          //           fontSize: 14.sp,
-                          //           letterSpacing: 0.2,
-                          //           fontWeight: FontWeight.w600),
-                          //     ))
                         ],
                       )),
                 ),
