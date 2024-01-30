@@ -76,8 +76,6 @@ class _CCTVScreenState extends BaseConsumerState<CCTVScreen> {
               ),
               actions: [
                 InkWell(
-                  // padding: EdgeInsets.zero,
-                  // alignment: Alignment.centerLeft,
                   child: list
                       ? SvgPicture.asset(
                           'assets/images/grid_view.svg',
@@ -147,7 +145,7 @@ class _CCTVScreenState extends BaseConsumerState<CCTVScreen> {
                                   },
                                   shrinkWrap: true,
                                   padding: EdgeInsets.zero,
-                                  cacheExtent: 6,
+                                  // cacheExtent: 6,
                                   addAutomaticKeepAlives: true,
                                   physics: NeverScrollableScrollPhysics(),
                                   itemCount: data.length,

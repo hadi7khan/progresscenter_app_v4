@@ -79,7 +79,7 @@ class _ChangePasswordScreenState
                     SizedBox(
                       height: 28.h,
                     ),
-                    SvgPicture.asset("assets/images/Group 1171280126.svg"),
+                    SvgPicture.asset("assets/images/progress_tick.svg"),
                     SizedBox(
                       height: 30.h,
                     ),
