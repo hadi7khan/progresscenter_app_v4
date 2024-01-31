@@ -184,27 +184,26 @@ class _ListViewWidgetState extends BaseConsumerState<ListViewWidget> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                  // width:
-                                  // MediaQuery.of(context).size.width * 0.5,
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.circle,
-                                        color: widget.data.latestImage != null
-                                            ? isDateTimeWithin24Hours(
-                                                widget
-                                                    .data.latestImage.datetime,
-                                              )
-                                                ? Helper.successColor
-                                                : Helper.errorColor
-                                            : Helper.errorColor,
-                                        size: 10,
-                                      ),
-                                      SizedBox(
-                                        width: 5.w,
-                                      ),
-                                      Text(
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.circle,
+                                      color: widget.data.latestImage != null
+                                          ? isDateTimeWithin24Hours(
+                                              widget.data.latestImage.datetime,
+                                            )
+                                              ? Helper.successColor
+                                              : Helper.errorColor
+                                          : Helper.errorColor,
+                                      size: 10,
+                                    ),
+                                    SizedBox(
+                                      width: 5.w,
+                                    ),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.7,
+                                      child: Text(
                                         widget.data.name!,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
@@ -214,8 +213,8 @@ class _ListViewWidgetState extends BaseConsumerState<ListViewWidget> {
                                           color: Helper.baseBlack,
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                                 // SizedBox(
                                 //   height: 6.h,
