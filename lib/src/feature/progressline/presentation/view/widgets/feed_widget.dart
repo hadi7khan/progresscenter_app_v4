@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/load_progress_line.dart';
@@ -37,6 +38,37 @@ class _TeamWidgetState extends BaseConsumerState<FeedWidget> {
         progresslineControllerProvider.select((value) => value.progressline));
     return progresslineData.when(
       data: (data) {
+        if (data.isEmpty) {
+          return Container(
+            alignment: Alignment.center,
+            height: MediaQuery.of(context).size.height * 0.6.h,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SvgPicture.asset('assets/images/illustration.svg'),
+                SizedBox(height: 16.h),
+                Text(
+                  "No Feeds",
+                  style: TextStyle(
+                      letterSpacing: -0.3,
+                      color: Helper.textColor900,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600),
+                ),
+                Text(
+                  "This space is empty.",
+                  style: TextStyle(
+                      letterSpacing: -0.3,
+                      color: Helper.textColor600,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400),
+                ),
+              ],
+            ),
+          );
+        }
+        ;
         return ListView.separated(
           separatorBuilder: (context, index) {
             return SizedBox(height: 16.h);
