@@ -48,7 +48,7 @@ class _TeamWidgetState extends BaseConsumerState<DocsWidget> {
                   fontWeight: FontWeight.w600),
             ),
             Text(
-              "This space is empty.",
+              "This space is empty. ",
               style: TextStyle(
                   letterSpacing: -0.3,
                   color: Helper.textColor600,
