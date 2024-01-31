@@ -37,7 +37,6 @@ class _TeamWidgetState extends BaseConsumerState<FeedWidget> {
         progresslineControllerProvider.select((value) => value.progressline));
     return progresslineData.when(
       data: (data) {
-        print("prooooooooo" + data.toString());
         return ListView.separated(
           separatorBuilder: (context, index) {
             return SizedBox(height: 16.h);

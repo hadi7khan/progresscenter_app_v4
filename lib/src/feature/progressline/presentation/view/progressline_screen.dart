@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
-import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/data/model/progressline_project_model.dart';
@@ -79,7 +78,6 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
                           child: SvgPicture.asset('assets/images/home.svg')),
                       Row(
                         children: [
-                          // SvgPicture.asset('assets/images/search.svg'),
                           SizedBox(width: 12.w),
                           ConstrainedBox(
                             constraints: new BoxConstraints(
@@ -186,7 +184,37 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
                     ],
                   ),
                   SizedBox(height: 15.h),
-                  FeedWidget(),
+                  _progresslineProjects.isEmpty
+                      ? Container(
+                          alignment: Alignment.center,
+                          height: MediaQuery.of(context).size.height * 0.6.h,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                  'assets/images/illustration.svg'),
+                              SizedBox(height: 16.h),
+                              Text(
+                                "No Feeds",
+                                style: TextStyle(
+                                    letterSpacing: -0.3,
+                                    color: Helper.textColor900,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              Text(
+                                "This space is empty.",
+                                style: TextStyle(
+                                    letterSpacing: -0.3,
+                                    color: Helper.textColor600,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            ],
+                          ),
+                        )
+                      : FeedWidget(),
                 ],
               ),
             ),
