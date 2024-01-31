@@ -13,6 +13,7 @@ class ProjectController extends StateNotifier<ProjectState> {
   final ProjectRepositoryImpl service;
 
   Future getProjects({searchText = ''}) async {
+    var value;
     state = state.copyWith(isFetching: true);
     final result = await service.projectList(searchText: searchText);
 
@@ -21,6 +22,8 @@ class ProjectController extends StateNotifier<ProjectState> {
       state = state.copyWith(isFetching: false, errorMessage: l.message);
     }, (r) {
       state = state.copyWith(isFetching: false, projects: AsyncValue.data(r));
+      value = r;
     });
+    return value;
   }
 }

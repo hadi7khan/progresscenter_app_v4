@@ -5,9 +5,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/widgets/archived_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/widgets/project_widget.dart';
 
 class ProjectsScreen extends ConsumerStatefulWidget {
@@ -21,18 +24,26 @@ class ProjectsScreen extends ConsumerStatefulWidget {
 }
 
 class _ProjectsScreenState extends BaseConsumerState<ProjectsScreen> {
+  List<ProjectModel> archived = [];
+  bool _showArchived = false;
   @override
-  // void initState() {
-  //   super.initState();
-  //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-  //       // statusBarColor: Colors.transparent,
-  //       statusBarIconBrightness: Brightness.dark,
-  //       statusBarBrightness: Brightness.dark
-  //       ));
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref.read(projectControllerProvider.notifier).getProjects().then((value) {
+        for (ProjectModel project in value) {
+          if (project.status == "ARCHIVED") {
+            archived.add(project);
+          }
+        }
+      });
+    });
+  }
 
-  // }
   @override
   Widget build(BuildContext context) {
+    final projectData =
+        ref.watch(projectControllerProvider.select((value) => value.projects));
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
@@ -70,7 +81,17 @@ class _ProjectsScreenState extends BaseConsumerState<ProjectsScreen> {
                                 child: SvgPicture.asset(
                                     'assets/images/search.svg')),
                             SizedBox(width: 12.w),
-                            SvgPicture.asset('assets/images/archive.svg'),
+                            InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    _showArchived = !_showArchived;
+                                  });
+                                },
+                                child: _showArchived
+                                    ? SvgPicture.asset(
+                                        'assets/images/activity.svg')
+                                    : SvgPicture.asset(
+                                        'assets/images/archive.svg')),
                           ],
                         ),
                       ],
@@ -80,41 +101,28 @@ class _ProjectsScreenState extends BaseConsumerState<ProjectsScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Projects",
+                          _showArchived ? "Archived" : "Projects",
                           style: TextStyle(
                               letterSpacing: -1,
                               color: Helper.textColor700,
                               fontSize: 36.sp,
                               fontWeight: FontWeight.w600),
-                          //  TextStyle(
-                          //     color: Helper.textColor700,
-                          //     fontSize: 36.sp,
-                          //     fontWeight: FontWeight.w600),
                         ),
-                        // Row(
-                        //   children: [
-                        //     Container(
-                        //       padding: EdgeInsets.all(8.w),
-                        //       decoration: BoxDecoration(
-                        //           borderRadius: BorderRadius.circular(20.r),
-                        //           color: Colors.white),
-                        //       child: Icon(Icons.search, color: Helper.textColor500),
-                        //     ),
-                        //     SizedBox(width: 8.w),
-                        //     Container(
-                        //       padding: EdgeInsets.all(8.w),
-                        //       decoration: BoxDecoration(
-                        //           borderRadius: BorderRadius.circular(20.r),
-                        //           color: Colors.white),
-                        //       child: Icon(Icons.notifications,
-                        //           color: Helper.textColor500),
-                        //     ),
-                        //   ],
-                        // ),
                       ],
                     ),
                     SizedBox(height: 15.h),
-                    ProjectWidget(),
+                    projectData.when(
+                      data: (data) {
+                        return _showArchived
+                            ? ArchivedWidget(archivedProjects: archived)
+                            : ProjectWidget(projects: data);
+                      },
+                      error: (err, _) {
+                        return const Text("Failed to load Projects",
+                            style: TextStyle(color: Helper.errorColor));
+                      },
+                      loading: () => LoadingCardListScreen(),
+                    )
                   ],
                 ),
               ),
