@@ -1,14 +1,10 @@
-import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/super_projects_screen.dart';
 
 class ProjectCard extends StatefulWidget {
   final int? index;
@@ -28,7 +24,6 @@ class _ProjectCardState extends State<ProjectCard> {
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       onTap: () async {
-        // await DefaultCacheManager().emptyCache();
         if (widget.project.hasCameras) {
           context.push('/details', extra: {
             "projectId": widget.project.id,
@@ -108,45 +103,10 @@ class _ProjectCardState extends State<ProjectCard> {
                                                   fit: BoxFit.fill,
                                                 ),
                                               ),
-                                            )
-                                            // Image.network(
-                                            //   widget.project.images![itemIndex].url!,
-                                            //   fit: BoxFit.cover,
-                                            //   errorBuilder: (BuildContext context,
-                                            //       Object exception,
-                                            //       StackTrace? stackTrace) {
-                                            //     return ClipRRect(
-                                            //       child: Image.asset(
-                                            //           'assets/images/error_image.jpeg',
-                                            //           fit: BoxFit.cover),
-                                            //     );
-                                            //   },
-                                            // ),
-                                            )),
+                                            ))),
                               ),
                             ),
                           ),
-                          // Positioned(
-                          //   top: 20,
-                          //   left: 20,
-                          //   child: BlurryContainer(
-                          //       blur: 3,
-                          //       padding: EdgeInsets.symmetric(
-                          //           vertical: 6.h, horizontal: 8.w),
-                          //       borderRadius: BorderRadius.circular(30.r),
-                          //       color: Colors.white.withOpacity(0.1),
-                          //       child: Row(
-                          //         children: [
-                          //           SvgPicture.asset('assets/images/ai.svg'),
-                          //           SizedBox(width: 4.w),
-                          //           Text("AI enhanced",
-                          //               style: TextStyle(
-                          //                   color: Colors.white,
-                          //                   fontWeight: FontWeight.w500,
-                          //                   fontSize: 12.sp)),
-                          //         ],
-                          //       )),
-                          // ),
                           widget.project.images!.isNotEmpty
                               ? Positioned(
                                   bottom: 10.h,

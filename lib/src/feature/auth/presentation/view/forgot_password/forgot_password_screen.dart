@@ -146,7 +146,7 @@ class _ForgotPasswordScreenState
                         fontWeight: FontWeight.w400,
                       ),
                       textCapitalization: TextCapitalization.sentences,
-                      keyboardType: TextInputType.name,
+                      keyboardType: TextInputType.emailAddress,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(

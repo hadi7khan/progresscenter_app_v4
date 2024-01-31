@@ -34,7 +34,6 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
     Service().progresslineProjectsList().then((value) {
       _progresslineProjects = value;
       _projectId = _progresslineProjects[0].id;
-
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         ref
             .read(progresslineControllerProvider.notifier)
