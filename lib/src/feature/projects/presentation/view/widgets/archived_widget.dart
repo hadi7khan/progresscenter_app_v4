@@ -37,7 +37,7 @@ class _ArchivedWidgetState extends BaseConsumerState<ArchivedWidget> {
                   fontWeight: FontWeight.w600),
             ),
             Text(
-              "This space is empty.",
+              "This space is empty. ",
               style: TextStyle(
                   letterSpacing: -0.3,
                   color: Helper.textColor600,
