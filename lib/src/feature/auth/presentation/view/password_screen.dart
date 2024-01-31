@@ -159,7 +159,7 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                         fontWeight: FontWeight.w400,
                       ),
                       textCapitalization: TextCapitalization.sentences,
-                      keyboardType: TextInputType.name,
+                      keyboardType: TextInputType.emailAddress,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       decoration: InputDecoration(
                         contentPadding:

@@ -280,12 +280,18 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                         CrossAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
-                                      Text(
-                                        cameraData.name!,
-                                        style: TextStyle(
-                                            color: Helper.baseBlack,
-                                            fontSize: 18.sp,
-                                            fontWeight: FontWeight.w500),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.4,
+                                        child: Text(
+                                          cameraData.name!,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              color: Helper.baseBlack,
+                                              fontSize: 18.sp,
+                                              fontWeight: FontWeight.w500),
+                                        ),
                                       ),
                                       SizedBox(
                                         width: 6.w,
