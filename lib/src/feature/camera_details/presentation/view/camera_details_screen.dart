@@ -229,7 +229,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                 return AppBar(
                   backgroundColor: Colors.white,
                   surfaceTintColor: Colors.white,
-                  centerTitle: false,
+                  centerTitle: true,
                   automaticallyImplyLeading: false,
                   titleSpacing: 0.0,
                   leading: InkWell(
@@ -243,90 +243,59 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                     ),
                   ),
                   leadingWidth: 24,
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      camerasListData.when(
-                        data: (data) {
-                          return InkWell(
-                            onTap: () {
-                              showModalBottomSheet(
-                                  useRootNavigator: true,
-                                  isScrollControlled: true,
-                                  context: context,
-                                  backgroundColor: Colors.transparent,
-                                  builder: (context) => Padding(
-                                        padding: EdgeInsets.only(
-                                                bottom: MediaQuery.of(context)
-                                                    .viewInsets
-                                                    .bottom) *
-                                            0.6,
-                                        child: CamerasWidget(
-                                          data: data,
-                                          projectId: widget.projectId,
-                                          projectName: widget.projectName,
-                                        ),
-                                      ));
-                            },
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.4,
-                                        child: Text(
-                                          cameraData.name!,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              color: Helper.baseBlack,
-                                              fontSize: 18.sp,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 6.w,
-                                      ),
-                                      // SvgPicture.asset('assets/images/chevron-down.svg'),
-                                    ],
-                                  ),
-                                  Text(
-                                    widget.projectName,
-                                    style: TextStyle(
-                                        color:
-                                            Helper.baseBlack.withOpacity(0.5),
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ]),
-                          );
+                  title: camerasListData.when(
+                    data: (data) {
+                      return InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                              useRootNavigator: true,
+                              isScrollControlled: true,
+                              context: context,
+                              backgroundColor: Colors.transparent,
+                              builder: (context) => Padding(
+                                    padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context)
+                                                .viewInsets
+                                                .bottom) *
+                                        0.6,
+                                    child: CamerasWidget(
+                                      data: data,
+                                      projectId: widget.projectId,
+                                      projectName: widget.projectName,
+                                    ),
+                                  ));
                         },
-                        error: (err, _) {
-                          return const Text("Error",
-                              style: TextStyle(color: Helper.errorColor));
-                        },
-                        loading: () => LoadingAppBar(),
-                      ),
-                      Transform.rotate(
-                        angle: 90 * (3.1415926535 / 180),
-                        child: SvgPicture.asset(
-                          'assets/images/chevron-right.svg',
-                          color: Helper.iconColor,
-                          fit: BoxFit.contain,
-                          allowDrawingOutsideViewBox: true,
-                          width: 16.w,
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  cameraData.name!,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      color: Helper.baseBlack,
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                Text(
+                                  widget.projectName,
+                                  style: TextStyle(
+                                      color: Helper.baseBlack.withOpacity(0.5),
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ]),
                         ),
-                      ),
-                    ],
+                      );
+                    },
+                    error: (err, _) {
+                      return const Text("Error",
+                          style: TextStyle(color: Helper.errorColor));
+                    },
+                    loading: () => LoadingAppBar(),
                   ),
                   actions: [
                     InkWell(

@@ -127,7 +127,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
       updates: Updates.statusAndProgress,
       baseDirectory: Platform.isAndroid
           ? BaseDirectory.applicationSupport
-          : BaseDirectory.applicationLibrary,
+          : BaseDirectory.temporary,
       filename:
           //  'zipfile.zip',
           widget.imageName,
