@@ -32,13 +32,15 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
     super.initState();
 
     Service().progresslineProjectsList().then((value) {
-      _progresslineProjects = value;
-      _projectId = _progresslineProjects[0].id;
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        ref
-            .read(progresslineControllerProvider.notifier)
-            .getProgressline(_projectId);
-      });
+      if (value.isNotEmpty) {
+        _progresslineProjects = value;
+        _projectId = _progresslineProjects[0].id;
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          ref
+              .read(progresslineControllerProvider.notifier)
+              .getProgressline(_projectId);
+        });
+      }
     });
   }
 
@@ -75,97 +77,110 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
                             context.push('/notifications');
                           },
                           child: SvgPicture.asset('assets/images/home.svg')),
-                      Row(
-                        children: [
-                          SizedBox(width: 12.w),
-                          ConstrainedBox(
-                            constraints: new BoxConstraints(
-                              maxHeight: 30.h,
-                              maxWidth: 30.w,
-                            ),
-                            child: PopupMenuButton(
-                              padding: EdgeInsets.zero,
-                              icon: SvgPicture.asset('assets/images/sort.svg'),
-                              position: PopupMenuPosition.under,
-                              itemBuilder: (BuildContext context) {
-                                return _progresslineProjects.map((project) {
-                                  return PopupMenuItem(
-                                      value: project
-                                          .id, // Use a unique identifier for each item
-                                      child: ListTile(
-                                        horizontalTitleGap: 8.w,
-                                        dense: true,
-                                        visualDensity: VisualDensity(
-                                            horizontal: 0, vertical: -4),
-                                        contentPadding: EdgeInsets.zero,
-                                        leading: project.coverImageUrl != null
-                                            ? ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(4.r),
-                                                child: AspectRatio(
-                                                  aspectRatio: 16 / 9,
-                                                  child: Image.network(
-                                                    project.coverImageUrl,
-                                                    fit: BoxFit.fill,
-                                                    gaplessPlayback: true,
-                                                    errorBuilder:
-                                                        (BuildContext context,
-                                                            Object exception,
-                                                            StackTrace?
-                                                                stackTrace) {
-                                                      return ClipRRect(
+                      _progresslineProjects.isNotEmpty
+                          ? Row(
+                              children: [
+                                SizedBox(width: 12.w),
+                                ConstrainedBox(
+                                  constraints: new BoxConstraints(
+                                    maxHeight: 30.h,
+                                    maxWidth: 30.w,
+                                  ),
+                                  child: PopupMenuButton(
+                                    padding: EdgeInsets.zero,
+                                    icon: SvgPicture.asset(
+                                        'assets/images/sort.svg'),
+                                    position: PopupMenuPosition.under,
+                                    itemBuilder: (BuildContext context) {
+                                      return _progresslineProjects
+                                          .map((project) {
+                                        return PopupMenuItem(
+                                            value: project
+                                                .id, // Use a unique identifier for each item
+                                            child: ListTile(
+                                              horizontalTitleGap: 8.w,
+                                              dense: true,
+                                              visualDensity: VisualDensity(
+                                                  horizontal: 0, vertical: -4),
+                                              contentPadding: EdgeInsets.zero,
+                                              leading: project.coverImageUrl !=
+                                                      null
+                                                  ? ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4.r),
+                                                      child: AspectRatio(
+                                                        aspectRatio: 16 / 9,
+                                                        child: Image.network(
+                                                          project.coverImageUrl,
+                                                          fit: BoxFit.fill,
+                                                          gaplessPlayback: true,
+                                                          errorBuilder:
+                                                              (BuildContext
+                                                                      context,
+                                                                  Object
+                                                                      exception,
+                                                                  StackTrace?
+                                                                      stackTrace) {
+                                                            return ClipRRect(
+                                                              child:
+                                                                  Image.asset(
+                                                                'assets/images/error_image.jpeg',
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
+                                                            );
+                                                          },
+                                                        ),
+                                                      ))
+                                                  : ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4.r),
+                                                      child: AspectRatio(
+                                                        aspectRatio: 16 / 9,
                                                         child: Image.asset(
                                                           'assets/images/error_image.jpeg',
-                                                          fit: BoxFit.cover,
+                                                          fit: BoxFit.fill,
                                                         ),
-                                                      );
-                                                    },
-                                                  ),
-                                                ))
-                                            : ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(4.r),
-                                                child: AspectRatio(
-                                                  aspectRatio: 16 / 9,
-                                                  child: Image.asset(
-                                                    'assets/images/error_image.jpeg',
-                                                    fit: BoxFit.fill,
-                                                  ),
-                                                ),
+                                                      ),
+                                                    ),
+                                              title: Text(
+                                                project.name,
+                                                style: TextStyle(
+                                                    letterSpacing: -0.3,
+                                                    color: Helper.baseBlack,
+                                                    fontSize: 14.sp,
+                                                    fontWeight:
+                                                        FontWeight.w500),
                                               ),
-                                        title: Text(
-                                          project.name,
-                                          style: TextStyle(
-                                              letterSpacing: -0.3,
-                                              color: Helper.baseBlack,
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        subtitle: Text(
-                                          project.postCount.toString(),
-                                          style: TextStyle(
-                                              letterSpacing: -0.3,
-                                              color: Helper.baseBlack
-                                                  .withOpacity(0.5),
-                                              fontSize: 12.sp,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                      ));
-                                }).toList();
-                              },
-                              onSelected: (value) {
-                                // Handle the selected item
-                                print('Selected project with id: $value');
-                                // You can perform additional actions based on the selected item
-                                ref
-                                    .read(
-                                        progresslineControllerProvider.notifier)
-                                    .getProgressline(value);
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
+                                              subtitle: Text(
+                                                project.postCount.toString(),
+                                                style: TextStyle(
+                                                    letterSpacing: -0.3,
+                                                    color: Helper.baseBlack
+                                                        .withOpacity(0.5),
+                                                    fontSize: 12.sp,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                              ),
+                                            ));
+                                      }).toList();
+                                    },
+                                    onSelected: (value) {
+                                      // Handle the selected item
+                                      print('Selected project with id: $value');
+                                      // You can perform additional actions based on the selected item
+                                      ref
+                                          .read(progresslineControllerProvider
+                                              .notifier)
+                                          .getProgressline(value);
+                                    },
+                                  ),
+                                ),
+                              ],
+                            )
+                          : SizedBox(),
                     ],
                   ),
                   SizedBox(height: 14.h),
@@ -183,37 +198,38 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
                     ],
                   ),
                   SizedBox(height: 15.h),
-                  _progresslineProjects.isEmpty
-                      ? Container(
-                          alignment: Alignment.center,
-                          height: MediaQuery.of(context).size.height * 0.6.h,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                  'assets/images/illustration.svg'),
-                              SizedBox(height: 16.h),
-                              Text(
-                                "No Feeds",
-                                style: TextStyle(
-                                    letterSpacing: -0.3,
-                                    color: Helper.textColor900,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              Text(
-                                "This space is empty.",
-                                style: TextStyle(
-                                    letterSpacing: -0.3,
-                                    color: Helper.textColor600,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w400),
-                              ),
-                            ],
-                          ),
-                        )
-                      : FeedWidget(),
+                  // _progresslineProjects.isEmpty
+                  //     ? Container(
+                  //         alignment: Alignment.center,
+                  //         height: MediaQuery.of(context).size.height * 0.6.h,
+                  //         child: Column(
+                  //           mainAxisAlignment: MainAxisAlignment.center,
+                  //           crossAxisAlignment: CrossAxisAlignment.center,
+                  //           children: [
+                  //             SvgPicture.asset(
+                  //                 'assets/images/illustration.svg'),
+                  //             SizedBox(height: 16.h),
+                  //             Text(
+                  //               "No Feeds",
+                  //               style: TextStyle(
+                  //                   letterSpacing: -0.3,
+                  //                   color: Helper.textColor900,
+                  //                   fontSize: 16.sp,
+                  //                   fontWeight: FontWeight.w600),
+                  //             ),
+                  //             Text(
+                  //               "This space is empty.",
+                  //               style: TextStyle(
+                  //                   letterSpacing: -0.3,
+                  //                   color: Helper.textColor600,
+                  //                   fontSize: 14.sp,
+                  //                   fontWeight: FontWeight.w400),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       )
+                  //     :
+                  FeedWidget(),
                 ],
               ),
             ),

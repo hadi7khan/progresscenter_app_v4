@@ -68,6 +68,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
   void initState() {
     super.initState();
     _saveImage();
+
     // Service()
     //     .shareSocials(widget.projectId, widget.cameraId, data)
     //     .then((value) {
@@ -112,38 +113,38 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
 
   Future<void> processLoadAndOpen() async {
     var post = jsonEncode({'imageName': widget.imageName});
-    Directory downloadDirPath;
-    downloadDirPath = (await getApplicationDocumentsDirectory());
-    var task = DownloadTask(
+    // Directory downloadDirPath;
+    // downloadDirPath = (await getApplicationDocumentsDirectory());
+    task = DownloadTask(
       url:
-          // 'https://storage.googleapis.com/approachcharts/test/5MB-test.ZIP',
-          Endpoints.downloadSingleImageUrl(widget.projectId, widget.cameraId),
+          'https://api-dev-v4.progresscenter.io/api/v4/projects/${widget.projectId}/cameras/${widget.cameraId}/images/download',
+      // 'https://storage.googleapis.com/approachcharts/test/5MB-test.ZIP',
+      // Endpoints.downloadSingleImageUrl(widget.projectId, widget.cameraId),
       headers: {
         "content-type": "application/json",
         "Authorization": "Bearer " + _prefsLocator.getUserToken(),
       },
-      priority: 1,
+      // priority: 1,
       post: post,
-      updates: Updates.statusAndProgress,
-      baseDirectory: Platform.isAndroid
-          ? BaseDirectory.applicationSupport
-          : BaseDirectory.temporary,
+      // updates: Updates.statusAndProgress,
+      // retries: 3,
+      // directory: downloadDirPath.absolute.path,
+      baseDirectory: BaseDirectory.applicationSupport,
       filename:
-          //  'zipfile.zip',
+          // 'zipfile.zip',
           widget.imageName,
     );
-
-    await FileDownloader().enqueue(
-      task,
+    bool done = await FileDownloader().enqueue(
+      task!,
       // onProgress: (progress) {
+      //   dev.log('Progress: ${progress}%');
       //   setState(() {
       //     _progressBar = progress;
       //   });
-      //   dev.log('Progress: ${progress * 100}%');
       // },
       // onStatus: (status) => dev.log('Status: $status'),
     );
-    if (Platform.isIOS) {
+    if (Platform.isIOS && done) {
       await FileDownloader().openFile(task: task);
     }
 
@@ -190,7 +191,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
       }
       if (auth == PermissionStatus.granted) {
         final path = await FileDownloader()
-            .moveToSharedStorage(task, SharedStorage.images);
+            .moveToSharedStorage(task!, SharedStorage.images);
         debugPrint(
             'Android path to dog picture in .images = ${path ?? "permission denied"}');
       } else {
