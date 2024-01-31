@@ -45,6 +45,7 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
   List<String> _roles = ["Admin", "Editor", "Viewer"];
   String _roleSelected = "Admin";
   int _selectedRoleCupertino = 0;
+  String _userRole = "";
 
   @override
   void initState() {
@@ -52,6 +53,11 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
     Service().fetchUserList().then((users) {
       setState(() {
         _myCustomList = users;
+      });
+    });
+    Service().fetchUser().then((user) {
+      setState(() {
+        _userRole = user.role!;
       });
     });
     Service().fetchTeamList().then((teams) {
@@ -861,7 +867,7 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                                       fontWeight: FontWeight.w400),
                                 )
                               : SizedBox(),
-                          trailing: widget.showExtra
+                          trailing: widget.showExtra && _userRole == "ADMIN"
                               ? InkWell(
                                   radius: 40,
                                   excludeFromSemantics: true,
