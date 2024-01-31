@@ -12,6 +12,7 @@ import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_m
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/widgets/archived_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/widgets/project_widget.dart';
+import 'dart:developer';
 
 class ProjectsScreen extends ConsumerStatefulWidget {
   final String label;
@@ -24,8 +25,10 @@ class ProjectsScreen extends ConsumerStatefulWidget {
 }
 
 class _ProjectsScreenState extends BaseConsumerState<ProjectsScreen> {
-  List<ProjectModel> archived = [];
+  List<ProjectModel> _archivedProjects = [];
+  List<ProjectModel> _activeProjects = [];
   bool _showArchived = false;
+
   @override
   void initState() {
     super.initState();
@@ -33,7 +36,9 @@ class _ProjectsScreenState extends BaseConsumerState<ProjectsScreen> {
       ref.read(projectControllerProvider.notifier).getProjects().then((value) {
         for (ProjectModel project in value) {
           if (project.status == "ARCHIVED") {
-            archived.add(project);
+            _archivedProjects.add(project);
+          } else {
+            _activeProjects.add(project);
           }
         }
       });
@@ -114,8 +119,9 @@ class _ProjectsScreenState extends BaseConsumerState<ProjectsScreen> {
                     projectData.when(
                       data: (data) {
                         return _showArchived
-                            ? ArchivedWidget(archivedProjects: archived)
-                            : ProjectWidget(projects: data);
+                            ? ArchivedWidget(
+                                archivedProjects: _archivedProjects)
+                            : ProjectWidget(projects: _activeProjects);
                       },
                       error: (err, _) {
                         return const Text("Failed to load Projects",

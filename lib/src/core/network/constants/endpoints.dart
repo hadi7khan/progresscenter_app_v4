@@ -161,10 +161,10 @@ class Endpoints {
   }
 
   static userListUrl({searchText = ''}) {
-    if (searchText == '') {
+    if (searchText.isNotEmpty) {
       return '$baseUrl/api/v4/search/users/?q=$searchText';
     } else {
-      return '$baseUrl/api/v4/search/users/?q=$searchText';
+      return '$baseUrl/api/v4/users';
     }
   }
 

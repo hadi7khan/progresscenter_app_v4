@@ -154,7 +154,7 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                         fontWeight: FontWeight.w400,
                       ),
                       textCapitalization: TextCapitalization.sentences,
-                      keyboardType: TextInputType.number,
+                      keyboardType: TextInputType.emailAddress,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(

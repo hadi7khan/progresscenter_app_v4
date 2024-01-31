@@ -69,13 +69,14 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
               child: teamData.when(
                 data: (data) {
+                  log("data " + data.toString());
                   final _filteredUserList = _selectedTeam == null
                       ? data
-                      : data
-                          .where((item) => item.tags!.contains(_selectedTeam))
-                          .toList();
+                      : data.where((item) {
+                          log("item " + item.toString());
+                          return item.tags!.contains(_selectedTeam);
+                        }).toList();
                   log("_filteredUserList: $_filteredUserList");
-
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -131,11 +132,11 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                                     }).toList();
                                   },
                                   onSelected: (value) {
-                                    print(value.toString());
+                                    log(value.toString());
                                     setState(() {
                                       _selectedTeam =
                                           value == 'All' ? null : value;
-                                      print("selectedTeam: $_selectedTeam");
+                                      log("selectedTeam: $_selectedTeam");
                                     });
                                   },
                                 ),
