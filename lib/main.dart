@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mentions/flutter_mentions.dart';
@@ -106,8 +108,13 @@ class _SplashScreenState extends BaseConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Service().fetchUser().then((value) {
-      _prefsLocator.setPrimaryColor(color: value.preferences!.primaryColor!);
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Service().fetchUser().then((value) {
+        dev.log("user data " + value.toString());
+        _prefsLocator.setPrimaryColor(color: value.preferences!.primaryColor!);
+        _prefsLocator.saveUser(value.toJson());
+      });
     });
     navigateInitialRoute();
   }

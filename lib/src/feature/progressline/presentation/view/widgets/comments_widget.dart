@@ -45,7 +45,6 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
       setState(() {
         _myCustomList = users;
       });
-      print("users----" + _myCustomList.toString());
     });
   }
 
@@ -169,6 +168,37 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
               ),
               commentsData.when(
                 data: (data) {
+                  if (data.isEmpty) {
+                    return Container(
+                      alignment: Alignment.center,
+                      height: MediaQuery.of(context).size.height * 0.4.h,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset('assets/images/illustration.svg'),
+                          SizedBox(height: 16.h),
+                          Text(
+                            "No Comments",
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Helper.textColor900,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            "This space is empty. ",
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Helper.textColor600,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  ;
                   return Column(
                     children: [
                       SizedBox(

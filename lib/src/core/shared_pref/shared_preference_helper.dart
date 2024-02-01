@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferenceHelper {
   static const String token = "token";
+  static const String userKey = "user";
   String primary = "primary";
   final SharedPreferences prefs;
   var userToken;
@@ -11,6 +13,23 @@ class SharedPreferenceHelper {
 
   SharedPreferenceHelper(
       {this.userToken, required this.prefs, this.primaryColor});
+
+  Future<void> saveUser(Map<String, dynamic> user) async {
+    String userJson = jsonEncode(user);
+    await prefs.setString(userKey, userJson);
+  }
+
+  Map<String, dynamic>? getUser() {
+    String? userJson = prefs.getString(userKey);
+    if (userJson != null) {
+      return jsonDecode(userJson);
+    }
+    return null;
+  }
+
+  bool containsUser() {
+    return prefs.containsKey(userKey) && prefs.getString(userKey) != null;
+  }
 
   Future<void> setPrimaryColor({required String color}) async {
     await prefs.setString(primary, color);
@@ -43,5 +62,6 @@ class SharedPreferenceHelper {
 
   Future logout() async {
     await prefs.remove('token');
+    await prefs.remove(userKey);
   }
 }
