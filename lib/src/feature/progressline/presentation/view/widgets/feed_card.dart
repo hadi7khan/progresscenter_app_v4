@@ -8,7 +8,8 @@ import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
-import 'package:progresscenter_app_v4/src/common/widgets/mention_input_widget.dart';
+import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
+import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
@@ -19,6 +20,8 @@ import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean_model.dart';
 import 'package:timezone/data/latest.dart';
 import 'package:timezone/timezone.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import 'dart:developer';
 
 class FeedCard extends ConsumerStatefulWidget {
   final progresslineData;
@@ -29,10 +32,12 @@ class FeedCard extends ConsumerStatefulWidget {
 }
 
 class _FeedCardState extends BaseConsumerState<FeedCard> {
-  TextEditingController _controller = TextEditingController();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   List<UserLeanModel> _myCustomList = [];
   GlobalKey<FlutterMentionsState> key = GlobalKey<FlutterMentionsState>();
+  String timezone = 'Asia/Kolkata';
+  final _prefsLocator = getIt.get<SharedPreferenceHelper>();
+  Map<String, dynamic>? user;
 
   @override
   void initState() {
@@ -42,8 +47,18 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
       setState(() {
         _myCustomList = users;
       });
-      print("users----" + _myCustomList.toString());
     });
+    fetchUser();
+    // Service().fetchUser().then((value) {
+    //   setState(() {
+    //     timezone = value.preferences!.timezone!;
+    //   });
+    // });
+  }
+
+  fetchUser() {
+    user = _prefsLocator.getUser();
+    log("saved user" + user.toString());
   }
 
   List<Map<String, dynamic>> getMentionsList() {
@@ -64,7 +79,6 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
 
     // Replace mentions in the text
     final replacedText = replaceMentionsInText(_myCustomList, commentText);
-
     return {
       "comment": replacedText,
     };
@@ -86,42 +100,6 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
 
     return replacedText;
   }
-
-//  Map<String, dynamic> getCommentData() {
-//     final commentText = key.currentState!.controller!.text;
-//     final mentionsList = getMentionsList();
-
-//     // Extract user mentions and format the comment
-//     final formattedComment = commentText.replaceAllMapped(
-//       // RegExp(r"@(\S+)"),
-//       RegExp(
-  // r"@([^\s]+(?: [^\s]+)?)\s*|$"),
-//       // RegExp(r"@([^\s]+(?: [^\s]+)?)"),   // Match non-whitespace characters for the entire username
-//       (match) {
-//         final username = match.group(1) ?? match.group(2);
-//         // final username = match.group(1);
-//         print("username" + username.toString());
-//         final mention = mentionsList.firstWhere(
-//           (mention) =>
-//               mention['display'].replaceAll(" ", "").toLowerCase() ==
-//               username!.replaceAll(" ", "").toLowerCase(),
-//           orElse: () => <String, String>{'id': '', 'display': ''},
-//         );
-
-//         if (mention['id'].isNotEmpty) {
-//           // User found, format the mention with "user" key
-//           return "@[${mention['display']}](user:${mention['id']})";
-//         } else {
-//           // User not found, keep the original mention
-//           return match.group(0)!;
-//         }
-//       },
-//     );
-
-//     return {
-//       "comment": formattedComment,
-//     };
-//   }
 
   String formatTimeDifference(DateTime date,
       {String? timezone, bool showSuffix = true}) {
@@ -153,6 +131,51 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
       return '$years year${years == 1 ? '' : 's'} ago';
     }
   }
+
+  // String formatRelativeTime(DateTime createdAt, String timeZone) {
+  //   // Get the desired time zone
+  //   Location location = getLocation(timeZone);
+
+  //   // Convert the input DateTime to the specified time zone
+  //   TZDateTime localDateTime = TZDateTime.from(createdAt, location);
+
+  //   // Calculate the relative time
+  //   Duration difference = DateTime.now().difference(localDateTime);
+  //   return timeago.format(DateTime.now().subtract(difference),
+  //       locale: 'en_short');
+  // }
+
+  // String formatCustomRelativeTime(DateTime createdAt, String timeZone) {
+  //   // Get the desired time zone
+  //   Location location = getLocation(timeZone);
+
+  //   // Convert the input DateTime to the specified time zone
+  //   TZDateTime localDateTime = TZDateTime.from(createdAt, location);
+
+  //   // Calculate the difference in days
+  //   int daysDifference = DateTime.now().difference(localDateTime).inDays;
+
+  //   if (daysDifference == 0) {
+  //     return 'just now';
+  //   } else if (daysDifference < 7) {
+  //     return '$daysDifference ${daysDifference == 1 ? 'day' : 'days'} ago';
+  //   } else {
+  //     // Calculate the difference in months and years
+  //     int monthsDifference =
+  //         DateTime.now().difference(localDateTime).inDays ~/ 30;
+  //     int yearsDifference =
+  //         DateTime.now().difference(localDateTime).inDays ~/ 365;
+
+  //     if (monthsDifference == 0) {
+  //       return '$yearsDifference ${yearsDifference == 1 ? 'year' : 'years'} ago';
+  //     } else if (yearsDifference == 0) {
+  //       return '$monthsDifference ${monthsDifference == 1 ? 'month' : 'months'} ago';
+  //     } else {
+  //       // If more than a week, format the date using intl package
+  //       return DateFormat('dd MMM, yyyy').format(localDateTime);
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -195,10 +218,19 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
               ),
               trailing: Text(
                 widget.progresslineData.user.lastActive != null
-                    ? formatTimeDifference(
-                        widget.progresslineData.user.lastActive!,
-                        timezone:
-                            'Asia/Kolkata', // Replace with the actual time zone
+                    ?
+                    // formatCustomRelativeTime(
+                    //     widget.progresslineData.createdAt!,
+                    //     'Asia/Kolkata',
+                    //   )
+                    // formatRelativeTime(
+                    //     widget.progresslineData.createdAt!,
+                    //     'Asia/Kolkata',
+                    //   )
+                    formatTimeDifference(
+                        widget.progresslineData.createdAt!,
+                        timezone: user!['preferences']
+                            ['timezone'], // Replace with the actual time zone
                       )
                     : "-",
                 style: TextStyle(
@@ -331,11 +363,12 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                             contentPadding: EdgeInsets.zero,
                             dense: true,
                             visualDensity:
-                                VisualDensity(horizontal: 0, vertical: -4),
+                                VisualDensity(horizontal: 0, vertical: 0),
                             leading: AvatarWidget(
-                              dpUrl: "",
-                              name: "HADI",
-                              backgroundColor: "#0F9555",
+                              dpUrl:
+                                  user!['dpUrl'] != null ? user!['dpUrl'] : "",
+                              name: user!['name'],
+                              backgroundColor: user!['preset']['color'],
                               size: 32,
                               fontSize: 14,
                             ),

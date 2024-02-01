@@ -5,14 +5,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
+import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
+import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
+import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/widgets/archived_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/widgets/project_widget.dart';
-import 'dart:developer';
+import 'dart:developer' as dev;
 
 class ProjectsScreen extends ConsumerStatefulWidget {
   final String label;
@@ -28,10 +31,19 @@ class _ProjectsScreenState extends BaseConsumerState<ProjectsScreen> {
   List<ProjectModel> _archivedProjects = [];
   List<ProjectModel> _activeProjects = [];
   bool _showArchived = false;
+  final _prefsLocator = getIt.get<SharedPreferenceHelper>();
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Service().fetchUser().then((value) {
+        dev.log("user data " + value.toString());
+        _prefsLocator.setPrimaryColor(color: value.preferences!.primaryColor!);
+        _prefsLocator.saveUser(value.toJson());
+      });
+    });
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(projectControllerProvider.notifier).getProjects().then((value) {
         for (ProjectModel project in value) {
