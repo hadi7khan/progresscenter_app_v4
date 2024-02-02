@@ -42,7 +42,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
   @override
   void initState() {
     super.initState();
-    initializeTimeZones();
+
     Service().fetchUserList().then((users) {
       setState(() {
         _myCustomList = users;
