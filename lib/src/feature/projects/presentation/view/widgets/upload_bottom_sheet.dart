@@ -4,24 +4,31 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_by_id_controller.dart';
 
-class UploadBottomSheet extends StatefulWidget {
+class UploadBottomSheet extends ConsumerStatefulWidget {
   final ProjectModel data;
   final Function onChange;
+  final String projectId;
   const UploadBottomSheet(
-      {super.key, required this.data, required this.onChange});
+      {super.key,
+      required this.data,
+      required this.onChange,
+      required this.projectId});
 
   @override
-  State<UploadBottomSheet> createState() => _UploadBottomSheetState();
+  ConsumerState<UploadBottomSheet> createState() => _UploadBottomSheetState();
 }
 
-class _UploadBottomSheetState extends State<UploadBottomSheet> {
+class _UploadBottomSheetState extends BaseConsumerState<UploadBottomSheet> {
   final ImagePicker _picker = ImagePicker();
   XFile? _image;
   double _progress = 0.0;
@@ -71,6 +78,9 @@ class _UploadBottomSheetState extends State<UploadBottomSheet> {
                             widget.data.id, _image!.path, calculateProgress)
                         .then((value) {
                       widget.onChange(value);
+                      ref
+                          .read(projectByIdControllerProvider.notifier)
+                          .getProjectById(widget.projectId, false);
                       context.pop();
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           backgroundColor: Colors.green,
@@ -90,6 +100,9 @@ class _UploadBottomSheetState extends State<UploadBottomSheet> {
                             widget.data.id, _image!.path, calculateProgress)
                         .then((value) {
                       widget.onChange(value);
+                      ref
+                          .read(projectByIdControllerProvider.notifier)
+                          .getProjectById(widget.projectId, false);
                       context.pop();
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           backgroundColor: Colors.green,
@@ -109,6 +122,9 @@ class _UploadBottomSheetState extends State<UploadBottomSheet> {
                             widget.data.id, _image!.path, calculateProgress)
                         .then((value) {
                       widget.onChange(value);
+                      ref
+                          .read(projectByIdControllerProvider.notifier)
+                          .getProjectById(widget.projectId, false);
                       context.pop();
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           backgroundColor: Colors.green,
@@ -168,6 +184,10 @@ class _UploadBottomSheetState extends State<UploadBottomSheet> {
                                       calculateProgress)
                                   .then((value) {
                                 widget.onChange(value);
+                                ref
+                                    .read(
+                                        projectByIdControllerProvider.notifier)
+                                    .getProjectById(widget.projectId, false);
                                 context.pop();
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
@@ -201,6 +221,10 @@ class _UploadBottomSheetState extends State<UploadBottomSheet> {
                                       calculateProgress)
                                   .then((value) {
                                 widget.onChange(value);
+                                ref
+                                    .read(
+                                        projectByIdControllerProvider.notifier)
+                                    .getProjectById(widget.projectId, false);
                                 context.pop();
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
@@ -233,6 +257,10 @@ class _UploadBottomSheetState extends State<UploadBottomSheet> {
                                       calculateProgress)
                                   .then((value) {
                                 widget.onChange(value);
+                                ref
+                                    .read(
+                                        projectByIdControllerProvider.notifier)
+                                    .getProjectById(widget.projectId, false);
                                 context.pop();
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(

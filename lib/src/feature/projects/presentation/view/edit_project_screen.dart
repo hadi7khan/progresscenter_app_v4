@@ -162,13 +162,15 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
                 context: context,
                 builder: (context) {
                   return UploadBottomSheet(
-                      data: widget.data,
-                      onChange: (value) {
-                        imageUrls = [];
-                        setState(() {
-                          imageUrls.addAll(value);
-                        });
+                    data: widget.data,
+                    onChange: (value) {
+                      imageUrls = [];
+                      setState(() {
+                        imageUrls.addAll(value);
                       });
+                    },
+                    projectId: widget.data.id,
+                  );
                 });
           }
           if (Platform.isAndroid) {
@@ -177,13 +179,15 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
                 backgroundColor: Colors.transparent,
                 builder: (context) {
                   return UploadBottomSheet(
-                      data: widget.data,
-                      onChange: (value) {
-                        imageUrls = [];
-                        setState(() {
-                          imageUrls.addAll(value);
-                        });
+                    data: widget.data,
+                    onChange: (value) {
+                      imageUrls = [];
+                      setState(() {
+                        imageUrls.addAll(value);
                       });
+                    },
+                    projectId: widget.data.id,
+                  );
                 });
           }
         },
