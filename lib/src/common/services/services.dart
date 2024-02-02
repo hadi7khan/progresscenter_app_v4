@@ -265,9 +265,10 @@ class Service {
   }
 
   // method to upload image
-  Future<dynamic> uploadPhoto(
+  Future uploadPhoto(
       String projectId, String filePath, ProgressCallback onProgress) async {
     Dio dio = Dio();
+    List<Map<String, String>> data = [];
 
     Map<String, String> headers = {
       "Accept": "application/json",
@@ -282,7 +283,6 @@ class Service {
       });
 
       dio.options.headers = headers;
-      dio.options.responseType = ResponseType.stream;
       dio.options.followRedirects = false;
       dio.options.validateStatus = (status) => status! < 500;
 
@@ -292,15 +292,24 @@ class Service {
         onProgress(progress);
       }).then((response) {
         if (response.statusCode == 200) {
+          log("response" + response.data.toString());
+          for (int i = 0; i < response.data.length; i++) {
+            data.add({
+              "id": response.data[i]['_id'],
+              "url": response.data[i]['url']
+            });
+          }
           return response.data;
         } else {
-          throw Exception(response.data.toString());
+          throw Exception(
+              "Failed to upload photo. Status code: ${response.statusCode}");
         }
       });
     } catch (e) {
       print(e.toString());
       throw Exception(e.toString());
     }
+    return data;
   }
 
   // method to upload a photo in site gallery

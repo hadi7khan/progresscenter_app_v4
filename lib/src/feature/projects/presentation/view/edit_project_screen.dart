@@ -15,13 +15,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
-import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_by_id_model.dart'
-    as model;
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_by_id_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/widgets/upload_bottom_sheet.dart';
 
 class EditProjectScreen extends ConsumerStatefulWidget {
   final ProjectModel data;
@@ -35,7 +35,6 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
   TextEditingController _controller = TextEditingController();
   TextEditingController _locationController = TextEditingController();
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
-  final GlobalKey<FormBuilderState> _dialogKey = GlobalKey<FormBuilderState>();
   bool _changeState = false;
   bool _changeStateLocation = false;
   FocusNode focusNode = FocusNode();
@@ -47,6 +46,7 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
   bool _isSelected = false;
   double _progress = 0.0;
   PersistentBottomSheetController? _bottomSheetController;
+  List<Map<String, String>> imageUrls = [];
 
   double calculateProgress(double sentBytes) {
     print("sentBytes--------------" + sentBytes.toString());
@@ -57,7 +57,7 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
     return sentBytes;
   }
 
-  Future<void> _pickImage(ImageSource source) async {
+  Future _pickImage(ImageSource source) async {
     final pickedFile = await _picker.pickImage(
       source: source,
       maxWidth: 1024,
@@ -74,7 +74,6 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
       setState(() {
         _image = file;
       });
-      print("image path" + _image!.path.toString());
     }
   }
 
@@ -83,7 +82,12 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
     super.initState();
     _locationController.text = widget.data.location!.name!;
     _controller.text = widget.data.name!;
-
+    for (int i = 0; i < widget.data.images!.length; i++) {
+      imageUrls.add({
+        "id": widget.data.images![i].imageId!,
+        "url": widget.data.images![i].url!
+      });
+    }
     focusNode.addListener(() {
       if (!focusNode.hasFocus) {
         setState(() {
@@ -120,29 +124,23 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
   }
 
 //method to show carousels
-  _getChildren() {
-    List<Widget> carouselChildren = widget.data.images!.map((e) {
-      var index = widget.data.images!.indexOf(e);
-      print("image id" + widget.data.images![index].imageId.toString());
+  _getChildren(images) {
+    List<Widget> carouselChildren = imageUrls.map((e) {
+      var index = imageUrls.indexOf(e);
       return InkWell(
           onLongPress: () {
             _showDeleteBottomSheet(
-                context, widget.data.id!, widget.data.images![index].imageId);
+                context, widget.data.id, images[index]["id"]);
           },
           child: Stack(children: [
             Container(
-                // height: 90.h,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                    // image: DecorationImage(
-                    //     image: NetworkImage(
-                    //         widget.data.images![index].url!),
-                    //     fit: BoxFit.cover),
                     color: Helper.widgetBackground,
                     borderRadius: BorderRadius.circular(12.r)),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12.r),
-                  child: Image.network(widget.data.images![index].url!,
+                  child: Image.network(images[index]["url"],
                       gaplessPlayback: true, fit: BoxFit.fill),
                 )),
             Container(
@@ -158,7 +156,36 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
     if (carouselChildren.length < 4) {
       carouselChildren.add(InkWell(
         onTap: () {
-          _showBottomSheet(context, widget.data.id!, _progress);
+          // _showBottomSheet(context, widget.data.id!, _progress);
+          if (Platform.isIOS) {
+            showCupertinoModalPopup(
+                context: context,
+                builder: (context) {
+                  return UploadBottomSheet(
+                      data: widget.data,
+                      onChange: (value) {
+                        imageUrls = [];
+                        setState(() {
+                          imageUrls.addAll(value);
+                        });
+                      });
+                });
+          }
+          if (Platform.isAndroid) {
+            showModalBottomSheet(
+                context: context,
+                backgroundColor: Colors.transparent,
+                builder: (context) {
+                  return UploadBottomSheet(
+                      data: widget.data,
+                      onChange: (value) {
+                        imageUrls = [];
+                        setState(() {
+                          imageUrls.addAll(value);
+                        });
+                      });
+                });
+          }
         },
         child: DottedBorder(
           color: Helper.baseBlack.withOpacity(0.15), //color of dotted/dash line
@@ -184,7 +211,7 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("data passed" + widget.data.toString());
+    log("imageurls rendered" + imageUrls.toString());
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -229,6 +256,12 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
                         "location": {"name": _locationController.text}
                       };
                       Service().editProject(widget.data.id, data).then((value) {
+                        ref
+                            .read(projectControllerProvider.notifier)
+                            .getProjects();
+                        ref
+                            .read(projectByIdControllerProvider.notifier)
+                            .getProjectById(widget.data.id, false);
                         context.pop();
                         Utils.toastSuccessMessage(
                             "Your project details have been saved");
@@ -444,7 +477,7 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
                         crossAxisSpacing: 15.w,
                         childAspectRatio: 16 / 9,
                         padding: const EdgeInsets.all(4),
-                        children: _getChildren()),
+                        children: _getChildren(imageUrls)),
                     SizedBox(height: 28.h),
                   ]),
             ),
@@ -458,84 +491,99 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
     if (Platform.isIOS) {
       return showCupertinoModalPopup(
         context: context,
-        builder: (context) => CupertinoActionSheet(
-          title: const Text('Upload Media'),
-          // message: const Text('Message'),
-          actions: <CupertinoActionSheetAction>[
-            CupertinoActionSheetAction(
-              child: const Text('Take Photo'),
-              onPressed: () {
-                _pickImage(ImageSource.camera).then((value) async {
-                  await Service()
-                      .uploadPhoto(
-                          widget.data.id!, _image!.path, calculateProgress)
-                      .then((value) {
-                    setState(() {
-                      _progress = progress;
-                      print("progress" + _progress.toString());
+        builder: (context) => StatefulBuilder(
+          builder: (context, setState) {
+            return CupertinoActionSheet(
+              title: const Text('Upload Media'),
+              // message: const Text('Message'),
+              actions: <CupertinoActionSheetAction>[
+                CupertinoActionSheetAction(
+                  child: const Text('Take Photo'),
+                  onPressed: () {
+                    _pickImage(ImageSource.camera).then((value) async {
+                      await Service()
+                          .uploadPhoto(
+                              widget.data.id!, _image!.path, calculateProgress)
+                          .then((value) {
+                        setState(() {
+                          _progress = progress;
+                          print("progress" + _progress.toString());
+                        });
+                        log("value" + value.toString());
+                        context.pop();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                backgroundColor: Colors.green,
+                                content: Text("Image Uploaded")));
+                      });
                     });
-                    print("progress" + _progress.toString());
-                    context.pop();
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        backgroundColor: Colors.green,
-                        content: Text("Image Uploaded")));
-                  });
-                });
-              },
-            ),
-            CupertinoActionSheetAction(
-              child: const Text(
-                'Choose Photo',
+                  },
+                ),
+                CupertinoActionSheetAction(
+                  child: const Text(
+                    'Choose Photo',
+                  ),
+                  onPressed: () {
+                    _pickImage(ImageSource.gallery).then((value) async {
+                      await Service()
+                          .uploadPhoto(
+                              widget.data.id!, _image!.path, calculateProgress)
+                          .then((value) {
+                        log("imageUrls before" + imageUrls.toString());
+                        imageUrls = [];
+                        log("value" + value.toString());
+                        setState(() {
+                          imageUrls.addAll(value);
+                        });
+
+                        log("imageUrls after" + imageUrls.toString());
+                        context.pop();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                backgroundColor: Colors.green,
+                                content: Text("Image Uploaded")));
+                      });
+
+                      // setState(() {
+                      //   _progress = progress;
+                      //   print("progress" + _progress.toString());
+                      // });
+                    });
+                  },
+                ),
+                CupertinoActionSheetAction(
+                  child: const Text(
+                    'Browse from files',
+                  ),
+                  onPressed: () {
+                    _pickImage(ImageSource.gallery).then((value) async {
+                      await Service()
+                          .uploadPhoto(
+                              widget.data.id!, _image!.path, calculateProgress)
+                          .then((value) {
+                        setState(() {
+                          _progress = progress;
+                          print("progress" + _progress.toString());
+                        });
+                        print("progress" + _progress.toString());
+                        context.pop();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                backgroundColor: Colors.green,
+                                content: Text("Image Uploaded")));
+                      });
+                    });
+                  },
+                ),
+              ],
+              cancelButton: CupertinoActionSheetAction(
+                child: Text('Cancel'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
-              onPressed: () {
-                _pickImage(ImageSource.gallery).then((value) async {
-                  await await Service()
-                      .uploadPhoto(
-                          widget.data.id!, _image!.path, calculateProgress)
-                      .then((value) {
-                    setState(() {
-                      _progress = progress;
-                      print("progress" + _progress.toString());
-                    });
-                    print("progress" + _progress.toString());
-                    context.pop();
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        backgroundColor: Colors.green,
-                        content: Text("Image Uploaded")));
-                  });
-                });
-              },
-            ),
-            CupertinoActionSheetAction(
-              child: const Text(
-                'Browse from files',
-              ),
-              onPressed: () {
-                _pickImage(ImageSource.gallery).then((value) async {
-                  await Service()
-                      .uploadPhoto(
-                          widget.data.id!, _image!.path, calculateProgress)
-                      .then((value) {
-                    setState(() {
-                      _progress = progress;
-                      print("progress" + _progress.toString());
-                    });
-                    print("progress" + _progress.toString());
-                    context.pop();
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        backgroundColor: Colors.green,
-                        content: Text("Image Uploaded")));
-                  });
-                });
-              },
-            ),
-          ],
-          cancelButton: CupertinoActionSheetAction(
-            child: Text('Cancel'),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+            );
+          },
         ),
       );
     }
@@ -991,21 +1039,11 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
       builder: (context) => CupertinoAlertDialog(
         title: Text(
           'Do you want to delete this image?',
-          // style: TextStyle(
-          //     color: Helper.errorColor,
-          //     fontSize: 18.sp,
-          //     fontWeight: FontWeight.w500),
         ),
         content: Text(
           "You cannot undo this action ",
-          // style: TextStyle(
-          //     fontSize: 14.sp,
-          //     fontWeight: FontWeight.w500,
-          //     color: Helper.textColor500),
         ),
         actions: <Widget>[
-          // if (cancelActionText != null)
-
           CupertinoDialogAction(
             child: Text(
               "Cancel",
