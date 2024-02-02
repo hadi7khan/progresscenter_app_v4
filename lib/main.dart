@@ -11,6 +11,7 @@ import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/core/theme/app_theme.dart';
 import 'package:progresscenter_app_v4/src/core/theme/theme_const.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
+import 'package:timezone/data/latest.dart';
 
 import 'src/base/base_consumer_state.dart';
 import 'src/core/route/go_router_provider.dart';
@@ -24,6 +25,7 @@ final rootNavigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  initializeTimeZones();
   await setup();
   // await FlutterDownloader.initialize(
   //     debug:
