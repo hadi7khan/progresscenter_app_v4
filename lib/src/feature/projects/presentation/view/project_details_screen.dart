@@ -73,12 +73,6 @@ class _ProjectDetailsScreenState
 
   @override
   void dispose() {
-    //   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    //   statusBarIconBrightness: Brightness.dark,
-    //       statusBarBrightness: Brightness.dark,
-    //       systemNavigationBarColor: Colors.black,
-    //       statusBarColor: Colors.black.withOpacity(0.2)
-    // ));
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: Colors.black.withOpacity(0.3),
         statusBarIconBrightness: Brightness.dark,
@@ -94,47 +88,11 @@ class _ProjectDetailsScreenState
 
   @override
   Widget build(BuildContext context) {
-    print("users passed" + widget.projectUsers.toString());
     final projectByIdData = ref.watch(
         projectByIdControllerProvider.select((value) => value.projectDetails));
     return Scaffold(
-      // extendBodyBehindAppBar: true,
-      // appBar: PreferredSize(
-      //   preferredSize: Size.fromHeight(60.h),
-      //   child: Container(
-      //     color: Colors.white,
-      //     child: Padding(
-      //       padding: EdgeInsets.only(right: 16.w, left: 16.w),
-      //       child: AppBar(
-      //         backgroundColor: Colors.white,
-      //         surfaceTintColor: Colors.white,
-      //         automaticallyImplyLeading: false,
-      //         titleSpacing: 12.0.w,
-      //         leading: InkWell(
-      //   onTap: () {
-      //     context.pop();
-      //   },
-      //   child: Transform.rotate(
-      //     angle: 180 * (3.1415926535 / 180),
-      //     child: SvgPicture.asset('assets/images/chevron-right.svg',
-      //         color: Helper.iconColor, fit: BoxFit.contain),
-      //   ),
-      // ),
-      //         leadingWidth: 24,
-      //         title: Text(
-      //           widget.projectName,
-      //           style: TextStyle(
-      //               color: Helper.baseBlack,
-      //               fontSize: 18.sp,
-      //               fontWeight: FontWeight.w500),
-      //         ),
-      //       ),
-      //     ),
-      //   ),
-      // ),
       body: SafeArea(
         top: false,
-        // maintainBottomViewPadding: true,
         child: RefreshIndicator(
           displacement: 10.0,
           color: ref.watch(primaryColorProvider),
@@ -157,7 +115,6 @@ class _ProjectDetailsScreenState
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    // borderRadius: BorderRadius.circular(16.r),
                   ),
                   child: Stack(
                       fit: StackFit.expand,
@@ -166,12 +123,10 @@ class _ProjectDetailsScreenState
                         CarouselSlider.builder(
                           itemCount: widget.projectImages.length,
                           options: CarouselOptions(
-                              // height: 284.h,
                               viewportFraction: 1,
                               aspectRatio: 1 / 1,
                               initialPage: 0,
                               autoPlay: false,
-                              // enlargeCenterPage: true,
                               autoPlayCurve: Curves.fastOutSlowIn,
                               scrollDirection: Axis.horizontal,
                               onPageChanged: (index, reason) {
@@ -191,10 +146,7 @@ class _ProjectDetailsScreenState
                                 ? CachedNetworkImage(
                                     imageUrl:
                                         widget.projectImages![itemIndex].url!,
-                                    // memCacheHeight: height.toInt(), memCacheWidth: width.toInt()
                                     fit: BoxFit.fill,
-                                    // placeholder: (context, url) =>
-                                    //     CircularProgressIndicator(),
                                     errorWidget: (context, url, error) =>
                                         ClipRRect(
                                       child: Image.asset(
@@ -203,24 +155,7 @@ class _ProjectDetailsScreenState
                                       ),
                                     ),
                                   )
-                                //  ClipRRect(
-                                //     // borderRadius: BorderRadius.circular(16.r),
-                                //     child: Image.network(
-                                //     widget.projectImages![itemIndex].url!,
-                                //     fit: BoxFit.fill,
-                                //     errorBuilder: (BuildContext context,
-                                //         Object exception,
-                                //         StackTrace? stackTrace) {
-                                //       return ClipRRect(
-                                //         child: Image.asset(
-                                //           'assets/images/error_image.jpeg',
-                                //           fit: BoxFit.fill,
-                                //         ),
-                                //       );
-                                //     },
-                                //   ))
                                 : ClipRRect(
-                                    // borderRadius: BorderRadius.circular(16.r),
                                     child: Image.asset(
                                       'assets/images/error_image.jpeg',
                                       fit: BoxFit.fill,
@@ -229,24 +164,13 @@ class _ProjectDetailsScreenState
                                   ),
                           ),
                         ),
-
-                        // Positioned(
-                        //   top: 0,
-                        //   left: 0,
-                        //   right: 0,
-                        //   height: MediaQuery.of(context).padding.top,
-                        //   child: Container(
-                        //     color: Colors.black
-                        //         .withOpacity(0.3), // Adjust opacity as needed
-                        //   ),
-                        // ),
                         Positioned(
                           top: 60,
                           left: 20,
                           child: BlurryContainer(
                             height: 30,
                             padding: EdgeInsets.only(
-                                top: 3.h, bottom: 3.h, left: 2.w, right: 3.w),
+                                top: 3, bottom: 3, left: 2, right: 3),
                             blur: 3,
                             borderRadius: BorderRadius.circular(30.r),
                             color: Colors.white,
@@ -287,44 +211,6 @@ class _ProjectDetailsScreenState
                             ),
                           ),
                         ),
-                        // Positioned(
-                        //   top: 60,
-                        //   right: 60,
-                        //   child: InkWell(
-                        //     onTap: () {
-                        //       showModalBottomSheet(
-                        //           useRootNavigator: true,
-                        //           isScrollControlled: true,
-                        //           context: context,
-                        //           backgroundColor: Colors.transparent,
-                        //           builder: (context) => ViewedByWidget(
-                        //               data: widget.projectUsers,
-                        //               showText: "Current members"));
-                        //     },
-                        //     child: Container(
-                        //       // width: 150,
-                        //       height: 35,
-                        //       padding: EdgeInsets.symmetric(horizontal: 4.w),
-                        //       // blur: 3,
-                        //       // borderRadius: BorderRadius.circular(30.r),
-                        //       // color: Colors.transparent,
-                        //       child: AvatarGroupWidget(
-                        //         avatars: (widget.projectUsers as List<User>)
-                        //             .map((user) {
-                        //           return {
-                        //             'dpUrl': user.dp != null ? user.dpUrl : "",
-                        //             'name': user.name,
-                        //             'backgroundColor': user.preset!.color,
-                        //           };
-                        //         }).toList(),
-                        //         size: 30.h,
-                        //         max: 3,
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                        // data[index].images!.isNotEmpty
-                        //     ?
                         Positioned(
                           bottom: 10.h,
                           child: Padding(
@@ -350,37 +236,7 @@ class _ProjectDetailsScreenState
                                     )
                                   : SizedBox()),
                         ),
-                        // : SizedBox(),
                       ]),
-                ),
-                SizedBox(
-                  height: 20.h,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.projectName,
-                        style: TextStyle(
-                          letterSpacing: -0.3,
-                          fontSize: 28.sp,
-                          fontWeight: FontWeight.w600,
-                          color: Helper.baseBlack,
-                        ),
-                      ),
-                      Text(
-                        widget.projectLocation!,
-                        style: TextStyle(
-                          letterSpacing: -0.3,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
-                          color: Helper.baseBlack.withOpacity(0.5),
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
                 Padding(
                   padding:
@@ -388,9 +244,6 @@ class _ProjectDetailsScreenState
                   child: projectByIdData.when(
                       data: (data) {
                         projectByIdData == data;
-
-                        print("project id data passed" +
-                            projectByIdData.value.toString());
                         List<MyListItem> myItems = [
                           MyListItem(
                             svgAsset: 'assets/images/updated.svg',
@@ -410,8 +263,7 @@ class _ProjectDetailsScreenState
                               subTitle:
                                   data.constructionDays.toString() + " days"),
                         ];
-                        print("this is the assetMap before loop" +
-                            assetMap.toString());
+
                         filteredLinks = [];
                         assetMap = {};
                         for (var asset in data.assets!) {
@@ -421,31 +273,36 @@ class _ProjectDetailsScreenState
                         }
                         print("this is the assetMap" + assetMap.toString());
                         print("this is data assests" + data.assets.toString());
-                        // for (var link in links) {
-                        //   var identifier = link['identifier'];
-                        //   var name = link['content'];
 
-                        //   if (assetMap.containsKey(name)) {
-                        //     filteredLinks.add(link);
-                        //   }
-                        // }
-                        // List<Map<String, dynamic>> filteredLinks = links.where((row) => assetMap[row['identifier']] != null).toList();
                         filteredLinks = links
                             .where((link) =>
                                 assetMap.containsKey(link['identifier']))
                             .toList();
 
-                        // for (var link in links) {
-                        //   if (assetMap.containsKey(link['identifier'])) {
-                        //     filteredLinks.add(link);
-                        //   }
-                        // }
-
-                        print("filtered links" + filteredLinks.toString());
-
                         return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Text(
+                                data.name!,
+                                style: TextStyle(
+                                  letterSpacing: -0.3,
+                                  fontSize: 28.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: Helper.baseBlack,
+                                ),
+                              ),
+                              Text(
+                                data.location!.name!,
+                                style: TextStyle(
+                                  letterSpacing: -0.3,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w400,
+                                  color: Helper.baseBlack.withOpacity(0.5),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20.h,
+                              ),
                               InkWell(
                                 onTap: () {
                                   showModalBottomSheet(
@@ -469,12 +326,7 @@ class _ProjectDetailsScreenState
                                           ));
                                 },
                                 child: Container(
-                                  // width: 150,
                                   height: 45,
-                                  // padding: EdgeInsets.symmetric(horizontal: 4.w),
-                                  // blur: 3,
-                                  // borderRadius: BorderRadius.circular(30.r),
-                                  // color: Colors.transparent,
                                   child: AvatarGroupWidget(
                                     avatars:
                                         (data.users as List<User>).map((user) {
@@ -493,257 +345,6 @@ class _ProjectDetailsScreenState
                               SizedBox(
                                 height: 20.h,
                               ),
-                              // Container(
-                              //   margin: EdgeInsets.zero,
-                              //   padding: EdgeInsets.zero,
-                              //   height: 264.h,
-                              //   decoration: BoxDecoration(
-                              //     color: Colors.white,
-                              //     borderRadius: BorderRadius.circular(16.r),
-                              //   ),
-                              //   child: Stack(
-                              //       fit: StackFit.loose,
-                              //       alignment: Alignment.topCenter,
-                              //       children: [
-                              //         CarouselSlider.builder(
-                              //           itemCount: data.images!.length,
-                              //           options: CarouselOptions(
-                              //               // height: 284.h,
-                              //               aspectRatio: 16 / 9,
-                              //               viewportFraction: 1,
-                              //               initialPage: 0,
-                              //               autoPlay: false,
-                              //               enlargeCenterPage: true,
-                              //               autoPlayCurve: Curves.fastOutSlowIn,
-                              //               scrollDirection: Axis.horizontal,
-                              //               onPageChanged: (index, reason) {
-                              //                 setState(() {
-                              //                   _currentIndex = index;
-                              //                 });
-                              //               }),
-                              //           itemBuilder: (BuildContext context,
-                              //                   int itemIndex, int pageViewIndex) =>
-                              //               Container(
-                              //             width: double.infinity,
-                              //             decoration: BoxDecoration(
-                              //               borderRadius:
-                              //                   BorderRadius.circular(16.r),
-                              //               color: Color.fromRGBO(235, 235, 235, 1),
-                              //             ),
-                              //             child: data.images!.isNotEmpty
-                              //                 ? ClipRRect(
-                              //                     borderRadius:
-                              //                         BorderRadius.circular(16.r),
-                              //                     child: Image.network(
-                              //                       data.images![itemIndex].url!,
-                              //                       fit: BoxFit.fill,
-                              //                       errorBuilder: (BuildContext
-                              //                               context,
-                              //                           Object exception,
-                              //                           StackTrace? stackTrace) {
-                              //                         return ClipRRect(
-                              //                           child: Image.asset(
-                              //                             'assets/images/error_image.jpeg',
-                              //                             fit: BoxFit.fill,
-                              //                           ),
-                              //                         );
-                              //                       },
-                              //                     ))
-                              //                 : ClipRRect(
-                              //                     borderRadius:
-                              //                         BorderRadius.circular(16.r),
-                              //                     child: Image.asset(
-                              //                       'assets/images/error_image.jpeg',
-                              //                       fit: BoxFit.fill,
-                              //                       height: 264.h,
-                              //                     ),
-                              //                   ),
-                              //           ),
-                              //         ),
-                              //         Positioned(
-                              //           top: 20,
-                              //           left: 20,
-                              //           child: BlurryContainer(
-                              //               padding: EdgeInsets.symmetric(
-                              //                   vertical: 6.h, horizontal: 8.w),
-                              //               blur: 3,
-                              //               borderRadius:
-                              //                   BorderRadius.circular(30.r),
-                              //               color: Colors.white.withOpacity(0.1),
-                              //               child: Row(
-                              //                 children: [
-                              //                   SvgPicture.asset(
-                              //                       'assets/images/ai.svg'),
-                              //                   SizedBox(width: 4.w),
-                              //                   Text("AI enhanced",
-                              //                       style: TextStyle(
-                              //                           color: Colors.white,
-                              //                           fontWeight: FontWeight.w500,
-                              //                           fontSize: 12.sp)),
-                              //                 ],
-                              //               )),
-                              //         ),
-                              //         Positioned(
-                              //           top: 20,
-                              //           right: 20,
-                              //           child: InkWell(
-                              //             onTap: () {
-                              //               showModalBottomSheet(
-                              //                   useRootNavigator: true,
-                              //                   isScrollControlled: true,
-                              //                   context: context,
-                              //                   backgroundColor: Colors.transparent,
-                              //                   builder: (context) =>
-                              //                       ViewedByWidget(
-                              //                           data: data.users,
-                              //                           showText:
-                              //                               "Current members"));
-                              //             },
-                              //             child: BlurryContainer(
-                              //               // width: 150,
-                              //               height: 30,
-                              //               padding: EdgeInsets.symmetric(
-                              //                   vertical: 4.h, horizontal: 4.w),
-                              //               blur: 3,
-                              //               borderRadius:
-                              //                   BorderRadius.circular(30.r),
-                              //               color: Colors.white.withOpacity(0.3),
-                              //               child: AvatarGroupWidget(
-                              //                 avatars: data.users!.map((user) {
-                              //                   return {
-                              //                     'dpUrl': user.dp != null
-                              //                         ? user.dpUrl
-                              //                         : "",
-                              //                     'name': user.name,
-                              //                     'backgroundColor':
-                              //                         user.preset!.color,
-                              //                   };
-                              //                 }).toList(),
-                              //                 size: 22.h,
-                              //                 max: 3,
-                              //               ),
-                              //             ),
-                              //           ),
-                              //         ),
-                              //         // data[index].images!.isNotEmpty
-                              //         //     ?
-                              //         Positioned(
-                              //           top: 150.h,
-                              //           child: Padding(
-                              //               padding:
-                              //                   const EdgeInsets.only(bottom: 12),
-                              //               child: data.images!.length > 0
-                              //                   ? DotsIndicator(
-                              //                       dotsCount: data.images!.length,
-                              //                       position: _currentIndex != null
-                              //                           ? _currentIndex!
-                              //                           : 0,
-                              //                       decorator: DotsDecorator(
-                              //                           color: Colors.white
-                              //                               .withOpacity(0.6),
-                              //                           shape:
-                              //                               RoundedRectangleBorder(
-                              //                                   borderRadius:
-                              //                                       BorderRadius
-                              //                                           .circular(
-                              //                                               6.r)),
-                              //                           activeColor: Colors.white,
-                              //                           activeShape:
-                              //                               RoundedRectangleBorder(
-                              //                                   borderRadius:
-                              //                                       BorderRadius
-                              //                                           .circular(
-                              //                                               8.r)),
-                              //                           size: Size(6, 6),
-                              //                           activeSize: Size(8, 8),
-                              //                           spacing: EdgeInsets.only(
-                              //                               right: 6.w)),
-                              //                     )
-                              //                   : SizedBox()),
-                              //         ),
-                              //         // : SizedBox(),
-                              //         Positioned.fill(
-                              //           bottom: 7,
-                              //           // left: 20,
-                              //           child: Align(
-                              //             alignment: Alignment.bottomCenter,
-                              //             child: Container(
-                              //                 height: 88.h,
-                              //                 width: double.infinity,
-                              //                 margin: EdgeInsets.zero,
-                              //                 padding: EdgeInsets.all(20.w),
-                              //                 decoration: BoxDecoration(
-                              //                     borderRadius:
-                              //                         BorderRadius.circular(15.r),
-                              //                     color: Color.fromRGBO(
-                              //                         246, 246, 246, 1)),
-                              //                 child: Row(
-                              //                   mainAxisAlignment:
-                              //                       MainAxisAlignment.spaceBetween,
-                              //                   mainAxisSize: MainAxisSize.min,
-                              //                   children: [
-                              //                     Column(
-                              //                       crossAxisAlignment:
-                              //                           CrossAxisAlignment.start,
-                              //                       children: [
-                              //                         Text(
-                              //                           data.name!,
-                              //                           style: TextStyle(
-                              //                             fontSize: 18.sp,
-                              //                             fontWeight:
-                              //                                 FontWeight.w500,
-                              //                             color: Helper.baseBlack,
-                              //                           ),
-                              //                         ),
-                              //                         // SizedBox(
-                              //                         //   height: 6.h,
-                              //                         // ),
-                              //                         Text(
-                              //                           data.location!.name!,
-                              //                           style: TextStyle(
-                              //                             fontSize: 14.sp,
-                              //                             fontWeight:
-                              //                                 FontWeight.w400,
-                              //                             color: Helper.baseBlack
-                              //                                 .withOpacity(0.5),
-                              //                           ),
-                              //                         ),
-                              //                       ],
-                              //                     ),
-                              //                     TextButton(
-                              //                         onPressed: () {
-                              //                           context.push('/editproject',
-                              //                               extra: data);
-                              //                         },
-                              //                         style: ButtonStyle(
-                              //                             shape: MaterialStateProperty
-                              //                                 .all(
-                              //                                     RoundedRectangleBorder(
-                              //                               borderRadius:
-                              //                                   BorderRadius
-                              //                                       .circular(8.r),
-                              //                             )),
-                              //                             backgroundColor:
-                              //                                 MaterialStateProperty
-                              //                                     .all(Colors
-                              //                                         .white)),
-                              //                         child: Text(
-                              //                           "Edit",
-                              //                           style: TextStyle(
-                              //                               color: Helper.baseBlack,
-                              //                               fontSize: 14.sp,
-                              //                               letterSpacing: 0,
-                              //                               wordSpacing: 0,
-                              //                               fontWeight:
-                              //                                   FontWeight.w600),
-                              //                         ))
-                              //                   ],
-                              //                 )),
-                              //           ),
-                              //         ),
-                              //       ]),
-                              // ),
-                              // SizedBox(height: 12.h),
                               SizedBox(
                                 height: 58.h,
                                 child: ListView.separated(
