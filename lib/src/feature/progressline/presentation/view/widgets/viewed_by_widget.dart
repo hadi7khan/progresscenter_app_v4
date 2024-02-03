@@ -927,13 +927,9 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                                                                 widget
                                                                     .projectId,
                                                                 false);
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(const SnackBar(
-                                                                backgroundColor:
-                                                                    Colors.red,
-                                                                content: Text(
-                                                                    "Access Revoked")));
+                                                        Utils.flushBarErrorMessage(
+                                                            "Access Revoked",
+                                                            context);
                                                       });
                                                       setState(() {});
                                                     }),
@@ -1049,14 +1045,9 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                                                                   widget
                                                                       .projectId,
                                                                   false);
-                                                          ScaffoldMessenger
-                                                                  .of(context)
-                                                              .showSnackBar(const SnackBar(
-                                                                  backgroundColor:
-                                                                      Colors
-                                                                          .red,
-                                                                  content: Text(
-                                                                      "Access Revoked")));
+                                                          Utils.flushBarErrorMessage(
+                                                              "Access Revoked",
+                                                              context);
                                                         });
                                                         setState(() {});
                                                       },
@@ -1188,7 +1179,7 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                         .read(projectByIdControllerProvider.notifier)
                         .getProjectById(widget.projectId, false);
                     context.pop();
-                    Utils.toastSuccessMessage("User Added");
+                    Utils.toastSuccessMessage("User Added", context);
                     _emailController.clear();
                   }).onError((error, stackTrace) {
                     // print(error.toString());

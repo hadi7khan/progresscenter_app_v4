@@ -102,7 +102,7 @@ class _SelectTeamsScreenState extends BaseConsumerState<SelectTeamsScreen> {
                     service.Service()
                         .teamChange(widget.userId, teamData)
                         .then((val) {
-                      Utils.toastSuccessMessage("Teams updated");
+                      Utils.toastSuccessMessage("Teams updated", context);
                     });
                   },
                   child: Text(

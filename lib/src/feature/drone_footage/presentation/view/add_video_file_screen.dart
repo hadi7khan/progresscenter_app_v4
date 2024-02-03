@@ -424,7 +424,7 @@ class _AddFileVideoScreenState extends BaseConsumerState<AddFileVideoScreen> {
                         });
                         context.pop();
 
-                        Utils.toastSuccessMessage("Livelapse Created");
+                        Utils.toastSuccessMessage("Livelapse Created", context);
                         ref
                             .watch(droneFootageControllerProvider.notifier)
                             .getDroneFootage(widget.projectId);

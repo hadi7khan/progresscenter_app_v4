@@ -347,9 +347,7 @@ class _AddSiteGalleryScreenState
                 )
                     .then((value) {
                   context.pop();
-                  Utils.toastSuccessMessage(
-                    "Site Gallery Added",
-                  );
+                  Utils.toastSuccessMessage("Site Gallery Added", context);
                   ref
                       .watch(siteGalleryControllerProvider.notifier)
                       .getSiteGallery(widget.projectId);

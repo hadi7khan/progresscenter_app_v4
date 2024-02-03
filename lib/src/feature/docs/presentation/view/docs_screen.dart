@@ -467,7 +467,8 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                                     .getDocs();
                                 _categoryController.clear();
                               });
-                              Utils.toastSuccessMessage("Category added");
+                              Utils.toastSuccessMessage(
+                                  "Category added", context);
                             });
                             context.pop();
                           },

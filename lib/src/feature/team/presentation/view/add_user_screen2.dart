@@ -468,7 +468,7 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
                             //     .watch(docsControllerProvider.notifier)
                             //     .getDocs();
                           });
-                          Utils.toastSuccessMessage("User created");
+                          Utils.toastSuccessMessage("User created", context);
                         });
                         // context.pop();
                       }

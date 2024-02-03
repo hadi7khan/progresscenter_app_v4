@@ -395,7 +395,7 @@ class _ChangePasswordProfileScreenState
 
                             context.pushReplacement('/signin');
                             Utils.toastSuccessMessage(
-                                "Password changed Successfully");
+                                "Password changed Successfully", context);
                             setState(() {
                               isLoading = false;
                             });

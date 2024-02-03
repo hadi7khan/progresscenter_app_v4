@@ -200,7 +200,7 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                             .watch(resendOTPProvider.notifier)
                             .resendOTP(widget.token)
                             .then((value) {
-                          Utils.toastSuccessMessage("OTP sent");
+                          Utils.toastSuccessMessage("OTP sent", context);
                           setState(() {
                             isLoading = false;
                             invalidCode = false;

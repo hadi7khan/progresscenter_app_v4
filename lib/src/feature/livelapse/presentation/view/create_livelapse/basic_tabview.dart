@@ -369,7 +369,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                       initSocket(res["_id"]);
                       _showProgressBottomSheet(context, ref);
                     });
-                    Utils.toastSuccessMessage("Livelapse Created");
+                    Utils.toastSuccessMessage("Livelapse Created", context);
 
                     setState(() {
                       _isLoading = false;

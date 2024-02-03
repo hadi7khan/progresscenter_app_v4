@@ -439,7 +439,7 @@ class _CreateZipTabviewState extends BaseConsumerState<CreateZipTabview> {
                         _showProgressBottomSheet(context, ref);
                       });
 
-                      Utils.toastSuccessMessage("Zip Created");
+                      Utils.toastSuccessMessage("Zip Created", context);
 
                       setState(() {
                         _isLoading = false;
