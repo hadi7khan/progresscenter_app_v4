@@ -184,7 +184,7 @@ class _OrganisationUrlScreenState
                         await Service().domainChange(data).then((value) {
                           context.pop();
                           Utils.toastSuccessMessage(
-                              "Request submitted Successfully");
+                              "Request submitted Successfully", context);
                           setState(() {
                             isLoading = false;
                           });

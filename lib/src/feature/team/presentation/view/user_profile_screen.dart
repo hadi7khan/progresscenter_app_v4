@@ -326,7 +326,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                           ref
                               .watch(userProfileControllerProvider.notifier)
                               .getUserProfile(widget.userId);
-                          Utils.toastSuccessMessage("User updated");
+                          Utils.toastSuccessMessage("User updated", context);
                         });
 
                         Map<String, dynamic> projectData = {
@@ -335,7 +335,8 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                         Service()
                             .assignProjectChange(userId, projectData)
                             .then((val) {
-                          Utils.toastSuccessMessage("Projects updated");
+                          Utils.toastSuccessMessage(
+                              "Projects updated", context);
                         });
                       },
                       child: Text(

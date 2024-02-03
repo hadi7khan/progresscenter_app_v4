@@ -247,7 +247,8 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                                                   });
 
                                                   Utils.toastSuccessMessage(
-                                                      "Account deleted");
+                                                      "Account deleted",
+                                                      context);
                                                   setState(() {
                                                     isLoading = false;
                                                   });
@@ -330,7 +331,8 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                                                       context.go('/signin');
                                                     });
                                                     Utils.toastSuccessMessage(
-                                                        "Account deleted");
+                                                        "Account deleted",
+                                                        context);
                                                     setState(() {
                                                       isLoading = false;
                                                     });

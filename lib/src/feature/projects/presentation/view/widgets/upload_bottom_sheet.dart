@@ -13,6 +13,7 @@ import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_by_id_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_controller.dart';
 
 class UploadBottomSheet extends ConsumerStatefulWidget {
   final ProjectModel data;
@@ -177,7 +178,6 @@ class _UploadBottomSheetState extends BaseConsumerState<UploadBottomSheet> {
                       children: [
                         InkWell(
                           onTap: () async {
-                            // calculateProgress(0);
                             _pickImage(ImageSource.camera).then((value) async {
                               await Service()
                                   .uploadPhoto(widget.data.id!, _image!.path,
@@ -188,6 +188,10 @@ class _UploadBottomSheetState extends BaseConsumerState<UploadBottomSheet> {
                                     .read(
                                         projectByIdControllerProvider.notifier)
                                     .getProjectById(widget.projectId, false);
+                                ref
+                                    .read(projectControllerProvider.notifier)
+                                    .getProjects()
+                                    .then((value) {});
                                 context.pop();
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
@@ -261,6 +265,10 @@ class _UploadBottomSheetState extends BaseConsumerState<UploadBottomSheet> {
                                     .read(
                                         projectByIdControllerProvider.notifier)
                                     .getProjectById(widget.projectId, false);
+                                ref
+                                    .read(projectControllerProvider.notifier)
+                                    .getProjects()
+                                    .then((value) {});
                                 context.pop();
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(

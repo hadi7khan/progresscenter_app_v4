@@ -697,7 +697,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                       _showProgressBottomSheet(context, ref);
                     });
 
-                    Utils.toastSuccessMessage("Livelapse Created");
+                    Utils.toastSuccessMessage("Livelapse Created", context);
 
                     setState(() {
                       _isLoading = false;

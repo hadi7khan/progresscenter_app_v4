@@ -618,9 +618,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                     }, (data) {
                       context.pop();
                       ref.watch(docsControllerProvider.notifier).getDocs();
-                      Utils.toastSuccessMessage(
-                        "Document Added",
-                      );
+                      Utils.toastSuccessMessage("Document Added", context);
                     });
 
                     setState(() {

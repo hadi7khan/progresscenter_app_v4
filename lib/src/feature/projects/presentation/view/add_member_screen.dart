@@ -543,8 +543,7 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                                 //     extra: {"token": token});
                                 context.pop();
                                 Utils.toastSuccessMessage(
-                                  "Member Added",
-                                );
+                                    "Member Added", context);
                               });
 
                               setState(() {

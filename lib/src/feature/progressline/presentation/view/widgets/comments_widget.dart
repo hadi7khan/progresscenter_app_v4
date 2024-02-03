@@ -360,7 +360,8 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                                 print("response data" + res.toString());
                                 key.currentState!.controller!.clear();
                               });
-                              Utils.toastSuccessMessage("Comment Posted");
+                              Utils.toastSuccessMessage(
+                                  "Comment Posted", context);
                             });
                           }
                         },

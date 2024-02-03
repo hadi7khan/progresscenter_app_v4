@@ -317,9 +317,7 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                     value.fold((failure) {
                       print("errorrrrrr");
                     }, (data) {
-                      Utils.toastSuccessMessage(
-                        "Ticket created",
-                      );
+                      Utils.toastSuccessMessage("Ticket created", context);
                       ref
                           .watch(supportControllerProvider.notifier)
                           .getSupportTickets();

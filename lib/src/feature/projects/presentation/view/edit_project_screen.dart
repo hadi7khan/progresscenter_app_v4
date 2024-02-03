@@ -268,7 +268,7 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
                             .getProjectById(widget.data.id, false);
                         context.pop();
                         Utils.toastSuccessMessage(
-                            "Your project details have been saved");
+                            "Your project details have been saved", context);
                       });
                     },
                     child: Text(

@@ -483,7 +483,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                                 .clear();
                                           });
                                           Utils.toastSuccessMessage(
-                                              "Comment Posted");
+                                              "Comment Posted", context);
                                         });
                                       }
                                     },

@@ -434,7 +434,8 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                               ref
                                   .watch(accountsControllerProvider.notifier)
                                   .getProfile();
-                              Utils.toastSuccessMessage("Profile updated");
+                              Utils.toastSuccessMessage(
+                                  "Profile updated", context);
                             });
                             List<String> hiddenProjects = data.projects!
                                 .map<String>((project) {
@@ -447,7 +448,8 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                               "hiddenProjects": hiddenProjects
                             };
                             service.Service().hideProjects(project).then((val) {
-                              Utils.toastSuccessMessage("Projects updated");
+                              Utils.toastSuccessMessage(
+                                  "Projects updated", context);
                             });
                             Map<String, dynamic> color = {
                               "primaryColor": colorToPass
@@ -459,7 +461,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                               ref.read(primaryColorProvider.notifier).state =
                                   valueToPass!;
                               Utils.toastSuccessMessage(
-                                  "primary color updated");
+                                  "primary color updated", context);
                             });
                           },
                           child: Text(
@@ -1515,7 +1517,8 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                                                           204,
                                                                           1);
                                                               Utils.toastSuccessMessage(
-                                                                  "primary color updated");
+                                                                  "primary color updated",
+                                                                  context);
                                                             });
 
                                                             context.pop();

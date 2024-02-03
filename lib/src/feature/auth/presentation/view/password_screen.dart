@@ -260,7 +260,7 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                               // ).toString());
                               context.go('/projects');
                               Utils.toastSuccessMessage(
-                                  "Signed in successfully");
+                                  "Signed in successfully", context);
                               setState(() {
                                 isLoading = false;
                                 invalidUser = false;

@@ -321,7 +321,8 @@ class _AddVimeoVideoScreenState extends BaseConsumerState<AddVimeoVideoScreen> {
                             print("errorrrrrr");
                           }, (res) {});
                           context.pop();
-                          Utils.toastSuccessMessage("Drone Footage added");
+                          Utils.toastSuccessMessage(
+                              "Drone Footage added", context);
                           ref
                               .watch(droneFootageControllerProvider.notifier)
                               .getDroneFootage(widget.projectId);

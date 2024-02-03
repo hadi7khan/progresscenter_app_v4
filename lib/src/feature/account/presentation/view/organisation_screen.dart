@@ -191,7 +191,8 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                                   .watch(
                                       organisationControllerProvider.notifier)
                                   .getOrganisation();
-                              Utils.toastSuccessMessage("Organisation updated");
+                              Utils.toastSuccessMessage(
+                                  "Organisation updated", context);
                             });
                           },
                           child: Text(

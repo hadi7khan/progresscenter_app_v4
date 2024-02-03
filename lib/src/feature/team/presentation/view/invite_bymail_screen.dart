@@ -535,7 +535,7 @@ class _InviteByMailScreenState extends BaseConsumerState<InviteByMailScreen> {
                       Utils.flushBarErrorMessage(
                           "Something went wrong", context);
                     }, (res) {});
-                    Utils.toastSuccessMessage("User invited");
+                    Utils.toastSuccessMessage("User invited", context);
                   });
                   context.pop();
                 }
