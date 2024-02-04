@@ -538,7 +538,7 @@ List links = [
     'to': '/sitegallery',
     'identifier': AssetType.SITE_GALLERY.name,
     'icon': 'assets/images/camera_360.svg',
-    'countText': 'Cameras'
+    'countText': 'Files'
   },
   {
     'content': 'Equipment Trackers',
@@ -720,7 +720,7 @@ Widget buildAsset(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500),
           ),
-          subtitle: Text(count.toString() + " photos · 2 videos",
+          subtitle: Text(count.toString() + " files",
               style: TextStyle(
                   letterSpacing: -0.3,
                   color: Helper.baseBlack.withOpacity(0.5),

@@ -46,6 +46,7 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
   String _roleSelected = "Admin";
   int _selectedRoleCupertino = 0;
   String _userRole = "";
+  bool showAdminOnlyText = false;
 
   @override
   void initState() {
@@ -193,64 +194,54 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                     height: 10.h,
                   ),
                   if (!showAddMember && widget.showExtra)
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          showAddMember = true;
-                        });
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(bottom: 15.h),
-                        height: 44.h,
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          leading: Container(
-                              decoration: BoxDecoration(
-                                color: Helper.bottomIconBack,
-                                borderRadius: BorderRadius.circular(8.r),
+                    Column(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              showAddMember =
+                                  _userRole == "ADMIN" ? true : false;
+                              showAdminOnlyText =
+                                  _userRole == "ADMIN" ? false : true;
+                            });
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 15.h),
+                            height: 44.h,
+                            child: ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              leading: Container(
+                                  decoration: BoxDecoration(
+                                    color: Helper.bottomIconBack,
+                                    borderRadius: BorderRadius.circular(8.r),
+                                  ),
+                                  padding: EdgeInsets.all(8.w),
+                                  child: SvgPicture.asset(
+                                      'assets/images/plus.svg',
+                                      // width: 44.w,
+                                      // height: 44.h,
+                                      fit: BoxFit.cover,
+                                      colorFilter: ColorFilter.mode(
+                                          ref.watch(primaryColorProvider),
+                                          BlendMode.srcIn))),
+                              title: Text(
+                                "Add member",
+                                style: TextStyle(
+                                    letterSpacing: -0.3,
+                                    color: Helper.baseBlack,
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w500),
                               ),
-                              padding: EdgeInsets.all(8.w),
-                              child: SvgPicture.asset('assets/images/plus.svg',
-                                  // width: 44.w,
-                                  // height: 44.h,
-                                  fit: BoxFit.cover,
-                                  colorFilter: ColorFilter.mode(
-                                      ref.watch(primaryColorProvider),
-                                      BlendMode.srcIn))),
-                          title: Text(
-                            "Add member",
-                            style: TextStyle(
-                                letterSpacing: -0.3,
-                                color: Helper.baseBlack,
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.w500),
+                            ),
                           ),
                         ),
-                      ),
-
-                      // Padding(
-                      //   padding:
-                      //       EdgeInsets.symmetric(horizontal: 5.w, vertical: 22.h),
-                      //   child:
-                      // Row(children: [
-                      //   SvgPicture.asset('assets/images/plus.svg',
-                      //       color: ref.watch(primaryColorProvider)),
-                      //   SizedBox(width: 5.h),
-                      //   Padding(
-                      //     padding: EdgeInsets.symmetric(
-                      //       horizontal: 5.w,
-                      //     ),
-                      //     child: Text(
-                      //       "Add member",
-                      //       style: TextStyle(
-                      //           letterSpacing: -0.3,
-                      //           color: Helper.baseBlack,
-                      //           fontSize: 18.sp,
-                      //           fontWeight: FontWeight.w500),
-                      //     ),
-                      //   ),
-                      // ]),
-                      // ),
+                        showAdminOnlyText
+                            ? Text(
+                                "Only Admins are allowed to  manage users and permissions",
+                                style: TextStyle(color: Helper.errorColor),
+                              )
+                            : SizedBox()
+                      ],
                     )
                   else
                     widget.showExtra

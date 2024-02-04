@@ -71,7 +71,10 @@ class _UploadBottomSheetState extends BaseConsumerState<UploadBottomSheet> {
             // message: const Text('Message'),
             actions: <CupertinoActionSheetAction>[
               CupertinoActionSheetAction(
-                child: const Text('Take Photo'),
+                child: Text(
+                  'Take Photo',
+                  style: TextStyle(color: Helper.primary),
+                ),
                 onPressed: () {
                   _pickImage(ImageSource.camera).then((value) async {
                     await Service()
@@ -91,8 +94,9 @@ class _UploadBottomSheetState extends BaseConsumerState<UploadBottomSheet> {
                 },
               ),
               CupertinoActionSheetAction(
-                child: const Text(
+                child: Text(
                   'Choose Photo',
+                  style: TextStyle(color: Helper.primary),
                 ),
                 onPressed: () {
                   _pickImage(ImageSource.gallery).then((value) async {
@@ -113,8 +117,9 @@ class _UploadBottomSheetState extends BaseConsumerState<UploadBottomSheet> {
                 },
               ),
               CupertinoActionSheetAction(
-                child: const Text(
+                child: Text(
                   'Browse from files',
+                  style: TextStyle(color: Helper.primary),
                 ),
                 onPressed: () {
                   _pickImage(ImageSource.gallery).then((value) async {
@@ -136,7 +141,10 @@ class _UploadBottomSheetState extends BaseConsumerState<UploadBottomSheet> {
               ),
             ],
             cancelButton: CupertinoActionSheetAction(
-              child: Text('Cancel'),
+              child: Text(
+                'Cancel',
+                style: TextStyle(color: Helper.errorColor),
+              ),
               onPressed: () {
                 Navigator.pop(context);
               },
