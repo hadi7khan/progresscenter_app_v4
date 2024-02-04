@@ -224,8 +224,9 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
           // message: const Text('Message'),
           actions: <CupertinoActionSheetAction>[
             CupertinoActionSheetAction(
-              child: const Text(
+              child: Text(
                 'Add document',
+                style: TextStyle(color: Helper.primary),
               ),
               onPressed: () {
                 context.push('/addDocs', extra: {"category": categoryList});
@@ -233,8 +234,9 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
               },
             ),
             CupertinoActionSheetAction(
-              child: const Text(
+              child: Text(
                 'Add new category',
+                style: TextStyle(color: Helper.primary),
               ),
               onPressed: () {
                 context.pop();
@@ -242,6 +244,15 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
               },
             ),
           ],
+          cancelButton: CupertinoActionSheetAction(
+            child: Text(
+              'Cancel',
+              style: TextStyle(color: Helper.errorColor),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ),
       );
     }

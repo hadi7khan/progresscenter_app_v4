@@ -194,8 +194,9 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
           // message: const Text('Message'),
           actions: <CupertinoActionSheetAction>[
             CupertinoActionSheetAction(
-              child: const Text(
+              child: Text(
                 'Add new user',
+                style: TextStyle(color: Helper.primary),
               ),
               onPressed: () {
                 context.push('/addUser');
@@ -203,8 +204,9 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
               },
             ),
             CupertinoActionSheetAction(
-              child: const Text(
+              child: Text(
                 'Invite by email',
+                style: TextStyle(color: Helper.primary),
               ),
               onPressed: () {
                 context.pop();
@@ -214,7 +216,10 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
             ),
           ],
           cancelButton: CupertinoActionSheetAction(
-            child: Text('Cancel'),
+            child: Text(
+              'Cancel',
+              style: TextStyle(color: Helper.errorColor),
+            ),
             onPressed: () {
               Navigator.pop(context);
             },

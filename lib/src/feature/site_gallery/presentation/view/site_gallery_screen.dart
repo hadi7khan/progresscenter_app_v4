@@ -420,7 +420,10 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
           // message: const Text('Message'),
           actions: <CupertinoActionSheetAction>[
             CupertinoActionSheetAction(
-              child: const Text('Camera'),
+              child: Text(
+                'Camera',
+                style: TextStyle(color: Helper.primary),
+              ),
               onPressed: () {
                 _pickImage(ImageSource.camera, context).then((value) async {
                   await Service()
@@ -444,8 +447,9 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
               },
             ),
             CupertinoActionSheetAction(
-              child: const Text(
+              child: Text(
                 'Choose Photo',
+                style: TextStyle(color: Helper.primary),
               ),
               onPressed: () async {
                 result = await FilePicker.platform.pickFiles(
@@ -468,8 +472,9 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
               },
             ),
             CupertinoActionSheetAction(
-              child: const Text(
+              child: Text(
                 'Browse from files',
+                style: TextStyle(color: Helper.primary),
               ),
               onPressed: () async {
                 result = await FilePicker.platform.pickFiles(
@@ -493,7 +498,10 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
             ),
           ],
           cancelButton: CupertinoActionSheetAction(
-            child: Text('Cancel'),
+            child: Text(
+              'Cancel',
+              style: TextStyle(color: Helper.errorColor),
+            ),
             onPressed: () {
               Navigator.pop(context);
             },

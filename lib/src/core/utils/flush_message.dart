@@ -1,6 +1,7 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:another_flushbar/flushbar_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'helper.dart';
@@ -14,7 +15,15 @@ class Utils {
 
   static toastSuccessMessage(String message, BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(backgroundColor: Helper.successColor, content: Text(message)));
+      SnackBar(
+        backgroundColor: Helper.successColor,
+        content: Text(
+          message,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
+        ),
+      ),
+    );
     // Fluttertoast.showToast(
     //   toastLength: Toast.LENGTH_LONG,
     //   msg: message,
@@ -26,7 +35,15 @@ class Utils {
 
   static void flushBarErrorMessage(String message, BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(backgroundColor: Helper.errorColor, content: Text(message)));
+      SnackBar(
+        backgroundColor: Helper.errorColor,
+        content: Text(
+          message,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
+        ),
+      ),
+    );
     // showFlushbar(
     //     context: context,
     //     flushbar: Flushbar(
