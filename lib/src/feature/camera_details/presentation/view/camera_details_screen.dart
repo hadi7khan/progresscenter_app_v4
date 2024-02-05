@@ -193,9 +193,9 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
   @override
   void dispose() {
     controller!.dispose();
-    ref.invalidate(imagesByCameraIdInterProvider);
-    ref.invalidate(currentImageProvider);
-    ref.invalidate(imagesByCamIdControllerProvider);
+    // ref.invalidate(imagesByCameraIdInterProvider);
+    // ref.invalidate(currentImageProvider);
+    // ref.invalidate(imagesByCamIdControllerProvider);
     super.dispose();
   }
 
