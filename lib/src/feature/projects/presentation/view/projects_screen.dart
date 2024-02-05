@@ -59,8 +59,9 @@ class _ProjectsScreenState extends BaseConsumerState<ProjectsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final projectData =
+    var projectData =
         ref.watch(projectControllerProvider.select((value) => value.projects));
+    dev.log("new data" + projectData.toString());
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
@@ -72,7 +73,21 @@ class _ProjectsScreenState extends BaseConsumerState<ProjectsScreen> {
               HapticFeedback.mediumImpact();
               return await ref
                   .refresh(projectControllerProvider.notifier)
-                  .getProjects();
+                  .getProjects()
+                  .then((value) {
+                _activeProjects = [];
+                _archivedProjects = [];
+                for (ProjectModel project in value) {
+                  if (project.status == "ARCHIVED") {
+                    _archivedProjects.add(project);
+                  } else {
+                    setState(() {
+                      _activeProjects.add(project);
+                    });
+                  }
+                }
+                dev.log("archived" + _activeProjects.toString());
+              });
             },
             child: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
