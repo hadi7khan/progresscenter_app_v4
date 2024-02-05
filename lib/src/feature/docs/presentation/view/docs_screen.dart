@@ -224,9 +224,20 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
           // message: const Text('Message'),
           actions: <CupertinoActionSheetAction>[
             CupertinoActionSheetAction(
-              child: Text(
-                'Add document',
-                style: TextStyle(color: Helper.primary),
+              child: Row(
+                children: [
+                  Icon(
+                    CupertinoIcons.doc,
+                    color: Helper.primary,
+                  ),
+                  SizedBox(
+                    width: 20.w,
+                  ),
+                  Text(
+                    'Add document',
+                    style: TextStyle(color: Helper.primary),
+                  ),
+                ],
               ),
               onPressed: () {
                 context.push('/addDocs', extra: {"category": categoryList});
@@ -234,9 +245,20 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
               },
             ),
             CupertinoActionSheetAction(
-              child: Text(
-                'Add new category',
-                style: TextStyle(color: Helper.primary),
+              child: Row(
+                children: [
+                  Icon(
+                    CupertinoIcons.plus_square,
+                    color: Helper.primary,
+                  ),
+                  SizedBox(
+                    width: 20.w,
+                  ),
+                  Text(
+                    'Add new category',
+                    style: TextStyle(color: Helper.primary),
+                  ),
+                ],
               ),
               onPressed: () {
                 context.pop();

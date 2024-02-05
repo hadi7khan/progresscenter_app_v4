@@ -194,9 +194,20 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
           // message: const Text('Message'),
           actions: <CupertinoActionSheetAction>[
             CupertinoActionSheetAction(
-              child: Text(
-                'Add new user',
-                style: TextStyle(color: Helper.primary),
+              child: Row(
+                children: [
+                  Icon(
+                    CupertinoIcons.person_add,
+                    color: Helper.primary,
+                  ),
+                  SizedBox(
+                    width: 20.w,
+                  ),
+                  Text(
+                    'Add new user',
+                    style: TextStyle(color: Helper.primary),
+                  ),
+                ],
               ),
               onPressed: () {
                 context.push('/addUser');
@@ -204,9 +215,20 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
               },
             ),
             CupertinoActionSheetAction(
-              child: Text(
-                'Invite by email',
-                style: TextStyle(color: Helper.primary),
+              child: Row(
+                children: [
+                  Icon(
+                    CupertinoIcons.mail,
+                    color: Helper.primary,
+                  ),
+                  SizedBox(
+                    width: 20.w,
+                  ),
+                  Text(
+                    'Invite by email',
+                    style: TextStyle(color: Helper.primary),
+                  ),
+                ],
               ),
               onPressed: () {
                 context.pop();

@@ -420,10 +420,19 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
           // message: const Text('Message'),
           actions: <CupertinoActionSheetAction>[
             CupertinoActionSheetAction(
-              child: Text(
-                'Camera',
-                style: TextStyle(color: Helper.primary),
-              ),
+              child: Row(children: [
+                Icon(
+                  CupertinoIcons.camera,
+                  color: Helper.primary,
+                ),
+                SizedBox(
+                  width: 20.w,
+                ),
+                Text(
+                  'Camera',
+                  style: TextStyle(color: Helper.primary),
+                ),
+              ]),
               onPressed: () {
                 _pickImage(ImageSource.camera, context).then((value) async {
                   await Service()
@@ -447,9 +456,20 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
               },
             ),
             CupertinoActionSheetAction(
-              child: Text(
-                'Choose Photo',
-                style: TextStyle(color: Helper.primary),
+              child: Row(
+                children: [
+                  Icon(
+                    CupertinoIcons.photo,
+                    color: Helper.primary,
+                  ),
+                  SizedBox(
+                    width: 20.w,
+                  ),
+                  Text(
+                    'Choose Photo',
+                    style: TextStyle(color: Helper.primary),
+                  ),
+                ],
               ),
               onPressed: () async {
                 result = await FilePicker.platform.pickFiles(
@@ -472,9 +492,20 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
               },
             ),
             CupertinoActionSheetAction(
-              child: Text(
-                'Browse from files',
-                style: TextStyle(color: Helper.primary),
+              child: Row(
+                children: [
+                  Icon(
+                    CupertinoIcons.doc,
+                    color: Helper.primary,
+                  ),
+                  SizedBox(
+                    width: 20.w,
+                  ),
+                  Text(
+                    'Browse from files',
+                    style: TextStyle(color: Helper.primary),
+                  ),
+                ],
               ),
               onPressed: () async {
                 result = await FilePicker.platform.pickFiles(
