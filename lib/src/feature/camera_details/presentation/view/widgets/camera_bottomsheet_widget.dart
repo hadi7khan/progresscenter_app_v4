@@ -4,14 +4,17 @@ import 'dart:isolate';
 import 'dart:ui';
 
 import 'package:background_downloader/background_downloader.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gal/gal.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:progresscenter_app_v4/main.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/core/network/constants/endpoints.dart';
@@ -565,22 +568,48 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                         InkWell(
                           onTap: () async {
                             setState(() {
-                              isDownloading = true;
+                              // isDownloading = Platform.isAndroid ? true : false;
                             });
-                            processLoadAndOpen();
-                            // var path = await getLocalDirectory();
-                            // dev.log(path.toString());
-                            // Service().downloadSinglePhoto(
-                            //     widget.projectId,
-                            //     widget.cameraId,
-                            //     widget.imageName,
-                            //     path!.absolute.path + "/" + widget.imageName,
-                            //     (progress) {
-                            //   dev.log("progress" + progress.toString());
-                            // }).then((value) {
-                            //   Utils.toastSuccessMessage("image downloaded");
-                            // });
-                            // context.pop();
+                            // processLoadAndOpen();
+                            // final path =
+                            //     '${Directory.systemTemp.path}/${widget.imageName}';
+                            // await Dio().download(
+                            //     'https://api-dev-v4.progresscenter.io/api/v4/projects/${widget.projectId}/cameras/${widget.cameraId}/images/download',
+                            //     path,
+                            //     options: Options(
+                            //       headers: {
+                            //         "content-type": "application/json",
+                            //         "Authorization": "Bearer " +
+                            //             _prefsLocator.getUserToken(),
+                            //       },
+                            //     ));
+                            // await Gal.putImage(
+                            //   path,
+                            // );
+                            final granted = await Gal.requestAccess();
+                            dev.log(granted.toString());
+                            if (granted) {
+                              final directory =
+                                  await getApplicationDocumentsDirectory();
+
+                              await Dio().download(widget.imageUrl,
+                                  directory.path + "/${widget.imageName}");
+                              await Gal.putImage(
+                                  directory.path + "/${widget.imageName}",
+                                  album: null);
+                              context.pop();
+                              ScaffoldMessenger.of(
+                                      rootNavigatorKey.currentContext!)
+                                  .showSnackBar(SnackBar(
+                                content: const Text('Saved! ✅'),
+                                backgroundColor: Helper.successColor,
+                                // action: SnackBarAction(
+                                //   label: 'Open',
+                                //   backgroundColor: Helper.successColor,
+                                //   onPressed: () async => Gal.open(),
+                                // ),
+                              ));
+                            }
                           },
                           child: Container(
                             height: 44.h,
