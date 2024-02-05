@@ -1975,10 +1975,19 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
           // message: const Text('Message'),
           actions: <CupertinoActionSheetAction>[
             CupertinoActionSheetAction(
-              child: Text(
-                'Take Photo',
-                style: TextStyle(color: Helper.primary),
-              ),
+              child: Row(children: [
+                Icon(
+                  CupertinoIcons.camera,
+                  color: Helper.primary,
+                ),
+                SizedBox(
+                  width: 20.w,
+                ),
+                Text(
+                  'Camera',
+                  style: TextStyle(color: Helper.primary),
+                ),
+              ]),
               onPressed: () {
                 _pickImage(ImageSource.camera).then((value) async {
                   await service.Service()
@@ -1994,9 +2003,20 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
               },
             ),
             CupertinoActionSheetAction(
-              child: Text(
-                'Choose Photo',
-                style: TextStyle(color: Helper.primary),
+              child: Row(
+                children: [
+                  Icon(
+                    CupertinoIcons.photo,
+                    color: Helper.primary,
+                  ),
+                  SizedBox(
+                    width: 20.w,
+                  ),
+                  Text(
+                    'Choose Photo',
+                    style: TextStyle(color: Helper.primary),
+                  ),
+                ],
               ),
               onPressed: () {
                 _pickImage(ImageSource.gallery).then((value) async {
@@ -2013,9 +2033,20 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
               },
             ),
             CupertinoActionSheetAction(
-              child: Text(
-                'Browse from files',
-                style: TextStyle(color: Helper.primary),
+              child: Row(
+                children: [
+                  Icon(
+                    CupertinoIcons.doc,
+                    color: Helper.primary,
+                  ),
+                  SizedBox(
+                    width: 20.w,
+                  ),
+                  Text(
+                    'Browse from files',
+                    style: TextStyle(color: Helper.primary),
+                  ),
+                ],
               ),
               onPressed: () {
                 _pickImage(ImageSource.gallery).then((value) async {
