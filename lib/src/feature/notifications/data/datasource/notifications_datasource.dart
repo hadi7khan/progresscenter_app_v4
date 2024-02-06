@@ -10,7 +10,7 @@ final notificationsSourceProvider =
 });
 
 abstract class NotificationsDataSource {
-  Future notificationsList();
+  Future notificationsList(int page);
 }
 
 class NotificationsDataSourceImpl implements NotificationsDataSource {
@@ -20,8 +20,8 @@ class NotificationsDataSourceImpl implements NotificationsDataSource {
   });
 
   @override
-  Future notificationsList() async {
-    final response = await dioClient.get(Endpoints.notificationsListUrl());
+  Future notificationsList(int page) async {
+    final response = await dioClient.get(Endpoints.notificationsListUrl(page));
     if (response.statusCode == 200) {
       return response.data;
     } else {
