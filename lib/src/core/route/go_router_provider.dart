@@ -376,10 +376,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             child: FullviewLivelapse(
               key: state.pageKey,
               projectId: args['projectId'],
-              projectName: args['projectName'],
               cameraId: args['cameraId'],
-              url: args['url'],
-              name: args['name'],
+              livelapseId: args['livelapseId'],
             ),
           );
         },

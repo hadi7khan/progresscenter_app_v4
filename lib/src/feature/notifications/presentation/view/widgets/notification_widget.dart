@@ -128,10 +128,8 @@ class _NotificationWidgetState extends BaseConsumerState<NotificationWidget> {
         } else if (widget.notificationsData!.type == "LIVELAPSE_GENERATED") {
           context.push("/fullViewlivelapse", extra: {
             "projectId": widget.notificationsData!.details!.projectId,
-            "projectName": widget.notificationsData!.details!.projectName,
             "cameraId": widget.notificationsData!.details!.cameraId,
-            "url": widget.notificationsData!.details!.cameraId,
-            "name": widget.notificationsData!.details!.cameraId,
+            "livelapseId": widget.notificationsData!.details!.livelapseId,
           });
         } else if (widget.notificationsData!.type == "LIVELAPSE_FAILED") {
           context.push('/livelapse', extra: {
