@@ -163,7 +163,7 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
                                     "projectId": widget.projectId,
                                     "projectName": widget.projectName,
                                     "cameraId": widget.cameraId,
-                                    "url": data[index].url!,
+                                    "livelapseId": data[index].id!,
                                     "name": data[index].name!
                                   });
                                 }

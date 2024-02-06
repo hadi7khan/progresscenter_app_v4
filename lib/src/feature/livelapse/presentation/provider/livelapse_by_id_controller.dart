@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/data/repository/livelapse_repo_impl.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/state/livelapse_by_id_state.dart';
@@ -18,6 +20,7 @@ class LivelapseController extends StateNotifier<LivelapseByIdState> {
     state = state.copyWith(isFetching: true);
     final result =
         await service.livelapseById(projectId, cameraId, livelapseId);
+    if (!mounted) return;
 
     result.fold((l) {
       // error handle
@@ -27,6 +30,7 @@ class LivelapseController extends StateNotifier<LivelapseByIdState> {
           state.copyWith(isFetching: false, livelapseById: AsyncValue.data(r));
       value = r;
     });
+    log("controlllereererer" + value.toString());
     return value;
   }
 }

@@ -81,7 +81,6 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
           .read(userProfileControllerProvider.notifier)
           .getUserProfile(widget.userId)
           .then((value) {
-        print("user value" + value.toString());
         selectedIds = value.projects;
         _status = value.status == "ENABLED" ? true : false;
         assignedRole = value.role;
@@ -260,7 +259,6 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    log("id " + widget.userId.toString());
     final projectData = ref.watch(
         projectleanControllerProvider.select((value) => value.projectlean));
     final userData = ref.watch(
