@@ -40,7 +40,16 @@ class _SuperProjectScreenState extends BaseConsumerState<SuperProjectScreen> {
       setState(() {
         projectModel = data;
       });
-      log("data passed superr " + projectModel.toString());
+      if (projectModel!.hasCameras!) {
+        context.pushReplacement('/details', extra: {
+          "projectId": widget.projectId,
+          "projectName": projectModel!.name,
+          "projectImages": projectModel!.images,
+          "projectLocation": projectModel!.location!.name,
+          "projectUsers": projectModel!.users
+        });
+      }
+      log("data passed superr " + projectModel!.hasCameras.toString());
     });
 
     // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {

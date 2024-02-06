@@ -995,6 +995,7 @@ mixin _$Details {
   String? get userId => throw _privateConstructorUsedError;
   dynamic get projectImageFilePath => throw _privateConstructorUsedError;
   String? get invitationId => throw _privateConstructorUsedError;
+  String? get supportTicketId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1030,7 +1031,8 @@ abstract class $DetailsCopyWith<$Res> {
       ProjectLocation? projectLocation,
       String? userId,
       dynamic projectImageFilePath,
-      String? invitationId});
+      String? invitationId,
+      String? supportTicketId});
 
   $ProjectLocationCopyWith<$Res>? get projectLocation;
 }
@@ -1072,6 +1074,7 @@ class _$DetailsCopyWithImpl<$Res, $Val extends Details>
     Object? userId = freezed,
     Object? projectImageFilePath = freezed,
     Object? invitationId = freezed,
+    Object? supportTicketId = freezed,
   }) {
     return _then(_value.copyWith(
       projectId: freezed == projectId
@@ -1170,6 +1173,10 @@ class _$DetailsCopyWithImpl<$Res, $Val extends Details>
           ? _value.invitationId
           : invitationId // ignore: cast_nullable_to_non_nullable
               as String?,
+      supportTicketId: freezed == supportTicketId
+          ? _value.supportTicketId
+          : supportTicketId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -1217,7 +1224,8 @@ abstract class _$$_DetailsCopyWith<$Res> implements $DetailsCopyWith<$Res> {
       ProjectLocation? projectLocation,
       String? userId,
       dynamic projectImageFilePath,
-      String? invitationId});
+      String? invitationId,
+      String? supportTicketId});
 
   @override
   $ProjectLocationCopyWith<$Res>? get projectLocation;
@@ -1257,6 +1265,7 @@ class __$$_DetailsCopyWithImpl<$Res>
     Object? userId = freezed,
     Object? projectImageFilePath = freezed,
     Object? invitationId = freezed,
+    Object? supportTicketId = freezed,
   }) {
     return _then(_$_Details(
       projectId: freezed == projectId
@@ -1355,6 +1364,10 @@ class __$$_DetailsCopyWithImpl<$Res>
           ? _value.invitationId
           : invitationId // ignore: cast_nullable_to_non_nullable
               as String?,
+      supportTicketId: freezed == supportTicketId
+          ? _value.supportTicketId
+          : supportTicketId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -1386,7 +1399,8 @@ class _$_Details implements _Details {
       this.projectLocation,
       this.userId,
       this.projectImageFilePath,
-      this.invitationId});
+      this.invitationId,
+      this.supportTicketId});
 
   factory _$_Details.fromJson(Map<String, dynamic> json) =>
       _$$_DetailsFromJson(json);
@@ -1439,10 +1453,12 @@ class _$_Details implements _Details {
   final dynamic projectImageFilePath;
   @override
   final String? invitationId;
+  @override
+  final String? supportTicketId;
 
   @override
   String toString() {
-    return 'Details(projectId: $projectId, progressLinePostId: $progressLinePostId, cameraId: $cameraId, cameraName: $cameraName, projectName: $projectName, cameraImageName: $cameraImageName, cameraImageCommentId: $cameraImageCommentId, progressLineCommentId: $progressLineCommentId, cameraImageCommentReplyId: $cameraImageCommentReplyId, folderId: $folderId, fileId: $fileId, fileName: $fileName, filePath: $filePath, fileCreatedAt: $fileCreatedAt, filename: $filename, multiImageDownloadId: $multiImageDownloadId, startDate: $startDate, endDate: $endDate, livelapseId: $livelapseId, duration: $duration, projectLocation: $projectLocation, userId: $userId, projectImageFilePath: $projectImageFilePath, invitationId: $invitationId)';
+    return 'Details(projectId: $projectId, progressLinePostId: $progressLinePostId, cameraId: $cameraId, cameraName: $cameraName, projectName: $projectName, cameraImageName: $cameraImageName, cameraImageCommentId: $cameraImageCommentId, progressLineCommentId: $progressLineCommentId, cameraImageCommentReplyId: $cameraImageCommentReplyId, folderId: $folderId, fileId: $fileId, fileName: $fileName, filePath: $filePath, fileCreatedAt: $fileCreatedAt, filename: $filename, multiImageDownloadId: $multiImageDownloadId, startDate: $startDate, endDate: $endDate, livelapseId: $livelapseId, duration: $duration, projectLocation: $projectLocation, userId: $userId, projectImageFilePath: $projectImageFilePath, invitationId: $invitationId, supportTicketId: $supportTicketId)';
   }
 
   @override
@@ -1495,7 +1511,9 @@ class _$_Details implements _Details {
             const DeepCollectionEquality()
                 .equals(other.projectImageFilePath, projectImageFilePath) &&
             (identical(other.invitationId, invitationId) ||
-                other.invitationId == invitationId));
+                other.invitationId == invitationId) &&
+            (identical(other.supportTicketId, supportTicketId) ||
+                other.supportTicketId == supportTicketId));
   }
 
   @JsonKey(ignore: true)
@@ -1525,7 +1543,8 @@ class _$_Details implements _Details {
         projectLocation,
         userId,
         const DeepCollectionEquality().hash(projectImageFilePath),
-        invitationId
+        invitationId,
+        supportTicketId
       ]);
 
   @JsonKey(ignore: true)
@@ -1567,7 +1586,8 @@ abstract class _Details implements Details {
       final ProjectLocation? projectLocation,
       final String? userId,
       final dynamic projectImageFilePath,
-      final String? invitationId}) = _$_Details;
+      final String? invitationId,
+      final String? supportTicketId}) = _$_Details;
 
   factory _Details.fromJson(Map<String, dynamic> json) = _$_Details.fromJson;
 
@@ -1619,6 +1639,8 @@ abstract class _Details implements Details {
   dynamic get projectImageFilePath;
   @override
   String? get invitationId;
+  @override
+  String? get supportTicketId;
   @override
   @JsonKey(ignore: true)
   _$$_DetailsCopyWith<_$_Details> get copyWith =>

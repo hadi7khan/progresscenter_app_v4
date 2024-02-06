@@ -36,11 +36,12 @@ mixin _$CameraByIdModel {
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   EnabledFeatures? get enabledFeatures => throw _privateConstructorUsedError;
-  LatestImage? get latestImage => throw _privateConstructorUsedError;
   Storage? get storage => throw _privateConstructorUsedError;
   List<String>? get enabledFeaturesList => throw _privateConstructorUsedError;
   bool? get hasImages => throw _privateConstructorUsedError;
   String? get cameraByIdModelId => throw _privateConstructorUsedError;
+  String? get startDate => throw _privateConstructorUsedError;
+  String? get endDate => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -71,17 +72,17 @@ abstract class $CameraByIdModelCopyWith<$Res> {
       DateTime? createdAt,
       DateTime? updatedAt,
       EnabledFeatures? enabledFeatures,
-      LatestImage? latestImage,
       Storage? storage,
       List<String>? enabledFeaturesList,
       bool? hasImages,
-      String? cameraByIdModelId});
+      String? cameraByIdModelId,
+      String? startDate,
+      String? endDate});
 
   $CameraByIdModelDetailsCopyWith<$Res>? get details;
   $LocationCopyWith<$Res>? get location;
   $ProjectCopyWith<$Res>? get project;
   $EnabledFeaturesCopyWith<$Res>? get enabledFeatures;
-  $LatestImageCopyWith<$Res>? get latestImage;
   $StorageCopyWith<$Res>? get storage;
 }
 
@@ -114,11 +115,12 @@ class _$CameraByIdModelCopyWithImpl<$Res, $Val extends CameraByIdModel>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? enabledFeatures = freezed,
-    Object? latestImage = freezed,
     Object? storage = freezed,
     Object? enabledFeaturesList = freezed,
     Object? hasImages = freezed,
     Object? cameraByIdModelId = freezed,
+    Object? startDate = freezed,
+    Object? endDate = freezed,
   }) {
     return _then(_value.copyWith(
       details: freezed == details
@@ -185,10 +187,6 @@ class _$CameraByIdModelCopyWithImpl<$Res, $Val extends CameraByIdModel>
           ? _value.enabledFeatures
           : enabledFeatures // ignore: cast_nullable_to_non_nullable
               as EnabledFeatures?,
-      latestImage: freezed == latestImage
-          ? _value.latestImage
-          : latestImage // ignore: cast_nullable_to_non_nullable
-              as LatestImage?,
       storage: freezed == storage
           ? _value.storage
           : storage // ignore: cast_nullable_to_non_nullable
@@ -204,6 +202,14 @@ class _$CameraByIdModelCopyWithImpl<$Res, $Val extends CameraByIdModel>
       cameraByIdModelId: freezed == cameraByIdModelId
           ? _value.cameraByIdModelId
           : cameraByIdModelId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      startDate: freezed == startDate
+          ? _value.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as String?,
+      endDate: freezed == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -258,18 +264,6 @@ class _$CameraByIdModelCopyWithImpl<$Res, $Val extends CameraByIdModel>
 
   @override
   @pragma('vm:prefer-inline')
-  $LatestImageCopyWith<$Res>? get latestImage {
-    if (_value.latestImage == null) {
-      return null;
-    }
-
-    return $LatestImageCopyWith<$Res>(_value.latestImage!, (value) {
-      return _then(_value.copyWith(latestImage: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
   $StorageCopyWith<$Res>? get storage {
     if (_value.storage == null) {
       return null;
@@ -306,11 +300,12 @@ abstract class _$$_CameraByIdModelCopyWith<$Res>
       DateTime? createdAt,
       DateTime? updatedAt,
       EnabledFeatures? enabledFeatures,
-      LatestImage? latestImage,
       Storage? storage,
       List<String>? enabledFeaturesList,
       bool? hasImages,
-      String? cameraByIdModelId});
+      String? cameraByIdModelId,
+      String? startDate,
+      String? endDate});
 
   @override
   $CameraByIdModelDetailsCopyWith<$Res>? get details;
@@ -320,8 +315,6 @@ abstract class _$$_CameraByIdModelCopyWith<$Res>
   $ProjectCopyWith<$Res>? get project;
   @override
   $EnabledFeaturesCopyWith<$Res>? get enabledFeatures;
-  @override
-  $LatestImageCopyWith<$Res>? get latestImage;
   @override
   $StorageCopyWith<$Res>? get storage;
 }
@@ -353,11 +346,12 @@ class __$$_CameraByIdModelCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? enabledFeatures = freezed,
-    Object? latestImage = freezed,
     Object? storage = freezed,
     Object? enabledFeaturesList = freezed,
     Object? hasImages = freezed,
     Object? cameraByIdModelId = freezed,
+    Object? startDate = freezed,
+    Object? endDate = freezed,
   }) {
     return _then(_$_CameraByIdModel(
       details: freezed == details
@@ -424,10 +418,6 @@ class __$$_CameraByIdModelCopyWithImpl<$Res>
           ? _value.enabledFeatures
           : enabledFeatures // ignore: cast_nullable_to_non_nullable
               as EnabledFeatures?,
-      latestImage: freezed == latestImage
-          ? _value.latestImage
-          : latestImage // ignore: cast_nullable_to_non_nullable
-              as LatestImage?,
       storage: freezed == storage
           ? _value.storage
           : storage // ignore: cast_nullable_to_non_nullable
@@ -443,6 +433,14 @@ class __$$_CameraByIdModelCopyWithImpl<$Res>
       cameraByIdModelId: freezed == cameraByIdModelId
           ? _value.cameraByIdModelId
           : cameraByIdModelId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      startDate: freezed == startDate
+          ? _value.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as String?,
+      endDate: freezed == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -468,11 +466,12 @@ class _$_CameraByIdModel implements _CameraByIdModel {
       this.createdAt,
       this.updatedAt,
       this.enabledFeatures,
-      this.latestImage,
       this.storage,
       final List<String>? enabledFeaturesList,
       this.hasImages,
-      this.cameraByIdModelId})
+      this.cameraByIdModelId,
+      this.startDate,
+      this.endDate})
       : _enabledFeaturesList = enabledFeaturesList;
 
   factory _$_CameraByIdModel.fromJson(Map<String, dynamic> json) =>
@@ -511,8 +510,6 @@ class _$_CameraByIdModel implements _CameraByIdModel {
   @override
   final EnabledFeatures? enabledFeatures;
   @override
-  final LatestImage? latestImage;
-  @override
   final Storage? storage;
   final List<String>? _enabledFeaturesList;
   @override
@@ -529,10 +526,14 @@ class _$_CameraByIdModel implements _CameraByIdModel {
   final bool? hasImages;
   @override
   final String? cameraByIdModelId;
+  @override
+  final String? startDate;
+  @override
+  final String? endDate;
 
   @override
   String toString() {
-    return 'CameraByIdModel(details: $details, location: $location, timezone: $timezone, id: $id, name: $name, installationDate: $installationDate, status: $status, lastUpdated: $lastUpdated, orientation: $orientation, pointedTo: $pointedTo, reseller: $reseller, client: $client, project: $project, createdAt: $createdAt, updatedAt: $updatedAt, enabledFeatures: $enabledFeatures, latestImage: $latestImage, storage: $storage, enabledFeaturesList: $enabledFeaturesList, hasImages: $hasImages, cameraByIdModelId: $cameraByIdModelId)';
+    return 'CameraByIdModel(details: $details, location: $location, timezone: $timezone, id: $id, name: $name, installationDate: $installationDate, status: $status, lastUpdated: $lastUpdated, orientation: $orientation, pointedTo: $pointedTo, reseller: $reseller, client: $client, project: $project, createdAt: $createdAt, updatedAt: $updatedAt, enabledFeatures: $enabledFeatures, storage: $storage, enabledFeaturesList: $enabledFeaturesList, hasImages: $hasImages, cameraByIdModelId: $cameraByIdModelId, startDate: $startDate, endDate: $endDate)';
   }
 
   @override
@@ -565,15 +566,16 @@ class _$_CameraByIdModel implements _CameraByIdModel {
                 other.updatedAt == updatedAt) &&
             (identical(other.enabledFeatures, enabledFeatures) ||
                 other.enabledFeatures == enabledFeatures) &&
-            (identical(other.latestImage, latestImage) ||
-                other.latestImage == latestImage) &&
             (identical(other.storage, storage) || other.storage == storage) &&
             const DeepCollectionEquality()
                 .equals(other._enabledFeaturesList, _enabledFeaturesList) &&
             (identical(other.hasImages, hasImages) ||
                 other.hasImages == hasImages) &&
             (identical(other.cameraByIdModelId, cameraByIdModelId) ||
-                other.cameraByIdModelId == cameraByIdModelId));
+                other.cameraByIdModelId == cameraByIdModelId) &&
+            (identical(other.startDate, startDate) ||
+                other.startDate == startDate) &&
+            (identical(other.endDate, endDate) || other.endDate == endDate));
   }
 
   @JsonKey(ignore: true)
@@ -596,11 +598,12 @@ class _$_CameraByIdModel implements _CameraByIdModel {
         createdAt,
         updatedAt,
         enabledFeatures,
-        latestImage,
         storage,
         const DeepCollectionEquality().hash(_enabledFeaturesList),
         hasImages,
-        cameraByIdModelId
+        cameraByIdModelId,
+        startDate,
+        endDate
       ]);
 
   @JsonKey(ignore: true)
@@ -635,11 +638,12 @@ abstract class _CameraByIdModel implements CameraByIdModel {
       final DateTime? createdAt,
       final DateTime? updatedAt,
       final EnabledFeatures? enabledFeatures,
-      final LatestImage? latestImage,
       final Storage? storage,
       final List<String>? enabledFeaturesList,
       final bool? hasImages,
-      final String? cameraByIdModelId}) = _$_CameraByIdModel;
+      final String? cameraByIdModelId,
+      final String? startDate,
+      final String? endDate}) = _$_CameraByIdModel;
 
   factory _CameraByIdModel.fromJson(Map<String, dynamic> json) =
       _$_CameraByIdModel.fromJson;
@@ -677,8 +681,6 @@ abstract class _CameraByIdModel implements CameraByIdModel {
   @override
   EnabledFeatures? get enabledFeatures;
   @override
-  LatestImage? get latestImage;
-  @override
   Storage? get storage;
   @override
   List<String>? get enabledFeaturesList;
@@ -686,6 +688,10 @@ abstract class _CameraByIdModel implements CameraByIdModel {
   bool? get hasImages;
   @override
   String? get cameraByIdModelId;
+  @override
+  String? get startDate;
+  @override
+  String? get endDate;
   @override
   @JsonKey(ignore: true)
   _$$_CameraByIdModelCopyWith<_$_CameraByIdModel> get copyWith =>
@@ -1166,288 +1172,6 @@ abstract class _Ai implements Ai {
   @override
   @JsonKey(ignore: true)
   _$$_AiCopyWith<_$_Ai> get copyWith => throw _privateConstructorUsedError;
-}
-
-LatestImage _$LatestImageFromJson(Map<String, dynamic> json) {
-  return _LatestImage.fromJson(json);
-}
-
-/// @nodoc
-mixin _$LatestImage {
-  Resolution? get resolution => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
-  String? get date => throw _privateConstructorUsedError;
-  String? get time => throw _privateConstructorUsedError;
-  String? get datetime => throw _privateConstructorUsedError;
-  DateTime? get createdAt => throw _privateConstructorUsedError;
-  DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $LatestImageCopyWith<LatestImage> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $LatestImageCopyWith<$Res> {
-  factory $LatestImageCopyWith(
-          LatestImage value, $Res Function(LatestImage) then) =
-      _$LatestImageCopyWithImpl<$Res, LatestImage>;
-  @useResult
-  $Res call(
-      {Resolution? resolution,
-      String? name,
-      String? date,
-      String? time,
-      String? datetime,
-      DateTime? createdAt,
-      DateTime? updatedAt});
-
-  $ResolutionCopyWith<$Res>? get resolution;
-}
-
-/// @nodoc
-class _$LatestImageCopyWithImpl<$Res, $Val extends LatestImage>
-    implements $LatestImageCopyWith<$Res> {
-  _$LatestImageCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? resolution = freezed,
-    Object? name = freezed,
-    Object? date = freezed,
-    Object? time = freezed,
-    Object? datetime = freezed,
-    Object? createdAt = freezed,
-    Object? updatedAt = freezed,
-  }) {
-    return _then(_value.copyWith(
-      resolution: freezed == resolution
-          ? _value.resolution
-          : resolution // ignore: cast_nullable_to_non_nullable
-              as Resolution?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      date: freezed == date
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as String?,
-      time: freezed == time
-          ? _value.time
-          : time // ignore: cast_nullable_to_non_nullable
-              as String?,
-      datetime: freezed == datetime
-          ? _value.datetime
-          : datetime // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-    ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $ResolutionCopyWith<$Res>? get resolution {
-    if (_value.resolution == null) {
-      return null;
-    }
-
-    return $ResolutionCopyWith<$Res>(_value.resolution!, (value) {
-      return _then(_value.copyWith(resolution: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$_LatestImageCopyWith<$Res>
-    implements $LatestImageCopyWith<$Res> {
-  factory _$$_LatestImageCopyWith(
-          _$_LatestImage value, $Res Function(_$_LatestImage) then) =
-      __$$_LatestImageCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {Resolution? resolution,
-      String? name,
-      String? date,
-      String? time,
-      String? datetime,
-      DateTime? createdAt,
-      DateTime? updatedAt});
-
-  @override
-  $ResolutionCopyWith<$Res>? get resolution;
-}
-
-/// @nodoc
-class __$$_LatestImageCopyWithImpl<$Res>
-    extends _$LatestImageCopyWithImpl<$Res, _$_LatestImage>
-    implements _$$_LatestImageCopyWith<$Res> {
-  __$$_LatestImageCopyWithImpl(
-      _$_LatestImage _value, $Res Function(_$_LatestImage) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? resolution = freezed,
-    Object? name = freezed,
-    Object? date = freezed,
-    Object? time = freezed,
-    Object? datetime = freezed,
-    Object? createdAt = freezed,
-    Object? updatedAt = freezed,
-  }) {
-    return _then(_$_LatestImage(
-      resolution: freezed == resolution
-          ? _value.resolution
-          : resolution // ignore: cast_nullable_to_non_nullable
-              as Resolution?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      date: freezed == date
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as String?,
-      time: freezed == time
-          ? _value.time
-          : time // ignore: cast_nullable_to_non_nullable
-              as String?,
-      datetime: freezed == datetime
-          ? _value.datetime
-          : datetime // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$_LatestImage implements _LatestImage {
-  const _$_LatestImage(
-      {this.resolution,
-      this.name,
-      this.date,
-      this.time,
-      this.datetime,
-      this.createdAt,
-      this.updatedAt});
-
-  factory _$_LatestImage.fromJson(Map<String, dynamic> json) =>
-      _$$_LatestImageFromJson(json);
-
-  @override
-  final Resolution? resolution;
-  @override
-  final String? name;
-  @override
-  final String? date;
-  @override
-  final String? time;
-  @override
-  final String? datetime;
-  @override
-  final DateTime? createdAt;
-  @override
-  final DateTime? updatedAt;
-
-  @override
-  String toString() {
-    return 'LatestImage(resolution: $resolution, name: $name, date: $date, time: $time, datetime: $datetime, createdAt: $createdAt, updatedAt: $updatedAt)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_LatestImage &&
-            (identical(other.resolution, resolution) ||
-                other.resolution == resolution) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.date, date) || other.date == date) &&
-            (identical(other.time, time) || other.time == time) &&
-            (identical(other.datetime, datetime) ||
-                other.datetime == datetime) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
-            (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, resolution, name, date, time,
-      datetime, createdAt, updatedAt);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$_LatestImageCopyWith<_$_LatestImage> get copyWith =>
-      __$$_LatestImageCopyWithImpl<_$_LatestImage>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_LatestImageToJson(
-      this,
-    );
-  }
-}
-
-abstract class _LatestImage implements LatestImage {
-  const factory _LatestImage(
-      {final Resolution? resolution,
-      final String? name,
-      final String? date,
-      final String? time,
-      final String? datetime,
-      final DateTime? createdAt,
-      final DateTime? updatedAt}) = _$_LatestImage;
-
-  factory _LatestImage.fromJson(Map<String, dynamic> json) =
-      _$_LatestImage.fromJson;
-
-  @override
-  Resolution? get resolution;
-  @override
-  String? get name;
-  @override
-  String? get date;
-  @override
-  String? get time;
-  @override
-  String? get datetime;
-  @override
-  DateTime? get createdAt;
-  @override
-  DateTime? get updatedAt;
-  @override
-  @JsonKey(ignore: true)
-  _$$_LatestImageCopyWith<_$_LatestImage> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 Resolution _$ResolutionFromJson(Map<String, dynamic> json) {

@@ -93,6 +93,7 @@ class Details with _$Details {
     String? userId,
     dynamic projectImageFilePath,
     String? invitationId,
+    String? supportTicketId,
   }) = _Details;
 
   factory Details.fromJson(Map<String, dynamic> json) =>

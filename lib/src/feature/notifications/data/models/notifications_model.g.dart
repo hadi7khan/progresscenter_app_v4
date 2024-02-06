@@ -123,6 +123,7 @@ _$_Details _$$_DetailsFromJson(Map<String, dynamic> json) => _$_Details(
       userId: json['userId'] as String?,
       projectImageFilePath: json['projectImageFilePath'],
       invitationId: json['invitationId'] as String?,
+      supportTicketId: json['supportTicketId'] as String?,
     );
 
 Map<String, dynamic> _$$_DetailsToJson(_$_Details instance) =>
@@ -151,6 +152,7 @@ Map<String, dynamic> _$$_DetailsToJson(_$_Details instance) =>
       'userId': instance.userId,
       'projectImageFilePath': instance.projectImageFilePath,
       'invitationId': instance.invitationId,
+      'supportTicketId': instance.supportTicketId,
     };
 
 _$_ProjectLocation _$$_ProjectLocationFromJson(Map<String, dynamic> json) =>

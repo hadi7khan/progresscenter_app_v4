@@ -252,6 +252,10 @@ class Endpoints {
     return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/live-lapses/advanced';
   }
 
+  static livelapseByIdUrl(projectId, cameraId, livelapseId) {
+    return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/live-lapses/$livelapseId';
+  }
+
   //---------------------------- Progress Slider ---------------------------------------
 
   static progressSliderUrl(projectId, cameraId) {
@@ -261,7 +265,7 @@ class Endpoints {
   //---------------------------- Notifications ---------------------------------------
 
   static notificationsListUrl(int page) {
-    return '$baseUrl/api/v4/notifications/?offset=$page&limit=20';
+    return '$baseUrl/api/v4/notifications/?offset=$page&limit=50';
   }
 
   // receiveTimeout
