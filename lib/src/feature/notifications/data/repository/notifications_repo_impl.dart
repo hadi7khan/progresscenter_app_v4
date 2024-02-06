@@ -23,9 +23,10 @@ class NotificationsRepositoryImpl implements NotificationsRepository {
   });
 
   @override
-  Future<Either<Failure, NotificationsModel>> notificationsList() async {
+  Future<Either<Failure, NotificationsModel>> notificationsList(
+      int page) async {
     try {
-      final result = await livelapseDataSource.notificationsList();
+      final result = await livelapseDataSource.notificationsList(page);
       return Right((NotificationsModel.fromJson(result)));
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);

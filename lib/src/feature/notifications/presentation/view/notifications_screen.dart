@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -9,7 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'dart:developer';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
-import 'package:progresscenter_app_v4/src/common/skeletons/loading_team_list.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/loading_notifications.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/notifications/presentation/provider/notifications_controller.dart';
@@ -27,17 +26,41 @@ class NotificationsScreen extends ConsumerStatefulWidget {
 
 class _NotificationsScreenState extends BaseConsumerState<NotificationsScreen> {
   List<model.Notification> groupedNotifications = [];
+  final ScrollController _scrollController = ScrollController();
+  int page = 0;
+  int count = 0;
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref
           .read(notificationsControllerProvider.notifier)
-          .getNotifications()
+          .getNotifications(page)
           .then((value) {
-        groupedNotifications = value.notifications;
-        log("groupedReplies-----" + groupedNotifications.toString());
+        groupedNotifications = value.notifications.toList();
+        count = value.count;
+        log("count-----" + count.toString());
+        log("length-----" + groupedNotifications.length.toString());
       });
+    });
+    _scrollController.addListener(() {
+      final maxScrollExtent = _scrollController.position.maxScrollExtent;
+      final currentScroll = _scrollController.position.pixels;
+      final bottom = 16.h;
+      if (_scrollController.position.pixels == maxScrollExtent) {
+        if (groupedNotifications.length <= count) {
+          log("controller");
+          page++;
+          log(page.toString());
+          ref
+              .read(notificationsControllerProvider.notifier)
+              .getNotifications(page)
+              .then((value) {
+            groupedNotifications.addAll(value.notifications);
+            log("length-----" + groupedNotifications.length.toString());
+          });
+        }
+      }
     });
   }
 
@@ -118,71 +141,68 @@ class _NotificationsScreenState extends BaseConsumerState<NotificationsScreen> {
           HapticFeedback.mediumImpact();
           return await ref
               .refresh(notificationsControllerProvider.notifier)
-              .getNotifications();
+              .getNotifications(page);
         },
-        child: SingleChildScrollView(
-          child: notificationsData.when(
-            data: (data) {
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-                child: Column(
-                  children: [
-                    ListView.separated(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: ((context, index) {
-                        final date = notificationData[index]['date'];
-                        final notifications =
-                            notificationData[index]['notifications'];
-                        print("replies--------" + notifications.toString());
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Text(
-                              date,
-                              style: TextStyle(
-                                  letterSpacing: -0.3,
-                                  fontSize: 12,
-                                  color: Helper.textColor500,
-                                  fontWeight: FontWeight.w600),
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBox(height: 10.h),
-                            Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 16.h, horizontal: 16.w),
-                                decoration: BoxDecoration(
-                                    color: Helper.widgetBackground,
-                                    borderRadius: BorderRadius.circular(16.r)),
-                                child: Wrap(
-                                  children: [
-                                    for (var noti in notifications)
-                                      NotificationWidget(
-                                          notificationsData: noti),
-                                  ],
-                                )),
-                          ],
-                        );
-                      }),
-                      separatorBuilder: (context, index) {
-                        return SizedBox(
-                          height: 20.h,
-                        );
-                      },
-                      itemCount: notificationData.length,
-                    )
-                  ],
+        child: notificationsData.when(
+          data: (data) {
+            return Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 20.w,
+              ),
+              child: Expanded(
+                child: ListView.separated(
+                  physics: ScrollPhysics(),
+                  shrinkWrap: true,
+                  controller: _scrollController,
+                  itemBuilder: ((context, index) {
+                    final date = notificationData[index]['date'];
+                    final notifications =
+                        notificationData[index]['notifications'];
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text(
+                          date,
+                          style: TextStyle(
+                              letterSpacing: -0.3,
+                              fontSize: 12,
+                              color: Helper.textColor500,
+                              fontWeight: FontWeight.w600),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 10.h),
+                        Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 16.h, horizontal: 16.w),
+                            decoration: BoxDecoration(
+                                color: Helper.widgetBackground,
+                                borderRadius: BorderRadius.circular(16.r)),
+                            child: Wrap(
+                              children: [
+                                for (var noti in notifications)
+                                  NotificationWidget(notificationsData: noti),
+                              ],
+                            )),
+                      ],
+                    );
+                  }),
+                  separatorBuilder: (context, index) {
+                    return SizedBox(
+                      height: 20.h,
+                    );
+                  },
+                  itemCount: notificationData.length,
                 ),
-              );
-            },
-            error: (err, _) {
-              return const Text("Failed to load teams",
-                  style:
-                      TextStyle(letterSpacing: -0.3, color: Helper.errorColor));
-            },
-            loading: () => LoadingTeamList(),
-          ),
+              ),
+            );
+          },
+          error: (err, _) {
+            return const Text("Failed to load teams",
+                style:
+                    TextStyle(letterSpacing: -0.3, color: Helper.errorColor));
+          },
+          loading: () => LoadingNotification(),
         ),
       )),
     );

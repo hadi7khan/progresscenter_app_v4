@@ -14,10 +14,10 @@ class NotificationsController extends StateNotifier<NotificationsState> {
   NotificationsController(super.state, this.service);
   final NotificationsRepositoryImpl service;
 
-  Future getNotifications() async {
+  Future getNotifications(int page) async {
     var value;
     state = state.copyWith(isFetching: true);
-    final result = await service.notificationsList();
+    final result = await service.notificationsList(page);
 
     result.fold((l) {
       // error handle

@@ -260,8 +260,8 @@ class Endpoints {
 
   //---------------------------- Notifications ---------------------------------------
 
-  static notificationsListUrl() {
-    return '$baseUrl/api/v4/notifications/?offset=0&limit=20';
+  static notificationsListUrl(int page) {
+    return '$baseUrl/api/v4/notifications/?offset=$page&limit=20';
   }
 
   // receiveTimeout
