@@ -1,12 +1,12 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/src/either.dart';
 import 'package:progresscenter_app_v4/src/core/network/dio_exception.dart';
 import 'package:progresscenter_app_v4/src/core/network/failure.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/data/datasource/livelapse_datasource.dart';
+import 'package:progresscenter_app_v4/src/feature/livelapse/data/model/livelapse_by_id_model.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/data/model/livelapse_model.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/domain/livelapse_repository.dart';
 
@@ -39,11 +39,13 @@ class LivelapseRepositoryImpl implements LivelapseRepository {
       return const Left(ConnectionFailure('Failed to connect to the network'));
     }
   }
-  
+
   @override
-  Future<Either<Failure, dynamic>> createBasicLivelapse(String projectId, String cameraId, data) async{
+  Future<Either<Failure, dynamic>> createBasicLivelapse(
+      String projectId, String cameraId, data) async {
     try {
-      final result = await livelapseDataSource.createBasicLivelapse(projectId, cameraId, data);
+      final result = await livelapseDataSource.createBasicLivelapse(
+          projectId, cameraId, data);
       print("result: " + result.toString());
       return Right(result);
     } on DioError catch (e) {
@@ -54,13 +56,31 @@ class LivelapseRepositoryImpl implements LivelapseRepository {
       return const Left(ConnectionFailure('Failed to connect to the network'));
     }
   }
-  
+
   @override
-  Future<Either<Failure, dynamic>> createAdvancedLivelapse(String projectId, String cameraId, data) async{
+  Future<Either<Failure, dynamic>> createAdvancedLivelapse(
+      String projectId, String cameraId, data) async {
     try {
-      final result = await livelapseDataSource.createAdvancedLivelapse(projectId, cameraId, data);
+      final result = await livelapseDataSource.createAdvancedLivelapse(
+          projectId, cameraId, data);
       print("result: " + result.toString());
       return Right(result);
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e);
+      print(errorMessage.toString());
+      rethrow;
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, LivelapseByIdModel>> livelapseById(
+      String projectId, String cameraId, String livelapseId) async {
+    try {
+      final result = await livelapseDataSource.livelapseById(
+          projectId, cameraId, livelapseId);
+      return Right((LivelapseByIdModel.fromJson(result)));
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
       print(errorMessage.toString());

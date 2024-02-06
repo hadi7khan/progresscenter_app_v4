@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
@@ -101,94 +102,96 @@ class _NotificationWidgetState extends BaseConsumerState<NotificationWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // AvatarWidget(
-              //   dpUrl: widget.notificationsData!.createdBy!.dp != null
-              //       ? widget.notificationsData!.createdBy!.dpUrl!
-              //       : "",
-              //   name: widget.notificationsData!.createdBy!.name!,
-              //   backgroundColor:
-              //       widget.notificationsData!.createdBy!.preset!.color!,
-              //   size: 32,
-              // ),
-              _buildAvatarWidget(),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.6,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    RichText(
-                      text: _buildTextSpan(widget.notificationsData!.message!),
-                    ),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-                    Text(
-                      formatDate(widget.notificationsData!.createdAt!),
-                      maxLines: 5,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Helper.textColor500,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w400),
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    _buildFooter(),
-                  ],
+    return InkWell(
+      onTap: () {
+        if (widget.notificationsData!.type == "USER_CREATED" ||
+            widget.notificationsData!.type == "USER_INVITATION_ACCEPTED") {
+          context.push('/userProfile',
+              extra: {"userId": widget.notificationsData!.details!.userId});
+        } else if (widget.notificationsData!.type == "PROJECT_ACCESS_GRANTED" ||
+            widget.notificationsData!.type == "PROJECT_CREATED") {
+          context.push(
+              '/superProject/${widget.notificationsData!.details!.projectId}',
+              extra: {
+                "projectId": widget.notificationsData!.details!.projectId,
+              });
+        } else if (widget.notificationsData!.type == "SUPPORT_TICKET_REPLIED") {
+          context.push('/ticketById', extra: {
+            "ticketId": widget.notificationsData!.details!.supportTicketId
+          });
+        } else if (widget.notificationsData!.type == "CAMERA_CREATED") {
+          context.push('/cameradetails', extra: {
+            "projectId": widget.notificationsData!.details!.projectId,
+            "projectName": widget.notificationsData!.details!.projectName,
+            "cameraId": widget.notificationsData!.details!.cameraId,
+          });
+        } else if (widget.notificationsData!.type == "LIVELAPSE_GENERATED") {
+          context.push("/fullViewlivelapse", extra: {
+            "projectId": widget.notificationsData!.details!.projectId,
+            "projectName": widget.notificationsData!.details!.projectName,
+            "cameraId": widget.notificationsData!.details!.cameraId,
+            "url": widget.notificationsData!.details!.cameraId,
+            "name": widget.notificationsData!.details!.cameraId,
+          });
+        } else if (widget.notificationsData!.type == "LIVELAPSE_FAILED") {
+          context.push('/livelapse', extra: {
+            "projectId": widget.notificationsData!.details!.projectId,
+            "projectName": widget.notificationsData!.details!.projectName,
+            "cameraId": widget.notificationsData!.details!.cameraId,
+          });
+        }
+      },
+      child: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildAvatarWidget(),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RichText(
+                        text:
+                            _buildTextSpan(widget.notificationsData!.message!),
+                      ),
+                      SizedBox(
+                        height: 5.h,
+                      ),
+                      Text(
+                        formatDate(widget.notificationsData!.createdAt!),
+                        maxLines: 5,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            letterSpacing: -0.3,
+                            color: Helper.textColor500,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      _buildFooter(),
+                    ],
+                  ),
                 ),
-              ),
-              Icon(
-                Icons.circle,
-                color: Helper.successColor,
-                size: 8,
-              )
-            ],
-          ),
-
-          Divider(
-            thickness: 1,
-            color: Helper.baseBlack.withOpacity(0.06),
-          )
-
-          // ListTile(
-          //   dense: true,
-          //   contentPadding: EdgeInsets.zero,
-          //   horizontalTitleGap: 8.w,
-          //   leading: AvatarWidget(
-          //     dpUrl:
-          //         "https://www.kasandbox.org/programming-images/avatars/spunky-sam.png",
-          //     name: "hadi",
-          //     backgroundColor: "",
-          //     size: 24,
-          //   ),
-          //   title: Text(
-          //     "Yafer Nazir",
-          //     style: TextStyle(
-          //         letterSpacing: -0.3,
-          //         color: Helper.textColor700,
-          //         fontSize: 14.sp,
-          //         fontWeight: FontWeight.w500),
-          //   ),
-          //   trailing: Text(
-          //     "Replied to your comment in Uncool Project - CCTV Camera ",
-          //     style: TextStyle(
-          //         letterSpacing: -0.3,
-          //         color: Helper.textColor600,
-          //         fontSize: 14.sp,
-          //         fontWeight: FontWeight.w400),
-          //   ),
-          // ),
-        ],
+                Icon(
+                  Icons.circle,
+                  color: Helper.successColor,
+                  size: 8,
+                )
+              ],
+            ),
+            Divider(
+              thickness: 1,
+              color: Helper.baseBlack.withOpacity(0.06),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -29,11 +29,12 @@ class CameraByIdModel with _$CameraByIdModel {
     DateTime? createdAt,
     DateTime? updatedAt,
     EnabledFeatures? enabledFeatures,
-    LatestImage? latestImage,
     Storage? storage,
     List<String>? enabledFeaturesList,
     bool? hasImages,
     String? cameraByIdModelId,
+    String? startDate,
+    String? endDate,
   }) = _CameraByIdModel;
 
   factory CameraByIdModel.fromJson(Map<String, dynamic> json) =>
@@ -70,22 +71,6 @@ class Ai with _$Ai {
   }) = _Ai;
 
   factory Ai.fromJson(Map<String, dynamic> json) => _$AiFromJson(json);
-}
-
-@freezed
-class LatestImage with _$LatestImage {
-  const factory LatestImage({
-    Resolution? resolution,
-    String? name,
-    String? date,
-    String? time,
-    String? datetime,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-  }) = _LatestImage;
-
-  factory LatestImage.fromJson(Map<String, dynamic> json) =>
-      _$LatestImageFromJson(json);
 }
 
 @freezed

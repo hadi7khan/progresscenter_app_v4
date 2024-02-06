@@ -13,6 +13,7 @@ abstract class LivelapseDataSource {
   Future livelapseList(String projectId, String cameraId);
   Future createBasicLivelapse(String projectId, String cameraId, data);
   Future createAdvancedLivelapse(String projectId, String cameraId, data);
+  Future livelapseById(String projectId, String cameraId, String livelapseId);
 }
 
 class LivelapseDataSourceImpl implements LivelapseDataSource {
@@ -34,8 +35,9 @@ class LivelapseDataSourceImpl implements LivelapseDataSource {
 
   @override
   Future createBasicLivelapse(String projectId, String cameraId, data) async {
-    final response = await dioClient
-        .post(Endpoints.createBasicLivelapseUrl(projectId, cameraId), data: data);
+    final response = await dioClient.post(
+        Endpoints.createBasicLivelapseUrl(projectId, cameraId),
+        data: data);
     if (response.statusCode == 200) {
       return response.data;
     } else {
@@ -44,9 +46,23 @@ class LivelapseDataSourceImpl implements LivelapseDataSource {
   }
 
   @override
-  Future createAdvancedLivelapse(String projectId, String cameraId, data) async {
+  Future createAdvancedLivelapse(
+      String projectId, String cameraId, data) async {
+    final response = await dioClient.post(
+        Endpoints.createAdvancedLivelapseUrl(projectId, cameraId),
+        data: data);
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      return ServerException();
+    }
+  }
+
+  @override
+  Future livelapseById(
+      String projectId, String cameraId, String livelapseId) async {
     final response = await dioClient
-        .post(Endpoints.createAdvancedLivelapseUrl(projectId, cameraId), data: data);
+        .get(Endpoints.livelapseByIdUrl(projectId, cameraId, livelapseId));
     if (response.statusCode == 200) {
       return response.data;
     } else {

@@ -40,9 +40,6 @@ _$_CameraByIdModel _$$_CameraByIdModelFromJson(Map<String, dynamic> json) =>
           ? null
           : EnabledFeatures.fromJson(
               json['enabledFeatures'] as Map<String, dynamic>),
-      latestImage: json['latestImage'] == null
-          ? null
-          : LatestImage.fromJson(json['latestImage'] as Map<String, dynamic>),
       storage: json['storage'] == null
           ? null
           : Storage.fromJson(json['storage'] as Map<String, dynamic>),
@@ -51,6 +48,8 @@ _$_CameraByIdModel _$$_CameraByIdModelFromJson(Map<String, dynamic> json) =>
           .toList(),
       hasImages: json['hasImages'] as bool?,
       cameraByIdModelId: json['cameraByIdModelId'] as String?,
+      startDate: json['startDate'] as String?,
+      endDate: json['endDate'] as String?,
     );
 
 Map<String, dynamic> _$$_CameraByIdModelToJson(_$_CameraByIdModel instance) =>
@@ -71,11 +70,12 @@ Map<String, dynamic> _$$_CameraByIdModelToJson(_$_CameraByIdModel instance) =>
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
       'enabledFeatures': instance.enabledFeatures,
-      'latestImage': instance.latestImage,
       'storage': instance.storage,
       'enabledFeaturesList': instance.enabledFeaturesList,
       'hasImages': instance.hasImages,
       'cameraByIdModelId': instance.cameraByIdModelId,
+      'startDate': instance.startDate,
+      'endDate': instance.endDate,
     };
 
 _$_CameraByIdModelDetails _$$_CameraByIdModelDetailsFromJson(
@@ -114,34 +114,6 @@ _$_Ai _$$_AiFromJson(Map<String, dynamic> json) => _$_Ai(
 
 Map<String, dynamic> _$$_AiToJson(_$_Ai instance) => <String, dynamic>{
       'id': instance.id,
-    };
-
-_$_LatestImage _$$_LatestImageFromJson(Map<String, dynamic> json) =>
-    _$_LatestImage(
-      resolution: json['resolution'] == null
-          ? null
-          : Resolution.fromJson(json['resolution'] as Map<String, dynamic>),
-      name: json['name'] as String?,
-      date: json['date'] as String?,
-      time: json['time'] as String?,
-      datetime: json['datetime'] as String?,
-      createdAt: json['createdAt'] == null
-          ? null
-          : DateTime.parse(json['createdAt'] as String),
-      updatedAt: json['updatedAt'] == null
-          ? null
-          : DateTime.parse(json['updatedAt'] as String),
-    );
-
-Map<String, dynamic> _$$_LatestImageToJson(_$_LatestImage instance) =>
-    <String, dynamic>{
-      'resolution': instance.resolution,
-      'name': instance.name,
-      'date': instance.date,
-      'time': instance.time,
-      'datetime': instance.datetime,
-      'createdAt': instance.createdAt?.toIso8601String(),
-      'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
 _$_Resolution _$$_ResolutionFromJson(Map<String, dynamic> json) =>

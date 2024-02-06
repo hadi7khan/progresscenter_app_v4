@@ -55,3 +55,4 @@ const String organisationUrlRoute = 'organisationUrl';
 const String notificationsRoute = 'notifications';
 
 const String noInternetRoute = 'noInternet';
+const String pageNotFoundRoute = 'pageNotFound';

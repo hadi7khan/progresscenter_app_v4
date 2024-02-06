@@ -1,5 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:progresscenter_app_v4/src/core/network/failure.dart';
+import 'package:progresscenter_app_v4/src/feature/livelapse/data/model/livelapse_by_id_model.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/data/model/livelapse_model.dart';
 
 abstract class LivelapseRepository {
@@ -9,4 +10,6 @@ abstract class LivelapseRepository {
       String projectId, String cameraId, data);
   Future<Either<Failure, dynamic>> createAdvancedLivelapse(
       String projectId, String cameraId, data);
+  Future<Either<Failure, LivelapseByIdModel>> livelapseById(
+      String projectId, String cameraId, String livelapseId);
 }

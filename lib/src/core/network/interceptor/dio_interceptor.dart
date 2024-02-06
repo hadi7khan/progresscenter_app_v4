@@ -30,15 +30,11 @@ class DioInterceptor extends Interceptor {
   void onError(DioError err, ErrorInterceptorHandler handler) {
     log("Error[${err.response?.statusCode}] => PATH: ${err.requestOptions.path}");
     if (err.response?.statusCode == 401) {
-      log("logout");
       _prefsLocator.logout();
       context!.go('/signin');
-      // rootNavigatorKey.currentState?.push("/signin"
-      // MaterialPageRoute<void>(
-      //   builder: (BuildContext context) => const SignInScreen(),
-      // ),
-
-      // );
+    }
+    if (err.response?.statusCode == 404) {
+      context!.push('/pageNotFound');
     }
     super.onError(err, handler);
   }

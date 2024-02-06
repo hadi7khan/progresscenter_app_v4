@@ -82,7 +82,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     //     (_) => Scrollable.ensureVisible(dataKey.currentContext!));
     controller = TransformationController();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Timer(Duration(seconds: 1), () {
+      Timer(Duration(seconds: 2), () {
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent,
           duration: Duration(milliseconds: 500),
@@ -310,7 +310,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                     projectId: widget.projectId,
                                     cameraId: widget.cameraId,
                                     startDate: cameraData.installationDate!,
-                                    endDate: cameraData.latestImage!.date!,
+                                    endDate: cameraData.endDate!,
                                     imageName: currentImage!.name!,
                                     imageUrl: currentImage.urlPreview!,
                                   ));
