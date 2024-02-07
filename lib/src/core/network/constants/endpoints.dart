@@ -238,6 +238,10 @@ class Endpoints {
     return '$baseUrl/api/v4/progress-line/$progressLineId/comments';
   }
 
+  static progresslineByIdUrl(progresslineId, projectId) {
+    return '$baseUrl/api/v4/progress-line/$progresslineId/projects/$projectId';
+  }
+
   //---------------------------- Livelapse ---------------------------------------
 
   static livelapseListUrl(projectId, cameraId) {

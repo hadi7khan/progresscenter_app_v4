@@ -7,4 +7,6 @@ abstract class ProgresslineRepository {
   Future<Either<Failure, List<ProgressLineModel>>> progressLine(projectId);
   Future<Either<Failure, dynamic>> postComment(String id, data);
   Future<Either<Failure, List<CommentsModel>>> comments(String id);
+  Future<Either<Failure, ProgressLineModel>> progresslineById(
+      progresslineId, projectId);
 }

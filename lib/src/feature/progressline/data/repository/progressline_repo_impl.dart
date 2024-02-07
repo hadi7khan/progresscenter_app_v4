@@ -24,7 +24,8 @@ class ProgresslineRepositoryImpl implements ProgresslineRepository {
   });
 
   @override
-  Future<Either<Failure, List<ProgressLineModel>>> progressLine(projectId) async {
+  Future<Either<Failure, List<ProgressLineModel>>> progressLine(
+      projectId) async {
     try {
       final result = await progresslineDataSource.progressLine(projectId);
       return Right(
@@ -59,6 +60,22 @@ class ProgresslineRepositoryImpl implements ProgresslineRepository {
       final result = await progresslineDataSource.comments(id);
       return Right(
           (result as List).map((e) => CommentsModel.fromJson(e)).toList());
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e);
+      print(errorMessage.toString());
+      rethrow;
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ProgressLineModel>> progresslineById(
+      progresslineId, projectId) async {
+    try {
+      final result = await progresslineDataSource.progresslineById(
+          progresslineId, projectId);
+      return Right((ProgressLineModel.fromJson(result)));
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
       print(errorMessage.toString());

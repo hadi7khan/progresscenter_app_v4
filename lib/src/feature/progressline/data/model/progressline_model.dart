@@ -52,9 +52,9 @@ class User with _$User {
     required Preset preset,
     @JsonKey(name: '_id') required String userId,
     required String name,
-    required String? dp,
+    @Default("") String? dp,
     String? designation,
-    required String? dpUrl,
+    @Default("") String? dpUrl,
     String? role,
     DateTime? lastActive,
   }) = _User;

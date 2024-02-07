@@ -35,7 +35,7 @@ import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/cr
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/fullview_livelapse.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/livelapse_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/notifications/presentation/view/notifications_screen.dart';
-import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/timeline_details_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/progressline_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/progressline_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_by_id_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
@@ -123,14 +123,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                   child: ProjectsScreen(
                       label: 'Projects', detailsPath: '/projects/details'),
                 ),
-                routes: [
-                  // GoRoute(
-                  //     path: 'details',
-                  //     builder: (context, state) {
-                  //       Map<String, dynamic> args = state.extra as Map<String, dynamic>;
-                  //       return ProjectDetailsScreen(label: 'details', projectId: args['projectId'], projectName: args['projectName'],);
-                  //     }),
-                ],
               ),
             ],
           ),
@@ -144,13 +136,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                   child: ProgresslineScreen(
                       label: 'Timeline', detailsPath: '/timeline/details'),
                 ),
-                routes: [
-                  GoRoute(
-                    path: 'details',
-                    builder: (context, state) =>
-                        const TimelineDetailsScreen(label: 'details'),
-                  ),
-                ],
               ),
             ],
           ),
@@ -164,13 +149,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                   child:
                       DocsScreen(label: 'Teams', detailsPath: '/docs/details'),
                 ),
-                routes: [
-                  GoRoute(
-                    path: 'details',
-                    builder: (context, state) =>
-                        const TimelineDetailsScreen(label: 'details'),
-                  ),
-                ],
               ),
             ],
           ),
@@ -184,7 +162,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                   child: TeamsScreen(
                       label: 'Teams', detailsPath: '/teams/details'),
                 ),
-                routes: [],
               ),
             ],
           ),
@@ -197,7 +174,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 pageBuilder: (context, state) => const NoTransitionPage(
                   child: AccountScreen(),
                 ),
-                routes: [],
               ),
             ],
           ),
@@ -953,6 +929,24 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             key: state.pageKey,
             child: OrganisationUrlScreen(
               key: state.pageKey,
+            ),
+          );
+        },
+      ),
+
+      GoRoute(
+        path: '/progresslineById',
+        parentNavigatorKey: rootNavigatorKey,
+        name: progresslineByIdRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: ProgresslineDetailsScreen(
+              key: state.pageKey,
+              projectId: args['projectId'],
+              progressLinePostId: args['progressLinePostId'],
+              commentId: args['commentId'],
             ),
           );
         },

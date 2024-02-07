@@ -146,7 +146,7 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                 topRight: Radius.circular(16.r)),
             color: Colors.white,
           ),
-          // height: MediaQuery.of(context).size.height * 0.6,
+          height: MediaQuery.of(context).size.height * 0.6,
           width: MediaQuery.of(context).size.width,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -855,9 +855,9 @@ class _$_User implements _User {
       {required this.preset,
       @JsonKey(name: '_id') required this.userId,
       required this.name,
-      required this.dp,
+      this.dp = "",
       this.designation,
-      required this.dpUrl,
+      this.dpUrl = "",
       this.role,
       this.lastActive});
 
@@ -871,10 +871,12 @@ class _$_User implements _User {
   @override
   final String name;
   @override
+  @JsonKey()
   final String? dp;
   @override
   final String? designation;
   @override
+  @JsonKey()
   final String? dpUrl;
   @override
   final String? role;
@@ -927,9 +929,9 @@ abstract class _User implements User {
       {required final Preset preset,
       @JsonKey(name: '_id') required final String userId,
       required final String name,
-      required final String? dp,
+      final String? dp,
       final String? designation,
-      required final String? dpUrl,
+      final String? dpUrl,
       final String? role,
       final DateTime? lastActive}) = _$_User;
 
