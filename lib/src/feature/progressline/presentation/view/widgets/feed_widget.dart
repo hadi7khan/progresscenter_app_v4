@@ -84,7 +84,7 @@ class _TeamWidgetState extends BaseConsumerState<FeedWidget> {
         );
       },
       error: (err, _) {
-        return const Text("Failed to load Projects",
+        return const Text("Failed to load Progressline",
             style: TextStyle(letterSpacing: -0.3, color: Helper.errorColor));
       },
       loading: () => LoadingProgressline(),

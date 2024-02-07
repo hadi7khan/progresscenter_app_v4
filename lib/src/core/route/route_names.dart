@@ -53,6 +53,7 @@ const String deleteAccountRoute = 'deleteAccount';
 const String organisationRoute = 'organisation';
 const String organisationUrlRoute = 'organisationUrl';
 const String notificationsRoute = 'notifications';
+const String progresslineByIdRoute = 'progresslineById';
 
 const String noInternetRoute = 'noInternet';
 const String pageNotFoundRoute = 'pageNotFound';

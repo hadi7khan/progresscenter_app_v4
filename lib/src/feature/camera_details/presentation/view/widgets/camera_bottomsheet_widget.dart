@@ -59,6 +59,9 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
   DownloadTask? task;
   double _progressBar = 0.0;
   var filePath;
+  bool granted = false;
+  Directory? directory;
+  bool showProgressIndicator = false;
 
   PersistentBottomSheetController? _controller;
   Future<Directory?> getLocalDirectory() async {
@@ -70,6 +73,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
   @override
   void initState() {
     super.initState();
+    galAccess();
     _saveImage();
 
     // Service()
@@ -77,6 +81,11 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
     //     .then((value) {
     //   dev.log("returned data" + value.toString());
     // });
+  }
+
+  galAccess() async {
+    granted = await Gal.requestAccess();
+    directory = await getApplicationDocumentsDirectory();
   }
 
   Future<void> _saveImage() async {
@@ -568,7 +577,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                         InkWell(
                           onTap: () async {
                             setState(() {
-                              // isDownloading = Platform.isAndroid ? true : false;
+                              showProgressIndicator = true;
                             });
                             // processLoadAndOpen();
                             // final path =
@@ -586,29 +595,25 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                             // await Gal.putImage(
                             //   path,
                             // );
-                            final granted = await Gal.requestAccess();
-                            dev.log(granted.toString());
-                            if (granted) {
-                              final directory =
-                                  await getApplicationDocumentsDirectory();
 
+                            if (granted) {
                               await Dio().download(widget.imageUrl,
-                                  directory.path + "/${widget.imageName}");
+                                  directory!.path + "/${widget.imageName}");
                               await Gal.putImage(
-                                  directory.path + "/${widget.imageName}",
-                                  album: null);
-                              context.pop();
-                              ScaffoldMessenger.of(
-                                      rootNavigatorKey.currentContext!)
-                                  .showSnackBar(SnackBar(
-                                content: const Text('Saved! ✅'),
-                                backgroundColor: Helper.successColor,
-                                // action: SnackBarAction(
-                                //   label: 'Open',
-                                //   backgroundColor: Helper.successColor,
-                                //   onPressed: () async => Gal.open(),
-                                // ),
-                              ));
+                                      directory!.path + "/${widget.imageName}",
+                                      album: null)
+                                  .then((value) {
+                                setState(() {
+                                  showProgressIndicator = false;
+                                });
+                                context.pop();
+                                ScaffoldMessenger.of(
+                                        rootNavigatorKey.currentContext!)
+                                    .showSnackBar(SnackBar(
+                                  content: const Text('Saved! ✅'),
+                                  backgroundColor: Helper.successColor,
+                                ));
+                              });
                             }
                           },
                           child: Container(
@@ -635,6 +640,14 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w500),
                               ),
+                              trailing: showProgressIndicator
+                                  ? Transform.scale(
+                                      scale: 0.5,
+                                      child: CircularProgressIndicator(
+                                        color: ref.watch(primaryColorProvider),
+                                      ),
+                                    )
+                                  : SizedBox(),
                             ),
                           ),
                         ),

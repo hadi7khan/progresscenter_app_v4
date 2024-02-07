@@ -10,9 +10,10 @@ final progresslineDataSourceProvider =
 });
 
 abstract class ProgresslineDataSource {
-  Future progressLine(projectId,{searchText = ''});
+  Future progressLine(projectId, {searchText = ''});
   Future postComment(String id, data);
   Future comments(String id);
+  Future progresslineById(progresslineId, projectId);
 }
 
 class ProgresslineDataSourceImpl implements ProgresslineDataSource {
@@ -45,6 +46,17 @@ class ProgresslineDataSourceImpl implements ProgresslineDataSource {
   @override
   Future comments(String id) async {
     final response = await dioClient.get(Endpoints.commentsUrl(id));
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      return ServerException();
+    }
+  }
+
+  @override
+  Future progresslineById(progresslineId, projectId) async {
+    final response = await dioClient
+        .get(Endpoints.progresslineByIdUrl(progresslineId, projectId));
     if (response.statusCode == 200) {
       return response.data;
     } else {

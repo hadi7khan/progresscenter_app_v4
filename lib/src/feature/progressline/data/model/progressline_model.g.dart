@@ -64,9 +64,9 @@ _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
       preset: Preset.fromJson(json['preset'] as Map<String, dynamic>),
       userId: json['_id'] as String,
       name: json['name'] as String,
-      dp: json['dp'] as String?,
+      dp: json['dp'] as String? ?? "",
       designation: json['designation'] as String?,
-      dpUrl: json['dpUrl'] as String?,
+      dpUrl: json['dpUrl'] as String? ?? "",
       role: json['role'] as String?,
       lastActive: json['lastActive'] == null
           ? null

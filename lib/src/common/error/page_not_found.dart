@@ -54,7 +54,7 @@ class _NoInternetConnectionScreenState
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "404",
+                      "Page Not Found",
                       style: TextStyle(
                           letterSpacing: -0.3,
                           color: Helper.baseBlack,

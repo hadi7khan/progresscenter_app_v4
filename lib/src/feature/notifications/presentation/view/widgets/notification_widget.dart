@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -142,6 +141,15 @@ class _NotificationWidgetState extends BaseConsumerState<NotificationWidget> {
             "projectId": widget.notificationsData!.details!.projectId,
             "projectName": widget.notificationsData!.details!.projectName,
             "cameraId": widget.notificationsData!.details!.cameraId,
+          });
+        } else if (widget.notificationsData!.type ==
+                "PROGRESS_LINE_POST_CREATED" ||
+            widget.notificationsData!.type == "PROGRESS_LINE_POST_TAGGED") {
+          context.push('/progresslineById', extra: {
+            "projectId": widget.notificationsData!.details!.projectId,
+            "progressLinePostId":
+                widget.notificationsData!.details!.progressLinePostId,
+            "commentId": "",
           });
         }
       },
