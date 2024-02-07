@@ -137,6 +137,12 @@ class _NotificationWidgetState extends BaseConsumerState<NotificationWidget> {
             "projectName": widget.notificationsData!.details!.projectName,
             "cameraId": widget.notificationsData!.details!.cameraId,
           });
+        } else if (widget.notificationsData!.type == "CAMERA_CREATED") {
+          context.push('/cameradetails', extra: {
+            "projectId": widget.notificationsData!.details!.projectId,
+            "projectName": widget.notificationsData!.details!.projectName,
+            "cameraId": widget.notificationsData!.details!.cameraId,
+          });
         }
       },
       child: Container(

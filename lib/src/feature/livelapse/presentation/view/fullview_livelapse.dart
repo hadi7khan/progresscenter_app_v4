@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/loading_livelapse_by_id.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/provider/livelapse_by_id_controller.dart';
 import 'package:video_player/video_player.dart';
@@ -48,9 +49,9 @@ class _FullviewLivelapseState extends BaseConsumerState<FullviewLivelapse> {
           url = value.url;
           name = value.name;
         });
+        _initPlayer();
       });
     });
-    _initPlayer();
   }
 
   Future _initPlayer() async {
@@ -189,7 +190,7 @@ class _FullviewLivelapseState extends BaseConsumerState<FullviewLivelapse> {
                 style:
                     TextStyle(letterSpacing: -0.3, color: Helper.errorColor));
           },
-          loading: () => SizedBox(),
+          loading: () => LoadingLivelapseById(),
         ));
   }
 }
