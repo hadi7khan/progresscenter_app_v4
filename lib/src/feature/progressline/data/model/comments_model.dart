@@ -16,7 +16,7 @@ class CommentsModel with _$CommentsModel {
   const factory CommentsModel({
     User? user,
     String? body,
-    String? id,
+    @JsonKey(name: '_id') required String id,
     String? createdAt,
     String? updatedAt,
   }) = _CommentsModel;

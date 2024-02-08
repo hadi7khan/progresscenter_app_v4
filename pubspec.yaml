@@ -142,6 +142,7 @@ dependencies:
   rename: 3.0.1
   timeago: 3.6.1
   gal: 2.3.0
+  flowder_ex: 0.2.2
   
 
 dependency_overrides: 

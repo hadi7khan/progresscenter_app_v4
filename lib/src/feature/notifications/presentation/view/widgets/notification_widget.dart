@@ -151,6 +151,21 @@ class _NotificationWidgetState extends BaseConsumerState<NotificationWidget> {
                 widget.notificationsData!.details!.progressLinePostId,
             "commentId": "",
           });
+        } else if (widget.notificationsData!.type ==
+                "PROGRESS_LINE_INTERACTED_POST_COMMENT_CREATED" ||
+            widget.notificationsData!.type ==
+                "PROGRESS_LINE_POST_COMMENT_CREATED" ||
+            widget.notificationsData!.type == "PROGRESS_LINE_COMMENT_TAGGED") {
+          context.push('/progresslineById', extra: {
+            "projectId": widget.notificationsData!.details!.projectId,
+            "progressLinePostId":
+                widget.notificationsData!.details!.progressLinePostId,
+            "commentId":
+                widget.notificationsData!.details!.progressLineCommentId,
+          });
+        } else if (widget.notificationsData!.type ==
+            "DOCUMENT_ACCESS_GRANTED") {
+          downloadDocument();
         }
       },
       child: Container(
@@ -207,6 +222,8 @@ class _NotificationWidgetState extends BaseConsumerState<NotificationWidget> {
       ),
     );
   }
+
+  downloadDocument() async {}
 
   getDay(date) {
     if (date == null) {
