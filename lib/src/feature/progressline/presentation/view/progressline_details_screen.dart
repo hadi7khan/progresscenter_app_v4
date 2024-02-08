@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mentions/flutter_mentions.dart';
@@ -8,18 +10,19 @@ import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/load_comments_widget.dart';
-import 'package:progresscenter_app_v4/src/common/skeletons/load_progress_line.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_app_bar.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
+import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
+import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/comments_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/post_comment_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/progressline_by_id_controller.dart';
-import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/widgets/comments_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/widgets/process_mention_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean_model.dart';
+import 'dart:developer';
 
 class ProgresslineDetailsScreen extends ConsumerStatefulWidget {
   final String projectId;
@@ -44,10 +47,18 @@ class _TimelineDetailsScreenState
   GlobalKey<FlutterMentionsState> key = GlobalKey<FlutterMentionsState>();
   final RegExp mentionRegex = RegExp(r"@\[([\w\s]+)\]\(user:(\d+)\)");
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+  final _prefsLocator = getIt.get<SharedPreferenceHelper>();
+  Map<String, dynamic>? user;
+  ScrollController _commentController = ScrollController();
   @override
   void initState() {
     super.initState();
     callApi();
+    fetchUser();
+  }
+
+  fetchUser() {
+    user = _prefsLocator.getUser();
   }
 
   callApi() async {
@@ -59,7 +70,25 @@ class _TimelineDetailsScreenState
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref
           .read(commentsControllerProvider.notifier)
-          .getComments(widget.progressLinePostId);
+          .getComments(widget.progressLinePostId)
+          .then((value) {
+        if (widget.commentId != "") {
+          log("comment id passed" + widget.commentId.toString());
+          int index =
+              value.indexWhere((comment) => comment.id == widget.commentId);
+          log("index" + index.toString());
+
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Timer(Duration(seconds: 1), () {
+              _commentController.animateTo(
+                index * 40,
+                duration: Duration(milliseconds: 500),
+                curve: Curves.easeInOut,
+              );
+            });
+          });
+        }
+      });
     });
     Service().fetchUserList().then((users) {
       setState(() {
@@ -195,7 +224,7 @@ class _TimelineDetailsScreenState
                           topRight: Radius.circular(16.r)),
                       color: Colors.white,
                     ),
-                    height: MediaQuery.of(context).size.height * 0.4,
+                    height: MediaQuery.of(context).size.height * 0.6,
                     width: MediaQuery.of(context).size.width,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -254,51 +283,65 @@ class _TimelineDetailsScreenState
                               children: [
                                 SizedBox(
                                   height: MediaQuery.of(context).size.height *
-                                      0.3.h,
+                                      0.4.h,
                                   child: ListView.separated(
                                     separatorBuilder: (context, index) {
                                       return SizedBox(height: 16.h);
                                     },
                                     shrinkWrap: true,
                                     padding: EdgeInsets.zero,
+                                    controller: _commentController,
                                     physics: AlwaysScrollableScrollPhysics(),
                                     itemCount: data.length,
                                     itemBuilder: ((context, index) {
                                       // Reverse the order of the list
                                       final reversedIndex =
                                           data.length - 1 - index;
-                                      return ListTile(
-                                        horizontalTitleGap: 8.w,
-                                        dense: true,
-                                        visualDensity: VisualDensity(
-                                            horizontal: 0, vertical: 0),
-                                        contentPadding: EdgeInsets.zero,
-                                        leading: AvatarWidget(
-                                          dpUrl: data[reversedIndex]
+                                      return Column(
+                                        children: [
+                                          ListTile(
+                                            horizontalTitleGap: 8.w,
+                                            dense: true,
+                                            visualDensity: VisualDensity(
+                                                horizontal: 0, vertical: 0),
+                                            contentPadding: EdgeInsets.zero,
+                                            leading: AvatarWidget(
+                                              dpUrl: data[reversedIndex]
+                                                          .user!
+                                                          .dpUrl !=
+                                                      null
+                                                  ? data[reversedIndex]
                                                       .user!
-                                                      .dpUrl !=
-                                                  null
-                                              ? data[reversedIndex].user!.dpUrl!
-                                              : "",
-                                          name: data[reversedIndex].user!.name!,
-                                          backgroundColor: data[reversedIndex]
-                                              .user!
-                                              .preset!
-                                              .color!,
-                                          size: 32,
-                                          fontSize: 14,
-                                        ),
-                                        title: Text(
-                                          data[reversedIndex].user!.name!,
-                                          style: TextStyle(
-                                              letterSpacing: -0.3,
-                                              color: Helper.textColor600,
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        subtitle: ProcessMention(
-                                          text: data[reversedIndex].body!,
-                                        ),
+                                                      .dpUrl!
+                                                  : "",
+                                              name: data[reversedIndex]
+                                                  .user!
+                                                  .name!,
+                                              backgroundColor:
+                                                  data[reversedIndex]
+                                                      .user!
+                                                      .preset!
+                                                      .color!,
+                                              size: 32,
+                                              fontSize: 14,
+                                            ),
+                                            title: Text(
+                                              data[reversedIndex].user!.name!,
+                                              style: TextStyle(
+                                                  letterSpacing: -0.3,
+                                                  color: Helper.textColor600,
+                                                  fontSize: 14.sp,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                            subtitle: ProcessMention(
+                                              text: data[reversedIndex].body!,
+                                            ),
+                                          ),
+                                          if (index == data.length - 1)
+                                            SizedBox(
+                                              height: 80.h,
+                                            ),
+                                        ],
                                       );
                                     }),
                                   ),
@@ -338,11 +381,11 @@ class _TimelineDetailsScreenState
               horizontalTitleGap: 8.w,
               contentPadding: EdgeInsets.zero,
               dense: true,
-              visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+              visualDensity: VisualDensity(horizontal: 0, vertical: 0),
               leading: AvatarWidget(
-                dpUrl: "",
-                name: "HADI",
-                backgroundColor: "#0F9555",
+                dpUrl: user!['dpUrl'] != null ? user!['dpUrl'] : "",
+                name: user!['name'],
+                backgroundColor: user!['preset']['color'],
                 size: 32,
                 fontSize: 14,
               ),

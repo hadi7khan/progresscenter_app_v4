@@ -22,7 +22,8 @@ CommentsModel _$CommentsModelFromJson(Map<String, dynamic> json) {
 mixin _$CommentsModel {
   User? get user => throw _privateConstructorUsedError;
   String? get body => throw _privateConstructorUsedError;
-  String? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: '_id')
+  String get id => throw _privateConstructorUsedError;
   String? get createdAt => throw _privateConstructorUsedError;
   String? get updatedAt => throw _privateConstructorUsedError;
 
@@ -41,7 +42,7 @@ abstract class $CommentsModelCopyWith<$Res> {
   $Res call(
       {User? user,
       String? body,
-      String? id,
+      @JsonKey(name: '_id') String id,
       String? createdAt,
       String? updatedAt});
 
@@ -63,7 +64,7 @@ class _$CommentsModelCopyWithImpl<$Res, $Val extends CommentsModel>
   $Res call({
     Object? user = freezed,
     Object? body = freezed,
-    Object? id = freezed,
+    Object? id = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -76,10 +77,10 @@ class _$CommentsModelCopyWithImpl<$Res, $Val extends CommentsModel>
           ? _value.body
           : body // ignore: cast_nullable_to_non_nullable
               as String?,
-      id: freezed == id
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -115,7 +116,7 @@ abstract class _$$_CommentsModelCopyWith<$Res>
   $Res call(
       {User? user,
       String? body,
-      String? id,
+      @JsonKey(name: '_id') String id,
       String? createdAt,
       String? updatedAt});
 
@@ -136,7 +137,7 @@ class __$$_CommentsModelCopyWithImpl<$Res>
   $Res call({
     Object? user = freezed,
     Object? body = freezed,
-    Object? id = freezed,
+    Object? id = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -149,10 +150,10 @@ class __$$_CommentsModelCopyWithImpl<$Res>
           ? _value.body
           : body // ignore: cast_nullable_to_non_nullable
               as String?,
-      id: freezed == id
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -169,7 +170,11 @@ class __$$_CommentsModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_CommentsModel implements _CommentsModel {
   const _$_CommentsModel(
-      {this.user, this.body, this.id, this.createdAt, this.updatedAt});
+      {this.user,
+      this.body,
+      @JsonKey(name: '_id') required this.id,
+      this.createdAt,
+      this.updatedAt});
 
   factory _$_CommentsModel.fromJson(Map<String, dynamic> json) =>
       _$$_CommentsModelFromJson(json);
@@ -179,7 +184,8 @@ class _$_CommentsModel implements _CommentsModel {
   @override
   final String? body;
   @override
-  final String? id;
+  @JsonKey(name: '_id')
+  final String id;
   @override
   final String? createdAt;
   @override
@@ -227,7 +233,7 @@ abstract class _CommentsModel implements CommentsModel {
   const factory _CommentsModel(
       {final User? user,
       final String? body,
-      final String? id,
+      @JsonKey(name: '_id') required final String id,
       final String? createdAt,
       final String? updatedAt}) = _$_CommentsModel;
 
@@ -239,7 +245,8 @@ abstract class _CommentsModel implements CommentsModel {
   @override
   String? get body;
   @override
-  String? get id;
+  @JsonKey(name: '_id')
+  String get id;
   @override
   String? get createdAt;
   @override

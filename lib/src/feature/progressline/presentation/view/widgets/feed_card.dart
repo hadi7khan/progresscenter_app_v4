@@ -49,16 +49,10 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
       });
     });
     fetchUser();
-    // Service().fetchUser().then((value) {
-    //   setState(() {
-    //     timezone = value.preferences!.timezone!;
-    //   });
-    // });
   }
 
   fetchUser() {
     user = _prefsLocator.getUser();
-    log("saved user" + user.toString());
   }
 
   List<Map<String, dynamic>> getMentionsList() {
@@ -132,51 +126,6 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
     }
   }
 
-  // String formatRelativeTime(DateTime createdAt, String timeZone) {
-  //   // Get the desired time zone
-  //   Location location = getLocation(timeZone);
-
-  //   // Convert the input DateTime to the specified time zone
-  //   TZDateTime localDateTime = TZDateTime.from(createdAt, location);
-
-  //   // Calculate the relative time
-  //   Duration difference = DateTime.now().difference(localDateTime);
-  //   return timeago.format(DateTime.now().subtract(difference),
-  //       locale: 'en_short');
-  // }
-
-  // String formatCustomRelativeTime(DateTime createdAt, String timeZone) {
-  //   // Get the desired time zone
-  //   Location location = getLocation(timeZone);
-
-  //   // Convert the input DateTime to the specified time zone
-  //   TZDateTime localDateTime = TZDateTime.from(createdAt, location);
-
-  //   // Calculate the difference in days
-  //   int daysDifference = DateTime.now().difference(localDateTime).inDays;
-
-  //   if (daysDifference == 0) {
-  //     return 'just now';
-  //   } else if (daysDifference < 7) {
-  //     return '$daysDifference ${daysDifference == 1 ? 'day' : 'days'} ago';
-  //   } else {
-  //     // Calculate the difference in months and years
-  //     int monthsDifference =
-  //         DateTime.now().difference(localDateTime).inDays ~/ 30;
-  //     int yearsDifference =
-  //         DateTime.now().difference(localDateTime).inDays ~/ 365;
-
-  //     if (monthsDifference == 0) {
-  //       return '$yearsDifference ${yearsDifference == 1 ? 'year' : 'years'} ago';
-  //     } else if (yearsDifference == 0) {
-  //       return '$monthsDifference ${monthsDifference == 1 ? 'month' : 'months'} ago';
-  //     } else {
-  //       // If more than a week, format the date using intl package
-  //       return DateFormat('dd MMM, yyyy').format(localDateTime);
-  //     }
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     final height = (MediaQuery.of(context).size.width - (2 * 20)) / 1.5;
@@ -218,16 +167,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
               ),
               trailing: Text(
                 widget.progresslineData.user.lastActive != null
-                    ?
-                    // formatCustomRelativeTime(
-                    //     widget.progresslineData.createdAt!,
-                    //     'Asia/Kolkata',
-                    //   )
-                    // formatRelativeTime(
-                    //     widget.progresslineData.createdAt!,
-                    //     'Asia/Kolkata',
-                    //   )
-                    formatTimeDifference(
+                    ? formatTimeDifference(
                         widget.progresslineData.createdAt!,
                         timezone: user!['preferences']
                             ['timezone'], // Replace with the actual time zone
