@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,12 +9,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
+import 'package:progresscenter_app_v4/src/core/network/constants/endpoints.dart';
+import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
+import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/notifications/data/models/notifications_model.dart'
     as model;
+import 'package:http/http.dart' as http;
+import 'dart:developer';
 
 class NotificationWidget extends ConsumerStatefulWidget {
   final model.Notification? notificationsData;
@@ -21,6 +31,7 @@ class NotificationWidget extends ConsumerStatefulWidget {
 }
 
 class _NotificationWidgetState extends BaseConsumerState<NotificationWidget> {
+  final _prefsLocator = getIt.get<SharedPreferenceHelper>();
   TextSpan _buildTextSpan(String message) {
     List<TextSpan> children = [];
 
@@ -165,7 +176,10 @@ class _NotificationWidgetState extends BaseConsumerState<NotificationWidget> {
           });
         } else if (widget.notificationsData!.type ==
             "DOCUMENT_ACCESS_GRANTED") {
-          downloadDocument();
+          download2(
+              widget.notificationsData!.details!.fileId!,
+              widget.notificationsData!.details!.folderId!,
+              widget.notificationsData!.details!.filePath!);
         }
       },
       child: Container(
@@ -223,7 +237,92 @@ class _NotificationWidgetState extends BaseConsumerState<NotificationWidget> {
     );
   }
 
-  downloadDocument() async {}
+  Future download2(String fileId, String folderId, String filePath) async {
+    Dio dio = Dio();
+    String fileName = extractFileName(filePath);
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String appDocPath = appDocDir.path;
+    Map<String, String> headers = {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+    };
+
+    Map<String, String> body = {
+      "fileId": fileId,
+      "folderId": folderId,
+    };
+    try {
+      Response response = await dio.post(Endpoints.downloadNotificationDocUrl(),
+          options: Options(
+            responseType: ResponseType.bytes,
+            followRedirects: false,
+            headers: headers,
+            validateStatus: (status) {
+              return status! < 500;
+            },
+          ),
+          data: body);
+      if (response.statusCode == 200) {
+        // Save the file in the document directory
+        debugPrint(response.headers.toString());
+        File file = File("$appDocPath/$fileName");
+        var raf = file.openSync(mode: FileMode.write);
+        log("this is the response" + response.data.toString());
+        // response.data is List<int> type
+        raf.writeFromSync(response.data);
+        await raf.close();
+        log("File downloaded successfully. Path: ${file.path}");
+      } else {
+        log("Failed to download file. Status code: ${response.statusCode}");
+      }
+    } catch (e) {
+      debugPrint("Got Error  ${e.toString()}");
+    }
+  }
+
+  String extractFileName(String filePath) {
+    List<String> pathSegments = filePath.split('/');
+    return pathSegments.last;
+  }
+
+  downloadDocument(String fileId, String folderId, String path) async {
+    Dio dio = Dio();
+    String fileName = extractFileName(path);
+    String url = Endpoints.downloadNotificationDocUrl();
+    Map<String, String> headers = {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+    };
+
+    Map<String, String> body = {
+      "fileId": fileId,
+      "folderId": folderId,
+    };
+    var postData = json.encode(body);
+    // Get the document directory using path_provider package
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String appDocPath = appDocDir.path;
+
+    try {
+      dio.options.headers = headers;
+      dio.options.responseType = ResponseType.bytes;
+      await dio
+          .post(Endpoints.downloadNotificationDocUrl(), data: postData)
+          .then((response) async {
+        if (response.statusCode == 200) {
+          // Save the file in the document directory
+          File file = File("$appDocPath/$fileName");
+          await file.writeAsBytes(response.data);
+
+          log("File downloaded successfully. Path: ${file.path}");
+        } else {
+          log("Failed to download file. Status code: ${response.statusCode}");
+        }
+      });
+    } catch (e) {
+      log("Error: $e");
+    }
+  }
 
   getDay(date) {
     if (date == null) {
