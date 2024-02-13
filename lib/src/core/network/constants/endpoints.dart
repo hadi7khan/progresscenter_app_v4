@@ -272,6 +272,10 @@ class Endpoints {
     return '$baseUrl/api/v4/notifications/?offset=$page&limit=50';
   }
 
+  static downloadNotificationDocUrl() {
+    return '$baseUrl/api/v4/notifications/documents/url';
+  }
+
   // receiveTimeout
   static const int receiveTimeout = 15000;
 
