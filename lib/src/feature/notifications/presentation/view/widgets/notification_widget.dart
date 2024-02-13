@@ -15,6 +15,7 @@ import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/network/constants/endpoints.dart';
 import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
 import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
+import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/notifications/data/models/notifications_model.dart'
@@ -32,6 +33,7 @@ class NotificationWidget extends ConsumerStatefulWidget {
 
 class _NotificationWidgetState extends BaseConsumerState<NotificationWidget> {
   final _prefsLocator = getIt.get<SharedPreferenceHelper>();
+  bool showDownloadIndicator = false;
   TextSpan _buildTextSpan(String message) {
     List<TextSpan> children = [];
 
@@ -176,7 +178,10 @@ class _NotificationWidgetState extends BaseConsumerState<NotificationWidget> {
           });
         } else if (widget.notificationsData!.type ==
             "DOCUMENT_ACCESS_GRANTED") {
-          download2(
+          setState(() {
+            showDownloadIndicator = true;
+          });
+          getDownloadUrl(
               widget.notificationsData!.details!.fileId!,
               widget.notificationsData!.details!.folderId!,
               widget.notificationsData!.details!.filePath!);
@@ -220,11 +225,29 @@ class _NotificationWidgetState extends BaseConsumerState<NotificationWidget> {
                     ],
                   ),
                 ),
-                Icon(
-                  Icons.circle,
-                  color: Helper.successColor,
-                  size: 8,
-                )
+                SizedBox(
+                  width: 20.w,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      showDownloadIndicator &&
+                              widget.notificationsData!.type ==
+                                  "DOCUMENT_ACCESS_GRANTED"
+                          ? Transform.scale(
+                              scale: 0.3,
+                              child: CircularProgressIndicator(
+                                color: ref.watch(primaryColorProvider),
+                              ),
+                            )
+                          : Icon(
+                              Icons.circle,
+                              color: Helper.successColor,
+                              size: 8,
+                            )
+                    ],
+                  ),
+                ),
               ],
             ),
             Divider(
@@ -237,44 +260,46 @@ class _NotificationWidgetState extends BaseConsumerState<NotificationWidget> {
     );
   }
 
-  Future download2(String fileId, String folderId, String filePath) async {
+  Future downloadDocument(String url, String filePath) async {
     Dio dio = Dio();
     String fileName = extractFileName(filePath);
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    String appDocPath = appDocDir.path;
+    Directory? directory;
+    try {
+      if (Platform.isIOS) {
+        directory = await getApplicationDocumentsDirectory();
+      } else {
+        directory = await getExternalStorageDirectory();
+        String newPath = directory?.path.substring(0, 20) ?? "";
+        newPath += "Download";
+        directory = Directory(newPath);
+        if (!directory.existsSync()) {
+          await directory.create();
+        }
+      }
+    } catch (err) {
+      print("download folder not exist");
+    }
+    String appDocPath = directory!.path;
     Map<String, String> headers = {
       "Content-Type": "application/json",
       "Authorization": "Bearer " + _prefsLocator.getUserToken(),
     };
 
-    Map<String, String> body = {
-      "fileId": fileId,
-      "folderId": folderId,
-    };
     try {
-      Response response = await dio.post(Endpoints.downloadNotificationDocUrl(),
-          options: Options(
-            responseType: ResponseType.bytes,
-            followRedirects: false,
-            headers: headers,
-            validateStatus: (status) {
-              return status! < 500;
-            },
-          ),
-          data: body);
-      if (response.statusCode == 200) {
-        // Save the file in the document directory
-        debugPrint(response.headers.toString());
-        File file = File("$appDocPath/$fileName");
-        var raf = file.openSync(mode: FileMode.write);
-        log("this is the response" + response.data.toString());
-        // response.data is List<int> type
-        raf.writeFromSync(response.data);
-        await raf.close();
-        log("File downloaded successfully. Path: ${file.path}");
-      } else {
-        log("Failed to download file. Status code: ${response.statusCode}");
-      }
+      await dio.download(url, "$appDocPath/$fileName").then((response) {
+        if (response.statusCode == 200) {
+          setState(() {
+            showDownloadIndicator = false;
+          });
+          Utils.toastSuccessMessage("Document Downloaded", context);
+          log("this is the response" + response.data.toString());
+
+          log("File downloaded successfully. Path: $appDocPath/$fileName");
+        } else {
+          Utils.flushBarErrorMessage("Something went wrong", context);
+          log("Failed to download file. Status code: ${response.statusCode}");
+        }
+      });
     } catch (e) {
       debugPrint("Got Error  ${e.toString()}");
     }
@@ -285,36 +310,25 @@ class _NotificationWidgetState extends BaseConsumerState<NotificationWidget> {
     return pathSegments.last;
   }
 
-  downloadDocument(String fileId, String folderId, String path) async {
+  getDownloadUrl(String fileId, String folderId, String path) async {
     Dio dio = Dio();
-    String fileName = extractFileName(path);
     String url = Endpoints.downloadNotificationDocUrl();
     Map<String, String> headers = {
       "Content-Type": "application/json",
       "Authorization": "Bearer " + _prefsLocator.getUserToken(),
     };
-
     Map<String, String> body = {
       "fileId": fileId,
       "folderId": folderId,
     };
     var postData = json.encode(body);
-    // Get the document directory using path_provider package
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    String appDocPath = appDocDir.path;
 
     try {
       dio.options.headers = headers;
-      dio.options.responseType = ResponseType.bytes;
-      await dio
-          .post(Endpoints.downloadNotificationDocUrl(), data: postData)
-          .then((response) async {
+      await dio.post(url, data: postData).then((response) async {
         if (response.statusCode == 200) {
-          // Save the file in the document directory
-          File file = File("$appDocPath/$fileName");
-          await file.writeAsBytes(response.data);
-
-          log("File downloaded successfully. Path: ${file.path}");
+          log("response" + response.data['url'].toString());
+          downloadDocument(response.data['url'].toString(), path);
         } else {
           log("Failed to download file. Status code: ${response.statusCode}");
         }
