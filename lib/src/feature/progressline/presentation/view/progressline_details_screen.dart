@@ -21,6 +21,7 @@ import 'package:progresscenter_app_v4/src/feature/progressline/presentation/prov
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/post_comment_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/progressline_by_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/widgets/process_mention_widget.dart';
+import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/widgets/viewed_by_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean_model.dart';
 import 'dart:developer';
 
@@ -215,150 +216,199 @@ class _TimelineDetailsScreenState
                             ),
                           ),
                   ),
-                  Container(
-                    padding:
-                        EdgeInsets.only(top: 28.h, left: 20.w, right: 20.w),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(16.r),
-                          topRight: Radius.circular(16.r)),
-                      color: Colors.white,
-                    ),
-                    height: MediaQuery.of(context).size.height * 0.6,
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                  Stack(
+                    children: [
+                      Container(
+                        padding:
+                            EdgeInsets.only(top: 28.h, left: 20.w, right: 20.w),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(16.r),
+                              topRight: Radius.circular(16.r)),
+                          color: Colors.white,
+                        ),
+                        height: MediaQuery.of(context).size.height * 0.6,
+                        width: MediaQuery.of(context).size.width,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
                           children: [
-                            Text(
-                              'Comments',
-                              style: TextStyle(
-                                  letterSpacing: -0.3,
-                                  color: Helper.baseBlack,
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w500),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Comments',
+                                  style: TextStyle(
+                                      letterSpacing: -0.3,
+                                      color: Helper.baseBlack,
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ],
+                            ),
+                            commentsData.when(
+                              data: (data) {
+                                if (data.isEmpty) {
+                                  return Container(
+                                    alignment: Alignment.center,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.3.h,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                            'assets/images/illustration.svg'),
+                                        SizedBox(height: 16.h),
+                                        Text(
+                                          "No Comments",
+                                          style: TextStyle(
+                                              letterSpacing: -0.3,
+                                              color: Helper.textColor900,
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        Text(
+                                          "This space is empty. ",
+                                          style: TextStyle(
+                                              letterSpacing: -0.3,
+                                              color: Helper.textColor600,
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
+                                ;
+                                return Column(
+                                  children: [
+                                    SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.4.h,
+                                      child: ListView.separated(
+                                        separatorBuilder: (context, index) {
+                                          return SizedBox(height: 16.h);
+                                        },
+                                        shrinkWrap: true,
+                                        padding: EdgeInsets.zero,
+                                        controller: _commentController,
+                                        physics:
+                                            AlwaysScrollableScrollPhysics(),
+                                        itemCount: data.length,
+                                        itemBuilder: ((context, index) {
+                                          // Reverse the order of the list
+                                          final reversedIndex =
+                                              data.length - 1 - index;
+                                          return Column(
+                                            children: [
+                                              ListTile(
+                                                horizontalTitleGap: 8.w,
+                                                dense: true,
+                                                visualDensity: VisualDensity(
+                                                    horizontal: 0, vertical: 0),
+                                                contentPadding: EdgeInsets.zero,
+                                                leading: AvatarWidget(
+                                                  dpUrl: data[reversedIndex]
+                                                              .user!
+                                                              .dpUrl !=
+                                                          null
+                                                      ? data[reversedIndex]
+                                                          .user!
+                                                          .dpUrl!
+                                                      : "",
+                                                  name: data[reversedIndex]
+                                                      .user!
+                                                      .name!,
+                                                  backgroundColor:
+                                                      data[reversedIndex]
+                                                          .user!
+                                                          .preset!
+                                                          .color!,
+                                                  size: 32,
+                                                  fontSize: 14,
+                                                ),
+                                                title: Text(
+                                                  data[reversedIndex]
+                                                      .user!
+                                                      .name!,
+                                                  style: TextStyle(
+                                                      letterSpacing: -0.3,
+                                                      color:
+                                                          Helper.textColor600,
+                                                      fontSize: 14.sp,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
+                                                subtitle: ProcessMention(
+                                                  text:
+                                                      data[reversedIndex].body!,
+                                                ),
+                                              ),
+                                              if (index == data.length - 1)
+                                                SizedBox(
+                                                  height: 80.h,
+                                                ),
+                                            ],
+                                          );
+                                        }),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                              error: (err, _) {
+                                return const Text("Failed to load Comments",
+                                    style: TextStyle(
+                                        letterSpacing: -0.3,
+                                        color: Helper.errorColor));
+                              },
+                              loading: () => LoadCommentsWidget(),
                             ),
                           ],
                         ),
-                        commentsData.when(
-                          data: (data) {
-                            if (data.isEmpty) {
-                              return Container(
-                                alignment: Alignment.center,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.3.h,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                        'assets/images/illustration.svg'),
-                                    SizedBox(height: 16.h),
-                                    Text(
-                                      "No Comments",
-                                      style: TextStyle(
-                                          letterSpacing: -0.3,
-                                          color: Helper.textColor900,
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                    Text(
-                                      "This space is empty. ",
-                                      style: TextStyle(
-                                          letterSpacing: -0.3,
-                                          color: Helper.textColor600,
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                            ;
-                            return Column(
-                              children: [
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.4.h,
-                                  child: ListView.separated(
-                                    separatorBuilder: (context, index) {
-                                      return SizedBox(height: 16.h);
-                                    },
-                                    shrinkWrap: true,
-                                    padding: EdgeInsets.zero,
-                                    controller: _commentController,
-                                    physics: AlwaysScrollableScrollPhysics(),
-                                    itemCount: data.length,
-                                    itemBuilder: ((context, index) {
-                                      // Reverse the order of the list
-                                      final reversedIndex =
-                                          data.length - 1 - index;
-                                      return Column(
-                                        children: [
-                                          ListTile(
-                                            horizontalTitleGap: 8.w,
-                                            dense: true,
-                                            visualDensity: VisualDensity(
-                                                horizontal: 0, vertical: 0),
-                                            contentPadding: EdgeInsets.zero,
-                                            leading: AvatarWidget(
-                                              dpUrl: data[reversedIndex]
-                                                          .user!
-                                                          .dpUrl !=
-                                                      null
-                                                  ? data[reversedIndex]
-                                                      .user!
-                                                      .dpUrl!
-                                                  : "",
-                                              name: data[reversedIndex]
-                                                  .user!
-                                                  .name!,
-                                              backgroundColor:
-                                                  data[reversedIndex]
-                                                      .user!
-                                                      .preset!
-                                                      .color!,
-                                              size: 32,
-                                              fontSize: 14,
-                                            ),
-                                            title: Text(
-                                              data[reversedIndex].user!.name!,
-                                              style: TextStyle(
-                                                  letterSpacing: -0.3,
-                                                  color: Helper.textColor600,
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                            subtitle: ProcessMention(
-                                              text: data[reversedIndex].body!,
-                                            ),
-                                          ),
-                                          if (index == data.length - 1)
-                                            SizedBox(
-                                              height: 80.h,
-                                            ),
-                                        ],
-                                      );
-                                    }),
-                                  ),
-                                ),
-                              ],
-                            );
+                      ),
+                      Positioned(
+                        top: 10,
+                        left: 20,
+                        child: InkWell(
+                          onTap: () {
+                            showModalBottomSheet(
+                                useRootNavigator: true,
+                                isScrollControlled: true,
+                                context: context,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) => ViewedByWidget(
+                                      data: data.viewedBy,
+                                      showText: "Viewed By",
+                                      projectId: "",
+                                      showExtra: false,
+                                    ));
                           },
-                          error: (err, _) {
-                            return const Text("Failed to load Comments",
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                'assets/images/eye.svg',
+                                width: 24.w,
+                              ),
+                              SizedBox(width: 10.w),
+                              Text(
+                                data.viewedBy.length.toString(),
                                 style: TextStyle(
                                     letterSpacing: -0.3,
-                                    color: Helper.errorColor));
-                          },
-                          loading: () => LoadCommentsWidget(),
+                                    color: Helper.textColor600,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
+                      )
+                    ],
                   ),
                 ],
               ),

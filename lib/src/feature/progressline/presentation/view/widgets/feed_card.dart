@@ -129,7 +129,6 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
   @override
   Widget build(BuildContext context) {
     final height = (MediaQuery.of(context).size.width - (2 * 20)) / 1.5;
-    print("id " + widget.progresslineData.id.toString());
     return FormBuilder(
       key: _fbKey,
       child: Container(
