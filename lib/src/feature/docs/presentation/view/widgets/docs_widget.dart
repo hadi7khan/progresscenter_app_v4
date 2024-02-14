@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
-import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
-import 'package:progresscenter_app_v4/src/feature/docs/presentation/provider/docs_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/widgets/docs_action_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/widgets/docs_card.dart';
+import 'dart:developer';
 
 class DocsWidget extends ConsumerStatefulWidget {
   final files;
@@ -19,13 +20,6 @@ class DocsWidget extends ConsumerStatefulWidget {
 class _TeamWidgetState extends BaseConsumerState<DocsWidget> {
   List filesData = [];
   int indx = 0;
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-  //     ref.read(docsControllerProvider.notifier).getDocs();
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -60,22 +54,6 @@ class _TeamWidgetState extends BaseConsumerState<DocsWidget> {
       );
     }
     ;
-    // final docsData =
-    //     ref.watch(docsControllerProvider.select((value) => value.docs));
-    // return docsData.when(
-    //   data: (data) {
-    // filesData = [];
-    // print("dataaaaa"+data.toString());
-    // data.map((map) {
-    //   indx = filesData.indexOf(map);
-    //   print("indxxxxx"+indx.toString());
-    //   return {filesData.add(map.files)};
-    // }).toList();
-    // print(filesData.length.toString());
-    // final allFiles = data
-    //     .where((document) => document.files != null)
-    //     .expand((document) => document.files!)
-    //     .toList();
 
     return ListView.separated(
       separatorBuilder: (context, index) {
@@ -87,15 +65,23 @@ class _TeamWidgetState extends BaseConsumerState<DocsWidget> {
       itemCount: widget.files.length,
       itemBuilder: ((context, index) {
         final file = widget.files[index];
-        return DocsCard(docsData: file, index: index);
+        log("file" + file.toString());
+        return InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                  useRootNavigator: true,
+                  isScrollControlled: true,
+                  context: context,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) => DocsActionWidget(
+                      folderId: file['folderId'],
+                      fileId: file['fileId'],
+                      fileName: file['fileName'],
+                      fileUrl: file['fileUrl'],
+                      filePath: file['path']));
+            },
+            child: DocsCard(docsData: file, index: index));
       }),
     );
-    // },
-    // error: (err, _) {
-    //   return const Text("Failed to load Docs",
-    //       style: TextStyle(color: Helper.errorColor));
-    // },
-    // loading: () => LoadingCardListScreen(),
-    // );
   }
 }

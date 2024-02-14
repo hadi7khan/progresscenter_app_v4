@@ -62,9 +62,6 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
             child: docsData.when(
               data: (data) {
-                log(data.toString());
-
-                print("data fetched" + data.toString());
                 categoryList = data.map((map) {
                   return {
                     '_id': map.id,
@@ -84,26 +81,25 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                             'name': file.name,
                             'path': file.path,
                             'uploadedBy': file.uploadedBy?.name ?? '',
+                            'fileUrl': file.url
                           },
                         )
                         .toList())
                     .toList();
 
-                print("allFiles " + allFiles.toString());
-
                 // Map file IDs to be equal to folder IDs
                 final filesWithFolderId = allFiles.map((file) {
-                  print("filesWithFolderIdData " + file.toString());
+                  log("filesWithFolderIdData " + file.toString());
                   return {
                     'folderId':
                         file['documentId'], // Using document ID as fileId
                     'fileName': file['name'],
                     'path': file['path'],
                     'uploadedBy': file['uploadedBy'] ?? '',
-                    'fileId': file['fileId']
+                    'fileId': file['fileId'],
+                    'fileUrl': file['fileUrl']
                   };
                 }).toList();
-                print("filesWithFolderId " + filesWithFolderId.toString());
 
                 // Filter files based on the selected document
                 final filteredFiles = selectedDocumentId != null
@@ -111,8 +107,6 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                         .where((file) => file['folderId'] == selectedDocumentId)
                         .toList()
                     : filesWithFolderId; // Show all files initially
-
-                print("filteredFiles " + filteredFiles.toString());
 
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,11 +155,8 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                                   }).toList();
                                 },
                                 onSelected: (value) {
-                                  print(value.toString());
                                   setState(() {
                                     selectedDocumentId = value;
-                                    print(
-                                        "selectedDocumentId: $selectedDocumentId");
                                   });
                                 },
                               ),
