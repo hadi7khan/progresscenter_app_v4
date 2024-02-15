@@ -215,7 +215,6 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
 
   @override
   Widget build(BuildContext context) {
-    log("imageurls rendered" + imageUrls.toString());
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
