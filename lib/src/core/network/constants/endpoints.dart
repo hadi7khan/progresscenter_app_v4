@@ -242,6 +242,10 @@ class Endpoints {
     return '$baseUrl/api/v4/progress-line/$progresslineId/projects/$projectId';
   }
 
+  static deletePostUrl(id) {
+    return '$baseUrl/api/v4/progress-line/$id';
+  }
+
   //---------------------------- Livelapse ---------------------------------------
 
   static livelapseListUrl(projectId, cameraId) {

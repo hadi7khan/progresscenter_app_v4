@@ -644,6 +644,23 @@ class Service {
     }
   }
 
+  // method to delete progressline post
+  Future deleteProgresslinePost(String id) async {
+    final client = http.Client();
+    final response =
+        await client.delete(Uri.parse(Endpoints.deletePostUrl(id)), headers: {
+      "content-type": "application/json",
+      "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+    });
+    print(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      log("post deleted");
+      return response.body;
+    } else {
+      throw Exception('Failed to delete post');
+    }
+  }
+
   // method to delete profile logo
   Future deleteProfileDp() async {
     final client = http.Client();
