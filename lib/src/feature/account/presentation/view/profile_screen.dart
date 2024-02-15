@@ -1775,10 +1775,8 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                     .read(accountsControllerProvider.notifier)
                                     .getProfile();
                                 context.pop();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        backgroundColor: Colors.red,
-                                        content: Text("Image Deleted")));
+                                Utils.flushBarErrorMessage(
+                                    "Image Deleted", context);
                               });
                               setState(() {});
                             },
@@ -1858,9 +1856,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                 service.Service().deleteProfileDp().then((value) {
                   ref.read(accountsControllerProvider.notifier).getProfile();
                   context.pop();
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      backgroundColor: Colors.red,
-                      content: Text("Image Deleted")));
+                  Utils.flushBarErrorMessage("Image Deleted", context);
                 });
                 setState(() {});
               }),
@@ -1995,9 +1991,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                       .then((value) {
                     ref.read(accountsControllerProvider.notifier).getProfile();
                     context.pop();
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        backgroundColor: Colors.green,
-                        content: Text("Image Uploaded")));
+                    Utils.toastSuccessMessage("Image Uploaded", context);
                   });
                 });
               },
@@ -2025,9 +2019,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                       .then((value) {
                     ref.read(accountsControllerProvider.notifier).getProfile();
                     context.pop();
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        backgroundColor: Colors.green,
-                        content: Text("Image Uploaded")));
+                    Utils.toastSuccessMessage("Image Uploaded", context);
                   });
                 });
               },
@@ -2055,9 +2047,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                       .then((value) {
                     ref.read(accountsControllerProvider.notifier).getProfile();
                     context.pop();
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        backgroundColor: Colors.green,
-                        content: Text("Image Uploaded")));
+                    Utils.toastSuccessMessage("Image Uploaded", context);
                   });
                 });
               },
@@ -2122,10 +2112,8 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                 .read(accountsControllerProvider.notifier)
                                 .getProfile();
                             context.pop();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    backgroundColor: Colors.green,
-                                    content: Text("Image Uploaded")));
+                            Utils.toastSuccessMessage(
+                                "Image Uploaded", context);
                           });
                         });
                       },
@@ -2156,10 +2144,8 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                 .read(accountsControllerProvider.notifier)
                                 .getProfile();
                             context.pop();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    backgroundColor: Colors.green,
-                                    content: Text("Image Uploaded")));
+                            Utils.toastSuccessMessage(
+                                "Image Uploaded", context);
                           });
                         });
                       },
@@ -2191,10 +2177,8 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                 .read(accountsControllerProvider.notifier)
                                 .getProfile();
                             context.pop();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    backgroundColor: Colors.green,
-                                    content: Text("Image Uploaded")));
+                            Utils.toastSuccessMessage(
+                                "Image Uploaded", context);
                           });
                         });
                       },

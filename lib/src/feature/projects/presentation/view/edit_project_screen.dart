@@ -526,10 +526,7 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
                         });
                         log("value" + value.toString());
                         context.pop();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                backgroundColor: Colors.green,
-                                content: Text("Image Uploaded")));
+                        Utils.toastSuccessMessage("Image Uploaded", context);
                       });
                     });
                   },
@@ -565,10 +562,7 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
 
                         log("imageUrls after" + imageUrls.toString());
                         context.pop();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                backgroundColor: Colors.green,
-                                content: Text("Image Uploaded")));
+                        Utils.toastSuccessMessage("Image Uploaded", context);
                       });
 
                       // setState(() {
@@ -606,10 +600,7 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
                         });
                         print("progress" + _progress.toString());
                         context.pop();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                backgroundColor: Colors.green,
-                                content: Text("Image Uploaded")));
+                        Utils.toastSuccessMessage("Image Uploaded", context);
                       });
                     });
                   },
@@ -681,10 +672,8 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
                             log("progress" + _progress.toString());
                             context.pop();
                             _showProgressBottomSheet(context);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    backgroundColor: Colors.green,
-                                    content: Text("Image Uploaded")));
+                            Utils.toastSuccessMessage(
+                                "Image Uploaded", context);
                           });
                         });
                       },
@@ -758,10 +747,8 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
                             });
                             context.pop();
                             _showProgressBottomSheet(context);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    backgroundColor: Colors.green,
-                                    content: Text("Image Uploaded")));
+                            Utils.toastSuccessMessage(
+                                "Image Uploaded", context);
                           });
                         });
                       },
@@ -1023,10 +1010,8 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
                                   .deleteImage(projectId, imageId)
                                   .then((value) {
                                 context.pop();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        backgroundColor: Colors.red,
-                                        content: Text("Image Deleted")));
+                                Utils.flushBarErrorMessage(
+                                    "Image Deleted", context);
                               });
                               setState(() {});
                             },
@@ -1103,9 +1088,7 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
               onPressed: () {
                 Service().deleteImage(projectId, imageId).then((value) {
                   context.pop();
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      backgroundColor: Colors.red,
-                      content: Text("Image Deleted")));
+                  Utils.flushBarErrorMessage("Image Deleted", context);
                 });
                 setState(() {});
               }),

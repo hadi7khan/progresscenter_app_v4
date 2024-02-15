@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -6,6 +9,7 @@ import 'package:flutter_mentions/flutter_mentions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/load_comments_widget.dart';
@@ -18,9 +22,17 @@ import 'package:progresscenter_app_v4/src/feature/progressline/presentation/prov
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/widgets/process_mention_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean_model.dart';
 
+import 'dart:developer' as dev;
+
 class CommentsWidget extends ConsumerStatefulWidget {
   final progresslineId;
-  const CommentsWidget({super.key, required this.progresslineId});
+  final String role;
+  final String userId;
+  const CommentsWidget(
+      {super.key,
+      required this.progresslineId,
+      required this.role,
+      required this.userId});
 
   @override
   ConsumerState<CommentsWidget> createState() => _CommentsWidgetState();
@@ -212,34 +224,47 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                           physics: AlwaysScrollableScrollPhysics(),
                           itemCount: data.length,
                           itemBuilder: ((context, index) {
-                            // Reverse the order of the list
                             final reversedIndex = data.length - 1 - index;
-                            return ListTile(
-                              horizontalTitleGap: 8.w,
-                              dense: true,
-                              visualDensity:
-                                  VisualDensity(horizontal: 0, vertical: -4),
-                              contentPadding: EdgeInsets.zero,
-                              leading: AvatarWidget(
-                                dpUrl: data[reversedIndex].user!.dpUrl != null
-                                    ? data[reversedIndex].user!.dpUrl!
-                                    : "",
-                                name: data[reversedIndex].user!.name!,
-                                backgroundColor:
-                                    data[reversedIndex].user!.preset!.color!,
-                                size: 32,
-                                fontSize: 14,
-                              ),
-                              title: Text(
-                                data[reversedIndex].user!.name!,
-                                style: TextStyle(
-                                    letterSpacing: -0.3,
-                                    color: Helper.textColor600,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              subtitle: ProcessMention(
-                                text: data[reversedIndex].body!,
+                            return InkWell(
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onLongPress: () {
+                                widget.role == "ADMIN" ||
+                                        widget.userId ==
+                                            data[reversedIndex].user!.id!
+                                    ? _showDeleteBottomSheet(
+                                        context,
+                                        widget.progresslineId,
+                                        data[reversedIndex].id)
+                                    : null;
+                              },
+                              child: ListTile(
+                                horizontalTitleGap: 8.w,
+                                dense: true,
+                                visualDensity:
+                                    VisualDensity(horizontal: 0, vertical: 0),
+                                contentPadding: EdgeInsets.zero,
+                                leading: AvatarWidget(
+                                  dpUrl: data[reversedIndex].user!.dpUrl != null
+                                      ? data[reversedIndex].user!.dpUrl!
+                                      : "",
+                                  name: data[reversedIndex].user!.name!,
+                                  backgroundColor:
+                                      data[reversedIndex].user!.preset!.color!,
+                                  size: 32,
+                                  fontSize: 14,
+                                ),
+                                title: Text(
+                                  data[reversedIndex].user!.name!,
+                                  style: TextStyle(
+                                      letterSpacing: -0.3,
+                                      color: Helper.textColor600,
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                subtitle: ProcessMention(
+                                  text: data[reversedIndex].body!,
+                                ),
                               ),
                             );
                           }),
@@ -269,6 +294,7 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                 ),
                 title: FlutterMentions(
                   key: key,
+                  textInputAction: TextInputAction.done,
                   suggestionListDecoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.r),
                       color: Colors.white,
@@ -392,6 +418,157 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
           ),
         ),
       ]),
+    );
+  }
+
+  _showDeleteBottomSheet(context, progresslineId, commentId) {
+    if (!Platform.isIOS) {
+      return showModalBottomSheet(
+        context: context,
+        backgroundColor: Colors.transparent,
+        builder: (context) => Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r)),
+            color: Colors.white,
+          ),
+          height: 200.h,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Delete',
+                    style: TextStyle(
+                        color: Helper.errorColor,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20.h),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Are you sure you want to delete this comment? ",
+                    style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Helper.textColor500),
+                  ),
+                  SizedBox(height: 20.h),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        TextButton(
+                          onPressed: () async {
+                            Service()
+                                .deleteProgresslineComment(
+                                    progresslineId, commentId)
+                                .then((value) {
+                              ref
+                                  .watch(commentsControllerProvider.notifier)
+                                  .getComments(widget.progresslineId);
+                              context.pop();
+                              context.pop();
+                              Utils.flushBarErrorMessage(
+                                  "Comment Deleted", context);
+                            });
+                            setState(() {});
+                          },
+                          style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 11),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              backgroundColor: Helper.errorColor,
+                              fixedSize: Size.infinite),
+                          child: const Text(
+                            "Delete",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            context.pop();
+                          },
+                          style: TextButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 11),
+                              backgroundColor: Colors.white,
+                              side: BorderSide(color: Helper.textColor300),
+                              fixedSize: Size.infinite),
+                          child: Text(
+                            "Cancel",
+                            style: TextStyle(
+                                color: Helper.textColor500,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ]),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+    return showCupertinoDialog(
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        title: Text(
+          'Do you want to delete this comment?',
+        ),
+        content: Text(
+          "You cannot undo this action ",
+        ),
+        actions: <Widget>[
+          CupertinoDialogAction(
+            child: Text(
+              "Cancel",
+              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500),
+            ),
+            onPressed: () => Navigator.of(context).pop(true),
+          ),
+          CupertinoDialogAction(
+              child: Text(
+                "Delete",
+                style: TextStyle(
+                  color: Helper.errorColor,
+                ),
+              ),
+              onPressed: () {
+                Service()
+                    .deleteProgresslineComment(progresslineId, commentId)
+                    .then((value) {
+                  ref
+                      .watch(commentsControllerProvider.notifier)
+                      .getComments(widget.progresslineId);
+                  context.pop();
+                  context.pop();
+                  Utils.flushBarErrorMessage("Comment Deleted", context);
+                });
+                setState(() {});
+              }),
+        ],
+      ),
     );
   }
 }

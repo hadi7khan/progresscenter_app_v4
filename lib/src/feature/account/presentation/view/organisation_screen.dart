@@ -668,10 +668,8 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                                         organisationControllerProvider.notifier)
                                     .getOrganisation();
                                 context.pop();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        backgroundColor: Colors.red,
-                                        content: Text("Image Deleted")));
+                                Utils.flushBarErrorMessage(
+                                    "Image Deleted", context);
                               });
                               setState(() {});
                             },
@@ -753,9 +751,7 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                       .read(organisationControllerProvider.notifier)
                       .getOrganisation();
                   context.pop();
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      backgroundColor: Colors.red,
-                      content: Text("Image Deleted")));
+                  Utils.flushBarErrorMessage("Image Deleted", context);
                 });
                 setState(() {});
               }),
@@ -795,9 +791,7 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                         .read(organisationControllerProvider.notifier)
                         .getOrganisation();
                     context.pop();
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        backgroundColor: Colors.green,
-                        content: Text("Image Uploaded")));
+                    Utils.toastSuccessMessage("Image Uploaded", context);
                   });
                 });
               },
@@ -827,9 +821,7 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                         .read(organisationControllerProvider.notifier)
                         .getOrganisation();
                     context.pop();
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        backgroundColor: Colors.green,
-                        content: Text("Image Uploaded")));
+                    Utils.toastSuccessMessage("Image Uploaded", context);
                   });
                 });
               },
@@ -859,9 +851,7 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                         .read(organisationControllerProvider.notifier)
                         .getOrganisation();
                     context.pop();
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        backgroundColor: Colors.green,
-                        content: Text("Image Uploaded")));
+                    Utils.toastSuccessMessage("Image Uploaded", context);
                   });
                 });
               },
@@ -927,10 +917,8 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                                     organisationControllerProvider.notifier)
                                 .getOrganisation();
                             context.pop();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    backgroundColor: Colors.green,
-                                    content: Text("Image Uploaded")));
+                            Utils.toastSuccessMessage(
+                                "Image Uploaded", context);
                           });
                         });
                       },
@@ -961,10 +949,8 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                                 .read(organisationControllerProvider.notifier)
                                 .getOrganisation();
                             context.pop();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    backgroundColor: Colors.green,
-                                    content: Text("Image Uploaded")));
+                            Utils.toastSuccessMessage(
+                                "Image Uploaded", context);
                           });
                         });
                       },
@@ -996,10 +982,8 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                                 .read(organisationControllerProvider.notifier)
                                 .getOrganisation();
                             context.pop();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    backgroundColor: Colors.green,
-                                    content: Text("Image Uploaded")));
+                            Utils.toastSuccessMessage(
+                                "Image Uploaded", context);
                           });
                         });
                       },
