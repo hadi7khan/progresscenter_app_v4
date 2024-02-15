@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
+import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_by_id_controller.dart';
@@ -95,9 +96,7 @@ class _UploadBottomSheetState extends BaseConsumerState<UploadBottomSheet> {
                           .read(projectByIdControllerProvider.notifier)
                           .getProjectById(widget.projectId, false);
                       context.pop();
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          backgroundColor: Colors.green,
-                          content: Text("Image Uploaded")));
+                      Utils.toastSuccessMessage("Image Uploaded", context);
                     });
                   });
                 },
@@ -129,9 +128,7 @@ class _UploadBottomSheetState extends BaseConsumerState<UploadBottomSheet> {
                           .read(projectByIdControllerProvider.notifier)
                           .getProjectById(widget.projectId, false);
                       context.pop();
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          backgroundColor: Colors.green,
-                          content: Text("Image Uploaded")));
+                      Utils.toastSuccessMessage("Image Uploaded", context);
                     });
                   });
                 },
@@ -163,9 +160,7 @@ class _UploadBottomSheetState extends BaseConsumerState<UploadBottomSheet> {
                           .read(projectByIdControllerProvider.notifier)
                           .getProjectById(widget.projectId, false);
                       context.pop();
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          backgroundColor: Colors.green,
-                          content: Text("Image Uploaded")));
+                      Utils.toastSuccessMessage("Image Uploaded", context);
                     });
                   });
                 },
@@ -232,10 +227,8 @@ class _UploadBottomSheetState extends BaseConsumerState<UploadBottomSheet> {
                                     .getProjects()
                                     .then((value) {});
                                 context.pop();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        backgroundColor: Colors.green,
-                                        content: Text("Image Uploaded")));
+                                Utils.toastSuccessMessage(
+                                    "Image Uploaded", context);
                               });
                             });
                           },
@@ -269,10 +262,8 @@ class _UploadBottomSheetState extends BaseConsumerState<UploadBottomSheet> {
                                         projectByIdControllerProvider.notifier)
                                     .getProjectById(widget.projectId, false);
                                 context.pop();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        backgroundColor: Colors.green,
-                                        content: Text("Image Uploaded")));
+                                Utils.toastSuccessMessage(
+                                    "Image Uploaded", context);
                               });
                             });
                           },
@@ -309,10 +300,8 @@ class _UploadBottomSheetState extends BaseConsumerState<UploadBottomSheet> {
                                     .getProjects()
                                     .then((value) {});
                                 context.pop();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        backgroundColor: Colors.green,
-                                        content: Text("Image Uploaded")));
+                                Utils.toastSuccessMessage(
+                                    "Image Uploaded", context);
                               });
                             });
                           },

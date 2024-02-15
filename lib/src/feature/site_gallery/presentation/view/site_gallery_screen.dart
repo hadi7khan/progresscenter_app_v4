@@ -445,9 +445,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                     });
                     // print("progress" + _progress.toString());
                     context.pop();
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        backgroundColor: Colors.green,
-                        content: Text("Media Uploaded")));
+                    Utils.toastSuccessMessage("Media Uploaded", context);
                   });
                   ref
                       .watch(siteGalleryControllerProvider.notifier)
@@ -596,10 +594,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                           ref
                               .refresh(siteGalleryControllerProvider.notifier)
                               .getSiteGallery(widget.projectId);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  backgroundColor: Colors.green,
-                                  content: Text("Image Uploaded")));
+                          Utils.toastSuccessMessage("Image Uploaded", context);
                         });
                       });
                     },

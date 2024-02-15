@@ -15,6 +15,7 @@ import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dart';
+import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/provider/site_gallery_controller.dart';
 import 'package:video_player/video_player.dart';
@@ -517,10 +518,8 @@ class _FullViewSitegalleryScreenState
                                     .read(
                                         siteGalleryControllerProvider.notifier)
                                     .getSiteGallery(widget.projectId);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        backgroundColor: Colors.red,
-                                        content: Text("Item Deleted")));
+                                Utils.flushBarErrorMessage(
+                                    "Item Deleted", context);
                               });
                               setState(() {});
                             },
@@ -611,12 +610,7 @@ class _FullViewSitegalleryScreenState
                   ref
                       .read(siteGalleryControllerProvider.notifier)
                       .getSiteGallery(widget.projectId);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      backgroundColor: Colors.red,
-                      content: Text("Item Deleted"),
-                    ),
-                  );
+                  Utils.flushBarErrorMessage("Item Deleted", context);
                 });
                 setState(() {});
               }),

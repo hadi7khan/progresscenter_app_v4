@@ -275,7 +275,9 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                                 .bottom),
                                         child: CommentsWidget(
                                             progresslineId:
-                                                widget.progresslineData.id),
+                                                widget.progresslineData.id,
+                                            role: user!['role'],
+                                            userId: user!['_id']),
                                       ));
                             },
                             child: Text(
@@ -308,6 +310,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                             suggestionPosition: SuggestionPosition.Top,
                             maxLines: 5,
                             minLines: 1,
+                            textInputAction: TextInputAction.done,
                             suggestionListDecoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8.r),
                                 color: Colors.white,
@@ -507,10 +510,8 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                   .getProgressline(widget
                                       .progresslineData.project.projectId);
                               context.pop();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      backgroundColor: Colors.red,
-                                      content: Text("Post Deleted")));
+                              Utils.flushBarErrorMessage(
+                                  "Post Deleted", context);
                             });
                             setState(() {});
                           },
@@ -590,9 +591,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                       .getProgressline(
                           widget.progresslineData.project.projectId);
                   context.pop();
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      backgroundColor: Colors.red,
-                      content: Text("Post Deleted")));
+                  Utils.flushBarErrorMessage("Post Deleted", context);
                 });
                 setState(() {});
               }),

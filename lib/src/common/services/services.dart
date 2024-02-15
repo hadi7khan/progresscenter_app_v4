@@ -661,6 +661,26 @@ class Service {
     }
   }
 
+  // method to delete progressline post
+  Future deleteProgresslineComment(
+      String progresslineIfd, String commentId) async {
+    final client = http.Client();
+    final response = await client.delete(
+        Uri.parse(
+            Endpoints.deleteProgressLineCommentUrl(progresslineIfd, commentId)),
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+        });
+    log(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      log("comment deleted");
+      return response.body;
+    } else {
+      throw Exception('Failed to delete comment');
+    }
+  }
+
   // method to delete profile logo
   Future deleteProfileDp() async {
     final client = http.Client();
