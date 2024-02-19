@@ -5,13 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
-import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
 import 'package:progresscenter_app_v4/src/core/utils/debouncer_delay.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/widgets/project_card.dart';
+import 'dart:developer';
 
 class SearchProjectScreen extends ConsumerStatefulWidget {
   const SearchProjectScreen({super.key});
@@ -60,12 +60,14 @@ class _SearchProjectScreenState extends BaseConsumerState<SearchProjectScreen> {
         ref.watch(projectControllerProvider.select((value) => value.projects));
     // Extract the list of projects from AsyncValue
     List<ProjectModel> projects = projectData.when(
-      loading: () => [], // Return an empty list or loading indicator as needed
-      error: (error, stackTrace) =>
-          [], // Handle error state, return an empty list or show an error message
-      data: (projects) =>
-          projects ?? [], // Use the projects or return an empty list if null
-    );
+        loading: () =>
+            [], // Return an empty list or loading indicator as needed
+        error: (error, stackTrace) =>
+            [], // Handle error state, return an empty list or show an error message
+        data: (projects) {
+          log(projects.toString());
+          return projects; // Use the projects or return an empty list if null
+        });
     List<ProjectModel> filteredProjects =
         filterProjects(projects, _searchController.text);
     return GestureDetector(

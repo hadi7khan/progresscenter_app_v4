@@ -3,16 +3,19 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mentions/flutter_mentions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/load_comments_widget.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_app_bar.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/loading_progressline_details.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
 import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
@@ -178,6 +181,23 @@ class _TimelineDetailsScreenState
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w500),
               ),
+              actions: [
+                InkWell(
+                  onTap: () {
+                    user!['role'] == "ADMIN"
+                        ? _showProgresslineDeleteBottomSheet(
+                            context, widget.progressLinePostId)
+                        : null;
+                  },
+                  child: Text(
+                    "Delete",
+                    style: TextStyle(
+                        color: Helper.errorColor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16.sp),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -186,26 +206,30 @@ class _TimelineDetailsScreenState
           child: progresslineBytIdData.when(
         data: (data) {
           return SingleChildScrollView(
+            physics: NeverScrollableScrollPhysics(),
             child: FormBuilder(
               key: _fbKey,
               child: Column(
                 children: [
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.4,
+                    color: Helper.widgetBackground,
                     child: data.url != null
-                        ? Image.network(
-                            data.url,
-                            gaplessPlayback: true,
-                            fit: BoxFit.fitHeight,
-                            errorBuilder: (BuildContext context,
-                                Object exception, StackTrace? stackTrace) {
-                              return ClipRRect(
-                                child: Image.asset(
-                                  'assets/images/error_image.jpeg',
-                                  fit: BoxFit.cover,
-                                ),
-                              );
-                            },
+                        ? PinchZoom(
+                            maxScale: 10,
+                            child: Image.network(
+                              data.url,
+                              gaplessPlayback: true,
+                              fit: BoxFit.cover,
+                              errorBuilder: (BuildContext context,
+                                  Object exception, StackTrace? stackTrace) {
+                                return ClipRRect(
+                                  child: Image.asset(
+                                    'assets/images/error_image.jpeg',
+                                    fit: BoxFit.fill,
+                                  ),
+                                );
+                              },
+                            ),
                           )
                         : ClipRRect(
                             borderRadius: BorderRadius.circular(4.r),
@@ -229,7 +253,7 @@ class _TimelineDetailsScreenState
                               topRight: Radius.circular(16.r)),
                           color: Colors.white,
                         ),
-                        height: MediaQuery.of(context).size.height * 0.6,
+                        height: MediaQuery.of(context).size.height * 0.6 - 90.h,
                         width: MediaQuery.of(context).size.width,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -309,12 +333,13 @@ class _TimelineDetailsScreenState
                                             children: [
                                               InkWell(
                                                 onLongPress: () {
+                                                  HapticFeedback.mediumImpact();
                                                   user!['role'] == "ADMIN" ||
                                                           user!['_id'] ==
                                                               data[reversedIndex]
                                                                   .user!
                                                                   .id!
-                                                      ? _showDeleteBottomSheet(
+                                                      ? _showCommentDeleteBottomSheet(
                                                           context,
                                                           widget
                                                               .progressLinePostId,
@@ -438,7 +463,7 @@ class _TimelineDetailsScreenState
           return const Text("Failed to load Progressline Details",
               style: TextStyle(letterSpacing: -0.3, color: Helper.errorColor));
         },
-        loading: () => LoadingAppBar(),
+        loading: () => LoadingProgresslineDetails(),
       )),
       bottomNavigationBar: SingleChildScrollView(
         child: Padding(
@@ -580,7 +605,149 @@ class _TimelineDetailsScreenState
     );
   }
 
-  _showDeleteBottomSheet(context, progresslineId, commentId) {
+  _showProgresslineDeleteBottomSheet(context, progresslineId) {
+    if (!Platform.isIOS) {
+      return showModalBottomSheet(
+        context: context,
+        backgroundColor: Colors.transparent,
+        builder: (context) => Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r)),
+            color: Colors.white,
+          ),
+          height: 200.h,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Delete',
+                    style: TextStyle(
+                        color: Helper.errorColor,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20.h),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Are you sure you want to delete this post? ",
+                    style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Helper.textColor500),
+                  ),
+                  SizedBox(height: 20.h),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        TextButton(
+                          onPressed: () async {
+                            Service()
+                                .deleteProgresslinePost(progresslineId)
+                                .then((value) {
+                              context.pop();
+                              context.pop();
+                              Utils.flushBarErrorMessage(
+                                  "Post Deleted", context);
+                            });
+                            setState(() {});
+                          },
+                          style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 11),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              backgroundColor: Helper.errorColor,
+                              fixedSize: Size.infinite),
+                          child: const Text(
+                            "Delete",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            context.pop();
+                          },
+                          style: TextButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 11),
+                              backgroundColor: Colors.white,
+                              side: BorderSide(color: Helper.textColor300),
+                              fixedSize: Size.infinite),
+                          child: Text(
+                            "Cancel",
+                            style: TextStyle(
+                                color: Helper.textColor500,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ]),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+    return showCupertinoDialog(
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        title: Text(
+          'Do you want to delete this post?',
+        ),
+        content: Text(
+          "You cannot undo this action ",
+        ),
+        actions: <Widget>[
+          CupertinoDialogAction(
+            child: Text(
+              "Cancel",
+              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500),
+            ),
+            onPressed: () => Navigator.of(context).pop(true),
+          ),
+          CupertinoDialogAction(
+              child: Text(
+                "Delete",
+                style: TextStyle(
+                  color: Helper.errorColor,
+                ),
+              ),
+              onPressed: () {
+                Service().deleteProgresslinePost(progresslineId).then((value) {
+                  context.pop();
+                  context.pop();
+                  Utils.flushBarErrorMessage("Post Deleted", context);
+                });
+                setState(() {});
+              }),
+        ],
+      ),
+    );
+  }
+
+  _showCommentDeleteBottomSheet(context, progresslineId, commentId) {
     if (!Platform.isIOS) {
       return showModalBottomSheet(
         context: context,
