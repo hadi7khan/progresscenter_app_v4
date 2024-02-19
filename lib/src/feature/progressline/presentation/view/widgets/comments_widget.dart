@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mentions/flutter_mentions.dart';
@@ -229,6 +230,7 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                               splashColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onLongPress: () {
+                                HapticFeedback.mediumImpact();
                                 widget.role == "ADMIN" ||
                                         widget.userId ==
                                             data[reversedIndex].user!.id!

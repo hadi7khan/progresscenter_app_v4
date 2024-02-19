@@ -10,7 +10,6 @@ import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dar
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_by_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/widgets/project_card.dart';
 import 'dart:developer';
 import 'package:progresscenter_app_v4/src/common/services/services.dart'

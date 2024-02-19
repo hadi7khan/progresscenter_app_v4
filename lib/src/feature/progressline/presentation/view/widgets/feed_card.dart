@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mentions/flutter_mentions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -139,6 +140,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         onLongPress: () {
+          HapticFeedback.mediumImpact();
           user!['role'] == "ADMIN"
               ? _showDeleteBottomSheet(context, widget.progresslineData.id)
               : null;
