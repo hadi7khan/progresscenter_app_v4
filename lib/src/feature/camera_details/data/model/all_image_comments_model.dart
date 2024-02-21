@@ -25,7 +25,7 @@ class AllImageCommentsModel with _$AllImageCommentsModel {
 class Comment with _$Comment {
   const factory Comment({
     Position? position,
-    String? id,
+    @JsonKey(name: "_id") String? id,
     String? imageName,
     String? camera,
     String? message,
@@ -33,7 +33,6 @@ class Comment with _$Comment {
     List<Reply>? replies,
     DateTime? createdAt,
     DateTime? updatedAt,
-    String? commentId,
   }) = _Comment;
 
   factory Comment.fromJson(Map<String, dynamic> json) =>
@@ -69,10 +68,9 @@ class User with _$User {
   const factory User({
     Preset? preset,
     Preferences? preferences,
-    String? id,
+    @JsonKey(name: "_id") String? userId,
     String? name,
     String? dp,
-    String? userId,
     String? dpUrl,
   }) = _User;
 

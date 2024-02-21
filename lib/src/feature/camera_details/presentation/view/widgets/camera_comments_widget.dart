@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -184,30 +186,39 @@ class _CameraCommentsWidgetState
                   ),
                 ],
               ),
-              ListTile(
-                horizontalTitleGap: 8.w,
-                dense: true,
-                visualDensity: VisualDensity(horizontal: 0, vertical: 0),
-                contentPadding: EdgeInsets.zero,
-                leading: AvatarWidget(
-                  dpUrl: widget.comment.user!.dpUrl != null
-                      ? widget.comment.user!.dpUrl!
-                      : "",
-                  name: widget.comment.user!.name!,
-                  backgroundColor: widget.comment.user!.preset!.color!,
-                  size: 32,
-                  fontSize: 14,
-                ),
-                title: Text(
-                  widget.comment.user!.name!,
-                  style: TextStyle(
-                      letterSpacing: -0.3,
-                      color: Helper.textColor600,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500),
-                ),
-                subtitle: ProcessMention(
-                  text: widget.comment.message!,
+              InkWell(
+                onLongPress: () {
+                  HapticFeedback.mediumImpact();
+                  user!['role'] == "ADMIN" ||
+                          user!['_id'] == widget.comment.user!.userId!
+                      ? _showImageDeleteBottomSheet(context, widget.comment.id!)
+                      : null;
+                },
+                child: ListTile(
+                  horizontalTitleGap: 8.w,
+                  dense: true,
+                  visualDensity: VisualDensity(horizontal: 0, vertical: 0),
+                  contentPadding: EdgeInsets.zero,
+                  leading: AvatarWidget(
+                    dpUrl: widget.comment.user!.dpUrl != null
+                        ? widget.comment.user!.dpUrl!
+                        : "",
+                    name: widget.comment.user!.name!,
+                    backgroundColor: widget.comment.user!.preset!.color!,
+                    size: 32,
+                    fontSize: 14,
+                  ),
+                  title: Text(
+                    widget.comment.user!.name!,
+                    style: TextStyle(
+                        letterSpacing: -0.3,
+                        color: Helper.textColor600,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  subtitle: ProcessMention(
+                    text: widget.comment.message!,
+                  ),
                 ),
               ),
               SizedBox(
@@ -221,41 +232,18 @@ class _CameraCommentsWidgetState
                   physics: AlwaysScrollableScrollPhysics(),
                   itemCount: widget.comment.replies!.length,
                   itemBuilder: ((context, index) {
-                    // final reversedIndex = widget.replies.length - 1 - index;
-                    if (index == 0) {
-                      ListTile(
-                        horizontalTitleGap: 8.w,
-                        dense: true,
-                        visualDensity:
-                            VisualDensity(horizontal: 0, vertical: 0),
-                        contentPadding: EdgeInsets.zero,
-                        leading: AvatarWidget(
-                          dpUrl: widget.comment.user!.dpUrl != null
-                              ? widget.comment.user!.dpUrl!
-                              : "",
-                          name: widget.comment.user!.name!,
-                          backgroundColor: widget.comment.user!.preset!.color!,
-                          size: 32,
-                          fontSize: 14,
-                        ),
-                        title: Text(
-                          widget.comment.user!.name!,
-                          style: TextStyle(
-                              letterSpacing: -0.3,
-                              color: Helper.textColor600,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        subtitle: ProcessMention(
-                          text: widget.comment.message!,
-                        ),
-                      );
-                    }
                     return InkWell(
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onLongPress: () {
                         HapticFeedback.mediumImpact();
+                        user!['role'] == "ADMIN" ||
+                                user!['_id'] == widget.comment.user!.userId!
+                            ? _showReplyDeleteBottomSheet(
+                                context,
+                                widget.comment.id,
+                                widget.comment.replies![index].replyId!)
+                            : null;
                       },
                       child: ListTile(
                         horizontalTitleGap: 8.w,
@@ -417,6 +405,314 @@ class _CameraCommentsWidgetState
           ),
         ),
       ]),
+    );
+  }
+
+  _showReplyDeleteBottomSheet(context, commentId, replyId) {
+    dev.log(commentId.toString());
+    if (!Platform.isIOS) {
+      return showModalBottomSheet(
+        context: context,
+        backgroundColor: Colors.transparent,
+        builder: (context) => Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r)),
+            color: Colors.white,
+          ),
+          height: 200.h,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Delete',
+                    style: TextStyle(
+                        color: Helper.errorColor,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20.h),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Are you sure you want to delete this post? ",
+                    style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Helper.textColor500),
+                  ),
+                  SizedBox(height: 20.h),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        TextButton(
+                          onPressed: () async {
+                            Service()
+                                .deleteImageCommentReply(widget.projectId,
+                                    widget.cameraId, commentId, replyId)
+                                .then((value) {
+                              ref
+                                  .watch(
+                                      imageCommentsControllerProvider.notifier)
+                                  .getImageComments(widget.projectId,
+                                      widget.cameraId, widget.imageName);
+                              context.pop();
+                              context.pop();
+                              Utils.flushBarErrorMessage(
+                                  "Comment Deleted", context);
+                            });
+                          },
+                          style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 11),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              backgroundColor: Helper.errorColor,
+                              fixedSize: Size.infinite),
+                          child: const Text(
+                            "Delete",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            context.pop();
+                          },
+                          style: TextButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 11),
+                              backgroundColor: Colors.white,
+                              side: BorderSide(color: Helper.textColor300),
+                              fixedSize: Size.infinite),
+                          child: Text(
+                            "Cancel",
+                            style: TextStyle(
+                                color: Helper.textColor500,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ]),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+    return showCupertinoDialog(
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        title: Text(
+          'Do you want to delete this post?',
+        ),
+        content: Text(
+          "You cannot undo this action ",
+        ),
+        actions: <Widget>[
+          CupertinoDialogAction(
+            child: Text(
+              "Cancel",
+              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500),
+            ),
+            onPressed: () => Navigator.of(context).pop(true),
+          ),
+          CupertinoDialogAction(
+              child: Text(
+                "Delete",
+                style: TextStyle(
+                  color: Helper.errorColor,
+                ),
+              ),
+              onPressed: () {
+                Service()
+                    .deleteImageCommentReply(
+                        widget.projectId, widget.cameraId, commentId, replyId)
+                    .then((value) {
+                  ref
+                      .watch(imageCommentsControllerProvider.notifier)
+                      .getImageComments(
+                          widget.projectId, widget.cameraId, widget.imageName);
+                  context.pop();
+                  context.pop();
+                  Utils.flushBarErrorMessage("Comment Deleted", context);
+                });
+              }),
+        ],
+      ),
+    );
+  }
+
+  _showImageDeleteBottomSheet(context, commentId) {
+    dev.log(commentId.toString());
+    if (!Platform.isIOS) {
+      return showModalBottomSheet(
+        context: context,
+        backgroundColor: Colors.transparent,
+        builder: (context) => Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16.r),
+                topRight: Radius.circular(16.r)),
+            color: Colors.white,
+          ),
+          height: 200.h,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Delete',
+                    style: TextStyle(
+                        color: Helper.errorColor,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20.h),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Are you sure you want to delete this post? ",
+                    style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Helper.textColor500),
+                  ),
+                  SizedBox(height: 20.h),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        TextButton(
+                          onPressed: () async {
+                            Service()
+                                .deleteImageComment(widget.projectId,
+                                    widget.cameraId, commentId)
+                                .then((value) {
+                              ref
+                                  .watch(
+                                      imageCommentsControllerProvider.notifier)
+                                  .getImageComments(widget.projectId,
+                                      widget.cameraId, widget.imageName);
+                              context.pop();
+                              context.pop();
+                              Utils.flushBarErrorMessage(
+                                  "Comment Deleted", context);
+                            });
+                          },
+                          style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 11),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              backgroundColor: Helper.errorColor,
+                              fixedSize: Size.infinite),
+                          child: const Text(
+                            "Delete",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            context.pop();
+                          },
+                          style: TextButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 11),
+                              backgroundColor: Colors.white,
+                              side: BorderSide(color: Helper.textColor300),
+                              fixedSize: Size.infinite),
+                          child: Text(
+                            "Cancel",
+                            style: TextStyle(
+                                color: Helper.textColor500,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ]),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+    return showCupertinoDialog(
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        title: Text(
+          'Do you want to delete this post?',
+        ),
+        content: Text(
+          "You cannot undo this action ",
+        ),
+        actions: <Widget>[
+          CupertinoDialogAction(
+            child: Text(
+              "Cancel",
+              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500),
+            ),
+            onPressed: () => Navigator.of(context).pop(true),
+          ),
+          CupertinoDialogAction(
+              child: Text(
+                "Delete",
+                style: TextStyle(
+                  color: Helper.errorColor,
+                ),
+              ),
+              onPressed: () {
+                Service()
+                    .deleteImageComment(
+                        widget.projectId, widget.cameraId, commentId)
+                    .then((value) {
+                  ref
+                      .watch(imageCommentsControllerProvider.notifier)
+                      .getImageComments(
+                          widget.projectId, widget.cameraId, widget.imageName);
+                  context.pop();
+                  context.pop();
+                  Utils.flushBarErrorMessage("Comment Deleted", context);
+                });
+              }),
+        ],
+      ),
     );
   }
 }

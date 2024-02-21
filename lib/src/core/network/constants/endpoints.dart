@@ -163,6 +163,14 @@ class Endpoints {
     return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/comments?offset=$page&limit=50';
   }
 
+  static deleteImageCommentsUrl(projectId, cameraId, commentId) {
+    return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/comments/$commentId';
+  }
+
+  static deleteImageCommentsReplyUrl(projectId, cameraId, commentId, replyId) {
+    return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/comments/$commentId/replies/$replyId';
+  }
+
   static shareSocials(projectId, cameraId) {
     return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/social-share';
   }
