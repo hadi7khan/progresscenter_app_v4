@@ -24,6 +24,7 @@ const String equipmentTrackerRoute = 'equipmentTracker';
 const String editProjectRoute = 'editproject';
 const String addMemberRoute = 'addmember';
 const String cameraDetailsRoute = 'cameradetails';
+const String imageCommentsRoute = 'imageComments';
 const String landscapeCameraDetailsRoute = 'landscapeCameradetails';
 const String multipleImagesRoute = 'multipleImages';
 const String livelapseRoute = 'livelapse';

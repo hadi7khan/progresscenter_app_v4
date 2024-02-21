@@ -1,6 +1,8 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:progresscenter_app_v4/src/common/data/model/camera_by_id_model.dart';
 import 'package:progresscenter_app_v4/src/core/network/failure.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/data/model/all_image_comments_model.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/data/model/image_comments_model.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/data/model/images_by_camera_id_model.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/data/model/multi_images_model.dart';
 
@@ -14,4 +16,8 @@ abstract class CameraDetailsRepository {
       String projectId, String cameraId, data);
   Future<Either<Failure, List<MultiImagesModel>>> multiImages(
       String projectId, String cameraId);
+  Future<Either<Failure, ImageCommentsModel>> imageComments(
+      String projectId, String cameraId, String imageName);
+  Future<Either<Failure, AllImageCommentsModel>> allImageComments(
+      String projectId, String cameraId, int page);
 }

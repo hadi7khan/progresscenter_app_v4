@@ -306,14 +306,15 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                               context: context,
                               backgroundColor: Colors.transparent,
                               builder: (context) => CameraBottomSheet(
-                                    cameraName: cameraData.name!,
-                                    projectId: widget.projectId,
-                                    cameraId: widget.cameraId,
-                                    startDate: cameraData.installationDate!,
-                                    endDate: cameraData.endDate!,
-                                    imageName: currentImage!.name!,
-                                    imageUrl: currentImage.urlPreview!,
-                                  ));
+                                  cameraName: cameraData.name!,
+                                  projectId: widget.projectId,
+                                  cameraId: widget.cameraId,
+                                  startDate: cameraData.installationDate!,
+                                  endDate: cameraData.endDate!,
+                                  imageName: currentImage!.name!,
+                                  imageUrl: currentImage.urlPreview!,
+                                  imageHeight: currentImage.resolution!.height!,
+                                  imageWidth: currentImage.resolution!.width!));
                         },
                         child: SvgPicture.asset(
                             'assets/images/dots-vertical.svg')),

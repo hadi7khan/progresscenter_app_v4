@@ -15,6 +15,8 @@ import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/load_comments_widget.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
+import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
+import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
@@ -45,10 +47,13 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
   List<UserLeanModel> _myCustomList = [];
   GlobalKey<FlutterMentionsState> key = GlobalKey<FlutterMentionsState>();
   final RegExp mentionRegex = RegExp(r"@\[([\w\s]+)\]\(user:(\d+)\)");
+  Map<String, dynamic>? user;
+  final _prefsLocator = getIt.get<SharedPreferenceHelper>();
 
   @override
   void initState() {
     super.initState();
+    fetchUser();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref
           .read(commentsControllerProvider.notifier)
@@ -59,6 +64,10 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
         _myCustomList = users;
       });
     });
+  }
+
+  fetchUser() {
+    user = _prefsLocator.getUser();
   }
 
   // method for fetching mention list
@@ -286,11 +295,11 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                 horizontalTitleGap: 8.w,
                 contentPadding: EdgeInsets.zero,
                 dense: true,
-                visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                visualDensity: VisualDensity(horizontal: 0, vertical: 0),
                 leading: AvatarWidget(
-                  dpUrl: "",
-                  name: "HADI",
-                  backgroundColor: "#0F9555",
+                  dpUrl: user!['dpUrl'] != null ? user!['dpUrl'] : "",
+                  name: user!['name'],
+                  backgroundColor: user!['preset']['color'],
                   size: 32,
                   fontSize: 14,
                 ),
@@ -323,7 +332,7 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                             horizontalTitleGap: 8.w,
                             dense: true,
                             visualDensity:
-                                VisualDensity(horizontal: 0, vertical: -4),
+                                VisualDensity(horizontal: 0, vertical: 0),
                             contentPadding: EdgeInsets.zero,
                             leading: AvatarWidget(
                               dpUrl: data['dpUrl'] != null ? data['dpUrl'] : "",

@@ -36,16 +36,21 @@ class CameraBottomSheet extends ConsumerStatefulWidget {
   final String endDate;
   final String imageName;
   final String imageUrl;
+  final int imageHeight;
+  final int imageWidth;
 
-  const CameraBottomSheet(
-      {super.key,
-      required this.cameraName,
-      required this.projectId,
-      required this.cameraId,
-      required this.startDate,
-      required this.endDate,
-      required this.imageName,
-      required this.imageUrl});
+  const CameraBottomSheet({
+    super.key,
+    required this.cameraName,
+    required this.projectId,
+    required this.cameraId,
+    required this.startDate,
+    required this.endDate,
+    required this.imageName,
+    required this.imageUrl,
+    required this.imageHeight,
+    required this.imageWidth,
+  });
 
   @override
   ConsumerState<CameraBottomSheet> createState() => _CameraBottomSheetState();
@@ -268,7 +273,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
             topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r)),
         color: Colors.white,
       ),
-      height: 320.h,
+      height: 400.h,
       width: MediaQuery.of(context).size.width,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -362,6 +367,47 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                     SizedBox(height: 24.h),
                     InkWell(
                       onTap: () async {
+                        context.push('/imageComments', extra: {
+                          "projectId": widget.projectId,
+                          "cameraId": widget.cameraId,
+                          "imageName": widget.imageName,
+                          "imageHeight": widget.imageHeight,
+                          "imageWidth": widget.imageWidth,
+                        });
+                      },
+                      child: Container(
+                        height: 44.h,
+                        child: ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: Container(
+                              decoration: BoxDecoration(
+                                color: Helper.bottomIconBack,
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              padding: EdgeInsets.all(8.w),
+                              child: SvgPicture.asset(
+                                  'assets/images/message.svg',
+                                  // width: 44.w,
+                                  // height: 44.h,
+                                  fit: BoxFit.cover,
+                                  colorFilter: ColorFilter.mode(
+                                      ref.watch(primaryColorProvider),
+                                      BlendMode.srcIn))),
+                          title: Text(
+                            'Comment',
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Helper.baseBlack,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 24.h),
+                    InkWell(
+                      onTap: () async {
                         Share.shareXFiles([XFile(filePath)]);
                       },
                       child: Container(
@@ -392,43 +438,6 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                         ),
                       ),
                     ),
-                    // SizedBox(height: 24.h),
-                    // InkWell(
-                    //   onTap: () async {
-                    //     // setState(() {
-                    //     //   _images = "1";
-                    //     //   _showImages = "1 Image";
-                    //     // });
-                    //     context.pop();
-                    //   },
-                    //   child: Container(
-                    //     height: 44.h,
-                    //     child: ListTile(
-                    //       contentPadding: EdgeInsets.zero,
-                    //       leading: Container(
-                    //           decoration: BoxDecoration(
-                    //             color: Helper.bottomIconBack,
-                    //             borderRadius: BorderRadius.circular(8.r),
-                    //           ),
-                    //           padding: EdgeInsets.all(8.w),
-                    //           child: SvgPicture.asset('assets/images/message.svg',
-                    //               // width: 44.w,
-                    //               // height: 44.h,
-                    //               fit: BoxFit.cover,
-                    //               colorFilter: ColorFilter.mode(
-                    //                   ref.watch(primaryColorProvider),
-                    //                   BlendMode.srcIn))),
-                    //       title: Text(
-                    //         'Comment',
-                    //         style: TextStyle(
-                    //             letterSpacing: -0.3,
-                    //             color: Helper.baseBlack,
-                    //             fontSize: 16.sp,
-                    //             fontWeight: FontWeight.w500),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                     // SizedBox(height: 24.h),
                     // InkWell(
                     //   onTap: () async {

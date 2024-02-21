@@ -838,4 +838,49 @@ class Service {
       throw Exception('Failed to fetch user list');
     }
   }
+
+  // method to add comment on image
+  Future addCommentOnImage(
+      String projectId, String cameraId, String imageName, data) async {
+    var postData = json.encode(data);
+    print("post data" + data.toString());
+    final client = http.Client();
+    final response = await client.post(
+        Uri.parse(Endpoints.imageCommentsUrl(projectId, cameraId, imageName)),
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+        },
+        body: postData);
+    log(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      log("comment sent");
+      return response.body;
+    } else {
+      throw Exception('Failed to submit request');
+    }
+  }
+
+  // method to add comment on image
+  Future addReplyOnImageComment(
+      String projectId, String cameraId, String commentId, data) async {
+    var postData = json.encode(data);
+    log("post data" + data.toString());
+    final client = http.Client();
+    final response = await client.post(
+        Uri.parse(
+            Endpoints.imageCommentsRepliesUrl(projectId, cameraId, commentId)),
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+        },
+        body: postData);
+    log(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      log("reply req sent");
+      return response.body;
+    } else {
+      throw Exception('Failed to submit request');
+    }
+  }
 }
