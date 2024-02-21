@@ -681,6 +681,46 @@ class Service {
     }
   }
 
+  // method to delete image comment
+  Future deleteImageComment(
+      String projectId, String cameraId, String commentId) async {
+    final client = http.Client();
+    final response = await client.delete(
+        Uri.parse(
+            Endpoints.deleteImageCommentsUrl(projectId, cameraId, commentId)),
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+        });
+    log(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      log("comment deleted");
+      return response.body;
+    } else {
+      throw Exception('Failed to delete comment');
+    }
+  }
+
+  // method to delete image comment reply
+  Future deleteImageCommentReply(String projectId, String cameraId,
+      String commentId, String replyId) async {
+    final client = http.Client();
+    final response = await client.delete(
+        Uri.parse(Endpoints.deleteImageCommentsReplyUrl(
+            projectId, cameraId, commentId, replyId)),
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+        });
+    log(response.statusCode.toString());
+    if (response.statusCode == 200) {
+      log("comment deleted");
+      return response.body;
+    } else {
+      throw Exception('Failed to delete comment');
+    }
+  }
+
   // method to delete profile logo
   Future deleteProfileDp() async {
     final client = http.Client();

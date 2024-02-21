@@ -26,7 +26,7 @@ _$_Comment _$$_CommentFromJson(Map<String, dynamic> json) => _$_Comment(
       position: json['position'] == null
           ? null
           : Position.fromJson(json['position'] as Map<String, dynamic>),
-      id: json['id'] as String?,
+      id: json['_id'] as String?,
       imageName: json['imageName'] as String?,
       camera: json['camera'] as String?,
       message: json['message'] as String?,
@@ -42,13 +42,12 @@ _$_Comment _$$_CommentFromJson(Map<String, dynamic> json) => _$_Comment(
       updatedAt: json['updatedAt'] == null
           ? null
           : DateTime.parse(json['updatedAt'] as String),
-      commentId: json['commentId'] as String?,
     );
 
 Map<String, dynamic> _$$_CommentToJson(_$_Comment instance) =>
     <String, dynamic>{
       'position': instance.position,
-      'id': instance.id,
+      '_id': instance.id,
       'imageName': instance.imageName,
       'camera': instance.camera,
       'message': instance.message,
@@ -56,7 +55,6 @@ Map<String, dynamic> _$$_CommentToJson(_$_Comment instance) =>
       'replies': instance.replies,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
-      'commentId': instance.commentId,
     };
 
 _$_Position _$$_PositionFromJson(Map<String, dynamic> json) => _$_Position(
@@ -75,7 +73,7 @@ _$_Reply _$$_ReplyFromJson(Map<String, dynamic> json) => _$_Reply(
       user: json['user'] == null
           ? null
           : User.fromJson(json['user'] as Map<String, dynamic>),
-      id: json['id'] as String?,
+      replyId: json['_id'] as String?,
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -87,7 +85,7 @@ _$_Reply _$$_ReplyFromJson(Map<String, dynamic> json) => _$_Reply(
 Map<String, dynamic> _$$_ReplyToJson(_$_Reply instance) => <String, dynamic>{
       'message': instance.message,
       'user': instance.user,
-      'id': instance.id,
+      '_id': instance.replyId,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };
@@ -99,20 +97,18 @@ _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
       preferences: json['preferences'] == null
           ? null
           : Preferences.fromJson(json['preferences'] as Map<String, dynamic>),
-      id: json['id'] as String?,
+      userId: json['_id'] as String?,
       name: json['name'] as String?,
       dp: json['dp'] as String?,
-      userId: json['userId'] as String?,
       dpUrl: json['dpUrl'] as String?,
     );
 
 Map<String, dynamic> _$$_UserToJson(_$_User instance) => <String, dynamic>{
       'preset': instance.preset,
       'preferences': instance.preferences,
-      'id': instance.id,
+      '_id': instance.userId,
       'name': instance.name,
       'dp': instance.dp,
-      'userId': instance.userId,
       'dpUrl': instance.dpUrl,
     };
 

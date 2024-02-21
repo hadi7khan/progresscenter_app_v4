@@ -187,6 +187,7 @@ Comment _$CommentFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Comment {
   Position? get position => throw _privateConstructorUsedError;
+  @JsonKey(name: "_id")
   String? get id => throw _privateConstructorUsedError;
   String? get imageName => throw _privateConstructorUsedError;
   String? get camera => throw _privateConstructorUsedError;
@@ -195,7 +196,6 @@ mixin _$Comment {
   List<Reply>? get replies => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-  String? get commentId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -209,15 +209,14 @@ abstract class $CommentCopyWith<$Res> {
   @useResult
   $Res call(
       {Position? position,
-      String? id,
+      @JsonKey(name: "_id") String? id,
       String? imageName,
       String? camera,
       String? message,
       User? user,
       List<Reply>? replies,
       DateTime? createdAt,
-      DateTime? updatedAt,
-      String? commentId});
+      DateTime? updatedAt});
 
   $PositionCopyWith<$Res>? get position;
   $UserCopyWith<$Res>? get user;
@@ -245,7 +244,6 @@ class _$CommentCopyWithImpl<$Res, $Val extends Comment>
     Object? replies = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
-    Object? commentId = freezed,
   }) {
     return _then(_value.copyWith(
       position: freezed == position
@@ -284,10 +282,6 @@ class _$CommentCopyWithImpl<$Res, $Val extends Comment>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      commentId: freezed == commentId
-          ? _value.commentId
-          : commentId // ignore: cast_nullable_to_non_nullable
-              as String?,
     ) as $Val);
   }
 
@@ -325,15 +319,14 @@ abstract class _$$_CommentCopyWith<$Res> implements $CommentCopyWith<$Res> {
   @useResult
   $Res call(
       {Position? position,
-      String? id,
+      @JsonKey(name: "_id") String? id,
       String? imageName,
       String? camera,
       String? message,
       User? user,
       List<Reply>? replies,
       DateTime? createdAt,
-      DateTime? updatedAt,
-      String? commentId});
+      DateTime? updatedAt});
 
   @override
   $PositionCopyWith<$Res>? get position;
@@ -360,7 +353,6 @@ class __$$_CommentCopyWithImpl<$Res>
     Object? replies = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
-    Object? commentId = freezed,
   }) {
     return _then(_$_Comment(
       position: freezed == position
@@ -399,10 +391,6 @@ class __$$_CommentCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      commentId: freezed == commentId
-          ? _value.commentId
-          : commentId // ignore: cast_nullable_to_non_nullable
-              as String?,
     ));
   }
 }
@@ -412,15 +400,14 @@ class __$$_CommentCopyWithImpl<$Res>
 class _$_Comment implements _Comment {
   const _$_Comment(
       {this.position,
-      this.id,
+      @JsonKey(name: "_id") this.id,
       this.imageName,
       this.camera,
       this.message,
       this.user,
       final List<Reply>? replies,
       this.createdAt,
-      this.updatedAt,
-      this.commentId})
+      this.updatedAt})
       : _replies = replies;
 
   factory _$_Comment.fromJson(Map<String, dynamic> json) =>
@@ -429,6 +416,7 @@ class _$_Comment implements _Comment {
   @override
   final Position? position;
   @override
+  @JsonKey(name: "_id")
   final String? id;
   @override
   final String? imageName;
@@ -452,12 +440,10 @@ class _$_Comment implements _Comment {
   final DateTime? createdAt;
   @override
   final DateTime? updatedAt;
-  @override
-  final String? commentId;
 
   @override
   String toString() {
-    return 'Comment(position: $position, id: $id, imageName: $imageName, camera: $camera, message: $message, user: $user, replies: $replies, createdAt: $createdAt, updatedAt: $updatedAt, commentId: $commentId)';
+    return 'Comment(position: $position, id: $id, imageName: $imageName, camera: $camera, message: $message, user: $user, replies: $replies, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -477,9 +463,7 @@ class _$_Comment implements _Comment {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt) &&
-            (identical(other.commentId, commentId) ||
-                other.commentId == commentId));
+                other.updatedAt == updatedAt));
   }
 
   @JsonKey(ignore: true)
@@ -494,8 +478,7 @@ class _$_Comment implements _Comment {
       user,
       const DeepCollectionEquality().hash(_replies),
       createdAt,
-      updatedAt,
-      commentId);
+      updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -514,21 +497,21 @@ class _$_Comment implements _Comment {
 abstract class _Comment implements Comment {
   const factory _Comment(
       {final Position? position,
-      final String? id,
+      @JsonKey(name: "_id") final String? id,
       final String? imageName,
       final String? camera,
       final String? message,
       final User? user,
       final List<Reply>? replies,
       final DateTime? createdAt,
-      final DateTime? updatedAt,
-      final String? commentId}) = _$_Comment;
+      final DateTime? updatedAt}) = _$_Comment;
 
   factory _Comment.fromJson(Map<String, dynamic> json) = _$_Comment.fromJson;
 
   @override
   Position? get position;
   @override
+  @JsonKey(name: "_id")
   String? get id;
   @override
   String? get imageName;
@@ -544,8 +527,6 @@ abstract class _Comment implements Comment {
   DateTime? get createdAt;
   @override
   DateTime? get updatedAt;
-  @override
-  String? get commentId;
   @override
   @JsonKey(ignore: true)
   _$$_CommentCopyWith<_$_Comment> get copyWith =>
@@ -921,10 +902,10 @@ User _$UserFromJson(Map<String, dynamic> json) {
 mixin _$User {
   Preset? get preset => throw _privateConstructorUsedError;
   Preferences? get preferences => throw _privateConstructorUsedError;
-  String? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "_id")
+  String? get userId => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get dp => throw _privateConstructorUsedError;
-  String? get userId => throw _privateConstructorUsedError;
   String? get dpUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -940,10 +921,9 @@ abstract class $UserCopyWith<$Res> {
   $Res call(
       {Preset? preset,
       Preferences? preferences,
-      String? id,
+      @JsonKey(name: "_id") String? userId,
       String? name,
       String? dp,
-      String? userId,
       String? dpUrl});
 
   $PresetCopyWith<$Res>? get preset;
@@ -965,10 +945,9 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   $Res call({
     Object? preset = freezed,
     Object? preferences = freezed,
-    Object? id = freezed,
+    Object? userId = freezed,
     Object? name = freezed,
     Object? dp = freezed,
-    Object? userId = freezed,
     Object? dpUrl = freezed,
   }) {
     return _then(_value.copyWith(
@@ -980,9 +959,9 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.preferences
           : preferences // ignore: cast_nullable_to_non_nullable
               as Preferences?,
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as String?,
       name: freezed == name
           ? _value.name
@@ -991,10 +970,6 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
       dp: freezed == dp
           ? _value.dp
           : dp // ignore: cast_nullable_to_non_nullable
-              as String?,
-      userId: freezed == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
               as String?,
       dpUrl: freezed == dpUrl
           ? _value.dpUrl
@@ -1037,10 +1012,9 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
   $Res call(
       {Preset? preset,
       Preferences? preferences,
-      String? id,
+      @JsonKey(name: "_id") String? userId,
       String? name,
       String? dp,
-      String? userId,
       String? dpUrl});
 
   @override
@@ -1060,10 +1034,9 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
   $Res call({
     Object? preset = freezed,
     Object? preferences = freezed,
-    Object? id = freezed,
+    Object? userId = freezed,
     Object? name = freezed,
     Object? dp = freezed,
-    Object? userId = freezed,
     Object? dpUrl = freezed,
   }) {
     return _then(_$_User(
@@ -1075,9 +1048,9 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
           ? _value.preferences
           : preferences // ignore: cast_nullable_to_non_nullable
               as Preferences?,
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as String?,
       name: freezed == name
           ? _value.name
@@ -1086,10 +1059,6 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
       dp: freezed == dp
           ? _value.dp
           : dp // ignore: cast_nullable_to_non_nullable
-              as String?,
-      userId: freezed == userId
-          ? _value.userId
-          : userId // ignore: cast_nullable_to_non_nullable
               as String?,
       dpUrl: freezed == dpUrl
           ? _value.dpUrl
@@ -1105,10 +1074,9 @@ class _$_User implements _User {
   const _$_User(
       {this.preset,
       this.preferences,
-      this.id,
+      @JsonKey(name: "_id") this.userId,
       this.name,
       this.dp,
-      this.userId,
       this.dpUrl});
 
   factory _$_User.fromJson(Map<String, dynamic> json) => _$$_UserFromJson(json);
@@ -1118,19 +1086,18 @@ class _$_User implements _User {
   @override
   final Preferences? preferences;
   @override
-  final String? id;
+  @JsonKey(name: "_id")
+  final String? userId;
   @override
   final String? name;
   @override
   final String? dp;
   @override
-  final String? userId;
-  @override
   final String? dpUrl;
 
   @override
   String toString() {
-    return 'User(preset: $preset, preferences: $preferences, id: $id, name: $name, dp: $dp, userId: $userId, dpUrl: $dpUrl)';
+    return 'User(preset: $preset, preferences: $preferences, userId: $userId, name: $name, dp: $dp, dpUrl: $dpUrl)';
   }
 
   @override
@@ -1141,17 +1108,16 @@ class _$_User implements _User {
             (identical(other.preset, preset) || other.preset == preset) &&
             (identical(other.preferences, preferences) ||
                 other.preferences == preferences) &&
-            (identical(other.id, id) || other.id == id) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.dp, dp) || other.dp == dp) &&
-            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.dpUrl, dpUrl) || other.dpUrl == dpUrl));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, preset, preferences, id, name, dp, userId, dpUrl);
+  int get hashCode =>
+      Object.hash(runtimeType, preset, preferences, userId, name, dp, dpUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -1171,10 +1137,9 @@ abstract class _User implements User {
   const factory _User(
       {final Preset? preset,
       final Preferences? preferences,
-      final String? id,
+      @JsonKey(name: "_id") final String? userId,
       final String? name,
       final String? dp,
-      final String? userId,
       final String? dpUrl}) = _$_User;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
@@ -1184,13 +1149,12 @@ abstract class _User implements User {
   @override
   Preferences? get preferences;
   @override
-  String? get id;
+  @JsonKey(name: "_id")
+  String? get userId;
   @override
   String? get name;
   @override
   String? get dp;
-  @override
-  String? get userId;
   @override
   String? get dpUrl;
   @override
