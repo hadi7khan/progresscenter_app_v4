@@ -11,6 +11,8 @@ import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/load_ticket_by_id.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_user_profile.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
+import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
+import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/support/data/model/ticket_replies_model.dart';
@@ -32,10 +34,13 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   List<TicketRepliesModel> groupedReplies = [];
   ScrollController _scrollController = ScrollController();
+  Map<String, dynamic>? user;
+  final _prefsLocator = getIt.get<SharedPreferenceHelper>();
 
   @override
   void initState() {
     super.initState();
+    fetchUser();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref
@@ -52,6 +57,10 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
         print("groupedReplies-----" + groupedReplies.toString());
       });
     });
+  }
+
+  fetchUser() {
+    user = _prefsLocator.getUser();
   }
 
   List<Map<String, dynamic>> getGroupedReplies() {
@@ -356,11 +365,11 @@ class _TicketByIdScreenState extends BaseConsumerState<TicketByIdScreen> {
                 horizontalTitleGap: 8.w,
                 contentPadding: EdgeInsets.zero,
                 dense: true,
-                visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                visualDensity: VisualDensity(horizontal: 0, vertical: 0),
                 leading: AvatarWidget(
-                  dpUrl: "",
-                  name: "HADI",
-                  backgroundColor: "#0F9555",
+                  dpUrl: user!['dpUrl'] != null ? user!['dpUrl'] : "",
+                  name: user!['name'],
+                  backgroundColor: user!['preset']['color'],
                   size: 32,
                   fontSize: 14,
                 ),

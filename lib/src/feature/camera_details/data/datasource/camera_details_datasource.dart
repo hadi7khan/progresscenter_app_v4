@@ -16,6 +16,8 @@ abstract class AccountsDataSource {
   Future cameraById(String projectId, String cameraId);
   Future createZip(String projectId, String cameraId, data);
   Future multiImages(String projectId, String cameraId);
+  Future imageComments(String projectId, String cameraId, String imageName);
+  Future allImageComments(String projectId, String cameraId, int page);
 }
 
 class CameraDetailsDataSourceImpl implements AccountsDataSource {
@@ -67,6 +69,29 @@ class CameraDetailsDataSourceImpl implements AccountsDataSource {
   Future multiImages(String projectId, String cameraId) async {
     final response = await dioClient
         .get(Endpoints.downloadMultiImageUrl(projectId, cameraId));
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      return ServerException();
+    }
+  }
+
+  @override
+  Future imageComments(
+      String projectId, String cameraId, String imageName) async {
+    final response = await dioClient
+        .get(Endpoints.imageCommentsUrl(projectId, cameraId, imageName));
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      return ServerException();
+    }
+  }
+
+  @override
+  Future allImageComments(String projectId, String cameraId, int page) async {
+    final response = await dioClient
+        .get(Endpoints.allImageCommentsUrl(projectId, cameraId, page));
     if (response.statusCode == 200) {
       return response.data;
     } else {

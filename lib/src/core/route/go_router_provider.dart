@@ -21,6 +21,7 @@ import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/sign_in
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/verify_email_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/bottom_navigation/view/bottom_navigation.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/camera_details_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/image_comments_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/landscape_camera_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/multiple_images_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/cctv_view/presentation/view/fullview_cctv_screen.dart';
@@ -283,6 +284,25 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               projectId: args['projectId'],
               projectName: args['projectName'],
               cameraId: args['cameraId'],
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/imageComments',
+        parentNavigatorKey: rootNavigatorKey,
+        name: imageCommentsRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: ImageCommentsScreen(
+              key: state.pageKey,
+              projectId: args['projectId'],
+              cameraId: args['cameraId'],
+              imageName: args['imageName'],
+              imageHeight: args['imageHeight'],
+              imageWidth: args['imageWidth'],
             ),
           );
         },

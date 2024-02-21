@@ -151,6 +151,18 @@ class Endpoints {
     return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/multi-image-downloads';
   }
 
+  static imageCommentsUrl(projectId, cameraId, imageName) {
+    return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/comments/images/$imageName';
+  }
+
+  static imageCommentsRepliesUrl(projectId, cameraId, commentId) {
+    return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/comments/$commentId/replies';
+  }
+
+  static allImageCommentsUrl(projectId, cameraId, page) {
+    return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/comments?offset=$page&limit=50';
+  }
+
   static shareSocials(projectId, cameraId) {
     return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/social-share';
   }
