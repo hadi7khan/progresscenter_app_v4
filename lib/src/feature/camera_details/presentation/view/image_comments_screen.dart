@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -32,6 +33,10 @@ class ImageCommentsScreen extends ConsumerStatefulWidget {
   final String imageName;
   final int imageHeight;
   final int imageWidth;
+  final bool fromNotifications;
+  final String cameraImageCommentId;
+  // final String cameraImageCommentReplyId;
+
   const ImageCommentsScreen({
     super.key,
     required this.projectId,
@@ -39,6 +44,9 @@ class ImageCommentsScreen extends ConsumerStatefulWidget {
     required this.imageName,
     required this.imageHeight,
     required this.imageWidth,
+    required this.fromNotifications,
+    required this.cameraImageCommentId,
+    // required this.cameraImageCommentReplyId,
   });
 
   @override
@@ -48,6 +56,7 @@ class ImageCommentsScreen extends ConsumerStatefulWidget {
 
 class _ImageCommentsScreenState extends BaseConsumerState<ImageCommentsScreen> {
   TextEditingController _commentController = TextEditingController();
+  ScrollController _scrollController = ScrollController();
   var aspectRatio;
   var imageHeight;
   int page = 0;
@@ -64,7 +73,25 @@ class _ImageCommentsScreenState extends BaseConsumerState<ImageCommentsScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref
           .read(allImageCommentsControllerProvider.notifier)
-          .getAllImageComments(widget.projectId, widget.cameraId, page);
+          .getAllImageComments(widget.projectId, widget.cameraId, page)
+          .then((value) {
+        dev.log("valueee" + value.toString());
+        if (widget.fromNotifications) {
+          int index = value.comments.indexWhere(
+              (comment) => comment.id == widget.cameraImageCommentId);
+          dev.log("index" + index.toString());
+
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Timer(Duration(seconds: 1), () {
+              _scrollController.animateTo(
+                index * 40,
+                duration: Duration(milliseconds: 500),
+                curve: Curves.easeInOut,
+              );
+            });
+          });
+        }
+      });
     });
     fetchUser();
   }
@@ -260,7 +287,7 @@ class _ImageCommentsScreenState extends BaseConsumerState<ImageCommentsScreen> {
                                     },
                                     shrinkWrap: true,
                                     padding: EdgeInsets.zero,
-                                    // controller: _commentController,
+                                    controller: _scrollController,
                                     physics: AlwaysScrollableScrollPhysics(),
                                     itemCount: allComments.comments!.length,
                                     itemBuilder: ((context, index) {

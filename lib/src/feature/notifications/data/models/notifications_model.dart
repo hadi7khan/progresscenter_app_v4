@@ -89,6 +89,7 @@ class Details with _$Details {
     String? endDate,
     String? livelapseId,
     int? duration,
+    CameraImageResolution? cameraImageResolution,
     ProjectLocation? projectLocation,
     String? userId,
     dynamic projectImageFilePath,
@@ -98,6 +99,17 @@ class Details with _$Details {
 
   factory Details.fromJson(Map<String, dynamic> json) =>
       _$DetailsFromJson(json);
+}
+
+@freezed
+class CameraImageResolution with _$CameraImageResolution {
+  const factory CameraImageResolution({
+    int? width,
+    int? height,
+  }) = _CameraImageResolution;
+
+  factory CameraImageResolution.fromJson(Map<String, dynamic> json) =>
+      _$CameraImageResolutionFromJson(json);
 }
 
 @freezed
