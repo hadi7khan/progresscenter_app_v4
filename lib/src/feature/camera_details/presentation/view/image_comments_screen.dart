@@ -19,6 +19,8 @@ import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_hel
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/data/model/all_image_comments_model.dart'
+    as allComments;
 import 'package:progresscenter_app_v4/src/feature/camera_details/data/model/image_comments_model.dart'
     as model;
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/all_image_comments_controller.dart';
@@ -57,9 +59,11 @@ class ImageCommentsScreen extends ConsumerStatefulWidget {
 class _ImageCommentsScreenState extends BaseConsumerState<ImageCommentsScreen> {
   TextEditingController _commentController = TextEditingController();
   ScrollController _scrollController = ScrollController();
+  List<allComments.Comment> commentsList = [];
   var aspectRatio;
   var imageHeight;
   int page = 0;
+  int count = 0;
   final _prefsLocator = getIt.get<SharedPreferenceHelper>();
   Map<String, dynamic>? user;
   @override
@@ -75,11 +79,12 @@ class _ImageCommentsScreenState extends BaseConsumerState<ImageCommentsScreen> {
           .read(allImageCommentsControllerProvider.notifier)
           .getAllImageComments(widget.projectId, widget.cameraId, page)
           .then((value) {
-        dev.log("valueee" + value.toString());
+        commentsList = value.comments.toList();
+        count = value.count;
+        dev.log("valueee" + commentsList.length.toString());
         if (widget.fromNotifications) {
           int index = value.comments.indexWhere(
               (comment) => comment.id == widget.cameraImageCommentId);
-          dev.log("index" + index.toString());
 
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Timer(Duration(seconds: 1), () {
@@ -93,7 +98,32 @@ class _ImageCommentsScreenState extends BaseConsumerState<ImageCommentsScreen> {
         }
       });
     });
+    _scrollController.addListener(() {
+      final maxScrollExtent = _scrollController.position.maxScrollExtent;
+      final currentScroll = _scrollController.position.pixels;
+      final bottom = 16.h;
+      if (_scrollController.position.pixels == maxScrollExtent) {
+        if (commentsList.length <= count) {
+          page++;
+          dev.log(page.toString());
+          ref
+              .read(allImageCommentsControllerProvider.notifier)
+              .getAllImageComments(widget.projectId, widget.cameraId, page)
+              .then((value) {
+            commentsList.addAll(value.comments);
+            dev.log("length-----" + commentsList.length.toString());
+          });
+        }
+      }
+    });
     fetchUser();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    aspectRatio = widget.imageWidth / widget.imageHeight;
+    imageHeight = MediaQuery.of(context).size.width / aspectRatio;
   }
 
   fetchUser() {
@@ -103,8 +133,6 @@ class _ImageCommentsScreenState extends BaseConsumerState<ImageCommentsScreen> {
   buildCommentsHead(List<model.Comment> comments) {
     return comments.map((e) {
       var x = (e.position!.x! / 100) * MediaQuery.of(context).size.width;
-      aspectRatio = widget.imageWidth / widget.imageHeight;
-      imageHeight = MediaQuery.of(context).size.width / aspectRatio;
       var y = (e.position!.y! / 100) * imageHeight;
       return Positioned(
           left: x,
@@ -191,7 +219,13 @@ class _ImageCommentsScreenState extends BaseConsumerState<ImageCommentsScreen> {
               return await ref
                   .refresh(imageCommentsControllerProvider.notifier)
                   .getImageComments(
-                      widget.projectId, widget.cameraId, widget.imageName);
+                      widget.projectId, widget.cameraId, widget.imageName)
+                  .then((value) {
+                ref
+                    .refresh(allImageCommentsControllerProvider.notifier)
+                    .getAllImageComments(
+                        widget.projectId, widget.cameraId, page);
+              });
             },
             child: SingleChildScrollView(
               // physics: NeverScrollableScrollPhysics(),
@@ -281,6 +315,42 @@ class _ImageCommentsScreenState extends BaseConsumerState<ImageCommentsScreen> {
                                   MediaQuery.of(context).size.height * 0.5.h,
                               child: allImageCommentsData.when(
                                 data: (allComments) {
+                                  if (allComments.comments!.isEmpty) {
+                                    return Container(
+                                      alignment: Alignment.center,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.3.h,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          SvgPicture.asset(
+                                              'assets/images/illustration.svg'),
+                                          SizedBox(height: 16.h),
+                                          Text(
+                                            "No Comments",
+                                            style: TextStyle(
+                                                letterSpacing: -0.3,
+                                                color: Helper.textColor900,
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                          Text(
+                                            "This space is empty. ",
+                                            style: TextStyle(
+                                                letterSpacing: -0.3,
+                                                color: Helper.textColor600,
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }
+                                  ;
                                   return ListView.separated(
                                     separatorBuilder: (context, index) {
                                       return SizedBox(height: 16.h);
@@ -307,6 +377,21 @@ class _ImageCommentsScreenState extends BaseConsumerState<ImageCommentsScreen> {
                                                       allComments
                                                           .comments![index].id!)
                                                   : null;
+                                            },
+                                            onTap: () {
+                                              ref
+                                                  .watch(
+                                                      imageCommentsControllerProvider
+                                                          .notifier)
+                                                  .getImageComments(
+                                                      widget.projectId,
+                                                      widget.cameraId,
+                                                      allComments
+                                                          .comments![index]
+                                                          .imageName!)
+                                                  .then((value) {
+                                                setState(() {});
+                                              });
                                             },
                                             child: ListTile(
                                               horizontalTitleGap: 8.w,
@@ -353,6 +438,11 @@ class _ImageCommentsScreenState extends BaseConsumerState<ImageCommentsScreen> {
                                               ),
                                             ),
                                           ),
+                                          if (index ==
+                                              allComments.comments!.length - 1)
+                                            SizedBox(
+                                              height: 20.h,
+                                            ),
                                         ],
                                       );
                                     }),
@@ -444,7 +534,14 @@ class _ImageCommentsScreenState extends BaseConsumerState<ImageCommentsScreen> {
                                   .watch(
                                       imageCommentsControllerProvider.notifier)
                                   .getImageComments(widget.projectId,
-                                      widget.cameraId, widget.imageName);
+                                      widget.cameraId, widget.imageName)
+                                  .then((value) {
+                                ref
+                                    .watch(allImageCommentsControllerProvider
+                                        .notifier)
+                                    .getAllImageComments(widget.projectId,
+                                        widget.cameraId, page);
+                              });
                               context.pop();
                               Utils.flushBarErrorMessage(
                                   "Comment Deleted", context);
@@ -527,7 +624,13 @@ class _ImageCommentsScreenState extends BaseConsumerState<ImageCommentsScreen> {
                   ref
                       .watch(imageCommentsControllerProvider.notifier)
                       .getImageComments(
-                          widget.projectId, widget.cameraId, widget.imageName);
+                          widget.projectId, widget.cameraId, widget.imageName)
+                      .then((value) {
+                    ref
+                        .watch(allImageCommentsControllerProvider.notifier)
+                        .getAllImageComments(
+                            widget.projectId, widget.cameraId, page);
+                  });
                   context.pop();
                   Utils.flushBarErrorMessage("Comment Deleted", context);
                 });
@@ -672,6 +775,12 @@ class _ImageCommentsScreenState extends BaseConsumerState<ImageCommentsScreen> {
                                         .notifier)
                                     .getImageComments(widget.projectId,
                                         widget.cameraId, widget.imageName);
+                                ref
+                                    .watch(allImageCommentsControllerProvider
+                                        .notifier)
+                                    .getAllImageComments(widget.projectId,
+                                        widget.cameraId, page);
+
                                 context.pop();
                                 Utils.toastSuccessMessage(
                                     "Comment Posted", context);

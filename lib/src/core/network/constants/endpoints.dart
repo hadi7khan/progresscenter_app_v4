@@ -160,7 +160,7 @@ class Endpoints {
   }
 
   static allImageCommentsUrl(projectId, cameraId, page) {
-    return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/comments?offset=$page&limit=50';
+    return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/comments?offset=$page&limit=20';
   }
 
   static deleteImageCommentsUrl(projectId, cameraId, commentId) {
