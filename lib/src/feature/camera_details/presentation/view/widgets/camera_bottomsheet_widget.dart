@@ -373,6 +373,9 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                           "imageName": widget.imageName,
                           "imageHeight": widget.imageHeight,
                           "imageWidth": widget.imageWidth,
+                          "fromNotifications": false,
+                          "cameraImageCommentId": "",
+                          "cameraImageCommentReplyId": "",
                         });
                       },
                       child: Container(

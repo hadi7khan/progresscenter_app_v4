@@ -116,6 +116,10 @@ _$_Details _$$_DetailsFromJson(Map<String, dynamic> json) => _$_Details(
       endDate: json['endDate'] as String?,
       livelapseId: json['livelapseId'] as String?,
       duration: json['duration'] as int?,
+      cameraImageResolution: json['cameraImageResolution'] == null
+          ? null
+          : CameraImageResolution.fromJson(
+              json['cameraImageResolution'] as Map<String, dynamic>),
       projectLocation: json['projectLocation'] == null
           ? null
           : ProjectLocation.fromJson(
@@ -148,11 +152,26 @@ Map<String, dynamic> _$$_DetailsToJson(_$_Details instance) =>
       'endDate': instance.endDate,
       'livelapseId': instance.livelapseId,
       'duration': instance.duration,
+      'cameraImageResolution': instance.cameraImageResolution,
       'projectLocation': instance.projectLocation,
       'userId': instance.userId,
       'projectImageFilePath': instance.projectImageFilePath,
       'invitationId': instance.invitationId,
       'supportTicketId': instance.supportTicketId,
+    };
+
+_$_CameraImageResolution _$$_CameraImageResolutionFromJson(
+        Map<String, dynamic> json) =>
+    _$_CameraImageResolution(
+      width: json['width'] as int?,
+      height: json['height'] as int?,
+    );
+
+Map<String, dynamic> _$$_CameraImageResolutionToJson(
+        _$_CameraImageResolution instance) =>
+    <String, dynamic>{
+      'width': instance.width,
+      'height': instance.height,
     };
 
 _$_ProjectLocation _$$_ProjectLocationFromJson(Map<String, dynamic> json) =>

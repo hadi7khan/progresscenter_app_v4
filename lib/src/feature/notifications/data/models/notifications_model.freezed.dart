@@ -991,6 +991,8 @@ mixin _$Details {
   String? get endDate => throw _privateConstructorUsedError;
   String? get livelapseId => throw _privateConstructorUsedError;
   int? get duration => throw _privateConstructorUsedError;
+  CameraImageResolution? get cameraImageResolution =>
+      throw _privateConstructorUsedError;
   ProjectLocation? get projectLocation => throw _privateConstructorUsedError;
   String? get userId => throw _privateConstructorUsedError;
   dynamic get projectImageFilePath => throw _privateConstructorUsedError;
@@ -1028,12 +1030,14 @@ abstract class $DetailsCopyWith<$Res> {
       String? endDate,
       String? livelapseId,
       int? duration,
+      CameraImageResolution? cameraImageResolution,
       ProjectLocation? projectLocation,
       String? userId,
       dynamic projectImageFilePath,
       String? invitationId,
       String? supportTicketId});
 
+  $CameraImageResolutionCopyWith<$Res>? get cameraImageResolution;
   $ProjectLocationCopyWith<$Res>? get projectLocation;
 }
 
@@ -1070,6 +1074,7 @@ class _$DetailsCopyWithImpl<$Res, $Val extends Details>
     Object? endDate = freezed,
     Object? livelapseId = freezed,
     Object? duration = freezed,
+    Object? cameraImageResolution = freezed,
     Object? projectLocation = freezed,
     Object? userId = freezed,
     Object? projectImageFilePath = freezed,
@@ -1157,6 +1162,10 @@ class _$DetailsCopyWithImpl<$Res, $Val extends Details>
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as int?,
+      cameraImageResolution: freezed == cameraImageResolution
+          ? _value.cameraImageResolution
+          : cameraImageResolution // ignore: cast_nullable_to_non_nullable
+              as CameraImageResolution?,
       projectLocation: freezed == projectLocation
           ? _value.projectLocation
           : projectLocation // ignore: cast_nullable_to_non_nullable
@@ -1178,6 +1187,19 @@ class _$DetailsCopyWithImpl<$Res, $Val extends Details>
           : supportTicketId // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CameraImageResolutionCopyWith<$Res>? get cameraImageResolution {
+    if (_value.cameraImageResolution == null) {
+      return null;
+    }
+
+    return $CameraImageResolutionCopyWith<$Res>(_value.cameraImageResolution!,
+        (value) {
+      return _then(_value.copyWith(cameraImageResolution: value) as $Val);
+    });
   }
 
   @override
@@ -1221,12 +1243,15 @@ abstract class _$$_DetailsCopyWith<$Res> implements $DetailsCopyWith<$Res> {
       String? endDate,
       String? livelapseId,
       int? duration,
+      CameraImageResolution? cameraImageResolution,
       ProjectLocation? projectLocation,
       String? userId,
       dynamic projectImageFilePath,
       String? invitationId,
       String? supportTicketId});
 
+  @override
+  $CameraImageResolutionCopyWith<$Res>? get cameraImageResolution;
   @override
   $ProjectLocationCopyWith<$Res>? get projectLocation;
 }
@@ -1261,6 +1286,7 @@ class __$$_DetailsCopyWithImpl<$Res>
     Object? endDate = freezed,
     Object? livelapseId = freezed,
     Object? duration = freezed,
+    Object? cameraImageResolution = freezed,
     Object? projectLocation = freezed,
     Object? userId = freezed,
     Object? projectImageFilePath = freezed,
@@ -1348,6 +1374,10 @@ class __$$_DetailsCopyWithImpl<$Res>
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as int?,
+      cameraImageResolution: freezed == cameraImageResolution
+          ? _value.cameraImageResolution
+          : cameraImageResolution // ignore: cast_nullable_to_non_nullable
+              as CameraImageResolution?,
       projectLocation: freezed == projectLocation
           ? _value.projectLocation
           : projectLocation // ignore: cast_nullable_to_non_nullable
@@ -1396,6 +1426,7 @@ class _$_Details implements _Details {
       this.endDate,
       this.livelapseId,
       this.duration,
+      this.cameraImageResolution,
       this.projectLocation,
       this.userId,
       this.projectImageFilePath,
@@ -1446,6 +1477,8 @@ class _$_Details implements _Details {
   @override
   final int? duration;
   @override
+  final CameraImageResolution? cameraImageResolution;
+  @override
   final ProjectLocation? projectLocation;
   @override
   final String? userId;
@@ -1458,7 +1491,7 @@ class _$_Details implements _Details {
 
   @override
   String toString() {
-    return 'Details(projectId: $projectId, progressLinePostId: $progressLinePostId, cameraId: $cameraId, cameraName: $cameraName, projectName: $projectName, cameraImageName: $cameraImageName, cameraImageCommentId: $cameraImageCommentId, progressLineCommentId: $progressLineCommentId, cameraImageCommentReplyId: $cameraImageCommentReplyId, folderId: $folderId, fileId: $fileId, fileName: $fileName, filePath: $filePath, fileCreatedAt: $fileCreatedAt, filename: $filename, multiImageDownloadId: $multiImageDownloadId, startDate: $startDate, endDate: $endDate, livelapseId: $livelapseId, duration: $duration, projectLocation: $projectLocation, userId: $userId, projectImageFilePath: $projectImageFilePath, invitationId: $invitationId, supportTicketId: $supportTicketId)';
+    return 'Details(projectId: $projectId, progressLinePostId: $progressLinePostId, cameraId: $cameraId, cameraName: $cameraName, projectName: $projectName, cameraImageName: $cameraImageName, cameraImageCommentId: $cameraImageCommentId, progressLineCommentId: $progressLineCommentId, cameraImageCommentReplyId: $cameraImageCommentReplyId, folderId: $folderId, fileId: $fileId, fileName: $fileName, filePath: $filePath, fileCreatedAt: $fileCreatedAt, filename: $filename, multiImageDownloadId: $multiImageDownloadId, startDate: $startDate, endDate: $endDate, livelapseId: $livelapseId, duration: $duration, cameraImageResolution: $cameraImageResolution, projectLocation: $projectLocation, userId: $userId, projectImageFilePath: $projectImageFilePath, invitationId: $invitationId, supportTicketId: $supportTicketId)';
   }
 
   @override
@@ -1505,6 +1538,8 @@ class _$_Details implements _Details {
                 other.livelapseId == livelapseId) &&
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
+            (identical(other.cameraImageResolution, cameraImageResolution) ||
+                other.cameraImageResolution == cameraImageResolution) &&
             (identical(other.projectLocation, projectLocation) ||
                 other.projectLocation == projectLocation) &&
             (identical(other.userId, userId) || other.userId == userId) &&
@@ -1540,6 +1575,7 @@ class _$_Details implements _Details {
         endDate,
         livelapseId,
         duration,
+        cameraImageResolution,
         projectLocation,
         userId,
         const DeepCollectionEquality().hash(projectImageFilePath),
@@ -1583,6 +1619,7 @@ abstract class _Details implements Details {
       final String? endDate,
       final String? livelapseId,
       final int? duration,
+      final CameraImageResolution? cameraImageResolution,
       final ProjectLocation? projectLocation,
       final String? userId,
       final dynamic projectImageFilePath,
@@ -1632,6 +1669,8 @@ abstract class _Details implements Details {
   @override
   int? get duration;
   @override
+  CameraImageResolution? get cameraImageResolution;
+  @override
   ProjectLocation? get projectLocation;
   @override
   String? get userId;
@@ -1644,6 +1683,162 @@ abstract class _Details implements Details {
   @override
   @JsonKey(ignore: true)
   _$$_DetailsCopyWith<_$_Details> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+CameraImageResolution _$CameraImageResolutionFromJson(
+    Map<String, dynamic> json) {
+  return _CameraImageResolution.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CameraImageResolution {
+  int? get width => throw _privateConstructorUsedError;
+  int? get height => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CameraImageResolutionCopyWith<CameraImageResolution> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CameraImageResolutionCopyWith<$Res> {
+  factory $CameraImageResolutionCopyWith(CameraImageResolution value,
+          $Res Function(CameraImageResolution) then) =
+      _$CameraImageResolutionCopyWithImpl<$Res, CameraImageResolution>;
+  @useResult
+  $Res call({int? width, int? height});
+}
+
+/// @nodoc
+class _$CameraImageResolutionCopyWithImpl<$Res,
+        $Val extends CameraImageResolution>
+    implements $CameraImageResolutionCopyWith<$Res> {
+  _$CameraImageResolutionCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? width = freezed,
+    Object? height = freezed,
+  }) {
+    return _then(_value.copyWith(
+      width: freezed == width
+          ? _value.width
+          : width // ignore: cast_nullable_to_non_nullable
+              as int?,
+      height: freezed == height
+          ? _value.height
+          : height // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_CameraImageResolutionCopyWith<$Res>
+    implements $CameraImageResolutionCopyWith<$Res> {
+  factory _$$_CameraImageResolutionCopyWith(_$_CameraImageResolution value,
+          $Res Function(_$_CameraImageResolution) then) =
+      __$$_CameraImageResolutionCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int? width, int? height});
+}
+
+/// @nodoc
+class __$$_CameraImageResolutionCopyWithImpl<$Res>
+    extends _$CameraImageResolutionCopyWithImpl<$Res, _$_CameraImageResolution>
+    implements _$$_CameraImageResolutionCopyWith<$Res> {
+  __$$_CameraImageResolutionCopyWithImpl(_$_CameraImageResolution _value,
+      $Res Function(_$_CameraImageResolution) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? width = freezed,
+    Object? height = freezed,
+  }) {
+    return _then(_$_CameraImageResolution(
+      width: freezed == width
+          ? _value.width
+          : width // ignore: cast_nullable_to_non_nullable
+              as int?,
+      height: freezed == height
+          ? _value.height
+          : height // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_CameraImageResolution implements _CameraImageResolution {
+  const _$_CameraImageResolution({this.width, this.height});
+
+  factory _$_CameraImageResolution.fromJson(Map<String, dynamic> json) =>
+      _$$_CameraImageResolutionFromJson(json);
+
+  @override
+  final int? width;
+  @override
+  final int? height;
+
+  @override
+  String toString() {
+    return 'CameraImageResolution(width: $width, height: $height)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_CameraImageResolution &&
+            (identical(other.width, width) || other.width == width) &&
+            (identical(other.height, height) || other.height == height));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, width, height);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_CameraImageResolutionCopyWith<_$_CameraImageResolution> get copyWith =>
+      __$$_CameraImageResolutionCopyWithImpl<_$_CameraImageResolution>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_CameraImageResolutionToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CameraImageResolution implements CameraImageResolution {
+  const factory _CameraImageResolution({final int? width, final int? height}) =
+      _$_CameraImageResolution;
+
+  factory _CameraImageResolution.fromJson(Map<String, dynamic> json) =
+      _$_CameraImageResolution.fromJson;
+
+  @override
+  int? get width;
+  @override
+  int? get height;
+  @override
+  @JsonKey(ignore: true)
+  _$$_CameraImageResolutionCopyWith<_$_CameraImageResolution> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

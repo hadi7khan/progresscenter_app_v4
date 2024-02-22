@@ -185,6 +185,38 @@ class _NotificationWidgetState extends BaseConsumerState<NotificationWidget> {
               widget.notificationsData!.details!.fileId!,
               widget.notificationsData!.details!.folderId!,
               widget.notificationsData!.details!.filePath!);
+        } else if (widget.notificationsData!.type ==
+                "CAMERA_IMAGE_COMMENT_CREATED" ||
+            widget.notificationsData!.type == "CAMERA_IMAGE_COMMENT_TAGGED" ||
+            widget.notificationsData!.type == "CAMERA_IMAGE_COMMENT_REPLIED" ||
+            widget.notificationsData!.type ==
+                "CAMERA_IMAGE_COMMENT_REPLY_TAGGED") {
+          context.push('/imageComments', extra: {
+            "projectId": widget.notificationsData!.details!.projectId,
+            "cameraId": widget.notificationsData!.details!.cameraId,
+            "imageName": widget.notificationsData!.details!.cameraImageName,
+            "imageHeight":
+                // widget.notificationsData!.details!
+                //             .cameraImageResolution!.height !=
+                //         null
+                //     ? widget
+                //         .notificationsData!.details!.cameraImageResolution!.height
+                //     :
+                3000,
+            "imageWidth":
+                // widget.notificationsData!.details!
+                //             .cameraImageResolution!.width !=
+                //         null
+                //     ? widget
+                //         .notificationsData!.details!.cameraImageResolution!.width
+                //     :
+                4496,
+            "fromNotifications": true,
+            "cameraImageCommentId":
+                widget.notificationsData!.details!.cameraImageCommentId,
+            // "cameraImageCommentReplyId":
+            //     widget.notificationsData!.details!.cameraImageCommentReplyId,
+          });
         }
       },
       child: Container(
