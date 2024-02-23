@@ -17,8 +17,8 @@ class CommentsModel with _$CommentsModel {
     User? user,
     String? body,
     @JsonKey(name: '_id') required String id,
-    String? createdAt,
-    String? updatedAt,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   }) = _CommentsModel;
 
   factory CommentsModel.fromJson(Map<String, dynamic> json) =>

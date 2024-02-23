@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:blurrycontainer/blurrycontainer.dart';
@@ -7,6 +8,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:http/http.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/data/exception.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_slider.dart';
@@ -14,6 +18,7 @@ import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/slider/presentation/provider/progress_slider_controller.dart';
 import 'package:http/http.dart' as http;
+import 'dart:developer';
 
 class SliderScreen extends ConsumerStatefulWidget {
   final String projectId;
@@ -31,10 +36,9 @@ class SliderScreen extends ConsumerStatefulWidget {
 
 class _SliderScreenState extends BaseConsumerState<SliderScreen> {
   int currentslider = 0;
-  double _currentSliderValue = 0.0;
   List<dynamic> imageUrls = [];
   bool loading = false;
-  // Uint8List? currentBytes;
+  double progress = 0.0;
 
   // New list to hold preloaded image bytes
   List<Uint8List> imageBytesList = [];
@@ -42,59 +46,40 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
   // Function to preload and cache images
   Future preloadImages(List<dynamic> imageUrls) async {
     loading = true;
-    print(imageUrls.toString());
     final client = http.Client();
-    DateTime starttime = DateTime.now();
-    await Future.wait(imageUrls.map((url) async {
-      final index = imageUrls.indexOf(url);
 
-      final response = await client.get(
-        Uri.parse(url),
-        headers: {"Content-Type": "'application/octet-stream'"},
-      );
-      print(index.toString());
-      print("response" + response.bodyBytes.toString());
-      if (response.statusCode == 200) {
-        imageBytesList.add(response.bodyBytes);
+    try {
+      await Future.wait(imageUrls.map((url) async {
+        final request = http.Request('GET', Uri.parse(url));
+        await client.send(request).then((response) async {
+// Create a buffer to hold the image data
+          List<int> imageBytes = [];
 
-        print("image list length" + imageBytesList.length.toString());
-      } else {
-        return ServerException();
-        // Handle the case if the image couldn't be loaded
-        // For example, you can use a default image or show an error image
-        // imageBytesList.add(await _loadErrorImage());
-      }
-    }).toList());
-    DateTime endtime = DateTime.now();
-    print(starttime.toString() + endtime.toString());
-    print("all done");
-    // for (String url in imageUrls) {
-    //   final client = http.Client();
-    //   final response = await client.get(
-    //     Uri.parse(url),
-    //     headers: {"Content-Type": "'application/octet-stream'"},
-    //   );
-    //   print("response" + response.bodyBytes.toString());
-    //   if (response.statusCode == 200) {
-    //     imageBytesList.add(response.bodyBytes);
+          // Track the progress of the download
+          int receivedBytes = 0;
+          int totalBytes = response.contentLength ?? 0;
 
-    //     print("image list length" + imageBytesList.length.toString());
-    //   } else {
-    //     return ServerException();
-    //     // Handle the case if the image couldn't be loaded
-    //     // For example, you can use a default image or show an error image
-    //     // imageBytesList.add(await _loadErrorImage());
-    //   }
-    // }
-    // DateTime endtime = DateTime.now();
-    // print(starttime.toString() + endtime.toString());
-    // print("all done");
+          await response.stream.forEach((List<int> chunk) {
+            imageBytes.addAll(chunk);
+            receivedBytes += chunk.length;
+            setState(() {
+              progress = receivedBytes / totalBytes;
+            });
+            log("recieve" + response.contentLength.toString());
+            log('Progress for $url: ${(progress * 100).toStringAsFixed(2)}%');
+          });
 
-    setState(() {
-      loading = false;
-    });
-    // currentBytes = imageBytesList[0];
-    print("bytes list" + imageBytesList.toString());
+          // Convert the List<int> to Uint8List
+          Uint8List uint8List = Uint8List.fromList(imageBytes);
+
+          // Add the Uint8List to the list
+          imageBytesList.add(uint8List);
+        });
+      }).toList());
+    } finally {
+      // Close the client after all requests are completed
+      client.close();
+    }
   }
 
   // Function to load the error image
@@ -115,8 +100,8 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
             widget.cameraId,
           )
           .then((data) {
-        print("data passed by controller" + data.toString());
         List<dynamic> imageUrls = data.map((item) => item.urlPreview!).toList();
+
         preloadImages(imageUrls).then((value) {
           setState(() {
             loading = false;
@@ -124,6 +109,24 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
         });
       });
     });
+
+// {
+//   '1212':20,
+//   '1222':30
+// }
+
+// 50/2
+
+    // Timer? timer;
+    // timer = Timer.periodic(Duration(milliseconds: 300), (_) {
+    //   setState(() {
+    //     progress = progress + 10;
+    //     if (progress >= 100) {
+    //       timer!.cancel();
+    //       // percent=0;
+    //     }
+    //   });
+    // });
   }
 
   @override
@@ -202,42 +205,20 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
                             children: [
                               AspectRatio(
                                   aspectRatio: 16 / 9,
-                                  child: InteractiveViewer(
+                                  child: PinchZoom(
                                     maxScale: 10,
                                     child: Image.memory(
-                                      // imageBytesList.isNotEmpty ?
-                                      // currentBytes!,
                                       imageBytesList[currentslider],
-                                      // Uint8List.fromList(currentBytes!),
                                       gaplessPlayback: true,
-                                      // : imageBytesList.first,
                                       width: double.infinity,
                                       fit: BoxFit.fill,
-                                      // errorBuilder: (BuildContext context,
-                                      //     Object exception, StackTrace? stackTrace) {
-                                      //   return ClipRRect(
-                                      //     child: Image.asset(
-                                      //       'assets/images/error_image.jpeg',
-                                      //       fit: BoxFit.cover,
-                                      //     ),
-                                      //   );
-                                      // },
                                     ),
-                                  )
-                                  // : ClipRRect(
-                                  //     child: Image.asset(
-                                  //       'assets/images/error_image.jpeg',
-                                  //       fit: BoxFit.cover,
-                                  //     ),
-                                  //   ),
-                                  ),
+                                  )),
                               Positioned(
                                 top: 16,
                                 right: 16,
                                 child: InkWell(
                                   onTap: () {
-                                    // SystemChrome.setPreferredOrientations(
-                                    //     [DeviceOrientation.landscapeRight]);
                                     context.push('/fullviewSlider', extra: {
                                       "projectId": widget.projectId,
                                       "projectName": widget.projectName,
@@ -263,7 +244,23 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
                               ),
                             ],
                           )
-                        : Center(child: CircularProgressIndicator()),
+                        : Center(
+                            child: CircularPercentIndicator(
+                            radius: 20.0,
+                            lineWidth: 3.0,
+                            animation: true,
+                            percent: progress,
+                            center: Text(
+                              "${(progress * 100).toStringAsFixed(2)}%",
+                              style: TextStyle(
+                                  fontSize: 10.0,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black),
+                            ),
+                            backgroundColor: Colors.grey,
+                            circularStrokeCap: CircularStrokeCap.round,
+                            progressColor: Helper.primary,
+                          )),
                     imageBytesList.isNotEmpty
                         ? SliderTheme(
                             data: SliderThemeData(
@@ -280,12 +277,8 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
                               value: currentslider.toDouble(),
                               onChanged: (value) {
                                 setState(() {
-                                  // _currentSliderValue = value;
-                                  // currentBytes = imageBytesList[value.round()];
                                   currentslider = value.round();
-                                  print(value.toString());
                                 });
-                                // setState(() {});
                               },
                             ),
                           )

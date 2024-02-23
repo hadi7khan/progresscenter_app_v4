@@ -10,6 +10,8 @@ import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/data/model/progressline_project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/progressline_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/widgets/projects_filter_widget.dart';
+import 'dart:developer' as dev;
 
 import 'widgets/feed_widget.dart';
 
@@ -70,92 +72,113 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
                             context.push('/notifications');
                           },
                           child: SvgPicture.asset('assets/images/home.svg')),
-                      Row(
-                        children: [
-                          SizedBox(width: 12.w),
-                          ConstrainedBox(
-                            constraints: new BoxConstraints(
-                              maxHeight: 30.h,
-                              maxWidth: 30.w,
-                            ),
-                            child: PopupMenuButton(
-                              padding: EdgeInsets.zero,
-                              icon: SvgPicture.asset('assets/images/sort.svg'),
-                              position: PopupMenuPosition.under,
-                              itemBuilder: (BuildContext context) {
-                                return _progresslineProjects.map((project) {
-                                  return PopupMenuItem(
-                                      value: project.id,
-                                      child: ListTile(
-                                        horizontalTitleGap: 8.w,
-                                        dense: true,
-                                        visualDensity: VisualDensity(
-                                            horizontal: 0, vertical: -4),
-                                        contentPadding: EdgeInsets.zero,
-                                        leading: project.coverImageUrl != null
-                                            ? ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(4.r),
-                                                child: AspectRatio(
-                                                  aspectRatio: 16 / 9,
-                                                  child: Image.network(
-                                                    project.coverImageUrl,
-                                                    fit: BoxFit.fill,
-                                                    gaplessPlayback: true,
-                                                    errorBuilder:
-                                                        (BuildContext context,
-                                                            Object exception,
-                                                            StackTrace?
-                                                                stackTrace) {
-                                                      return ClipRRect(
-                                                        child: Image.asset(
-                                                          'assets/images/error_image.jpeg',
-                                                          fit: BoxFit.cover,
-                                                        ),
-                                                      );
-                                                    },
-                                                  ),
-                                                ))
-                                            : ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(4.r),
-                                                child: AspectRatio(
-                                                  aspectRatio: 16 / 9,
-                                                  child: Image.asset(
-                                                    'assets/images/error_image.jpeg',
-                                                    fit: BoxFit.fill,
-                                                  ),
-                                                ),
-                                              ),
-                                        title: Text(
-                                          project.name,
-                                          style: TextStyle(
-                                              letterSpacing: -0.3,
-                                              color: Helper.baseBlack,
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        subtitle: Text(
-                                          project.postCount.toString(),
-                                          style: TextStyle(
-                                              letterSpacing: -0.3,
-                                              color: Helper.baseBlack
-                                                  .withOpacity(0.5),
-                                              fontSize: 12.sp,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                      ));
-                                }).toList();
-                              },
-                              onSelected: (value) {
-                                ref
-                                    .read(
-                                        progresslineControllerProvider.notifier)
-                                    .getProgressline(value);
-                              },
-                            ),
-                          ),
-                        ],
+                      InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                              useRootNavigator: true,
+                              isScrollControlled: true,
+                              context: context,
+                              backgroundColor: Colors.transparent,
+                              builder: (context) => ProjectsFilterWidget(
+                                    progresslineProjects: _progresslineProjects,
+                                    onChange: (String id) {
+                                      ref
+                                          .read(progresslineControllerProvider
+                                              .notifier)
+                                          .getProgressline(id);
+                                      context.pop();
+                                    },
+                                  ));
+                        },
+                        child: Row(
+                          children: [
+                            SizedBox(width: 12.w),
+                            ConstrainedBox(
+                                constraints: new BoxConstraints(
+                                  maxHeight: 30.h,
+                                  maxWidth: 30.w,
+                                ),
+                                child:
+                                    SvgPicture.asset('assets/images/sort.svg')
+                                // PopupMenuButton(
+                                //   padding: EdgeInsets.zero,
+                                //   icon: SvgPicture.asset('assets/images/sort.svg'),
+                                //   position: PopupMenuPosition.under,
+                                //   itemBuilder: (BuildContext context) {
+                                //     return _progresslineProjects.map((project) {
+                                //       return PopupMenuItem(
+                                //           value: project.id,
+                                //           child: ListTile(
+                                //             horizontalTitleGap: 8.w,
+                                //             dense: true,
+                                //             visualDensity: VisualDensity(
+                                //                 horizontal: 0, vertical: -4),
+                                //             contentPadding: EdgeInsets.zero,
+                                //             leading: project.coverImageUrl != null
+                                //                 ? ClipRRect(
+                                //                     borderRadius:
+                                //                         BorderRadius.circular(4.r),
+                                //                     child: AspectRatio(
+                                //                       aspectRatio: 16 / 9,
+                                //                       child: Image.network(
+                                //                         project.coverImageUrl,
+                                //                         fit: BoxFit.fill,
+                                //                         gaplessPlayback: true,
+                                //                         errorBuilder:
+                                //                             (BuildContext context,
+                                //                                 Object exception,
+                                //                                 StackTrace?
+                                //                                     stackTrace) {
+                                //                           return ClipRRect(
+                                //                             child: Image.asset(
+                                //                               'assets/images/error_image.jpeg',
+                                //                               fit: BoxFit.cover,
+                                //                             ),
+                                //                           );
+                                //                         },
+                                //                       ),
+                                //                     ))
+                                //                 : ClipRRect(
+                                //                     borderRadius:
+                                //                         BorderRadius.circular(4.r),
+                                //                     child: AspectRatio(
+                                //                       aspectRatio: 16 / 9,
+                                //                       child: Image.asset(
+                                //                         'assets/images/error_image.jpeg',
+                                //                         fit: BoxFit.fill,
+                                //                       ),
+                                //                     ),
+                                //                   ),
+                                //             title: Text(
+                                //               project.name,
+                                //               style: TextStyle(
+                                //                   letterSpacing: -0.3,
+                                //                   color: Helper.baseBlack,
+                                //                   fontSize: 14.sp,
+                                //                   fontWeight: FontWeight.w500),
+                                //             ),
+                                //             subtitle: Text(
+                                //               project.postCount.toString(),
+                                //               style: TextStyle(
+                                //                   letterSpacing: -0.3,
+                                //                   color: Helper.baseBlack
+                                //                       .withOpacity(0.5),
+                                //                   fontSize: 12.sp,
+                                //                   fontWeight: FontWeight.w400),
+                                //             ),
+                                //           ));
+                                //     }).toList();
+                                //   },
+                                //   onSelected: (value) {
+                                //     ref
+                                //         .read(
+                                //             progresslineControllerProvider.notifier)
+                                //         .getProgressline(value);
+                                //   },
+                                // ),
+                                ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

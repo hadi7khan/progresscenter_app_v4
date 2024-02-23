@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
@@ -29,6 +30,8 @@ import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/widgets/viewed_by_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean_model.dart';
 import 'dart:developer';
+
+import 'package:timezone/timezone.dart';
 
 class ProgresslineDetailsScreen extends ConsumerStatefulWidget {
   final String projectId;
@@ -141,6 +144,37 @@ class _TimelineDetailsScreenState
           replacedText.replaceAll(mention, "@[${user.name}](user:${user.id})");
     }
     return replacedText;
+  }
+
+  String formatTimeDifference(DateTime date,
+      {String? timezone, bool showSuffix = true}) {
+    Duration difference = DateTime.now().toUtc().difference(date.toUtc());
+
+    if (timezone != null) {
+      DateTime convertedDate = TZDateTime.from(date, getLocation(timezone));
+      difference = DateTime.now().toUtc().difference(convertedDate.toUtc());
+    }
+
+    String timeAgo = DateFormat().add_yMMMMd().add_jm().format(date);
+
+    if (difference.inSeconds < 60) {
+      return '${difference.inSeconds}s ago';
+    } else if (difference.inMinutes < 60) {
+      return '${difference.inMinutes} min ago';
+    } else if (difference.inHours < 24) {
+      return '${difference.inHours} hr ago';
+    } else if (difference.inDays < 7) {
+      return '${difference.inDays} days ago';
+    } else if (difference.inDays < 30) {
+      final weeks = (difference.inDays / 7).floor();
+      return '$weeks week${weeks == 1 ? '' : 's'} ago';
+    } else if (difference.inDays < 365) {
+      final months = (difference.inDays / 30).floor();
+      return '$months month${months == 1 ? '' : 's'} ago';
+    } else {
+      final years = (difference.inDays / 365).floor();
+      return '$years year${years == 1 ? '' : 's'} ago';
+    }
   }
 
   @override
@@ -375,17 +409,56 @@ class _TimelineDetailsScreenState
                                                     size: 32,
                                                     fontSize: 14,
                                                   ),
-                                                  title: Text(
-                                                    data[reversedIndex]
-                                                        .user!
-                                                        .name!,
-                                                    style: TextStyle(
-                                                        letterSpacing: -0.3,
-                                                        color:
-                                                            Helper.textColor600,
-                                                        fontSize: 14.sp,
-                                                        fontWeight:
-                                                            FontWeight.w500),
+                                                  title: Row(
+                                                    children: [
+                                                      Text(
+                                                        data[reversedIndex]
+                                                            .user!
+                                                            .name!,
+                                                        style: TextStyle(
+                                                            letterSpacing: -0.3,
+                                                            color: Helper
+                                                                .textColor600,
+                                                            fontSize: 14.sp,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 5.w,
+                                                      ),
+                                                      Text(
+                                                        "·",
+                                                        style: TextStyle(
+                                                            letterSpacing: -0.3,
+                                                            color: Helper
+                                                                .textColor600,
+                                                            fontSize: 14.sp,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 5.w,
+                                                      ),
+                                                      Text(
+                                                        formatTimeDifference(
+                                                          data[reversedIndex]
+                                                              .createdAt!,
+                                                          timezone: user![
+                                                                  'preferences']
+                                                              ['timezone'],
+                                                        ),
+                                                        style: TextStyle(
+                                                            letterSpacing: -0.3,
+                                                            color: Helper
+                                                                .textColor600,
+                                                            fontSize: 10.sp,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400),
+                                                      ),
+                                                    ],
                                                   ),
                                                   subtitle: ProcessMention(
                                                     text: data[reversedIndex]

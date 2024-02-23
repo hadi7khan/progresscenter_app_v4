@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_progressline_details.dart';
@@ -28,6 +29,8 @@ import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/pr
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/widgets/camera_comments_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/widgets/process_mention_widget.dart';
 import 'dart:developer' as dev;
+
+import 'package:timezone/timezone.dart';
 
 class ImageCommentsScreen extends ConsumerStatefulWidget {
   final String projectId;
@@ -81,7 +84,8 @@ class _ImageCommentsScreenState extends BaseConsumerState<ImageCommentsScreen> {
           .then((value) {
         commentsList = value.comments.toList();
         count = value.count;
-        dev.log("valueee" + commentsList.length.toString());
+
+        // for scrolling to given index if routed from notifications
         if (widget.fromNotifications) {
           int index = value.comments.indexWhere(
               (comment) => comment.id == widget.cameraImageCommentId);
@@ -105,13 +109,11 @@ class _ImageCommentsScreenState extends BaseConsumerState<ImageCommentsScreen> {
       if (_scrollController.position.pixels == maxScrollExtent) {
         if (commentsList.length <= count) {
           page++;
-          dev.log(page.toString());
           ref
               .read(allImageCommentsControllerProvider.notifier)
               .getAllImageComments(widget.projectId, widget.cameraId, page)
               .then((value) {
             commentsList.addAll(value.comments);
-            dev.log("length-----" + commentsList.length.toString());
           });
         }
       }
@@ -158,11 +160,42 @@ class _ImageCommentsScreenState extends BaseConsumerState<ImageCommentsScreen> {
               dpUrl: e.user!.dpUrl != null ? e.user!.dpUrl! : "",
               name: e.user!.name!,
               backgroundColor: e.user!.preset!.color!,
-              size: 20,
-              fontSize: 12,
+              size: 16,
+              fontSize: 10,
             ),
           ));
     }).toList();
+  }
+
+  String formatTimeDifference(DateTime date,
+      {String? timezone, bool showSuffix = true}) {
+    Duration difference = DateTime.now().toUtc().difference(date.toUtc());
+
+    if (timezone != null) {
+      DateTime convertedDate = TZDateTime.from(date, getLocation(timezone));
+      difference = DateTime.now().toUtc().difference(convertedDate.toUtc());
+    }
+
+    String timeAgo = DateFormat().add_yMMMMd().add_jm().format(date);
+
+    if (difference.inSeconds < 60) {
+      return '${difference.inSeconds}s ago';
+    } else if (difference.inMinutes < 60) {
+      return '${difference.inMinutes} min ago';
+    } else if (difference.inHours < 24) {
+      return '${difference.inHours} hr ago';
+    } else if (difference.inDays < 7) {
+      return '${difference.inDays} days ago';
+    } else if (difference.inDays < 30) {
+      final weeks = (difference.inDays / 7).floor();
+      return '$weeks week${weeks == 1 ? '' : 's'} ago';
+    } else if (difference.inDays < 365) {
+      final months = (difference.inDays / 30).floor();
+      return '$months month${months == 1 ? '' : 's'} ago';
+    } else {
+      final years = (difference.inDays / 365).floor();
+      return '$years year${years == 1 ? '' : 's'} ago';
+    }
   }
 
   @override
@@ -276,6 +309,7 @@ class _ImageCommentsScreenState extends BaseConsumerState<ImageCommentsScreen> {
                                 ),
                         ),
                       ),
+                      // method to render avatar heads on image
                       ...buildCommentsHead(data.comments!),
                     ],
                   ),
@@ -422,15 +456,53 @@ class _ImageCommentsScreenState extends BaseConsumerState<ImageCommentsScreen> {
                                                 size: 32,
                                                 fontSize: 14,
                                               ),
-                                              title: Text(
-                                                allComments.comments![index]
-                                                    .user!.name!,
-                                                style: TextStyle(
-                                                    letterSpacing: -0.3,
-                                                    color: Helper.textColor600,
-                                                    fontSize: 14.sp,
-                                                    fontWeight:
-                                                        FontWeight.w500),
+                                              title: Row(
+                                                children: [
+                                                  Text(
+                                                    allComments.comments![index]
+                                                        .user!.name!,
+                                                    style: TextStyle(
+                                                        letterSpacing: -0.3,
+                                                        color:
+                                                            Helper.textColor600,
+                                                        fontSize: 14.sp,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 5.w,
+                                                  ),
+                                                  Text(
+                                                    "·",
+                                                    style: TextStyle(
+                                                        letterSpacing: -0.3,
+                                                        color:
+                                                            Helper.textColor600,
+                                                        fontSize: 14.sp,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 5.w,
+                                                  ),
+                                                  Text(
+                                                    formatTimeDifference(
+                                                      allComments
+                                                          .comments![index]
+                                                          .createdAt!,
+                                                      timezone:
+                                                          user!['preferences']
+                                                              ['timezone'],
+                                                    ),
+                                                    style: TextStyle(
+                                                        letterSpacing: -0.3,
+                                                        color:
+                                                            Helper.textColor600,
+                                                        fontSize: 10.sp,
+                                                        fontWeight:
+                                                            FontWeight.w400),
+                                                  ),
+                                                ],
                                               ),
                                               subtitle: ProcessMention(
                                                 text: allComments
