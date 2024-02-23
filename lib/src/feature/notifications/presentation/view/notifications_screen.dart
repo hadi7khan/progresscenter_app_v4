@@ -38,8 +38,6 @@ class _NotificationsScreenState extends BaseConsumerState<NotificationsScreen> {
           .then((value) {
         groupedNotifications = value.notifications.toList();
         count = value.count;
-        log("count-----" + count.toString());
-        log("length-----" + groupedNotifications.length.toString());
       });
     });
     _scrollController.addListener(() {
@@ -50,13 +48,11 @@ class _NotificationsScreenState extends BaseConsumerState<NotificationsScreen> {
         if (groupedNotifications.length <= count) {
           log("controller");
           page++;
-          log(page.toString());
           ref
               .read(notificationsControllerProvider.notifier)
               .getNotifications(page)
               .then((value) {
             groupedNotifications.addAll(value.notifications);
-            log("length-----" + groupedNotifications.length.toString());
           });
         }
       }

@@ -20,6 +20,8 @@ import 'package:progresscenter_app_v4/src/feature/docs/presentation/provider/doc
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/widgets/docs_widget.dart';
 import 'dart:developer';
 
+import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/widgets/folder_filter_widget.dart';
+
 class DocsScreen extends ConsumerStatefulWidget {
   final label;
   final detailsPath;
@@ -119,56 +121,76 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                               context.push('/notifications');
                             },
                             child: SvgPicture.asset('assets/images/home.svg')),
-                        Row(
-                          children: [
-                            // SvgPicture.asset('assets/images/search.svg'),
-                            SizedBox(width: 12.w),
-                            ConstrainedBox(
-                              constraints: new BoxConstraints(
-                                maxHeight: 30.h,
-                                maxWidth: 30.w,
-                              ),
-                              child: PopupMenuButton(
-                                padding: EdgeInsets.zero,
-                                icon:
-                                    SvgPicture.asset('assets/images/sort.svg'),
-                                position: PopupMenuPosition.under,
-                                itemBuilder: (BuildContext context) {
-                                  return data.map((folder) {
-                                    return PopupMenuItem(
-                                        value: folder
-                                            .id, // Use a unique identifier for each item
-                                        child: ListTile(
-                                          horizontalTitleGap: 8.w,
-                                          dense: true,
-                                          visualDensity: VisualDensity(
-                                              horizontal: 0, vertical: -4),
-                                          contentPadding: EdgeInsets.zero,
-                                          title: Text(
-                                            folder.name!,
-                                            style: TextStyle(
-                                                color: Helper.baseBlack,
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ));
-                                  }).toList();
-                                },
-                                onSelected: (value) {
-                                  setState(() {
-                                    selectedDocumentId = value;
-                                  });
-                                },
-                              ),
-                            ),
-                            SizedBox(width: 12.w),
-                            InkWell(
-                                onTap: () {
-                                  _showAddBottomSheet(context, categoryList);
-                                },
+                        InkWell(
+                          onTap: () {
+                            showModalBottomSheet(
+                                useRootNavigator: true,
+                                isScrollControlled: true,
+                                context: context,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) => FolderFilterWidget(
+                                      folders: data,
+                                      onChange: (String id) {
+                                        setState(() {
+                                          selectedDocumentId = id;
+                                        });
+                                        context.pop();
+                                      },
+                                    ));
+                          },
+                          child: Row(
+                            children: [
+                              // SvgPicture.asset('assets/images/search.svg'),
+                              SizedBox(width: 12.w),
+                              ConstrainedBox(
+                                constraints: new BoxConstraints(
+                                  maxHeight: 30.h,
+                                  maxWidth: 30.w,
+                                ),
                                 child:
-                                    SvgPicture.asset('assets/images/plus.svg')),
-                          ],
+                                    SvgPicture.asset('assets/images/sort.svg'),
+                                // PopupMenuButton(
+                                //   padding: EdgeInsets.zero,
+                                //   icon: SvgPicture.asset(
+                                //       'assets/images/sort.svg'),
+                                //   position: PopupMenuPosition.under,
+                                //   itemBuilder: (BuildContext context) {
+                                //     return data.map((folder) {
+                                //       return PopupMenuItem(
+                                //           value: folder
+                                //               .id, // Use a unique identifier for each item
+                                //           child: ListTile(
+                                //             horizontalTitleGap: 8.w,
+                                //             dense: true,
+                                //             visualDensity: VisualDensity(
+                                //                 horizontal: 0, vertical: -4),
+                                //             contentPadding: EdgeInsets.zero,
+                                //             title: Text(
+                                //               folder.name!,
+                                //               style: TextStyle(
+                                //                   color: Helper.baseBlack,
+                                //                   fontSize: 14.sp,
+                                //                   fontWeight: FontWeight.w500),
+                                //             ),
+                                //           ));
+                                //     }).toList();
+                                //   },
+                                //   onSelected: (value) {
+                                //     setState(() {
+                                //       selectedDocumentId = value;
+                                //     });
+                                //   },
+                                // ),
+                              ),
+                              SizedBox(width: 12.w),
+                              InkWell(
+                                  onTap: () {
+                                    _showAddBottomSheet(context, categoryList);
+                                  },
+                                  child: SvgPicture.asset(
+                                      'assets/images/plus.svg')),
+                            ],
+                          ),
                         ),
                       ],
                     ),

@@ -13,8 +13,12 @@ _$_CommentsModel _$$_CommentsModelFromJson(Map<String, dynamic> json) =>
           : User.fromJson(json['user'] as Map<String, dynamic>),
       body: json['body'] as String?,
       id: json['_id'] as String,
-      createdAt: json['createdAt'] as String?,
-      updatedAt: json['updatedAt'] as String?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
 Map<String, dynamic> _$$_CommentsModelToJson(_$_CommentsModel instance) =>
@@ -22,8 +26,8 @@ Map<String, dynamic> _$$_CommentsModelToJson(_$_CommentsModel instance) =>
       'user': instance.user,
       'body': instance.body,
       '_id': instance.id,
-      'createdAt': instance.createdAt,
-      'updatedAt': instance.updatedAt,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
 _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(

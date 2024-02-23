@@ -13,6 +13,7 @@ import 'package:progresscenter_app_v4/src/common/skeletons/loading_team_list.dar
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/provider/user_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/team/presentation/view/widgets/teams_filter_widget.dart';
 import 'dart:developer';
 
 import 'widgets/team_widget.dart';
@@ -99,46 +100,69 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                                   child: SvgPicture.asset(
                                       'assets/images/search.svg')),
                               SizedBox(width: 12.w),
-                              ConstrainedBox(
-                                constraints: new BoxConstraints(
-                                  maxHeight: 30.h,
-                                  maxWidth: 30.w,
-                                ),
-                                child: PopupMenuButton(
-                                  padding: EdgeInsets.zero,
-                                  icon: SvgPicture.asset(
-                                      'assets/images/sort.svg'),
-                                  position: PopupMenuPosition.under,
-                                  itemBuilder: (BuildContext context) {
-                                    return _teamList.map((team) {
-                                      return PopupMenuItem(
-                                          value:
-                                              team, // Use a unique identifier for each item
-                                          child: ListTile(
-                                            horizontalTitleGap: 8.w,
-                                            dense: true,
-                                            visualDensity: VisualDensity(
-                                                horizontal: 0, vertical: -4),
-                                            contentPadding: EdgeInsets.zero,
-                                            title: Text(
-                                              team,
-                                              style: TextStyle(
-                                                  letterSpacing: -0.3,
-                                                  color: Helper.baseBlack,
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
+                              InkWell(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                      useRootNavigator: true,
+                                      isScrollControlled: true,
+                                      context: context,
+                                      backgroundColor: Colors.transparent,
+                                      builder: (context) => TeamsFilterWidget(
+                                            teamList: _teamList,
+                                            onChange: (String value) {
+                                              setState(() {
+                                                _selectedTeam = value == 'All'
+                                                    ? null
+                                                    : value;
+                                              });
+                                              context.pop();
+                                            },
                                           ));
-                                    }).toList();
-                                  },
-                                  onSelected: (value) {
-                                    log(value.toString());
-                                    setState(() {
-                                      _selectedTeam =
-                                          value == 'All' ? null : value;
-                                      log("selectedTeam: $_selectedTeam");
-                                    });
-                                  },
+                                },
+                                child: ConstrainedBox(
+                                  constraints: new BoxConstraints(
+                                    maxHeight: 30.h,
+                                    maxWidth: 30.w,
+                                  ),
+                                  child: SvgPicture.asset(
+                                      'assets/images/sort.svg'),
+                                  // PopupMenuButton(
+                                  //   padding: EdgeInsets.zero,
+                                  //   icon: SvgPicture.asset(
+                                  //       'assets/images/sort.svg'),
+                                  //   position: PopupMenuPosition.under,
+                                  //   itemBuilder: (BuildContext context) {
+                                  //     return _teamList.map((team) {
+                                  //       return PopupMenuItem(
+                                  //           value:
+                                  //               team, // Use a unique identifier for each item
+                                  //           child: ListTile(
+                                  //             horizontalTitleGap: 8.w,
+                                  //             dense: true,
+                                  //             visualDensity: VisualDensity(
+                                  //                 horizontal: 0, vertical: -4),
+                                  //             contentPadding: EdgeInsets.zero,
+                                  //             title: Text(
+                                  //               team,
+                                  //               style: TextStyle(
+                                  //                   letterSpacing: -0.3,
+                                  //                   color: Helper.baseBlack,
+                                  //                   fontSize: 14.sp,
+                                  //                   fontWeight:
+                                  //                       FontWeight.w500),
+                                  //             ),
+                                  //           ));
+                                  //     }).toList();
+                                  //   },
+                                  //   onSelected: (value) {
+                                  //     log(value.toString());
+                                  //     setState(() {
+                                  //       _selectedTeam =
+                                  //           value == 'All' ? null : value;
+                                  //       log("selectedTeam: $_selectedTeam");
+                                  //     });
+                                  //   },
+                                  // ),
                                 ),
                               ),
                               SizedBox(width: 12.w),

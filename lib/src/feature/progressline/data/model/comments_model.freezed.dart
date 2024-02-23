@@ -24,8 +24,8 @@ mixin _$CommentsModel {
   String? get body => throw _privateConstructorUsedError;
   @JsonKey(name: '_id')
   String get id => throw _privateConstructorUsedError;
-  String? get createdAt => throw _privateConstructorUsedError;
-  String? get updatedAt => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,8 +43,8 @@ abstract class $CommentsModelCopyWith<$Res> {
       {User? user,
       String? body,
       @JsonKey(name: '_id') String id,
-      String? createdAt,
-      String? updatedAt});
+      DateTime? createdAt,
+      DateTime? updatedAt});
 
   $UserCopyWith<$Res>? get user;
 }
@@ -84,11 +84,11 @@ class _$CommentsModelCopyWithImpl<$Res, $Val extends CommentsModel>
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DateTime?,
       updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DateTime?,
     ) as $Val);
   }
 
@@ -117,8 +117,8 @@ abstract class _$$_CommentsModelCopyWith<$Res>
       {User? user,
       String? body,
       @JsonKey(name: '_id') String id,
-      String? createdAt,
-      String? updatedAt});
+      DateTime? createdAt,
+      DateTime? updatedAt});
 
   @override
   $UserCopyWith<$Res>? get user;
@@ -157,11 +157,11 @@ class __$$_CommentsModelCopyWithImpl<$Res>
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DateTime?,
       updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DateTime?,
     ));
   }
 }
@@ -187,9 +187,9 @@ class _$_CommentsModel implements _CommentsModel {
   @JsonKey(name: '_id')
   final String id;
   @override
-  final String? createdAt;
+  final DateTime? createdAt;
   @override
-  final String? updatedAt;
+  final DateTime? updatedAt;
 
   @override
   String toString() {
@@ -234,8 +234,8 @@ abstract class _CommentsModel implements CommentsModel {
       {final User? user,
       final String? body,
       @JsonKey(name: '_id') required final String id,
-      final String? createdAt,
-      final String? updatedAt}) = _$_CommentsModel;
+      final DateTime? createdAt,
+      final DateTime? updatedAt}) = _$_CommentsModel;
 
   factory _CommentsModel.fromJson(Map<String, dynamic> json) =
       _$_CommentsModel.fromJson;
@@ -248,9 +248,9 @@ abstract class _CommentsModel implements CommentsModel {
   @JsonKey(name: '_id')
   String get id;
   @override
-  String? get createdAt;
+  DateTime? get createdAt;
   @override
-  String? get updatedAt;
+  DateTime? get updatedAt;
   @override
   @JsonKey(ignore: true)
   _$$_CommentsModelCopyWith<_$_CommentsModel> get copyWith =>
