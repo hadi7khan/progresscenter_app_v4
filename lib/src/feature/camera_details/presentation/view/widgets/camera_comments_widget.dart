@@ -154,7 +154,6 @@ class _CameraCommentsWidgetState
 
   @override
   Widget build(BuildContext context) {
-    dev.log("replies" + widget.comment.replies!.length.toString());
     return FormBuilder(
       key: _fbKey,
       child: Wrap(children: [
