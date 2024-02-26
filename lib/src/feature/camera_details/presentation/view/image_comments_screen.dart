@@ -41,6 +41,7 @@ class ImageCommentsScreen extends ConsumerStatefulWidget {
   final bool fromNotifications;
   final String cameraImageCommentId;
   // final String cameraImageCommentReplyId;
+  final String imageUrl;
 
   const ImageCommentsScreen({
     super.key,
@@ -52,6 +53,7 @@ class ImageCommentsScreen extends ConsumerStatefulWidget {
     required this.fromNotifications,
     required this.cameraImageCommentId,
     // required this.cameraImageCommentReplyId,
+    required this.imageUrl,
   });
 
   @override
@@ -282,7 +284,7 @@ class _ImageCommentsScreenState extends BaseConsumerState<ImageCommentsScreen> {
                                   aspectRatio:
                                       widget.imageWidth / widget.imageHeight,
                                   child: Image.network(
-                                    data.url!,
+                                    widget.imageUrl,
                                     gaplessPlayback: true,
                                     fit: BoxFit.cover,
                                     errorBuilder: (BuildContext context,

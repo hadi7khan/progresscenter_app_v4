@@ -306,6 +306,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               fromNotifications: args['fromNotifications'],
               cameraImageCommentId: args['cameraImageCommentId'],
               // cameraImageCommentReplyId: args['cameraImageCommentReplyId'],
+              imageUrl: args['imageUrl'],
             ),
           );
         },
