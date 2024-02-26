@@ -17,6 +17,9 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:progresscenter_app_v4/main.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/load_camera_bottomsheet.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/load_comments_widget.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/loading_app_bar.dart';
 import 'package:progresscenter_app_v4/src/core/network/constants/endpoints.dart';
 import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
 import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
@@ -109,7 +112,9 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
       await file.writeAsBytes(response.bodyBytes);
 
       dev.log("preview" + file.path.toString());
-      filePath = file.path;
+      setState(() {
+        filePath = file.path;
+      });
 
       // // Ask the user to save it
       // final params = SaveFileDialogParams(sourceFilePath: file.path);
@@ -275,559 +280,451 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
       ),
       height: 400.h,
       width: MediaQuery.of(context).size.width,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              showDownloadOptions
-                  ? InkWell(
-                      onTap: () {
-                        setState(() {
-                          showDownloadOptions = false;
-                          isDownloading = false;
-                        });
-                      },
-                      child: Transform.rotate(
-                        angle: 180 * (3.1415926535 / 180),
-                        child: SvgPicture.asset(
-                            'assets/images/chevron-right.svg',
-                            color: Helper.iconColor,
-                            fit: BoxFit.contain),
-                      ),
-                    )
-                  : SizedBox(),
-              Expanded(
-                  child: Column(children: [
-                Text(
-                  showDownloadOptions ? "Download Image" : widget.cameraName,
-                  style: TextStyle(
-                      letterSpacing: -0.3,
-                      color: Helper.baseBlack,
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500),
-                ),
-                // Text(
-                //   '25℃ Sunny, Hyderabad, India',
-                //   style: TextStyle(
-                //       letterSpacing: -0.3,
-                //       color: Color.fromRGBO(127, 127, 127, 0.5),
-                //       fontSize: 13.sp,
-                //       fontWeight: FontWeight.w400),
-                // ),
-                // Text(
-                //   '10-07-2023, 12:30 PM',
-                //   style: TextStyle(
-                //       letterSpacing: -0.3,
-                //       color: Color.fromRGBO(127, 127, 127, 0.5),
-                //       fontSize: 13.sp,
-                //       fontWeight: FontWeight.w400),
-                // ),
-              ])),
-            ],
-          ),
-          SizedBox(height: 24.h),
-          !showDownloadOptions
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      child: filePath != null
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
                   children: [
-                    InkWell(
-                      onTap: () async {
-                        setState(() {
-                          showDownloadOptions = true;
-                        });
-                      },
-                      child: Container(
-                        height: 44.h,
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          leading: Container(
-                              decoration: BoxDecoration(
-                                color: Helper.bottomIconBack,
-                                borderRadius: BorderRadius.circular(8.r),
-                              ),
-                              padding: EdgeInsets.all(8.w),
-                              child: SvgPicture.asset(
-                                  'assets/images/download.svg',
-                                  fit: BoxFit.cover,
-                                  colorFilter: ColorFilter.mode(
-                                      ref.watch(primaryColorProvider),
-                                      BlendMode.srcIn))),
-                          title: Text(
-                            'Download',
-                            style: TextStyle(
-                                letterSpacing: -0.3,
-                                color: Helper.baseBlack,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 24.h),
-                    InkWell(
-                      onTap: () async {
-                        context.push('/imageComments', extra: {
-                          "projectId": widget.projectId,
-                          "cameraId": widget.cameraId,
-                          "imageName": widget.imageName,
-                          "imageHeight": widget.imageHeight,
-                          "imageWidth": widget.imageWidth,
-                          "fromNotifications": false,
-                          "cameraImageCommentId": "",
-                          "cameraImageCommentReplyId": "",
-                        });
-                      },
-                      child: Container(
-                        height: 44.h,
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          leading: Container(
-                              decoration: BoxDecoration(
-                                color: Helper.bottomIconBack,
-                                borderRadius: BorderRadius.circular(8.r),
-                              ),
-                              padding: EdgeInsets.all(8.w),
-                              child: SvgPicture.asset(
-                                  'assets/images/message.svg',
-                                  // width: 44.w,
-                                  // height: 44.h,
-                                  fit: BoxFit.cover,
-                                  colorFilter: ColorFilter.mode(
-                                      ref.watch(primaryColorProvider),
-                                      BlendMode.srcIn))),
-                          title: Text(
-                            'Comment',
-                            style: TextStyle(
-                                letterSpacing: -0.3,
-                                color: Helper.baseBlack,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    SizedBox(height: 24.h),
-                    InkWell(
-                      onTap: () async {
-                        Share.shareXFiles([XFile(filePath)]);
-                      },
-                      child: Container(
-                        height: 44.h,
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          leading: Container(
-                              decoration: BoxDecoration(
-                                color: Helper.bottomIconBack,
-                                borderRadius: BorderRadius.circular(8.r),
-                              ),
-                              padding: EdgeInsets.all(8.w),
-                              child: SvgPicture.asset('assets/images/share.svg',
-                                  // width: 44.w,
-                                  // height: 44.h,
-                                  fit: BoxFit.cover,
-                                  colorFilter: ColorFilter.mode(
-                                      ref.watch(primaryColorProvider),
-                                      BlendMode.srcIn))),
-                          title: Text(
-                            'Share',
-                            style: TextStyle(
-                                letterSpacing: -0.3,
-                                color: Helper.baseBlack,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                    ),
-                    // SizedBox(height: 24.h),
-                    // InkWell(
-                    //   onTap: () async {
-                    //     // setState(() {
-                    //     //   _images = "1";
-                    //     //   _showImages = "1 Image";
-                    //     // });
-                    //     context.pop();
-                    //   },
-                    //   child: Container(
-                    //     height: 44.h,
-                    //     child: ListTile(
-                    //       contentPadding: EdgeInsets.zero,
-                    //       leading: Container(
-                    //           decoration: BoxDecoration(
-                    //             color: Helper.bottomIconBack,
-                    //             borderRadius: BorderRadius.circular(8.r),
-                    //           ),
-                    //           padding: EdgeInsets.all(8.w),
-                    //           child: SvgPicture.asset('assets/images/ai.svg',
-                    //               width: 24.w,
-                    //               height: 24.h,
-                    //               fit: BoxFit.cover,
-                    //               colorFilter: ColorFilter.mode(
-                    //                   ref.watch(primaryColorProvider),
-                    //                   BlendMode.srcIn))),
-                    //       title: Text(
-                    //         'AI Insights',
-                    //         style: TextStyle(
-                    //             letterSpacing: -0.3,
-                    //             color: Helper.baseBlack,
-                    //             fontSize: 16.sp,
-                    //             fontWeight: FontWeight.w500),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    // SizedBox(height: 24.h),
-                    // InkWell(
-                    //   onTap: () async {
-                    //     // setState(() {
-                    //     //   _images = "1";
-                    //     //   _showImages = "1 Image";
-                    //     // });
-                    //     context.pop();
-                    //   },
-                    //   child: Container(
-                    //     height: 44.h,
-                    //     child: ListTile(
-                    //       contentPadding: EdgeInsets.zero,
-                    //       leading: Container(
-                    //           decoration: BoxDecoration(
-                    //             color: Helper.bottomIconBack,
-                    //             borderRadius: BorderRadius.circular(8.r),
-                    //           ),
-                    //           padding: EdgeInsets.all(8.w),
-                    //           child: SvgPicture.asset('assets/images/camera.svg',
-                    //               // width: 44.w,
-                    //               // height: 44.h,
-                    //               fit: BoxFit.cover,
-                    //               colorFilter: ColorFilter.mode(
-                    //                   ref.watch(primaryColorProvider),
-                    //                   BlendMode.srcIn))),
-                    //       title: Text(
-                    //         'Image quality',
-                    //         style: TextStyle(
-                    //             letterSpacing: -0.3,
-                    //             color: Helper.baseBlack,
-                    //             fontSize: 16.sp,
-                    //             fontWeight: FontWeight.w500),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    // SizedBox(height: 24.h),
-                    // InkWell(
-                    //   onTap: () async {
-                    //     // setState(() {
-                    //     //   _images = "1";
-                    //     //   _showImages = "1 Image";
-                    //     // });
-                    //     context.pop();
-                    //   },
-                    //   child: Container(
-                    //     height: 44.h,
-                    //     child: ListTile(
-                    //       contentPadding: EdgeInsets.zero,
-                    //       leading: Container(
-                    //           decoration: BoxDecoration(
-                    //             color: Helper.bottomIconBack,
-                    //             borderRadius: BorderRadius.circular(8.r),
-                    //           ),
-                    //           padding: EdgeInsets.all(8.w),
-                    //           child: SvgPicture.asset(
-                    //               'assets/images/camera-flash.svg',
-                    //               // width: 44.w,
-                    //               // height: 44.h,
-                    //               fit: BoxFit.cover,
-                    //               colorFilter: ColorFilter.mode(
-                    //                   ref.watch(primaryColorProvider),
-                    //                   BlendMode.srcIn))),
-                    //       title: Text(
-                    //         'Default view',
-                    //         style: TextStyle(
-                    //             letterSpacing: -0.3,
-                    //             color: Helper.baseBlack,
-                    //             fontSize: 16.sp,
-                    //             fontWeight: FontWeight.w500),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    SizedBox(height: 24.h),
-                    Container(
-                      height: 52.h,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        child: Text(
-                          "Cancel",
-                          style: TextStyle(
-                              letterSpacing: -0.3,
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500),
-                          // currentIndex == contents.length - 1 ? "Continue" : "Next"
-                        ),
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStatePropertyAll(Helper.baseBlack),
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.r),
-                              ),
-                            )),
-                        onPressed: () {
-                          context.pop();
-                        },
-                      ),
-                    ),
-                  ],
-                )
-              : !isDownloading
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        InkWell(
-                          onTap: () async {
-                            setState(() {
-                              showProgressIndicator = true;
-                            });
-                            // processLoadAndOpen();
-                            // final path =
-                            //     '${Directory.systemTemp.path}/${widget.imageName}';
-                            // await Dio().download(
-                            //     'https://api-dev-v4.progresscenter.io/api/v4/projects/${widget.projectId}/cameras/${widget.cameraId}/images/download',
-                            //     path,
-                            //     options: Options(
-                            //       headers: {
-                            //         "content-type": "application/json",
-                            //         "Authorization": "Bearer " +
-                            //             _prefsLocator.getUserToken(),
-                            //       },
-                            //     ));
-                            // await Gal.putImage(
-                            //   path,
-                            // );
-
-                            if (granted) {
-                              await Dio().download(widget.imageUrl,
-                                  directory!.path + "/${widget.imageName}");
-                              await Gal.putImage(
-                                      directory!.path + "/${widget.imageName}",
-                                      album: null)
-                                  .then((value) {
-                                setState(() {
-                                  showProgressIndicator = false;
-                                });
-                                context.pop();
-                                ScaffoldMessenger.of(
-                                        rootNavigatorKey.currentContext!)
-                                    .showSnackBar(SnackBar(
-                                  content: const Text('Saved! ✅'),
-                                  backgroundColor: Helper.successColor,
-                                ));
+                    showDownloadOptions
+                        ? InkWell(
+                            onTap: () {
+                              setState(() {
+                                showDownloadOptions = false;
+                                isDownloading = false;
                               });
-                            }
-                          },
-                          child: Container(
-                            height: 44.h,
-                            child: ListTile(
-                              contentPadding: EdgeInsets.zero,
-                              leading: Container(
-                                  decoration: BoxDecoration(
-                                    color: Helper.bottomIconBack,
-                                    borderRadius: BorderRadius.circular(8.r),
-                                  ),
-                                  padding: EdgeInsets.all(8.w),
-                                  child: SvgPicture.asset(
-                                      'assets/images/camera.svg',
-                                      fit: BoxFit.cover,
-                                      colorFilter: ColorFilter.mode(
-                                          ref.watch(primaryColorProvider),
-                                          BlendMode.srcIn))),
-                              title: Text(
-                                'Single',
-                                style: TextStyle(
-                                    letterSpacing: -0.3,
-                                    color: Helper.baseBlack,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              trailing: showProgressIndicator
-                                  ? Transform.scale(
-                                      scale: 0.5,
-                                      child: CircularProgressIndicator(
-                                        color: ref.watch(primaryColorProvider),
-                                      ),
-                                    )
-                                  : SizedBox(),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 24.h),
-                        InkWell(
-                          onTap: () async {
-                            context.push('/multipleImages', extra: {
-                              "projectId": widget.projectId,
-                              "cameraName": widget.cameraName,
-                              "cameraId": widget.cameraId,
-                              "startDate": widget.startDate,
-                              "endDate": widget.endDate
-                            });
-                          },
-                          child: Container(
-                            height: 44.h,
-                            child: ListTile(
-                              contentPadding: EdgeInsets.zero,
-                              leading: Container(
-                                  decoration: BoxDecoration(
-                                    color: Helper.bottomIconBack,
-                                    borderRadius: BorderRadius.circular(8.r),
-                                  ),
-                                  padding: EdgeInsets.all(8.w),
-                                  child: SvgPicture.asset(
-                                      'assets/images/add_image.svg',
-                                      // width: 44.w,
-                                      // height: 44.h,
-                                      fit: BoxFit.cover,
-                                      colorFilter: ColorFilter.mode(
-                                          ref.watch(primaryColorProvider),
-                                          BlendMode.srcIn))),
-                              title: Text(
-                                'Multiple',
-                                style: TextStyle(
-                                    letterSpacing: -0.3,
-                                    color: Helper.baseBlack,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 24.h),
-                        Container(
-                          height: 52.h,
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            child: Text(
-                              "Cancel",
-                              style: TextStyle(
-                                  letterSpacing: -0.3,
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500),
-                              // currentIndex == contents.length - 1 ? "Continue" : "Next"
-                            ),
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStatePropertyAll(Helper.baseBlack),
-                                shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                  ),
-                                )),
-                            onPressed: () {
-                              context.pop();
                             },
-                          ),
-                        ),
-                      ],
-                    )
-                  : Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: Column(
+                            child: Transform.rotate(
+                              angle: 180 * (3.1415926535 / 180),
+                              child: SvgPicture.asset(
+                                  'assets/images/chevron-right.svg',
+                                  color: Helper.iconColor,
+                                  fit: BoxFit.contain),
+                            ),
+                          )
+                        : SizedBox(),
+                    Expanded(
+                        child: Column(children: [
+                      Text(
+                        showDownloadOptions
+                            ? "Download Image"
+                            : widget.cameraName,
+                        style: TextStyle(
+                            letterSpacing: -0.3,
+                            color: Helper.baseBlack,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      // Text(
+                      //   '25℃ Sunny, Hyderabad, India',
+                      //   style: TextStyle(
+                      //       letterSpacing: -0.3,
+                      //       color: Color.fromRGBO(127, 127, 127, 0.5),
+                      //       fontSize: 13.sp,
+                      //       fontWeight: FontWeight.w400),
+                      // ),
+                      // Text(
+                      //   '10-07-2023, 12:30 PM',
+                      //   style: TextStyle(
+                      //       letterSpacing: -0.3,
+                      //       color: Color.fromRGBO(127, 127, 127, 0.5),
+                      //       fontSize: 13.sp,
+                      //       fontWeight: FontWeight.w400),
+                      // ),
+                    ])),
+                  ],
+                ),
+                SizedBox(height: 24.h),
+                !showDownloadOptions
+                    ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ListTile(
+                          InkWell(
+                            onTap: () async {
+                              setState(() {
+                                showDownloadOptions = true;
+                              });
+                            },
+                            child: Container(
+                              height: 44.h,
+                              child: ListTile(
                                 contentPadding: EdgeInsets.zero,
-                                isThreeLine: true,
                                 leading: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 6.w, vertical: 6.h),
-                                  width: 32.w,
-                                  height: 32.h,
-                                  decoration: BoxDecoration(
-                                      color: Color.fromRGBO(229, 240, 255, 1),
-                                      borderRadius: BorderRadius.circular(32.r),
-                                      border: Border.all(
-                                          color:
-                                              Color.fromRGBO(245, 249, 255, 1),
-                                          width: 4.w)),
-                                  child: SvgPicture.asset(
-                                    'assets/images/film.svg',
-                                  ),
-                                ),
+                                    decoration: BoxDecoration(
+                                      color: Helper.bottomIconBack,
+                                      borderRadius: BorderRadius.circular(8.r),
+                                    ),
+                                    padding: EdgeInsets.all(8.w),
+                                    child: SvgPicture.asset(
+                                        'assets/images/download.svg',
+                                        fit: BoxFit.cover,
+                                        colorFilter: ColorFilter.mode(
+                                            ref.watch(primaryColorProvider),
+                                            BlendMode.srcIn))),
                                 title: Text(
-                                  widget.imageName,
+                                  'Download',
                                   style: TextStyle(
                                       letterSpacing: -0.3,
-                                      color: Helper.textColor700,
-                                      fontSize: 14,
+                                      color: Helper.baseBlack,
+                                      fontSize: 16.sp,
                                       fontWeight: FontWeight.w500),
                                 ),
-                                subtitle: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        "Fetching image",
-                                        style: TextStyle(
-                                            letterSpacing: -0.3,
-                                            color: Helper.textColor600,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                      SizedBox(height: 10.h),
-                                      Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(4.r),
-                                              child: LinearPercentIndicator(
-                                                  width: 210.w,
-                                                  fillColor:
-                                                      Helper.textColor300,
-                                                  backgroundColor:
-                                                      Helper.textColor300,
-                                                  progressColor: ref.watch(
-                                                      primaryColorProvider),
-                                                  padding: EdgeInsets.zero,
-                                                  curve: Curves.easeInOut,
-                                                  barRadius:
-                                                      Radius.circular(4.r),
-                                                  lineHeight: 8.h,
-                                                  percent: _progressBar),
-                                            ),
-                                            Text(
-                                              "${(_progressBar * 100).toInt()}%",
-                                              style: TextStyle(
-                                                  letterSpacing: -0.3,
-                                                  color: Helper.textColor700,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500),
-                                            )
-                                          ])
-                                    ]),
-                                trailing: _progressBar == 100.0
-                                    ? SvgPicture.asset(
-                                        'assets/images/checkbox_base.svg',
-                                      )
-                                    : SizedBox(),
                               ),
-                              SizedBox(height: 20.h),
+                            ),
+                          ),
+                          SizedBox(height: 24.h),
+                          InkWell(
+                            onTap: () async {
+                              context.push('/imageComments', extra: {
+                                "projectId": widget.projectId,
+                                "cameraId": widget.cameraId,
+                                "imageName": widget.imageName,
+                                "imageHeight": widget.imageHeight,
+                                "imageWidth": widget.imageWidth,
+                                "fromNotifications": false,
+                                "cameraImageCommentId": "",
+                                "cameraImageCommentReplyId": "",
+                              });
+                            },
+                            child: Container(
+                              height: 44.h,
+                              child: ListTile(
+                                contentPadding: EdgeInsets.zero,
+                                leading: Container(
+                                    decoration: BoxDecoration(
+                                      color: Helper.bottomIconBack,
+                                      borderRadius: BorderRadius.circular(8.r),
+                                    ),
+                                    padding: EdgeInsets.all(8.w),
+                                    child: SvgPicture.asset(
+                                        'assets/images/message.svg',
+                                        // width: 44.w,
+                                        // height: 44.h,
+                                        fit: BoxFit.cover,
+                                        colorFilter: ColorFilter.mode(
+                                            ref.watch(primaryColorProvider),
+                                            BlendMode.srcIn))),
+                                title: Text(
+                                  'Comment',
+                                  style: TextStyle(
+                                      letterSpacing: -0.3,
+                                      color: Helper.baseBlack,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          SizedBox(height: 24.h),
+                          InkWell(
+                            onTap: () async {
+                              Share.shareXFiles([XFile(filePath)]);
+                            },
+                            child: Container(
+                              height: 44.h,
+                              child: ListTile(
+                                contentPadding: EdgeInsets.zero,
+                                leading: Container(
+                                    decoration: BoxDecoration(
+                                      color: Helper.bottomIconBack,
+                                      borderRadius: BorderRadius.circular(8.r),
+                                    ),
+                                    padding: EdgeInsets.all(8.w),
+                                    child: SvgPicture.asset(
+                                        'assets/images/share.svg',
+                                        // width: 44.w,
+                                        // height: 44.h,
+                                        fit: BoxFit.cover,
+                                        colorFilter: ColorFilter.mode(
+                                            ref.watch(primaryColorProvider),
+                                            BlendMode.srcIn))),
+                                title: Text(
+                                  'Share',
+                                  style: TextStyle(
+                                      letterSpacing: -0.3,
+                                      color: Helper.baseBlack,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                            ),
+                          ),
+                          // SizedBox(height: 24.h),
+                          // InkWell(
+                          //   onTap: () async {
+                          //     // setState(() {
+                          //     //   _images = "1";
+                          //     //   _showImages = "1 Image";
+                          //     // });
+                          //     context.pop();
+                          //   },
+                          //   child: Container(
+                          //     height: 44.h,
+                          //     child: ListTile(
+                          //       contentPadding: EdgeInsets.zero,
+                          //       leading: Container(
+                          //           decoration: BoxDecoration(
+                          //             color: Helper.bottomIconBack,
+                          //             borderRadius: BorderRadius.circular(8.r),
+                          //           ),
+                          //           padding: EdgeInsets.all(8.w),
+                          //           child: SvgPicture.asset('assets/images/ai.svg',
+                          //               width: 24.w,
+                          //               height: 24.h,
+                          //               fit: BoxFit.cover,
+                          //               colorFilter: ColorFilter.mode(
+                          //                   ref.watch(primaryColorProvider),
+                          //                   BlendMode.srcIn))),
+                          //       title: Text(
+                          //         'AI Insights',
+                          //         style: TextStyle(
+                          //             letterSpacing: -0.3,
+                          //             color: Helper.baseBlack,
+                          //             fontSize: 16.sp,
+                          //             fontWeight: FontWeight.w500),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
+                          // SizedBox(height: 24.h),
+                          // InkWell(
+                          //   onTap: () async {
+                          //     // setState(() {
+                          //     //   _images = "1";
+                          //     //   _showImages = "1 Image";
+                          //     // });
+                          //     context.pop();
+                          //   },
+                          //   child: Container(
+                          //     height: 44.h,
+                          //     child: ListTile(
+                          //       contentPadding: EdgeInsets.zero,
+                          //       leading: Container(
+                          //           decoration: BoxDecoration(
+                          //             color: Helper.bottomIconBack,
+                          //             borderRadius: BorderRadius.circular(8.r),
+                          //           ),
+                          //           padding: EdgeInsets.all(8.w),
+                          //           child: SvgPicture.asset('assets/images/camera.svg',
+                          //               // width: 44.w,
+                          //               // height: 44.h,
+                          //               fit: BoxFit.cover,
+                          //               colorFilter: ColorFilter.mode(
+                          //                   ref.watch(primaryColorProvider),
+                          //                   BlendMode.srcIn))),
+                          //       title: Text(
+                          //         'Image quality',
+                          //         style: TextStyle(
+                          //             letterSpacing: -0.3,
+                          //             color: Helper.baseBlack,
+                          //             fontSize: 16.sp,
+                          //             fontWeight: FontWeight.w500),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
+                          // SizedBox(height: 24.h),
+                          // InkWell(
+                          //   onTap: () async {
+                          //     // setState(() {
+                          //     //   _images = "1";
+                          //     //   _showImages = "1 Image";
+                          //     // });
+                          //     context.pop();
+                          //   },
+                          //   child: Container(
+                          //     height: 44.h,
+                          //     child: ListTile(
+                          //       contentPadding: EdgeInsets.zero,
+                          //       leading: Container(
+                          //           decoration: BoxDecoration(
+                          //             color: Helper.bottomIconBack,
+                          //             borderRadius: BorderRadius.circular(8.r),
+                          //           ),
+                          //           padding: EdgeInsets.all(8.w),
+                          //           child: SvgPicture.asset(
+                          //               'assets/images/camera-flash.svg',
+                          //               // width: 44.w,
+                          //               // height: 44.h,
+                          //               fit: BoxFit.cover,
+                          //               colorFilter: ColorFilter.mode(
+                          //                   ref.watch(primaryColorProvider),
+                          //                   BlendMode.srcIn))),
+                          //       title: Text(
+                          //         'Default view',
+                          //         style: TextStyle(
+                          //             letterSpacing: -0.3,
+                          //             color: Helper.baseBlack,
+                          //             fontSize: 16.sp,
+                          //             fontWeight: FontWeight.w500),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
+                          SizedBox(height: 24.h),
+                          Container(
+                            height: 52.h,
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              child: Text(
+                                "Cancel",
+                                style: TextStyle(
+                                    letterSpacing: -0.3,
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500),
+                                // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                              ),
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStatePropertyAll(
+                                      Helper.baseBlack),
+                                  shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.r),
+                                    ),
+                                  )),
+                              onPressed: () {
+                                context.pop();
+                              },
+                            ),
+                          ),
+                        ],
+                      )
+                    : !isDownloading
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              InkWell(
+                                onTap: () async {
+                                  setState(() {
+                                    showProgressIndicator = true;
+                                  });
+                                  // processLoadAndOpen();
+                                  // final path =
+                                  //     '${Directory.systemTemp.path}/${widget.imageName}';
+                                  // await Dio().download(
+                                  //     'https://api-dev-v4.progresscenter.io/api/v4/projects/${widget.projectId}/cameras/${widget.cameraId}/images/download',
+                                  //     path,
+                                  //     options: Options(
+                                  //       headers: {
+                                  //         "content-type": "application/json",
+                                  //         "Authorization": "Bearer " +
+                                  //             _prefsLocator.getUserToken(),
+                                  //       },
+                                  //     ));
+                                  // await Gal.putImage(
+                                  //   path,
+                                  // );
+
+                                  if (granted) {
+                                    await Dio().download(
+                                        widget.imageUrl,
+                                        directory!.path +
+                                            "/${widget.imageName}");
+                                    await Gal.putImage(
+                                            directory!.path +
+                                                "/${widget.imageName}",
+                                            album: null)
+                                        .then((value) {
+                                      setState(() {
+                                        showProgressIndicator = false;
+                                      });
+                                      context.pop();
+                                      ScaffoldMessenger.of(
+                                              rootNavigatorKey.currentContext!)
+                                          .showSnackBar(SnackBar(
+                                        content: const Text('Saved! ✅'),
+                                        backgroundColor: Helper.successColor,
+                                      ));
+                                    });
+                                  }
+                                },
+                                child: Container(
+                                  height: 44.h,
+                                  child: ListTile(
+                                    contentPadding: EdgeInsets.zero,
+                                    leading: Container(
+                                        decoration: BoxDecoration(
+                                          color: Helper.bottomIconBack,
+                                          borderRadius:
+                                              BorderRadius.circular(8.r),
+                                        ),
+                                        padding: EdgeInsets.all(8.w),
+                                        child: SvgPicture.asset(
+                                            'assets/images/camera.svg',
+                                            fit: BoxFit.cover,
+                                            colorFilter: ColorFilter.mode(
+                                                ref.watch(primaryColorProvider),
+                                                BlendMode.srcIn))),
+                                    title: Text(
+                                      'Single',
+                                      style: TextStyle(
+                                          letterSpacing: -0.3,
+                                          color: Helper.baseBlack,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    trailing: showProgressIndicator
+                                        ? Transform.scale(
+                                            scale: 0.5,
+                                            child: CircularProgressIndicator(
+                                              color: ref
+                                                  .watch(primaryColorProvider),
+                                            ),
+                                          )
+                                        : SizedBox(),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 24.h),
+                              InkWell(
+                                onTap: () async {
+                                  context.push('/multipleImages', extra: {
+                                    "projectId": widget.projectId,
+                                    "cameraName": widget.cameraName,
+                                    "cameraId": widget.cameraId,
+                                    "startDate": widget.startDate,
+                                    "endDate": widget.endDate
+                                  });
+                                },
+                                child: Container(
+                                  height: 44.h,
+                                  child: ListTile(
+                                    contentPadding: EdgeInsets.zero,
+                                    leading: Container(
+                                        decoration: BoxDecoration(
+                                          color: Helper.bottomIconBack,
+                                          borderRadius:
+                                              BorderRadius.circular(8.r),
+                                        ),
+                                        padding: EdgeInsets.all(8.w),
+                                        child: SvgPicture.asset(
+                                            'assets/images/add_image.svg',
+                                            // width: 44.w,
+                                            // height: 44.h,
+                                            fit: BoxFit.cover,
+                                            colorFilter: ColorFilter.mode(
+                                                ref.watch(primaryColorProvider),
+                                                BlendMode.srcIn))),
+                                    title: Text(
+                                      'Multiple',
+                                      style: TextStyle(
+                                          letterSpacing: -0.3,
+                                          color: Helper.baseBlack,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 24.h),
                               Container(
                                 height: 52.h,
                                 width: double.infinity,
                                 child: ElevatedButton(
                                   child: Text(
-                                    "Close",
+                                    "Cancel",
                                     style: TextStyle(
                                         letterSpacing: -0.3,
                                         color: Colors.white,
@@ -850,12 +747,141 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                                 ),
                               ),
                             ],
+                          )
+                        : Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ListTile(
+                                      contentPadding: EdgeInsets.zero,
+                                      isThreeLine: true,
+                                      leading: Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 6.w, vertical: 6.h),
+                                        width: 32.w,
+                                        height: 32.h,
+                                        decoration: BoxDecoration(
+                                            color: Color.fromRGBO(
+                                                229, 240, 255, 1),
+                                            borderRadius:
+                                                BorderRadius.circular(32.r),
+                                            border: Border.all(
+                                                color: Color.fromRGBO(
+                                                    245, 249, 255, 1),
+                                                width: 4.w)),
+                                        child: SvgPicture.asset(
+                                          'assets/images/film.svg',
+                                        ),
+                                      ),
+                                      title: Text(
+                                        widget.imageName,
+                                        style: TextStyle(
+                                            letterSpacing: -0.3,
+                                            color: Helper.textColor700,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      subtitle: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              "Fetching image",
+                                              style: TextStyle(
+                                                  letterSpacing: -0.3,
+                                                  color: Helper.textColor600,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400),
+                                            ),
+                                            SizedBox(height: 10.h),
+                                            Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4.r),
+                                                    child: LinearPercentIndicator(
+                                                        width: 210.w,
+                                                        fillColor:
+                                                            Helper.textColor300,
+                                                        backgroundColor:
+                                                            Helper.textColor300,
+                                                        progressColor: ref.watch(
+                                                            primaryColorProvider),
+                                                        padding:
+                                                            EdgeInsets.zero,
+                                                        curve: Curves.easeInOut,
+                                                        barRadius:
+                                                            Radius.circular(
+                                                                4.r),
+                                                        lineHeight: 8.h,
+                                                        percent: _progressBar),
+                                                  ),
+                                                  Text(
+                                                    "${(_progressBar * 100).toInt()}%",
+                                                    style: TextStyle(
+                                                        letterSpacing: -0.3,
+                                                        color:
+                                                            Helper.textColor700,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  )
+                                                ])
+                                          ]),
+                                      trailing: _progressBar == 100.0
+                                          ? SvgPicture.asset(
+                                              'assets/images/checkbox_base.svg',
+                                            )
+                                          : SizedBox(),
+                                    ),
+                                    SizedBox(height: 20.h),
+                                    Container(
+                                      height: 52.h,
+                                      width: double.infinity,
+                                      child: ElevatedButton(
+                                        child: Text(
+                                          "Close",
+                                          style: TextStyle(
+                                              letterSpacing: -0.3,
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500),
+                                          // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                                        ),
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStatePropertyAll(
+                                                    Helper.baseBlack),
+                                            shape: MaterialStateProperty.all(
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.r),
+                                              ),
+                                            )),
+                                        onPressed: () {
+                                          context.pop();
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
-        ],
-      ),
+              ],
+            )
+          : LoadCameraBottomsheet(),
     );
   }
 

@@ -21,6 +21,8 @@ import 'package:progresscenter_app_v4/src/feature/slider/presentation/provider/p
 import 'package:http/http.dart' as http;
 import 'dart:developer';
 
+import 'package:progresscenter_app_v4/src/feature/slider/presentation/view/fullview_slider_screen.dart';
+
 class SliderScreen extends ConsumerStatefulWidget {
   final String projectId;
   final String projectName;
@@ -48,7 +50,6 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
   // New list to hold preloaded image bytes
   List<Uint8List> imageBytesList = [];
 
-  // Function to preload and cache images
   // Function to preload and cache images with progress tracking
   Future<Map<String, double>> preloadImagesWithProgress(
       List<dynamic> imageUrls) async {
@@ -148,10 +149,6 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w500),
             ),
-            actions: [
-              SvgPicture.asset('assets/images/dots-vertical.svg'),
-            ],
-            actionsIconTheme: IconThemeData(color: Helper.iconColor),
           ),
         ),
       ),
@@ -206,13 +203,39 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
                                 right: 16,
                                 child: InkWell(
                                   onTap: () {
-                                    context.push('/fullviewSlider', extra: {
-                                      "projectId": widget.projectId,
-                                      "projectName": widget.projectName,
-                                      "cameraId": widget.cameraId,
-                                      "sliderData": data,
-                                      "imagesBytes": imageBytesList,
-                                    });
+                                    Navigator.push(
+                                      context,
+                                      PageRouteBuilder(
+                                        pageBuilder: (context, animation,
+                                                secondaryAnimation) =>
+                                            FullviewSliderScreen(
+                                          projectId: widget.projectId,
+                                          projectName: widget.projectName,
+                                          cameraId: widget.cameraId,
+                                          sliderData: data,
+                                          imagesBytes: imageBytesList,
+                                        ),
+                                        transitionsBuilder: (context, animation,
+                                            secondaryAnimation, child) {
+                                          const begin = 0.75;
+                                          const end = 1.0;
+                                          var rotationAnimation =
+                                              Tween(begin: begin, end: end)
+                                                  .animate(animation);
+                                          return RotationTransition(
+                                            turns: rotationAnimation,
+                                            child: child,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                    // context.push('/fullviewSlider', extra: {
+                                    //   "projectId": widget.projectId,
+                                    //   "projectName": widget.projectName,
+                                    //   "cameraId": widget.cameraId,
+                                    //   "sliderData": data,
+                                    //   "imagesBytes": imageBytesList,
+                                    // });
                                   },
                                   child: BlurryContainer(
                                     blur: 3,
@@ -232,21 +255,26 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
                             ],
                           )
                         : Center(
-                            child: CircularPercentIndicator(
-                            radius: 20.0,
-                            lineWidth: 3.0,
-                            animation: true,
-                            percent: 1.0,
-                            center: Text(
-                              "${(progressValue).toStringAsFixed(0)}%",
-                              style: TextStyle(
-                                  fontSize: 10.0,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black),
-                            ),
-                            backgroundColor: Colors.grey,
-                            circularStrokeCap: CircularStrokeCap.round,
-                            progressColor: Helper.primary,
+                            child: Column(
+                            children: [
+                              CircularPercentIndicator(
+                                radius: 30.0,
+                                lineWidth: 3.0,
+                                animation: true,
+                                percent: 1.0,
+                                backgroundColor: Colors.grey,
+                                circularStrokeCap: CircularStrokeCap.round,
+                                progressColor: Helper.primary,
+                              ),
+                              SizedBox(height: 10.h),
+                              Text(
+                                "Generating Progress Slider ${(progressValue).toStringAsFixed(0)}%",
+                                style: TextStyle(
+                                    fontSize: 10.0,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black),
+                              ),
+                            ],
                           )),
                     !loading
                         ? SliderTheme(
@@ -278,7 +306,7 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
                     style: TextStyle(
                         letterSpacing: -0.3, color: Helper.errorColor));
               },
-              loading: () => LoadingSlider(),
+              loading: () => SizedBox(),
             ),
           ),
         ),
