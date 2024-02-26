@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
@@ -39,47 +40,51 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
   List<dynamic> imageUrls = [];
   bool loading = false;
   double progress = 0.0;
+  Dio dio = Dio();
+  double progressValue = 0.0;
+  Map<String, double> progressMap = {};
+  var sum = 0.0;
 
   // New list to hold preloaded image bytes
   List<Uint8List> imageBytesList = [];
 
   // Function to preload and cache images
-  Future preloadImages(List<dynamic> imageUrls) async {
+  // Function to preload and cache images with progress tracking
+  Future<Map<String, double>> preloadImagesWithProgress(
+      List<dynamic> imageUrls) async {
+    Map<String, double> progressMap = {};
     loading = true;
-    final client = http.Client();
 
     try {
-      await Future.wait(imageUrls.map((url) async {
-        final request = http.Request('GET', Uri.parse(url));
-        await client.send(request).then((response) async {
-// Create a buffer to hold the image data
-          List<int> imageBytes = [];
+      await Future.wait(imageUrls.asMap().entries.map((entry) async {
+        var index = entry.key;
+        var url = entry.value;
 
-          // Track the progress of the download
-          int receivedBytes = 0;
-          int totalBytes = response.contentLength ?? 0;
-
-          await response.stream.forEach((List<int> chunk) {
-            imageBytes.addAll(chunk);
-            receivedBytes += chunk.length;
+        var response = await dio.get(
+          url,
+          onReceiveProgress: (count, total) {
             setState(() {
-              progress = receivedBytes / totalBytes;
+              progress = (count / total) * 100;
+              progressMap[url] = progress;
+
+              // Calculate overall progress
+              sum = progressMap.values.fold(0, (prev, value) => prev + value);
+              progressValue = (sum / imageUrls.length);
+
+              log("progressValue: $progressValue");
+              // if (count == total) {
+              //   progressValue = 'Downloading Completed';
+              // }
             });
-            log("recieve" + response.contentLength.toString());
-            log('Progress for $url: ${(progress * 100).toStringAsFixed(2)}%');
-          });
+          },
+          options: Options(responseType: ResponseType.bytes),
+        );
 
-          // Convert the List<int> to Uint8List
-          Uint8List uint8List = Uint8List.fromList(imageBytes);
-
-          // Add the Uint8List to the list
-          imageBytesList.add(uint8List);
-        });
+        imageBytesList.add(response.data);
       }).toList());
-    } finally {
-      // Close the client after all requests are completed
-      client.close();
-    }
+    } finally {}
+
+    return progressMap;
   }
 
   // Function to load the error image
@@ -102,31 +107,13 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
           .then((data) {
         List<dynamic> imageUrls = data.map((item) => item.urlPreview!).toList();
 
-        preloadImages(imageUrls).then((value) {
+        preloadImagesWithProgress(imageUrls).then((value) {
           setState(() {
             loading = false;
           });
         });
       });
     });
-
-// {
-//   '1212':20,
-//   '1222':30
-// }
-
-// 50/2
-
-    // Timer? timer;
-    // timer = Timer.periodic(Duration(milliseconds: 300), (_) {
-    //   setState(() {
-    //     progress = progress + 10;
-    //     if (progress >= 100) {
-    //       timer!.cancel();
-    //       // percent=0;
-    //     }
-    //   });
-    // });
   }
 
   @override
@@ -200,7 +187,7 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
 
                 return Column(
                   children: [
-                    imageBytesList.isNotEmpty
+                    !loading
                         ? Stack(
                             children: [
                               AspectRatio(
@@ -249,9 +236,9 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
                             radius: 20.0,
                             lineWidth: 3.0,
                             animation: true,
-                            percent: progress,
+                            percent: 1.0,
                             center: Text(
-                              "${(progress * 100).toStringAsFixed(2)}%",
+                              "${(progressValue).toStringAsFixed(0)}%",
                               style: TextStyle(
                                   fontSize: 10.0,
                                   fontWeight: FontWeight.w400,
@@ -261,7 +248,7 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
                             circularStrokeCap: CircularStrokeCap.round,
                             progressColor: Helper.primary,
                           )),
-                    imageBytesList.isNotEmpty
+                    !loading
                         ? SliderTheme(
                             data: SliderThemeData(
                               activeTickMarkColor: Colors.transparent,
