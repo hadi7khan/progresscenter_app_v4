@@ -251,7 +251,7 @@ class _TimelineDetailsScreenState
                         ? PinchZoom(
                             maxScale: 10,
                             child: Image.network(
-                              data.url,
+                              data.url!,
                               gaplessPlayback: true,
                               fit: BoxFit.cover,
                               errorBuilder: (BuildContext context,
@@ -514,7 +514,7 @@ class _TimelineDetailsScreenState
                               ),
                               SizedBox(width: 10.w),
                               Text(
-                                data.viewedBy.length.toString(),
+                                data.viewedBy!.length.toString(),
                                 style: TextStyle(
                                     letterSpacing: -0.3,
                                     color: Helper.textColor600,

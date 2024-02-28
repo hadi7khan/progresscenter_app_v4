@@ -21,18 +21,18 @@ ProgressLineModel _$ProgressLineModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ProgressLineModel {
   @JsonKey(name: '_id')
-  String get id => throw _privateConstructorUsedError;
-  String get caption => throw _privateConstructorUsedError;
-  String get file => throw _privateConstructorUsedError;
-  String get mediaType => throw _privateConstructorUsedError;
-  List<Comment> get comments => throw _privateConstructorUsedError;
-  List<User> get viewedBy => throw _privateConstructorUsedError;
-  User get user => throw _privateConstructorUsedError;
-  String get camera => throw _privateConstructorUsedError;
-  Project get project => throw _privateConstructorUsedError;
-  DateTime get createdAt => throw _privateConstructorUsedError;
-  DateTime get updatedAt => throw _privateConstructorUsedError;
-  String get url => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
+  String? get caption => throw _privateConstructorUsedError;
+  String? get file => throw _privateConstructorUsedError;
+  String? get mediaType => throw _privateConstructorUsedError;
+  List<Comment>? get comments => throw _privateConstructorUsedError;
+  List<User>? get viewedBy => throw _privateConstructorUsedError;
+  User? get user => throw _privateConstructorUsedError;
+  String? get camera => throw _privateConstructorUsedError;
+  Project? get project => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
+  String? get url => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,21 +47,21 @@ abstract class $ProgressLineModelCopyWith<$Res> {
       _$ProgressLineModelCopyWithImpl<$Res, ProgressLineModel>;
   @useResult
   $Res call(
-      {@JsonKey(name: '_id') String id,
-      String caption,
-      String file,
-      String mediaType,
-      List<Comment> comments,
-      List<User> viewedBy,
-      User user,
-      String camera,
-      Project project,
-      DateTime createdAt,
-      DateTime updatedAt,
-      String url});
+      {@JsonKey(name: '_id') String? id,
+      String? caption,
+      String? file,
+      String? mediaType,
+      List<Comment>? comments,
+      List<User>? viewedBy,
+      User? user,
+      String? camera,
+      Project? project,
+      DateTime? createdAt,
+      DateTime? updatedAt,
+      String? url});
 
-  $UserCopyWith<$Res> get user;
-  $ProjectCopyWith<$Res> get project;
+  $UserCopyWith<$Res>? get user;
+  $ProjectCopyWith<$Res>? get project;
 }
 
 /// @nodoc
@@ -77,83 +77,91 @@ class _$ProgressLineModelCopyWithImpl<$Res, $Val extends ProgressLineModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? caption = null,
-    Object? file = null,
-    Object? mediaType = null,
-    Object? comments = null,
-    Object? viewedBy = null,
-    Object? user = null,
-    Object? camera = null,
-    Object? project = null,
-    Object? createdAt = null,
-    Object? updatedAt = null,
-    Object? url = null,
+    Object? id = freezed,
+    Object? caption = freezed,
+    Object? file = freezed,
+    Object? mediaType = freezed,
+    Object? comments = freezed,
+    Object? viewedBy = freezed,
+    Object? user = freezed,
+    Object? camera = freezed,
+    Object? project = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
+    Object? url = freezed,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      caption: null == caption
+              as String?,
+      caption: freezed == caption
           ? _value.caption
           : caption // ignore: cast_nullable_to_non_nullable
-              as String,
-      file: null == file
+              as String?,
+      file: freezed == file
           ? _value.file
           : file // ignore: cast_nullable_to_non_nullable
-              as String,
-      mediaType: null == mediaType
+              as String?,
+      mediaType: freezed == mediaType
           ? _value.mediaType
           : mediaType // ignore: cast_nullable_to_non_nullable
-              as String,
-      comments: null == comments
+              as String?,
+      comments: freezed == comments
           ? _value.comments
           : comments // ignore: cast_nullable_to_non_nullable
-              as List<Comment>,
-      viewedBy: null == viewedBy
+              as List<Comment>?,
+      viewedBy: freezed == viewedBy
           ? _value.viewedBy
           : viewedBy // ignore: cast_nullable_to_non_nullable
-              as List<User>,
-      user: null == user
+              as List<User>?,
+      user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User,
-      camera: null == camera
+              as User?,
+      camera: freezed == camera
           ? _value.camera
           : camera // ignore: cast_nullable_to_non_nullable
-              as String,
-      project: null == project
+              as String?,
+      project: freezed == project
           ? _value.project
           : project // ignore: cast_nullable_to_non_nullable
-              as Project,
-      createdAt: null == createdAt
+              as Project?,
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      updatedAt: null == updatedAt
+              as DateTime?,
+      updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      url: null == url
+              as DateTime?,
+      url: freezed == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $UserCopyWith<$Res> get user {
-    return $UserCopyWith<$Res>(_value.user, (value) {
+  $UserCopyWith<$Res>? get user {
+    if (_value.user == null) {
+      return null;
+    }
+
+    return $UserCopyWith<$Res>(_value.user!, (value) {
       return _then(_value.copyWith(user: value) as $Val);
     });
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $ProjectCopyWith<$Res> get project {
-    return $ProjectCopyWith<$Res>(_value.project, (value) {
+  $ProjectCopyWith<$Res>? get project {
+    if (_value.project == null) {
+      return null;
+    }
+
+    return $ProjectCopyWith<$Res>(_value.project!, (value) {
       return _then(_value.copyWith(project: value) as $Val);
     });
   }
@@ -168,23 +176,23 @@ abstract class _$$_ProgressLineModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: '_id') String id,
-      String caption,
-      String file,
-      String mediaType,
-      List<Comment> comments,
-      List<User> viewedBy,
-      User user,
-      String camera,
-      Project project,
-      DateTime createdAt,
-      DateTime updatedAt,
-      String url});
+      {@JsonKey(name: '_id') String? id,
+      String? caption,
+      String? file,
+      String? mediaType,
+      List<Comment>? comments,
+      List<User>? viewedBy,
+      User? user,
+      String? camera,
+      Project? project,
+      DateTime? createdAt,
+      DateTime? updatedAt,
+      String? url});
 
   @override
-  $UserCopyWith<$Res> get user;
+  $UserCopyWith<$Res>? get user;
   @override
-  $ProjectCopyWith<$Res> get project;
+  $ProjectCopyWith<$Res>? get project;
 }
 
 /// @nodoc
@@ -198,68 +206,68 @@ class __$$_ProgressLineModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? caption = null,
-    Object? file = null,
-    Object? mediaType = null,
-    Object? comments = null,
-    Object? viewedBy = null,
-    Object? user = null,
-    Object? camera = null,
-    Object? project = null,
-    Object? createdAt = null,
-    Object? updatedAt = null,
-    Object? url = null,
+    Object? id = freezed,
+    Object? caption = freezed,
+    Object? file = freezed,
+    Object? mediaType = freezed,
+    Object? comments = freezed,
+    Object? viewedBy = freezed,
+    Object? user = freezed,
+    Object? camera = freezed,
+    Object? project = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
+    Object? url = freezed,
   }) {
     return _then(_$_ProgressLineModel(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      caption: null == caption
+              as String?,
+      caption: freezed == caption
           ? _value.caption
           : caption // ignore: cast_nullable_to_non_nullable
-              as String,
-      file: null == file
+              as String?,
+      file: freezed == file
           ? _value.file
           : file // ignore: cast_nullable_to_non_nullable
-              as String,
-      mediaType: null == mediaType
+              as String?,
+      mediaType: freezed == mediaType
           ? _value.mediaType
           : mediaType // ignore: cast_nullable_to_non_nullable
-              as String,
-      comments: null == comments
+              as String?,
+      comments: freezed == comments
           ? _value._comments
           : comments // ignore: cast_nullable_to_non_nullable
-              as List<Comment>,
-      viewedBy: null == viewedBy
+              as List<Comment>?,
+      viewedBy: freezed == viewedBy
           ? _value._viewedBy
           : viewedBy // ignore: cast_nullable_to_non_nullable
-              as List<User>,
-      user: null == user
+              as List<User>?,
+      user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User,
-      camera: null == camera
+              as User?,
+      camera: freezed == camera
           ? _value.camera
           : camera // ignore: cast_nullable_to_non_nullable
-              as String,
-      project: null == project
+              as String?,
+      project: freezed == project
           ? _value.project
           : project // ignore: cast_nullable_to_non_nullable
-              as Project,
-      createdAt: null == createdAt
+              as Project?,
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      updatedAt: null == updatedAt
+              as DateTime?,
+      updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      url: null == url
+              as DateTime?,
+      url: freezed == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -269,11 +277,11 @@ class __$$_ProgressLineModelCopyWithImpl<$Res>
 class _$_ProgressLineModel implements _ProgressLineModel {
   const _$_ProgressLineModel(
       {@JsonKey(name: '_id') required this.id,
-      required this.caption,
+      this.caption = "",
       required this.file,
       required this.mediaType,
-      required final List<Comment> comments,
-      required final List<User> viewedBy,
+      required final List<Comment>? comments,
+      required final List<User>? viewedBy,
       required this.user,
       required this.camera,
       required this.project,
@@ -288,41 +296,46 @@ class _$_ProgressLineModel implements _ProgressLineModel {
 
   @override
   @JsonKey(name: '_id')
-  final String id;
+  final String? id;
   @override
-  final String caption;
+  @JsonKey()
+  final String? caption;
   @override
-  final String file;
+  final String? file;
   @override
-  final String mediaType;
-  final List<Comment> _comments;
+  final String? mediaType;
+  final List<Comment>? _comments;
   @override
-  List<Comment> get comments {
+  List<Comment>? get comments {
+    final value = _comments;
+    if (value == null) return null;
     if (_comments is EqualUnmodifiableListView) return _comments;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_comments);
+    return EqualUnmodifiableListView(value);
   }
 
-  final List<User> _viewedBy;
+  final List<User>? _viewedBy;
   @override
-  List<User> get viewedBy {
+  List<User>? get viewedBy {
+    final value = _viewedBy;
+    if (value == null) return null;
     if (_viewedBy is EqualUnmodifiableListView) return _viewedBy;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_viewedBy);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
-  final User user;
+  final User? user;
   @override
-  final String camera;
+  final String? camera;
   @override
-  final Project project;
+  final Project? project;
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @override
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   @override
-  final String url;
+  final String? url;
 
   @override
   String toString() {
@@ -385,47 +398,47 @@ class _$_ProgressLineModel implements _ProgressLineModel {
 
 abstract class _ProgressLineModel implements ProgressLineModel {
   const factory _ProgressLineModel(
-      {@JsonKey(name: '_id') required final String id,
-      required final String caption,
-      required final String file,
-      required final String mediaType,
-      required final List<Comment> comments,
-      required final List<User> viewedBy,
-      required final User user,
-      required final String camera,
-      required final Project project,
-      required final DateTime createdAt,
-      required final DateTime updatedAt,
-      required final String url}) = _$_ProgressLineModel;
+      {@JsonKey(name: '_id') required final String? id,
+      final String? caption,
+      required final String? file,
+      required final String? mediaType,
+      required final List<Comment>? comments,
+      required final List<User>? viewedBy,
+      required final User? user,
+      required final String? camera,
+      required final Project? project,
+      required final DateTime? createdAt,
+      required final DateTime? updatedAt,
+      required final String? url}) = _$_ProgressLineModel;
 
   factory _ProgressLineModel.fromJson(Map<String, dynamic> json) =
       _$_ProgressLineModel.fromJson;
 
   @override
   @JsonKey(name: '_id')
-  String get id;
+  String? get id;
   @override
-  String get caption;
+  String? get caption;
   @override
-  String get file;
+  String? get file;
   @override
-  String get mediaType;
+  String? get mediaType;
   @override
-  List<Comment> get comments;
+  List<Comment>? get comments;
   @override
-  List<User> get viewedBy;
+  List<User>? get viewedBy;
   @override
-  User get user;
+  User? get user;
   @override
-  String get camera;
+  String? get camera;
   @override
-  Project get project;
+  Project? get project;
   @override
-  DateTime get createdAt;
+  DateTime? get createdAt;
   @override
-  DateTime get updatedAt;
+  DateTime? get updatedAt;
   @override
-  String get url;
+  String? get url;
   @override
   @JsonKey(ignore: true)
   _$$_ProgressLineModelCopyWith<_$_ProgressLineModel> get copyWith =>
@@ -438,12 +451,12 @@ Comment _$CommentFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Comment {
-  User get user => throw _privateConstructorUsedError;
-  String get body => throw _privateConstructorUsedError;
+  User? get user => throw _privateConstructorUsedError;
+  String? get body => throw _privateConstructorUsedError;
   @JsonKey(name: '_id')
-  String get commentId => throw _privateConstructorUsedError;
-  DateTime get createdAt => throw _privateConstructorUsedError;
-  DateTime get updatedAt => throw _privateConstructorUsedError;
+  String? get commentId => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -456,13 +469,13 @@ abstract class $CommentCopyWith<$Res> {
       _$CommentCopyWithImpl<$Res, Comment>;
   @useResult
   $Res call(
-      {User user,
-      String body,
-      @JsonKey(name: '_id') String commentId,
-      DateTime createdAt,
-      DateTime updatedAt});
+      {User? user,
+      String? body,
+      @JsonKey(name: '_id') String? commentId,
+      DateTime? createdAt,
+      DateTime? updatedAt});
 
-  $UserCopyWith<$Res> get user;
+  $UserCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -478,40 +491,44 @@ class _$CommentCopyWithImpl<$Res, $Val extends Comment>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? user = null,
-    Object? body = null,
-    Object? commentId = null,
-    Object? createdAt = null,
-    Object? updatedAt = null,
+    Object? user = freezed,
+    Object? body = freezed,
+    Object? commentId = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_value.copyWith(
-      user: null == user
+      user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User,
-      body: null == body
+              as User?,
+      body: freezed == body
           ? _value.body
           : body // ignore: cast_nullable_to_non_nullable
-              as String,
-      commentId: null == commentId
+              as String?,
+      commentId: freezed == commentId
           ? _value.commentId
           : commentId // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: null == createdAt
+              as String?,
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      updatedAt: null == updatedAt
+              as DateTime?,
+      updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $UserCopyWith<$Res> get user {
-    return $UserCopyWith<$Res>(_value.user, (value) {
+  $UserCopyWith<$Res>? get user {
+    if (_value.user == null) {
+      return null;
+    }
+
+    return $UserCopyWith<$Res>(_value.user!, (value) {
       return _then(_value.copyWith(user: value) as $Val);
     });
   }
@@ -525,14 +542,14 @@ abstract class _$$_CommentCopyWith<$Res> implements $CommentCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {User user,
-      String body,
-      @JsonKey(name: '_id') String commentId,
-      DateTime createdAt,
-      DateTime updatedAt});
+      {User? user,
+      String? body,
+      @JsonKey(name: '_id') String? commentId,
+      DateTime? createdAt,
+      DateTime? updatedAt});
 
   @override
-  $UserCopyWith<$Res> get user;
+  $UserCopyWith<$Res>? get user;
 }
 
 /// @nodoc
@@ -545,33 +562,33 @@ class __$$_CommentCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? user = null,
-    Object? body = null,
-    Object? commentId = null,
-    Object? createdAt = null,
-    Object? updatedAt = null,
+    Object? user = freezed,
+    Object? body = freezed,
+    Object? commentId = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_$_Comment(
-      user: null == user
+      user: freezed == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User,
-      body: null == body
+              as User?,
+      body: freezed == body
           ? _value.body
           : body // ignore: cast_nullable_to_non_nullable
-              as String,
-      commentId: null == commentId
+              as String?,
+      commentId: freezed == commentId
           ? _value.commentId
           : commentId // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: null == createdAt
+              as String?,
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      updatedAt: null == updatedAt
+              as DateTime?,
+      updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ));
   }
 }
@@ -590,16 +607,16 @@ class _$_Comment implements _Comment {
       _$$_CommentFromJson(json);
 
   @override
-  final User user;
+  final User? user;
   @override
-  final String body;
+  final String? body;
   @override
   @JsonKey(name: '_id')
-  final String commentId;
+  final String? commentId;
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @override
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   @override
   String toString() {
@@ -642,25 +659,25 @@ class _$_Comment implements _Comment {
 
 abstract class _Comment implements Comment {
   const factory _Comment(
-      {required final User user,
-      required final String body,
-      @JsonKey(name: '_id') required final String commentId,
-      required final DateTime createdAt,
-      required final DateTime updatedAt}) = _$_Comment;
+      {required final User? user,
+      required final String? body,
+      @JsonKey(name: '_id') required final String? commentId,
+      required final DateTime? createdAt,
+      required final DateTime? updatedAt}) = _$_Comment;
 
   factory _Comment.fromJson(Map<String, dynamic> json) = _$_Comment.fromJson;
 
   @override
-  User get user;
+  User? get user;
   @override
-  String get body;
+  String? get body;
   @override
   @JsonKey(name: '_id')
-  String get commentId;
+  String? get commentId;
   @override
-  DateTime get createdAt;
+  DateTime? get createdAt;
   @override
-  DateTime get updatedAt;
+  DateTime? get updatedAt;
   @override
   @JsonKey(ignore: true)
   _$$_CommentCopyWith<_$_Comment> get copyWith =>
@@ -673,10 +690,10 @@ User _$UserFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$User {
-  Preset get preset => throw _privateConstructorUsedError;
+  Preset? get preset => throw _privateConstructorUsedError;
   @JsonKey(name: '_id')
-  String get userId => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
+  String? get userId => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
   String? get dp => throw _privateConstructorUsedError;
   String? get designation => throw _privateConstructorUsedError;
   String? get dpUrl => throw _privateConstructorUsedError;
@@ -694,16 +711,16 @@ abstract class $UserCopyWith<$Res> {
       _$UserCopyWithImpl<$Res, User>;
   @useResult
   $Res call(
-      {Preset preset,
-      @JsonKey(name: '_id') String userId,
-      String name,
+      {Preset? preset,
+      @JsonKey(name: '_id') String? userId,
+      String? name,
       String? dp,
       String? designation,
       String? dpUrl,
       String? role,
       DateTime? lastActive});
 
-  $PresetCopyWith<$Res> get preset;
+  $PresetCopyWith<$Res>? get preset;
 }
 
 /// @nodoc
@@ -719,9 +736,9 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? preset = null,
-    Object? userId = null,
-    Object? name = null,
+    Object? preset = freezed,
+    Object? userId = freezed,
+    Object? name = freezed,
     Object? dp = freezed,
     Object? designation = freezed,
     Object? dpUrl = freezed,
@@ -729,18 +746,18 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? lastActive = freezed,
   }) {
     return _then(_value.copyWith(
-      preset: null == preset
+      preset: freezed == preset
           ? _value.preset
           : preset // ignore: cast_nullable_to_non_nullable
-              as Preset,
-      userId: null == userId
+              as Preset?,
+      userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
+              as String?,
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       dp: freezed == dp
           ? _value.dp
           : dp // ignore: cast_nullable_to_non_nullable
@@ -766,8 +783,12 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
 
   @override
   @pragma('vm:prefer-inline')
-  $PresetCopyWith<$Res> get preset {
-    return $PresetCopyWith<$Res>(_value.preset, (value) {
+  $PresetCopyWith<$Res>? get preset {
+    if (_value.preset == null) {
+      return null;
+    }
+
+    return $PresetCopyWith<$Res>(_value.preset!, (value) {
       return _then(_value.copyWith(preset: value) as $Val);
     });
   }
@@ -780,9 +801,9 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {Preset preset,
-      @JsonKey(name: '_id') String userId,
-      String name,
+      {Preset? preset,
+      @JsonKey(name: '_id') String? userId,
+      String? name,
       String? dp,
       String? designation,
       String? dpUrl,
@@ -790,7 +811,7 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       DateTime? lastActive});
 
   @override
-  $PresetCopyWith<$Res> get preset;
+  $PresetCopyWith<$Res>? get preset;
 }
 
 /// @nodoc
@@ -802,9 +823,9 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? preset = null,
-    Object? userId = null,
-    Object? name = null,
+    Object? preset = freezed,
+    Object? userId = freezed,
+    Object? name = freezed,
     Object? dp = freezed,
     Object? designation = freezed,
     Object? dpUrl = freezed,
@@ -812,18 +833,18 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
     Object? lastActive = freezed,
   }) {
     return _then(_$_User(
-      preset: null == preset
+      preset: freezed == preset
           ? _value.preset
           : preset // ignore: cast_nullable_to_non_nullable
-              as Preset,
-      userId: null == userId
+              as Preset?,
+      userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
+              as String?,
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       dp: freezed == dp
           ? _value.dp
           : dp // ignore: cast_nullable_to_non_nullable
@@ -864,12 +885,12 @@ class _$_User implements _User {
   factory _$_User.fromJson(Map<String, dynamic> json) => _$$_UserFromJson(json);
 
   @override
-  final Preset preset;
+  final Preset? preset;
   @override
   @JsonKey(name: '_id')
-  final String userId;
+  final String? userId;
   @override
-  final String name;
+  final String? name;
   @override
   @JsonKey()
   final String? dp;
@@ -926,9 +947,9 @@ class _$_User implements _User {
 
 abstract class _User implements User {
   const factory _User(
-      {required final Preset preset,
-      @JsonKey(name: '_id') required final String userId,
-      required final String name,
+      {required final Preset? preset,
+      @JsonKey(name: '_id') required final String? userId,
+      required final String? name,
       final String? dp,
       final String? designation,
       final String? dpUrl,
@@ -938,12 +959,12 @@ abstract class _User implements User {
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
 
   @override
-  Preset get preset;
+  Preset? get preset;
   @override
   @JsonKey(name: '_id')
-  String get userId;
+  String? get userId;
   @override
-  String get name;
+  String? get name;
   @override
   String? get dp;
   @override
@@ -965,7 +986,7 @@ Preset _$PresetFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Preset {
-  String get color => throw _privateConstructorUsedError;
+  String? get color => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -977,7 +998,7 @@ abstract class $PresetCopyWith<$Res> {
   factory $PresetCopyWith(Preset value, $Res Function(Preset) then) =
       _$PresetCopyWithImpl<$Res, Preset>;
   @useResult
-  $Res call({String color});
+  $Res call({String? color});
 }
 
 /// @nodoc
@@ -993,13 +1014,13 @@ class _$PresetCopyWithImpl<$Res, $Val extends Preset>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? color = null,
+    Object? color = freezed,
   }) {
     return _then(_value.copyWith(
-      color: null == color
+      color: freezed == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -1010,7 +1031,7 @@ abstract class _$$_PresetCopyWith<$Res> implements $PresetCopyWith<$Res> {
       __$$_PresetCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String color});
+  $Res call({String? color});
 }
 
 /// @nodoc
@@ -1023,13 +1044,13 @@ class __$$_PresetCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? color = null,
+    Object? color = freezed,
   }) {
     return _then(_$_Preset(
-      color: null == color
+      color: freezed == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -1043,7 +1064,7 @@ class _$_Preset implements _Preset {
       _$$_PresetFromJson(json);
 
   @override
-  final String color;
+  final String? color;
 
   @override
   String toString() {
@@ -1077,12 +1098,12 @@ class _$_Preset implements _Preset {
 }
 
 abstract class _Preset implements Preset {
-  const factory _Preset({required final String color}) = _$_Preset;
+  const factory _Preset({required final String? color}) = _$_Preset;
 
   factory _Preset.fromJson(Map<String, dynamic> json) = _$_Preset.fromJson;
 
   @override
-  String get color;
+  String? get color;
   @override
   @JsonKey(ignore: true)
   _$$_PresetCopyWith<_$_Preset> get copyWith =>
@@ -1096,10 +1117,10 @@ Project _$ProjectFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Project {
   @JsonKey(name: '_id')
-  String get projectId => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  List<Image> get images => throw _privateConstructorUsedError;
-  String get coverImageUrl => throw _privateConstructorUsedError;
+  String? get projectId => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  List<Image>? get images => throw _privateConstructorUsedError;
+  String? get coverImageUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1112,10 +1133,10 @@ abstract class $ProjectCopyWith<$Res> {
       _$ProjectCopyWithImpl<$Res, Project>;
   @useResult
   $Res call(
-      {@JsonKey(name: '_id') String projectId,
-      String name,
-      List<Image> images,
-      String coverImageUrl});
+      {@JsonKey(name: '_id') String? projectId,
+      String? name,
+      List<Image>? images,
+      String? coverImageUrl});
 }
 
 /// @nodoc
@@ -1131,28 +1152,28 @@ class _$ProjectCopyWithImpl<$Res, $Val extends Project>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? projectId = null,
-    Object? name = null,
-    Object? images = null,
-    Object? coverImageUrl = null,
+    Object? projectId = freezed,
+    Object? name = freezed,
+    Object? images = freezed,
+    Object? coverImageUrl = freezed,
   }) {
     return _then(_value.copyWith(
-      projectId: null == projectId
+      projectId: freezed == projectId
           ? _value.projectId
           : projectId // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
+              as String?,
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      images: null == images
+              as String?,
+      images: freezed == images
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
-              as List<Image>,
-      coverImageUrl: null == coverImageUrl
+              as List<Image>?,
+      coverImageUrl: freezed == coverImageUrl
           ? _value.coverImageUrl
           : coverImageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -1165,10 +1186,10 @@ abstract class _$$_ProjectCopyWith<$Res> implements $ProjectCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: '_id') String projectId,
-      String name,
-      List<Image> images,
-      String coverImageUrl});
+      {@JsonKey(name: '_id') String? projectId,
+      String? name,
+      List<Image>? images,
+      String? coverImageUrl});
 }
 
 /// @nodoc
@@ -1181,28 +1202,28 @@ class __$$_ProjectCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? projectId = null,
-    Object? name = null,
-    Object? images = null,
-    Object? coverImageUrl = null,
+    Object? projectId = freezed,
+    Object? name = freezed,
+    Object? images = freezed,
+    Object? coverImageUrl = freezed,
   }) {
     return _then(_$_Project(
-      projectId: null == projectId
+      projectId: freezed == projectId
           ? _value.projectId
           : projectId // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
+              as String?,
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      images: null == images
+              as String?,
+      images: freezed == images
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
-              as List<Image>,
-      coverImageUrl: null == coverImageUrl
+              as List<Image>?,
+      coverImageUrl: freezed == coverImageUrl
           ? _value.coverImageUrl
           : coverImageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -1213,7 +1234,7 @@ class _$_Project implements _Project {
   const _$_Project(
       {@JsonKey(name: '_id') required this.projectId,
       required this.name,
-      required final List<Image> images,
+      required final List<Image>? images,
       required this.coverImageUrl})
       : _images = images;
 
@@ -1222,19 +1243,21 @@ class _$_Project implements _Project {
 
   @override
   @JsonKey(name: '_id')
-  final String projectId;
+  final String? projectId;
   @override
-  final String name;
-  final List<Image> _images;
+  final String? name;
+  final List<Image>? _images;
   @override
-  List<Image> get images {
+  List<Image>? get images {
+    final value = _images;
+    if (value == null) return null;
     if (_images is EqualUnmodifiableListView) return _images;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_images);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
-  final String coverImageUrl;
+  final String? coverImageUrl;
 
   @override
   String toString() {
@@ -1275,22 +1298,22 @@ class _$_Project implements _Project {
 
 abstract class _Project implements Project {
   const factory _Project(
-      {@JsonKey(name: '_id') required final String projectId,
-      required final String name,
-      required final List<Image> images,
-      required final String coverImageUrl}) = _$_Project;
+      {@JsonKey(name: '_id') required final String? projectId,
+      required final String? name,
+      required final List<Image>? images,
+      required final String? coverImageUrl}) = _$_Project;
 
   factory _Project.fromJson(Map<String, dynamic> json) = _$_Project.fromJson;
 
   @override
   @JsonKey(name: '_id')
-  String get projectId;
+  String? get projectId;
   @override
-  String get name;
+  String? get name;
   @override
-  List<Image> get images;
+  List<Image>? get images;
   @override
-  String get coverImageUrl;
+  String? get coverImageUrl;
   @override
   @JsonKey(ignore: true)
   _$$_ProjectCopyWith<_$_Project> get copyWith =>
@@ -1303,11 +1326,11 @@ Image _$ImageFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Image {
-  String get name => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
   @JsonKey(name: '_id')
-  String get imageId => throw _privateConstructorUsedError;
-  DateTime get createdAt => throw _privateConstructorUsedError;
-  DateTime get updatedAt => throw _privateConstructorUsedError;
+  String? get imageId => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1320,10 +1343,10 @@ abstract class $ImageCopyWith<$Res> {
       _$ImageCopyWithImpl<$Res, Image>;
   @useResult
   $Res call(
-      {String name,
-      @JsonKey(name: '_id') String imageId,
-      DateTime createdAt,
-      DateTime updatedAt});
+      {String? name,
+      @JsonKey(name: '_id') String? imageId,
+      DateTime? createdAt,
+      DateTime? updatedAt});
 }
 
 /// @nodoc
@@ -1339,28 +1362,28 @@ class _$ImageCopyWithImpl<$Res, $Val extends Image>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
-    Object? imageId = null,
-    Object? createdAt = null,
-    Object? updatedAt = null,
+    Object? name = freezed,
+    Object? imageId = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_value.copyWith(
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      imageId: null == imageId
+              as String?,
+      imageId: freezed == imageId
           ? _value.imageId
           : imageId // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: null == createdAt
+              as String?,
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      updatedAt: null == updatedAt
+              as DateTime?,
+      updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -1372,10 +1395,10 @@ abstract class _$$_ImageCopyWith<$Res> implements $ImageCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String name,
-      @JsonKey(name: '_id') String imageId,
-      DateTime createdAt,
-      DateTime updatedAt});
+      {String? name,
+      @JsonKey(name: '_id') String? imageId,
+      DateTime? createdAt,
+      DateTime? updatedAt});
 }
 
 /// @nodoc
@@ -1387,28 +1410,28 @@ class __$$_ImageCopyWithImpl<$Res> extends _$ImageCopyWithImpl<$Res, _$_Image>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
-    Object? imageId = null,
-    Object? createdAt = null,
-    Object? updatedAt = null,
+    Object? name = freezed,
+    Object? imageId = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
   }) {
     return _then(_$_Image(
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      imageId: null == imageId
+              as String?,
+      imageId: freezed == imageId
           ? _value.imageId
           : imageId // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdAt: null == createdAt
+              as String?,
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      updatedAt: null == updatedAt
+              as DateTime?,
+      updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ));
   }
 }
@@ -1426,14 +1449,14 @@ class _$_Image implements _Image {
       _$$_ImageFromJson(json);
 
   @override
-  final String name;
+  final String? name;
   @override
   @JsonKey(name: '_id')
-  final String imageId;
+  final String? imageId;
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @override
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   @override
   String toString() {
@@ -1474,22 +1497,22 @@ class _$_Image implements _Image {
 
 abstract class _Image implements Image {
   const factory _Image(
-      {required final String name,
-      @JsonKey(name: '_id') required final String imageId,
-      required final DateTime createdAt,
-      required final DateTime updatedAt}) = _$_Image;
+      {required final String? name,
+      @JsonKey(name: '_id') required final String? imageId,
+      required final DateTime? createdAt,
+      required final DateTime? updatedAt}) = _$_Image;
 
   factory _Image.fromJson(Map<String, dynamic> json) = _$_Image.fromJson;
 
   @override
-  String get name;
+  String? get name;
   @override
   @JsonKey(name: '_id')
-  String get imageId;
+  String? get imageId;
   @override
-  DateTime get createdAt;
+  DateTime? get createdAt;
   @override
-  DateTime get updatedAt;
+  DateTime? get updatedAt;
   @override
   @JsonKey(ignore: true)
   _$$_ImageCopyWith<_$_Image> get copyWith =>

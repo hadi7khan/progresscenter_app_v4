@@ -264,6 +264,55 @@ class Service {
     }
   }
 
+// method to share progressline post
+  Future shareProgresslinePost(
+      String projectId, String cameraId, String filePath) async {
+    Dio dio = Dio();
+    Map<String, String> data = {};
+
+    Map<String, String> headers = {
+      "Accept": "application/json",
+      'Authorization': "Bearer ${_prefsLocator.getUserToken()}"
+    };
+
+    try {
+      String fileName = filePath.split('/').last;
+
+      FormData formData = FormData.fromMap({
+        'file': await MultipartFile.fromFile(filePath, filename: fileName),
+        "projectId": projectId,
+        "caption": "",
+        "cameraId": cameraId,
+      });
+
+      dio.options.headers = headers;
+      dio.options.followRedirects = false;
+      dio.options.validateStatus = (status) => status! < 500;
+
+      await dio
+          .post(
+        Endpoints.shareProgressLineUrl(),
+        data: formData,
+      )
+          .then((response) {
+        if (response.statusCode == 200) {
+          log("response" + response.data.toString());
+          data = {
+            "id": response.data['_id'],
+          };
+
+          return response.data;
+        } else {
+          throw Exception(
+              "Failed to share post. Status code: ${response.statusCode}");
+        }
+      });
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+    return data;
+  }
+
   // method to upload image
   Future uploadPhoto(
       String projectId, String filePath, ProgressCallback onProgress) async {
