@@ -265,8 +265,8 @@ class Service {
   }
 
 // method to share progressline post
-  Future shareProgresslinePost(
-      String projectId, String cameraId, String filePath) async {
+  Future shareProgresslinePost(String projectId, String cameraId,
+      String filePath, String caption) async {
     Dio dio = Dio();
     Map<String, String> data = {};
 
@@ -281,7 +281,7 @@ class Service {
       FormData formData = FormData.fromMap({
         'file': await MultipartFile.fromFile(filePath, filename: fileName),
         "projectId": projectId,
-        "caption": "",
+        "caption": caption,
         "cameraId": cameraId,
       });
 

@@ -19,11 +19,14 @@ import 'package:path_provider/path_provider.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_app_bar.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/loading_slider.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'dart:ui' as ui;
+
+import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/widgets/caption_bottomsheet_widget.dart';
 
 class ShareProgresslineScreen extends ConsumerStatefulWidget {
   final String projectId;
@@ -148,77 +151,95 @@ class _ShareProgresslineScreenState
         ),
       ),
       body: SafeArea(
-        child:
-            image != null ? Center(child: _buildImage(image)) : LoadingAppBar(),
+        child: image != null
+            ? Center(child: _buildImage(image))
+            : Center(child: LoadingSlider()),
       ),
-      bottomNavigationBar: SafeArea(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-          color: Colors.white,
-          alignment: Alignment.center,
-          height: 76.h,
-          child: Container(
-            height: 52.h,
-            width: double.infinity,
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  TextButton(
-                    onPressed: () async {
-                      editor!.clearPoints();
-                      _myCanvasKey.currentContext!
-                          .findRenderObject()!
-                          .markNeedsPaint();
-                    },
-                    style: TextButton.styleFrom(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 32.w, vertical: 11.h),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.r),
+      bottomNavigationBar: image != null
+          ? SafeArea(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+                color: Colors.white,
+                alignment: Alignment.center,
+                height: 76.h,
+                child: Container(
+                  height: 52.h,
+                  width: double.infinity,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        TextButton(
+                          onPressed: () async {
+                            setState(() {});
+                            editor!.clearPoints();
+                            _myCanvasKey.currentContext!
+                                .findRenderObject()!
+                                .markNeedsPaint();
+                          },
+                          style: TextButton.styleFrom(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 32.w, vertical: 11.h),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              backgroundColor: Colors.white,
+                              fixedSize: Size.infinite),
+                          child: Text(
+                            "Clear",
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Helper.neutral500,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
                         ),
-                        backgroundColor: Colors.white,
-                        fixedSize: Size.infinite),
-                    child: Text(
-                      "Clear",
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Helper.neutral500,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () async {
-                      _showCaptionBottomSheet(
-                        context,
-                      );
-                    },
-                    style: TextButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.r),
+                        TextButton(
+                          onPressed: () async {
+                            showModalBottomSheet(
+                              useRootNavigator: true,
+                              isScrollControlled: true,
+                              context: context,
+                              backgroundColor: Colors.transparent,
+                              builder: (context) => Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context)
+                                        .viewInsets
+                                        .bottom),
+                                child: CaptionBottomSheetWidget(
+                                  onNext: (value) {
+                                    saveCanvasAsImage(value);
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                          style: TextButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 32.w, vertical: 11.h),
+                              backgroundColor: ref.watch(primaryColorProvider),
+                              side: BorderSide(color: Helper.textColor300),
+                              fixedSize: Size.infinite),
+                          child: Text(
+                            "Next",
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Colors.white,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
                         ),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 32.w, vertical: 11.h),
-                        backgroundColor: ref.watch(primaryColorProvider),
-                        side: BorderSide(color: Helper.textColor300),
-                        fixedSize: Size.infinite),
-                    child: Text(
-                      "Next",
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Colors.white,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ]),
-          ),
-        ),
-      ),
+                      ]),
+                ),
+              ),
+            )
+          : SizedBox(),
     );
   }
 
-  void saveCanvasAsImage() async {
+  void saveCanvasAsImage(String caption) async {
     RenderRepaintBoundary boundary = _myCanvasKey.currentContext!
         .findRenderObject() as RenderRepaintBoundary;
     ui.Image image =
@@ -232,7 +253,7 @@ class _ShareProgresslineScreenState
     await imageFile.writeAsBytes(pngBytes);
     Service()
         .shareProgresslinePost(
-            widget.projectId, widget.cameraId, imageFile.path)
+            widget.projectId, widget.cameraId, imageFile.path, caption)
         .then((value) {
       dev.log("response id" + value["id"].toString());
 
@@ -290,179 +311,6 @@ class _ShareProgresslineScreenState
   //   return recorder.endRecording()
   //       .toImage(size.width.floor(), size.height.floor());
   // }
-
-  _showCaptionBottomSheet(context) {
-    return showModalBottomSheet(
-      context: context,
-      useRootNavigator: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Padding(
-        padding:
-            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        child: Container(
-          padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 28.h),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16.r),
-                topRight: Radius.circular(16.r)),
-            color: Colors.white,
-          ),
-          height: 238.h,
-          width: MediaQuery.of(context).size.width,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Write a caption',
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Helper.baseBlack,
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20.h),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomInputWidget(
-                      title: "Caption",
-                      formField: FormBuilderTextField(
-                        name: '_caption',
-                        // controller: _categoryController,
-                        // focusNode: focusNode,
-                        validator: (val) {
-                          if (val == null || val.isEmpty) {
-                            return 'Caption is required';
-                          }
-                          return null;
-                        },
-                        textInputAction: TextInputAction.done,
-                        style: TextStyle(
-                          letterSpacing: -0.3,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        textCapitalization: TextCapitalization.none,
-                        keyboardType: TextInputType.name,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.h, horizontal: 14.w),
-                          hintText: "Enter caption",
-                          hintStyle: TextStyle(
-                            letterSpacing: -0.3,
-                            color: Helper.textColor500,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          // hintText: widget.control.label,
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.r),
-                            borderSide: BorderSide(color: Helper.textColor300),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.r),
-                            borderSide: BorderSide(
-                                color: ref.watch(primaryColorProvider)),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.r),
-                            borderSide: const BorderSide(color: Colors.red),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.r),
-                            borderSide: const BorderSide(color: Colors.red),
-                          ),
-                        ),
-                        onTap: () {},
-                      ),
-                    ),
-                    SizedBox(height: 20.h),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          TextButton(
-                            onPressed: () async {
-                              context.pop();
-                            },
-                            style: TextButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 11),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                ),
-                                backgroundColor: Colors.white,
-                                fixedSize: Size.infinite),
-                            child: Text(
-                              "Cancel",
-                              style: TextStyle(
-                                  letterSpacing: -0.3,
-                                  color: Helper.neutral500,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () async {
-                              Map<String, dynamic> data = {
-                                "name": _captionController.text,
-                              };
-                              // _handleSavePressed();
-                              saveCanvasAsImage();
-                              // await ref
-                              //     .watch(createDocFolderProvider.notifier)
-                              //     .createDocFolder(data)
-                              //     .then((value) async {
-                              //   value.fold((failure) {
-                              //     print("errorrrrrr");
-                              //   }, (res) {
-                              //     ref
-                              //         .watch(docsControllerProvider.notifier)
-                              //         .getDocs();
-                              //     _categoryController.clear();
-                              //   });
-                              //   Utils.toastSuccessMessage(
-                              //       "Category added", context);
-                              // });
-                              // context.pop();
-                            },
-                            style: TextButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 11),
-                                backgroundColor:
-                                    ref.watch(primaryColorProvider),
-                                side: BorderSide(color: Helper.textColor300),
-                                fixedSize: Size.infinite),
-                            child: Text(
-                              "Confirm",
-                              style: TextStyle(
-                                  letterSpacing: -0.3,
-                                  color: Colors.white,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                        ]),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 }
 
 class ImageEditor extends CustomPainter {
@@ -498,11 +346,11 @@ class ImageEditor extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) async {
-    canvas.saveLayer(Rect.fromLTWH(0, 0, size.width, size.height), Paint());
     Size imageSize = Size(image.width.toDouble(), image.height.toDouble());
     Rect imageRect = Offset.zero & imageSize;
     Rect canvasRect = Offset.zero & size;
     canvas.drawImageRect(image, imageRect, canvasRect, Paint());
+
     // for (Offset offset in points) {
     //   canvas.drawCircle(offset, 3, painter);
     // }
@@ -515,6 +363,8 @@ class ImageEditor extends CustomPainter {
         }
       }
     }
+    canvas.save();
+
     canvas.restore();
     // final picture = recorder.endRecording();
     // final img = await picture.toImage(200, 200);
@@ -523,6 +373,6 @@ class ImageEditor extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
+    return false;
   }
 }
