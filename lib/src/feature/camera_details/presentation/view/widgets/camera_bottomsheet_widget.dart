@@ -62,6 +62,7 @@ class CameraBottomSheet extends ConsumerStatefulWidget {
 class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
   final _prefsLocator = getIt.get<SharedPreferenceHelper>();
   bool showDownloadOptions = false;
+  bool showShareOptions = false;
   bool isDownloading = false;
   String? downloadTaskId;
   DownloadTask? task;
@@ -286,12 +287,13 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
               children: [
                 Row(
                   children: [
-                    showDownloadOptions
+                    showDownloadOptions || showShareOptions
                         ? InkWell(
                             onTap: () {
                               setState(() {
                                 showDownloadOptions = false;
                                 isDownloading = false;
+                                showShareOptions = false;
                               });
                             },
                             child: Transform.rotate(
@@ -308,34 +310,20 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                       Text(
                         showDownloadOptions
                             ? "Download Image"
-                            : widget.cameraName,
+                            : showShareOptions
+                                ? "Share Image"
+                                : widget.cameraName,
                         style: TextStyle(
                             letterSpacing: -0.3,
                             color: Helper.baseBlack,
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w500),
                       ),
-                      // Text(
-                      //   '25℃ Sunny, Hyderabad, India',
-                      //   style: TextStyle(
-                      //       letterSpacing: -0.3,
-                      //       color: Color.fromRGBO(127, 127, 127, 0.5),
-                      //       fontSize: 13.sp,
-                      //       fontWeight: FontWeight.w400),
-                      // ),
-                      // Text(
-                      //   '10-07-2023, 12:30 PM',
-                      //   style: TextStyle(
-                      //       letterSpacing: -0.3,
-                      //       color: Color.fromRGBO(127, 127, 127, 0.5),
-                      //       fontSize: 13.sp,
-                      //       fontWeight: FontWeight.w400),
-                      // ),
                     ])),
                   ],
                 ),
                 SizedBox(height: 24.h),
-                !showDownloadOptions
+                !showDownloadOptions && !showShareOptions
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -343,6 +331,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                             onTap: () async {
                               setState(() {
                                 showDownloadOptions = true;
+                                showShareOptions = false;
                               });
                             },
                             child: Container(
@@ -416,11 +405,14 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                               ),
                             ),
                           ),
-
                           SizedBox(height: 24.h),
                           InkWell(
                             onTap: () async {
-                              Share.shareXFiles([XFile(filePath)]);
+                              setState(() {
+                                showShareOptions = true;
+                                showDownloadOptions = false;
+                              });
+                              dev.log(showShareOptions.toString());
                             },
                             child: Container(
                               height: 44.h,
@@ -451,118 +443,6 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                               ),
                             ),
                           ),
-                          // SizedBox(height: 24.h),
-                          // InkWell(
-                          //   onTap: () async {
-                          //     // setState(() {
-                          //     //   _images = "1";
-                          //     //   _showImages = "1 Image";
-                          //     // });
-                          //     context.pop();
-                          //   },
-                          //   child: Container(
-                          //     height: 44.h,
-                          //     child: ListTile(
-                          //       contentPadding: EdgeInsets.zero,
-                          //       leading: Container(
-                          //           decoration: BoxDecoration(
-                          //             color: Helper.bottomIconBack,
-                          //             borderRadius: BorderRadius.circular(8.r),
-                          //           ),
-                          //           padding: EdgeInsets.all(8.w),
-                          //           child: SvgPicture.asset('assets/images/ai.svg',
-                          //               width: 24.w,
-                          //               height: 24.h,
-                          //               fit: BoxFit.cover,
-                          //               colorFilter: ColorFilter.mode(
-                          //                   ref.watch(primaryColorProvider),
-                          //                   BlendMode.srcIn))),
-                          //       title: Text(
-                          //         'AI Insights',
-                          //         style: TextStyle(
-                          //             letterSpacing: -0.3,
-                          //             color: Helper.baseBlack,
-                          //             fontSize: 16.sp,
-                          //             fontWeight: FontWeight.w500),
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
-                          // SizedBox(height: 24.h),
-                          // InkWell(
-                          //   onTap: () async {
-                          //     // setState(() {
-                          //     //   _images = "1";
-                          //     //   _showImages = "1 Image";
-                          //     // });
-                          //     context.pop();
-                          //   },
-                          //   child: Container(
-                          //     height: 44.h,
-                          //     child: ListTile(
-                          //       contentPadding: EdgeInsets.zero,
-                          //       leading: Container(
-                          //           decoration: BoxDecoration(
-                          //             color: Helper.bottomIconBack,
-                          //             borderRadius: BorderRadius.circular(8.r),
-                          //           ),
-                          //           padding: EdgeInsets.all(8.w),
-                          //           child: SvgPicture.asset('assets/images/camera.svg',
-                          //               // width: 44.w,
-                          //               // height: 44.h,
-                          //               fit: BoxFit.cover,
-                          //               colorFilter: ColorFilter.mode(
-                          //                   ref.watch(primaryColorProvider),
-                          //                   BlendMode.srcIn))),
-                          //       title: Text(
-                          //         'Image quality',
-                          //         style: TextStyle(
-                          //             letterSpacing: -0.3,
-                          //             color: Helper.baseBlack,
-                          //             fontSize: 16.sp,
-                          //             fontWeight: FontWeight.w500),
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
-                          // SizedBox(height: 24.h),
-                          // InkWell(
-                          //   onTap: () async {
-                          //     // setState(() {
-                          //     //   _images = "1";
-                          //     //   _showImages = "1 Image";
-                          //     // });
-                          //     context.pop();
-                          //   },
-                          //   child: Container(
-                          //     height: 44.h,
-                          //     child: ListTile(
-                          //       contentPadding: EdgeInsets.zero,
-                          //       leading: Container(
-                          //           decoration: BoxDecoration(
-                          //             color: Helper.bottomIconBack,
-                          //             borderRadius: BorderRadius.circular(8.r),
-                          //           ),
-                          //           padding: EdgeInsets.all(8.w),
-                          //           child: SvgPicture.asset(
-                          //               'assets/images/camera-flash.svg',
-                          //               // width: 44.w,
-                          //               // height: 44.h,
-                          //               fit: BoxFit.cover,
-                          //               colorFilter: ColorFilter.mode(
-                          //                   ref.watch(primaryColorProvider),
-                          //                   BlendMode.srcIn))),
-                          //       title: Text(
-                          //         'Default view',
-                          //         style: TextStyle(
-                          //             letterSpacing: -0.3,
-                          //             color: Helper.baseBlack,
-                          //             fontSize: 16.sp,
-                          //             fontWeight: FontWeight.w500),
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
                           SizedBox(height: 24.h),
                           Container(
                             height: 52.h,
@@ -592,7 +472,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                           ),
                         ],
                       )
-                    : !isDownloading
+                    : !showShareOptions
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -601,22 +481,6 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                                   setState(() {
                                     showProgressIndicator = true;
                                   });
-                                  // processLoadAndOpen();
-                                  // final path =
-                                  //     '${Directory.systemTemp.path}/${widget.imageName}';
-                                  // await Dio().download(
-                                  //     'https://api-dev-v4.progresscenter.io/api/v4/projects/${widget.projectId}/cameras/${widget.cameraId}/images/download',
-                                  //     path,
-                                  //     options: Options(
-                                  //       headers: {
-                                  //         "content-type": "application/json",
-                                  //         "Authorization": "Bearer " +
-                                  //             _prefsLocator.getUserToken(),
-                                  //       },
-                                  //     ));
-                                  // await Gal.putImage(
-                                  //   path,
-                                  // );
 
                                   if (granted) {
                                     await Dio().download(
@@ -646,6 +510,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                                   child: ListTile(
                                     contentPadding: EdgeInsets.zero,
                                     leading: Container(
+                                        width: 44.h,
                                         decoration: BoxDecoration(
                                           color: Helper.bottomIconBack,
                                           borderRadius:
@@ -694,6 +559,8 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                                   child: ListTile(
                                     contentPadding: EdgeInsets.zero,
                                     leading: Container(
+                                        width: 44.h,
+                                        height: 44.h,
                                         decoration: BoxDecoration(
                                           color: Helper.bottomIconBack,
                                           borderRadius:
@@ -704,7 +571,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                                             'assets/images/add_image.svg',
                                             // width: 44.w,
                                             // height: 44.h,
-                                            fit: BoxFit.cover,
+                                            fit: BoxFit.contain,
                                             colorFilter: ColorFilter.mode(
                                                 ref.watch(primaryColorProvider),
                                                 BlendMode.srcIn))),
@@ -749,137 +616,118 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                               ),
                             ],
                           )
-                        : Container(
-                            width: MediaQuery.of(context).size.width,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    ListTile(
-                                      contentPadding: EdgeInsets.zero,
-                                      isThreeLine: true,
-                                      leading: Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 6.w, vertical: 6.h),
-                                        width: 32.w,
-                                        height: 32.h,
-                                        decoration: BoxDecoration(
-                                            color: Color.fromRGBO(
-                                                229, 240, 255, 1),
-                                            borderRadius:
-                                                BorderRadius.circular(32.r),
-                                            border: Border.all(
-                                                color: Color.fromRGBO(
-                                                    245, 249, 255, 1),
-                                                width: 4.w)),
-                                        child: SvgPicture.asset(
-                                          'assets/images/film.svg',
-                                        ),
-                                      ),
-                                      title: Text(
-                                        widget.imageName,
-                                        style: TextStyle(
-                                            letterSpacing: -0.3,
-                                            color: Helper.textColor700,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      subtitle: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(
-                                              "Fetching image",
-                                              style: TextStyle(
-                                                  letterSpacing: -0.3,
-                                                  color: Helper.textColor600,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400),
+                        : showShareOptions
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  InkWell(
+                                    onTap: () async {
+                                      context
+                                          .push('/shareProgressline', extra: {
+                                        "projectId": widget.projectId,
+                                        "cameraId": widget.cameraId,
+                                        "imageUrl": widget.imageUrl,
+                                        "imageHeight": widget.imageHeight,
+                                        "imageWidth": widget.imageWidth,
+                                      });
+                                    },
+                                    child: Container(
+                                      height: 44.h,
+                                      child: ListTile(
+                                        contentPadding: EdgeInsets.zero,
+                                        leading: Container(
+                                            width: 44.h,
+                                            decoration: BoxDecoration(
+                                              color: Helper.bottomIconBack,
+                                              borderRadius:
+                                                  BorderRadius.circular(8.r),
                                             ),
-                                            SizedBox(height: 10.h),
-                                            Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            4.r),
-                                                    child: LinearPercentIndicator(
-                                                        width: 210.w,
-                                                        fillColor:
-                                                            Helper.textColor300,
-                                                        backgroundColor:
-                                                            Helper.textColor300,
-                                                        progressColor: ref.watch(
-                                                            primaryColorProvider),
-                                                        padding:
-                                                            EdgeInsets.zero,
-                                                        curve: Curves.easeInOut,
-                                                        barRadius:
-                                                            Radius.circular(
-                                                                4.r),
-                                                        lineHeight: 8.h,
-                                                        percent: _progressBar),
-                                                  ),
-                                                  Text(
-                                                    "${(_progressBar * 100).toInt()}%",
-                                                    style: TextStyle(
-                                                        letterSpacing: -0.3,
-                                                        color:
-                                                            Helper.textColor700,
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  )
-                                                ])
-                                          ]),
-                                      trailing: _progressBar == 100.0
-                                          ? SvgPicture.asset(
-                                              'assets/images/checkbox_base.svg',
-                                            )
-                                          : SizedBox(),
-                                    ),
-                                    SizedBox(height: 20.h),
-                                    Container(
-                                      height: 52.h,
-                                      width: double.infinity,
-                                      child: ElevatedButton(
-                                        child: Text(
-                                          "Close",
+                                            padding: EdgeInsets.all(8.w),
+                                            child: SvgPicture.asset(
+                                              'assets/images/progress_tick.svg',
+                                              // fit: BoxFit.contain,
+                                              height: 44.h,
+                                              width: 44.h,
+                                            )),
+                                        title: Text(
+                                          'ProgressLine',
                                           style: TextStyle(
                                               letterSpacing: -0.3,
-                                              color: Colors.white,
-                                              fontSize: 16,
+                                              color: Helper.baseBlack,
+                                              fontSize: 16.sp,
                                               fontWeight: FontWeight.w500),
-                                          // currentIndex == contents.length - 1 ? "Continue" : "Next"
                                         ),
-                                        style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStatePropertyAll(
-                                                    Helper.baseBlack),
-                                            shape: MaterialStateProperty.all(
-                                              RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(8.r),
-                                              ),
-                                            )),
-                                        onPressed: () {
-                                          context.pop();
-                                        },
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
+                                  ),
+                                  SizedBox(height: 24.h),
+                                  InkWell(
+                                    onTap: () async {
+                                      Share.shareXFiles([XFile(filePath)]);
+                                    },
+                                    child: Container(
+                                      height: 44.h,
+                                      child: ListTile(
+                                        contentPadding: EdgeInsets.zero,
+                                        leading: Container(
+                                            width: 44.h,
+                                            height: 44.h,
+                                            decoration: BoxDecoration(
+                                              color: Helper.bottomIconBack,
+                                              borderRadius:
+                                                  BorderRadius.circular(8.r),
+                                            ),
+                                            padding: EdgeInsets.all(8.w),
+                                            child: SvgPicture.asset(
+                                                'assets/images/share_socials.svg',
+                                                fit: BoxFit.contain,
+                                                colorFilter: ColorFilter.mode(
+                                                    ref.watch(
+                                                        primaryColorProvider),
+                                                    BlendMode.srcIn))),
+                                        title: Text(
+                                          'Social media',
+                                          style: TextStyle(
+                                              letterSpacing: -0.3,
+                                              color: Helper.baseBlack,
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 24.h),
+                                  Container(
+                                    height: 52.h,
+                                    width: double.infinity,
+                                    child: ElevatedButton(
+                                      child: Text(
+                                        "Cancel",
+                                        style: TextStyle(
+                                            letterSpacing: -0.3,
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                        // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                                      ),
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStatePropertyAll(
+                                                  Helper.baseBlack),
+                                          shape: MaterialStateProperty.all(
+                                            RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.r),
+                                            ),
+                                          )),
+                                      onPressed: () {
+                                        context.pop();
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : SizedBox()
               ],
             )
           : LoadCameraBottomsheet(),

@@ -24,6 +24,7 @@ import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/vi
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/image_comments_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/landscape_camera_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/multiple_images_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/share_progressline_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/cctv_view/presentation/view/fullview_cctv_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/compare/presentation/view/compare_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/docs/presentation/view/add_docs_screen.dart';
@@ -307,6 +308,25 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               cameraImageCommentId: args['cameraImageCommentId'],
               // cameraImageCommentReplyId: args['cameraImageCommentReplyId'],
               imageUrl: args['imageUrl'],
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/shareProgressline',
+        parentNavigatorKey: rootNavigatorKey,
+        name: shareProgresslineRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: ShareProgresslineScreen(
+              key: state.pageKey,
+              projectId: args['projectId'],
+              cameraId: args['cameraId'],
+              imageUrl: args['imageUrl'],
+              imageHeight: args['imageHeight'],
+              imageWidth: args['imageWidth'],
             ),
           );
         },

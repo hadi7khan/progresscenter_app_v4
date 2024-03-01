@@ -10,11 +10,8 @@ class LoadingProgresslineDetails extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          Skeleton(
-            variant: "rectangular",
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.4,
-          ),
+          AspectRatio(
+              aspectRatio: 16 / 9, child: Skeleton(variant: "rectangular")),
           Stack(
             children: [
               Container(
