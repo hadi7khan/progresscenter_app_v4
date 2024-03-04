@@ -61,6 +61,11 @@ class _ShareProgresslineScreenState
     init();
   }
 
+  void dispose() {
+    super.dispose();
+    ref.invalidate(drawingDataProvider);
+  }
+
   Future<Null> init() async {
     Uint8List bytes = (await NetworkAssetBundle(Uri.parse(widget.imageUrl))
             .load(widget.imageUrl))
@@ -82,20 +87,18 @@ class _ShareProgresslineScreenState
     return completer.future;
   }
 
-  Widget _buildImage(image) {
-    editor = ImageEditor(image: image!);
+  Widget _buildImage(image, drawingData) {
+    editor = ImageEditor(image: image!, drawingData: drawingData);
+
     if (this.isImageloaded) {
       return GestureDetector(
-        onPanDown: (detailData) {
-          editor!
-              .startNewLine(); // Start a new line when the user begins drawing
-
-          editor!.update(detailData.localPosition);
-          _myCanvasKey.currentContext!.findRenderObject()!.markNeedsPaint();
+        onPanStart: (details) {
+          drawingData.startNewLine(details.localPosition);
+          setState(() {});
         },
-        onPanUpdate: (detailData) {
-          editor!.update(detailData.localPosition);
-          _myCanvasKey.currentContext!.findRenderObject()!.markNeedsPaint();
+        onPanUpdate: (details) {
+          drawingData.update(details.localPosition);
+          setState(() {});
         },
         child: ClipRect(
           child: RepaintBoundary(
@@ -120,6 +123,8 @@ class _ShareProgresslineScreenState
 
   @override
   Widget build(BuildContext context) {
+    final drawingData = ref.read(drawingDataProvider);
+    dev.log("rebuilt");
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.h),
@@ -152,7 +157,7 @@ class _ShareProgresslineScreenState
       ),
       body: SafeArea(
         child: image != null
-            ? Center(child: _buildImage(image))
+            ? Center(child: _buildImage(image, drawingData))
             : Center(child: LoadingSlider()),
       ),
       bottomNavigationBar: image != null
@@ -170,11 +175,12 @@ class _ShareProgresslineScreenState
                       children: [
                         TextButton(
                           onPressed: () async {
+                            drawingData.clearPoints();
                             setState(() {});
-                            editor!.clearPoints();
-                            _myCanvasKey.currentContext!
-                                .findRenderObject()!
-                                .markNeedsPaint();
+                            // editor!.clearPoints();
+                            // _myCanvasKey.currentContext!
+                            //     .findRenderObject()!
+                            //     .markNeedsPaint();
                           },
                           style: TextButton.styleFrom(
                               padding: EdgeInsets.symmetric(
@@ -195,6 +201,7 @@ class _ShareProgresslineScreenState
                         ),
                         TextButton(
                           onPressed: () async {
+                            // _handleSavePressed();
                             showModalBottomSheet(
                               useRootNavigator: true,
                               isScrollControlled: true,
@@ -266,62 +273,43 @@ class _ShareProgresslineScreenState
       Utils.toastSuccessMessage("post shared", context);
     });
   }
-
-  _handleSavePressed() async {
-    ui.PictureRecorder recorder = ui.PictureRecorder();
-    Canvas canvas = Canvas(recorder);
-    var painter = ImageEditor(image: image!);
-    var size = _containerKey.currentContext!.size!;
-
-    painter.paint(canvas, size);
-    ui.Image renderedImage = await recorder
-        .endRecording()
-        .toImage(size.width.floor(), size.height.floor());
-
-    var pngBytes =
-        await renderedImage.toByteData(format: ui.ImageByteFormat.png);
-    Uint8List uint8List = pngBytes!.buffer.asUint8List();
-    List<int> byteList = uint8List.toList();
-    // Service()
-    //     .shareProgresslinePost(widget.projectId, widget.cameraId, byteList)
-    //     .then((value) {
-    //   context.pop();
-    //   Utils.toastSuccessMessage("post shared", context);
-    // });
-
-    // Directory saveDir = await getApplicationDocumentsDirectory();
-    // File saveFile = File('${saveDir.path}/custom.png');
-
-    // if (!saveFile.existsSync()) {
-    //   saveFile.createSync(recursive: true);
-    // }
-    // saveFile.writeAsBytesSync(pngBytes!.buffer.asUint8List(), flush: true);
-  }
-  //  Future<ui.Image> get rendered {
-  //   // [CustomPainter] has its own @canvas to pass our
-  //   // [ui.PictureRecorder] object must be passed to [Canvas]#contructor
-  //   // to capture the Image. This way we can pass @recorder to [Canvas]#contructor
-  //   // using @painter[SignaturePainter] we can call [SignaturePainter]#paint
-  //   // with the our newly created @canvas
-  //   ui.PictureRecorder recorder = ui.PictureRecorder();
-  //   Canvas canvas = Canvas(recorder);
-  //   ImageEditor painter = ImageEditor(image: image!);
-  //   var size = context.size;
-  //   painter.paint(canvas, size!);
-  //   return recorder.endRecording()
-  //       .toImage(size.width.floor(), size.height.floor());
-  // }
 }
+
+class DrawingData {
+  List<List<Offset>> lines = [];
+
+  void startNewLine(Offset offset) {
+    dev.log("adding" + offset.toString());
+    lines.add([offset]);
+  }
+
+  void update(Offset offset) {
+    if (lines.isNotEmpty) {
+      lines.last.add(offset);
+    }
+  }
+
+  void clearPoints() {
+    if (lines.isNotEmpty) {
+      lines.removeLast();
+    }
+  }
+}
+
+final drawingDataProvider = Provider<DrawingData>((ref) {
+  return DrawingData();
+});
 
 class ImageEditor extends CustomPainter {
   ImageEditor({
     required this.image,
+    required this.drawingData,
   });
   ui.Image image;
+  final DrawingData drawingData;
 
   List<Offset> points = [];
   List<List<Offset>> lines = [];
-  final recorder = ui.PictureRecorder();
 
   final Paint painter = new Paint()
     ..color = Helper.primary
@@ -334,7 +322,7 @@ class ImageEditor extends CustomPainter {
   }
 
   void update(Offset offset) {
-    points!.add(offset);
+    points.add(offset);
   }
 
   void clearPoints() {
@@ -350,11 +338,9 @@ class ImageEditor extends CustomPainter {
     Rect imageRect = Offset.zero & imageSize;
     Rect canvasRect = Offset.zero & size;
     canvas.drawImageRect(image, imageRect, canvasRect, Paint());
+    dev.log("Drawing lines: ${drawingData.lines}");
 
-    // for (Offset offset in points) {
-    //   canvas.drawCircle(offset, 3, painter);
-    // }
-    for (List<Offset> line in lines) {
+    for (List<Offset> line in drawingData.lines) {
       for (int i = 0; i < line.length - 1; i++) {
         if (line[i] != null && line[i + 1] != null) {
           canvas.drawLine(line[i], line[i + 1], painter);
@@ -363,16 +349,10 @@ class ImageEditor extends CustomPainter {
         }
       }
     }
-    canvas.save();
-
-    canvas.restore();
-    // final picture = recorder.endRecording();
-    // final img = await picture.toImage(200, 200);
-    // final pngBytes = await img.toByteData(format: ImageByteFormat.png);
   }
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
+    return true;
   }
 }
