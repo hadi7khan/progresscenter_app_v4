@@ -7,6 +7,7 @@ import 'package:fpdart/src/either.dart';
 import 'package:progresscenter_app_v4/src/core/network/dio_exception.dart';
 import 'package:progresscenter_app_v4/src/core/network/failure.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/data/datasource/auth_datasource.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/data/models/client_accounts_model.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/domain/auth_repository.dart';
 
 final authProvider = Provider.autoDispose<AuthRepositoryImpl>(
@@ -83,6 +84,22 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final result = await authDataSource.verifyEmail(data, token);
       return Right(result);
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e);
+      print(errorMessage.toString());
+      rethrow;
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ClientAccountsModel>>> clientAccounts() async {
+    try {
+      final result = await authDataSource.clientAccounts();
+      return Right((result as List)
+          .map((e) => ClientAccountsModel.fromJson(e))
+          .toList());
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
       print(errorMessage.toString());

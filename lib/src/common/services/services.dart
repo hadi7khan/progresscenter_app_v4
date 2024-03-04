@@ -20,6 +20,22 @@ typedef ProgressCallback = void Function(double progress);
 class Service {
   final _prefsLocator = getIt.get<SharedPreferenceHelper>();
 
+  // method to fetch account token
+  Future fetchAccountToken(String clientId) async {
+    final client = http.Client();
+    final response = await client
+        .get(Uri.parse(Endpoints.accountTokenUrl(clientId)), headers: {
+      "content-type": "application/json",
+      "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+    });
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return data;
+    } else {
+      throw Exception('Failed to fetch user list');
+    }
+  }
+
   //method to fetch user after login
   Future<AccountUserModel> fetchUser() async {
     final client = http.Client();

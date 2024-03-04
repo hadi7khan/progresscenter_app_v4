@@ -13,6 +13,7 @@ import 'package:progresscenter_app_v4/src/feature/account/presentation/view/orga
 import 'package:progresscenter_app_v4/src/feature/account/presentation/view/organisation_url_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/account/presentation/view/profile_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/account/presentation/view/profile_team_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/choose_account_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/forgot_password/change_password_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/forgot_password/forgot_password_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/view/onboarding_screen.dart';
@@ -1085,6 +1086,19 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             child: ChangePasswordScreen(
               key: state.pageKey,
               token: args['token'],
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/clientAccounts',
+        name: clientAccountsRoute,
+        pageBuilder: (context, state) {
+          // Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: ChooseAccountScreen(
+              key: state.pageKey,
             ),
           );
         },

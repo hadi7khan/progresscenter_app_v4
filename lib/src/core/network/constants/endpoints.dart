@@ -28,6 +28,14 @@ class Endpoints {
     return '$baseUrl/api/v4/account/user';
   }
 
+  static clientAccountsUrl() {
+    return '$baseUrl/api/v4/auth/accounts';
+  }
+
+  static accountTokenUrl(clientId) {
+    return '$baseUrl/api/v4/auth/accounts/$clientId';
+  }
+
   //---------------------------- Accounts ---------------------------------------
   static getProfileUrl() {
     return '$baseUrl/api/v4/account';
