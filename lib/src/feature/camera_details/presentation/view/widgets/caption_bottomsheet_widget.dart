@@ -33,9 +33,9 @@ class _CaptionBottomSheetWidgetState
     super.initState();
 
     Service().fetchUserList().then((users) {
-      setState(() {
-        _myCustomList = users;
-      });
+      // setState(() {
+      _myCustomList = users;
+      // });
     });
   }
 
@@ -87,7 +87,7 @@ class _CaptionBottomSheetWidgetState
         color: Colors.white,
       ),
       height: 238.h,
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery.sizeOf(context).width,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,10 +127,9 @@ class _CaptionBottomSheetWidgetState
                       Mention(
                         trigger: "@",
                         suggestionBuilder: (data) {
-                          print("builder data" + data.toString());
                           return Container(
                             // margin: EdgeInsets.all(10),
-                            width: MediaQuery.of(context).size.width,
+                            width: MediaQuery.sizeOf(context).width,
                             padding: EdgeInsets.all(10.0),
                             child: ListTile(
                               horizontalTitleGap: 8.w,
