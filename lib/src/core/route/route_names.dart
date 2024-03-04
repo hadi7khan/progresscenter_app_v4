@@ -5,6 +5,7 @@ const String verifyemailRoute = 'verifyEmail';
 const String forgotpasswordRoute = 'forgotpassword';
 const String changepasswordRoute = 'changePassword';
 const String onbordingRoute = 'onbording';
+const String clientAccountsRoute = 'clientAccounts';
 const String projectDetailRoute = 'details';
 const String superProjectRoute = 'superProject';
 const String projectSearchRoute = 'projectSearch';

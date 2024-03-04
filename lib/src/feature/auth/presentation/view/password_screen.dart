@@ -251,21 +251,27 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                               invalidUser = false;
                             });
                             await ref
-                                .read(signInProvider.notifier)
+                                .watch(signInProvider.notifier)
                                 .signIn(data)
                                 .then((value) {
-                              // log("value" +
-                              // value.replaceAll(
-                              //   {},
-                              // ).toString());
-                              context.go('/projects');
-                              Utils.toastSuccessMessage(
-                                  "Signed in successfully", context);
-                              setState(() {
-                                isLoading = false;
-                                invalidUser = false;
-                              });
+                              log("value" +
+                                  value['hasMultipleAccounts'].toString());
+                              if (value['hasMultipleAccounts'] == true) {
+                                context.push('/clientAccounts');
+                                setState(() {
+                                  isLoading = false;
+                                });
+                              } else {
+                                context.go('/projects');
+                                Utils.toastSuccessMessage(
+                                    "Signed in successfully", context);
+                                setState(() {
+                                  isLoading = false;
+                                  invalidUser = false;
+                                });
+                              }
                             }).onError((error, stackTrace) {
+                              log("error" + error.toString());
                               setState(() {
                                 isLoading = false;
                                 invalidUser = true;

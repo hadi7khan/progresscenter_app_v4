@@ -20,6 +20,7 @@ abstract class AuthDataSource {
   Future verifyEmail(data, token);
   Future changePassword(data, token);
   Future resendOTP(token);
+  Future clientAccounts();
 }
 
 class AuthDataSourceImpl implements AuthDataSource {
@@ -51,9 +52,8 @@ class AuthDataSourceImpl implements AuthDataSource {
 
   @override
   Future signIn(data) async {
-    print("data passed" + data.toString());
     final body = json.encode(data);
-    print("body encoded" + body);
+
     final client = http.Client();
     try {
       final response = await client.post(
@@ -65,6 +65,7 @@ class AuthDataSourceImpl implements AuthDataSource {
 
       if (response.statusCode == 200) {
         final responseBody = json.decode(response.body);
+        log("responseBody" + responseBody.toString());
         final token = responseBody['token'];
         print("token" + token.toString());
         await locator.setUserToken(userToken: token).then((value) {});
@@ -93,6 +94,16 @@ class AuthDataSourceImpl implements AuthDataSource {
   Future verifyEmail(data, token) async {
     final response =
         await dioClient.post(Endpoints.verifyEmailUrl(token), data: data);
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      return ServerException();
+    }
+  }
+
+  @override
+  Future clientAccounts() async {
+    final response = await dioClient.get(Endpoints.clientAccountsUrl());
     if (response.statusCode == 200) {
       return response.data;
     } else {
