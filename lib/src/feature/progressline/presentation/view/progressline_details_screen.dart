@@ -250,19 +250,22 @@ class _TimelineDetailsScreenState
                     child: data.url != null
                         ? PinchZoom(
                             maxScale: 10,
-                            child: Image.network(
-                              data.url!,
-                              gaplessPlayback: true,
-                              fit: BoxFit.cover,
-                              errorBuilder: (BuildContext context,
-                                  Object exception, StackTrace? stackTrace) {
-                                return ClipRRect(
-                                  child: Image.asset(
-                                    'assets/images/error_image.jpeg',
-                                    fit: BoxFit.fill,
-                                  ),
-                                );
-                              },
+                            child: AspectRatio(
+                              aspectRatio: 16 / 9,
+                              child: Image.network(
+                                data.url!,
+                                gaplessPlayback: true,
+                                fit: BoxFit.cover,
+                                errorBuilder: (BuildContext context,
+                                    Object exception, StackTrace? stackTrace) {
+                                  return ClipRRect(
+                                    child: Image.asset(
+                                      'assets/images/error_image.jpeg',
+                                      fit: BoxFit.fill,
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                           )
                         : ClipRRect(
