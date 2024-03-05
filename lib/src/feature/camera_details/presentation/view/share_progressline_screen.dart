@@ -270,7 +270,7 @@ class _ShareProgresslineScreenState
         "progressLinePostId": value["id"].toString(),
         "commentId": "",
       });
-      Utils.toastSuccessMessage("post shared", context);
+      Utils.toastSuccessMessage("Post shared", context);
     });
   }
 }

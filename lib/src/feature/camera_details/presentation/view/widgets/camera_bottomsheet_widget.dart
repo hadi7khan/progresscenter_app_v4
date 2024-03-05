@@ -71,6 +71,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
   bool granted = false;
   Directory? directory;
   bool showProgressIndicator = false;
+  bool showShareIndicator = false;
 
   PersistentBottomSheetController? _controller;
   Future<Directory?> getLocalDirectory() async {
@@ -83,7 +84,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
   void initState() {
     super.initState();
     galAccess();
-    _saveImage();
+    // _saveImage();
 
     // Service()
     //     .shareSocials(widget.projectId, widget.cameraId, data)
@@ -273,173 +274,293 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
   Widget build(BuildContext context) {
     dev.log("image name passed" + widget.imageName.toString());
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r)),
-        color: Colors.white,
-      ),
-      height: 400.h,
-      width: MediaQuery.of(context).size.width,
-      child: filePath != null
-          ? Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r)),
+          color: Colors.white,
+        ),
+        // height: 400.h,
+        width: MediaQuery.of(context).size.width,
+        child: Wrap(
+          children: [
+            Row(
               children: [
-                Row(
-                  children: [
-                    showDownloadOptions || showShareOptions
-                        ? InkWell(
-                            onTap: () {
-                              setState(() {
-                                showDownloadOptions = false;
-                                isDownloading = false;
-                                showShareOptions = false;
-                              });
-                            },
-                            child: Transform.rotate(
-                              angle: 180 * (3.1415926535 / 180),
+                showDownloadOptions || showShareOptions
+                    ? InkWell(
+                        onTap: () {
+                          setState(() {
+                            showDownloadOptions = false;
+                            isDownloading = false;
+                            showShareOptions = false;
+                          });
+                        },
+                        child: Transform.rotate(
+                          angle: 180 * (3.1415926535 / 180),
+                          child: SvgPicture.asset(
+                              'assets/images/chevron-right.svg',
+                              color: Helper.iconColor,
+                              fit: BoxFit.contain),
+                        ),
+                      )
+                    : SizedBox(),
+                Expanded(
+                    child: Column(children: [
+                  Text(
+                    showDownloadOptions
+                        ? "Download Image"
+                        : showShareOptions
+                            ? "Share Image"
+                            : widget.cameraName,
+                    style: TextStyle(
+                        letterSpacing: -0.3,
+                        color: Helper.baseBlack,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ])),
+              ],
+            ),
+            SizedBox(height: 24.h),
+            !showDownloadOptions && !showShareOptions
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      InkWell(
+                        onTap: () async {
+                          setState(() {
+                            showDownloadOptions = true;
+                            showShareOptions = false;
+                          });
+                        },
+                        child: ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: Container(
+                              decoration: BoxDecoration(
+                                color: Helper.bottomIconBack,
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              padding: EdgeInsets.all(8.w),
                               child: SvgPicture.asset(
-                                  'assets/images/chevron-right.svg',
-                                  color: Helper.iconColor,
-                                  fit: BoxFit.contain),
-                            ),
-                          )
-                        : SizedBox(),
-                    Expanded(
-                        child: Column(children: [
-                      Text(
-                        showDownloadOptions
-                            ? "Download Image"
-                            : showShareOptions
-                                ? "Share Image"
-                                : widget.cameraName,
-                        style: TextStyle(
-                            letterSpacing: -0.3,
-                            color: Helper.baseBlack,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w500),
+                                  'assets/images/download.svg',
+                                  // fit: BoxFit.cover,
+                                  width: 24,
+                                  height: 24,
+                                  colorFilter: ColorFilter.mode(
+                                      ref.watch(primaryColorProvider),
+                                      BlendMode.srcIn))),
+                          title: Text(
+                            'Download',
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Helper.baseBlack,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
                       ),
-                    ])),
-                  ],
-                ),
-                SizedBox(height: 24.h),
-                !showDownloadOptions && !showShareOptions
+                      SizedBox(height: 4.h),
+                      InkWell(
+                        onTap: () async {
+                          context.push('/imageComments', extra: {
+                            "projectId": widget.projectId,
+                            "cameraId": widget.cameraId,
+                            "imageName": widget.imageName,
+                            "imageHeight": widget.imageHeight,
+                            "imageWidth": widget.imageWidth,
+                            "fromNotifications": false,
+                            "cameraImageCommentId": "",
+                            "cameraImageCommentReplyId": "",
+                            "imageUrl": widget.imageUrl
+                          });
+                        },
+                        child: ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: Container(
+                              decoration: BoxDecoration(
+                                color: Helper.bottomIconBack,
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              padding: EdgeInsets.all(8.w),
+                              child: SvgPicture.asset(
+                                  'assets/images/message.svg',
+                                  width: 24,
+                                  height: 24,
+                                  colorFilter: ColorFilter.mode(
+                                      ref.watch(primaryColorProvider),
+                                      BlendMode.srcIn))),
+                          title: Text(
+                            'Comment',
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Helper.baseBlack,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 4.h),
+                      InkWell(
+                        onTap: () async {
+                          setState(() {
+                            showShareOptions = true;
+                            showDownloadOptions = false;
+                          });
+                          dev.log(showShareOptions.toString());
+                        },
+                        child: ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: Container(
+                              decoration: BoxDecoration(
+                                color: Helper.bottomIconBack,
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              padding: EdgeInsets.all(8.w),
+                              child: SvgPicture.asset('assets/images/share.svg',
+                                  width: 24,
+                                  height: 24,
+                                  // fit: BoxFit.cover,
+                                  colorFilter: ColorFilter.mode(
+                                      ref.watch(primaryColorProvider),
+                                      BlendMode.srcIn))),
+                          title: Text(
+                            'Share',
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Helper.baseBlack,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 24.h),
+                      Container(
+                        height: 52.h,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          child: Text(
+                            "Cancel",
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500),
+                            // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                          ),
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStatePropertyAll(Helper.baseBlack),
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                ),
+                              )),
+                          onPressed: () {
+                            context.pop();
+                          },
+                        ),
+                      ),
+                    ],
+                  )
+                : !showShareOptions
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           InkWell(
                             onTap: () async {
                               setState(() {
-                                showDownloadOptions = true;
-                                showShareOptions = false;
+                                showProgressIndicator = true;
                               });
+
+                              if (granted) {
+                                await Dio().download(widget.imageUrl,
+                                    directory!.path + "/${widget.imageName}");
+                                await Gal.putImage(
+                                        directory!.path +
+                                            "/${widget.imageName}",
+                                        album: null)
+                                    .then((value) {
+                                  setState(() {
+                                    showProgressIndicator = false;
+                                  });
+                                  context.pop();
+                                  ScaffoldMessenger.of(
+                                          rootNavigatorKey.currentContext!)
+                                      .showSnackBar(SnackBar(
+                                    content: const Text('Saved! ✅'),
+                                    backgroundColor: Helper.successColor,
+                                  ));
+                                });
+                              }
                             },
-                            child: Container(
-                              height: 44.h,
-                              child: ListTile(
-                                contentPadding: EdgeInsets.zero,
-                                leading: Container(
-                                    decoration: BoxDecoration(
-                                      color: Helper.bottomIconBack,
-                                      borderRadius: BorderRadius.circular(8.r),
-                                    ),
-                                    padding: EdgeInsets.all(8.w),
-                                    child: SvgPicture.asset(
-                                        'assets/images/download.svg',
-                                        fit: BoxFit.cover,
-                                        colorFilter: ColorFilter.mode(
-                                            ref.watch(primaryColorProvider),
-                                            BlendMode.srcIn))),
-                                title: Text(
-                                  'Download',
-                                  style: TextStyle(
-                                      letterSpacing: -0.3,
-                                      color: Helper.baseBlack,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w500),
-                                ),
+                            child: ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              leading: Container(
+                                  decoration: BoxDecoration(
+                                    color: Helper.bottomIconBack,
+                                    borderRadius: BorderRadius.circular(8.r),
+                                  ),
+                                  padding: EdgeInsets.all(8.w),
+                                  child: SvgPicture.asset(
+                                      'assets/images/camera.svg',
+                                      width: 24,
+                                      height: 24,
+                                      // fit: BoxFit.cover,
+                                      colorFilter: ColorFilter.mode(
+                                          ref.watch(primaryColorProvider),
+                                          BlendMode.srcIn))),
+                              title: Text(
+                                'Single',
+                                style: TextStyle(
+                                    letterSpacing: -0.3,
+                                    color: Helper.baseBlack,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w500),
                               ),
+                              trailing: showProgressIndicator
+                                  ? Transform.scale(
+                                      scale: 0.5,
+                                      child: CircularProgressIndicator(
+                                        color: ref.watch(primaryColorProvider),
+                                      ),
+                                    )
+                                  : SizedBox(),
                             ),
                           ),
-                          SizedBox(height: 24.h),
+                          SizedBox(height: 4.h),
                           InkWell(
                             onTap: () async {
-                              context.push('/imageComments', extra: {
+                              context.push('/multipleImages', extra: {
                                 "projectId": widget.projectId,
+                                "cameraName": widget.cameraName,
                                 "cameraId": widget.cameraId,
-                                "imageName": widget.imageName,
-                                "imageHeight": widget.imageHeight,
-                                "imageWidth": widget.imageWidth,
-                                "fromNotifications": false,
-                                "cameraImageCommentId": "",
-                                "cameraImageCommentReplyId": "",
-                                "imageUrl": widget.imageUrl
+                                "startDate": widget.startDate,
+                                "endDate": widget.endDate
                               });
                             },
-                            child: Container(
-                              height: 44.h,
-                              child: ListTile(
-                                contentPadding: EdgeInsets.zero,
-                                leading: Container(
-                                    decoration: BoxDecoration(
-                                      color: Helper.bottomIconBack,
-                                      borderRadius: BorderRadius.circular(8.r),
-                                    ),
-                                    padding: EdgeInsets.all(8.w),
-                                    child: SvgPicture.asset(
-                                        'assets/images/message.svg',
-                                        // width: 44.w,
-                                        // height: 44.h,
-                                        fit: BoxFit.cover,
-                                        colorFilter: ColorFilter.mode(
-                                            ref.watch(primaryColorProvider),
-                                            BlendMode.srcIn))),
-                                title: Text(
-                                  'Comment',
-                                  style: TextStyle(
-                                      letterSpacing: -0.3,
-                                      color: Helper.baseBlack,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 24.h),
-                          InkWell(
-                            onTap: () async {
-                              setState(() {
-                                showShareOptions = true;
-                                showDownloadOptions = false;
-                              });
-                              dev.log(showShareOptions.toString());
-                            },
-                            child: Container(
-                              height: 44.h,
-                              child: ListTile(
-                                contentPadding: EdgeInsets.zero,
-                                leading: Container(
-                                    decoration: BoxDecoration(
-                                      color: Helper.bottomIconBack,
-                                      borderRadius: BorderRadius.circular(8.r),
-                                    ),
-                                    padding: EdgeInsets.all(8.w),
-                                    child: SvgPicture.asset(
-                                        'assets/images/share.svg',
-                                        // width: 44.w,
-                                        // height: 44.h,
-                                        fit: BoxFit.cover,
-                                        colorFilter: ColorFilter.mode(
-                                            ref.watch(primaryColorProvider),
-                                            BlendMode.srcIn))),
-                                title: Text(
-                                  'Share',
-                                  style: TextStyle(
-                                      letterSpacing: -0.3,
-                                      color: Helper.baseBlack,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w500),
-                                ),
+                            child: ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              leading: Container(
+                                  decoration: BoxDecoration(
+                                    color: Helper.bottomIconBack,
+                                    borderRadius: BorderRadius.circular(8.r),
+                                  ),
+                                  padding: EdgeInsets.all(8.w),
+                                  child: SvgPicture.asset(
+                                      'assets/images/add_image.svg',
+                                      width: 24,
+                                      height: 24,
+                                      // fit: BoxFit.cover,
+                                      colorFilter: ColorFilter.mode(
+                                          ref.watch(primaryColorProvider),
+                                          BlendMode.srcIn))),
+                              title: Text(
+                                'Multiple',
+                                style: TextStyle(
+                                    letterSpacing: -0.3,
+                                    color: Helper.baseBlack,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w500),
                               ),
                             ),
                           ),
@@ -472,118 +593,91 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                           ),
                         ],
                       )
-                    : !showShareOptions
+                    : showShareOptions
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               InkWell(
                                 onTap: () async {
-                                  setState(() {
-                                    showProgressIndicator = true;
+                                  context.push('/shareProgressline', extra: {
+                                    "projectId": widget.projectId,
+                                    "cameraId": widget.cameraId,
+                                    "imageUrl": widget.imageUrl,
+                                    "imageHeight": widget.imageHeight,
+                                    "imageWidth": widget.imageWidth,
                                   });
-
-                                  if (granted) {
-                                    await Dio().download(
-                                        widget.imageUrl,
-                                        directory!.path +
-                                            "/${widget.imageName}");
-                                    await Gal.putImage(
-                                            directory!.path +
-                                                "/${widget.imageName}",
-                                            album: null)
-                                        .then((value) {
-                                      setState(() {
-                                        showProgressIndicator = false;
-                                      });
-                                      context.pop();
-                                      ScaffoldMessenger.of(
-                                              rootNavigatorKey.currentContext!)
-                                          .showSnackBar(SnackBar(
-                                        content: const Text('Saved! ✅'),
-                                        backgroundColor: Helper.successColor,
-                                      ));
-                                    });
-                                  }
                                 },
-                                child: Container(
-                                  height: 44.h,
-                                  child: ListTile(
-                                    contentPadding: EdgeInsets.zero,
-                                    leading: Container(
-                                        width: 44.h,
-                                        decoration: BoxDecoration(
-                                          color: Helper.bottomIconBack,
-                                          borderRadius:
-                                              BorderRadius.circular(8.r),
-                                        ),
-                                        padding: EdgeInsets.all(8.w),
-                                        child: SvgPicture.asset(
-                                            'assets/images/camera.svg',
-                                            fit: BoxFit.cover,
-                                            colorFilter: ColorFilter.mode(
-                                                ref.watch(primaryColorProvider),
-                                                BlendMode.srcIn))),
-                                    title: Text(
-                                      'Single',
-                                      style: TextStyle(
-                                          letterSpacing: -0.3,
-                                          color: Helper.baseBlack,
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    trailing: showProgressIndicator
-                                        ? Transform.scale(
-                                            scale: 0.5,
-                                            child: CircularProgressIndicator(
-                                              color: ref
-                                                  .watch(primaryColorProvider),
-                                            ),
-                                          )
-                                        : SizedBox(),
+                                child: ListTile(
+                                  contentPadding: EdgeInsets.zero,
+                                  leading: Container(
+                                      decoration: BoxDecoration(
+                                        color: Helper.bottomIconBack,
+                                        borderRadius:
+                                            BorderRadius.circular(8.r),
+                                      ),
+                                      padding: EdgeInsets.all(8.w),
+                                      child: SvgPicture.asset(
+                                        'assets/images/progress_tick.svg',
+                                        // fit: BoxFit.contain,
+                                        width: 24,
+                                        height: 24,
+                                      )),
+                                  title: Text(
+                                    'ProgressLine',
+                                    style: TextStyle(
+                                        letterSpacing: -0.3,
+                                        color: Helper.baseBlack,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w500),
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 24.h),
+                              SizedBox(height: 4.h),
                               InkWell(
                                 onTap: () async {
-                                  context.push('/multipleImages', extra: {
-                                    "projectId": widget.projectId,
-                                    "cameraName": widget.cameraName,
-                                    "cameraId": widget.cameraId,
-                                    "startDate": widget.startDate,
-                                    "endDate": widget.endDate
+                                  setState(() {
+                                    showShareIndicator = true;
+                                  });
+                                  _saveImage().then((value) {
+                                    setState(() {
+                                      showShareIndicator = false;
+                                    });
+                                    Share.shareXFiles([XFile(filePath)]);
                                   });
                                 },
-                                child: Container(
-                                  height: 44.h,
-                                  child: ListTile(
-                                    contentPadding: EdgeInsets.zero,
-                                    leading: Container(
-                                        width: 44.h,
-                                        height: 44.h,
-                                        decoration: BoxDecoration(
-                                          color: Helper.bottomIconBack,
-                                          borderRadius:
-                                              BorderRadius.circular(8.r),
-                                        ),
-                                        padding: EdgeInsets.all(8.w),
-                                        child: SvgPicture.asset(
-                                            'assets/images/add_image.svg',
-                                            // width: 44.w,
-                                            // height: 44.h,
-                                            fit: BoxFit.contain,
-                                            colorFilter: ColorFilter.mode(
-                                                ref.watch(primaryColorProvider),
-                                                BlendMode.srcIn))),
-                                    title: Text(
-                                      'Multiple',
-                                      style: TextStyle(
-                                          letterSpacing: -0.3,
-                                          color: Helper.baseBlack,
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w500),
-                                    ),
+                                child: ListTile(
+                                  contentPadding: EdgeInsets.zero,
+                                  leading: Container(
+                                      decoration: BoxDecoration(
+                                        color: Helper.bottomIconBack,
+                                        borderRadius:
+                                            BorderRadius.circular(8.r),
+                                      ),
+                                      padding: EdgeInsets.all(8.w),
+                                      child: SvgPicture.asset(
+                                          'assets/images/share_socials.svg',
+                                          width: 24,
+                                          height: 24,
+                                          colorFilter: ColorFilter.mode(
+                                              ref.watch(primaryColorProvider),
+                                              BlendMode.srcIn))),
+                                  title: Text(
+                                    'Social media',
+                                    style: TextStyle(
+                                        letterSpacing: -0.3,
+                                        color: Helper.baseBlack,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w500),
                                   ),
+                                  trailing: showShareIndicator
+                                      ? Transform.scale(
+                                          scale: 0.5,
+                                          child: CircularProgressIndicator(
+                                            color:
+                                                ref.watch(primaryColorProvider),
+                                          ),
+                                        )
+                                      : SizedBox(),
                                 ),
                               ),
                               SizedBox(height: 24.h),
@@ -616,122 +710,9 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                               ),
                             ],
                           )
-                        : showShareOptions
-                            ? Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  InkWell(
-                                    onTap: () async {
-                                      context
-                                          .push('/shareProgressline', extra: {
-                                        "projectId": widget.projectId,
-                                        "cameraId": widget.cameraId,
-                                        "imageUrl": widget.imageUrl,
-                                        "imageHeight": widget.imageHeight,
-                                        "imageWidth": widget.imageWidth,
-                                      });
-                                    },
-                                    child: Container(
-                                      height: 44.h,
-                                      child: ListTile(
-                                        contentPadding: EdgeInsets.zero,
-                                        leading: Container(
-                                            width: 44.h,
-                                            decoration: BoxDecoration(
-                                              color: Helper.bottomIconBack,
-                                              borderRadius:
-                                                  BorderRadius.circular(8.r),
-                                            ),
-                                            padding: EdgeInsets.all(8.w),
-                                            child: SvgPicture.asset(
-                                              'assets/images/progress_tick.svg',
-                                              // fit: BoxFit.contain,
-                                              height: 44.h,
-                                              width: 44.h,
-                                            )),
-                                        title: Text(
-                                          'ProgressLine',
-                                          style: TextStyle(
-                                              letterSpacing: -0.3,
-                                              color: Helper.baseBlack,
-                                              fontSize: 16.sp,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 24.h),
-                                  InkWell(
-                                    onTap: () async {
-                                      Share.shareXFiles([XFile(filePath)]);
-                                    },
-                                    child: Container(
-                                      height: 44.h,
-                                      child: ListTile(
-                                        contentPadding: EdgeInsets.zero,
-                                        leading: Container(
-                                            width: 44.h,
-                                            height: 44.h,
-                                            decoration: BoxDecoration(
-                                              color: Helper.bottomIconBack,
-                                              borderRadius:
-                                                  BorderRadius.circular(8.r),
-                                            ),
-                                            padding: EdgeInsets.all(8.w),
-                                            child: SvgPicture.asset(
-                                                'assets/images/share_socials.svg',
-                                                fit: BoxFit.contain,
-                                                colorFilter: ColorFilter.mode(
-                                                    ref.watch(
-                                                        primaryColorProvider),
-                                                    BlendMode.srcIn))),
-                                        title: Text(
-                                          'Social media',
-                                          style: TextStyle(
-                                              letterSpacing: -0.3,
-                                              color: Helper.baseBlack,
-                                              fontSize: 16.sp,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 24.h),
-                                  Container(
-                                    height: 52.h,
-                                    width: double.infinity,
-                                    child: ElevatedButton(
-                                      child: Text(
-                                        "Cancel",
-                                        style: TextStyle(
-                                            letterSpacing: -0.3,
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500),
-                                        // currentIndex == contents.length - 1 ? "Continue" : "Next"
-                                      ),
-                                      style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStatePropertyAll(
-                                                  Helper.baseBlack),
-                                          shape: MaterialStateProperty.all(
-                                            RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8.r),
-                                            ),
-                                          )),
-                                      onPressed: () {
-                                        context.pop();
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : SizedBox()
-              ],
-            )
-          : LoadCameraBottomsheet(),
-    );
+                        : SizedBox()
+          ],
+        ));
   }
 
   _showProgressBottomSheet(context, WidgetRef ref) async {
