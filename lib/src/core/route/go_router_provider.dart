@@ -56,7 +56,7 @@ import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/view
 import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/view/fullview_site_gallery_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/site_gallery/presentation/view/site_gallery_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/camera/presentation/view/camera_screen.dart';
-import 'package:progresscenter_app_v4/src/feature/report/presentation/view/report_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/reports/presentation/view/report_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/slider/presentation/view/fullview_slider_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/slider/presentation/view/slider_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/splitview/presentation/view/splitview_screen.dart';
@@ -483,6 +483,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             child: ReportScreen(
                 key: state.pageKey,
                 projectId: args['projectId'],
+                cameraId: args['cameraId'],
                 projectName: args['projectName']),
           );
         },

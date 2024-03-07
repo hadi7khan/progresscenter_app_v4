@@ -179,8 +179,16 @@ class Endpoints {
     return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/comments/$commentId/replies/$replyId';
   }
 
-  static shareSocials(projectId, cameraId) {
+  static shareSocialsUrl(projectId, cameraId) {
     return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/social-share';
+  }
+
+  static instantReportUrl(projectId, cameraId) {
+    return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/reports/instant';
+  }
+
+  static scheduledReportUrl(projectId, cameraId) {
+    return '$baseUrl/api/v4/projects/$projectId/cameras/$cameraId/reports/scheduled';
   }
   //---------------------------- Teams ---------------------------------------
 
