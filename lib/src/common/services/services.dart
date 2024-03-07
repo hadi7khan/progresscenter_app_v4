@@ -267,7 +267,7 @@ class Service {
     log("post data" + data.toString());
     final client = http.Client();
     final response = await client.post(
-        Uri.parse(Endpoints.shareSocials(projectId, cameraId)),
+        Uri.parse(Endpoints.shareSocialsUrl(projectId, cameraId)),
         headers: {
           "content-type": "application/json",
           "Authorization": "Bearer " + _prefsLocator.getUserToken(),

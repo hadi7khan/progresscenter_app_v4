@@ -142,6 +142,8 @@ dependencies:
   rename: 3.0.1
   timeago: 3.6.1
   gal: 2.3.0
+  pdf: 3.10.8
+  open_file: 3.3.2
   
 
 dependency_overrides: 
