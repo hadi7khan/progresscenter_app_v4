@@ -37,11 +37,13 @@ class CameraDetailsSreen extends ConsumerStatefulWidget {
   final String projectId;
   final String projectName;
   final String cameraId;
+  final String cameraName;
   const CameraDetailsSreen({
     super.key,
     required this.projectId,
     required this.projectName,
     required this.cameraId,
+    required this.cameraName,
   });
 
   @override
@@ -161,6 +163,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
   }
 
   parseDateTimeString(String time) {
+    log("time---" + time.toString());
     String dateWithT = time.substring(0, 8) + 'T' + time.substring(8);
     DateTime dateTime = DateTime.parse(dateWithT);
     final String formattedTime = DateFormat('h:mm a').format(dateTime);
@@ -549,8 +552,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                         urlPreview: imagesByCameraIdInter
                                             .images![index].urlPreview,
                                         urlThumb: imagesByCameraIdInter
-                                            .images![index]
-                                            .urlThumb, // You can copy the URL from the first image
+                                            .images![index].urlThumb,
                                       );
                                       ref
                                           .read(currentImageProvider.notifier)
@@ -1253,7 +1255,10 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                           context.push('/report', extra: {
                             "projectId": widget.projectId,
                             "projectName": widget.projectName,
-                            "cameraId": widget.cameraId
+                            "cameraId": widget.cameraId,
+                            "startDate": imagesByCameraIdInter.startDate!,
+                            "endDate": imagesByCameraIdInter.endDate!,
+                            "cameraName": widget.cameraName,
                           });
                         },
                         child: IconBottomBar(

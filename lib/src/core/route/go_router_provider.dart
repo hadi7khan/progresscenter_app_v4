@@ -286,6 +286,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               projectId: args['projectId'],
               projectName: args['projectName'],
               cameraId: args['cameraId'],
+              cameraName: args['cameraName'],
             ),
           );
         },
@@ -481,10 +482,14 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return NoTransitionPage(
             key: state.pageKey,
             child: ReportScreen(
-                key: state.pageKey,
-                projectId: args['projectId'],
-                cameraId: args['cameraId'],
-                projectName: args['projectName']),
+              key: state.pageKey,
+              projectId: args['projectId'],
+              cameraId: args['cameraId'],
+              projectName: args['projectName'],
+              startDate: args['startDate'],
+              endDate: args['endDate'],
+              cameraName: args['cameraName'],
+            ),
           );
         },
       ),
