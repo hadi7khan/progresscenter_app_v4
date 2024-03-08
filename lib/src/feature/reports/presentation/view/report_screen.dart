@@ -10,11 +10,17 @@ class ReportScreen extends StatefulWidget {
   final String projectId;
   final String projectName;
   final String cameraId;
+  final String endDate;
+  final String startDate;
+  final String cameraName;
   const ReportScreen({
     super.key,
     required this.projectId,
     required this.projectName,
     required this.cameraId,
+    required this.endDate,
+    required this.startDate,
+    required this.cameraName,
   });
 
   @override
@@ -129,7 +135,10 @@ class _ReportScreenState extends State<ReportScreen> {
                     InstantReportTabview(
                         projectId: widget.projectId,
                         cameraId: widget.cameraId,
-                        projectName: widget.projectName),
+                        projectName: widget.projectName,
+                        endDate: widget.endDate,
+                        startDate: widget.startDate,
+                        cameraName: widget.cameraName),
                     ScheduledReportTabview(
                         projectId: widget.projectId, cameraId: widget.cameraId)
                   ]),

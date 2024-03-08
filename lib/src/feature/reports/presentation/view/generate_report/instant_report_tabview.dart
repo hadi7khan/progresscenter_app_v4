@@ -23,15 +23,30 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:http/http.dart' as http;
 
+enum CameraReportIntervalType {
+  WEEKLY,
+  MONTHLY,
+  QUARTERLY,
+  BIANNUALLY,
+  ANNUALLY,
+}
+
 class InstantReportTabview extends ConsumerStatefulWidget {
   final String projectId;
   final String cameraId;
   final String projectName;
-  const InstantReportTabview(
-      {super.key,
-      required this.projectId,
-      required this.cameraId,
-      required this.projectName});
+  final String endDate;
+  final String startDate;
+  final String cameraName;
+  const InstantReportTabview({
+    super.key,
+    required this.projectId,
+    required this.cameraId,
+    required this.projectName,
+    required this.endDate,
+    required this.startDate,
+    required this.cameraName,
+  });
 
   @override
   ConsumerState<InstantReportTabview> createState() =>
@@ -46,22 +61,85 @@ class _InstantReportTabviewState
   final _prefsLocator = getIt.get<SharedPreferenceHelper>();
   Map<String, dynamic>? user;
   Uint8List? userLogo;
+  int maxImageDays = 0;
+  List<Map<String, dynamic>> periods = [
+    {
+      "label": '1  week',
+      "value": 'WEEKLY',
+    },
+    {
+      "label": '1 Month',
+      "value": 'MONTHLY',
+    },
+    {
+      "label": '3 Months',
+      "value": 'QUARTERLY',
+    },
+    {
+      "label": '6 Months',
+      "value": 'BIANNUALLY',
+    },
+    {
+      "label": '1 Year',
+      "value": 'ANNUALLY',
+    },
+  ];
+
+  int getReportIntervalDays(CameraReportIntervalType intervalType) {
+    final Map<CameraReportIntervalType, int> periods = {
+      CameraReportIntervalType.WEEKLY: 7,
+      CameraReportIntervalType.MONTHLY: 30,
+      CameraReportIntervalType.QUARTERLY: 90,
+      CameraReportIntervalType.BIANNUALLY: 180,
+      CameraReportIntervalType.ANNUALLY: 365,
+    };
+
+    return periods[intervalType]!;
+  }
 
   @override
   void initState() {
     super.initState();
+    dev.log("dateee" + widget.startDate.toString());
     fetchUser();
+    getDateDifference(widget.startDate, widget.endDate);
+  }
+
+  getDateDifference(String sDate, String eDate) {
+// Parse strings into DateTime objects
+    DateTime startDate = DateTime.parse(sDate);
+    DateTime endDate = DateTime.parse(eDate);
+
+    // Calculate the difference between the two dates
+    Duration difference = endDate.difference(startDate);
+    maxImageDays = difference.inDays;
+
+    // Print the difference in days
+    dev.log('Difference in days: ${maxImageDays} days');
   }
 
   fetchUser() async {
     user = _prefsLocator.getUser();
     userLogo = await getImage(user!['client']['logoUrl']);
     dev.log(user.toString());
-    dev.log("logo" + user!['client']['logoUrl'].toString());
+    dev.log("logo" + user!['client'].toString());
   }
 
-  Future<void> generatePdf(String previousImageUrl, String currentImageUrl,
-      Uint8List logo, String username) async {
+  getDate(String date, String dateFormat) {
+    String dateWithT = date.substring(0, 8) + 'T' + date.substring(8);
+    DateTime dateTime = DateTime.parse(dateWithT);
+    final String formattedTime = DateFormat(dateFormat).format(dateTime);
+    return formattedTime;
+  }
+
+  Future<void> generatePdf(
+    String previousImageUrl,
+    String currentImageUrl,
+    Uint8List logo,
+    String username,
+    String previousDate,
+    String currentDate,
+  ) async {
     // Load and embed the font
     final fontData = await rootBundle.load("assets/fonts/Inter-Regular.ttf");
     final ttf = pw.Font.ttf(fontData);
@@ -85,17 +163,26 @@ class _InstantReportTabviewState
               pw.Row(mainAxisAlignment: pw.MainAxisAlignment.start, children: [
                 pw.Image(
                   pw.MemoryImage(userLogo!),
-                  width: 50,
-                  height: 50,
+                  width: 70,
+                  height: 70,
                 ),
                 pw.Column(
                     mainAxisAlignment: pw.MainAxisAlignment.start,
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
-                      pw.Text(widget.projectName),
-                      pw.Text("Progress Report",
-                          style: pw.TextStyle(
-                              color: PdfColor.fromInt(0xFF0052CC))),
+                      pw.Text(
+                        widget.projectName + " - " + widget.cameraName,
+                        style: pw.TextStyle(
+                            fontWeight: pw.FontWeight.bold, fontSize: 16),
+                      ),
+                      pw.Text(
+                        "Progress Report",
+                        style: pw.TextStyle(
+                          fontSize: 16,
+                          fontWeight: pw.FontWeight.bold,
+                          color: PdfColor.fromInt(0xFF0052CC),
+                        ),
+                      ),
                     ]),
               ]),
 
@@ -116,8 +203,17 @@ class _InstantReportTabviewState
                   ),
                 ),
               ),
-              pw.Text("Image of"),
-              pw.SizedBox(height: 20),
+              pw.SizedBox(height: 5),
+              pw.Row(mainAxisAlignment: pw.MainAxisAlignment.start, children: [
+                pw.Text("Image of "),
+                pw.Text(
+                  previousDate,
+                  style: pw.TextStyle(
+                      fontWeight: pw.FontWeight.bold, fontSize: 12),
+                ),
+              ]),
+
+              pw.SizedBox(height: 15),
               pw.Container(
                 height: context.page.pageFormat.height * 0.3,
                 child: pw.ClipRRect(
@@ -132,8 +228,16 @@ class _InstantReportTabviewState
                   ),
                 ),
               ),
-              pw.Text("Image of"),
-              pw.SizedBox(height: 20),
+              pw.SizedBox(height: 5),
+              pw.Row(mainAxisAlignment: pw.MainAxisAlignment.start, children: [
+                pw.Text("Image of "),
+                pw.Text(
+                  currentDate,
+                  style: pw.TextStyle(
+                      fontWeight: pw.FontWeight.bold, fontSize: 12),
+                ),
+              ]),
+              pw.SizedBox(height: 15),
 
               // Footer
               pw.Row(
@@ -179,7 +283,8 @@ class _InstantReportTabviewState
 
     // Save the PDF file
     final output = await getTemporaryDirectory();
-    final file = File("${output.path}/example.pdf");
+    final file = File(
+        "${output.path}/${widget.cameraName + " - " + widget.projectName + ".pdf"}");
     await file.writeAsBytes(await pdf.save());
 
     setState(() {
@@ -324,9 +429,23 @@ class _InstantReportTabviewState
                     value.fold((failure) {
                       dev.log("errorrrrrr");
                     }, (res) async {
-                      await generatePdf(res['previousImage']['url'],
-                          res['currentImage']['url'], userLogo!, user!['name']);
-                      dev.log("response data" + res.toString());
+                      dev.log("response data" +
+                          res['previousImage']['datetime'].toString());
+                      final previousDate = getDate(
+                          res['previousImage']['datetime'],
+                          "hh:mm a . dd MMM yyyy");
+                      final currentDate = getDate(
+                          res['currentImage']['datetime'],
+                          "hh:mm a . dd MMM yyyy");
+                      dev.log("response data" + previousDate.toString());
+                      await generatePdf(
+                          res['previousImage']['url'],
+                          res['currentImage']['url'],
+                          userLogo!,
+                          user!['name'],
+                          previousDate,
+                          currentDate);
+
                       Utils.toastSuccessMessage(
                           "Report generated successfully", context);
                       setState(() {
@@ -355,7 +474,7 @@ class _InstantReportTabviewState
               topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r)),
           color: Colors.white,
         ),
-        height: 450.h,
+        height: 460.h,
         width: MediaQuery.of(context).size.width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -375,163 +494,69 @@ class _InstantReportTabviewState
               ],
             ),
             SizedBox(height: 20.h),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                InkWell(
-                  onTap: () async {
-                    setState(() {
-                      _duration = "WEEKLY";
-                      _showDuration = "1 Week";
-                    });
-                    context.pop();
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
-                    decoration: BoxDecoration(
+            ListView.builder(
+                itemCount: periods.length,
+                shrinkWrap: true,
+                itemBuilder: ((context, index) {
+                  final int intervalDays = getReportIntervalDays(
+                    CameraReportIntervalType.values[index],
+                  );
+                  final bool isItemEnabled = maxImageDays >= intervalDays;
+
+                  return InkWell(
+                    onTap: isItemEnabled
+                        ? () async {
+                            setState(() {
+                              _duration = periods[index]["value"];
+                              _showDuration = periods[index]["label"];
+                            });
+                            context.pop();
+                          }
+                        : null,
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10.w, vertical: 16.h),
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8.r),
-                        color: Colors.white),
-                    child: Text(
-                      '1 Week',
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Helper.baseBlack,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500),
+                        color: Colors.white,
+                      ),
+                      child: Text(
+                        periods[index]["label"],
+                        style: TextStyle(
+                            letterSpacing: -0.3,
+                            color:
+                                isItemEnabled ? Helper.baseBlack : Colors.grey,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
                     ),
-                  ),
+                  );
+                })),
+            Container(
+              height: 52.h,
+              width: double.infinity,
+              child: ElevatedButton(
+                child: Text(
+                  "Cancel",
+                  style: TextStyle(
+                      letterSpacing: -0.3,
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500),
+                  // currentIndex == contents.length - 1 ? "Continue" : "Next"
                 ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      _duration = "MONTHLY";
-                      _showDuration = "1 Month";
-                    });
-                    context.pop();
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
-                    decoration: BoxDecoration(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Helper.baseBlack),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.r),
-                        color: Colors.white),
-                    child: Text(
-                      '1 Month',
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Helper.baseBlack,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      _duration = "QUARTERLY";
-                      _showDuration = "3 Months";
-                    });
-                    context.pop();
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.r),
-                        color: Colors.white),
-                    child: Text(
-                      '3 Months',
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Helper.baseBlack,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      _duration = "BIANNUALLY";
-                      _showDuration = "6 Months";
-                    });
-                    context.pop();
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.r),
-                        color: Colors.white),
-                    child: Text(
-                      '6 Months',
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Helper.baseBlack,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      _duration = "ANNUALLY";
-                      _showDuration = "1 Year";
-                    });
-                    context.pop();
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.r),
-                        color: Colors.white),
-                    child: Text(
-                      '1 Year',
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Helper.baseBlack,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20.h),
-                Container(
-                  height: 52.h,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    child: Text(
-                      "Cancel",
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500),
-                      // currentIndex == contents.length - 1 ? "Continue" : "Next"
-                    ),
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(Helper.baseBlack),
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                        )),
-                    onPressed: () {
-                      context.pop();
-                    },
-                  ),
-                ),
-              ],
+                      ),
+                    )),
+                onPressed: () {
+                  context.pop();
+                },
+              ),
             ),
           ],
         ),
