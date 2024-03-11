@@ -10,7 +10,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
@@ -52,36 +51,29 @@ class CameraDetailsSreen extends ConsumerStatefulWidget {
 
 class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     with SingleTickerProviderStateMixin {
-  int _selectedIndex = 0;
   final dataKey = new GlobalKey();
-  int _selectedImageIndex = 0;
   List<DateTime> daysInMonth = [];
   String _selectedDate = '';
   String _searchDate = '';
   DateTime currentMonth = DateTime.now();
   String showMonth = "JAN";
   bool showBottomBar = true;
-  // StateSetter? bottomSheetState;
   TransformationController? controller;
   AnimationController? animationController;
   Animation<Matrix4>? animation;
   OverlayEntry? entry;
   ScrollController _scrollController = ScrollController();
-  ScrollController _dateController = ScrollController();
   CarouselController carouselController = CarouselController();
   ImageData? imageData;
   GlobalKey _listViewKey = GlobalKey();
   TransformationController viewTransformationController =
       TransformationController();
-  SwiperController _swipperontroller = SwiperController();
   PageController _pageController = PageController();
   GlobalKey<ScrollableState> listViewKey = GlobalKey<ScrollableState>();
 
   @override
   void initState() {
     super.initState();
-    // WidgetsBinding.instance.addPostFrameCallback(
-    //     (_) => Scrollable.ensureVisible(dataKey.currentContext!));
     controller = TransformationController();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Timer(Duration(seconds: 2), () {
@@ -105,7 +97,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
           .getImagesByCamId(widget.projectId, widget.cameraId,
               searchDate: _searchDate)
           .then((value) {
-        log("value passed" + value.toString());
         getDaysInMonth(value.endDate, true);
         showDate(value.endDate);
       });
@@ -117,7 +108,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
 
   List<DateTime> getDaysInMonth(currentMonth, bool isString) {
     daysInMonth = [];
-    // final currentMonth = DateTime.parse(month);
     if (isString) {
       final month = DateTime.parse(currentMonth);
       print("datetime format" + month.toString());
@@ -126,7 +116,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
 
       print(firstDayOfMonth.toString());
       print(lastDayOfMonth.toString());
-      // final daysInMonth = <DateTime>[];
       for (var i = firstDayOfMonth.day; i <= lastDayOfMonth.day; i++) {
         daysInMonth.add(DateTime(month.year, month.month, i));
       }
@@ -139,8 +128,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
         DateTime(currentMonth.year, currentMonth.month + 1, 0);
 
     log("firstDayOfMonth" + firstDayOfMonth.toString());
-    print("lastDayOfMonth" + lastDayOfMonth.toString());
-    // final daysInMonth = <DateTime>[];
+
     for (var i = firstDayOfMonth.day; i <= lastDayOfMonth.day; i++) {
       daysInMonth.add(DateTime(currentMonth.year, currentMonth.month, i));
     }
@@ -149,21 +137,17 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
   }
 
   showDate(String date) {
-    // Parse the endDate string into a DateTime object
     DateTime parsedDate = DateTime.parse(date);
 
-    // Format the DateTime object into the desired format
     String formattedDate = DateFormat('dd MMM yyyy').format(parsedDate);
-    log("formatted date" + formattedDate.toString());
+
     showMonth = DateFormat.MMM().format(parsedDate).toUpperCase();
     scrollToItem(10, listViewKey);
 
-    log("showMonth display" + showMonth.toString());
     return formattedDate;
   }
 
   parseDateTimeString(String time) {
-    log("time---" + time.toString());
     String dateWithT = time.substring(0, 8) + 'T' + time.substring(8);
     DateTime dateTime = DateTime.parse(dateWithT);
     final String formattedTime = DateFormat('h:mm a').format(dateTime);
@@ -184,7 +168,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
 
   bool _isCurrentItemFullyVisible() {
     double currentItemPosition = _scrollController.position.pixels;
-    double itemWidth = 44.0; // Replace with your actual item width
+    double itemWidth = 44.0;
     return currentItemPosition >= 0 && currentItemPosition < itemWidth;
   }
 
@@ -196,9 +180,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
   @override
   void dispose() {
     controller!.dispose();
-    // ref.invalidate(imagesByCameraIdInterProvider);
-    // ref.invalidate(currentImageProvider);
-    // ref.invalidate(imagesByCamIdControllerProvider);
     super.dispose();
   }
 
@@ -210,17 +191,11 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
         cameraByIdControllerProvider.select((value) => value.cameraById));
     final imagesByCameraIdData = ref.watch(
         imagesByCamIdControllerProvider.select((value) => value.imagesByCamId));
-    // final selectedImageData = ref.watch(selectedImageDataProvider);
-    // final imagesByCameraIdModel = ref.watch(imagesByCameraIdModelProvider);
-    // final imagesByCameraIdModel = ref.watch(imagesByCameraIdModelProvider);
-    // log("new------------------" + imagesByCameraIdModel.toString());
+
     final imagesByCameraIdInter = ref.watch(imagesByCameraIdInterProvider);
-    log("new imagesByCameraIdinter" + imagesByCameraIdInter.toString());
     final currentImage = ref.watch(currentImageProvider);
-    log("new current image" + currentImage.toString());
 
     return Scaffold(
-      // backgroundColor: Color.fromRGBO(247, 247, 247, 1),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.h),
         child: Container(
@@ -360,439 +335,278 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
           child: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
             child: Container(
-              // padding: EdgeInsets.only(bottom: kBottomNavigationBarHeight),
               child: Consumer(builder: (context, ref, child) {
-                // print("state printed" + selectedImageData.toString());
                 return imagesByCameraIdData.when(
                     data: (imagesData) {
-                      // setState(() {
                       showBottomBar = true;
-                      // });
-                      if (imagesData.images!.isEmpty) {
-                        showBottomBar = false;
-
-                        return Center(
-                          child: Container(
-                            height: MediaQuery.of(context).size.height / 2,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                    'assets/images/illustration.svg'),
-                                SizedBox(height: 16.h),
-                                Text(
-                                  "No Images yet",
-                                  style: TextStyle(
-                                      color: Helper.textColor900,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      }
-                      ;
 
                       return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            Stack(children: [
-                              Container(
-                                height: MediaQuery.of(context).size.height -
-                                    (Scaffold.of(context)
-                                            .appBarMaxHeight!
-                                            .toDouble() +
-                                        kBottomNavigationBarHeight +
-                                        184.h),
-                                child: Image.network(
-                                  currentImage!.urlThumb!,
-                                  gaplessPlayback: true,
-
-                                  width: double.infinity,
-                                  // scale: 20,
-                                  // height: 210.h,
-                                  fit: BoxFit.fitHeight,
-                                  // loadingBuilder: (context, child, loadingProgress) {
-                                  //   if (loadingProgress == null) return child;
-
-                                  //   return Center(
-                                  //     child: CircularProgressIndicator(
-                                  //       color: ref.watch(primaryColorProvider),
-                                  //       value: (loadingProgress != null)
-                                  //           ? (loadingProgress.cumulativeBytesLoaded /
-                                  //               loadingProgress.expectedTotalBytes!)
-                                  //           : 0,
-                                  //     ),
-                                  //   );
-                                  // },
-                                  errorBuilder: (BuildContext context,
-                                      Object exception,
-                                      StackTrace? stackTrace) {
-                                    return ClipRRect(
-                                      child: Image.asset(
-                                        'assets/images/error_image.jpeg',
-                                        fit: BoxFit.cover,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                              BlurryContainer(
-                                blur: 30,
-                                height: MediaQuery.of(context).size.height -
-                                    (Scaffold.of(context)
-                                            .appBarMaxHeight!
-                                            .toDouble() +
-                                        kBottomNavigationBarHeight +
-                                        184.h),
-                                padding: EdgeInsets.zero,
-                                borderRadius: BorderRadius.zero,
-                                // filter: ImageFilter.blur(sigmaX: 105, sigmaY: 105),
-                                // blendMode: BlendMode.clear,
-                                child: PageView.builder(
-                                  controller: _pageController,
-                                  itemCount:
-                                      imagesByCameraIdInter.images!.length,
-                                  reverse:
-                                      true, // Set this to true if you want to reverse the scrolling direction
-                                  itemBuilder:
-                                      (BuildContext context, int itemIndex) {
-                                    // final item = yourItemList[index];
-
-                                    // Your item UI here
-
-                                    return Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        BlurryContainer(
-                                            blur: 30,
-                                            borderRadius: BorderRadius.zero,
-                                            height: 250.h,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            color:
-                                                Colors.white.withOpacity(0.4),
-                                            child: SizedBox()),
-                                        PinchZoom(
-                                          maxScale: 10,
-                                          child: Image.network(
-                                            currentImage.urlPreview!,
-                                            width: double.infinity,
-                                            gaplessPlayback: true,
-                                            scale: 1,
-                                            loadingBuilder: (context, child,
-                                                loadingProgress) {
-                                              if (loadingProgress == null)
-                                                return child;
-
-                                              return Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  color: ref.watch(
-                                                      primaryColorProvider),
-                                                  value: (loadingProgress !=
-                                                          null)
-                                                      ? (loadingProgress
-                                                              .cumulativeBytesLoaded /
-                                                          loadingProgress
-                                                              .expectedTotalBytes!)
-                                                      : 0,
-                                                ),
-                                              );
-                                            },
-                                            errorBuilder: (BuildContext context,
-                                                Object exception,
-                                                StackTrace? stackTrace) {
-                                              return ClipRRect(
-                                                child: Image.asset(
-                                                  'assets/images/error_image.jpeg',
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                  onPageChanged: (int index) {
-                                    // Handle page change if needed
-                                    // if (_scrollController.position.atEdge) {
-                                    //   _scrollController.jumpTo(_scrollController
-                                    //           .position.maxScrollExtent -
-                                    //       index * 44.0);
-                                    // }
-                                    Scrollable.ensureVisible(
-                                        GlobalObjectKey(
-                                          imagesByCameraIdInter
-                                              .images![index].id
-                                              .toString(),
-                                        ).currentContext!,
-                                        alignment: 0.1);
-
-                                    log("onindex change" + index.toString());
-                                    final reversedIndex =
-                                        imagesByCameraIdInter.images!.length -
-                                            index;
-                                    log("reversed" + reversedIndex.toString());
-                                    setState(() {
-                                      final image = model.Image(
-                                        id: imagesByCameraIdInter
-                                            .images![index].id,
-                                        name: imagesByCameraIdInter
-                                            .images![index].name,
-                                        datetime: imagesByCameraIdInter
-                                            .images![index].datetime,
-                                        date: imagesByCameraIdInter
-                                            .images![index].date,
-                                        urlPreview: imagesByCameraIdInter
-                                            .images![index].urlPreview,
-                                        urlThumb: imagesByCameraIdInter
-                                            .images![index].urlThumb,
-                                      );
-                                      ref
-                                          .read(currentImageProvider.notifier)
-                                          .setCurrentImage(image);
-                                    });
-                                  },
-                                ),
-
-                                // CarouselSlider.builder(
-                                //     carouselController: carouselController,
-                                //     itemCount:
-                                //         imagesByCameraIdInter.images!.length,
-                                //     options: CarouselOptions(
-                                //         height: MediaQuery.of(context)
-                                //                 .size
-                                //                 .height -
-                                //             (Scaffold.of(context)
-                                //                     .appBarMaxHeight!
-                                //                     .toDouble() +
-                                //                 kBottomNavigationBarHeight +
-                                //                 184.h),
-                                //         viewportFraction: 1,
-                                //         // aspectRatio: 1 / 1,
-                                //         initialPage: 0,
-                                //         autoPlay: false,
-                                //         enlargeCenterPage: true,
-                                //         reverse: true,
-                                //         enableInfiniteScroll: false,
-                                //         autoPlayCurve: Curves.fastOutSlowIn,
-                                //         scrollDirection: Axis.horizontal,
-                                //         onPageChanged: (index, reason) {
-                                //           setState(() {
-                                //             final image = model.Image(
-                                //               id: imagesByCameraIdInter
-                                //                   .images![index].id,
-                                //               name: imagesByCameraIdInter
-                                //                   .images![index].name,
-                                //               datetime: imagesByCameraIdInter
-                                //                   .images![index].datetime,
-                                //               urlPreview:
-                                //                   imagesByCameraIdInter
-                                //                       .images![index]
-                                //                       .urlPreview,
-                                //               urlThumb: imagesByCameraIdInter
-                                //                   .images![index]
-                                //                   .urlThumb, // You can copy the URL from the first image
-                                //             );
-                                //             ref
-                                //                 .read(currentImageProvider
-                                //                     .notifier)
-                                //                 .setCurrentImage(image);
-                                //             // ref
-                                //             //         .read(
-                                //             //             imagesByCameraIdModelProvider
-                                //             //                 .notifier)
-                                //             //         .state =
-                                //             //     model.ImagesByCameraIdModel(
-                                //             //   startDate: imagesByCameraIdModel
-                                //             //       .startDate,
-                                //             //   endDate:
-                                //             //       imagesByCameraIdModel.endDate,
-                                //             //   images:
-                                //             //       imagesByCameraIdModel.images,
-                                //             //   currentImage: currentImage,
-                                //             // );
-                                //             // ref
-                                //             //     .read(imagesByCameraIdModelProvider
-                                //             //         .notifier)
-                                //             //     .state = model.ImagesByCameraIdModel(
-                                //             //   startDate: imagesByCameraIdModel
-                                //             //       .startDate,
-                                //             //   datetime: imagesByCameraIdModel.currentImage,
-                                //             //   imageId: imagesByCameraIdModel
-                                //             //       .images![index].imageId,
-                                //             //   urlThumb: imagesByCameraIdModel
-                                //             //       .images![index].urlThumb,
-                                //             //   urlPreview: imagesByCameraIdModel
-                                //             //       .images![index].urlPreview,
-                                //             // );
-                                //           });
-                                //         }),
-                                //     itemBuilder: (BuildContext context,
-                                //         int itemIndex, int pageViewIndex) {
-                                //       // imageData = ImageData(
-                                //       //   name: imagesData.images![itemIndex].name,
-                                //       //   dateTime: imagesData
-                                //       //       .images![itemIndex].datetime,
-                                //       //   camera:
-                                //       //       imagesData.images![itemIndex].camera,
-                                //       //   id: imagesData.images![itemIndex].id,
-                                //       //   urlPreview: imagesData
-                                //       //       .images![itemIndex].urlPreview,
-                                //       // );
-                                //       return Image.network(
-                                //         currentImage.urlPreview!,
-                                //         // selectedImageData == null
-                                //         //     ? imagesData
-                                //         //         .images![itemIndex]
-                                //         //         .urlPreview!
-                                //         //     : selectedImageData
-                                //         //         .urlPreview!,
-                                //         width: double.infinity,
-                                //         gaplessPlayback: true,
-                                //         scale: 1,
-                                //         // height: 210.h,
-                                //         // fit: BoxFit.fitHeight,
-                                //         loadingBuilder: (context, child,
-                                //             loadingProgress) {
-                                //           if (loadingProgress == null)
-                                //             return child;
-
-                                //           return Center(
-                                //             child: CircularProgressIndicator(
-                                //               color: ref.watch(primaryColorProvider),
-                                //               value: (loadingProgress != null)
-                                //                   ? (loadingProgress
-                                //                           .cumulativeBytesLoaded /
-                                //                       loadingProgress
-                                //                           .expectedTotalBytes!)
-                                //                   : 0,
-                                //             ),
-                                //           );
-                                //         },
-                                //         errorBuilder: (BuildContext context,
-                                //             Object exception,
-                                //             StackTrace? stackTrace) {
-                                //           return ClipRRect(
-                                //             child: Image.asset(
-                                //               'assets/images/error_image.jpeg',
-                                //               fit: BoxFit.cover,
-                                //             ),
-                                //           );
-                                //         },
-                                //       );
-                                //     }),
-                              ),
-                              Positioned(
-                                top: 16,
-                                left: 16,
-                                child: InkWell(
-                                  onTap: () async {
-                                    await _showDateBottomSheet(
-                                        context,
-                                        imagesByCameraIdInter.startDate!,
-                                        imagesByCameraIdInter.endDate!,
-                                        _selectedDate,
-                                        widget.cameraId,
-                                        currentImage.datetime!,
-                                        widget.projectId,
-                                        ref,
-                                        currentMonth);
-                                    setState(() {});
-                                  },
-                                  child: BlurryContainer(
-                                      blur: 3,
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 6.h, horizontal: 8.w),
-                                      borderRadius: BorderRadius.circular(30.r),
-                                      color: Colors.black.withOpacity(0.3),
-                                      child: Row(
+                            imagesData.images!.isEmpty
+                                ? Center(
+                                    child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height -
+                                              (Scaffold.of(context)
+                                                      .appBarMaxHeight!
+                                                      .toDouble() +
+                                                  kBottomNavigationBarHeight +
+                                                  184.h),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         children: [
                                           SvgPicture.asset(
-                                            'assets/images/timeline.svg',
-                                            height: 16.h,
-                                            width: 16.w,
-                                            color: Colors.white,
-                                          ),
-                                          SizedBox(width: 4.w),
-                                          // Text(
-                                          //     parseTimeString(imagesData
-                                          //         .images!.time!),
-                                          //     style: TextStyle(
-                                          //         color: Colors.white,
-                                          //         fontWeight: FontWeight.w500,
-                                          //         fontSize: 12.sp)),
+                                              'assets/images/illustration.svg'),
+                                          SizedBox(height: 16.h),
                                           Text(
-                                              parseEndDateTimeString(
-                                                  currentImage.datetime!,
-                                                  false),
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 12.sp)),
+                                            "No Images Available",
+                                            style: TextStyle(
+                                                color: Helper.textColor900,
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.w600),
+                                          ),
                                         ],
-                                      )),
-                                ),
-                              ),
-                              Positioned(
-                                top: 16,
-                                right: 16,
-                                child: InkWell(
-                                  onTap: () {
-                                    // context.push('/landscapeCameraDetails', extra: {
-                                    //   "projectId": widget.projectId,
-                                    //   "projectName": widget.projectName,
-                                    //   "cameraId": widget.cameraId,
-                                    //   "imagesData": imagesData
-                                    // });
-                                    Navigator.push(
-                                      context,
-                                      PageRouteBuilder(
-                                        pageBuilder: (context, animation,
-                                                secondaryAnimation) =>
-                                            LandscapeCameraDetailsScreen(
-                                          projectId: widget.projectId,
-                                          cameraId: widget.cameraId,
-                                          imagesData: imagesByCameraIdInter,
-                                          projectName: widget.projectName,
-                                        ),
-                                        transitionsBuilder: (context, animation,
-                                            secondaryAnimation, child) {
-                                          const begin = 0.75;
-                                          const end = 1.0;
-                                          var rotationAnimation =
-                                              Tween(begin: begin, end: end)
-                                                  .animate(animation);
-                                          return RotationTransition(
-                                            turns: rotationAnimation,
-                                            child: child,
+                                      ),
+                                    ),
+                                  )
+                                : Stack(children: [
+                                    Container(
+                                      height:
+                                          MediaQuery.of(context).size.height -
+                                              (Scaffold.of(context)
+                                                      .appBarMaxHeight!
+                                                      .toDouble() +
+                                                  kBottomNavigationBarHeight +
+                                                  184.h),
+                                      child: Image.network(
+                                        currentImage!.urlThumb!,
+                                        gaplessPlayback: true,
+                                        width: double.infinity,
+                                        fit: BoxFit.fitHeight,
+                                        errorBuilder: (BuildContext context,
+                                            Object exception,
+                                            StackTrace? stackTrace) {
+                                          return ClipRRect(
+                                            child: Image.asset(
+                                              'assets/images/error_image.jpeg',
+                                              fit: BoxFit.cover,
+                                            ),
                                           );
                                         },
                                       ),
-                                    );
-                                  },
-                                  child: BlurryContainer(
-                                    blur: 3,
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 6.h, horizontal: 6.w),
-                                    borderRadius: BorderRadius.circular(30.r),
-                                    color: Colors.black.withOpacity(0.3),
-                                    child: SvgPicture.asset(
-                                      'assets/images/expand.svg',
-                                      // height: 16.h,
-                                      // width: 16.w,
-                                      color: Colors.white,
                                     ),
-                                  ),
-                                ),
-                              ),
-                            ]),
+                                    BlurryContainer(
+                                      blur: 30,
+                                      height:
+                                          MediaQuery.of(context).size.height -
+                                              (Scaffold.of(context)
+                                                      .appBarMaxHeight!
+                                                      .toDouble() +
+                                                  kBottomNavigationBarHeight +
+                                                  184.h),
+                                      padding: EdgeInsets.zero,
+                                      borderRadius: BorderRadius.zero,
+                                      child: PageView.builder(
+                                        controller: _pageController,
+                                        itemCount: imagesByCameraIdInter
+                                            .images!.length,
+                                        reverse: true,
+                                        itemBuilder: (BuildContext context,
+                                            int itemIndex) {
+                                          return Stack(
+                                            alignment: Alignment.center,
+                                            children: [
+                                              BlurryContainer(
+                                                  blur: 30,
+                                                  borderRadius:
+                                                      BorderRadius.zero,
+                                                  height: 250.h,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  color: Colors.white
+                                                      .withOpacity(0.4),
+                                                  child: SizedBox()),
+                                              PinchZoom(
+                                                maxScale: 10,
+                                                child: Image.network(
+                                                  currentImage.urlPreview!,
+                                                  width: double.infinity,
+                                                  gaplessPlayback: true,
+                                                  scale: 1,
+                                                  loadingBuilder: (context,
+                                                      child, loadingProgress) {
+                                                    if (loadingProgress == null)
+                                                      return child;
+
+                                                    return Center(
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        color: ref.watch(
+                                                            primaryColorProvider),
+                                                        value: (loadingProgress !=
+                                                                null)
+                                                            ? (loadingProgress
+                                                                    .cumulativeBytesLoaded /
+                                                                loadingProgress
+                                                                    .expectedTotalBytes!)
+                                                            : 0,
+                                                      ),
+                                                    );
+                                                  },
+                                                  errorBuilder: (BuildContext
+                                                          context,
+                                                      Object exception,
+                                                      StackTrace? stackTrace) {
+                                                    return ClipRRect(
+                                                      child: Image.asset(
+                                                        'assets/images/error_image.jpeg',
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                        onPageChanged: (int index) {
+                                          Scrollable.ensureVisible(
+                                              GlobalObjectKey(
+                                                imagesByCameraIdInter
+                                                    .images![index].id
+                                                    .toString(),
+                                              ).currentContext!,
+                                              alignment: 0.1);
+
+                                          final reversedIndex =
+                                              imagesByCameraIdInter
+                                                      .images!.length -
+                                                  index;
+                                          setState(() {
+                                            final image = model.Image(
+                                              id: imagesByCameraIdInter
+                                                  .images![index].id,
+                                              name: imagesByCameraIdInter
+                                                  .images![index].name,
+                                              datetime: imagesByCameraIdInter
+                                                  .images![index].datetime,
+                                              date: imagesByCameraIdInter
+                                                  .images![index].date,
+                                              urlPreview: imagesByCameraIdInter
+                                                  .images![index].urlPreview,
+                                              urlThumb: imagesByCameraIdInter
+                                                  .images![index].urlThumb,
+                                            );
+                                            ref
+                                                .read(currentImageProvider
+                                                    .notifier)
+                                                .setCurrentImage(image);
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 16,
+                                      left: 16,
+                                      child: InkWell(
+                                        onTap: () async {
+                                          await _showDateBottomSheet(
+                                              context,
+                                              imagesByCameraIdInter.startDate!,
+                                              imagesByCameraIdInter.endDate!,
+                                              _selectedDate,
+                                              widget.cameraId,
+                                              currentImage.datetime!,
+                                              widget.projectId,
+                                              ref,
+                                              currentMonth);
+                                          setState(() {});
+                                        },
+                                        child: BlurryContainer(
+                                            blur: 3,
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 6.h, horizontal: 8.w),
+                                            borderRadius:
+                                                BorderRadius.circular(30.r),
+                                            color:
+                                                Colors.black.withOpacity(0.3),
+                                            child: Row(
+                                              children: [
+                                                SvgPicture.asset(
+                                                  'assets/images/timeline.svg',
+                                                  height: 16.h,
+                                                  width: 16.w,
+                                                  color: Colors.white,
+                                                ),
+                                                SizedBox(width: 4.w),
+                                                Text(
+                                                    parseEndDateTimeString(
+                                                        currentImage.datetime!,
+                                                        false),
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 12.sp)),
+                                              ],
+                                            )),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 16,
+                                      right: 16,
+                                      child: InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            PageRouteBuilder(
+                                              pageBuilder: (context, animation,
+                                                      secondaryAnimation) =>
+                                                  LandscapeCameraDetailsScreen(
+                                                projectId: widget.projectId,
+                                                cameraId: widget.cameraId,
+                                                imagesData:
+                                                    imagesByCameraIdInter,
+                                                projectName: widget.projectName,
+                                              ),
+                                              transitionsBuilder: (context,
+                                                  animation,
+                                                  secondaryAnimation,
+                                                  child) {
+                                                const begin = 0.75;
+                                                const end = 1.0;
+                                                var rotationAnimation = Tween(
+                                                        begin: begin, end: end)
+                                                    .animate(animation);
+                                                return RotationTransition(
+                                                  turns: rotationAnimation,
+                                                  child: child,
+                                                );
+                                              },
+                                            ),
+                                          );
+                                        },
+                                        child: BlurryContainer(
+                                          blur: 3,
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 6.h, horizontal: 6.w),
+                                          borderRadius:
+                                              BorderRadius.circular(30.r),
+                                          color: Colors.black.withOpacity(0.3),
+                                          child: SvgPicture.asset(
+                                            'assets/images/expand.svg',
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ]),
                             SizedBox(
                               height: 76.h,
                               child: ListView.separated(
@@ -809,8 +623,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                   scrollDirection: Axis.horizontal,
                                   controller: _scrollController,
                                   itemBuilder: ((context, index) {
-                                    // _scrollDown();
-
                                     final reversedIndex =
                                         imagesByCameraIdInter.images!.length -
                                             1 -
@@ -818,9 +630,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
 
                                     return InkWell(
                                       onTap: () {
-                                        // setState(() {
-                                        //   _selectedImageIndex = reversedIndex;
-                                        // });
                                         final image = model.Image(
                                           id: imagesByCameraIdInter
                                               .images![reversedIndex].id,
@@ -832,33 +641,11 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                               .images![reversedIndex]
                                               .urlPreview,
                                           urlThumb: imagesByCameraIdInter
-                                              .images![reversedIndex]
-                                              .urlThumb, // You can copy the URL from the first image
+                                              .images![reversedIndex].urlThumb,
                                         );
                                         ref
                                             .read(currentImageProvider.notifier)
                                             .setCurrentImage(image);
-                                        // ref
-                                        //     .read(imagesByCameraIdModelProvider
-                                        //         .notifier)
-                                        //     .state = model.ImagesByCameraIdModel(
-                                        //   startDate:
-                                        //       imagesByCameraIdModel.startDate,
-                                        //   endDate:
-                                        //       imagesByCameraIdModel.endDate,
-                                        //   images: imagesByCameraIdModel.images,
-                                        //   currentImage: currentImage,
-                                        // );
-                                        // ref
-                                        //       .read(
-                                        //           currentImageProvider.notifier)
-                                        //       .state = model.Image(
-                                        //         id: imagesByCameraIdModel.images![index].id,
-                                        //     datetime: imagesByCameraIdModel.images![index].datetime,
-                                        //     imageId: imagesByCameraIdModel.images![index].imageId,
-                                        //     urlThumb: imagesByCameraIdModel.images![index].urlThumb,
-                                        //     urlPreview: imagesByCameraIdModel.images![index].urlPreview,
-                                        //   );
                                       },
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(
@@ -879,7 +666,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           6.r),
-                                                  border: currentImage.id ==
+                                                  border: currentImage!.id ==
                                                           imagesByCameraIdInter
                                                               .images![
                                                                   reversedIndex]
@@ -977,7 +764,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                           imagesByCameraIdInter.endDate!,
                                           _selectedDate,
                                           widget.cameraId,
-                                          currentImage.datetime!,
+                                          currentImage!.datetime!,
                                           widget.projectId,
                                           ref,
                                           currentMonth);
@@ -989,7 +776,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                         child: Text(
                                           "-" +
                                               parseEndDateTimeString(
-                                                  currentImage.datetime!,
+                                                  currentImage!.datetime!,
                                                   true) +
                                               "-",
                                           style: TextStyle(
@@ -1015,146 +802,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                                 searchDate: value);
                                       },
                                     ),
-                                    // ListView.builder(
-                                    //   key: listViewKey,
-                                    //   shrinkWrap: true,
-                                    //   scrollDirection: Axis.horizontal,
-                                    //   physics: BouncingScrollPhysics(),
-                                    //   controller: _dateController,
-                                    //   itemCount: daysInMonth.length,
-                                    //   itemBuilder: (context, index) {
-                                    //     // Scrollable.ensureVisible(
-                                    //     //     GlobalObjectKey(
-                                    //     //             currentImage.id.toString())
-                                    //     //         .currentContext!,
-                                    //     //     alignment: 0.1);
-
-                                    //     final day = daysInMonth[index];
-                                    //     // String daycompare =
-                                    //     final formattedDay =
-                                    //         DateFormat.EEEE().format(day);
-                                    //     final formattedDate =
-                                    //         DateFormat.d().format(day);
-                                    //     final isSelected =
-                                    //         index == _selectedIndex;
-                                    //     final compareDate =
-                                    //         DateFormat('yyyyMMdd').format(day);
-                                    //     log("current Image date" +
-                                    //         currentImage.date.toString());
-                                    //     log("formatted day to compare" +
-                                    //         compareDate.toString());
-
-                                    //     return InkWell(
-                                    //       onTap: () {
-                                    //         setState(() {
-                                    //           _selectedIndex =
-                                    //               index; // Update the selected index when an item is tapped
-                                    //         });
-
-                                    //         // DateTime date =
-                                    //         //     DateTime.parse(value[0].toString());
-                                    //         _searchDate = DateFormat("yyyyMMdd")
-                                    //             .format(day);
-                                    //         log("month list date" +
-                                    //             _searchDate);
-                                    //         ref
-                                    //             .watch(
-                                    //                 imagesByCamIdControllerProvider
-                                    //                     .notifier)
-                                    //             .getImagesByCamId(
-                                    //                 widget.projectId,
-                                    //                 widget.cameraId,
-                                    //                 searchDate: _searchDate);
-                                    //       },
-                                    //       child: Container(
-                                    //         margin: EdgeInsets.zero,
-                                    //         padding: EdgeInsets.zero,
-                                    //         decoration: BoxDecoration(
-                                    //           border: Border.all(
-                                    //             color: currentImage.date ==
-                                    //                     DateFormat('yyyyMMdd')
-                                    //                         .format(daysInMonth[
-                                    //                             index])
-                                    //                 ? Helper.baseBlack
-                                    //                     .withOpacity(0.06)
-                                    //                 : Colors.transparent,
-                                    //             width:
-                                    //                 1, // Set the border width
-                                    //           ),
-                                    //           borderRadius:
-                                    //               BorderRadius.circular(6.r),
-                                    //         ),
-                                    //         child: Stack(children: [
-                                    //           Padding(
-                                    //             padding: EdgeInsets.symmetric(
-                                    //                 horizontal: 10.w,
-                                    //                 vertical: 12.h),
-                                    //             child: Column(
-                                    //               // key: GlobalObjectKey(
-                                    //               //   currentImage.id.toString(),
-                                    //               // ),
-                                    //               children: [
-                                    //                 Text(
-                                    //                   formattedDate,
-                                    //                   style: TextStyle(
-                                    //                       letterSpacing: -0.3,
-                                    //                       color:
-                                    //                           Helper.baseBlack,
-                                    //                       fontSize: 16.sp,
-                                    //                       fontWeight:
-                                    //                           FontWeight.w600),
-                                    //                 ),
-                                    //                 Text(
-                                    //                   formattedDay
-                                    //                       .substring(0, 3)
-                                    //                       .toUpperCase(),
-                                    //                   style: TextStyle(
-                                    //                       letterSpacing: -0.3,
-                                    //                       color:
-                                    //                           Helper.baseBlack,
-                                    //                       fontSize: 10.sp,
-                                    //                       fontWeight:
-                                    //                           FontWeight.w400),
-                                    //                 ),
-                                    //               ],
-                                    //             ),
-                                    //           ),
-                                    //           currentImage.date ==
-                                    //                   DateFormat('yyyyMMdd')
-                                    //                       .format(daysInMonth[
-                                    //                           index])
-                                    //               ? Positioned.fill(
-                                    //                   // top: -2,
-                                    //                   child: Align(
-                                    //                     alignment:
-                                    //                         Alignment.topCenter,
-                                    //                     child: Container(
-                                    //                       height: 4.h,
-                                    //                       margin: EdgeInsets
-                                    //                           .symmetric(
-                                    //                               horizontal:
-                                    //                                   5.w),
-                                    //                       decoration:
-                                    //                           BoxDecoration(
-                                    //                         color: ref.watch(
-                                    //                             primaryColorProvider),
-                                    //                         borderRadius: BorderRadius.only(
-                                    //                             bottomLeft: Radius
-                                    //                                 .circular(
-                                    //                                     4.r),
-                                    //                             bottomRight: Radius
-                                    //                                 .circular(
-                                    //                                     4.r)),
-                                    //                       ),
-                                    //                     ),
-                                    //                   ),
-                                    //                 )
-                                    //               : SizedBox(),
-                                    //         ]),
-                                    //       ),
-                                    //     );
-                                    //   },
-                                    // ),
                                   ),
                                 ],
                               ),
@@ -1274,316 +921,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     );
   }
 
-  _showCameraBottomSheet(context) {
-    return showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r)),
-          color: Colors.white,
-        ),
-        height: 620.h,
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(children: [
-                  Text(
-                    'Camera name',
-                    style: TextStyle(
-                        letterSpacing: -0.3,
-                        color: Helper.baseBlack,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  Text(
-                    '25℃ Sunny, Hyderabad, India',
-                    style: TextStyle(
-                        letterSpacing: -0.3,
-                        color: Color.fromRGBO(127, 127, 127, 0.5),
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w400),
-                  ),
-                  Text(
-                    '10-07-2023, 12:30 PM',
-                    style: TextStyle(
-                        letterSpacing: -0.3,
-                        color: Color.fromRGBO(127, 127, 127, 0.5),
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ])
-              ],
-            ),
-            SizedBox(height: 24.h),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                InkWell(
-                  onTap: () async {
-                    // setState(() {
-                    //   _images = "1";
-                    //   _showImages = "1 Image";
-                    // });
-                    context.pop();
-                  },
-                  child: Container(
-                    height: 44.h,
-                    child: ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      leading: Container(
-                          decoration: BoxDecoration(
-                            color: Helper.bottomIconBack,
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          padding: EdgeInsets.all(8.w),
-                          child: SvgPicture.asset('assets/images/download.svg',
-                              // width: 44.w,
-                              // height: 44.h,
-                              fit: BoxFit.cover,
-                              colorFilter: ColorFilter.mode(
-                                  ref.watch(primaryColorProvider),
-                                  BlendMode.srcIn))),
-                      title: Text(
-                        'Download',
-                        style: TextStyle(
-                            letterSpacing: -0.3,
-                            color: Helper.baseBlack,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 24.h),
-                InkWell(
-                  onTap: () async {
-                    // setState(() {
-                    //   _images = "1";
-                    //   _showImages = "1 Image";
-                    // });
-                    context.pop();
-                  },
-                  child: Container(
-                    height: 44.h,
-                    child: ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      leading: Container(
-                          decoration: BoxDecoration(
-                            color: Helper.bottomIconBack,
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          padding: EdgeInsets.all(8.w),
-                          child: SvgPicture.asset('assets/images/share.svg',
-                              // width: 44.w,
-                              // height: 44.h,
-                              fit: BoxFit.cover,
-                              colorFilter: ColorFilter.mode(
-                                  ref.watch(primaryColorProvider),
-                                  BlendMode.srcIn))),
-                      title: Text(
-                        'Share',
-                        style: TextStyle(
-                            letterSpacing: -0.3,
-                            color: Helper.baseBlack,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 24.h),
-                InkWell(
-                  onTap: () async {
-                    // setState(() {
-                    //   _images = "1";
-                    //   _showImages = "1 Image";
-                    // });
-                    context.pop();
-                  },
-                  child: Container(
-                    height: 44.h,
-                    child: ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      leading: Container(
-                          decoration: BoxDecoration(
-                            color: Helper.bottomIconBack,
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          padding: EdgeInsets.all(8.w),
-                          child: SvgPicture.asset('assets/images/message.svg',
-                              // width: 44.w,
-                              // height: 44.h,
-                              fit: BoxFit.cover,
-                              colorFilter: ColorFilter.mode(
-                                  ref.watch(primaryColorProvider),
-                                  BlendMode.srcIn))),
-                      title: Text(
-                        'Comment',
-                        style: TextStyle(
-                            letterSpacing: -0.3,
-                            color: Helper.baseBlack,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 24.h),
-                InkWell(
-                  onTap: () async {
-                    // setState(() {
-                    //   _images = "1";
-                    //   _showImages = "1 Image";
-                    // });
-                    context.pop();
-                  },
-                  child: Container(
-                    height: 44.h,
-                    child: ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      leading: Container(
-                          decoration: BoxDecoration(
-                            color: Helper.bottomIconBack,
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          padding: EdgeInsets.all(8.w),
-                          child: SvgPicture.asset('assets/images/ai.svg',
-                              width: 24.w,
-                              height: 24.h,
-                              fit: BoxFit.cover,
-                              colorFilter: ColorFilter.mode(
-                                  ref.watch(primaryColorProvider),
-                                  BlendMode.srcIn))),
-                      title: Text(
-                        'AI Insights',
-                        style: TextStyle(
-                            letterSpacing: -0.3,
-                            color: Helper.baseBlack,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 24.h),
-                InkWell(
-                  onTap: () async {
-                    // setState(() {
-                    //   _images = "1";
-                    //   _showImages = "1 Image";
-                    // });
-                    context.pop();
-                  },
-                  child: Container(
-                    height: 44.h,
-                    child: ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      leading: Container(
-                          decoration: BoxDecoration(
-                            color: Helper.bottomIconBack,
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          padding: EdgeInsets.all(8.w),
-                          child: SvgPicture.asset('assets/images/camera.svg',
-                              // width: 44.w,
-                              // height: 44.h,
-                              fit: BoxFit.cover,
-                              colorFilter: ColorFilter.mode(
-                                  ref.watch(primaryColorProvider),
-                                  BlendMode.srcIn))),
-                      title: Text(
-                        'Image quality',
-                        style: TextStyle(
-                            letterSpacing: -0.3,
-                            color: Helper.baseBlack,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 24.h),
-                InkWell(
-                  onTap: () async {
-                    // setState(() {
-                    //   _images = "1";
-                    //   _showImages = "1 Image";
-                    // });
-                    context.pop();
-                  },
-                  child: Container(
-                    height: 44.h,
-                    child: ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      leading: Container(
-                          decoration: BoxDecoration(
-                            color: Helper.bottomIconBack,
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          padding: EdgeInsets.all(8.w),
-                          child: SvgPicture.asset(
-                              'assets/images/camera-flash.svg',
-                              // width: 44.w,
-                              // height: 44.h,
-                              fit: BoxFit.cover,
-                              colorFilter: ColorFilter.mode(
-                                  ref.watch(primaryColorProvider),
-                                  BlendMode.srcIn))),
-                      title: Text(
-                        'Default view',
-                        style: TextStyle(
-                            letterSpacing: -0.3,
-                            color: Helper.baseBlack,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 24.h),
-                Container(
-                  height: 52.h,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    child: Text(
-                      "Cancel",
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500),
-                      // currentIndex == contents.length - 1 ? "Continue" : "Next"
-                    ),
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(Helper.baseBlack),
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                        )),
-                    onPressed: () {
-                      context.pop();
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   _showDateBottomSheet(
       context,
       String startDate,
@@ -1670,10 +1007,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                           ),
                         )),
                     onPressed: () {
-                      print(selectedDate);
-                      //         ref
-                      // .read(imagesByCamIdControllerProvider.notifier)
-                      // .getIagesByCamId(projectId, cameraId, searchDate: selectedDate );
                       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                         ref
                             .read(imagesByCamIdControllerProvider.notifier)
@@ -1682,7 +1015,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                       });
 
                       context.pop();
-                      log("passed showmonth" + showMonthText.toString());
                       setState(() {
                         getDaysInMonth(currentMonth, false);
                         showDate(showMonthText);

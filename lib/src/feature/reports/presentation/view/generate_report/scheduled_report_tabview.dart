@@ -13,6 +13,8 @@ import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/pri
 import 'package:progresscenter_app_v4/src/feature/reports/presentation/provider/schedule_reports_controller.dart';
 import 'dart:developer' as dev;
 
+import 'package:progresscenter_app_v4/src/feature/reports/presentation/provider/scheduled_report_controller.dart';
+
 class ScheduledReportTabview extends ConsumerStatefulWidget {
   final String projectId;
   final String cameraId;
@@ -36,6 +38,12 @@ class _ScheduledReportTabviewState
   void initState() {
     super.initState();
     fetchUser();
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   ref.read(scheduledReportProvider.notifier).getScheduledReport(
+    //         widget.projectId,
+    //         widget.cameraId,
+    //       );
+    // });
   }
 
   fetchUser() {
@@ -44,142 +52,156 @@ class _ScheduledReportTabviewState
 
   @override
   Widget build(BuildContext context) {
+    final scheduledReportData = ref.watch(
+        scheduledReportProvider.select((value) => value.scheduledReport));
     return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 24.h),
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12.r),
-                color: Colors.white,
-              ),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Use the scheduled report to generate a PDF report",
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Helper.baseBlack,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    SizedBox(height: 8.h),
-                    RichText(
-                      text: TextSpan(
-                        text:
-                            "Report will be generated and sent to the following mail : ",
+          padding: EdgeInsets.symmetric(vertical: 24.h),
+          child:
+              //  scheduledReportData.when(
+              //     data: (data) {
+              //       return
+              Column(
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.r),
+                  color: Colors.white,
+                ),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Use the scheduled report to generate a PDF report",
                         style: TextStyle(
                             letterSpacing: -0.3,
-                            color: Helper.textColor400,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400),
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: "${user!['email']}",
-                            style: TextStyle(
-                                letterSpacing: -0.3,
-                                color: Helper.textColor900,
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w400),
-                          ),
-                        ],
+                            color: Helper.baseBlack,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600),
                       ),
-                    ),
-                    SizedBox(height: 24.h),
-                    Text(
-                      "Report type",
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Helper.textColor700,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    SizedBox(height: 8.h),
-                    InkWell(
-                      onTap: () {
-                        _showTypeBottomSheet(context);
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border:
-                              Border.all(width: 1, color: Helper.textColor300),
+                      SizedBox(height: 8.h),
+                      RichText(
+                        text: TextSpan(
+                          text:
+                              "Report will be generated and sent to the following mail : ",
+                          style: TextStyle(
+                              letterSpacing: -0.3,
+                              color: Helper.textColor400,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: "${user!['email']}",
+                              style: TextStyle(
+                                  letterSpacing: -0.3,
+                                  color: Helper.textColor900,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 24.h),
+                      Text(
+                        "Report type",
+                        style: TextStyle(
+                            letterSpacing: -0.3,
+                            color: Helper.textColor700,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(height: 8.h),
+                      InkWell(
+                        onTap: () {
+                          _showTypeBottomSheet(context);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 1, color: Helper.textColor300),
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          child: ListTile(
+                            title: Text(
+                              _showDuration,
+                              style: TextStyle(
+                                  letterSpacing: -0.3,
+                                  color: Helper.textColor500,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            trailing: SvgPicture.asset(
+                              'assets/images/chevron-down.svg',
+                              color: Helper.textColor500,
+                              width: 24,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ]),
+              ),
+              SizedBox(height: 59.h),
+              Container(
+                height: 52.h,
+                width: double.infinity,
+                child: ElevatedButton(
+                  child: _isLoading
+                      ? CircularProgressIndicator(
+                          color: Colors.white,
+                        )
+                      : Text(
+                          "Schedule",
+                          style: TextStyle(
+                              letterSpacing: -0.3,
+                              color: Colors.white,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500),
+                          // currentIndex == contents.length - 1 ? "Continue" : "Next"
+                        ),
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(
+                          ref.watch(primaryColorProvider)),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.r),
                         ),
-                        child: ListTile(
-                          title: Text(
-                            _showDuration,
-                            style: TextStyle(
-                                letterSpacing: -0.3,
-                                color: Helper.textColor500,
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          trailing: SvgPicture.asset(
-                            'assets/images/chevron-down.svg',
-                            color: Helper.textColor500,
-                            width: 24,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ]),
-            ),
-            SizedBox(height: 59.h),
-            Container(
-              height: 52.h,
-              width: double.infinity,
-              child: ElevatedButton(
-                child: _isLoading
-                    ? CircularProgressIndicator(
-                        color: Colors.white,
-                      )
-                    : Text(
-                        "Schedule",
-                        style: TextStyle(
-                            letterSpacing: -0.3,
-                            color: Colors.white,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500),
-                        // currentIndex == contents.length - 1 ? "Continue" : "Next"
-                      ),
-                style: ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(
-                        ref.watch(primaryColorProvider)),
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                    )),
-                onPressed: () async {
-                  setState(() {
-                    _isLoading = true;
-                  });
-                  Map<String, dynamic> data = {"type": _duration};
-                  await ref
-                      .watch(scheduleReportsProvider.notifier)
-                      .scheduleReport(widget.projectId, widget.cameraId, data)
-                      .then((value) async {
-                    value.fold((failure) {
-                      dev.log("errorrrrrr");
-                    }, (res) {
-                      dev.log("response data" + res.toString());
-                      Utils.toastSuccessMessage(
-                          "Report scheduled successfully", context);
-                      setState(() {
-                        _isLoading = false;
+                      )),
+                  onPressed: () async {
+                    setState(() {
+                      _isLoading = true;
+                    });
+                    Map<String, dynamic> data = {"type": _duration};
+                    await ref
+                        .watch(scheduleReportsProvider.notifier)
+                        .scheduleReport(widget.projectId, widget.cameraId, data)
+                        .then((value) async {
+                      value.fold((failure) {
+                        dev.log("errorrrrrr");
+                      }, (res) {
+                        dev.log("response data" + res.toString());
+                        Utils.toastSuccessMessage(
+                            "Report scheduled successfully", context);
+                        setState(() {
+                          _isLoading = false;
+                        });
                       });
                     });
-                  });
-                },
+                  },
+                ),
               ),
-            ),
-          ],
-        ),
-      ),
+            ],
+          )
+          //   ;
+          // },
+          // error: (err, _) {
+          //   return const Text("Failed to fetch images data",
+          //       style: TextStyle(
+          //           letterSpacing: -0.3, color: Helper.errorColor));
+          // },
+          // loading: () => SizedBox())
+          ),
     );
   }
 

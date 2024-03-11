@@ -19,7 +19,7 @@ class ScheduleReportsController extends StateNotifier<ScheduleReportState> {
 
   Future scheduleReport(projectId, cameraId, data) async {
     state = state.copyWith(isLoading: true);
-    final result = await service.scheduledReport(projectId, cameraId, data);
+    final result = await service.scheduleReport(projectId, cameraId, data);
 
     var valueee = await result.fold((l) {
       state = state.copyWith(isLoading: false, errorMessage: l.message);
