@@ -34,11 +34,10 @@ class _DateSliderWidgetState extends BaseConsumerState<DateSliderWidget> {
       int selectedIndex = widget.daysInMonth!.indexWhere(
           (date) => DateFormat('yyyyMMdd').format(date) == widget.selectedDate);
       if (selectedIndex != -1) {
-        // Scroll to the selected index with some smoothness
         WidgetsBinding.instance.addPostFrameCallback((_) {
           Timer(Duration(seconds: 1), () {
             _dateController.animateTo(
-              selectedIndex * 40, // Set your item width here
+              selectedIndex * 40,
               duration: Duration(milliseconds: 500),
               curve: Curves.easeInOut,
             );
