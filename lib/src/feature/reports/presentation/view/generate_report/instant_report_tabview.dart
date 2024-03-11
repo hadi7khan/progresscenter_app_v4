@@ -133,12 +133,12 @@ class _InstantReportTabviewState
   }
 
   Future<void> generatePdf(
-    String previousImageUrl,
-    String currentImageUrl,
+    dynamic previousImageUrl,
+    dynamic currentImageUrl,
     Uint8List logo,
     String username,
-    String previousDate,
-    String currentDate,
+    dynamic previousDate,
+    dynamic currentDate,
   ) async {
     // Load and embed the font
     final fontData = await rootBundle.load("assets/fonts/Inter-Regular.ttf");
@@ -147,8 +147,10 @@ class _InstantReportTabviewState
         await rootBundle.loadString('assets/images/progress_center_black.svg');
 
     final pdf = pw.Document();
-    final previousImage = await getImage(previousImageUrl);
-    final currentImage = await getImage(currentImageUrl);
+    final previousImage =
+        previousImageUrl != null ? await getImage(previousImageUrl) : null;
+    final currentImage =
+        currentImageUrl != null ? await getImage(currentImageUrl) : null;
 
     pdf.addPage(
       pw.Page(
@@ -189,54 +191,96 @@ class _InstantReportTabviewState
               pw.SizedBox(height: 20),
 
               // Body with images
-              pw.Container(
-                height: context.page.pageFormat.height * 0.3,
-                child: pw.ClipRRect(
-                  horizontalRadius: 15,
-                  verticalRadius: 15,
-                  child: pw.Transform.scale(
-                    scale: 1.0,
-                    child: pw.Image(
-                      pw.MemoryImage(previousImage),
-                      fit: pw.BoxFit.fill,
+              previousImage != null
+                  ? pw.Container(
+                      height: context.page.pageFormat.height * 0.3,
+                      child: pw.ClipRRect(
+                        horizontalRadius: 15,
+                        verticalRadius: 15,
+                        child: pw.Transform.scale(
+                          scale: 1.0,
+                          child: pw.Image(
+                            pw.MemoryImage(previousImage),
+                            fit: pw.BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                    )
+                  : pw.ClipRRect(
+                      horizontalRadius: 15,
+                      verticalRadius: 15,
+                      child: pw.Container(
+                        height: context.page.pageFormat.height * 0.3,
+                        color: PdfColor.fromInt(0xFFF6F6F6),
+                        child: pw.Center(
+                          child: pw.Text(
+                            "No Image Available",
+                            style: pw.TextStyle(
+                              color: PdfColor.fromInt(0xFF475467),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
               pw.SizedBox(height: 5),
-              pw.Row(mainAxisAlignment: pw.MainAxisAlignment.start, children: [
-                pw.Text("Image of "),
-                pw.Text(
-                  previousDate,
-                  style: pw.TextStyle(
-                      fontWeight: pw.FontWeight.bold, fontSize: 12),
-                ),
-              ]),
+              previousImage != null
+                  ? pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.start,
+                      children: [
+                          pw.Text("Image of "),
+                          pw.Text(
+                            previousDate,
+                            style: pw.TextStyle(
+                                fontWeight: pw.FontWeight.bold, fontSize: 12),
+                          ),
+                        ])
+                  : pw.SizedBox(),
 
               pw.SizedBox(height: 15),
-              pw.Container(
-                height: context.page.pageFormat.height * 0.3,
-                child: pw.ClipRRect(
-                  horizontalRadius: 15,
-                  verticalRadius: 15,
-                  child: pw.Transform.scale(
-                    scale: 1.0,
-                    child: pw.Image(
-                      pw.MemoryImage(currentImage),
-                      fit: pw.BoxFit.fill,
+              currentImage != null
+                  ? pw.Container(
+                      height: context.page.pageFormat.height * 0.3,
+                      child: pw.ClipRRect(
+                        horizontalRadius: 15,
+                        verticalRadius: 15,
+                        child: pw.Transform.scale(
+                          scale: 1.0,
+                          child: pw.Image(
+                            pw.MemoryImage(currentImage),
+                            fit: pw.BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                    )
+                  : pw.ClipRRect(
+                      horizontalRadius: 15,
+                      verticalRadius: 15,
+                      child: pw.Container(
+                        height: context.page.pageFormat.height * 0.3,
+                        color: PdfColor.fromInt(0xFFF6F6F6),
+                        child: pw.Center(
+                            child: pw.Text(
+                          "No Image Available",
+                          style: pw.TextStyle(
+                            color: PdfColor.fromInt(0xFF475467),
+                          ),
+                        )),
+                      ),
                     ),
-                  ),
-                ),
-              ),
               pw.SizedBox(height: 5),
-              pw.Row(mainAxisAlignment: pw.MainAxisAlignment.start, children: [
-                pw.Text("Image of "),
-                pw.Text(
-                  currentDate,
-                  style: pw.TextStyle(
-                      fontWeight: pw.FontWeight.bold, fontSize: 12),
-                ),
-              ]),
+              currentImage != null
+                  ? pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.start,
+                      children: [
+                          pw.Text("Image of "),
+                          pw.Text(
+                            currentDate,
+                            style: pw.TextStyle(
+                                fontWeight: pw.FontWeight.bold, fontSize: 12),
+                          ),
+                        ])
+                  : pw.SizedBox(),
+
               pw.SizedBox(height: 15),
 
               // Footer
@@ -429,22 +473,24 @@ class _InstantReportTabviewState
                     value.fold((failure) {
                       dev.log("errorrrrrr");
                     }, (res) async {
-                      dev.log("response data" +
-                          res['previousImage']['datetime'].toString());
-                      final previousDate = getDate(
-                          res['previousImage']['datetime'],
-                          "hh:mm a . dd MMM yyyy");
-                      final currentDate = getDate(
-                          res['currentImage']['datetime'],
-                          "hh:mm a . dd MMM yyyy");
+                      final previousDate = res['previousImage'] != null
+                          ? getDate(res['previousImage']['datetime'],
+                              "hh:mm a . dd MMM yyyy")
+                          : null;
+                      final previousImageUrl = res['previousImage'] != null
+                          ? res['previousImage']['url']
+                          : null;
+
+                      final currentDate = res['currentImage'] != null
+                          ? getDate(res['currentImage']['datetime'],
+                              "hh:mm a . dd MMM yyyy")
+                          : null;
+                      final currentImageUrl = res['currentImage'] != null
+                          ? res['currentImage']['url']
+                          : null;
                       dev.log("response data" + previousDate.toString());
-                      await generatePdf(
-                          res['previousImage']['url'],
-                          res['currentImage']['url'],
-                          userLogo!,
-                          user!['name'],
-                          previousDate,
-                          currentDate);
+                      await generatePdf(previousImageUrl, currentImageUrl,
+                          userLogo!, user!['name'], previousDate, currentDate);
 
                       Utils.toastSuccessMessage(
                           "Report generated successfully", context);
@@ -474,10 +520,8 @@ class _InstantReportTabviewState
               topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r)),
           color: Colors.white,
         ),
-        height: 460.h,
         width: MediaQuery.of(context).size.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Wrap(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -7,6 +7,7 @@ import 'package:fpdart/src/either.dart';
 import 'package:progresscenter_app_v4/src/core/network/dio_exception.dart';
 import 'package:progresscenter_app_v4/src/core/network/failure.dart';
 import 'package:progresscenter_app_v4/src/feature/reports/data/datasource/reports_datasource.dart';
+import 'package:progresscenter_app_v4/src/feature/reports/data/models/scheduled_report_model.dart';
 import 'package:progresscenter_app_v4/src/feature/reports/domain/reports_repository.dart';
 
 final reportsProvider = Provider.autoDispose<ReportsRepositoryImpl>(
@@ -40,13 +41,30 @@ class ReportsRepositoryImpl implements ReportsRepository {
   }
 
   @override
-  Future<Either<Failure, dynamic>> scheduledReport(
+  Future<Either<Failure, dynamic>> scheduleReport(
       String projectId, String cameraId, data) async {
     try {
       final result =
-          await reportsDataSource.scheduledReport(projectId, cameraId, data);
+          await reportsDataSource.scheduleReport(projectId, cameraId, data);
 
       return Right(result);
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e);
+      log(errorMessage.toString());
+      rethrow;
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ScheduledReportModel>> getScheduledReport(
+      String projectId, String cameraId) async {
+    try {
+      final result =
+          await reportsDataSource.getScheduledReport(projectId, cameraId);
+
+      return Right(ScheduledReportModel.fromJson(result));
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
       log(errorMessage.toString());

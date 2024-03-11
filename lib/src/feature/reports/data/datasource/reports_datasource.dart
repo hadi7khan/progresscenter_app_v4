@@ -11,7 +11,8 @@ final reportsDataSourceProvider =
 
 abstract class ReportsDataSource {
   Future generateReport(String projectId, String cameraId, data);
-  Future scheduledReport(String projectId, String cameraId, data);
+  Future scheduleReport(String projectId, String cameraId, data);
+  Future getScheduledReport(String projectId, String cameraId);
 }
 
 class ReportsDataSourceImpl implements ReportsDataSource {
@@ -32,9 +33,20 @@ class ReportsDataSourceImpl implements ReportsDataSource {
   }
 
   @override
-  Future scheduledReport(String projectId, String cameraId, data) async {
+  Future scheduleReport(String projectId, String cameraId, data) async {
     final response = await dioClient
         .post(Endpoints.scheduledReportUrl(projectId, cameraId), data: data);
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      return ServerException();
+    }
+  }
+
+  @override
+  Future getScheduledReport(String projectId, String cameraId) async {
+    final response =
+        await dioClient.get(Endpoints.scheduledReportUrl(projectId, cameraId));
     if (response.statusCode == 200) {
       return response.data;
     } else {
