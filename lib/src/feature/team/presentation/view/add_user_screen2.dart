@@ -12,8 +12,7 @@ import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dar
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
-// import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_lean_model.dart'
-//     as model;
+
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart'
     as model;
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_lean_controller.dart';
@@ -31,13 +30,13 @@ class AddUserScreen2 extends ConsumerStatefulWidget {
 
 class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
   TextEditingController _teamsController = TextEditingController();
-  String _roleSelected = "";
+
   List<DropdownMenuItem<String>> timezoneList = [];
   String? _selectedTimezone;
   List<String> _teamList = [];
   List<String> _selectedTeams = [];
   ProjectHierarchySelection? projectHierarchySelection;
-  bool _check = false;
+
   Map<String, bool> switchValues = {};
   List<String> selectedIds = [];
   bool isExpanded = false;
@@ -52,7 +51,6 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
         _teamList = teams;
       });
     });
-    print("data received in screen 2" + widget.data.toString());
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref.read(projectleanControllerProvider.notifier).getProjectLean();
     });
@@ -78,7 +76,6 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
           .map((project) {
         Widget mainListTile = ListTile(
           horizontalTitleGap: 8.w,
-          // dense: true,
           visualDensity: VisualDensity(horizontal: 0, vertical: -4),
           contentPadding: EdgeInsets.zero,
           leading: project.coverImageUrl != null
@@ -139,13 +136,6 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
                 });
                 var values =
                     projectHierarchySelection!.changeSelected(project, value);
-
-                // if (value) {
-
-                //   print("valueeessss" + values.toString());
-                //   print("selected ids" +
-                //       projectHierarchySelection!.selectedIds.toString());
-                // } else {}
               }),
         );
 
@@ -232,19 +222,15 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
                       EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
                   child: projectData.when(
                     data: (data) {
-                      // Update the projects in ProjectHierarchySelection
                       projectHierarchySelection = ProjectHierarchySelection(
                         projects: data,
                         selectedIds: selectedIds,
                         onSelectedIdsChange: (ids) {
-                          // Handle selected IDs change if needed
                           setState(() {
                             selectedIds = ids;
                           });
                         },
                       );
-                      print("data populated-----------------" +
-                          projectHierarchySelection!.projects.toString());
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -316,8 +302,6 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
                                     ));
                               },
                               onSuggestionSelected: (team) {
-                                // Do something with the selected user
-                                // print('Selected user: ${user.email}');
                                 setState(() {
                                   _selectedTeams.add(team.toString());
                                   _teamsController.clear();
@@ -380,7 +364,6 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
                               onChanged: (value) {
                                 setState(() {
                                   _selectedTimezone = value;
-                                  print(_selectedTimezone.toString());
                                 });
                               },
                             ),
@@ -446,31 +429,23 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
                   ),
                   TextButton(
                     onPressed: () async {
-                      print(widget.data.runtimeType);
                       Map<String, dynamic> data = {
                         ...widget.data,
                         "tags": _selectedTeams,
                         "projects": selectedIds,
                         "preferences": {"timezone": _selectedTimezone}
                       };
-                      print(data.toString());
                       if (_fbKey.currentState!.saveAndValidate()) {
                         await ref
                             .watch(createUserProvider.notifier)
                             .createUser(data)
                             .then((value) async {
                           value.fold((failure) {
-                            print("errorrrrrr");
                             Utils.flushBarErrorMessage(
                                 "Something went wrong", context);
-                          }, (res) {
-                            // ref
-                            //     .watch(docsControllerProvider.notifier)
-                            //     .getDocs();
-                          });
+                          }, (res) {});
                           Utils.toastSuccessMessage("User created", context);
                         });
-                        // context.pop();
                       }
                     },
                     style: TextButton.styleFrom(

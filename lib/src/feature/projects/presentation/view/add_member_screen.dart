@@ -14,7 +14,6 @@ import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/invite_members_controller.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/userlean_controller.dart';
 
 class AddMemberScreen extends ConsumerStatefulWidget {
   final String projectId;
@@ -25,12 +24,11 @@ class AddMemberScreen extends ConsumerStatefulWidget {
 }
 
 class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _teamsController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _teamsController = TextEditingController();
   bool _changeState = false;
   GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   FocusNode focusNode = FocusNode();
-  FocusNode dropdownNode = FocusNode();
   bool _validate = false;
   bool _isSelected = false;
   List<UserLeanModel> _myCustomList = [];
@@ -81,9 +79,6 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final userleanData =
-        ref.watch(userleanControllerProvider.select((value) => value.userlean));
-
     return GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -133,34 +128,6 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.start,
-                    //   mainAxisSize: MainAxisSize.max,
-                    //   children: [
-                    //     Container(
-                    //       height: 24.h,
-                    //       child: IconButton(
-                    //         padding: EdgeInsets.zero,
-                    //         alignment: Alignment.centerLeft,
-                    //         icon: Icon(
-                    //           Icons.arrow_back,
-                    //         ),
-                    //         onPressed: () => context.pop(),
-                    //       ),
-                    //     ),
-                    //     SizedBox(width: 8.w),
-                    //     Center(
-                    //       child: Text(
-                    //         "Add member",
-                    //         style: TextStyle(
-                    //             color: Helper.baseBlack,
-                    //             fontSize: 18.sp,
-                    //             fontWeight: FontWeight.w500),
-                    //       ),
-                    //     )
-                    //   ],
-                    // ),
-                    // SizedBox(height: 24.h),
                     Text(
                       "Email",
                       style: TextStyle(
@@ -201,7 +168,6 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                                   ),
                                 )
                               : SizedBox(),
-                          // hintText: widget.control.label,
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.r),
                             borderSide: BorderSide(color: Helper.textColor300),
@@ -290,8 +256,6 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                         );
                       },
                       onSuggestionSelected: (UserLeanModel user) {
-                        // Do something with the selected user
-                        // print('Selected user: ${user.email}');
                         setState(() {
                           _emailController.text = user.email!;
                         });
@@ -310,13 +274,11 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                           fontWeight: FontWeight.w500),
                     ),
                     SizedBox(height: 6.h),
-
                     FormBuilderDropdown(
                       name: "roles",
                       dropdownColor: Colors.white,
                       icon: SizedBox(),
                       decoration: InputDecoration(
-                        // labelText: 'Training',
                         hintText: "Select roles",
                         hintStyle: TextStyle(
                           letterSpacing: -0.3,
@@ -452,8 +414,6 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                             ));
                       },
                       onSuggestionSelected: (team) {
-                        // Do something with the selected user
-                        // print('Selected user: ${user.email}');
                         setState(() {
                           _selectedTeams.add(team.toString());
                           _teamsController.clear();
@@ -519,9 +479,6 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                           if (_fbKey.currentState!.saveAndValidate() &&
                               _selectedTeams.isNotEmpty &&
                               _emailController.text.isNotEmpty) {
-                            // context.push('/password', extra: {
-                            //   "email": _controller.text.trim().toLowerCase()
-                            // });
                             setState(() {
                               _isLoading = true;
                             });
@@ -538,9 +495,6 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                               value.fold((failure) {
                                 print("errorrrrrr");
                               }, (data) {
-                                // final token = data['token'];
-                                // context.push('/verifyEmail',
-                                //     extra: {"token": token});
                                 context.pop();
                                 Utils.toastSuccessMessage(
                                     "Member Added", context);
@@ -550,15 +504,6 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                                 _isLoading = false;
                               });
                             });
-                            // .onError((error, stackTrace) {
-                            //   Utils.flushBarErrorMessage(
-                            //       "Error", context);
-                            //   setState(() {
-                            //     isLoading = false;
-                            //   });
-                            // });
-                            // _showBottomSheet(
-                            //     context, _emailController.text, selectedTeams);
                           }
                         },
                       ),
@@ -569,163 +514,5 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
             ),
           )),
         ));
-  }
-
-  _showBottomSheet(context, email, teams) {
-    return showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) => BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16.r),
-                    topRight: Radius.circular(16.r)),
-                color: Colors.white,
-              ),
-              height: 340.h,
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Upload Media',
-                        style: TextStyle(
-                            letterSpacing: -0.3,
-                            color: Helper.baseBlack,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20.h),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10.w),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            color: _isSelected
-                                ? Helper.widgetBackground
-                                : Colors.white),
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          onTap: () {
-                            setState(() {
-                              _isSelected = true;
-                            });
-                          },
-                          leading: Text(
-                            'Admin',
-                            style: TextStyle(
-                                letterSpacing: -0.3,
-                                color: Helper.baseBlack,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          trailing: SvgPicture.asset('assets/images/check.svg'),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10.w),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            color: _isSelected
-                                ? Helper.widgetBackground
-                                : Colors.white),
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          selectedTileColor: Helper.widgetBackground,
-                          tileColor: Colors.white,
-                          onTap: () {
-                            setState(() {
-                              _isSelected = true;
-                            });
-                          },
-                          leading: Text(
-                            'Viewer',
-                            style: TextStyle(
-                                letterSpacing: -0.3,
-                                color: Helper.baseBlack,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          trailing: SvgPicture.asset('assets/images/check.svg'),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10.w),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            color: _isSelected
-                                ? Helper.widgetBackground
-                                : Colors.white),
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          selectedTileColor: Helper.widgetBackground,
-                          tileColor: Colors.white,
-                          onTap: () {
-                            setState(() {
-                              _isSelected = true;
-                            });
-                          },
-                          leading: Text(
-                            'Editor',
-                            style: TextStyle(
-                                letterSpacing: -0.3,
-                                color: Helper.baseBlack,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          trailing: SvgPicture.asset('assets/images/check.svg'),
-                        ),
-                      ),
-                      SizedBox(height: 20.h),
-                      Container(
-                        height: 52.h,
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          child: Text(
-                            "Invite",
-                            style: TextStyle(
-                                letterSpacing: -0.3,
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500),
-                            // currentIndex == contents.length - 1 ? "Continue" : "Next"
-                          ),
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStatePropertyAll(
-                                  ref.watch(primaryColorProvider)),
-                              shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                ),
-                              )),
-                          onPressed: () {
-                            context.pop();
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
   }
 }

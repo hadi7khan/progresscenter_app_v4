@@ -1,6 +1,6 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:country_code_picker/country_code_picker.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,7 +41,6 @@ class _AddUserScreenState extends BaseConsumerState<AddUserScreen> {
   void initState() {
     super.initState();
     initializeTimezone();
-    // populateTimezones();
   }
 
   Future<void> initializeTimezone() async {
@@ -98,8 +97,6 @@ class _AddUserScreenState extends BaseConsumerState<AddUserScreen> {
                       formField: FormBuilderTextField(
                         name: '_name',
                         controller: _nameController,
-                        // focusNode: focusNode,
-
                         validator: (val) {
                           if (val == null || val.isEmpty) {
                             return 'Name is required';
@@ -181,7 +178,6 @@ class _AddUserScreenState extends BaseConsumerState<AddUserScreen> {
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
                           ),
-                          // hintText: widget.control.label,
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.r),
                             borderSide: BorderSide(color: Helper.textColor300),
@@ -312,8 +308,6 @@ class _AddUserScreenState extends BaseConsumerState<AddUserScreen> {
                                 _countryCode = countryCode.code!;
                                 print(_countryCode.toString());
                               },
-                              // initialSelection: countryDialCode,
-                              // favorite: [countryDialCode!],
                               showDropDownButton: true,
                               padding: EdgeInsets.zero,
                               showFlagMain: true,
@@ -341,14 +335,6 @@ class _AddUserScreenState extends BaseConsumerState<AddUserScreen> {
                       formField: FormBuilderTextField(
                         name: 'designation',
                         controller: _designationController,
-                        // focusNode: focusNode,
-
-                        // validator: (val) {
-                        //   if (val == null || val.isEmpty) {
-                        //     return 'Designation is required';
-                        //   }
-                        //   return null;
-                        // },
                         textInputAction: TextInputAction.done,
                         style: TextStyle(
                           letterSpacing: -0.3,

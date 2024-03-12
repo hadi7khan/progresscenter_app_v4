@@ -1,10 +1,4 @@
-import 'dart:async';
-import 'dart:ui';
-
 import 'package:blurrycontainer/blurrycontainer.dart';
-import 'package:calendar_date_picker2/calendar_date_picker2.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,23 +6,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_app_bar.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_cam_details.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
-import 'package:progresscenter_app_v4/src/feature/bottom_navigation/view/camera_view_bottom_nav.dart';
 import 'package:progresscenter_app_v4/src/feature/camera/presentation/provider/camera_controller.dart';
-import 'package:progresscenter_app_v4/src/feature/camera_details/data/model/images_by_camera_id_model.dart'
-    as model;
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/camera_by_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/images_by_cam_id_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/images_controller_watcher.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/landscape_camera_details_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/widgets/bottom_nav_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/widgets/camera_bottomsheet_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/widgets/cameras_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/widgets/carousel_widget.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/widgets/date_picker_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/widgets/date_slider_widget.dart';
 import 'dart:developer';
 
@@ -54,9 +46,7 @@ class CameraDetailsSreen extends ConsumerStatefulWidget {
 class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     with SingleTickerProviderStateMixin {
   List<DateTime> daysInMonth = [];
-  String _selectedDate = '';
-  String _searchDate = '';
-  DateTime currentMonth = DateTime.now();
+  final String _searchDate = '';
   String showMonth = "JAN";
   bool showBottomBar = true;
 
@@ -276,7 +266,11 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
             child: Consumer(builder: (context, ref, child) {
               return imagesByCameraIdData.when(
                   data: (imagesData) {
+                    // if (imagesData.images!.isEmpty) {
+                    //   showBottomBar = false;
+                    // } else {
                     showBottomBar = true;
+                    // }
 
                     return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -312,7 +306,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                   ),
                                 )
                               : Stack(children: [
-                                  Container(
+                                  SizedBox(
                                     height: MediaQuery.of(context).size.height -
                                         (Scaffold.of(context)
                                                 .appBarMaxHeight!
@@ -337,47 +331,72 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                     ),
                                   ),
                                   BlurryContainer(
-                                      blur: 30,
-                                      height:
-                                          MediaQuery.of(context).size.height -
-                                              (Scaffold.of(context)
-                                                      .appBarMaxHeight!
-                                                      .toDouble() +
-                                                  kBottomNavigationBarHeight +
-                                                  184.h),
-                                      padding: EdgeInsets.zero,
-                                      borderRadius: BorderRadius.zero,
-                                      child: CarouselWidget(
-                                          imagesByCameraIdInter:
-                                              imagesByCameraIdInter,
-                                          currentImage: currentImage,
-                                          onChange: (value) {
-                                            Scrollable.ensureVisible(
-                                                GlobalObjectKey(
-                                                  value.id.toString(),
-                                                ).currentContext!,
-                                                alignment: 0.1);
-                                            ref
-                                                .read(currentImageProvider
-                                                    .notifier)
-                                                .setCurrentImage(value);
-                                          })),
+                                    blur: 30,
+                                    height: MediaQuery.of(context).size.height -
+                                        (Scaffold.of(context)
+                                                .appBarMaxHeight!
+                                                .toDouble() +
+                                            kBottomNavigationBarHeight +
+                                            184.h),
+                                    padding: EdgeInsets.zero,
+                                    borderRadius: BorderRadius.zero,
+                                    child: CarouselWidget(
+                                        imagesByCameraIdInter:
+                                            imagesByCameraIdInter,
+                                        currentImage: currentImage,
+                                        onChange: (value) {
+                                          Scrollable.ensureVisible(
+                                              GlobalObjectKey(
+                                                value.id.toString(),
+                                              ).currentContext!,
+                                              alignment: 0.1);
+                                          ref
+                                              .read(
+                                                  currentImageProvider.notifier)
+                                              .setCurrentImage(value);
+                                        }),
+                                  ),
                                   Positioned(
                                     top: 16,
                                     left: 16,
                                     child: InkWell(
                                       onTap: () async {
-                                        await _showDateBottomSheet(
-                                            context,
-                                            imagesByCameraIdInter.startDate!,
-                                            imagesByCameraIdInter.endDate!,
-                                            _selectedDate,
-                                            widget.cameraId,
-                                            currentImage.datetime!,
-                                            widget.projectId,
-                                            ref,
-                                            currentMonth);
-                                        setState(() {});
+                                        showModalBottomSheet(
+                                            useRootNavigator: true,
+                                            isScrollControlled: true,
+                                            context: context,
+                                            backgroundColor: Colors.transparent,
+                                            builder: (context) =>
+                                                DatePickerWidget(
+                                                  startDate:
+                                                      imagesByCameraIdInter
+                                                          .startDate!,
+                                                  endDate: imagesByCameraIdInter
+                                                      .endDate!,
+                                                  showMonthText:
+                                                      currentImage.datetime!,
+                                                  onChange: (dateSelected,
+                                                      currentMonth) {
+                                                    ref
+                                                        .read(
+                                                            imagesByCamIdControllerProvider
+                                                                .notifier)
+                                                        .getImagesByCamId(
+                                                            widget.projectId,
+                                                            widget.cameraId,
+                                                            searchDate:
+                                                                dateSelected);
+
+                                                    context.pop();
+                                                    setState(() {
+                                                      getDaysInMonth(
+                                                          currentMonth, false);
+                                                      showDate(currentImage
+                                                          .datetime!);
+                                                      showBottomBar = true;
+                                                    });
+                                                  },
+                                                ));
                                       },
                                       child: BlurryContainer(
                                           blur: 3,
@@ -456,18 +475,21 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                     ),
                                   ),
                                 ]),
-                          SizedBox(
-                            height: 76.h,
-                            child: ImageSliderWidget(
-                              imagesByCameraIdInter: imagesByCameraIdInter,
-                              currentImage: currentImage!,
-                              onChange: (value) {
-                                ref
-                                    .read(currentImageProvider.notifier)
-                                    .setCurrentImage(value);
-                              },
-                            ),
-                          ),
+                          imagesData.images!.isNotEmpty
+                              ? SizedBox(
+                                  height: 76.h,
+                                  child: ImageSliderWidget(
+                                    imagesByCameraIdInter:
+                                        imagesByCameraIdInter,
+                                    currentImage: currentImage!,
+                                    onChange: (value) {
+                                      ref
+                                          .read(currentImageProvider.notifier)
+                                          .setCurrentImage(value);
+                                    },
+                                  ),
+                                )
+                              : SizedBox(height: 76.h),
                           SizedBox(
                             height: 74.h,
                             child: Row(
@@ -475,17 +497,40 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                               children: [
                                 InkWell(
                                   onTap: () async {
-                                    await _showDateBottomSheet(
-                                        context,
-                                        imagesByCameraIdInter.startDate!,
-                                        imagesByCameraIdInter.endDate!,
-                                        _selectedDate,
-                                        widget.cameraId,
-                                        currentImage!.datetime!,
-                                        widget.projectId,
-                                        ref,
-                                        currentMonth);
-                                    setState(() {});
+                                    showModalBottomSheet(
+                                        useRootNavigator: true,
+                                        isScrollControlled: true,
+                                        context: context,
+                                        backgroundColor: Colors.transparent,
+                                        builder: (context) => DatePickerWidget(
+                                              startDate: imagesByCameraIdInter
+                                                  .startDate!,
+                                              endDate: imagesByCameraIdInter
+                                                  .endDate!,
+                                              showMonthText:
+                                                  currentImage.datetime!,
+                                              onChange:
+                                                  (dateSelected, currentMonth) {
+                                                ref
+                                                    .read(
+                                                        imagesByCamIdControllerProvider
+                                                            .notifier)
+                                                    .getImagesByCamId(
+                                                        widget.projectId,
+                                                        widget.cameraId,
+                                                        searchDate:
+                                                            dateSelected);
+
+                                                context.pop();
+                                                setState(() {
+                                                  getDaysInMonth(
+                                                      currentMonth, false);
+                                                  showDate(
+                                                      currentImage.datetime!);
+                                                  showBottomBar = true;
+                                                });
+                                              },
+                                            ));
                                   },
                                   child: Container(
                                       padding: EdgeInsets.symmetric(
@@ -534,213 +579,15 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
         ),
       ),
       bottomNavigationBar: showBottomBar
-          ? SafeArea(
-              child: Container(
-                // padding: EdgeInsets.only(bottom: Platform.isIOS ? 50.h : 0.h),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                  border: Border(
-                    top: BorderSide(
-                        color: Colors.white.withOpacity(0.2), width: 0.5),
-                  ),
-                ),
-                height: 50.h,
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          HapticFeedback.mediumImpact();
-                          context.push('/livelapse', extra: {
-                            "projectId": widget.projectId,
-                            "projectName": widget.projectName,
-                            "cameraId": widget.cameraId
-                          });
-                        },
-                        child: IconBottomBar(
-                          icon: 'assets/images/video-recorder.svg',
-                          selected: true,
-                          text: 'LiveLapse',
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          HapticFeedback.mediumImpact();
-                          context.push('/slider', extra: {
-                            "projectId": widget.projectId,
-                            "projectName": widget.projectName,
-                            "cameraId": widget.cameraId
-                          });
-                        },
-                        child: IconBottomBar(
-                          icon: 'assets/images/sliders.svg',
-                          selected: true,
-                          text: 'Slider',
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          HapticFeedback.mediumImpact();
-                          context.push('/compare', extra: {
-                            "projectId": widget.projectId,
-                            "projectName": widget.projectName,
-                            "cameraId": widget.cameraId
-                          });
-                        },
-                        child: IconBottomBar(
-                          icon: 'assets/images/rows.svg',
-                          selected: true,
-                          text: 'Compare',
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          HapticFeedback.mediumImpact();
-                          context.push('/splitview', extra: {
-                            "projectId": widget.projectId,
-                            "projectName": widget.projectName,
-                            "cameraId": widget.cameraId
-                          });
-                        },
-                        child: IconBottomBar(
-                          icon: 'assets/images/layout-left.svg',
-                          selected: true,
-                          text: 'Split View',
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          HapticFeedback.mediumImpact();
-                          context.push('/report', extra: {
-                            "projectId": widget.projectId,
-                            "projectName": widget.projectName,
-                            "cameraId": widget.cameraId,
-                            "startDate": imagesByCameraIdInter.startDate!,
-                            "endDate": imagesByCameraIdInter.endDate!,
-                            "cameraName": widget.cameraName,
-                          });
-                        },
-                        child: IconBottomBar(
-                          icon: 'assets/images/file-download.svg',
-                          selected: true,
-                          text: 'Report',
-                        ),
-                      )
-                    ]),
-              ),
+          ? BottomNavWidget(
+              projectId: widget.projectId,
+              projectName: widget.projectName,
+              cameraId: widget.cameraId,
+              endDate: imagesByCameraIdInter.endDate!,
+              startDate: imagesByCameraIdInter.startDate!,
+              cameraName: widget.cameraName,
             )
           : SizedBox(),
-    );
-  }
-
-  _showDateBottomSheet(
-      context,
-      String startDate,
-      String endDate,
-      String selectedDate,
-      String cameraId,
-      String showMonthText,
-      String projectId,
-      WidgetRef ref,
-      DateTime currentMonth) {
-    return showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Wrap(children: [
-        StatefulBuilder(builder: (context, StateSetter modalState) {
-          // bottomSheetState = modalState;
-          return Container(
-            padding: EdgeInsets.only(top: 28.h, left: 20.w, right: 20.w),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16.r),
-                  topRight: Radius.circular(16.r)),
-              color: Colors.white,
-            ),
-            // height: MediaQuery.of(context).size.height * 1.6,
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Select Date',
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Helper.baseBlack,
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
-                CalendarDatePicker2(
-                  config: CalendarDatePicker2Config(
-                    lastDate: DateTime.parse(endDate),
-                    firstDate: DateTime.parse(startDate),
-                    selectedDayHighlightColor: ref.watch(primaryColorProvider),
-                  ),
-                  value: [],
-                  onValueChanged: (value) {
-                    print(value.toString());
-                    DateTime date = DateTime.parse(value[0].toString());
-                    selectedDate = DateFormat("yyyyMMdd").format(date);
-                    print("selectedDate " + selectedDate);
-                    log("value0 " + value[0]!.toString());
-                    currentMonth = value[0]!;
-                    log("currentMonth" + currentMonth.toString());
-                  },
-                ),
-                // SizedBox(height: 20.h),
-                Container(
-                  height: 52.h,
-                  width: double.infinity,
-                  margin: EdgeInsets.only(bottom: 10.h),
-                  child: ElevatedButton(
-                    child: Text(
-                      "Done",
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500),
-                      // currentIndex == contents.length - 1 ? "Continue" : "Next"
-                    ),
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(
-                            ref.watch(primaryColorProvider)),
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                        )),
-                    onPressed: () {
-                      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                        ref
-                            .read(imagesByCamIdControllerProvider.notifier)
-                            .getImagesByCamId(projectId, cameraId,
-                                searchDate: selectedDate);
-                      });
-
-                      context.pop();
-                      setState(() {
-                        getDaysInMonth(currentMonth, false);
-                        showDate(showMonthText);
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
-          );
-        }),
-      ]),
     );
   }
 }

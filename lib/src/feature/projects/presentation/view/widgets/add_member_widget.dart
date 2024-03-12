@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -17,9 +16,8 @@ class AddMemberWidget extends ConsumerStatefulWidget {
 }
 
 class _AddMemberWidgetState extends BaseConsumerState<AddMemberWidget> {
-  TextEditingController _emailController = TextEditingController();
-  bool _changeState = false;
-  GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+  final TextEditingController _emailController = TextEditingController();
+
   List<UserLeanModel> _myCustomList = [];
   bool _userExists = false;
 
@@ -31,18 +29,6 @@ class _AddMemberWidgetState extends BaseConsumerState<AddMemberWidget> {
         _myCustomList = users;
       });
     });
-    // Service().fetchTeamList().then((teams) {
-    //   setState(() {
-    //     _teamList = teams;
-    //   });
-    // });
-    // focusNode.addListener(() {
-    //   if (!focusNode.hasFocus) {
-    //     setState(() {
-    //       _validate = true;
-    //     });
-    //   }
-    // });
   }
 
   _getColor(
@@ -102,13 +88,11 @@ class _AddMemberWidgetState extends BaseConsumerState<AddMemberWidget> {
                           onPressed: () {
                             setState(() {
                               _emailController.clear();
-                              _changeState = false;
                             });
                           },
                         ),
                       )
                     : SizedBox(),
-                // hintText: widget.control.label,
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.r),
                   borderSide: BorderSide(color: Helper.textColor300),
@@ -195,8 +179,6 @@ class _AddMemberWidgetState extends BaseConsumerState<AddMemberWidget> {
               );
             },
             onSuggestionSelected: (UserLeanModel user) {
-              // Do something with the selected user
-              // print('Selected user: ${user.email}');
               setState(() {
                 _emailController.text = user.email!;
               });

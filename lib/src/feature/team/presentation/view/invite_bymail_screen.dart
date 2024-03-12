@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,8 +13,7 @@ import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dar
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
-// import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_lean_model.dart'
-//     as model;
+
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart'
     as model;
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_lean_controller.dart';
@@ -419,8 +417,6 @@ class _InviteByMailScreenState extends BaseConsumerState<InviteByMailScreen> {
                                   ));
                             },
                             onSuggestionSelected: (team) {
-                              // Do something with the selected user
-                              // print('Selected user: ${user.email}');
                               setState(() {
                                 _selectedTeams.add(team.toString());
                                 _teamsController.clear();
@@ -524,7 +520,6 @@ class _InviteByMailScreenState extends BaseConsumerState<InviteByMailScreen> {
                   "tags": _selectedTeams,
                   "projects": selectedIds,
                 };
-                print(data.toString());
                 if (_fbKey.currentState!.saveAndValidate()) {
                   await ref
                       .watch(inviteByMailProvider.notifier)

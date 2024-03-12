@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
@@ -11,8 +10,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
@@ -40,41 +37,17 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
   FocusNode focusNode = FocusNode();
   FocusNode focusNode1 = FocusNode();
   bool _validate = false;
-  final ImagePicker _picker = ImagePicker();
-  XFile? _image;
+
   var color;
-  bool _isSelected = false;
   double _progress = 0.0;
-  PersistentBottomSheetController? _bottomSheetController;
   List<Map<String, String>> imageUrls = [];
 
   double calculateProgress(double sentBytes) {
-    print("sentBytes--------------" + sentBytes.toString());
     setState(() {
       _progress = sentBytes;
     });
     log("ppppp" + _progress.toString());
     return sentBytes;
-  }
-
-  Future _pickImage(ImageSource source) async {
-    final pickedFile = await _picker.pickImage(
-      source: source,
-      maxWidth: 1024,
-      maxHeight: 1024,
-      imageQuality: 80,
-    );
-
-    if (pickedFile != null) {
-      final file = XFile(pickedFile.path);
-      if (await file.length() > 1000000) {
-        // The file is too large, show an error message
-        return;
-      }
-      setState(() {
-        _image = file;
-      });
-    }
   }
 
   @override
@@ -102,25 +75,6 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
         });
       }
     });
-  }
-
-// method to get background color of avatar
-  _getColor(
-    String color,
-  ) {
-    color = "0xFF" + color.replaceAll("#", "");
-    return Color(int.parse(color));
-  }
-
-//method to get initials of name passed
-  _getNameInitials(String name) {
-    var buffer = StringBuffer();
-    var split = name.split(' ');
-    for (var i = 0; i < 1; i++) {
-      buffer.write(split[i][0]);
-    }
-
-    return buffer.toString();
   }
 
 //method to show carousels
@@ -156,7 +110,6 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
     if (carouselChildren.length < 4) {
       carouselChildren.add(InkWell(
         onTap: () {
-          // _showBottomSheet(context, widget.data.id!, _progress);
           if (Platform.isIOS) {
             showCupertinoModalPopup(
                 context: context,
@@ -199,8 +152,6 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
           radius: Radius.circular(12.r),
           dashPattern: [6, 6],
           child: Container(
-              // height: 90.h,
-              // width: double.infinity,
               decoration: BoxDecoration(
                   color: Helper.widgetBackground,
                   borderRadius: BorderRadius.circular(12.r)),
@@ -356,7 +307,6 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
                                 ),
                               )
                             : SizedBox(),
-                        // hintText: widget.control.label,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.r),
                           borderSide: BorderSide(color: Helper.textColor300),
@@ -390,7 +340,6 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
                       name: 'location',
                       controller: _locationController,
                       focusNode: focusNode1,
-                      // initialValue: widget.data.location!.name,
                       onChanged: (text) {
                         setState(() {});
                         _changeStateLocation = true;
@@ -442,7 +391,6 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
                                 ),
                               )
                             : SizedBox(),
-                        // hintText: widget.control.label,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.r),
                           borderSide: BorderSide(color: Helper.textColor300),
@@ -490,471 +438,7 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
     );
   }
 
-  _showBottomSheet(context, id, progress) {
-    if (Platform.isIOS) {
-      return showCupertinoModalPopup(
-        context: context,
-        builder: (context) => StatefulBuilder(
-          builder: (context, setState) {
-            return CupertinoActionSheet(
-              title: const Text('Upload Media'),
-              // message: const Text('Message'),
-              actions: <CupertinoActionSheetAction>[
-                CupertinoActionSheetAction(
-                  child: Row(children: [
-                    Icon(
-                      CupertinoIcons.camera,
-                      color: Helper.primary,
-                    ),
-                    SizedBox(
-                      width: 20.w,
-                    ),
-                    Text(
-                      'Camera',
-                      style: TextStyle(color: Helper.primary),
-                    ),
-                  ]),
-                  onPressed: () {
-                    _pickImage(ImageSource.camera).then((value) async {
-                      await Service()
-                          .uploadPhoto(
-                              widget.data.id!, _image!.path, calculateProgress)
-                          .then((value) {
-                        setState(() {
-                          _progress = progress;
-                          print("progress" + _progress.toString());
-                        });
-                        log("value" + value.toString());
-                        context.pop();
-                        Utils.toastSuccessMessage("Image Uploaded", context);
-                      });
-                    });
-                  },
-                ),
-                CupertinoActionSheetAction(
-                  child: Row(
-                    children: [
-                      Icon(
-                        CupertinoIcons.photo,
-                        color: Helper.primary,
-                      ),
-                      SizedBox(
-                        width: 20.w,
-                      ),
-                      Text(
-                        'Choose Photo',
-                        style: TextStyle(color: Helper.primary),
-                      ),
-                    ],
-                  ),
-                  onPressed: () {
-                    _pickImage(ImageSource.gallery).then((value) async {
-                      await Service()
-                          .uploadPhoto(
-                              widget.data.id!, _image!.path, calculateProgress)
-                          .then((value) {
-                        log("imageUrls before" + imageUrls.toString());
-                        imageUrls = [];
-                        log("value" + value.toString());
-                        setState(() {
-                          imageUrls.addAll(value);
-                        });
-
-                        log("imageUrls after" + imageUrls.toString());
-                        context.pop();
-                        Utils.toastSuccessMessage("Image Uploaded", context);
-                      });
-
-                      // setState(() {
-                      //   _progress = progress;
-                      //   print("progress" + _progress.toString());
-                      // });
-                    });
-                  },
-                ),
-                CupertinoActionSheetAction(
-                  child: Row(
-                    children: [
-                      Icon(
-                        CupertinoIcons.doc,
-                        color: Helper.primary,
-                      ),
-                      SizedBox(
-                        width: 20.w,
-                      ),
-                      Text(
-                        'Browse from files',
-                        style: TextStyle(color: Helper.primary),
-                      ),
-                    ],
-                  ),
-                  onPressed: () {
-                    _pickImage(ImageSource.gallery).then((value) async {
-                      await Service()
-                          .uploadPhoto(
-                              widget.data.id!, _image!.path, calculateProgress)
-                          .then((value) {
-                        setState(() {
-                          _progress = progress;
-                          print("progress" + _progress.toString());
-                        });
-                        print("progress" + _progress.toString());
-                        context.pop();
-                        Utils.toastSuccessMessage("Image Uploaded", context);
-                      });
-                    });
-                  },
-                ),
-              ],
-              cancelButton: CupertinoActionSheetAction(
-                child: Text(
-                  'Cancel',
-                  style: TextStyle(color: Helper.errorColor),
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            );
-          },
-        ),
-      );
-    }
-    return showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) => BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-        child: StatefulBuilder(builder: (context, setState) {
-          return Container(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16.r),
-                  topRight: Radius.circular(16.r)),
-              color: Colors.white,
-            ),
-            height: 340.h,
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Upload Media',
-                      style: TextStyle(
-                          color: Helper.baseBlack,
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20.h),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    InkWell(
-                      onTap: () async {
-                        // calculateProgress(0);
-                        _pickImage(ImageSource.camera).then((value) async {
-                          await Service()
-                              .uploadPhoto(widget.data.id!, _image!.path,
-                                  calculateProgress)
-                              .then((value) {
-                            setState(() {
-                              _progress = progress;
-                              log("progress" + _progress.toString());
-                            });
-                            log("progress" + _progress.toString());
-                            context.pop();
-                            _showProgressBottomSheet(context);
-                            Utils.toastSuccessMessage(
-                                "Image Uploaded", context);
-                          });
-                        });
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 10.w, vertical: 16.h),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            color: Colors.white),
-                        child: Text(
-                          'Take Photo',
-                          style: TextStyle(
-                              color: Helper.baseBlack,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        context.pop();
-                        _pickImage(ImageSource.gallery).then((value) async {
-                          await await Service()
-                              .uploadPhoto(widget.data.id!, _image!.path,
-                                  calculateProgress)
-                              .then((value) {
-                            setState(() {
-                              _progress = progress;
-                              print("progress" + _progress.toString());
-                            });
-                            print("progress" + _progress.toString());
-                            // _showProgressBottomSheet(cntx);
-
-                            // context.pop();
-                            // ScaffoldMessenger.of(context).showSnackBar(
-                            //     const SnackBar(
-                            //         backgroundColor: Colors.green,
-                            //         content: Text("Image Uploaded")));
-                          });
-                          _showDeleteBottomSheet(
-                              context, "projectId", "imageId");
-                        });
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 10.w, vertical: 16.h),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            color: Colors.white),
-                        child: Text(
-                          'Choose Photo',
-                          style: TextStyle(
-                              color: Helper.baseBlack,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        _pickImage(ImageSource.gallery).then((value) async {
-                          await Service()
-                              .uploadPhoto(widget.data.id!, _image!.path,
-                                  calculateProgress)
-                              .then((value) {
-                            setState(() {
-                              _progress = progress;
-                              print("progress" + _progress.toString());
-                            });
-                            context.pop();
-                            _showProgressBottomSheet(context);
-                            Utils.toastSuccessMessage(
-                                "Image Uploaded", context);
-                          });
-                        });
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 10.w, vertical: 16.h),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            color: Colors.white),
-                        child: Text(
-                          'Browse from files',
-                          style: TextStyle(
-                              color: Helper.baseBlack,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 20.h),
-                    Container(
-                      height: 52.h,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        child: Text(
-                          "Cancel",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500),
-                          // currentIndex == contents.length - 1 ? "Continue" : "Next"
-                        ),
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStatePropertyAll(
-                                _changeState
-                                    ? ref.watch(primaryColorProvider)
-                                    : Helper.baseBlack),
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.r),
-                              ),
-                            )),
-                        onPressed: () {
-                          context.pop();
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        }),
-      ),
-    );
-  }
-
-  _showProgressBottomSheet(cntx) async {
-    _bottomSheetController =
-        await Scaffold.of(cntx).showBottomSheet((BuildContext context) {
-      return BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 28.h),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16.r),
-                topRight: Radius.circular(16.r)),
-            color: Colors.white,
-          ),
-          height: 270.h,
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Uploading Image',
-                    style: TextStyle(
-                        letterSpacing: -0.3,
-                        color: Helper.baseBlack,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20.h),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    isThreeLine: true,
-                    leading: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 6.w, vertical: 6.h),
-                      width: 32.w,
-                      height: 32.h,
-                      decoration: BoxDecoration(
-                          color: Color.fromRGBO(229, 240, 255, 1),
-                          borderRadius: BorderRadius.circular(32.r),
-                          border: Border.all(
-                              color: Color.fromRGBO(245, 249, 255, 1),
-                              width: 4.w)),
-                      child: SvgPicture.asset(
-                        'assets/images/film.svg',
-                      ),
-                    ),
-                    title: Text(
-                      "Image",
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Helper.textColor700,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            "Uploading",
-                            style: TextStyle(
-                                letterSpacing: -0.3,
-                                color: Helper.textColor600,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400),
-                          ),
-                          SizedBox(height: 10.h),
-                          Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(4.r),
-                                  child: LinearPercentIndicator(
-                                      width: 210.w,
-                                      fillColor: Helper.textColor300,
-                                      backgroundColor: Helper.textColor300,
-                                      progressColor:
-                                          ref.watch(primaryColorProvider),
-                                      padding: EdgeInsets.zero,
-                                      curve: Curves.easeInOut,
-                                      barRadius: Radius.circular(4.r),
-                                      lineHeight: 8.h,
-                                      percent: _progress),
-                                ),
-                                //             Text(
-                                //               "${(_progressBar).toInt()}%",
-                                //               style: TextStyle(
-                                // letterSpacing: -0.3,
-                                //                   color: Helper.textColor700,
-                                //                   fontSize: 14,
-                                //                   fontWeight: FontWeight.w500),
-                                //             )
-                              ])
-                        ]),
-                    trailing: calculateProgress == 100.0
-                        ? SvgPicture.asset(
-                            'assets/images/checkbox_base.svg',
-                          )
-                        : SizedBox(),
-                  ),
-                  SizedBox(height: 20.h),
-                  Container(
-                    height: 52.h,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      child: Text(
-                        "Close",
-                        style: TextStyle(
-                            letterSpacing: -0.3,
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500),
-                        // currentIndex == contents.length - 1 ? "Continue" : "Next"
-                      ),
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(Helper.baseBlack),
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.r),
-                            ),
-                          )),
-                      onPressed: () {
-                        context.pop();
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      );
-    });
-  }
-
   _showDeleteBottomSheet(context, projectId, imageId) {
-    // todo : showDialog for ios
-
     if (!Platform.isIOS) {
       return showModalBottomSheet(
         context: context,

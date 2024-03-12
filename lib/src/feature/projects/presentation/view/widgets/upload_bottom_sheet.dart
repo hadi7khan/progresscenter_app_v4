@@ -46,7 +46,6 @@ class _UploadBottomSheetState extends BaseConsumerState<UploadBottomSheet> {
     if (pickedFile != null) {
       final file = XFile(pickedFile.path);
       if (await file.length() > 1000000) {
-        // The file is too large, show an error message
         return;
       }
       setState(() {
@@ -56,11 +55,9 @@ class _UploadBottomSheetState extends BaseConsumerState<UploadBottomSheet> {
   }
 
   double calculateProgress(double sentBytes) {
-    print("sentBytes--------------" + sentBytes.toString());
     setState(() {
       _progress = sentBytes;
     });
-    log("ppppp" + _progress.toString());
     return sentBytes;
   }
 
@@ -69,7 +66,6 @@ class _UploadBottomSheetState extends BaseConsumerState<UploadBottomSheet> {
     return Platform.isIOS
         ? CupertinoActionSheet(
             title: const Text('Upload Media'),
-            // message: const Text('Message'),
             actions: <CupertinoActionSheetAction>[
               CupertinoActionSheetAction(
                 child: Row(children: [

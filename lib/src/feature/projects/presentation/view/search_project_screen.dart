@@ -114,7 +114,6 @@ class _SearchProjectScreenState extends BaseConsumerState<SearchProjectScreen> {
                   FormBuilderTextField(
                     name: 'search_project',
                     controller: _searchController,
-                    // initialValue: widget.data.projectName,
                     focusNode: _searchFocusNode,
                     onChanged: (text) {
                       setState(() {});
@@ -123,13 +122,9 @@ class _SearchProjectScreenState extends BaseConsumerState<SearchProjectScreen> {
                         setState(() {
                           searchText = text!;
                         });
-                        // ref
-                        //     .read(projectControllerProvider.notifier)
-                        //     .getProjects(searchText: searchText);
                         List<ProjectModel> _filteredProjects =
                             filterProjects(projects, searchText);
 
-                        // Update the UI with the filtered projects
                         setState(() {
                           filteredProjects = _filteredProjects;
                         });
@@ -140,12 +135,6 @@ class _SearchProjectScreenState extends BaseConsumerState<SearchProjectScreen> {
                         _changeState = true;
                       });
                     },
-                    // validator: (val) {
-                    //   if ( val == null || val!.isEmpty) {
-                    //     return 'Project name is required';
-                    //   }
-                    //   return null;
-                    // },
                     textInputAction: TextInputAction.done,
                     style: TextStyle(
                       fontSize: 16.sp,
@@ -190,7 +179,6 @@ class _SearchProjectScreenState extends BaseConsumerState<SearchProjectScreen> {
                               ),
                             )
                           : SizedBox(),
-                      // hintText: widget.control.label,
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.r),
                         borderSide: BorderSide(color: Helper.textColor300),
@@ -214,59 +202,6 @@ class _SearchProjectScreenState extends BaseConsumerState<SearchProjectScreen> {
                   SizedBox(
                     height: 24.h,
                   ),
-                  // projectData.when(
-                  //   data: (data) {
-                  //     if (data.isEmpty) {
-                  //       return Container(
-                  //         alignment: Alignment.center,
-                  //         height: MediaQuery.of(context).size.height * 0.6.h,
-                  //         child: Column(
-                  //           mainAxisAlignment: MainAxisAlignment.center,
-                  //           crossAxisAlignment: CrossAxisAlignment.center,
-                  //           children: [
-                  //             SvgPicture.asset(
-                  //                 'assets/images/illustration.svg'),
-                  //             SizedBox(height: 16.h),
-                  //             Text(
-                  //               "Oops, we couldn’t find that",
-                  //               style: TextStyle(
-                  //                   letterSpacing: -0.3,
-                  //                   color: Helper.textColor900,
-                  //                   fontSize: 16.sp,
-                  //                   fontWeight: FontWeight.w600),
-                  //             ),
-                  //             Text(
-                  //               "Please try searching for something else.",
-                  //               style: TextStyle(
-                  //                   letterSpacing: -0.3,
-                  //                   color: Helper.textColor600,
-                  //                   fontSize: 14.sp,
-                  //                   fontWeight: FontWeight.w400),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       );
-                  //     }
-                  //     return ListView.separated(
-                  //       separatorBuilder: (context, index) {
-                  //         return SizedBox(height: 30.h);
-                  //       },
-                  //       shrinkWrap: true,
-                  //       padding: EdgeInsets.zero,
-                  //       physics: NeverScrollableScrollPhysics(),
-                  //       itemCount: data.length,
-                  //       itemBuilder: ((context, index) {
-                  //         return ProjectCard(
-                  //             index: index, project: data[index]);
-                  //       }),
-                  //     );
-                  //   },
-                  //   error: (err, _) {
-                  //     return const Text("Failed to load Projects",
-                  //         style: TextStyle(color: Helper.errorColor));
-                  //   },
-                  //   loading: () => LoadingCardListScreen(),
-                  // )
                   if (filteredProjects.isNotEmpty)
                     ListView.separated(
                       separatorBuilder: (context, index) {
@@ -281,17 +216,6 @@ class _SearchProjectScreenState extends BaseConsumerState<SearchProjectScreen> {
                             index: index, project: filteredProjects[index]);
                       }),
                     ),
-                  // ListView.builder(
-                  //   shrinkWrap: true,
-                  //   itemCount: filteredProjects.length,
-                  //   itemBuilder: (context, index) {
-                  //     return ListTile(
-                  //       title: Text(filteredProjects[index].name!),
-                  //       // Add more details or actions as needed
-                  //     );
-                  //   },
-                  // ),
-                  // Add a message when no projects are found
                   if (filteredProjects.isEmpty &&
                       _searchController.text.isNotEmpty)
                     Container(
