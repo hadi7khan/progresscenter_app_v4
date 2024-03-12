@@ -1,6 +1,7 @@
+// ignore_for_file: unused_import
+
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,8 +18,7 @@ import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
-// import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_lean_model.dart'
-//     as model;
+
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart'
     as model;
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_lean_controller.dart';
@@ -41,7 +41,6 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
   List<String>? _selectedTeams;
   List<String> _teamList = [];
   bool _status = false;
-  String? _userStatus;
   List<String> _roles = ["Admin", "Editor", "Viewer"];
   String _roleSelected = "";
   TextEditingController _teamsController = TextEditingController();
@@ -53,7 +52,6 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
   String assignedRole = '';
   int _selectedRoleCupertino = 0;
   Map<String, bool> isFirstTapMap = {};
-//  Map<String, GlobalKey<ExpansionTileState>> expansionTileKeys = {};
   bool expandFlag = false;
   final _tileKeys = [];
   var _selectedIndex = 0;
@@ -85,32 +83,9 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
         _status = value.status == "ENABLED" ? true : false;
         assignedRole = value.role;
         _selectedTeams = value.tags.toList();
-        log("_selectedTeams " + _selectedTeams.toString());
         setState(() {});
       });
     });
-  }
-
-  void _showDialog(Widget child) {
-    showCupertinoModalPopup<void>(
-      context: context,
-      builder: (BuildContext context) => Container(
-        alignment: Alignment.center,
-        height: 216,
-        // padding: const EdgeInsets.only(top: 6.0),
-        // The Bottom margin is provided to align the popup above the system navigation bar.
-        // margin: EdgeInsets.only(
-        //   bottom: MediaQuery.of(context).viewInsets.bottom,
-        // ),
-        // Provide a background color for the popup.
-        color: CupertinoColors.systemBackground.resolveFrom(context),
-        // Use a SafeArea widget to avoid system overlaps.
-        child: SafeArea(
-          top: false,
-          child: Center(child: child),
-        ),
-      ),
-    );
   }
 
   String formatTimeDifference(DateTime date,
@@ -249,7 +224,6 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
 
               var values =
                   projectHierarchySelection!.changeSelected(project, value);
-              print("valueeeeee" + values.toString());
             },
           ),
         );
@@ -304,14 +278,6 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                               fontSize: 18.sp,
                               fontWeight: FontWeight.w500),
                         ),
-                        // Text(
-                        //   data.designation,
-                        //   style: TextStyle(
-                        //       letterSpacing: -0.3,
-                        //       color: Helper.baseBlack,
-                        //       fontSize: 14.sp,
-                        //       fontWeight: FontWeight.w400),
-                        // )
                       ]),
                   actions: [
                     InkWell(
@@ -414,9 +380,6 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                               fontSize: 18.sp,
                                               fontWeight: FontWeight.w600),
                                         ),
-                                        // SizedBox(
-                                        //   height: -0.5,
-                                        // ),
                                         Text(
                                           data.designation,
                                           style: TextStyle(
@@ -489,7 +452,6 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                         thickness: 0.1,
                                         color: Helper.textColor700,
                                       ),
-                                      // SizedBox(height: 10.h),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -521,43 +483,6 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                         thickness: 0.1,
                                         color: Helper.textColor700,
                                       ),
-
-                                      // CustomInputWidget(
-                                      //   title: "Status",
-                                      //   formField: Switch.adaptive(
-                                      //       trackOutlineColor:
-                                      //           MaterialStateProperty.all(
-                                      //               Colors.transparent),
-                                      //       inactiveTrackColor: Color.fromRGBO(
-                                      //           120, 120, 128, 0.16),
-                                      //       activeTrackColor:
-                                      //           Helper.switchActiveColor,
-                                      //       thumbColor:
-                                      //           MaterialStateProperty.all(
-                                      //               Colors.white),
-                                      //       value: _status,
-                                      //       onChanged: (value) {
-                                      //         setState(() {
-                                      //           _status = value;
-                                      //           if (value) {
-                                      //             _userStatus = "ENABLED";
-                                      //           } else {
-                                      //             _userStatus = "DISABLED";
-                                      //           }
-                                      //         });
-
-                                      //         Map<String, dynamic> statusData =
-                                      //             {"status": _userStatus};
-                                      //         Service()
-                                      //             .statusChange(
-                                      //                 data.id, statusData)
-                                      //             .then((val) {
-                                      //           Utils.toastSuccessMessage(
-                                      //               "Status updated");
-                                      //         });
-                                      //       }),
-                                      // ),
-                                      // SizedBox(height: 10.h),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -747,404 +672,6 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                           ],
                                         ),
                                       ),
-                                      // CustomInputWidget(
-                                      //   title: "Role",
-                                      //   formField: Platform.isIOS
-                                      //       ? InkWell(
-                                      //           onTap: () {
-                                      //             _showDialog(
-                                      //               CupertinoPicker(
-                                      //                 magnification: 1.22,
-                                      //                 squeeze: 1.2,
-                                      //                 useMagnifier: true,
-                                      //                 itemExtent: 30.0,
-                                      //                 // This sets the initial item.
-                                      //                 scrollController:
-                                      //                     FixedExtentScrollController(
-                                      //                   initialItem:
-                                      //                       _selectedRoleCupertino,
-                                      //                 ),
-                                      //                 // This is called when selected item is changed.
-                                      //                 onSelectedItemChanged:
-                                      //                     (int selectedItem) {
-                                      //                   setState(() {
-                                      //                     _selectedRoleCupertino =
-                                      //                         selectedItem;
-                                      //                     log(_selectedRoleCupertino
-                                      //                         .toString());
-                                      //                     _roleSelected =
-                                      //                         _selectedRoleCupertino ==
-                                      //                                 0
-                                      //                             ? "Admin"
-                                      //                             : _selectedRoleCupertino ==
-                                      //                                     1
-                                      //                                 ? "Editor"
-                                      //                                 : "Viewer";
-                                      //                     log(_roleSelected
-                                      //                         .toString());
-                                      //                   });
-                                      //                   // Map<String, dynamic>
-                                      //                   //     roleData = {
-                                      //                   //   "role": _roleSelected
-                                      //                   //       .toUpperCase()
-                                      //                   // };
-                                      //                   // // assignedRole= value;
-                                      //                   // Service()
-                                      //                   //     .roleChange(data.id,
-                                      //                   //         roleData)
-                                      //                   //     .then((val) {
-                                      //                   //   Utils.toastSuccessMessage(
-                                      //                   //       "Role updated");
-                                      //                   // });
-                                      //                 },
-                                      //                 children: _roles.map((e) {
-                                      //                   return Text(
-                                      //                     e,
-                                      //                     style:
-                                      //                         const TextStyle(
-                                      //                             letterSpacing:
-                                      //                                 -0.3,
-                                      //                             color: Colors
-                                      //                                 .black),
-                                      //                   );
-                                      //                 }).toList(),
-                                      //                 //     List<Widget>.generate(_fruitNames.length, (int index) {
-                                      //                 //   return Center(child: Text(_fruitNames[index]));
-                                      //                 // }),
-                                      //               ),
-                                      //             );
-                                      //           },
-                                      //           child: Container(
-                                      //             padding: EdgeInsets.only(
-                                      //                 top: 10.h,
-                                      //                 bottom: 10.h,
-                                      //                 left: 14.w),
-                                      //             alignment:
-                                      //                 Alignment.centerLeft,
-                                      //             width: MediaQuery.of(context)
-                                      //                 .size
-                                      //                 .width,
-                                      //             decoration: BoxDecoration(
-                                      //               borderRadius:
-                                      //                   BorderRadius.circular(
-                                      //                       8.r),
-                                      //               border: Border.all(
-                                      //                   color: Helper
-                                      //                       .textColor300),
-                                      //             ),
-                                      //             child: Row(
-                                      //               mainAxisAlignment:
-                                      //                   MainAxisAlignment
-                                      //                       .spaceBetween,
-                                      //               children: [
-                                      //                 _roleSelected != ""
-                                      //                     ? Text(
-                                      //                         _roleSelected,
-                                      //                         style: TextStyle(
-                                      //                           letterSpacing:
-                                      //                               -0.3,
-                                      //                           color: Helper
-                                      //                               .textColor500,
-                                      //                           fontSize: 16.sp,
-                                      //                           fontWeight:
-                                      //                               FontWeight
-                                      //                                   .w400,
-                                      //                         ),
-                                      //                       )
-                                      //                     : Text(
-                                      //                         '${_roles.firstWhere((role) => role.toLowerCase() == assignedRole.toLowerCase())}',
-                                      //                         style: TextStyle(
-                                      //                           letterSpacing:
-                                      //                               -0.3,
-                                      //                           color: Helper
-                                      //                               .textColor500,
-                                      //                           fontSize: 16.sp,
-                                      //                           fontWeight:
-                                      //                               FontWeight
-                                      //                                   .w400,
-                                      //                         ),
-                                      //                       ),
-                                      //                 Padding(
-                                      //                   padding:
-                                      //                       EdgeInsets.only(
-                                      //                           right: 14.w),
-                                      //                   child: Row(
-                                      //                     mainAxisAlignment:
-                                      //                         MainAxisAlignment
-                                      //                             .start,
-                                      //                     mainAxisSize:
-                                      //                         MainAxisSize.min,
-                                      //                     children: [
-                                      //                       Icon(
-                                      //                           Icons
-                                      //                               .help_outline,
-                                      //                           color: Helper
-                                      //                               .textColor500,
-                                      //                           size: 18),
-                                      //                       SizedBox(
-                                      //                         width: 5.w,
-                                      //                       ),
-                                      //                       Icon(
-                                      //                           Icons
-                                      //                               .keyboard_arrow_down_outlined,
-                                      //                           color: Helper
-                                      //                               .textColor500)
-                                      //                     ],
-                                      //                   ),
-                                      //                 ),
-                                      //               ],
-                                      //             ),
-                                      //           ),
-                                      //         )
-                                      //       : ButtonTheme(
-                                      //           alignedDropdown: true,
-                                      //           child: FormBuilderDropdown(
-                                      //             name: "roles",
-                                      //             dropdownColor: Colors.white,
-                                      //             icon: SizedBox(),
-                                      //             decoration: InputDecoration(
-                                      //               // labelText: 'Training',
-                                      //               hintText: "Select roles",
-                                      //               hintStyle: TextStyle(
-                                      //                 letterSpacing: -0.3,
-                                      //                 color:
-                                      //                     Helper.textColor500,
-                                      //                 fontSize: 16.sp,
-                                      //                 fontWeight:
-                                      //                     FontWeight.w400,
-                                      //               ),
-                                      //               contentPadding:
-                                      //                   EdgeInsets.symmetric(
-                                      //                       vertical: 10.h,
-                                      //                       horizontal: 0.w),
-                                      //               suffixIcon: Padding(
-                                      //                 padding: EdgeInsets.only(
-                                      //                     right: 14.w),
-                                      //                 child: Row(
-                                      //                   mainAxisAlignment:
-                                      //                       MainAxisAlignment
-                                      //                           .start,
-                                      //                   mainAxisSize:
-                                      //                       MainAxisSize.min,
-                                      //                   children: [
-                                      //                     SizedBox(
-                                      //                       width: 5.w,
-                                      //                     ),
-                                      //                     Icon(
-                                      //                         Icons
-                                      //                             .keyboard_arrow_down_outlined,
-                                      //                         color: Helper
-                                      //                             .textColor500)
-                                      //                   ],
-                                      //                 ),
-                                      //               ),
-
-                                      //               enabledBorder:
-                                      //                   OutlineInputBorder(
-                                      //                 borderRadius:
-                                      //                     BorderRadius.circular(
-                                      //                         8.r),
-                                      //                 borderSide: BorderSide(
-                                      //                     color: Helper
-                                      //                         .textColor300),
-                                      //               ),
-                                      //               focusedBorder:
-                                      //                   OutlineInputBorder(
-                                      //                 borderRadius:
-                                      //                     BorderRadius.circular(
-                                      //                         8.r),
-                                      //                 borderSide: BorderSide(
-                                      //                     color:
-                                      //                         ref.watch(primaryColorProvider)),
-                                      //               ),
-                                      //               focusedErrorBorder:
-                                      //                   OutlineInputBorder(
-                                      //                 borderRadius:
-                                      //                     BorderRadius.circular(
-                                      //                         8.r),
-                                      //                 borderSide:
-                                      //                     const BorderSide(
-                                      //                         color:
-                                      //                             Colors.red),
-                                      //               ),
-                                      //               errorBorder:
-                                      //                   OutlineInputBorder(
-                                      //                 borderRadius:
-                                      //                     BorderRadius.circular(
-                                      //                         8.r),
-                                      //                 borderSide:
-                                      //                     const BorderSide(
-                                      //                         color:
-                                      //                             Colors.red),
-                                      //               ),
-                                      //               // filled: true,
-                                      //             ),
-                                      //             initialValue:
-                                      //                 _roles.firstWhere(
-                                      //               (role) =>
-                                      //                   role.toLowerCase() ==
-                                      //                   assignedRole
-                                      //                       .toLowerCase(),
-                                      //               orElse: () => _roles.first,
-                                      //             ),
-                                      //             onChanged: (value) {
-                                      //               _roleSelected = value!;
-                                      //             },
-                                      //             items: _roles.map((e) {
-                                      //               return DropdownMenuItem<
-                                      //                   String>(
-                                      //                 value: e,
-                                      //                 child: Text(
-                                      //                   e,
-                                      //                   style: const TextStyle(
-                                      //                       letterSpacing: -0.3,
-                                      //                       color:
-                                      //                           Colors.black),
-                                      //                 ),
-                                      //                 onTap: () {},
-                                      //               );
-                                      //             }).toList(),
-                                      //           ),
-                                      //         ),
-                                      // ),
-
-                                      // CustomInputWidget(
-                                      //   title: "Teams",
-                                      //   formField: TypeAheadFormField(
-                                      //     textFieldConfiguration:
-                                      //         TextFieldConfiguration(
-                                      //       controller: _teamsController,
-                                      //       onSubmitted: (value) {
-                                      //         setState(() {
-                                      //           if (value.isNotEmpty) {
-                                      //             _selectedTeams!.add(value);
-                                      //             _teamsController.clear();
-                                      //           }
-                                      //         });
-                                      //       },
-                                      //       decoration: InputDecoration(
-                                      //         contentPadding:
-                                      //             EdgeInsets.symmetric(
-                                      //                 vertical: 10.h,
-                                      //                 horizontal: 14.w),
-                                      //         hintText: "Search or add here",
-                                      //         hintStyle: TextStyle(
-                                      //           letterSpacing: -0.3,
-                                      //           color: Helper.textColor500,
-                                      //           fontSize: 16.sp,
-                                      //           fontWeight: FontWeight.w400,
-                                      //         ),
-                                      //         enabledBorder: OutlineInputBorder(
-                                      //           borderRadius:
-                                      //               BorderRadius.circular(8.r),
-                                      //           borderSide: BorderSide(
-                                      //               color: Helper.textColor300),
-                                      //         ),
-                                      //         focusedBorder: OutlineInputBorder(
-                                      //           borderRadius:
-                                      //               BorderRadius.circular(8.r),
-                                      //           borderSide: BorderSide(
-                                      //               color: ref.watch(primaryColorProvider)),
-                                      //         ),
-                                      //         focusedErrorBorder:
-                                      //             OutlineInputBorder(
-                                      //           borderRadius:
-                                      //               BorderRadius.circular(8.r),
-                                      //           borderSide: const BorderSide(
-                                      //               color: Colors.red),
-                                      //         ),
-                                      //         errorBorder: OutlineInputBorder(
-                                      //           borderRadius:
-                                      //               BorderRadius.circular(8.r),
-                                      //           borderSide: const BorderSide(
-                                      //               color: Colors.red),
-                                      //         ),
-                                      //       ),
-                                      //     ),
-                                      //     suggestionsCallback: (pattern) async {
-                                      //       if (pattern != null &&
-                                      //           pattern.length > 0) {
-                                      //         return _teamList.where((name) =>
-                                      //             name.toLowerCase().contains(
-                                      //                 pattern
-                                      //                     .trim()
-                                      //                     .toLowerCase()));
-                                      //       } else {
-                                      //         return [];
-                                      //       }
-                                      //     },
-                                      //     itemBuilder: (context, team) {
-                                      //       return ListTile(
-                                      //           minVerticalPadding: 0,
-                                      //           dense: true,
-                                      //           title: Text(
-                                      //             team.toString(),
-                                      //             style: TextStyle(
-                                      //                 letterSpacing: -0.3,
-                                      //                 color:
-                                      //                     Helper.textColor700,
-                                      //                 fontSize: 14.sp,
-                                      //                 fontWeight:
-                                      //                     FontWeight.w600),
-                                      //           ));
-                                      //     },
-                                      //     onSuggestionSelected: (team) {
-                                      //       // Do something with the selected user
-                                      //       // print('Selected user: ${user.email}');
-                                      //       setState(() {
-                                      //         _selectedTeams!
-                                      //             .add(team.toString());
-                                      //         _teamsController.clear();
-                                      //       });
-                                      //     },
-                                      //     noItemsFoundBuilder: (value) {
-                                      //       return SizedBox();
-                                      //     },
-                                      //   ),
-                                      // ),
-                                      // SizedBox(height: 10.h),
-                                      // Wrap(
-                                      //   spacing: 5.w,
-                                      //   children: _selectedTeams!
-                                      //       .toSet()
-                                      //       .map((suggestion) {
-                                      //     return Chip(
-                                      //       label: Text(suggestion),
-                                      //       labelStyle: TextStyle(
-                                      //           letterSpacing: -0.3,
-                                      //           color: Helper.textColor500,
-                                      //           fontSize: 12.sp,
-                                      //           fontWeight: FontWeight.w500),
-                                      //       onDeleted: () {
-                                      //         setState(() {
-                                      //           _selectedTeams!
-                                      //               .remove(suggestion);
-                                      //           print(_selectedTeams);
-                                      //         });
-                                      //         // Map<String, dynamic> teamData = {
-                                      //         //   "tags": _selectedTeams
-                                      //         // };
-                                      //         // Service()
-                                      //         //     .teamChange(data.id, teamData)
-                                      //         //     .then((val) {
-                                      //         //   Utils.toastSuccessMessage(
-                                      //         //       "Team updated");
-                                      //         // });
-                                      //       },
-                                      //       deleteIcon: SvgPicture.asset(
-                                      //         'assets/images/close-x.svg',
-                                      //         color: Helper.textColor500,
-                                      //       ),
-                                      //       side: BorderSide.none,
-                                      //       shape: RoundedRectangleBorder(
-                                      //           borderRadius:
-                                      //               BorderRadius.circular(
-                                      //                   20.r)),
-                                      //       backgroundColor:
-                                      //           Helper.widgetBackground,
-                                      //     );
-                                      //   }).toList(),
-                                      // ),
                                     ]),
                               ),
                               SizedBox(
@@ -1183,15 +710,6 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                       _buildProjectTree(
                                           projectHierarchySelection!.projects,
                                           null),
-                                      // CustomInputWidget(
-                                      //   title: "",
-                                      //   formField: // Display the hierarchical structure
-
-                                      //       _buildProjectTree(
-                                      //           projectHierarchySelection!
-                                      //               .projects,
-                                      //           null),
-                                      // ),
                                     ]),
                               ),
                             ],

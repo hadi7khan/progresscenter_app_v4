@@ -38,7 +38,6 @@ class _ProjectsScreenState extends BaseConsumerState<ProjectsScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Service().fetchUser().then((value) {
-        dev.log("user data " + value.toString());
         _prefsLocator.setPrimaryColor(color: value.preferences!.primaryColor!);
         _prefsLocator.saveUser(value.toJson());
       });
@@ -61,7 +60,7 @@ class _ProjectsScreenState extends BaseConsumerState<ProjectsScreen> {
   Widget build(BuildContext context) {
     var projectData =
         ref.watch(projectControllerProvider.select((value) => value.projects));
-    dev.log("new data" + projectData.toString());
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
@@ -86,7 +85,6 @@ class _ProjectsScreenState extends BaseConsumerState<ProjectsScreen> {
                     });
                   }
                 }
-                dev.log("archived" + _activeProjects.toString());
               });
             },
             child: SingleChildScrollView(

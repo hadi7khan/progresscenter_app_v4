@@ -5,17 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
-import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
-import 'package:progresscenter_app_v4/src/common/skeletons/loading_team_list.dart';
 import 'package:progresscenter_app_v4/src/core/utils/debouncer_delay.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/presentation/provider/project_controller.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/widgets/project_card.dart';
 import 'package:progresscenter_app_v4/src/feature/team/data/model/user_model.dart';
-import 'package:progresscenter_app_v4/src/feature/team/presentation/provider/user_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/team/presentation/view/widgets/team_widget.dart';
-import 'dart:developer';
 
 class SearchTeamScreen extends ConsumerStatefulWidget {
   final List<UserModel> data;
@@ -30,28 +24,18 @@ class _SearchProjectScreenState extends BaseConsumerState<SearchTeamScreen> {
   bool _changeState = false;
   String searchText = '';
   final _debouncer = Debouncer(milliseconds: 700);
-  FocusNode _searchFocusNode = FocusNode();
-  List<String> _teamList = ['All'];
-  String? _selectedTeam;
+  final FocusNode _searchFocusNode = FocusNode();
 
   @override
   void initState() {
-    // _searchController.addListener(_addressControllerListener);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(_searchFocusNode);
     });
     super.initState();
   }
 
-  // void _addressControllerListener() {
-  //   print(_searchController.text);
-  // }
-
   @override
   void dispose() {
-    // _searchController.removeListener(_addressControllerListener);
-    // ref.invalidate(teamControllerProvider);
-    // ref.read(teamControllerProvider.notifier).getUser();
     super.dispose();
   }
 
@@ -63,21 +47,6 @@ class _SearchProjectScreenState extends BaseConsumerState<SearchTeamScreen> {
 
   @override
   Widget build(BuildContext context) {
-    log("widget.data passed" + widget.data.toString());
-    // final teamData =
-    //     ref.watch(teamControllerProvider.select((value) => value.users));
-    // Extract the list of users from AsyncValue
-    // List<UserModel> teams = teamData.when(
-    //     loading: () =>
-    //         [], // Return an empty list or loading indicator as needed
-    //     error: (error, stackTrace) =>
-    //         [], // Handle error state, return an empty list or show an error message
-    //     data: (teams) {
-    //       log("teams in search" + teams.toString());
-    //       log("teams in search length" + teams.length.toString());
-    //       return teams ?? [];
-    //     } // Use the projects or return an empty list if null
-    //     );
     List<UserModel> filteredSearchTeams =
         filterTeams(widget.data, _searchController.text);
     return GestureDetector(
@@ -133,13 +102,9 @@ class _SearchProjectScreenState extends BaseConsumerState<SearchTeamScreen> {
                         setState(() {
                           searchText = text!;
                         });
-                        // ref
-                        //     .read(teamControllerProvider.notifier)
-                        //     .getUser(searchText: searchText);
                         List<UserModel> _filteredUsers =
                             filterTeams(widget.data, searchText);
 
-                        // Update the UI with the filtered projects
                         setState(() {
                           filteredSearchTeams = _filteredUsers;
                         });
@@ -150,12 +115,6 @@ class _SearchProjectScreenState extends BaseConsumerState<SearchTeamScreen> {
                         _changeState = true;
                       });
                     },
-                    // validator: (val) {
-                    //   if ( val == null || val!.isEmpty) {
-                    //     return 'Project name is required';
-                    //   }
-                    //   return null;
-                    // },
                     textInputAction: TextInputAction.done,
                     style: TextStyle(
                       fontSize: 16.sp,
@@ -200,7 +159,6 @@ class _SearchProjectScreenState extends BaseConsumerState<SearchTeamScreen> {
                               ),
                             )
                           : SizedBox(),
-                      // hintText: widget.control.label,
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.r),
                         borderSide: BorderSide(color: Helper.textColor300),
@@ -271,137 +229,6 @@ class _SearchProjectScreenState extends BaseConsumerState<SearchTeamScreen> {
                         ],
                       ),
                     )
-                  // teamData.when(
-                  //   data: (data) {
-                  // if (data.isEmpty) {
-                  //   return Container(
-                  //     alignment: Alignment.center,
-                  //     height: MediaQuery.of(context).size.height * 0.6.h,
-                  //     child: Column(
-                  //       mainAxisAlignment: MainAxisAlignment.center,
-                  //       crossAxisAlignment: CrossAxisAlignment.center,
-                  //       children: [
-                  //         SvgPicture.asset(
-                  //             'assets/images/illustration.svg'),
-                  //         SizedBox(height: 16.h),
-                  //         Text(
-                  //           "Oops, we couldn’t find that",
-                  //           style: TextStyle(
-                  //               letterSpacing: -0.3,
-                  //               color: Helper.textColor900,
-                  //               fontSize: 16.sp,
-                  //               fontWeight: FontWeight.w600),
-                  //         ),
-                  //         Text(
-                  //           "Please try searching for something else.",
-                  //           style: TextStyle(
-                  //               letterSpacing: -0.3,
-                  //               color: Helper.textColor600,
-                  //               fontSize: 14.sp,
-                  //               fontWeight: FontWeight.w400),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   );
-                  // }
-                  //     final _filteredUserList = _selectedTeam == null
-                  //         ? data
-                  //         : data
-                  //             .where(
-                  //                 (item) => item.tags!.contains(_selectedTeam))
-                  //             .toList();
-                  //     print("_filteredUserList: $_filteredUserList");
-
-                  //     return Column(
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       children: [
-                  //         // Row(
-                  //         //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //         //   children: [
-                  //         //     InkWell(
-                  //         //         onTap: () {
-                  //         //           context.push('/notifications');
-                  //         //         },
-                  //         //         child:
-                  //         //             SvgPicture.asset('assets/images/home.svg')),
-                  //         //     Row(
-                  //         //       children: [
-                  //         //         SvgPicture.asset('assets/images/search.svg'),
-                  //         //         SizedBox(width: 12.w),
-                  //         //         ConstrainedBox(
-                  //         //           constraints: new BoxConstraints(
-                  //         //             maxHeight: 30.h,
-                  //         //             maxWidth: 30.w,
-                  //         //           ),
-                  //         //           child: PopupMenuButton(
-                  //         //             padding: EdgeInsets.zero,
-                  //         //             icon: SvgPicture.asset(
-                  //         //                 'assets/images/sort.svg'),
-                  //         //             position: PopupMenuPosition.under,
-                  //         //             itemBuilder: (BuildContext context) {
-                  //         //               return _teamList.map((team) {
-                  //         //                 return PopupMenuItem(
-                  //         //                     value:
-                  //         //                         team, // Use a unique identifier for each item
-                  //         //                     child: ListTile(
-                  //         //                       horizontalTitleGap: 8.w,
-                  //         //                       dense: true,
-                  //         //                       visualDensity: VisualDensity(
-                  //         //                           horizontal: 0, vertical: -4),
-                  //         //                       contentPadding: EdgeInsets.zero,
-                  //         //                       title: Text(
-                  //         //                         team,
-                  //         //                         style: TextStyle(
-                  //         //                             letterSpacing: -0.3,
-                  //         //                             color: Helper.baseBlack,
-                  //         //                             fontSize: 14.sp,
-                  //         //                             fontWeight: FontWeight.w500),
-                  //         //                       ),
-                  //         //                     ));
-                  //         //               }).toList();
-                  //         //             },
-                  //         //             onSelected: (value) {
-                  //         //               print(value.toString());
-                  //         //               setState(() {
-                  //         //                 _selectedTeam =
-                  //         //                     value == 'All' ? null : value;
-                  //         //                 print("selectedTeam: $_selectedTeam");
-                  //         //               });
-                  //         //             },
-                  //         //           ),
-                  //         //         ),
-                  //         //         SizedBox(width: 12.w),
-
-                  //         //       ],
-                  //         //     ),
-                  //         //   ],
-                  //         // ),
-                  //         // SizedBox(height: 14.h),
-                  //         // Row(
-                  //         //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //         //   children: [
-                  //         //     Text(
-                  //         //       "Team",
-                  //         //       style: TextStyle(
-                  //         //           letterSpacing: -1,
-                  //         //           color: Helper.textColor700,
-                  //         //           fontSize: 36.sp,
-                  //         //           fontWeight: FontWeight.w600),
-                  //         //     ),
-                  //         //   ],
-                  //         // ),
-                  //         // SizedBox(height: 16.h),
-                  //         TeamWidget(teamData: _filteredUserList),
-                  //       ],
-                  //     );
-                  //   },
-                  //   error: (err, _) {
-                  //     return const Text("Failed to load teams",
-                  //         style: TextStyle(
-                  //             letterSpacing: -0.3, color: Helper.errorColor));
-                  //   },
-                  //   loading: () => LoadingTeamList(),
-                  // )
                 ],
               ),
             ),

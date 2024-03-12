@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,7 +6,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
-import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_user_profile.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
@@ -31,7 +28,6 @@ class SelectTeamsScreen extends ConsumerStatefulWidget {
 class _SelectTeamsScreenState extends BaseConsumerState<SelectTeamsScreen> {
   TextEditingController _teamsController = TextEditingController();
   List<String>? _selectedTeams;
-  List<String> _teamList = [];
 
   @override
   void initState() {
@@ -42,7 +38,6 @@ class _SelectTeamsScreenState extends BaseConsumerState<SelectTeamsScreen> {
           .getUserProfile(widget.userId)
           .then((value) {
         _selectedTeams = value.tags.toList();
-        log("_selectedTeams " + _selectedTeams.toString());
         setState(() {});
       });
     });
@@ -50,9 +45,6 @@ class _SelectTeamsScreenState extends BaseConsumerState<SelectTeamsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // log("selectedteams passed" + w.toString());
-    log("id passed" + widget.userId.toString());
-    log("roles passed" + widget.teamsList.toString());
     if (_selectedTeams == null) {
       return LoadingUserProfile();
     }
@@ -194,8 +186,6 @@ class _SelectTeamsScreenState extends BaseConsumerState<SelectTeamsScreen> {
                       ));
                 },
                 onSuggestionSelected: (team) {
-                  // Do something with the selected user
-                  // print('Selected user: ${user.email}');
                   setState(() {
                     _selectedTeams!.add(team.toString());
                     _teamsController.clear();
@@ -219,17 +209,7 @@ class _SelectTeamsScreenState extends BaseConsumerState<SelectTeamsScreen> {
                     onDeleted: () {
                       setState(() {
                         _selectedTeams!.remove(suggestion);
-                        print(_selectedTeams);
                       });
-                      // Map<String, dynamic> teamData = {
-                      //   "tags": _selectedTeams
-                      // };
-                      // Service()
-                      //     .teamChange(data.id, teamData)
-                      //     .then((val) {
-                      //   Utils.toastSuccessMessage(
-                      //       "Team updated");
-                      // });
                     },
                     deleteIcon: SvgPicture.asset(
                       'assets/images/close-x.svg',

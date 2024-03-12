@@ -64,7 +64,6 @@ class _ProjectCardState extends State<ProjectCard> {
                                 carouselController: carouselController,
                                 itemCount: widget.project.images!.length,
                                 options: CarouselOptions(
-                                    // height: 198.h,
                                     viewportFraction: 1,
                                     aspectRatio: 1 / 1,
                                     initialPage: 0,

@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,14 +24,12 @@ class _RolesScreenState extends ConsumerState<RolesScreen> {
   void initState() {
     super.initState();
     if (widget.roles.isNotEmpty) {
-      // Set the initially selected role to the first role in the list
       selectedRole = widget.assignedRole.toString().toLowerCase();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    log("roles passed" + widget.roles.toString());
     return Scaffold(
       backgroundColor: Helper.screenBackground,
       appBar: PreferredSize(
@@ -74,15 +69,6 @@ class _RolesScreenState extends ConsumerState<RolesScreen> {
                           fontWeight: FontWeight.w500),
                     ),
                   ]),
-              actions: [
-                //  Text(
-                //     "Save",
-                //     style: TextStyle(
-                //         color: ref.watch(primaryColorProvider),
-                //         fontWeight: FontWeight.w500,
-                //         fontSize: 16.sp),
-                //   ),
-              ],
             ),
           ),
         ),

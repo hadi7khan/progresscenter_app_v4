@@ -40,7 +40,6 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
       });
       Service().fetchTeamList().then((value) {
         _teamList.addAll(value);
-        print(_teamList);
       });
     });
   }
@@ -70,14 +69,12 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
               child: teamData.when(
                 data: (data) {
-                  log("data " + data.toString());
                   final _filteredUserList = _selectedTeam == null
                       ? data
                       : data.where((item) {
                           log("item " + item.toString());
                           return item.tags!.contains(_selectedTeam);
                         }).toList();
-                  log("_filteredUserList: $_filteredUserList");
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -126,43 +123,6 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                                   ),
                                   child: SvgPicture.asset(
                                       'assets/images/sort.svg'),
-                                  // PopupMenuButton(
-                                  //   padding: EdgeInsets.zero,
-                                  //   icon: SvgPicture.asset(
-                                  //       'assets/images/sort.svg'),
-                                  //   position: PopupMenuPosition.under,
-                                  //   itemBuilder: (BuildContext context) {
-                                  //     return _teamList.map((team) {
-                                  //       return PopupMenuItem(
-                                  //           value:
-                                  //               team, // Use a unique identifier for each item
-                                  //           child: ListTile(
-                                  //             horizontalTitleGap: 8.w,
-                                  //             dense: true,
-                                  //             visualDensity: VisualDensity(
-                                  //                 horizontal: 0, vertical: -4),
-                                  //             contentPadding: EdgeInsets.zero,
-                                  //             title: Text(
-                                  //               team,
-                                  //               style: TextStyle(
-                                  //                   letterSpacing: -0.3,
-                                  //                   color: Helper.baseBlack,
-                                  //                   fontSize: 14.sp,
-                                  //                   fontWeight:
-                                  //                       FontWeight.w500),
-                                  //             ),
-                                  //           ));
-                                  //     }).toList();
-                                  //   },
-                                  //   onSelected: (value) {
-                                  //     log(value.toString());
-                                  //     setState(() {
-                                  //       _selectedTeam =
-                                  //           value == 'All' ? null : value;
-                                  //       log("selectedTeam: $_selectedTeam");
-                                  //     });
-                                  //   },
-                                  // ),
                                 ),
                               ),
                               SizedBox(width: 12.w),
@@ -215,7 +175,6 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
           title: const Text(
             'Create User',
           ),
-          // message: const Text('Message'),
           actions: <CupertinoActionSheetAction>[
             CupertinoActionSheetAction(
               child: Row(
