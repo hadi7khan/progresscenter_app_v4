@@ -22,46 +22,6 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     super.initState();
     if (widget.data.type == "VIDEO") {
       _initPlayer();
-      // _videoPlayerController = VlcPlayerController.network(
-      //   widget.data.url,
-      //   autoPlay: false,
-      //   options: VlcPlayerOptions(),
-      // );
-      // controller = VideoPlayerController.networkUrl(Uri.parse(widget.data.url),
-      //     videoPlayerOptions: VideoPlayerOptions(
-      //       mixWithOthers: true,
-      //       allowBackgroundPlayback: true,
-      //     ))
-      //   ..initialize().then((_) {
-      //     print("url " + widget.data.url.toString());
-      // VideoPlayer(controller!);
-      // controller!.play();
-      // controller!.addListener(() {
-      //   if (controller!.value.hasError) {
-      //     print("video player error" + controller!.value.errorDescription!);
-      //   }
-      //   if (controller!.value.isPlaying) {
-      //     print("video player playing" + controller!.value.errorDescription!);
-      //   }
-      //   if (controller!.value.isInitialized) {
-      //     print("video player initialized" +
-      //         controller!.value.isInitialized!);
-      //   }
-      // });
-
-      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-
-      //   Future.delayed(Duration(milliseconds: 100), () {
-      //     setState(() {
-      //       VideoPlayer(controller!);
-      //       controller!.play();
-      //     });
-      //   });
-
-      //   log(widget.data.url + "is playing----------------------------");
-      // }).then((value) {
-      //   print("video player error" + controller!.value.errorDescription!);
-      // });
     }
   }
 
@@ -106,7 +66,6 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      // alignment: Alignment.center,
       children: [
         AspectRatio(
             aspectRatio: 1 / 1,
@@ -115,14 +74,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                 ? Chewie(
                     controller: chewieController!,
                   )
-                : SizedBox()
-            // VlcPlayer(
-            //   controller: _videoPlayerController!,
-            //   aspectRatio: 16 / 9,
-            //   placeholder:
-            //       Center(child: CircularProgressIndicator()),
-            // ),
-            ),
+                : SizedBox()),
         Align(
             alignment: Alignment.center,
             child: Container(
@@ -134,8 +86,6 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                   color: Colors.white.withOpacity(0.3),
                   borderRadius: BorderRadius.circular(24.r)),
               child: SvgPicture.asset(
-                // height: 13,
-                // width: 13,
                 'assets/images/icon_after.svg',
               ),
             ))

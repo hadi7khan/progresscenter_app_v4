@@ -93,8 +93,6 @@ class _SiteGalleryListViewWidgetState extends State<SiteGalleryListViewWidget> {
                           ),
                   ])),
               Positioned.fill(
-                // bottom: 20,
-                // left: 20,
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
@@ -114,7 +112,6 @@ class _SiteGalleryListViewWidgetState extends State<SiteGalleryListViewWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                // width: MediaQuery.of(context).size.width * 0.5,
                                 child: Text(
                                   widget.data.name!,
                                   softWrap: true,
@@ -140,30 +137,6 @@ class _SiteGalleryListViewWidgetState extends State<SiteGalleryListViewWidget> {
                               ),
                             ],
                           ),
-                          // TextButton(
-                          //     onPressed: () {
-                          //       context.push('/fullViewSitegallery', extra: {
-                          //         "projectId": widget.data.project,
-                          //         "name": widget.data.name,
-                          //         "url": widget.data.url,
-                          //         "type": widget.data.type
-                          //       });
-                          //     },
-                          //     style: ButtonStyle(
-                          //         shape: MaterialStateProperty.all(
-                          //             RoundedRectangleBorder(
-                          //           borderRadius: BorderRadius.circular(8.r),
-                          //         )),
-                          //         backgroundColor:
-                          //             MaterialStateProperty.all(Colors.white)),
-                          //     child: Text(
-                          //       "View",
-                          //       style: TextStyle(
-                          //           color: Helper.baseBlack,
-                          //           fontSize: 14.sp,
-                          //           letterSpacing: 0.2,
-                          //           fontWeight: FontWeight.w600),
-                          //     ))
                         ],
                       )),
                 ),

@@ -12,7 +12,7 @@ import 'package:progresscenter_app_v4/src/feature/splitview/presentation/provide
 class Date2Widget extends ConsumerStatefulWidget {
   final String startDate;
   final String endDate;
-  String selectedDate;
+  final String selectedDate;
   final String cameraId;
   final String projectId;
   final WidgetRef ref;
@@ -42,7 +42,6 @@ class _Date2WidgetState extends BaseConsumerState<Date2Widget> {
             topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r)),
         color: Colors.white,
       ),
-      // height: MediaQuery.of(context).size.height * 1.6,
       width: MediaQuery.of(context).size.width,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,7 +75,6 @@ class _Date2WidgetState extends BaseConsumerState<Date2Widget> {
               print("selectedDate " + changeDate);
             },
           ),
-          // SizedBox(height: 20.h),
           Container(
             height: 52.h,
             width: double.infinity,
@@ -100,7 +98,6 @@ class _Date2WidgetState extends BaseConsumerState<Date2Widget> {
                     ),
                   )),
               onPressed: () {
-                print(widget.selectedDate);
                 WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                   widget.ref
                       .read(splitView2ControllerProvider.notifier)

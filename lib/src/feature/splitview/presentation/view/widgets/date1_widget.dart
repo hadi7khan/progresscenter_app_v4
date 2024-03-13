@@ -12,7 +12,7 @@ import 'package:progresscenter_app_v4/src/feature/splitview/presentation/provide
 class Date1Widget extends ConsumerStatefulWidget {
   final String startDate;
   final String endDate;
-  String selectedDate;
+  final String selectedDate;
   final String cameraId;
   final String projectId;
   final WidgetRef ref;
@@ -42,7 +42,6 @@ class _Date1WidgetState extends BaseConsumerState<Date1Widget> {
             topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r)),
         color: Colors.white,
       ),
-      // height: MediaQuery.of(context).size.height * 1.6,
       width: MediaQuery.of(context).size.width,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,13 +69,10 @@ class _Date1WidgetState extends BaseConsumerState<Date1Widget> {
             ),
             value: [],
             onValueChanged: (value) {
-              print(value.toString());
               DateTime date = DateTime.parse(value[0].toString());
               changeDate = DateFormat("yyyyMMdd").format(date);
-              print("selectedDate " + changeDate);
             },
           ),
-          // SizedBox(height: 20.h),
           Container(
             height: 52.h,
             width: double.infinity,
@@ -89,7 +85,6 @@ class _Date1WidgetState extends BaseConsumerState<Date1Widget> {
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w500),
-                // currentIndex == contents.length - 1 ? "Continue" : "Next"
               ),
               style: ButtonStyle(
                   backgroundColor:
@@ -100,7 +95,6 @@ class _Date1WidgetState extends BaseConsumerState<Date1Widget> {
                     ),
                   )),
               onPressed: () {
-                print(widget.selectedDate);
                 WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                   widget.ref
                       .read(splitView1ControllerProvider.notifier)

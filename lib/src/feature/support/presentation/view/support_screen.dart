@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
-import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_support_list.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
@@ -73,7 +71,6 @@ class _SupportScreenState extends BaseConsumerState<SupportScreen> {
                           ),
                           Row(
                             children: [
-                              // SvgPicture.asset('assets/images/search.svg'),
                               SizedBox(width: 12.w),
                               InkWell(
                                   onTap: () {

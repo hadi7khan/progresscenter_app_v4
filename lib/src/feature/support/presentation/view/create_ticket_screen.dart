@@ -82,7 +82,6 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                           icon: SizedBox(),
                           initialValue: _topicList[0],
                           decoration: InputDecoration(
-                            // labelText: 'Training',
                             hintText: "Select a topic",
                             hintStyle: TextStyle(
                               letterSpacing: -0.3,
@@ -98,7 +97,7 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  // Icon(Icons.help_outline, color: Helper.textColor500, size: 18),
+                                  
                                   SizedBox(
                                     width: 5.w,
                                   ),
@@ -126,7 +125,7 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                               borderRadius: BorderRadius.circular(8.r),
                               borderSide: const BorderSide(color: Colors.red),
                             ),
-                            // filled: true,
+                           
                           ),
                           onChanged: (value) {
                             setState(() {
@@ -152,8 +151,6 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                         formField: FormBuilderTextField(
                           name: 'subject',
                           controller: _subjectController,
-                          // focusNode: focusNode,
-
                           validator: (val) {
                             if (val == null || val.isEmpty) {
                               return 'Subject is required';
@@ -179,7 +176,6 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w400,
                             ),
-                            // hintText: widget.control.label,
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.r),
                               borderSide:
@@ -208,7 +204,7 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                         formField: FormBuilderTextField(
                           name: 'details',
                           controller: _detailsController,
-                          // focusNode: focusNode,
+                          
 
                           validator: (val) {
                             if (val == null || val.isEmpty) {
@@ -217,7 +213,6 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                             return null;
                           },
                           minLines: 6,
-                          // keyboardType: TextInputType.multiline,
                           maxLines: null,
                           textInputAction: TextInputAction.done,
                           style: TextStyle(
@@ -284,7 +279,6 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w500),
-                // currentIndex == contents.length - 1 ? "Continue" : "Next"
               ),
               style: ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(
@@ -298,7 +292,6 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                     ),
                   )),
               onPressed: () async {
-                print("topic " + _topicSelected.toString());
                 Map<String, dynamic> data = {
                   "topic": _topicSelected,
                   "subject": _subjectController.text,
@@ -315,7 +308,6 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                       .createTicket(data)
                       .then((value) async {
                     value.fold((failure) {
-                      print("errorrrrrr");
                     }, (data) {
                       Utils.toastSuccessMessage("Ticket created", context);
                       ref
@@ -330,15 +322,7 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                       _isLoading = false;
                     });
                   });
-                  // .onError((error, stackTrace) {
-                  //   Utils.flushBarErrorMessage(
-                  //       "Error", context);
-                  //   setState(() {
-                  //     isLoading = false;
-                  //   });
-                  // });
-                  // _showBottomSheet(
-                  //     context, _emailController.text, selectedTeams);
+                
                 }
               },
             ),

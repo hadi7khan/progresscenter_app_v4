@@ -93,24 +93,10 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
     Duration difference = DateTime.now().toUtc().difference(date.toUtc());
 
     if (timezone != null) {
-      // You may need to use a different time zone package depending on your requirements
-      // This example assumes you're using the 'timezone' package.
-      // Ensure you add the 'timezone' package to your pubspec.yaml file.
-      // Also, make sure to initialize the time zone database using initializeTimeZones().
-
-      // For example:
-      // initializeTimeZones();
-      // setLocalLocation(getLocation(timezone));
-
-      // Convert the date to the specified time zone
       DateTime convertedDate = TZDateTime.from(date, getLocation(timezone));
 
-      // Uncomment the lines above and modify them according to your project's requirements.
-
-      // Update the 'difference' variable with the converted date
       difference = DateTime.now().toUtc().difference(convertedDate.toUtc());
     }
-
     String timeAgo = DateFormat().add_yMMMMd().add_jm().format(date);
 
     if (difference.inSeconds < 60) {
@@ -134,12 +120,9 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
   }
 
   void handleRoleSelection(String selectedRole) {
-    // Handle the result returned from RolesScreen
     if (selectedRole != null) {
       _roleSelected = selectedRole;
       assignedRole = selectedRole;
-      // Do something with the result (selected role)
-      log('Selected Role: $selectedRole');
     }
   }
 

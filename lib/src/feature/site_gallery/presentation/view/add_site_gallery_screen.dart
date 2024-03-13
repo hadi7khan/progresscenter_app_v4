@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -190,9 +187,6 @@ class _AddSiteGalleryScreenState
                                 child: ListTile(
                                   key: ValueKey(index),
                                   horizontalTitleGap: 8.w,
-                                  // dense: true,
-                                  // visualDensity: VisualDensity(
-                                  //     horizontal: 0, vertical: -4.h),
                                   contentPadding: EdgeInsets.zero,
                                   leading: Container(
                                     padding: EdgeInsets.symmetric(
@@ -228,14 +222,6 @@ class _AddSiteGalleryScreenState
                                           color: Helper.textColor400,
                                           fontSize: 16.sp,
                                           fontWeight: FontWeight.w600)),
-                                  // subtitle: file.extension?.toLowerCase() == 'mp4'
-                                  //     ? SizedBox()
-                                  //     : Image.file(
-                                  //         File(file.path!),
-                                  //         height: 50,
-                                  //         width: 50,
-                                  //         fit: BoxFit.cover,
-                                  //       ),
                                   trailing: InkWell(
                                     onTap: () {
                                       setState(() {
@@ -253,52 +239,6 @@ class _AddSiteGalleryScreenState
                           ),
                         )
                       : SizedBox(),
-                  // pickedFile != null
-                  //     ? Container(
-                  //         padding: const EdgeInsets.symmetric(
-                  //             horizontal: 14, vertical: 12),
-                  //         height: 72,
-                  //         width: MediaQuery.of(context).size.width,
-                  //         decoration: BoxDecoration(
-                  //           borderRadius: BorderRadius.circular(8),
-                  //           border: Border.all(color: Helper.textColor300),
-                  //         ),
-                  //         child: Row(
-                  //             mainAxisAlignment:
-                  //                 MainAxisAlignment.spaceBetween,
-                  //             mainAxisSize: MainAxisSize.max,
-                  //             children: [
-                  //               SizedBox(
-                  //                 width: MediaQuery.of(context).size.width *
-                  //                     0.5,
-                  //                 child: Text(fileName!,
-                  //                     overflow: TextOverflow.ellipsis,
-                  //                     style: TextStyle(
-                  //                         color: Helper.baseBlack,
-                  //                         fontSize: 16.sp,
-                  //                         fontWeight: FontWeight.w600)),
-                  //               ),
-                  //               Text(fileSizeString!,
-                  //                   overflow: TextOverflow.ellipsis,
-                  //                   style: TextStyle(
-                  //                       color: Helper.textColor400,
-                  //                       fontSize: 16.sp,
-                  //                       fontWeight: FontWeight.w600)),
-                  //               InkWell(
-                  //                   onTap: () {
-                  //                     setState(() {
-                  //                       pickedFile == null;
-                  //                     });
-                  //                     setState(() {});
-                  //                   },
-                  //                   child: SvgPicture.asset(
-                  //                       width: 15,
-                  //                       height: 15,
-                  //                       'assets/images/close-x.svg')),
-                  //             ]),
-                  //       )
-                  //     : const SizedBox(),
-
                   SizedBox(height: 12.h),
                 ]),
           ),
@@ -331,15 +271,6 @@ class _AddSiteGalleryScreenState
                     ),
                   )),
               onPressed: () async {
-                // FormData? formData = FormData.fromMap({
-                //   // "files": _nameController.text,
-                // });
-
-                // if (docFiles.isNotEmpty) {
-                //   formData.files.add(MapEntry(
-                //       "file", await MultipartFile.fromFile(docFiles[0].path!)));
-                // }
-
                 await Service()
                     .uploadFiles(
                   widget.projectId,

@@ -9,7 +9,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
@@ -48,7 +47,6 @@ class FullViewSitegalleryScreen extends ConsumerStatefulWidget {
 
 class _FullViewSitegalleryScreenState
     extends BaseConsumerState<FullViewSitegalleryScreen> {
-  // VlcPlayerController? _videoPlayerController;
   VideoPlayerController? controller;
   ChewieController? chewieController;
   BetterPlayerController? betterController;
@@ -61,34 +59,9 @@ class _FullViewSitegalleryScreenState
         statusBarIconBrightness: Brightness.light));
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
-    // _initPlayer();
 
     if (widget.type == "VIDEO") {
       _initPlayer();
-      // _videoPlayerController = VlcPlayerController.network(
-      //   widget.url,
-      //   autoPlay: true,
-      //   options: VlcPlayerOptions(),
-      // );
-      // controller = VideoPlayerController.networkUrl(Uri.parse(widget.url),
-      //   videoPlayerOptions: VideoPlayerOptions(
-      //     mixWithOthers: true,
-      //     allowBackgroundPlayback: true,
-      //   ))
-      // ..initialize().then((_) {
-      //   print("url " + widget.url.toString());
-
-      //   // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-
-      //   Future.delayed(Duration(milliseconds: 100), () {
-      //     setState(() {
-      //       VideoPlayer(controller!);
-      //       controller!.play();
-      //     });
-      //   });
-      // }).then((value) {
-      //   print("video player error" + controller!.value.errorDescription!);
-      // });
     }
   }
 
@@ -99,7 +72,6 @@ class _FullViewSitegalleryScreenState
         BetterPlayerConfiguration(
           autoPlay: true,
           fullScreenByDefault: false,
-          // fullScreenAspectRatio: 16 / 9,
           fit: BoxFit.fitHeight,
           looping: false,
         ),
@@ -111,45 +83,15 @@ class _FullViewSitegalleryScreenState
         setState(() {});
       }
     });
-    // controller = VideoPlayerController.networkUrl(Uri.parse(widget.url!));
-    // await controller!.initialize().then((value) {
-    //   chewieController = ChewieController(
-    //     videoPlayerController: controller!,
-    //     autoPlay: true,
-    //     looping: true,
-    //     additionalOptions: (context) {
-    //       return <OptionItem>[
-    //         OptionItem(
-    //           onTap: () => debugPrint('Option 1 pressed!'),
-    //           iconData: Icons.chat,
-    //           title: 'Option 1',
-    //         ),
-    //         OptionItem(
-    //           onTap: () => debugPrint('Option 2 pressed!'),
-    //           iconData: Icons.share,
-    //           title: 'Option 2',
-    //         ),
-    //       ];
-    //     },
-    //   );
-    //   setState(() {});
-    // });
   }
 
   @override
   void dispose() {
-    // controller!.dispose();
-    // chewieController!.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // if (chewieController == null) {
-    //   return Container(
-    //     child: CircularProgressIndicator(),
-    //   );
-    // }
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
@@ -162,8 +104,6 @@ class _FullViewSitegalleryScreenState
               padding: EdgeInsets.only(right: 16.w, left: 16.w),
               child: AppBar(
                 systemOverlayStyle: SystemUiOverlayStyle.light,
-                // backgroundColor: Colors.black,
-                // surfaceTintColor: Colors.black,
                 automaticallyImplyLeading: false,
                 titleSpacing: 12.0.w,
                 leading: InkWell(
@@ -185,16 +125,6 @@ class _FullViewSitegalleryScreenState
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500),
                 ),
-                // actions: [
-
-                //   SizedBox(width: 5.w),
-                //   InkWell(
-                //     child: SvgPicture.asset('assets/images/plus.svg'),
-                //     onTap: () {
-                //       _showDroneFootageBottomSheet(context);
-                //     },
-                //   ),
-                // ],
               ),
             ),
           ),
@@ -202,9 +132,6 @@ class _FullViewSitegalleryScreenState
         body: SafeArea(
           child: Center(
             child: ClipRRect(
-                // borderRadius: BorderRadius.only(
-                //     topLeft: Radius.circular(16.r),
-                //     topRight: Radius.circular(16.r)),
                 child: Stack(alignment: Alignment.center, children: [
               widget.type == "IMAGE"
                   ? InteractiveViewer(
@@ -227,24 +154,9 @@ class _FullViewSitegalleryScreenState
                   : AspectRatio(
                       aspectRatio: betterController!
                           .videoPlayerController!.value.aspectRatio,
-                      child:
-                          // betterController.
-                          // ? Center(
-                          //     child: CircularProgressIndicator(
-                          //     color: ref.watch(primaryColorProvider),
-                          //   ))
-                          // :
-                          BetterPlayer(
+                      child: BetterPlayer(
                         controller: betterController!,
                       ),
-                      //  Chewie(
-                      //     controller: chewieController!,
-                      //   )
-                      // VlcPlayer(
-                      //   controller: _videoPlayerController!,
-                      //   aspectRatio: 16 / 9,
-                      //   placeholder: Center(child: CircularProgressIndicator()),
-                      // ),
                     ),
             ])),
           ),
@@ -286,7 +198,6 @@ class _FullViewSitegalleryScreenState
                         padding: EdgeInsets.symmetric(
                             horizontal: 32.w, vertical: 11.h),
                         backgroundColor: Colors.black,
-                        // side: BorderSide(color: Helper.textColor300),
                         fixedSize: Size.infinite),
                     child: Icon(Icons.delete, color: Helper.errorColor),
                   ),
@@ -316,7 +227,6 @@ class _FullViewSitegalleryScreenState
                     topRight: Radius.circular(16.r)),
                 color: Colors.white,
               ),
-              // height: 238.h,
               width: MediaQuery.of(context).size.width,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -390,51 +300,6 @@ class _FullViewSitegalleryScreenState
                         ),
                       ),
                       SizedBox(height: 20.h),
-                      // Row(
-                      //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      //     children: [
-                      //       TextButton(
-                      //         onPressed: () async {
-                      //           context.pop();
-                      //         },
-                      //         style: TextButton.styleFrom(
-                      //             padding: const EdgeInsets.symmetric(
-                      //                 horizontal: 16, vertical: 11),
-                      //             shape: RoundedRectangleBorder(
-                      //               borderRadius: BorderRadius.circular(8.r),
-                      //             ),
-                      //             backgroundColor: Colors.white,
-                      //             fixedSize: Size.infinite),
-                      //         child: Text(
-                      //           "Cancel",
-                      //           style: TextStyle(
-                      //               letterSpacing: -0.3,
-                      //               color: Helper.neutral500,
-                      //               fontSize: 16.sp,
-                      //               fontWeight: FontWeight.w500),
-                      //         ),
-                      //       ),
-                      //       TextButton(
-                      //         onPressed: () async {},
-                      //         style: TextButton.styleFrom(
-                      //             shape: RoundedRectangleBorder(
-                      //               borderRadius: BorderRadius.circular(8.r),
-                      //             ),
-                      //             padding: const EdgeInsets.symmetric(
-                      //                 horizontal: 16, vertical: 11),
-                      //             backgroundColor: ref.watch(primaryColorProvider),
-                      //             side: BorderSide(color: Helper.textColor300),
-                      //             fixedSize: Size.infinite),
-                      //         child: Text(
-                      //           "Confirm",
-                      //           style: TextStyle(
-                      //               letterSpacing: -0.3,
-                      //               color: Colors.white,
-                      //               fontSize: 16.sp,
-                      //               fontWeight: FontWeight.w500),
-                      //         ),
-                      //       ),
-                      //     ]),
                     ],
                   ),
                 ],
@@ -456,8 +321,6 @@ class _FullViewSitegalleryScreenState
   }
 
   _showDeleteBottomSheet(context, projectId, imageId) {
-    // todo : showDialog for ios
-
     if (!Platform.isIOS) {
       return showModalBottomSheet(
         context: context,
@@ -574,21 +437,11 @@ class _FullViewSitegalleryScreenState
       builder: (context) => CupertinoAlertDialog(
         title: Text(
           'Do you want to delete this item?',
-          // style: TextStyle(
-          //     color: Helper.errorColor,
-          //     fontSize: 18.sp,
-          //     fontWeight: FontWeight.w500),
         ),
         content: Text(
           "You cannot undo this action ",
-          // style: TextStyle(
-          //     fontSize: 14.sp,
-          //     fontWeight: FontWeight.w500,
-          //     color: Helper.textColor500),
         ),
         actions: <Widget>[
-          // if (cancelActionText != null)
-
           CupertinoDialogAction(
             child: Text(
               "Cancel",

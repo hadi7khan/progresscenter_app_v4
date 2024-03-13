@@ -8,13 +8,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:http/http.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
-import 'package:progresscenter_app_v4/src/common/data/exception.dart';
-import 'package:progresscenter_app_v4/src/common/skeletons/loading_slider.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/slider/presentation/provider/progress_slider_controller.dart';
@@ -229,13 +225,6 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
                                         },
                                       ),
                                     );
-                                    // context.push('/fullviewSlider', extra: {
-                                    //   "projectId": widget.projectId,
-                                    //   "projectName": widget.projectName,
-                                    //   "cameraId": widget.cameraId,
-                                    //   "sliderData": data,
-                                    //   "imagesBytes": imageBytesList,
-                                    // });
                                   },
                                   child: BlurryContainer(
                                     blur: 3,
