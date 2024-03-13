@@ -438,25 +438,18 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                       child: IconButton(
                         icon: SvgPicture.asset('assets/images/send.svg'),
                         onPressed: () async {
-                          setState(() {
-                            // _controller.clear();
-                            // _changeState = false;
-                          });
+                          setState(() {});
                           Map<String, dynamic> data = getCommentData();
                           if (_fbKey.currentState!.saveAndValidate()) {
-                            print(
-                                "id passed" + widget.progresslineId.toString());
                             await ref
                                 .watch(postCommentProvider.notifier)
                                 .postComment(widget.progresslineId, data)
                                 .then((value) async {
-                              value.fold((failure) {
-                                print("errorrrrrr");
-                              }, (res) {
+                              value.fold((failure) {}, (res) {
                                 ref
                                     .watch(commentsControllerProvider.notifier)
                                     .getComments(widget.progresslineId);
-                                print("response data" + res.toString());
+
                                 key.currentState!.controller!.clear();
                               });
                               Utils.toastSuccessMessage(

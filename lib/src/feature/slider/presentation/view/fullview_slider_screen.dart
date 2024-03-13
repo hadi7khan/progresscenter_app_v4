@@ -1,14 +1,11 @@
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
-import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
-import 'dart:developer';
 
 class FullviewSliderScreen extends ConsumerStatefulWidget {
   final String projectId;
@@ -34,23 +31,6 @@ class _FullviewSliderScreenState
   int currentslider = 0;
 
   @override
-  void initState() {
-    super.initState();
-
-    // SystemChrome.setPreferredOrientations([
-    //   DeviceOrientation.landscapeLeft,
-    //   DeviceOrientation.landscapeRight,
-    // ]);
-  }
-
-  // void dispose() {
-  //   SystemChrome.setPreferredOrientations([
-  //     DeviceOrientation.portraitUp,
-  //     DeviceOrientation.portraitDown,
-  //   ]);
-  // }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -69,23 +49,7 @@ class _FullviewSliderScreenState
                               width: double.infinity,
                               height: double.infinity,
                               fit: BoxFit.fill,
-                              // errorBuilder: (BuildContext context,
-                              //     Object exception, StackTrace? stackTrace) {
-                              //   return ClipRRect(
-                              //     child: Image.asset(
-                              //       'assets/images/error_image.jpeg',
-                              //       fit: BoxFit.cover,
-                              //     ),
-                              //   );
-                              // },
-                            )
-                            // : ClipRRect(
-                            //     child: Image.asset(
-                            //       'assets/images/error_image.jpeg',
-                            //       fit: BoxFit.cover,
-                            //     ),
-                            //   ),
-                            ),
+                            )),
                         Positioned(
                           top: 16,
                           right: 16,
@@ -131,12 +95,8 @@ class _FullviewSliderScreenState
                                 value: currentslider.toDouble(),
                                 onChanged: (value) {
                                   setState(() {
-                                    // _currentSliderValue = value;
-                                    // currentBytes = imageBytesList[value.round()];
                                     currentslider = value.round();
-                                    print(value.toString());
                                   });
-                                  // setState(() {});
                                 },
                               ),
                             ),

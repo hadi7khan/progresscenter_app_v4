@@ -276,7 +276,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          imagesData.images!.isEmpty
+                          imagesData.images == null
                               ? Center(
                                   child: Container(
                                     height: MediaQuery.of(context).size.height -
@@ -475,7 +475,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                     ),
                                   ),
                                 ]),
-                          imagesData.images!.isNotEmpty
+                          imagesData.images != null
                               ? SizedBox(
                                   height: 76.h,
                                   child: ImageSliderWidget(
@@ -578,16 +578,17 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
           ),
         ),
       ),
-      bottomNavigationBar: showBottomBar
-          ? BottomNavWidget(
-              projectId: widget.projectId,
-              projectName: widget.projectName,
-              cameraId: widget.cameraId,
-              endDate: imagesByCameraIdInter.endDate!,
-              startDate: imagesByCameraIdInter.startDate!,
-              cameraName: widget.cameraName,
-            )
-          : SizedBox(),
+      bottomNavigationBar:
+          showBottomBar && imagesByCameraIdInter.endDate != null
+              ? BottomNavWidget(
+                  projectId: widget.projectId,
+                  projectName: widget.projectName,
+                  cameraId: widget.cameraId,
+                  endDate: imagesByCameraIdInter.endDate!,
+                  startDate: imagesByCameraIdInter.startDate!,
+                  cameraName: widget.cameraName,
+                )
+              : SizedBox(),
     );
   }
 }

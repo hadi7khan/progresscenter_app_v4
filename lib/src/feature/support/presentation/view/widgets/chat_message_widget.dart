@@ -29,12 +29,9 @@ class _ChatMessageWidgetState extends ConsumerState<ChatMessageWidget> {
   @override
   Widget build(BuildContext context) {
     showDateTimeString(String date, dateFormat) {
-      // DateTime timestamp = DateTime.parse(date).toLocal();
-      // print("date: "  +timestamp.toString());
-      // Format the DateTime object into the desired format
       String formattedDate =
           DateFormat(dateFormat).format(DateTime.parse(date));
-      print("date: " + formattedDate.toString());
+
       return formattedDate;
     }
 

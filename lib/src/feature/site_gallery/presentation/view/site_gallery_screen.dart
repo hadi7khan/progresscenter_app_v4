@@ -13,7 +13,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
-import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_site_gallery.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
@@ -70,34 +69,10 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
   Future<void> _pickVideo(ImageSource source, context) async {
     final ImagePicker picker = ImagePicker();
     final pickedFile = await picker.pickVideo(source: source);
-    // final pickedFile = await CameraPicker.pickFromCamera(context,
-    //     pickerConfig: CameraPickerConfig());
-    // final pickedFile = await _picker.pickImage(
-    //   source: source,
-    //   maxWidth: 1024,
-    //   maxHeight: 1024,
-    //   imageQuality: 80,
-    // );
-
-    // if (pickedFile != null) {
-    //   try {
-    //     final File? file = await pickedFile.file;
-
-    //     if (file != null) {
-    //       String filePath = file.path;
-    //       log('File path: $filePath');
-    //     } else {
-    //       print('Error: Unable to load file.');
-    //     }
-    //   } catch (e) {
-    //     print('Error: $e');
-    //   }
-    // }
 
     if (pickedFile != null) {
       final file = XFile(pickedFile.path);
       if (await file.length() > 10000000) {
-        // The file is too large, show an error message
         return;
       }
       setState(() {
@@ -129,12 +104,6 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
             return true;
           },
         ));
-    // final pickedFile = await _picker.pickImage(
-    //   source: source,
-    //   maxWidth: 1024,
-    //   maxHeight: 1024,
-    //   imageQuality: 80,
-    // );
 
     if (pickedFile != null) {
       try {
@@ -146,10 +115,6 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
           setState(() {
             _image = XFile(filePath);
           });
-          // _showProgressBottomSheet(context);
-          // _bottomSheetController!.setState!(() {
-          //   _progressBar = _progress;
-          // });
         } else {
           print('Error: Unable to load file.');
         }
@@ -157,20 +122,6 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
         print('Error: $e');
       }
     }
-
-    // if (pickedFile != null) {
-    //   final file = XFile(pickedFile.path);
-    //   if (await file.length() > 1000000) {
-    //     // The file is too large, show an error message
-    //     return;
-    //   }
-    //   setState(() {
-    //     _image = file;
-    //   });
-    //   log("image path" + _image!.path.toString());
-    // } else {
-    //   return null;
-    // }
   }
 
   @override
@@ -217,29 +168,11 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                       fontWeight: FontWeight.w500),
                 ),
                 actions: [
-                  // InkWell(
-                  //   onTap: () {
-                  //     setState(() {
-                  //       if (list == true) {
-                  //         list = false;
-                  //       } else {
-                  //         list = true;
-                  //       }
-                  //     });
-                  //   },
-                  //   child: list
-                  //       ? SvgPicture.asset('assets/images/grid_view.svg')
-                  //       : SvgPicture.asset('assets/images/list_view.svg'),
-                  // ),
                   SizedBox(width: 5.w),
                   InkWell(
                     child: SvgPicture.asset('assets/images/plus.svg'),
                     onTap: () {
                       _showBottomSheet(context, widget.projectId);
-                      // context.push('/addSiteGallery', extra: {
-                      //   "projectId": widget.projectId,
-                      //   "projectName": widget.projectName
-                      // });
                     },
                   ),
                 ],
@@ -290,74 +223,6 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   mainAxisSize: MainAxisSize.max,
-                        //   children: [
-                        //     Row(children: [
-                        //       Container(
-                        //         height: 24.h,
-                        //         child: IconButton(
-                        //           padding: EdgeInsets.zero,
-                        //           alignment: Alignment.centerLeft,
-                        //           icon: Icon(
-                        //             Icons.arrow_back,
-                        //           ),
-                        //           onPressed: () => context.pop(),
-                        //         ),
-                        //       ),
-                        //       SizedBox(width: 8.w),
-                        //       Text(
-                        //         widget.projectName,
-                        //         style: TextStyle(
-                        //             color: Helper.baseBlack,
-                        //             fontSize: 18.sp,
-                        //             fontWeight: FontWeight.w500),
-                        //       )
-                        //     ]),
-                        //     Row(
-                        //       mainAxisSize: MainAxisSize.min,
-                        //       mainAxisAlignment: MainAxisAlignment.end,
-                        //       children: [
-                        //         Container(
-                        //           margin: EdgeInsets.zero,
-                        //           height: 24.h,
-                        //           child: IconButton(
-                        //             padding: EdgeInsets.zero,
-                        //             alignment: Alignment.centerLeft,
-                        //             icon: list
-                        //                 ? SvgPicture.asset(
-                        //                     'assets/images/grid_view.svg')
-                        //                 : SvgPicture.asset(
-                        //                     'assets/images/list_view.svg'),
-                        //             onPressed: () {
-                        //               setState(() {
-                        //                 if (list == true) {
-                        //                   list = false;
-                        //                 } else {
-                        //                   list = true;
-                        //                 }
-                        //               });
-                        //             },
-                        //           ),
-                        //         ),
-                        //         Container(
-                        //           margin: EdgeInsets.zero,
-                        //           height: 24.h,
-                        //           child: IconButton(
-                        //             padding: EdgeInsets.zero,
-                        //             alignment: Alignment.centerLeft,
-                        //             icon: SvgPicture.asset('assets/images/plus.svg'),
-                        //             onPressed: () => context.pop(),
-                        //           ),
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   ],
-                        // ),
-                        // SizedBox(
-                        //   height: 24.h,
-                        // ),
                         list
                             ? ListView.separated(
                                 separatorBuilder: (context, index) {
@@ -378,7 +243,6 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
                                 padding: EdgeInsets.zero,
-                                // cacheExtent: 99999999,
                                 gridDelegate:
                                     SliverGridDelegateWithMaxCrossAxisExtent(
                                   maxCrossAxisExtent:
@@ -386,7 +250,6 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                                   mainAxisSpacing: 1.5.h,
                                   crossAxisSpacing: 1.5.w,
                                   childAspectRatio: 1 / 1,
-                                  // mainAxisExtent: 100.h
                                 ),
                                 itemCount: data.length,
                                 itemBuilder: ((context, index) {
@@ -417,7 +280,6 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
         context: context,
         builder: (context) => CupertinoActionSheet(
           title: const Text("Add Site Gallery"),
-          // message: const Text('Message'),
           actions: <CupertinoActionSheetAction>[
             CupertinoActionSheetAction(
               child: Row(children: [
@@ -439,11 +301,6 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                       .uploadImageForSitegallery(
                           widget.projectId, _image!.path, calculateProgress)
                       .then((value) {
-                    setState(() {
-                      // _progress = progress;
-                      // print("progress" + _progress.toString());
-                    });
-                    // print("progress" + _progress.toString());
                     context.pop();
                     Utils.toastSuccessMessage("Media Uploaded", context);
                   });
@@ -576,19 +433,13 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                 children: [
                   InkWell(
                     onTap: () async {
-                      // calculateProgress(0);
                       _pickImage(ImageSource.camera, context)
                           .then((value) async {
                         await Service()
                             .uploadImageForSitegallery(widget.projectId,
                                 _image!.path, calculateProgress)
                             .then((value) {
-                          // _showProgressBottomSheet(context);
-                          setState(() {
-                            // _progress = progress;
-                            // print("progress" + _progress.toString());
-                          });
-                          // print("progress" + _progress.toString());
+                          setState(() {});
                           context.pop();
 
                           ref
@@ -614,50 +465,6 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                       ),
                     ),
                   ),
-                  // InkWell(
-                  //   onTap: () async {
-                  //     // calculateProgress(0);
-                  //     _pickVideo(ImageSource.camera, context)
-                  //         .then((value) async {
-                  //       await Service()
-                  //           .uploadImageForSitegallery(
-                  //         widget.projectId,
-                  //         _image!.path,
-                  //       )
-                  //           .then((value) {
-                  //         setState(() {
-                  //           // _progress = progress;
-                  //           // print("progress" + _progress.toString());
-                  //         });
-                  //         // print("progress" + _progress.toString());
-
-                  //         context.pop();
-                  //         ref
-                  //             .refresh(siteGalleryControllerProvider.notifier)
-                  //             .getSiteGallery(widget.projectId);
-                  //         ScaffoldMessenger.of(context).showSnackBar(
-                  //             const SnackBar(
-                  //                 backgroundColor: Colors.green,
-                  //                 content: Text("Video Uploaded")));
-                  //       });
-                  //     });
-                  //   },
-                  //   child: Container(
-                  //     width: double.infinity,
-                  //     padding: EdgeInsets.symmetric(
-                  //         horizontal: 10.w, vertical: 16.h),
-                  //     decoration: BoxDecoration(
-                  //         borderRadius: BorderRadius.circular(8.r),
-                  //         color: Colors.white),
-                  //     child: Text(
-                  //       'Take Video',
-                  //       style: TextStyle(
-                  //           color: Helper.baseBlack,
-                  //           fontSize: 16.sp,
-                  //           fontWeight: FontWeight.w500),
-                  //     ),
-                  //   ),
-                  // ),
                   InkWell(
                     onTap: () async {
                       result = await FilePicker.platform.pickFiles(
@@ -697,25 +504,6 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                   ),
                   InkWell(
                     onTap: () async {
-                      // result = await FilePicker.platform.pickFiles(
-                      //   allowMultiple: true,
-                      //   type: FileType.custom,
-                      //   allowedExtensions: ['jpg', 'jpeg', 'png', 'mp4'],
-                      // );
-                      // await Service()
-                      //     .uploadFiles(
-                      //   widget.projectId,
-                      //   result!.paths.map((path) => path).toList(),
-                      // )
-                      //     .then((value) {
-                      //   context.pop();
-                      //   Utils.toastSuccessMessage(
-                      //     "Site Gallery Added",
-                      //   );
-                      //   ref
-                      //       .watch(siteGalleryControllerProvider.notifier)
-                      //       .getSiteGallery(widget.projectId);
-                      // });
                       context.pop();
                     },
                     child: Container(
@@ -734,32 +522,6 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                       ),
                     ),
                   ),
-                  // SizedBox(height: 20.h),
-                  // Container(
-                  //   height: 52.h,
-                  //   width: double.infinity,
-                  //   child: ElevatedButton(
-                  //     child: Text(
-                  //       "Cancel",
-                  //       style: TextStyle(
-                  //           color: Colors.white,
-                  //           fontSize: 16,
-                  //           fontWeight: FontWeight.w500),
-                  //       // currentIndex == contents.length - 1 ? "Continue" : "Next"
-                  //     ),
-                  //     style: ButtonStyle(
-                  //         backgroundColor: MaterialStatePropertyAll(
-                  //             _changeState ? ref.watch(primaryColorProvider) : Helper.baseBlack),
-                  //         shape: MaterialStateProperty.all(
-                  //           RoundedRectangleBorder(
-                  //             borderRadius: BorderRadius.circular(8.r),
-                  //           ),
-                  //         )),
-                  //     onPressed: () {
-                  //       context.pop();
-                  //     },
-                  //   ),
-                  // ),
                 ],
               ),
             ],

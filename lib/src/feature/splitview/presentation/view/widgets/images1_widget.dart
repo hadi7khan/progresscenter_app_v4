@@ -13,7 +13,7 @@ import 'package:progresscenter_app_v4/src/feature/splitview/presentation/provide
 class Images1Widget extends ConsumerStatefulWidget {
   final int selectedImageIndex;
   final data;
-  WidgetRef ref;
+  final WidgetRef ref;
   final ValueChanged<String> changeTime;
   Images1Widget(
       {super.key,
@@ -39,7 +39,6 @@ class _Images1WidgetState extends BaseConsumerState<Images1Widget> {
               topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r)),
           color: Colors.white,
         ),
-        // height: MediaQuery.of(context).size.height * 1.6,
         width: MediaQuery.of(context).size.width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

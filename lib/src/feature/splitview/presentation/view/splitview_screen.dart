@@ -1,5 +1,4 @@
 import 'package:blurrycontainer/blurrycontainer.dart';
-import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,7 +11,6 @@ import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_split_view.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
-import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/selected_imagedata_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/splitview/presentation/provider/split_view1_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/splitview/presentation/provider/split_view1_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/splitview/presentation/provider/split_view2_controller.dart';
@@ -42,13 +40,9 @@ class SplitviewScreen extends ConsumerStatefulWidget {
 
 class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
   String _searchDate1 = '';
-  String _searchDate2 = '';
   String _selectedDate1 = '';
   String _selectedDate2 = '';
   int _selectedImageIndex1 = 0;
-  int _selectedImageIndex2 = 0;
-  StateSetter? bottomSheetState;
-  StateSetter? bottomDateState;
   String formattedDate1 = '';
   String formattedDate2 = '';
   String formattedTime1 = "";
@@ -56,7 +50,6 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
   late model.Image imageData;
 
   changeTime1(String time) {
-    print("showtime1 called" + time);
     String dateWithT = time.substring(0, 8) + 'T' + time.substring(8);
     DateTime dateTime = DateTime.parse(dateWithT);
     formattedTime1 = DateFormat('h:mm a').format(dateTime);
@@ -64,7 +57,6 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
   }
 
   changeTime2(String time) {
-    print("showtime2 called" + time);
     String dateWithT = time.substring(0, 8) + 'T' + time.substring(8);
     DateTime dateTime = DateTime.parse(dateWithT);
     formattedTime2 = DateFormat('h:mm a').format(dateTime);
@@ -72,22 +64,15 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
   }
 
   showDate1(String date) {
-    print("showdate called" + date);
-    // Parse the endDate string into a DateTime object
     DateTime parsedDate = DateTime.parse(date);
-
-    // Format the DateTime object into the desired format
     formattedDate1 = DateFormat('dd MMM yyyy').format(parsedDate);
     setState(() {});
     return formattedDate1;
   }
 
   showDate2(String date) {
-    print("showdate called" + date);
-    // Parse the endDate string into a DateTime object
     DateTime parsedDate = DateTime.parse(date);
 
-    // Format the DateTime object into the desired format
     formattedDate2 = DateFormat('dd MMM yyyy').format(parsedDate);
     setState(() {});
     return formattedDate2;
@@ -125,7 +110,6 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
           child: AppBar(
             centerTitle: false,
             automaticallyImplyLeading: false,
-            // titleSpacing: 12.0.w,
             leading: InkWell(
               onTap: () {
                 context.pop();
@@ -137,45 +121,14 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
               ),
             ),
             leadingWidth: 24,
-            title: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "Split View",
-                    style: TextStyle(
-                        letterSpacing: -0.3,
-                        color: Helper.baseBlack,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Text(
-                        "17 Jul 2019 - 18 Aug 2019 ",
-                        style: TextStyle(
-                            letterSpacing: -0.3,
-                            color: Helper.baseBlack.withOpacity(0.5),
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400),
-                      ),
-                      SizedBox(
-                        width: 6.w,
-                      ),
-                      SvgPicture.asset('assets/images/chevron-down.svg'),
-                    ],
-                  )
-                ]),
-
-            actions: [
-              SvgPicture.asset('assets/images/dots-vertical.svg'),
-            ],
-
-            actionsIconTheme: IconThemeData(color: Helper.iconColor),
+            title: Text(
+              "Split View",
+              style: TextStyle(
+                  letterSpacing: -0.3,
+                  color: Helper.baseBlack,
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w500),
+            ),
           ),
         ),
       ),
@@ -200,7 +153,6 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                       if (data1.images!.isEmpty) {
                         return Container(
                           alignment: Alignment.center,
-                          // height: MediaQuery.of(context).size.height *0.88.h,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -223,7 +175,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                       ;
                       final aspectRatio = data1.images![0].resolution!.width! /
                           data1.images![0].resolution!.height!;
-                      print("aspectRatio$aspectRatio");
+
                       if (selectedSplitViewData1 == null) {
                         changeTime1(data1.images![0].datetime!);
                       } else {
@@ -244,7 +196,6 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                               height: MediaQuery.of(context).size.width /
                                   aspectRatio,
                               child: ImageCompareSlider(
-                                // handleFollowsPosition: true,
                                 dividerColor: ref.watch(primaryColorProvider),
                                 handleColor: Colors.white,
                                 handlePosition: 0.96,
@@ -255,7 +206,6 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                       : selectedSplitViewData1.urlPreview!,
                                   gaplessPlayback: true,
                                   width: double.infinity,
-                                  // height: 210.h,
                                   fit: BoxFit.fill,
                                   loadingBuilder:
                                       (context, child, loadingProgress) {
@@ -289,7 +239,6 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                       : selectedSplitViewData2.urlPreview!,
                                   gaplessPlayback: true,
                                   width: double.infinity,
-                                  // height: 210.h,
                                   fit: BoxFit.fill,
                                   loadingBuilder:
                                       (context, child, loadingProgress) {
@@ -418,7 +367,6 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                 children: [
                                   Container(
                                     height: 44.h,
-                                    // width: 120.w,
                                     child: ElevatedButton(
                                       child: Text(
                                         formattedTime1,
@@ -427,7 +375,6 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                             color: Helper.baseBlack,
                                             fontSize: 15.sp,
                                             fontWeight: FontWeight.w400),
-                                        // currentIndex == contents.length - 1 ? "Continue" : "Next"
                                       ),
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Helper.fillsBackground,
@@ -448,14 +395,11 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                                   ref: ref,
                                                   changeTime: changeTime1,
                                                 ));
-                                        // _selectImage1BottomSheet(
-                                        //     data1, _selectedImageIndex1, ref);
                                       },
                                     ),
                                   ),
                                   Container(
                                     height: 44.h,
-                                    // width: 120.w,
                                     child: ElevatedButton(
                                       child: Text(
                                         formattedTime2,
@@ -464,7 +408,6 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                             color: Helper.baseBlack,
                                             fontSize: 15.sp,
                                             fontWeight: FontWeight.w400),
-                                        // currentIndex == contents.length - 1 ? "Continue" : "Next"
                                       ),
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Helper.fillsBackground,
@@ -485,8 +428,6 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                                   ref: ref,
                                                   changeTime: changeTime1,
                                                 ));
-                                        // _selectImage2BottomSheet(context, data2,
-                                        //     _selectedImageIndex2, ref);
                                       },
                                     ),
                                   )
@@ -514,430 +455,6 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  _selectImage1BottomSheet(
-    context,
-    data,
-    selectedIndex,
-    WidgetRef ref,
-  ) {
-    return showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Wrap(children: [
-        StatefulBuilder(builder: (context, StateSetter modalState) {
-          bottomSheetState = modalState;
-          return Container(
-            padding: EdgeInsets.only(
-                top: 28.h, left: 20.w, right: 20.w, bottom: 28.h),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16.r),
-                  topRight: Radius.circular(16.r)),
-              color: Colors.white,
-            ),
-            // height: MediaQuery.of(context).size.height * 1.6,
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Select Image 1',
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Helper.baseBlack,
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20.h),
-                SizedBox(
-                  height: 73.h,
-                  child: ListView.separated(
-                      separatorBuilder: (context, builder) {
-                        return SizedBox(
-                          width: 2.w,
-                        );
-                      },
-                      itemCount: data.images!.length,
-                      shrinkWrap: true,
-                      physics: BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: ((context, index) {
-                        String dateWithT =
-                            data.images![index].datetime!.substring(0, 8) +
-                                'T' +
-                                data.images![index].datetime!.substring(8);
-                        DateTime dateTime = DateTime.parse(dateWithT);
-                        final String formattedTime =
-                            DateFormat('h:mm a').format(dateTime);
-                        return InkWell(
-                          onTap: () {
-                            setState(() {
-                              selectedIndex = index;
-                            });
-                            final imageData = ImageData(
-                              name: data.images![index].name,
-                              dateTime: data.images![index].datetime,
-                              camera: data.images![index].camera,
-                              id: data.images![index].id,
-                              urlPreview: data.images![index].urlPreview,
-                            );
-
-                            ref
-                                .read(splitView1DataProvider.notifier)
-                                .setImageData(imageData);
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 4.w, vertical: 2.h),
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.zero,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(6.r),
-                                      border: _selectedImageIndex2 == index
-                                          ? Border.all(
-                                              color: ref
-                                                  .watch(primaryColorProvider),
-                                              width: 2.w,
-                                            )
-                                          : Border.all(
-                                              width: 2.w,
-                                              color: Colors.transparent),
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(4.r),
-                                      child: Image.network(
-                                        data.images![index].urlThumb!,
-                                        gaplessPlayback: true,
-                                        width: 44.w,
-                                        height: 44.h,
-                                        fit: BoxFit.fill,
-                                        errorBuilder: (BuildContext context,
-                                            Object exception,
-                                            StackTrace? stackTrace) {
-                                          return ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(4.r),
-                                            child: Image.asset(
-                                              'assets/images/error_image.jpeg',
-                                              width: 44.w,
-                                              height: 44.h,
-                                              fit: BoxFit.fill,
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 6.h,
-                                  ),
-                                  Text(
-                                    formattedTime,
-                                    style: TextStyle(
-                                        letterSpacing: -0.3,
-                                        color: Helper.textColor700,
-                                        fontSize: 8.sp,
-                                        fontWeight: FontWeight.w500),
-                                  )
-                                ]),
-                          ),
-                        );
-                      })),
-                ),
-              ],
-            ),
-          );
-        }),
-      ]),
-    );
-  }
-
-  _selectImage2BottomSheet(
-    context,
-    data,
-    selectedIndex,
-    WidgetRef ref,
-  ) {
-    return showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Wrap(children: [
-        StatefulBuilder(builder: (context, StateSetter modalState) {
-          // bottomSheetState = modalState;
-          return Container(
-            padding: EdgeInsets.only(
-                top: 28.h, left: 20.w, right: 20.w, bottom: 28.h),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16.r),
-                  topRight: Radius.circular(16.r)),
-              color: Colors.white,
-            ),
-            // height: MediaQuery.of(context).size.height * 1.6,
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Select Image 2',
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Helper.baseBlack,
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20.h),
-                SizedBox(
-                  height: 73.h,
-                  child: ListView.separated(
-                      separatorBuilder: (context, builder) {
-                        return SizedBox(
-                          width: 2.w,
-                        );
-                      },
-                      itemCount: data.images!.length,
-                      shrinkWrap: true,
-                      physics: BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: ((context, index) {
-                        String dateWithT =
-                            data.images![index].datetime!.substring(0, 8) +
-                                'T' +
-                                data.images![index].datetime!.substring(8);
-                        DateTime dateTime = DateTime.parse(dateWithT);
-                        final String formattedTime =
-                            DateFormat('h:mm a').format(dateTime);
-                        return InkWell(
-                          onTap: () {
-                            setState(() {
-                              selectedIndex = index;
-                            });
-                            final imageData = ImageData(
-                              name: data.images![index].name,
-                              dateTime: data.images![index].datetime,
-                              camera: data.images![index].camera,
-                              id: data.images![index].id,
-                              urlPreview: data.images![index].urlPreview,
-                            );
-
-                            ref
-                                .read(splitView2DataProvider.notifier)
-                                .setImageData(imageData);
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 4.w, vertical: 2.h),
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.zero,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(6.r),
-                                      border: _selectedImageIndex2 == index
-                                          ? Border.all(
-                                              color: ref
-                                                  .watch(primaryColorProvider),
-                                              width: 2.w,
-                                            )
-                                          : Border.all(
-                                              width: 2.w,
-                                              color: Colors.transparent),
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(4.r),
-                                      child: Image.network(
-                                        data.images![index].urlThumb!,
-                                        gaplessPlayback: true,
-                                        width: 44.w,
-                                        height: 44.h,
-                                        fit: BoxFit.fill,
-                                        errorBuilder: (BuildContext context,
-                                            Object exception,
-                                            StackTrace? stackTrace) {
-                                          return ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(4.r),
-                                            child: Image.asset(
-                                              'assets/images/error_image.jpeg',
-                                              width: 44.w,
-                                              height: 44.h,
-                                              fit: BoxFit.fill,
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 6.h,
-                                  ),
-                                  Text(
-                                    formattedTime,
-                                    style: TextStyle(
-                                        letterSpacing: -0.3,
-                                        color: Helper.textColor700,
-                                        fontSize: 8.sp,
-                                        fontWeight: FontWeight.w500),
-                                  )
-                                ]),
-                          ),
-                        );
-                      })),
-                ),
-              ],
-            ),
-          );
-        }),
-      ]),
-    );
-  }
-
-  _showSplitView1BottomSheet(
-      context,
-      String startDate,
-      String endDate,
-      String selectedDate,
-      String cameraId,
-      String projectId,
-      WidgetRef ref,
-      ValueChanged showDate) {
-    return showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        backgroundColor: Colors.transparent,
-        builder: (context) => Date1Widget(
-              startDate: startDate,
-              endDate: endDate,
-              selectedDate: selectedDate,
-              cameraId: cameraId,
-              projectId: projectId,
-              ref: ref,
-              changeDate: showDate,
-            ));
-  }
-
-  _showSplitView2BottomSheet(
-    context,
-    String startDate,
-    String endDate,
-    String selectedDate,
-    String cameraId,
-    String projectId,
-    WidgetRef ref,
-  ) {
-    return showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Wrap(children: [
-        Container(
-          padding: EdgeInsets.only(top: 28.h, left: 20.w, right: 20.w),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16.r),
-                topRight: Radius.circular(16.r)),
-            color: Colors.white,
-          ),
-          // height: MediaQuery.of(context).size.height * 1.6,
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Split 2 Image Date',
-                    style: TextStyle(
-                        letterSpacing: -0.3,
-                        color: Helper.baseBlack,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500),
-                  ),
-                ],
-              ),
-              CalendarDatePicker2(
-                config: CalendarDatePicker2Config(
-                  lastDate: DateTime.parse(endDate),
-                  firstDate: DateTime.parse(startDate),
-                  selectedDayHighlightColor: ref.watch(primaryColorProvider),
-                ),
-                value: [],
-                onValueChanged: (value) {
-                  print(value.toString());
-                  DateTime date = DateTime.parse(value[0].toString());
-                  selectedDate = DateFormat("yyyyMMdd").format(date);
-                  print("selectedDate " + selectedDate);
-                },
-              ),
-              // SizedBox(height: 20.h),
-              Container(
-                height: 52.h,
-                width: double.infinity,
-                margin: EdgeInsets.only(bottom: 10.h),
-                child: ElevatedButton(
-                  child: Text(
-                    "Done",
-                    style: TextStyle(
-                        letterSpacing: -0.3,
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500),
-                    // currentIndex == contents.length - 1 ? "Continue" : "Next"
-                  ),
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(
-                          ref.watch(primaryColorProvider)),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                      )),
-                  onPressed: () {
-                    print(selectedDate);
-                    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                      ref
-                          .read(splitView2ControllerProvider.notifier)
-                          .getImagesByCamId(projectId, cameraId,
-                              searchDate: selectedDate);
-                    });
-                    // showDate(selectedDate);
-                    setState(() {});
-                    context.pop();
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      ]),
     );
   }
 }
