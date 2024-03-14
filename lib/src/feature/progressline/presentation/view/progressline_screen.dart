@@ -6,9 +6,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
+import 'package:progresscenter_app_v4/src/common/skeletons/load_progress_line.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
+import 'package:progresscenter_app_v4/src/feature/progressline/data/model/progressline_model.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/data/model/progressline_project_model.dart';
+import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/all_progressline_posts_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/progressline_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/widgets/projects_filter_widget.dart';
 import 'dart:developer' as dev;
@@ -28,6 +31,9 @@ class ProgresslineScreen extends ConsumerStatefulWidget {
 class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
   List<ProgresslineProjectModel> _progresslineProjects = [];
   String _projectId = "";
+  bool showAllPosts = false;
+  String? _selectedProject;
+  List<ProgressLineModel>? posts = [];
 
   Future<String> fetchFeed() async {
     await Service().progresslineProjectsList().then((value) {
@@ -40,7 +46,23 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref
+          .read(allProgresslinePostsControllerProvider.notifier)
+          .getAllProgresslinePosts()
+          .then((value) {
+        posts = value;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final progresslineData = ref.watch(allProgresslinePostsControllerProvider
+        .select((value) => value.allProgresslinePosts));
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -82,10 +104,38 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
                               builder: (context) => ProjectsFilterWidget(
                                     progresslineProjects: _progresslineProjects,
                                     onChange: (String id) {
+                                      _selectedProject =
+                                          id == 'All' ? null : id;
+
+                                      // setState(() {
+                                      //   showAllPosts = false;
+                                      // });
+                                      // ref
+                                      //     .read(progresslineControllerProvider
+                                      //         .notifier)
+                                      //     .getProgressline(id);
                                       ref
-                                          .read(progresslineControllerProvider
-                                              .notifier)
-                                          .getProgressline(id);
+                                          .watch(
+                                              allProgresslinePostsControllerProvider
+                                                  .notifier)
+                                          .getAllProgresslinePosts()
+                                          .then((value) {
+                                        posts = _selectedProject == null
+                                            ? value
+                                            : value!.where((item) {
+                                                dev.log("projectId " +
+                                                    item!.project!.projectId
+                                                        .toString());
+                                                return item!
+                                                        .project!.projectId ==
+                                                    id;
+                                              }).toList();
+                                        setState(() {});
+
+                                        dev.log("_filteredPostsList " +
+                                            posts.toString());
+                                      });
+
                                       context.pop();
                                     },
                                   ));
@@ -120,22 +170,33 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
                     ],
                   ),
                   SizedBox(height: 15.h),
-                  FutureBuilder(
-                      future: fetchFeed(),
-                      builder: ((context, snapshot) {
-                        switch (snapshot.connectionState) {
-                          case ConnectionState.none:
-                            return const Text('');
-                          case ConnectionState.active:
-                          case ConnectionState.waiting:
-                            return const Text('');
-                          case ConnectionState.done:
-                            if (snapshot.hasError) return const Text('');
-                            return FeedWidget(
-                                progresslineProjects: _progresslineProjects,
-                                projectId: _projectId);
-                        }
-                      }))
+                  progresslineData.when(
+                    data: (data) {
+                      return FutureBuilder(
+                          future: fetchFeed(),
+                          builder: ((context, snapshot) {
+                            switch (snapshot.connectionState) {
+                              case ConnectionState.none:
+                                return const Text('');
+                              case ConnectionState.active:
+                              case ConnectionState.waiting:
+                                return const Text('');
+                              case ConnectionState.done:
+                                if (snapshot.hasError) return const Text('');
+                                return FeedWidget(
+                                    progresslineProjects: _progresslineProjects,
+                                    projectId: _projectId,
+                                    posts: posts!);
+                            }
+                          }));
+                    },
+                    error: (err, _) {
+                      return const Text("Failed to load Progressline",
+                          style: TextStyle(
+                              letterSpacing: -0.3, color: Helper.errorColor));
+                    },
+                    loading: () => LoadingProgressline(),
+                  )
                 ],
               ),
             ),

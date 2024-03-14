@@ -15,17 +15,17 @@ class UserProfileModel with _$UserProfileModel {
   const factory UserProfileModel({
     required Preset preset,
     @JsonKey(name: '_id') required String id,
-    required String name,
-    required String username,
-    required String email,
-    required String role,
-    required String status,
-    @Default("")  String dp,
-    required String designation,
-    required List<String> tags,
-    required List<String> projects,
+    required String? name,
+    required String? username,
+    required String? email,
+    required String? role,
+    required String? status,
+    @Default("") String dp,
+    @Default("N/A") String? designation,
+    required List<String>? tags,
+    required List<String>? projects,
     DateTime? lastActive,
-    @Default("") String dpUrl,
+    @Default("") String? dpUrl,
   }) = _UserProfileModel;
 
   factory UserProfileModel.fromJson(Map<String, dynamic> json) =>
@@ -35,7 +35,7 @@ class UserProfileModel with _$UserProfileModel {
 @freezed
 class Preset with _$Preset {
   const factory Preset({
-    required String color,
+    required String? color,
   }) = _Preset;
 
   factory Preset.fromJson(Map<String, dynamic> json) => _$PresetFromJson(json);

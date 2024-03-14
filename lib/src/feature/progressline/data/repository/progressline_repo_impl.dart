@@ -32,7 +32,7 @@ class ProgresslineRepositoryImpl implements ProgresslineRepository {
           (result as List).map((e) => ProgressLineModel.fromJson(e)).toList());
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
-      print(errorMessage.toString());
+
       rethrow;
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
@@ -47,7 +47,7 @@ class ProgresslineRepositoryImpl implements ProgresslineRepository {
       return Right(result);
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
-      print(errorMessage.toString());
+
       rethrow;
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
@@ -62,7 +62,7 @@ class ProgresslineRepositoryImpl implements ProgresslineRepository {
           (result as List).map((e) => CommentsModel.fromJson(e)).toList());
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
-      print(errorMessage.toString());
+
       rethrow;
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
@@ -78,7 +78,23 @@ class ProgresslineRepositoryImpl implements ProgresslineRepository {
       return Right((ProgressLineModel.fromJson(result)));
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
-      print(errorMessage.toString());
+
+      rethrow;
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ProgressLineModel>>>
+      allProgressLinePosts() async {
+    try {
+      final result = await progresslineDataSource.allProgressLinePosts();
+      return Right(
+          (result as List).map((e) => ProgressLineModel.fromJson(e)).toList());
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e);
+
       rethrow;
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));

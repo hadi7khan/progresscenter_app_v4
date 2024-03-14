@@ -9,4 +9,5 @@ abstract class ProgresslineRepository {
   Future<Either<Failure, List<CommentsModel>>> comments(String id);
   Future<Either<Failure, ProgressLineModel>> progresslineById(
       progresslineId, projectId);
+  Future<Either<Failure, List<ProgressLineModel>>> allProgressLinePosts();
 }

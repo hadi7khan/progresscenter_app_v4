@@ -23,17 +23,17 @@ mixin _$UserProfileModel {
   Preset get preset => throw _privateConstructorUsedError;
   @JsonKey(name: '_id')
   String get id => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  String get username => throw _privateConstructorUsedError;
-  String get email => throw _privateConstructorUsedError;
-  String get role => throw _privateConstructorUsedError;
-  String get status => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  String? get username => throw _privateConstructorUsedError;
+  String? get email => throw _privateConstructorUsedError;
+  String? get role => throw _privateConstructorUsedError;
+  String? get status => throw _privateConstructorUsedError;
   String get dp => throw _privateConstructorUsedError;
-  String get designation => throw _privateConstructorUsedError;
-  List<String> get tags => throw _privateConstructorUsedError;
-  List<String> get projects => throw _privateConstructorUsedError;
+  String? get designation => throw _privateConstructorUsedError;
+  List<String>? get tags => throw _privateConstructorUsedError;
+  List<String>? get projects => throw _privateConstructorUsedError;
   DateTime? get lastActive => throw _privateConstructorUsedError;
-  String get dpUrl => throw _privateConstructorUsedError;
+  String? get dpUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,17 +50,17 @@ abstract class $UserProfileModelCopyWith<$Res> {
   $Res call(
       {Preset preset,
       @JsonKey(name: '_id') String id,
-      String name,
-      String username,
-      String email,
-      String role,
-      String status,
+      String? name,
+      String? username,
+      String? email,
+      String? role,
+      String? status,
       String dp,
-      String designation,
-      List<String> tags,
-      List<String> projects,
+      String? designation,
+      List<String>? tags,
+      List<String>? projects,
       DateTime? lastActive,
-      String dpUrl});
+      String? dpUrl});
 
   $PresetCopyWith<$Res> get preset;
 }
@@ -80,17 +80,17 @@ class _$UserProfileModelCopyWithImpl<$Res, $Val extends UserProfileModel>
   $Res call({
     Object? preset = null,
     Object? id = null,
-    Object? name = null,
-    Object? username = null,
-    Object? email = null,
-    Object? role = null,
-    Object? status = null,
+    Object? name = freezed,
+    Object? username = freezed,
+    Object? email = freezed,
+    Object? role = freezed,
+    Object? status = freezed,
     Object? dp = null,
-    Object? designation = null,
-    Object? tags = null,
-    Object? projects = null,
+    Object? designation = freezed,
+    Object? tags = freezed,
+    Object? projects = freezed,
     Object? lastActive = freezed,
-    Object? dpUrl = null,
+    Object? dpUrl = freezed,
   }) {
     return _then(_value.copyWith(
       preset: null == preset
@@ -101,50 +101,50 @@ class _$UserProfileModelCopyWithImpl<$Res, $Val extends UserProfileModel>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      username: null == username
+              as String?,
+      username: freezed == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
+              as String?,
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      role: null == role
+              as String?,
+      role: freezed == role
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
-              as String,
-      status: null == status
+              as String?,
+      status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       dp: null == dp
           ? _value.dp
           : dp // ignore: cast_nullable_to_non_nullable
               as String,
-      designation: null == designation
+      designation: freezed == designation
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
-              as String,
-      tags: null == tags
+              as String?,
+      tags: freezed == tags
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      projects: null == projects
+              as List<String>?,
+      projects: freezed == projects
           ? _value.projects
           : projects // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<String>?,
       lastActive: freezed == lastActive
           ? _value.lastActive
           : lastActive // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      dpUrl: null == dpUrl
+      dpUrl: freezed == dpUrl
           ? _value.dpUrl
           : dpUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 
@@ -168,17 +168,17 @@ abstract class _$$_UserProfileModelCopyWith<$Res>
   $Res call(
       {Preset preset,
       @JsonKey(name: '_id') String id,
-      String name,
-      String username,
-      String email,
-      String role,
-      String status,
+      String? name,
+      String? username,
+      String? email,
+      String? role,
+      String? status,
       String dp,
-      String designation,
-      List<String> tags,
-      List<String> projects,
+      String? designation,
+      List<String>? tags,
+      List<String>? projects,
       DateTime? lastActive,
-      String dpUrl});
+      String? dpUrl});
 
   @override
   $PresetCopyWith<$Res> get preset;
@@ -197,17 +197,17 @@ class __$$_UserProfileModelCopyWithImpl<$Res>
   $Res call({
     Object? preset = null,
     Object? id = null,
-    Object? name = null,
-    Object? username = null,
-    Object? email = null,
-    Object? role = null,
-    Object? status = null,
+    Object? name = freezed,
+    Object? username = freezed,
+    Object? email = freezed,
+    Object? role = freezed,
+    Object? status = freezed,
     Object? dp = null,
-    Object? designation = null,
-    Object? tags = null,
-    Object? projects = null,
+    Object? designation = freezed,
+    Object? tags = freezed,
+    Object? projects = freezed,
     Object? lastActive = freezed,
-    Object? dpUrl = null,
+    Object? dpUrl = freezed,
   }) {
     return _then(_$_UserProfileModel(
       preset: null == preset
@@ -218,50 +218,50 @@ class __$$_UserProfileModelCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      name: null == name
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      username: null == username
+              as String?,
+      username: freezed == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
-              as String,
-      email: null == email
+              as String?,
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      role: null == role
+              as String?,
+      role: freezed == role
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
-              as String,
-      status: null == status
+              as String?,
+      status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       dp: null == dp
           ? _value.dp
           : dp // ignore: cast_nullable_to_non_nullable
               as String,
-      designation: null == designation
+      designation: freezed == designation
           ? _value.designation
           : designation // ignore: cast_nullable_to_non_nullable
-              as String,
-      tags: null == tags
+              as String?,
+      tags: freezed == tags
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      projects: null == projects
+              as List<String>?,
+      projects: freezed == projects
           ? _value.projects
           : projects // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<String>?,
       lastActive: freezed == lastActive
           ? _value.lastActive
           : lastActive // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      dpUrl: null == dpUrl
+      dpUrl: freezed == dpUrl
           ? _value.dpUrl
           : dpUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -278,7 +278,7 @@ class _$_UserProfileModel implements _UserProfileModel {
       required this.role,
       required this.status,
       this.dp = "",
-      required this.designation,
+      this.designation = "N/A",
       required this.tags,
       required this.projects,
       this.lastActive,
@@ -293,29 +293,30 @@ class _$_UserProfileModel implements _UserProfileModel {
   @JsonKey(name: '_id')
   final String id;
   @override
-  final String name;
+  final String? name;
   @override
-  final String username;
+  final String? username;
   @override
-  final String email;
+  final String? email;
   @override
-  final String role;
+  final String? role;
   @override
-  final String status;
+  final String? status;
   @override
   @JsonKey()
   final String dp;
   @override
-  final String designation;
+  @JsonKey()
+  final String? designation;
   @override
-  final List<String> tags;
+  final List<String>? tags;
   @override
-  final List<String> projects;
+  final List<String>? projects;
   @override
   final DateTime? lastActive;
   @override
   @JsonKey()
-  final String dpUrl;
+  final String? dpUrl;
 
   @override
   String toString() {
@@ -381,17 +382,17 @@ abstract class _UserProfileModel implements UserProfileModel {
   const factory _UserProfileModel(
       {required final Preset preset,
       @JsonKey(name: '_id') required final String id,
-      required final String name,
-      required final String username,
-      required final String email,
-      required final String role,
-      required final String status,
+      required final String? name,
+      required final String? username,
+      required final String? email,
+      required final String? role,
+      required final String? status,
       final String dp,
-      required final String designation,
-      required final List<String> tags,
-      required final List<String> projects,
+      final String? designation,
+      required final List<String>? tags,
+      required final List<String>? projects,
       final DateTime? lastActive,
-      final String dpUrl}) = _$_UserProfileModel;
+      final String? dpUrl}) = _$_UserProfileModel;
 
   factory _UserProfileModel.fromJson(Map<String, dynamic> json) =
       _$_UserProfileModel.fromJson;
@@ -402,27 +403,27 @@ abstract class _UserProfileModel implements UserProfileModel {
   @JsonKey(name: '_id')
   String get id;
   @override
-  String get name;
+  String? get name;
   @override
-  String get username;
+  String? get username;
   @override
-  String get email;
+  String? get email;
   @override
-  String get role;
+  String? get role;
   @override
-  String get status;
+  String? get status;
   @override
   String get dp;
   @override
-  String get designation;
+  String? get designation;
   @override
-  List<String> get tags;
+  List<String>? get tags;
   @override
-  List<String> get projects;
+  List<String>? get projects;
   @override
   DateTime? get lastActive;
   @override
-  String get dpUrl;
+  String? get dpUrl;
   @override
   @JsonKey(ignore: true)
   _$$_UserProfileModelCopyWith<_$_UserProfileModel> get copyWith =>
@@ -435,7 +436,7 @@ Preset _$PresetFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Preset {
-  String get color => throw _privateConstructorUsedError;
+  String? get color => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -447,7 +448,7 @@ abstract class $PresetCopyWith<$Res> {
   factory $PresetCopyWith(Preset value, $Res Function(Preset) then) =
       _$PresetCopyWithImpl<$Res, Preset>;
   @useResult
-  $Res call({String color});
+  $Res call({String? color});
 }
 
 /// @nodoc
@@ -463,13 +464,13 @@ class _$PresetCopyWithImpl<$Res, $Val extends Preset>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? color = null,
+    Object? color = freezed,
   }) {
     return _then(_value.copyWith(
-      color: null == color
+      color: freezed == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -480,7 +481,7 @@ abstract class _$$_PresetCopyWith<$Res> implements $PresetCopyWith<$Res> {
       __$$_PresetCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String color});
+  $Res call({String? color});
 }
 
 /// @nodoc
@@ -493,13 +494,13 @@ class __$$_PresetCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? color = null,
+    Object? color = freezed,
   }) {
     return _then(_$_Preset(
-      color: null == color
+      color: freezed == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -513,7 +514,7 @@ class _$_Preset implements _Preset {
       _$$_PresetFromJson(json);
 
   @override
-  final String color;
+  final String? color;
 
   @override
   String toString() {
@@ -547,12 +548,12 @@ class _$_Preset implements _Preset {
 }
 
 abstract class _Preset implements Preset {
-  const factory _Preset({required final String color}) = _$_Preset;
+  const factory _Preset({required final String? color}) = _$_Preset;
 
   factory _Preset.fromJson(Map<String, dynamic> json) = _$_Preset.fromJson;
 
   @override
-  String get color;
+  String? get color;
   @override
   @JsonKey(ignore: true)
   _$$_PresetCopyWith<_$_Preset> get copyWith =>

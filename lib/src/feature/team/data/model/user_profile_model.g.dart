@@ -10,16 +10,17 @@ _$_UserProfileModel _$$_UserProfileModelFromJson(Map<String, dynamic> json) =>
     _$_UserProfileModel(
       preset: Preset.fromJson(json['preset'] as Map<String, dynamic>),
       id: json['_id'] as String,
-      name: json['name'] as String,
-      username: json['username'] as String,
-      email: json['email'] as String,
-      role: json['role'] as String,
-      status: json['status'] as String,
+      name: json['name'] as String?,
+      username: json['username'] as String?,
+      email: json['email'] as String?,
+      role: json['role'] as String?,
+      status: json['status'] as String?,
       dp: json['dp'] as String? ?? "",
-      designation: json['designation'] as String,
-      tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
-      projects:
-          (json['projects'] as List<dynamic>).map((e) => e as String).toList(),
+      designation: json['designation'] as String? ?? "N/A",
+      tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      projects: (json['projects'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       lastActive: json['lastActive'] == null
           ? null
           : DateTime.parse(json['lastActive'] as String),
@@ -44,7 +45,7 @@ Map<String, dynamic> _$$_UserProfileModelToJson(_$_UserProfileModel instance) =>
     };
 
 _$_Preset _$$_PresetFromJson(Map<String, dynamic> json) => _$_Preset(
-      color: json['color'] as String,
+      color: json['color'] as String?,
     );
 
 Map<String, dynamic> _$$_PresetToJson(_$_Preset instance) => <String, dynamic>{

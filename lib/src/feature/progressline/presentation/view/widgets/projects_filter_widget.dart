@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,6 +30,7 @@ class _ProjectsFilterWidgetState extends State<ProjectsFilterWidget> {
       width: MediaQuery.of(context).size.width,
       child: ListView.separated(
           itemBuilder: (context, index) {
+            log(widget.progresslineProjects[index].id.toString());
             return InkWell(
               onTap: () {
                 widget.onChange(widget.progresslineProjects[index].id);
