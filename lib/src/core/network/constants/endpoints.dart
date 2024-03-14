@@ -1,7 +1,7 @@
 class Endpoints {
   // base url
-  // static const String baseUrl = "https://api-dev-v4.progresscenter.io";
-  static const String baseUrl = "https://api-v4.progresscenter.io";
+  static const String baseUrl = "https://api-dev-v4.progresscenter.io";
+  // static const String baseUrl = "https://api-v4.progresscenter.io";
 
   //---------------------------- Auth ---------------------------------------
   static signinUrl() {
@@ -264,6 +264,10 @@ class Endpoints {
 
   static progressLineUrl(projectId) {
     return '$baseUrl/api/v4/progress-line/projects/$projectId';
+  }
+
+  static allProgressLinePostsUrl() {
+    return '$baseUrl/api/v4/progress-line';
   }
 
   static postCommentUrl(progressLineId) {

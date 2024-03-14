@@ -276,7 +276,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          imagesData.images == null
+                          imagesData.images!.isEmpty
                               ? Center(
                                   child: Container(
                                     height: MediaQuery.of(context).size.height -
@@ -475,7 +475,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                     ),
                                   ),
                                 ]),
-                          imagesData.images != null
+                          imagesData.images!.isNotEmpty
                               ? SizedBox(
                                   height: 76.h,
                                   child: ImageSliderWidget(

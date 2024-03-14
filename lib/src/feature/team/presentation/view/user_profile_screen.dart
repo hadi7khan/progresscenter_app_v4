@@ -344,9 +344,10 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     AvatarWidget(
-                                      dpUrl: data.dp != null ? data.dpUrl : "",
-                                      name: data.name,
-                                      backgroundColor: data.preset.color,
+                                      dpUrl:
+                                          data.dpUrl != null ? data.dpUrl! : "",
+                                      name: data.name!,
+                                      backgroundColor: data.preset.color!,
                                       size: 50,
                                       fontSize: 24,
                                     ),
@@ -355,7 +356,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                       direction: Axis.vertical,
                                       children: [
                                         Text(
-                                          data.name,
+                                          data.name!,
                                           style: TextStyle(
                                               height: 1.1,
                                               letterSpacing: -0.3,
@@ -364,7 +365,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                               fontWeight: FontWeight.w600),
                                         ),
                                         Text(
-                                          data.designation,
+                                          data.designation!,
                                           style: TextStyle(
                                               letterSpacing: -0.3,
                                               color: Helper.baseBlack
@@ -421,7 +422,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                               right: 16.w,
                                             ),
                                             child: Text(
-                                              data.username,
+                                              data.username!,
                                               style: TextStyle(
                                                   letterSpacing: -0.3,
                                                   color: Helper.textColor900,
@@ -452,7 +453,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                               right: 16.w,
                                             ),
                                             child: Text(
-                                              data.email,
+                                              data.email!,
                                               style: TextStyle(
                                                   letterSpacing: -0.3,
                                                   color: Helper.textColor900,
