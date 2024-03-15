@@ -34,6 +34,7 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
   bool showAllPosts = false;
   String? _selectedProject;
   List<ProgressLineModel>? posts = [];
+  List<ProgressLineModel>? filteredPosts = [];
 
   Future<String> fetchFeed() async {
     await Service().progresslineProjectsList().then((value) {
@@ -55,6 +56,7 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
           .getAllProgresslinePosts()
           .then((value) {
         posts = value;
+        filteredPosts = value;
       });
     });
   }
@@ -103,38 +105,32 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
                               backgroundColor: Colors.transparent,
                               builder: (context) => ProjectsFilterWidget(
                                     progresslineProjects: _progresslineProjects,
+                                    postsCount: posts!.length,
                                     onChange: (String id) {
                                       _selectedProject =
                                           id == 'All' ? null : id;
 
-                                      // setState(() {
-                                      //   showAllPosts = false;
-                                      // });
                                       // ref
-                                      //     .read(progresslineControllerProvider
-                                      //         .notifier)
-                                      //     .getProgressline(id);
-                                      ref
-                                          .watch(
-                                              allProgresslinePostsControllerProvider
-                                                  .notifier)
-                                          .getAllProgresslinePosts()
-                                          .then((value) {
-                                        posts = _selectedProject == null
-                                            ? value
-                                            : value!.where((item) {
-                                                dev.log("projectId " +
-                                                    item!.project!.projectId
-                                                        .toString());
-                                                return item!
-                                                        .project!.projectId ==
-                                                    id;
-                                              }).toList();
-                                        setState(() {});
+                                      //     .watch(
+                                      //         allProgresslinePostsControllerProvider
+                                      //             .notifier)
+                                      //     .getAllProgresslinePosts()
+                                      //     .then((value) {
 
-                                        dev.log("_filteredPostsList " +
-                                            posts.toString());
-                                      });
+                                      filteredPosts = _selectedProject == null
+                                          ? posts
+                                          : posts!.where((item) {
+                                              dev.log("projectId " +
+                                                  item!.project!.projectId
+                                                      .toString());
+                                              return item!.project!.projectId ==
+                                                  id;
+                                            }).toList();
+                                      setState(() {});
+
+                                      dev.log("_filteredPostsList " +
+                                          filteredPosts!.length.toString());
+                                      // });
 
                                       context.pop();
                                     },
@@ -186,7 +182,7 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
                                 return FeedWidget(
                                     progresslineProjects: _progresslineProjects,
                                     projectId: _projectId,
-                                    posts: posts!);
+                                    posts: filteredPosts!);
                             }
                           }));
                     },
