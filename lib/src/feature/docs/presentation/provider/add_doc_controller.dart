@@ -15,7 +15,6 @@ class AddDocController extends StateNotifier<AddDocState> {
   AddDocController(super.state, this.service);
 
   Future addDocument(folderId, data) async {
-    print("data passed to controller" + data.toString());
     state = state.copyWith(isLoading: true);
     final result = await service.addDocument(folderId, data);
     // return result;
@@ -28,7 +27,7 @@ class AddDocController extends StateNotifier<AddDocState> {
       //     result: AsyncValue.data(r));
       return r;
     });
-    print("valueee " + valueee.toString());
+
     return result;
   }
 }

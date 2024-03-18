@@ -35,7 +35,6 @@ class _CamerasWidgetState extends BaseConsumerState<CamerasWidget> {
     // Format the DateTime object into the desired format
     String dateWithT = datetime!.substring(0, 8) + 'T' + datetime!.substring(8);
     DateTime dateTime = DateTime.parse(dateWithT);
-    print("datetime" + dateTime.toString());
 
     final String formattedTime = DateFormat(dateFormat).format(dateTime);
 

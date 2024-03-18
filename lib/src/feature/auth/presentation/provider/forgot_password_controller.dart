@@ -8,7 +8,8 @@ final forgotPasswordProvider = StateNotifierProvider.autoDispose<
     ForgotPasswordController, ForgotPasswordState>(
   (ref) {
     final forgotPassService = ref.read(authProvider);
-    return ForgotPasswordController(const ForgotPasswordState(), forgotPassService);
+    return ForgotPasswordController(
+        const ForgotPasswordState(), forgotPassService);
   },
 );
 
@@ -29,7 +30,7 @@ class ForgotPasswordController extends StateNotifier<ForgotPasswordState> {
       //     result: AsyncValue.data(r));
       return r;
     });
-    print("valueee "+ valueee.toString());
-     return result;
+
+    return result;
   }
 }

@@ -70,14 +70,13 @@ class _ExpansionWidgetState extends State<ExpansionWidget> {
 
               // var values =
               //     projectHierarchySelection!.changeSelected(project, value);
-              // print("valueeeeee" + values.toString());
             }
             // setState(() {
             //   switchValues[project.projectId] = value;
             // });
             // var values =
             //     projectHierarchySelection!.changeSelected(project, value);
-            // print("valueeeeee" + values.toString());
+
             // },
             ),
         // trailing: projectHierarchySelection!.hasChildren(project.projectId)

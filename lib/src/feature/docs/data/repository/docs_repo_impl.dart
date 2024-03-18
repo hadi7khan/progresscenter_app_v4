@@ -29,22 +29,7 @@ class DocsRepositoryImpl implements DocsRepository {
       return Right((result as List).map((e) => DocsModel.fromJson(e)).toList());
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
-      print(errorMessage.toString());
-      rethrow;
-    } on SocketException {
-      return const Left(ConnectionFailure('Failed to connect to the network'));
-    }
-  }
-  
-  @override
-  Future<Either<Failure, dynamic>> addDocument(String folderId, data) async{
-    try {
-      final result = await docsDataSource.addDocument(folderId, data);
-      print("result: " + result.toString());
-      return Right(result);
-    } on DioError catch (e) {
-      final errorMessage = DioExceptions.fromDioError(e);
-      print(errorMessage.toString());
+
       rethrow;
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
@@ -52,14 +37,29 @@ class DocsRepositoryImpl implements DocsRepository {
   }
 
   @override
-  Future<Either<Failure, dynamic>> createDocumentFolder(data) async{
+  Future<Either<Failure, dynamic>> addDocument(String folderId, data) async {
     try {
-      final result = await docsDataSource.createDocumentFolder(data);
-      print("result: " + result.toString());
+      final result = await docsDataSource.addDocument(folderId, data);
+
       return Right(result);
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
-      print(errorMessage.toString());
+
+      rethrow;
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> createDocumentFolder(data) async {
+    try {
+      final result = await docsDataSource.createDocumentFolder(data);
+
+      return Right(result);
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e);
+
       rethrow;
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));

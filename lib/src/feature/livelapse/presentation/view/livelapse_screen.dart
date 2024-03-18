@@ -41,7 +41,6 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
     if (date == null) {
       return "";
     }
-    print("datetime format" + date.toString());
     DateTime parsedDate = DateTime.parse(date);
     String formattedDate = DateFormat("dd").format(parsedDate);
 
@@ -52,7 +51,6 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
     if (date == null) {
       return "";
     }
-    print("datetime format" + date.toString());
     DateTime parsedDate = DateTime.parse(date);
     String formattedDate = DateFormat("dd MMM, y").format(parsedDate);
 

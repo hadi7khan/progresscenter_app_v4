@@ -79,7 +79,6 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
       setState(() {
         _logo = file;
       });
-      print("image path" + _logo!.path.toString());
     }
   }
 
@@ -104,7 +103,6 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
       setState(() {
         _startSlide = file;
       });
-      print("image path" + _startSlide!.path.toString());
     }
   }
 
@@ -129,7 +127,6 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
       setState(() {
         _endSlide = file;
       });
-      print("image path" + _endSlide!.path.toString());
     }
   }
 
@@ -140,24 +137,19 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
     });
     // socket.connect();
     socket!.onConnect((_) {
-      print('Connection established');
       socket!.emit('joinRoom', "livelapse:$livelapseId");
 
       socket!.on('livelapse:progress', (data) {
-        print("progress" + data.toString());
-        print("operation" + data["operation"].toString());
         _controller!.setState!(() {
           _progressBar = double.parse(data["progress"].toString());
         });
       });
 
       socket!.on('livelapse:completed', (data) {
-        print("completed" + data.toString());
         socket!.dispose();
         // progressTabCtx.updateItem(itemData._id, { text: operation, progress: progress });
       });
       socket!.on('livelapse:errored', (data) {
-        print("errored" + data.toString());
         socket!.dispose();
         // progressTabCtx.updateItem(itemData._id, { text: operation, progress: progress });
       });
@@ -191,14 +183,14 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
 
   displayStartTime(time) {
     DateTime parsedDateTime = DateTime.parse("19700101T$time");
-    print(parsedDateTime.toString());
+
     startParsedTime = DateFormat('h:mm a').format(parsedDateTime);
     return startParsedTime;
   }
 
   displayEndTime(String time) {
     DateTime parsedDateTime = DateTime.parse("19700101T$time");
-    print(parsedDateTime.toString());
+
     endParsedTime = DateFormat('h:mm a').format(parsedDateTime);
     return endParsedTime;
   }
@@ -689,10 +681,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                       .advancedLivelapse(
                           widget.projectId, widget.cameraId, formData)
                       .then((value) async {
-                    value.fold((failure) {
-                      print("errorrrrrr");
-                    }, (res) {
-                      print("response data" + res.toString());
+                    value.fold((failure) {}, (res) {
                       initSocket(res["_id"]);
                       _showProgressBottomSheet(context, ref);
                     });
@@ -1455,10 +1444,9 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                   ),
                   value: [],
                   onValueChanged: (value) {
-                    print(value.toString());
                     DateTime date = DateTime.parse(value[0].toString());
                     selectedStartDate = DateFormat("yyyyMMdd").format(date);
-                    print("selectedDate " + selectedStartDate);
+
                     displayStartTime(selectedStartDate);
                   },
                 ),
@@ -1491,7 +1479,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                                   DateFormat('HHmmss').format(timeString);
                               setState(() {
                                 startTime = formattedTime;
-                                print(startTime.toString());
+
                                 displayStartTime(startTime);
                               });
                             },
@@ -1597,10 +1585,8 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                   ),
                   value: [],
                   onValueChanged: (value) {
-                    print(value.toString());
                     DateTime date = DateTime.parse(value[0].toString());
                     selectedEndDate = DateFormat("yyyyMMdd").format(date);
-                    print("selectedDate " + selectedEndDate);
                   },
                 ),
                 Divider(
@@ -1632,7 +1618,6 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                                   DateFormat('HHmmss').format(timeString);
                               setState(() {
                                 endTime = formattedTime;
-                                print("endtime " + endTime);
                                 displayEndTime(endTime);
                               });
                             },

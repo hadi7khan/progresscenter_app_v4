@@ -29,7 +29,7 @@ class SiteGalleryRepositoryImpl implements SiteGalleryRepository {
           (result as List).map((e) => SiteGalleryModel.fromJson(e)).toList());
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
-      print(errorMessage.toString());
+
       rethrow;
     }
   }

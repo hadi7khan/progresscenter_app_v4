@@ -26,7 +26,6 @@ class _CCTVWidgetState extends State<CCTVWidget>
   @override
   void initState() {
     super.initState();
-    print("url before" + widget.url.toString());
     // final videoPlayerController =
     //     VideoPlayerController.networkUrl(Uri.parse(widget.url),
     //         videoPlayerOptions: VideoPlayerOptions(

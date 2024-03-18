@@ -215,8 +215,6 @@ class _InviteByMailScreenState extends BaseConsumerState<InviteByMailScreen> {
                         });
                       },
                     );
-                    print("data populated-----------------" +
-                        projectHierarchySelection!.projects.toString());
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -526,7 +524,6 @@ class _InviteByMailScreenState extends BaseConsumerState<InviteByMailScreen> {
                       .inviteByMail(data)
                       .then((value) async {
                     value.fold((failure) {
-                      print("errorrrrrr");
                       Utils.flushBarErrorMessage(
                           "Something went wrong", context);
                     }, (res) {});

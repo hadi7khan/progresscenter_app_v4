@@ -71,26 +71,19 @@ class _CreateZipTabviewState extends BaseConsumerState<CreateZipTabview> {
       'transports': ['websocket'],
     });
     socket!.onConnect((_) {
-      print('Connection established');
       socket!.emit('joinRoom', "multiImageDownload:$id");
 
       socket!.on('multiImageDownload:progress', (data) {
-        print("progress" + data.toString());
-        print("operation" + data["operation"].toString());
         _controller!.setState!(() {
           _progressBar = double.parse(data["progress"].toString());
         });
       });
 
       socket!.on('multiImageDownload:completed', (data) {
-        print("completed" + data.toString());
         socket!.dispose();
-        // progressTabCtx.updateItem(itemData._id, { text: operation, progress: progress });
       });
       socket!.on('multiImageDownload:errored', (data) {
-        print("errored" + data.toString());
         socket!.dispose();
-        // progressTabCtx.updateItem(itemData._id, { text: operation, progress: progress });
       });
     });
     socket!.onDisconnect((_) => print('Connection Disconnection'));
@@ -122,14 +115,14 @@ class _CreateZipTabviewState extends BaseConsumerState<CreateZipTabview> {
 
   displayStartTime(time) {
     DateTime parsedDateTime = DateTime.parse("19700101T$time");
-    print(parsedDateTime.toString());
+
     startParsedTime = DateFormat('h:mm a').format(parsedDateTime);
     return startParsedTime;
   }
 
   displayEndTime(String time) {
     DateTime parsedDateTime = DateTime.parse("19700101T$time");
-    print(parsedDateTime.toString());
+
     endParsedTime = DateFormat('h:mm a').format(parsedDateTime);
     return endParsedTime;
   }
@@ -431,9 +424,7 @@ class _CreateZipTabviewState extends BaseConsumerState<CreateZipTabview> {
                         .watch(createZipProvider.notifier)
                         .createZip(widget.projectId, widget.cameraId, data)
                         .then((value) async {
-                      value.fold((failure) {
-                        print("errorrrrrr");
-                      }, (res) {
+                      value.fold((failure) {}, (res) {
                         log("response data" + res["_id"].toString());
                         initSocket(res["_id"]);
                         _showProgressBottomSheet(context, ref);
@@ -676,10 +667,9 @@ class _CreateZipTabviewState extends BaseConsumerState<CreateZipTabview> {
                   ),
                   value: [],
                   onValueChanged: (value) {
-                    print(value.toString());
                     DateTime date = DateTime.parse(value[0].toString());
                     _selectedStartDate = DateFormat("yyyyMMdd").format(date);
-                    print("selectedDate " + _selectedStartDate);
+
                     String formattedDate = DateFormat('yyyyMMdd').format(date);
                     log("formatted" + formattedDate.toString());
                     showStartDate(formattedDate, false);
@@ -714,15 +704,12 @@ class _CreateZipTabviewState extends BaseConsumerState<CreateZipTabview> {
                                   DateFormat('HHmmss').format(timeString);
                               setState(() {
                                 startTime = formattedTime;
-                                print(startTime.toString());
+
                                 displayStartTime(startTime);
                               });
                             },
                           ),
                         ),
-                        // In this example, the time value is formatted manually.
-                        // You can use the intl package to format the value based on
-                        // the user's locale settings.
                         child: Text(
                           displayStartTime(startTime),
                           style: TextStyle(
@@ -822,7 +809,7 @@ class _CreateZipTabviewState extends BaseConsumerState<CreateZipTabview> {
                     log(value.toString());
                     DateTime date = DateTime.parse(value[0].toString());
                     _selectedEndDate = DateFormat("yyyyMMdd").format(date);
-                    print("selectedDate " + _selectedEndDate);
+
                     String formattedDate = DateFormat('yyyyMMdd').format(date);
                     log("formatted" + formattedDate.toString());
                     showEndDate(formattedDate);

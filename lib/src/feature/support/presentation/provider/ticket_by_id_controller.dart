@@ -18,15 +18,13 @@ class TicketByIdController extends StateNotifier<TicketByIdState> {
     var value;
     state = state.copyWith(isFetching: true);
     final result = await service.ticketBYId(id);
-    // return result;
-    // if (!mounted) return;
+
     var valueee = await result.fold((l) {
       state = state.copyWith(isFetching: false, errorMessage: l.message);
     }, (r) {
       state = state.copyWith(isFetching: false, ticketById: AsyncValue.data(r));
       value = r;
     });
-    print("valueee " + value.toString());
     return value;
   }
 }

@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_camera_list.dart';
-import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/camera/presentation/provider/camera_controller.dart';
@@ -71,18 +70,7 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                       fontWeight: FontWeight.w500),
                 ),
                 actions: [
-                  // InkWell(
-                  //   // padding: EdgeInsets.zero,
-                  //   // alignment: Alignment.centerLeft,
-                  //   child: SvgPicture.asset('assets/images/sort.svg'),
-                  //   onTap: () {},
-                  // ),
-                  // SizedBox(
-                  //   width: 5.w
-                  // ),
                   InkWell(
-                    // padding: EdgeInsets.zero,
-                    // alignment: Alignment.centerLeft,
                     child: list
                         ? SvgPicture.asset(
                             'assets/images/grid_view.svg',
@@ -149,76 +137,6 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            //   mainAxisSize: MainAxisSize.max,
-                            //   children: [
-                            //     Row(children: [
-                            //       Container(
-                            //         height: 24.h,
-                            //         child: IconButton(
-                            //           padding: EdgeInsets.zero,
-                            //           alignment: Alignment.centerLeft,
-                            //           icon: Icon(
-                            //             Icons.arrow_back,
-                            //           ),
-                            //           onPressed: () => context.pop(),
-                            //         ),
-                            //       ),
-                            //       SizedBox(width: 8.w),
-                            //       Text(
-                            //         widget.projectName,
-                            //         style: TextStyle(
-                            // letterSpacing: -0.3,
-                            //             color: Helper.baseBlack,
-                            //             fontSize: 18.sp,
-                            //             fontWeight: FontWeight.w500),
-                            //       )
-                            //     ]),
-                            //     Row(
-                            //       mainAxisSize: MainAxisSize.min,
-                            //       mainAxisAlignment: MainAxisAlignment.end,
-                            //       children: [
-                            //         Container(
-                            //           margin: EdgeInsets.zero,
-                            //           height: 24.h,
-                            //           child: IconButton(
-                            //             padding: EdgeInsets.zero,
-                            //             alignment: Alignment.centerLeft,
-                            //             icon: SvgPicture.asset(
-                            //                 'assets/images/sort.svg'),
-                            //             onPressed: () {},
-                            //           ),
-                            //         ),
-                            //         Container(
-                            //           margin: EdgeInsets.zero,
-                            //           height: 24.h,
-                            //           child: IconButton(
-                            //             padding: EdgeInsets.zero,
-                            //             alignment: Alignment.centerLeft,
-                            //             icon: list
-                            //                 ? SvgPicture.asset(
-                            //                     'assets/images/grid_view.svg')
-                            //                 : SvgPicture.asset(
-                            //                     'assets/images/list_view.svg'),
-                            //             onPressed: () {
-                            //               setState(() {
-                            //                 if (list == true) {
-                            //                   list = false;
-                            //                 } else {
-                            //                   list = true;
-                            //                 }
-                            //               });
-                            //             },
-                            //           ),
-                            //         ),
-                            //       ],
-                            //     ),
-                            //   ],
-                            // ),
-                            // SizedBox(
-                            //   height: 24.h,
-                            // ),
                             list
                                 ? ListView.separated(
                                     separatorBuilder: (context, index) {

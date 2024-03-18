@@ -1,7 +1,5 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:progresscenter_app_v4/src/core/network/failure.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_by_id_model.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_lean_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean_model.dart';
 

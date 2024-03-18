@@ -67,7 +67,7 @@ class AuthDataSourceImpl implements AuthDataSource {
         final responseBody = json.decode(response.body);
         log("responseBody" + responseBody.toString());
         final token = responseBody['token'];
-        print("token" + token.toString());
+
         await locator.setUserToken(userToken: token).then((value) {});
         return responseBody;
       } else {

@@ -308,9 +308,7 @@ class _NotificationWidgetState extends BaseConsumerState<NotificationWidget> {
           await directory.create();
         }
       }
-    } catch (err) {
-      print("download folder not exist");
-    }
+    } catch (err) {}
     String appDocPath = directory!.path;
     Map<String, String> headers = {
       "Content-Type": "application/json",
@@ -374,7 +372,6 @@ class _NotificationWidgetState extends BaseConsumerState<NotificationWidget> {
     if (date == null) {
       return "";
     }
-    print("datetime format" + date.toString());
     DateTime parsedDate = DateTime.parse(date);
     String formattedDate = DateFormat("dd").format(parsedDate);
 
@@ -385,7 +382,6 @@ class _NotificationWidgetState extends BaseConsumerState<NotificationWidget> {
     if (date == null) {
       return "";
     }
-    print("datetime format" + date.toString());
     DateTime parsedDate = DateTime.parse(date);
     String formattedDate = DateFormat("dd MMM, y").format(parsedDate);
 

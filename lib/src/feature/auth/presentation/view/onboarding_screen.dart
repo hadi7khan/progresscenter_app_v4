@@ -40,8 +40,6 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Flexible(
-                // fit: FlexFit.loose,
-                // flex: 6,
                 child: PageView.builder(
                   controller: _controller,
                   itemCount: contents.length,
@@ -137,7 +135,6 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                                   color: Colors.white,
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w500),
-                              // currentIndex == contents.length - 1 ? "Continue" : "Next"
                             ),
                             style: ButtonStyle(
                                 backgroundColor:
@@ -149,18 +146,6 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                                 )),
                             onPressed: () {
                               context.pushReplacement('/signin');
-                              // if (currentIndex == contents.length - 1) {
-                              //   Navigator.pushReplacement(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //       builder: (_) => Home(),
-                              //     ),
-                              //   );
-                              // }
-                              // _controller!.nextPage(
-                              //   duration: Duration(milliseconds: 100),
-                              //   curve: Curves.bounceIn,
-                              // );
                             },
                           ),
                         ),
@@ -171,7 +156,6 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                               color: Helper.textColor500,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w500),
-                          // currentIndex == contents.length - 1 ? "Continue" : "Next"
                         ),
                         SizedBox(
                           height: 32.h,

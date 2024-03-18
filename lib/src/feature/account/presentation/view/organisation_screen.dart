@@ -72,9 +72,7 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
       XFile photo = await _controller!.takePicture();
       // Handle the captured photo (e.g., display it, save it, etc.)
       _showFullScreenPhotoPreview(photo);
-    } catch (e) {
-      print("Error taking photo: $e");
-    }
+    } catch (e) {}
   }
 
   void _showFullScreenPhotoPreview(XFile photo) {
@@ -124,7 +122,6 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
       setState(() {
         _image = file;
       });
-      print("image path" + _image!.path.toString());
     }
   }
 

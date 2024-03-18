@@ -15,7 +15,6 @@ class PostCommentController extends StateNotifier<PostCommentState> {
   PostCommentController(super.state, this.service);
 
   Future postComment(id, data) async {
-    print("data passed to controller" + data.toString());
     state = state.copyWith(isLoading: true);
     final result = await service.postComment(id, data);
     // return result;
@@ -28,7 +27,6 @@ class PostCommentController extends StateNotifier<PostCommentState> {
       //     result: AsyncValue.data(r));
       return r;
     });
-    print("valueee " + valueee.toString());
     return result;
   }
 }

@@ -87,9 +87,7 @@ class _CameraControlsState extends State<CameraControls> {
                   await widget.controller!.initialize();
                   final XFile file = await widget.controller!.takePicture();
                   // Handle the captured photo
-                } catch (e) {
-                  print("Error taking photo: $e");
-                }
+                } catch (e) {}
               },
               child: Icon(Icons.camera),
             ),

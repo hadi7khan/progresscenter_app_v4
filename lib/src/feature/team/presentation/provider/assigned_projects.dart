@@ -114,10 +114,8 @@ class ProjectHierarchySelection {
     }
 
     onSelectedIdsChange?.call(_selectedProjectIds.toList());
-    // Update the selectedIds field with the new selected IDs
     selectedIds = _selectedProjectIds.toList();
-    print("selected ids in class" + selectedIds.toString());
-    // return selectedIds;
+
     return _selectedProjectIds.toList();
   }
 

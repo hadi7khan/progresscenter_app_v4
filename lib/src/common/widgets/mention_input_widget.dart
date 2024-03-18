@@ -45,13 +45,11 @@ class _MentionInputState<T> extends BaseConsumerState<MentionInput<T>> {
                 controller: _controller,
                 onChanged: (value) {
                   setState(() {
-                    print(value.toString());
                     showSuggestions =
                         value!.isNotEmpty && value.startsWith('@');
                     filteredSuggestions = _filterSuggestions(value);
                   });
-                  print("filteredSuggestions----" +
-                      filteredSuggestions.toString());
+
                   widget.onChange(value!);
                 },
                 onSubmitted: (text) {
@@ -90,18 +88,17 @@ class _MentionInputState<T> extends BaseConsumerState<MentionInput<T>> {
                           "comment": _controller.text,
                         };
                         if (_fbKey.currentState!.saveAndValidate()) {
-                          // print("id passed" + widget.progresslineId.toString());
                           // await ref
                           //     .watch(postCommentProvider.notifier)
                           //     .postComment(widget.progresslineId, data)
                           //     .then((value) async {
                           //   value.fold((failure) {
-                          //     print("errorrrrrr");
+
                           //   }, (res) {
                           //     ref
                           //         .watch(commentsControllerProvider.notifier)
                           //         .getComments(widget.progresslineId);
-                          //     print("response data" + res.toString());
+
                           //     _controller.clear();
                           //     // _showProgressBottomSheet(context, ref);
                           //   });
@@ -134,9 +131,7 @@ class _MentionInputState<T> extends BaseConsumerState<MentionInput<T>> {
               ),
               if (showSuggestions)
                 Positioned(
-                  top: MediaQuery.of(context)
-                      .viewInsets
-                      .bottom, // Adjust this value based on your UI design
+                  top: MediaQuery.of(context).viewInsets.bottom,
                   left: 0,
                   right: 0,
                   child: Container(
@@ -174,9 +169,6 @@ class _MentionInputState<T> extends BaseConsumerState<MentionInput<T>> {
       final suggestionText = widget.displayField(suggestion).toLowerCase();
       return suggestionText.contains(lowerCaseQuery);
     }).toList();
-
-    print('Query: $query');
-    print('Filtered List: $filteredList');
 
     return filteredList;
   }

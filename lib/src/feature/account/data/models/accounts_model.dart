@@ -78,24 +78,24 @@ class Preset with _$Preset {
   factory Preset.fromJson(Map<String, dynamic> json) => _$PresetFromJson(json);
 }
 
-// @freezed
-// class Project with _$Project {
-//   const factory Project({
-//     Location? location,
-//     String? id,
-//     String? name,
-//     List<Image>? images,
-//     String? status,
-//     String? parentId,
-//     bool? hasCameras,
-//     int? hierarchyLevel,
-//     String? projectId,
-//     String? coverImageUrl,
-//   }) = _Project;
+@freezed
+class Project with _$Project {
+  const factory Project({
+    Location? location,
+    String? id,
+    String? name,
+    List<Image>? images,
+    String? status,
+    String? parentId,
+    bool? hasCameras,
+    int? hierarchyLevel,
+    String? projectId,
+    String? coverImageUrl,
+  }) = _Project;
 
-//   factory Project.fromJson(Map<String, dynamic> json) =>
-//       _$ProjectFromJson(json);
-// }
+  factory Project.fromJson(Map<String, dynamic> json) =>
+      _$ProjectFromJson(json);
+}
 
 @freezed
 class Image with _$Image {

@@ -135,7 +135,6 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print("project user data " + widget.data.toString());
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -400,8 +399,6 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                                     );
                                   },
                                   onSuggestionSelected: (UserLeanModel user) {
-                                    // Do something with the selected user
-                                    // print('Selected user: ${user.email}');
                                     setState(() {
                                       _emailController.text = user.email!;
                                       _userExists = true;
@@ -765,8 +762,6 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                                                   ));
                                             },
                                             onSuggestionSelected: (team) {
-                                              // Do something with the selected user
-                                              // print('Selected user: ${user.email}');
                                               setState(() {
                                                 _selectedTeams
                                                     .add(team.toString());
@@ -1009,11 +1004,6 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                                                   actions: [
                                                     TextButton(
                                                       onPressed: () async {
-                                                        print(
-                                                            "project user data " +
-                                                                widget
-                                                                    .data[index]
-                                                                    .toString());
                                                         log("project user data " +
                                                             widget.data[index]
                                                                 .userId
@@ -1173,7 +1163,6 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                     Utils.toastSuccessMessage("User Added", context);
                     _emailController.clear();
                   }).onError((error, stackTrace) {
-                    // print(error.toString());
                     var errorMessage = _userExists
                         ? "User already added to project"
                         : "An invitation request has already been sent to this user.";
@@ -1197,7 +1186,7 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
             //       Utils.toastSuccessMessage("User Added");
             //       _emailController.clear();
             //     }).onError((error, stackTrace) {
-            //       // print(error.toString());
+
             //       var errorMessage = _userExists
             //           ? "User already added to project"
             //           : "An invitation request has already been sent to this user.";

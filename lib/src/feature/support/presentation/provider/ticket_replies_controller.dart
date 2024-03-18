@@ -14,7 +14,6 @@ class TicketRepliesController extends StateNotifier<TicketRepliesState> {
   final SupportRepositoryImpl service;
 
   Future getTicketReplies(ticketId) async {
-    // var repliesData;
     List<TicketRepliesModel> repliesData = [];
     state = state.copyWith(isFetching: true);
     final result = await service.ticketReplies(ticketId);
@@ -24,14 +23,9 @@ class TicketRepliesController extends StateNotifier<TicketRepliesState> {
       state = state.copyWith(isFetching: false, errorMessage: l.message);
     }, (r) {
       state = state.copyWith(isFetching: false, replies: AsyncValue.data(r));
-      // Assume that asyncValue is an AsyncValue<List<CustomModel>> object
-      // AsyncValue<List<TicketRepliesModel>> asyncValue = AsyncValue.data(r);
 
-      // Accessing all properties and creating a List<String> with concatenated values
       repliesData = r;
-      // repliesData = AsyncValue.data(r);
     });
-    print("repliesData---" + repliesData.toString());
     return repliesData;
   }
 }

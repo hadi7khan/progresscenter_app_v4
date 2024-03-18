@@ -50,7 +50,6 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.dark,
         child: Scaffold(
-          // appBar: AppBar(iconTheme: IconThemeData(color: Helper.secondary)),
           body: SafeArea(
               child: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
@@ -92,8 +91,6 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                     ),
                     RichText(
                       text: TextSpan(
-                        // Note: Styles for TextSpans must be explicitly defined.
-                        // Child text spans will inherit styles from parent
                         style: TextStyle(
                           letterSpacing: Platform.isIOS ? -1 : -0.6,
                           fontSize: 16.sp,
@@ -210,8 +207,6 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                       },
                       child: RichText(
                         text: TextSpan(
-                          // Note: Styles for TextSpans must be explicitly defined.
-                          // Child text spans will inherit styles from parent
                           style: TextStyle(
                             letterSpacing: -0.3,
                             fontSize: 14.sp,
@@ -270,7 +265,6 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                                 .watch(verifyEmailProvider.notifier)
                                 .verifyEmail(data, widget.token)
                                 .then((value) {
-                              print(value.toString());
                               context.push('/changePassword',
                                   extra: {"token": widget.token});
 

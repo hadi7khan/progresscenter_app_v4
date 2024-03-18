@@ -6,7 +6,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:progresscenter_app_v4/src/common/data/extension.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -66,8 +65,6 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                     RichText(
                       text: TextSpan(
-                        // Note: Styles for TextSpans must be explicitly defined.
-                        // Child text spans will inherit styles from parent
                         style: TextStyle(
                           letterSpacing: Platform.isIOS ? -1 : -0.6,
                           fontSize: 32.sp,
@@ -84,9 +81,6 @@ class _SignInScreenState extends State<SignInScreen> {
                               color: Helper.baseBlack,
                             ),
                           ),
-                          // TextSpan(
-                          //     text: 'Center',
-                          //     style: TextStyle(color: Helper.primary)),
                         ],
                       ),
                     ),
@@ -132,8 +126,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         if (_validate && val == null || val!.isEmpty) {
                           return 'Email is required';
                         }
-                        // if (_validate && !val.isValidEmail)
-                        //   return 'Enter valid email';
+
                         return null;
                       },
                       textInputAction: TextInputAction.done,

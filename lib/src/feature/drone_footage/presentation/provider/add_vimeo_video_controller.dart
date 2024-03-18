@@ -16,20 +16,14 @@ class AddVimeoVideoController extends StateNotifier<AddVimeoVideoState> {
   AddVimeoVideoController(super.state, this.service);
 
   Future addVimeoVideo(projectId, data) async {
-    print("data passed to controller" + data.toString());
     state = state.copyWith(isLoading: true);
     final result = await service.addVimeoVideo(projectId, data);
-    // return result;
-    // if (!mounted) return;
+
     var valueee = await result.fold((l) {
       state = state.copyWith(isLoading: false, errorMessage: l.message);
     }, (r) {
-      // state = state.copyWith(
-      //   isLoading: false,
-      //     result: AsyncValue.data(r));
       return r;
     });
-    print("valueee " + valueee.toString());
     return result;
   }
 }

@@ -89,9 +89,7 @@ class _OrganisationUrlScreenState
                     if (val == null || val.isEmpty) {
                       return 'Field is required';
                     }
-                    // if (val.length < 5) {
-                    //   return 'Password is short';
-                    // }
+
                     return null;
                   },
                   onChanged: (text) {
@@ -122,8 +120,6 @@ class _OrganisationUrlScreenState
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
                     ),
-
-                    // hintText: widget.control.label,
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.r),
                       borderSide: BorderSide(color: Helper.textColor300),

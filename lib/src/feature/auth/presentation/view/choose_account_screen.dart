@@ -80,13 +80,11 @@ class _ChooseAccountScreenState extends BaseConsumerState<ChooseAccountScreen> {
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   padding: EdgeInsets.zero,
-                  // cacheExtent: 99999999,
                   gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
                     mainAxisSpacing: 1.5.h,
                     crossAxisSpacing: 16.w,
                     childAspectRatio: 1 / 1,
-                    // mainAxisExtent: 100.h
                   ),
                   itemCount: data.length,
                   itemBuilder: ((context, index) {

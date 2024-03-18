@@ -13,25 +13,23 @@ String projectModelToJson(List<ProjectModel> data) =>
 @freezed
 class ProjectModel with _$ProjectModel {
   const factory ProjectModel({
-    Location? location,
+    @Default(Location()) Location? location,
     @JsonKey(name: '_id') required String id,
     String? name,
-    List<ProjectImage>? images,
-    String? coverImageUrl,
-    String? status,
-    List<Asset>? assets,
-    String? activity,
-    DateTime? lastUpdated,
-    dynamic parentId,
-    bool? hasCameras,
-    int? hierarchyLevel,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    AiStats? aiStats,
-    int? constructionDays,
-    String? projectModelId,
-    List<User>? users,
-    List<ProjectModel>? children,
+    @Default([]) List<ProjectImage>? images,
+    @Default('') String coverImageUrl,
+    @Default('') String status,
+    @Default([]) List<Asset>? assets,
+    @Default(null) DateTime? lastUpdated,
+    @Default('') String? parentId,
+    @Default(false) bool hasCameras,
+    @Default(0) int hierarchyLevel,
+    @Default(null) DateTime? createdAt,
+    @Default(null) DateTime? updatedAt,
+    @Default(AiStats()) AiStats? aiStats,
+    @Default(0) int constructionDays,
+    @Default([]) List<User>? users,
+    @Default([]) List<ProjectModel>? children,
   }) = _ProjectModel;
 
   factory ProjectModel.fromJson(Map<String, dynamic> json) =>
@@ -41,8 +39,8 @@ class ProjectModel with _$ProjectModel {
 @freezed
 class AiStats with _$AiStats {
   const factory AiStats({
-    int? activityScore,
-    double? ppeScore,
+    @Default(0) int? activityScore,
+    @Default(0.0) double? ppeScore,
   }) = _AiStats;
 
   factory AiStats.fromJson(Map<String, dynamic> json) =>
@@ -53,7 +51,7 @@ class AiStats with _$AiStats {
 class ProjectImage with _$ProjectImage {
   const factory ProjectImage({
     @JsonKey(name: '_id') String? imageId,
-    String? url,
+    @Default('') String? url,
   }) = _ProjectImage;
 
   factory ProjectImage.fromJson(Map<String, dynamic> json) =>
@@ -63,9 +61,9 @@ class ProjectImage with _$ProjectImage {
 @freezed
 class Asset with _$Asset {
   const factory Asset({
-    String? name,
+    @Default('') String? name,
     @JsonKey(name: '_id') String? id,
-    int? count,
+    @Default(0) int? count,
   }) = _Asset;
 
   factory Asset.fromJson(Map<String, dynamic> json) => _$AssetFromJson(json);
@@ -74,9 +72,9 @@ class Asset with _$Asset {
 @freezed
 class Location with _$Location {
   const factory Location({
-    String? name,
-    dynamic latitude,
-    dynamic longitude,
+    @Default('') String? name,
+    @Default('') dynamic latitude,
+    @Default('') dynamic longitude,
   }) = _Location;
 
   factory Location.fromJson(Map<String, dynamic> json) =>
@@ -86,14 +84,13 @@ class Location with _$Location {
 @freezed
 class User with _$User {
   const factory User({
-    Preset? preset,
+    @Default(Preset()) Preset? preset,
     @JsonKey(name: '_id') String? userId,
-    String? name,
-    String? email,
-    String? dp,
-    String? role,
-    List<String>? projects,
-    String? dpUrl,
+    @Default('') String name,
+    @Default('') String email,
+    @Default('') String role,
+    @Default('') String dp,
+    @Default('') String dpUrl,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
@@ -102,7 +99,7 @@ class User with _$User {
 @freezed
 class Preset with _$Preset {
   const factory Preset({
-    String? color,
+    @Default('') String? color,
   }) = _Preset;
 
   factory Preset.fromJson(Map<String, dynamic> json) => _$PresetFromJson(json);

@@ -9,7 +9,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
@@ -23,10 +22,7 @@ import 'package:progresscenter_app_v4/src/feature/progressline/presentation/prov
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/widgets/comments_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/widgets/viewed_by_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean_model.dart';
-import 'package:timezone/data/latest.dart';
 import 'package:timezone/timezone.dart';
-import 'package:timeago/timeago.dart' as timeago;
-import 'dart:developer';
 
 class FeedCard extends ConsumerStatefulWidget {
   final progresslineData;
@@ -68,7 +64,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
         'dpUrl': user.dpUrl != null ? user.dpUrl : "",
         'dp': user.dp != null ? user.dp : "",
         'color': user.preset!.color,
-        'trigger': '@', // or any other trigger character you want
+        'trigger': '@',
       };
     }).toList();
   }
@@ -108,8 +104,6 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
       DateTime convertedDate = TZDateTime.from(date, getLocation(timezone));
       difference = DateTime.now().toUtc().difference(convertedDate.toUtc());
     }
-
-    String timeAgo = DateFormat().add_yMMMMd().add_jm().format(date);
 
     if (difference.inSeconds < 60) {
       return '${difference.inSeconds}s ago';
@@ -217,9 +211,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                 ),
                 Container(
                     margin: EdgeInsets.only(top: height - 15),
-                    // height: 88.h,
                     width: double.infinity,
-                    // margin: EdgeInsets.zero,
                     padding: EdgeInsets.symmetric(horizontal: 12.w),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15.r),
@@ -321,9 +313,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                               Mention(
                                 trigger: "@",
                                 suggestionBuilder: (data) {
-                                  print("builder data" + data.toString());
                                   return Container(
-                                    // margin: EdgeInsets.all(10),
                                     width: MediaQuery.of(context).size.width,
                                     padding: EdgeInsets.all(10.0),
                                     child: ListTile(
@@ -383,25 +373,16 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                   icon: SvgPicture.asset(
                                       'assets/images/send.svg'),
                                   onPressed: () async {
-                                    setState(() {
-                                      // _controller.clear();
-                                      // _changeState = false;
-                                    });
                                     Map<String, dynamic> data =
                                         getCommentData();
                                     if (_fbKey.currentState!
                                         .saveAndValidate()) {
-                                      print("id passed" +
-                                          widget.progresslineData.id
-                                              .toString());
                                       await ref
                                           .watch(postCommentProvider.notifier)
                                           .postComment(
                                               widget.progresslineData.id, data)
                                           .then((value) async {
-                                        value.fold((failure) {
-                                          print("errorrrrrr");
-                                        }, (res) {
+                                        value.fold((failure) {}, (res) {
                                           ref
                                               .watch(
                                                   progresslineControllerProvider
@@ -410,8 +391,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                                   .progresslineData
                                                   .project
                                                   .projectId);
-                                          print(
-                                              "response data" + res.toString());
+
                                           key.currentState!.controller!.clear();
                                         });
                                         Utils.toastSuccessMessage(
@@ -421,7 +401,6 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                   },
                                 ),
                               ),
-                              // hintText: widget.control.label,
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8.r),
                                 borderSide:

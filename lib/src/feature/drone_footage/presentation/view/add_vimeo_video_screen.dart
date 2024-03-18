@@ -317,9 +317,7 @@ class _AddVimeoVideoScreenState extends BaseConsumerState<AddVimeoVideoScreen> {
                             .watch(addVimeoVideoControllerProvider.notifier)
                             .addVimeoVideo(widget.projectId, data)
                             .then((value) async {
-                          value.fold((failure) {
-                            print("errorrrrrr");
-                          }, (res) {});
+                          value.fold((failure) {}, (res) {});
                           context.pop();
                           Utils.toastSuccessMessage(
                               "Drone Footage added", context);

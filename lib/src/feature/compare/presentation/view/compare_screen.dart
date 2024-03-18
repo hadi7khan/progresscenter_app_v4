@@ -651,10 +651,8 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                 ),
                 value: [],
                 onValueChanged: (value) {
-                  print(value.toString());
                   DateTime date = DateTime.parse(value[0].toString());
                   selectedDate = DateFormat("yyyyMMdd").format(date);
-                  print("selectedDate " + selectedDate);
                 },
               ),
               // SizedBox(height: 20.h),
@@ -681,7 +679,6 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                         ),
                       )),
                   onPressed: () {
-                    print(selectedDate);
                     //         ref
                     // .read(imagesByCamIdControllerProvider.notifier)
                     // .getIagesByCamId(projectId, cameraId, searchDate: selectedDate );
@@ -753,10 +750,8 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                 ),
                 value: [],
                 onValueChanged: (value) {
-                  print(value.toString());
                   DateTime date = DateTime.parse(value[0].toString());
                   selectedDate = DateFormat("yyyyMMdd").format(date);
-                  print("selectedDate " + selectedDate);
                 },
               ),
               // SizedBox(height: 20.h),
@@ -783,7 +778,6 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                         ),
                       )),
                   onPressed: () {
-                    print(selectedDate);
                     //         ref
                     // .read(imagesByCamIdControllerProvider.notifier)
                     // .getIagesByCamId(projectId, cameraId, searchDate: selectedDate );

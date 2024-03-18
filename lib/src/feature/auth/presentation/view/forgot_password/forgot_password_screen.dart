@@ -235,9 +235,7 @@ class _ForgotPasswordScreenState
                                 .watch(forgotPasswordProvider.notifier)
                                 .forgotPass(data)
                                 .then((value) async {
-                              value.fold((failure) {
-                                print("errorrrrrr");
-                              }, (data) {
+                              value.fold((failure) {}, (data) {
                                 final token = data['token'];
                                 context.push('/verifyEmail',
                                     extra: {"token": token});

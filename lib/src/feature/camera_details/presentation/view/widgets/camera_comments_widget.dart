@@ -142,7 +142,6 @@ class _CameraCommentsWidgetState
                 TapGestureRecognizer() // Add a tap gesture recognizer if needed
                   ..onTap = () {
                     // Handle tap on mention
-                    print('Tapped on mention: $userId');
                   },
           ),
         );

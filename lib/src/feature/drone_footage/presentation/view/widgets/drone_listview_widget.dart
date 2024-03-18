@@ -45,7 +45,7 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
 
   String extractVimeoVideoId(String videoUrl) {
     Uri uri = Uri.parse(videoUrl);
-    print("videoUrl-----" + videoUrl.toString());
+
     String videoId = uri.queryParameters['video_id'] ?? '';
 
     if (videoId.isNotEmpty) {
@@ -66,7 +66,6 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
   Widget build(BuildContext context) {
     if (widget.data.details.provider == "VIMEO") {
       String videoId = extractVimeoVideoId(widget.data.url);
-      print("videoId-----" + videoId.toString());
     }
     return Container(
       margin: EdgeInsets.zero,

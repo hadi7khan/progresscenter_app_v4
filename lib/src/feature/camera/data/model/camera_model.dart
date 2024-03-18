@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final cameraModel = cameraModelFromJson(jsonString);
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'dart:convert';
 
@@ -17,25 +13,17 @@ String cameraModelToJson(List<CameraModel> data) =>
 @freezed
 class CameraModel with _$CameraModel {
   const factory CameraModel({
-    Details? details,
-    Location? location,
+    @Default(Location()) Location? location,
     @JsonKey(name: '_id') String? id,
-    String? name,
-    String? installationDate,
-    String? status,
-    DateTime? lastUpdated,
-    String? orientation,
-    dynamic pointedTo,
-    String? reseller,
-    String? client,
-    String? project,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    LatestImage? latestImage,
-    List<String>? enabledFeaturesList,
-    bool? hasImages,
-    String? cameraModelId,
-    EnabledFeatures? enabledFeatures,
+    @Default('') String? name,
+    @Default('') String? installationDate,
+    @Default('') String? status,
+    // DateTime? lastUpdated,
+    @Default('') String? orientation,
+    @Default('') String? project,
+    @Default(null) LatestImage? latestImage,
+    @Default(false) bool? hasImages,
+    @Default([]) List<String>? enabledFeaturesList,
   }) = _CameraModel;
 
   factory CameraModel.fromJson(Map<String, dynamic> json) =>
@@ -43,47 +31,13 @@ class CameraModel with _$CameraModel {
 }
 
 @freezed
-class Details with _$Details {
-  const factory Details({
-    String? type,
-    String? version,
-    String? unitId,
-    dynamic unitSecret,
-  }) = _Details;
-
-  factory Details.fromJson(Map<String, dynamic> json) =>
-      _$DetailsFromJson(json);
-}
-
-@freezed
-class EnabledFeatures with _$EnabledFeatures {
-  const factory EnabledFeatures({
-    Ai? ai,
-  }) = _EnabledFeatures;
-
-  factory EnabledFeatures.fromJson(Map<String, dynamic> json) =>
-      _$EnabledFeaturesFromJson(json);
-}
-
-@freezed
-class Ai with _$Ai {
-  const factory Ai({
-    String? id,
-  }) = _Ai;
-
-  factory Ai.fromJson(Map<String, dynamic> json) => _$AiFromJson(json);
-}
-
-@freezed
 class LatestImage with _$LatestImage {
   const factory LatestImage({
-    Resolution? resolution,
-    String? name,
-    String? date,
-    String? time,
-    String? datetime,
-    DateTime? createdAt,
-    DateTime? updatedAt,
+    @Default(Resolution()) Resolution? resolution,
+    @Default('') String? name,
+    @Default('') String? date,
+    @Default('') String? time,
+    @Default('') String? datetime,
     @Default("") String url4K,
     @Default("") String urlPreview,
     @Default("") String urlThumb,
@@ -96,8 +50,8 @@ class LatestImage with _$LatestImage {
 @freezed
 class Resolution with _$Resolution {
   const factory Resolution({
-    int? width,
-    int? height,
+    @Default(0) int? width,
+    @Default(0) int? height,
   }) = _Resolution;
 
   factory Resolution.fromJson(Map<String, dynamic> json) =>
@@ -107,8 +61,8 @@ class Resolution with _$Resolution {
 @freezed
 class Location with _$Location {
   const factory Location({
-    String? latitude,
-    String? longitude,
+    @Default('') String? latitude,
+    @Default('') String? longitude,
   }) = _Location;
 
   factory Location.fromJson(Map<String, dynamic> json) =>

@@ -30,7 +30,7 @@ class CameraRepositoryImpl implements CameraRepository {
           (result as List).map((e) => CameraModel.fromJson(e)).toList());
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
-      print(errorMessage.toString());
+
       rethrow;
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));

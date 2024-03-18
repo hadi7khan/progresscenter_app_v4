@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
-import 'package:progresscenter_app_v4/src/feature/cctv_view/presentation/view/widgets/cctv_widget.dart';
 
 class CctvGridViewWidget extends StatefulWidget {
   final data;
@@ -111,10 +110,8 @@ class _CctvGridViewWidgetState extends State<CctvGridViewWidget> {
 }
 
 showDate(date, dateFormat) {
-  // Parse the installationDate string into a DateTime object
   DateTime parsedDate = DateTime.parse(date);
 
-  // Format the DateTime object into the desired format
   String formattedDate = DateFormat(dateFormat).format(parsedDate);
   return formattedDate;
 }

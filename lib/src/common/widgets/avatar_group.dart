@@ -33,7 +33,6 @@ class _AvatarGroupWidgetState extends State<AvatarGroupWidget> {
     if (avatarsLength! > maxCount!) {
       displayCount += 1;
     }
-    print("displayCount" + displayCount.toString());
   }
 
   _getPositionedWidgets() {
@@ -84,7 +83,6 @@ class _AvatarGroupWidgetState extends State<AvatarGroupWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.avatars.toString());
     return Stack(children: [
       Container(
         color: Colors.transparent,

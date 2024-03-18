@@ -150,7 +150,6 @@ class _CCTVScreenState extends BaseConsumerState<CCTVScreen> {
                                   physics: NeverScrollableScrollPhysics(),
                                   itemCount: data.length,
                                   itemBuilder: ((context, index) {
-                                    print("cctv" + index.toString());
                                     return CctvListViewWidget(
                                         data: data[index]);
                                   }),

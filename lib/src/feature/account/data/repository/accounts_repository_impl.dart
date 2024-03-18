@@ -30,7 +30,7 @@ class AccountsRepositoryImpl implements AccountsRepository {
       return Right((AccountsModel.fromJson(result)));
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
-      print(errorMessage.toString());
+
       rethrow;
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
@@ -44,7 +44,7 @@ class AccountsRepositoryImpl implements AccountsRepository {
       return Right((OrganisationModel.fromJson(result)));
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
-      print(errorMessage.toString());
+
       rethrow;
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));

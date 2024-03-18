@@ -3,12 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
-import 'package:progresscenter_app_v4/src/common/skeletons/load_progress_line.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/data/model/progressline_model.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/data/model/progressline_project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/all_progressline_posts_controller.dart';
-import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/progressline_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/widgets/feed_card.dart';
 
 class FeedWidget extends ConsumerStatefulWidget {
@@ -75,8 +73,8 @@ class _TeamWidgetState extends BaseConsumerState<FeedWidget> {
       );
     }
     ;
-    final progresslineData = ref.watch(allProgresslinePostsControllerProvider
-        .select((value) => value.allProgresslinePosts));
+    // final progresslineData = ref.watch(allProgresslinePostsControllerProvider
+    //     .select((value) => value.allProgresslinePosts));
 
     // return
     // progresslineData.when(
