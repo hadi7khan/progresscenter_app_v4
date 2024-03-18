@@ -271,8 +271,6 @@ class _ProjectDetailsScreenState
                           int count = asset.count != null ? asset.count! : 0;
                           assetMap[name] = count;
                         }
-                        print("this is the assetMap" + assetMap.toString());
-                        print("this is data assests" + data.assets.toString());
 
                         filteredLinks = links
                             .where((link) =>
@@ -570,7 +568,6 @@ List assetItems = AssetType.values.map((assetType) {
 
 Widget buildAsset(
     BuildContext context, index, assetName, count, projectId, projectName) {
-  print(assetName);
   switch (assetName) {
     case AssetType.TIMELAPSE:
       return ListTile(

@@ -487,14 +487,11 @@ class _AddMemberScreenState extends BaseConsumerState<AddMemberScreen> {
                               "role": _roleSelected.toUpperCase().toString(),
                               "tags": _selectedTeams
                             };
-                            print(data.toString());
                             await ref
                                 .watch(inviteMembersProvider.notifier)
                                 .inviteMember(data, widget.projectId)
                                 .then((value) async {
-                              value.fold((failure) {
-                                print("errorrrrrr");
-                              }, (data) {
+                              value.fold((failure) {}, (data) {
                                 context.pop();
                                 Utils.toastSuccessMessage(
                                     "Member Added", context);

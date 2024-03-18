@@ -26,7 +26,6 @@ class _IconBottomBarState extends State<IconBottomBar> {
         horizontal: 15.w,
       ),
       child: Column(
-        // mainAxisAlignment: MainAxisAlignment.end,
         mainAxisSize: MainAxisSize.min,
         children: [
           SvgPicture.asset(widget.icon, color: Helper.textColor700),

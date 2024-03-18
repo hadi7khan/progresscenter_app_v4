@@ -46,7 +46,6 @@ class _ChangePasswordScreenState
 
   @override
   Widget build(BuildContext context) {
-    print("token passed" + widget.token.toString());
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -327,8 +326,6 @@ class _ChangePasswordScreenState
                                   .watch(changePasswordProvider.notifier)
                                   .changePass(data, widget.token)
                                   .then((value) {
-                                print(value.toString());
-
                                 context.pushReplacement('/signin');
                                 Utils.toastSuccessMessage(
                                     "Password changed Successfully", context);

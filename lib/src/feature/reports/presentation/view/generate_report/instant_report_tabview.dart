@@ -105,11 +105,9 @@ class _InstantReportTabviewState
   }
 
   getDateDifference(String sDate, String eDate) {
-// Parse strings into DateTime objects
     DateTime startDate = DateTime.parse(sDate);
     DateTime endDate = DateTime.parse(eDate);
 
-    // Calculate the difference between the two dates
     Duration difference = endDate.difference(startDate);
     maxImageDays = difference.inDays;
 

@@ -39,10 +39,8 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
     try {
       final response =
           await Dio().get(widget.data.streamingUrl + "&q=hadikhan");
-      print('streaming url   ' + widget.data.streamingUrl.toString());
       setState(() {
         isOnline = true;
-        print('isOnline changed   ' + isOnline.toString());
       });
       log('cctv response   ' + response.data.toString());
       log('cctv response code   ' + response.statusCode.toString());
@@ -180,7 +178,6 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Container(
-                                  // width: MediaQuery.of(context).size.width * 0.5,
                                   child: Text(
                                     widget.data.name!,
                                     overflow: TextOverflow.ellipsis,
@@ -219,10 +216,8 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
 }
 
 showDate(date, dateFormat) {
-  // Parse the installationDate string into a DateTime object
   DateTime parsedDate = DateTime.parse(date);
 
-  // Format the DateTime object into the desired format
   String formattedDate = DateFormat(dateFormat).format(parsedDate);
   return formattedDate;
 }

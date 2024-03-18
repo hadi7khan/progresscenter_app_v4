@@ -17,18 +17,14 @@ class UserProfileController extends StateNotifier<UserProfileState> {
     var value;
     state = state.copyWith(isFetching: true);
     final result = await service.userProfile(id);
-    // return result;
-    // if (!mounted) return;
+
     var valueee = await result.fold((l) {
       state = state.copyWith(isFetching: false, errorMessage: l.message);
     }, (r) {
-      state = state.copyWith(
-        isFetching: false,
-          userProfile: AsyncValue.data(r));
-          print("rrrrrr "+ r.projects.toString());
+      state =
+          state.copyWith(isFetching: false, userProfile: AsyncValue.data(r));
       value = r;
     });
-    print("valueee "+ value.toString());
-     return value;
+    return value;
   }
 }

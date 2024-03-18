@@ -58,7 +58,6 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
   }
 
   double calculateProgress(double sentBytes) {
-    print("sentBytes--------------" + sentBytes.toString());
     setState(() {
       _progress = sentBytes;
     });
@@ -115,12 +114,8 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
           setState(() {
             _image = XFile(filePath);
           });
-        } else {
-          print('Error: Unable to load file.');
-        }
-      } catch (e) {
-        print('Error: $e');
-      }
+        } else {}
+      } catch (e) {}
     }
   }
 

@@ -57,10 +57,7 @@ class _ProcessMentionState extends BaseConsumerState<ProcessMention> {
                 color: ref.watch(primaryColorProvider),
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w400),
-            recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                print('Tapped on mention: $userId');
-              },
+            recognizer: TapGestureRecognizer()..onTap = () {},
           ),
         );
       }

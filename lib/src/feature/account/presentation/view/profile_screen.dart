@@ -93,7 +93,6 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
       setState(() {
         _image = file;
       });
-      print("image path" + _image!.path.toString());
     }
   }
 
@@ -249,7 +248,6 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
 
               var values =
                   projectHierarchySelection!.changeSelected(project, value);
-              print("valueeeeee" + values.toString());
             },
           ),
         );
@@ -288,9 +286,8 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
             onChanged: (value) {
               setState(() {
                 _selectedTimezone = value;
-                print(_selectedTimezone.toString());
               });
-              Navigator.pop(context); // Close the dialog
+              Navigator.pop(context);
             },
           ),
         );
@@ -352,7 +349,6 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
       _overlayEntry?.remove();
       _overlayEntry = null;
     });
-    print(selectedTimezone);
   }
 
   @override
@@ -791,8 +787,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                         //   onChanged: (value) {
                                         //     setState(() {
                                         //       _selectedTimezone = value!;
-                                        //       print(_selectedTimezone
-                                        //           .toString());
+
                                         //     });
                                         //   },
                                         //   onSaved: (value) {
@@ -1909,12 +1904,9 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                   ),
                   value: [],
                   onValueChanged: (value) {
-                    print(value.toString());
                     DateTime date = DateTime.parse(value[0].toString());
                     dob = DateFormat("yyyyMMdd").format(date);
                     // _showDate = DateFormat('dd MMM yyyy').format(date);
-                    print("selectedDate " + dob);
-                    // print("showDate " + _showDate!);
                   },
                 ),
                 Divider(

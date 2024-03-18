@@ -17,7 +17,6 @@ class AdvancedLivelapseController
   AdvancedLivelapseController(super.state, this.service);
 
   Future advancedLivelapse(projectId, cameraId, data) async {
-    print("data passed to controller" + data.toString());
     state = state.copyWith(isLoading: true);
     final result =
         await service.createAdvancedLivelapse(projectId, cameraId, data);
@@ -31,7 +30,7 @@ class AdvancedLivelapseController
       //     result: AsyncValue.data(r));
       return r;
     });
-    print("valueee " + valueee.toString());
+
     return result;
   }
 }

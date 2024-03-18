@@ -181,8 +181,6 @@ class _ProfileTeamScreenState extends BaseConsumerState<ProfileTeamScreen> {
                       ));
                 },
                 onSuggestionSelected: (team) {
-                  // Do something with the selected user
-                  // print('Selected user: ${user.email}');
                   setState(() {
                     _selectedTeams!.add(team.toString());
                     _teamsController.clear();
@@ -206,7 +204,6 @@ class _ProfileTeamScreenState extends BaseConsumerState<ProfileTeamScreen> {
                     onDeleted: () {
                       setState(() {
                         _selectedTeams!.remove(suggestion);
-                        print(_selectedTeams);
                       });
                     },
                     deleteIcon: SvgPicture.asset(

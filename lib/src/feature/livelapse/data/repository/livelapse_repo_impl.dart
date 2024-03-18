@@ -33,7 +33,7 @@ class LivelapseRepositoryImpl implements LivelapseRepository {
           (result as List).map((e) => LivelapseModel.fromJson(e)).toList());
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
-      print(errorMessage.toString());
+
       rethrow;
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
@@ -46,11 +46,11 @@ class LivelapseRepositoryImpl implements LivelapseRepository {
     try {
       final result = await livelapseDataSource.createBasicLivelapse(
           projectId, cameraId, data);
-      print("result: " + result.toString());
+
       return Right(result);
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
-      print(errorMessage.toString());
+
       rethrow;
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
@@ -63,11 +63,11 @@ class LivelapseRepositoryImpl implements LivelapseRepository {
     try {
       final result = await livelapseDataSource.createAdvancedLivelapse(
           projectId, cameraId, data);
-      print("result: " + result.toString());
+
       return Right(result);
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
-      print(errorMessage.toString());
+
       rethrow;
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
@@ -83,7 +83,7 @@ class LivelapseRepositoryImpl implements LivelapseRepository {
       return Right((LivelapseByIdModel.fromJson(result)));
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
-      print(errorMessage.toString());
+
       rethrow;
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));

@@ -37,9 +37,7 @@ class _SearchProjectScreenState extends BaseConsumerState<SearchProjectScreen> {
     super.initState();
   }
 
-  void _addressControllerListener() {
-    print(_searchController.text);
-  }
+  void _addressControllerListener() {}
 
   @override
   void dispose() {

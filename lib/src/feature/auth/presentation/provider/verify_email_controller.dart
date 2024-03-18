@@ -8,7 +8,8 @@ final verifyEmailProvider = StateNotifierProvider.autoDispose<
     VerifyEmailController, ForgotPasswordState>(
   (ref) {
     final verifyEmailService = ref.read(authProvider);
-    return VerifyEmailController(const ForgotPasswordState(), verifyEmailService);
+    return VerifyEmailController(
+        const ForgotPasswordState(), verifyEmailService);
   },
 );
 
@@ -29,7 +30,7 @@ class VerifyEmailController extends StateNotifier<ForgotPasswordState> {
       //     result: AsyncValue.data(r));
       return r;
     });
-    print("valueee "+ valueee.toString());
-     return result;
+
+    return result;
   }
 }

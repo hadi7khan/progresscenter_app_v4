@@ -43,7 +43,7 @@ class ProgresslineRepositoryImpl implements ProgresslineRepository {
   Future<Either<Failure, dynamic>> postComment(String id, data) async {
     try {
       final result = await progresslineDataSource.postComment(id, data);
-      print("result: " + result.toString());
+
       return Right(result);
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);

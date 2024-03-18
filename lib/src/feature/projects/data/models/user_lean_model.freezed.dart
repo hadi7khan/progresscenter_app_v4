@@ -21,11 +21,11 @@ UserLeanModel _$UserLeanModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$UserLeanModel {
   Preset? get preset => throw _privateConstructorUsedError;
+  @JsonKey(name: '_id')
   String? get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
   String? get dp => throw _privateConstructorUsedError;
-  String? get userLeanModelId => throw _privateConstructorUsedError;
   String? get dpUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -42,11 +42,10 @@ abstract class $UserLeanModelCopyWith<$Res> {
   @useResult
   $Res call(
       {Preset? preset,
-      String? id,
+      @JsonKey(name: '_id') String? id,
       String? name,
       String? email,
       String? dp,
-      String? userLeanModelId,
       String? dpUrl});
 
   $PresetCopyWith<$Res>? get preset;
@@ -70,7 +69,6 @@ class _$UserLeanModelCopyWithImpl<$Res, $Val extends UserLeanModel>
     Object? name = freezed,
     Object? email = freezed,
     Object? dp = freezed,
-    Object? userLeanModelId = freezed,
     Object? dpUrl = freezed,
   }) {
     return _then(_value.copyWith(
@@ -93,10 +91,6 @@ class _$UserLeanModelCopyWithImpl<$Res, $Val extends UserLeanModel>
       dp: freezed == dp
           ? _value.dp
           : dp // ignore: cast_nullable_to_non_nullable
-              as String?,
-      userLeanModelId: freezed == userLeanModelId
-          ? _value.userLeanModelId
-          : userLeanModelId // ignore: cast_nullable_to_non_nullable
               as String?,
       dpUrl: freezed == dpUrl
           ? _value.dpUrl
@@ -128,11 +122,10 @@ abstract class _$$_UserLeanModelCopyWith<$Res>
   @useResult
   $Res call(
       {Preset? preset,
-      String? id,
+      @JsonKey(name: '_id') String? id,
       String? name,
       String? email,
       String? dp,
-      String? userLeanModelId,
       String? dpUrl});
 
   @override
@@ -155,7 +148,6 @@ class __$$_UserLeanModelCopyWithImpl<$Res>
     Object? name = freezed,
     Object? email = freezed,
     Object? dp = freezed,
-    Object? userLeanModelId = freezed,
     Object? dpUrl = freezed,
   }) {
     return _then(_$_UserLeanModel(
@@ -179,10 +171,6 @@ class __$$_UserLeanModelCopyWithImpl<$Res>
           ? _value.dp
           : dp // ignore: cast_nullable_to_non_nullable
               as String?,
-      userLeanModelId: freezed == userLeanModelId
-          ? _value.userLeanModelId
-          : userLeanModelId // ignore: cast_nullable_to_non_nullable
-              as String?,
       dpUrl: freezed == dpUrl
           ? _value.dpUrl
           : dpUrl // ignore: cast_nullable_to_non_nullable
@@ -195,35 +183,37 @@ class __$$_UserLeanModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_UserLeanModel implements _UserLeanModel {
   const _$_UserLeanModel(
-      {this.preset,
-      this.id,
-      this.name,
-      this.email,
+      {this.preset = const Preset(),
+      @JsonKey(name: '_id') this.id,
+      this.name = '',
+      this.email = '',
       this.dp,
-      this.userLeanModelId,
-      this.dpUrl});
+      this.dpUrl = ''});
 
   factory _$_UserLeanModel.fromJson(Map<String, dynamic> json) =>
       _$$_UserLeanModelFromJson(json);
 
   @override
+  @JsonKey()
   final Preset? preset;
   @override
+  @JsonKey(name: '_id')
   final String? id;
   @override
+  @JsonKey()
   final String? name;
   @override
+  @JsonKey()
   final String? email;
   @override
   final String? dp;
   @override
-  final String? userLeanModelId;
-  @override
+  @JsonKey()
   final String? dpUrl;
 
   @override
   String toString() {
-    return 'UserLeanModel(preset: $preset, id: $id, name: $name, email: $email, dp: $dp, userLeanModelId: $userLeanModelId, dpUrl: $dpUrl)';
+    return 'UserLeanModel(preset: $preset, id: $id, name: $name, email: $email, dp: $dp, dpUrl: $dpUrl)';
   }
 
   @override
@@ -236,15 +226,13 @@ class _$_UserLeanModel implements _UserLeanModel {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.dp, dp) || other.dp == dp) &&
-            (identical(other.userLeanModelId, userLeanModelId) ||
-                other.userLeanModelId == userLeanModelId) &&
             (identical(other.dpUrl, dpUrl) || other.dpUrl == dpUrl));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, preset, id, name, email, dp, userLeanModelId, dpUrl);
+  int get hashCode =>
+      Object.hash(runtimeType, preset, id, name, email, dp, dpUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -263,11 +251,10 @@ class _$_UserLeanModel implements _UserLeanModel {
 abstract class _UserLeanModel implements UserLeanModel {
   const factory _UserLeanModel(
       {final Preset? preset,
-      final String? id,
+      @JsonKey(name: '_id') final String? id,
       final String? name,
       final String? email,
       final String? dp,
-      final String? userLeanModelId,
       final String? dpUrl}) = _$_UserLeanModel;
 
   factory _UserLeanModel.fromJson(Map<String, dynamic> json) =
@@ -276,6 +263,7 @@ abstract class _UserLeanModel implements UserLeanModel {
   @override
   Preset? get preset;
   @override
+  @JsonKey(name: '_id')
   String? get id;
   @override
   String? get name;
@@ -283,8 +271,6 @@ abstract class _UserLeanModel implements UserLeanModel {
   String? get email;
   @override
   String? get dp;
-  @override
-  String? get userLeanModelId;
   @override
   String? get dpUrl;
   @override

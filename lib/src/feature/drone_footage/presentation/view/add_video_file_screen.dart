@@ -417,11 +417,7 @@ class _AddFileVideoScreenState extends BaseConsumerState<AddFileVideoScreen> {
                           .watch(addFileVideoControllerProvider.notifier)
                           .addFileVideo(widget.projectId, formData)
                           .then((value) async {
-                        value.fold((failure) {
-                          print("errorrrrrr");
-                        }, (res) {
-                          print("response data" + res.toString());
-                        });
+                        value.fold((failure) {}, (res) {});
                         context.pop();
 
                         Utils.toastSuccessMessage("Livelapse Created", context);

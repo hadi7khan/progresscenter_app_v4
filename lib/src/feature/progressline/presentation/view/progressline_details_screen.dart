@@ -10,12 +10,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/load_comments_widget.dart';
-import 'package:progresscenter_app_v4/src/common/skeletons/loading_app_bar.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_progressline_details.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/avatar_widget.dart';
 import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
@@ -154,8 +152,6 @@ class _TimelineDetailsScreenState
       DateTime convertedDate = TZDateTime.from(date, getLocation(timezone));
       difference = DateTime.now().toUtc().difference(convertedDate.toUtc());
     }
-
-    String timeAgo = DateFormat().add_yMMMMd().add_jm().format(date);
 
     if (difference.inSeconds < 60) {
       return '${difference.inSeconds}s ago';
@@ -631,10 +627,6 @@ class _TimelineDetailsScreenState
                     child: IconButton(
                       icon: SvgPicture.asset('assets/images/send.svg'),
                       onPressed: () async {
-                        setState(() {
-                          // _controller.clear();
-                          // _changeState = false;
-                        });
                         Map<String, dynamic> data = getCommentData();
                         if (_fbKey.currentState!.saveAndValidate()) {
                           await ref

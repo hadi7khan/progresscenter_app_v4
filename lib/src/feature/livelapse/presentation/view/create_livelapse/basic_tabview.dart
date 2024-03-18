@@ -65,13 +65,10 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
     });
     // socket.connect();
     socket!.onConnect((_) {
-      print('Connection established');
       socket!.emit('joinRoom', "livelapse:$livelapseId");
       // socket!.on("livelapse:progress", (livelapseId, data, progress) => null);
 
       socket!.on('livelapse:progress', (data) {
-        print("progress" + data.toString());
-        print("operation" + data["operation"].toString());
         // ref.read(progressBarProvider.notifier).state = data["progress"].toDouble();
         // ref.read(progressBarProvider.notifier).state++;
         // setState(() {
@@ -88,14 +85,12 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
       });
 
       socket!.on('livelapse:completed', (data) {
-        print("completed" + data.toString());
         socket!.disconnect();
         socket!.dispose();
 
         // progressTabCtx.updateItem(itemData._id, { text: operation, progress: progress });
       });
       socket!.on('livelapse:errored', (data) {
-        print("errored" + data.toString());
         socket!.disconnect();
         socket!.dispose();
         // progressTabCtx.updateItem(itemData._id, { text: operation, progress: progress });
@@ -362,10 +357,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                       .watch(basicLivelapseProvider.notifier)
                       .basicLivelapse(widget.projectId, widget.cameraId, data)
                       .then((value) async {
-                    value.fold((failure) {
-                      print("errorrrrrr");
-                    }, (res) {
-                      print("response data" + res.toString());
+                    value.fold((failure) {}, (res) {
                       initSocket(res["_id"]);
                       _showProgressBottomSheet(context, ref);
                     });

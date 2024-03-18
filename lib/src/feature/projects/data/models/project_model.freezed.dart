@@ -25,19 +25,17 @@ mixin _$ProjectModel {
   String get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   List<ProjectImage>? get images => throw _privateConstructorUsedError;
-  String? get coverImageUrl => throw _privateConstructorUsedError;
-  String? get status => throw _privateConstructorUsedError;
+  String get coverImageUrl => throw _privateConstructorUsedError;
+  String get status => throw _privateConstructorUsedError;
   List<Asset>? get assets => throw _privateConstructorUsedError;
-  String? get activity => throw _privateConstructorUsedError;
   DateTime? get lastUpdated => throw _privateConstructorUsedError;
-  dynamic get parentId => throw _privateConstructorUsedError;
-  bool? get hasCameras => throw _privateConstructorUsedError;
-  int? get hierarchyLevel => throw _privateConstructorUsedError;
+  String? get parentId => throw _privateConstructorUsedError;
+  bool get hasCameras => throw _privateConstructorUsedError;
+  int get hierarchyLevel => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   AiStats? get aiStats => throw _privateConstructorUsedError;
-  int? get constructionDays => throw _privateConstructorUsedError;
-  String? get projectModelId => throw _privateConstructorUsedError;
+  int get constructionDays => throw _privateConstructorUsedError;
   List<User>? get users => throw _privateConstructorUsedError;
   List<ProjectModel>? get children => throw _privateConstructorUsedError;
 
@@ -58,19 +56,17 @@ abstract class $ProjectModelCopyWith<$Res> {
       @JsonKey(name: '_id') String id,
       String? name,
       List<ProjectImage>? images,
-      String? coverImageUrl,
-      String? status,
+      String coverImageUrl,
+      String status,
       List<Asset>? assets,
-      String? activity,
       DateTime? lastUpdated,
-      dynamic parentId,
-      bool? hasCameras,
-      int? hierarchyLevel,
+      String? parentId,
+      bool hasCameras,
+      int hierarchyLevel,
       DateTime? createdAt,
       DateTime? updatedAt,
       AiStats? aiStats,
-      int? constructionDays,
-      String? projectModelId,
+      int constructionDays,
       List<User>? users,
       List<ProjectModel>? children});
 
@@ -95,19 +91,17 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
     Object? id = null,
     Object? name = freezed,
     Object? images = freezed,
-    Object? coverImageUrl = freezed,
-    Object? status = freezed,
+    Object? coverImageUrl = null,
+    Object? status = null,
     Object? assets = freezed,
-    Object? activity = freezed,
     Object? lastUpdated = freezed,
     Object? parentId = freezed,
-    Object? hasCameras = freezed,
-    Object? hierarchyLevel = freezed,
+    Object? hasCameras = null,
+    Object? hierarchyLevel = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? aiStats = freezed,
-    Object? constructionDays = freezed,
-    Object? projectModelId = freezed,
+    Object? constructionDays = null,
     Object? users = freezed,
     Object? children = freezed,
   }) {
@@ -128,22 +122,18 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
               as List<ProjectImage>?,
-      coverImageUrl: freezed == coverImageUrl
+      coverImageUrl: null == coverImageUrl
           ? _value.coverImageUrl
           : coverImageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      status: freezed == status
+              as String,
+      status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       assets: freezed == assets
           ? _value.assets
           : assets // ignore: cast_nullable_to_non_nullable
               as List<Asset>?,
-      activity: freezed == activity
-          ? _value.activity
-          : activity // ignore: cast_nullable_to_non_nullable
-              as String?,
       lastUpdated: freezed == lastUpdated
           ? _value.lastUpdated
           : lastUpdated // ignore: cast_nullable_to_non_nullable
@@ -151,15 +141,15 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
       parentId: freezed == parentId
           ? _value.parentId
           : parentId // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      hasCameras: freezed == hasCameras
+              as String?,
+      hasCameras: null == hasCameras
           ? _value.hasCameras
           : hasCameras // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      hierarchyLevel: freezed == hierarchyLevel
+              as bool,
+      hierarchyLevel: null == hierarchyLevel
           ? _value.hierarchyLevel
           : hierarchyLevel // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -172,14 +162,10 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
           ? _value.aiStats
           : aiStats // ignore: cast_nullable_to_non_nullable
               as AiStats?,
-      constructionDays: freezed == constructionDays
+      constructionDays: null == constructionDays
           ? _value.constructionDays
           : constructionDays // ignore: cast_nullable_to_non_nullable
-              as int?,
-      projectModelId: freezed == projectModelId
-          ? _value.projectModelId
-          : projectModelId // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int,
       users: freezed == users
           ? _value.users
           : users // ignore: cast_nullable_to_non_nullable
@@ -229,19 +215,17 @@ abstract class _$$_ProjectModelCopyWith<$Res>
       @JsonKey(name: '_id') String id,
       String? name,
       List<ProjectImage>? images,
-      String? coverImageUrl,
-      String? status,
+      String coverImageUrl,
+      String status,
       List<Asset>? assets,
-      String? activity,
       DateTime? lastUpdated,
-      dynamic parentId,
-      bool? hasCameras,
-      int? hierarchyLevel,
+      String? parentId,
+      bool hasCameras,
+      int hierarchyLevel,
       DateTime? createdAt,
       DateTime? updatedAt,
       AiStats? aiStats,
-      int? constructionDays,
-      String? projectModelId,
+      int constructionDays,
       List<User>? users,
       List<ProjectModel>? children});
 
@@ -266,19 +250,17 @@ class __$$_ProjectModelCopyWithImpl<$Res>
     Object? id = null,
     Object? name = freezed,
     Object? images = freezed,
-    Object? coverImageUrl = freezed,
-    Object? status = freezed,
+    Object? coverImageUrl = null,
+    Object? status = null,
     Object? assets = freezed,
-    Object? activity = freezed,
     Object? lastUpdated = freezed,
     Object? parentId = freezed,
-    Object? hasCameras = freezed,
-    Object? hierarchyLevel = freezed,
+    Object? hasCameras = null,
+    Object? hierarchyLevel = null,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? aiStats = freezed,
-    Object? constructionDays = freezed,
-    Object? projectModelId = freezed,
+    Object? constructionDays = null,
     Object? users = freezed,
     Object? children = freezed,
   }) {
@@ -299,22 +281,18 @@ class __$$_ProjectModelCopyWithImpl<$Res>
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
               as List<ProjectImage>?,
-      coverImageUrl: freezed == coverImageUrl
+      coverImageUrl: null == coverImageUrl
           ? _value.coverImageUrl
           : coverImageUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      status: freezed == status
+              as String,
+      status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       assets: freezed == assets
           ? _value._assets
           : assets // ignore: cast_nullable_to_non_nullable
               as List<Asset>?,
-      activity: freezed == activity
-          ? _value.activity
-          : activity // ignore: cast_nullable_to_non_nullable
-              as String?,
       lastUpdated: freezed == lastUpdated
           ? _value.lastUpdated
           : lastUpdated // ignore: cast_nullable_to_non_nullable
@@ -322,15 +300,15 @@ class __$$_ProjectModelCopyWithImpl<$Res>
       parentId: freezed == parentId
           ? _value.parentId
           : parentId // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      hasCameras: freezed == hasCameras
+              as String?,
+      hasCameras: null == hasCameras
           ? _value.hasCameras
           : hasCameras // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      hierarchyLevel: freezed == hierarchyLevel
+              as bool,
+      hierarchyLevel: null == hierarchyLevel
           ? _value.hierarchyLevel
           : hierarchyLevel // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -343,14 +321,10 @@ class __$$_ProjectModelCopyWithImpl<$Res>
           ? _value.aiStats
           : aiStats // ignore: cast_nullable_to_non_nullable
               as AiStats?,
-      constructionDays: freezed == constructionDays
+      constructionDays: null == constructionDays
           ? _value.constructionDays
           : constructionDays // ignore: cast_nullable_to_non_nullable
-              as int?,
-      projectModelId: freezed == projectModelId
-          ? _value.projectModelId
-          : projectModelId // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as int,
       users: freezed == users
           ? _value._users
           : users // ignore: cast_nullable_to_non_nullable
@@ -367,25 +341,23 @@ class __$$_ProjectModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_ProjectModel implements _ProjectModel {
   const _$_ProjectModel(
-      {this.location,
+      {this.location = const Location(),
       @JsonKey(name: '_id') required this.id,
       this.name,
-      final List<ProjectImage>? images,
-      this.coverImageUrl,
-      this.status,
-      final List<Asset>? assets,
-      this.activity,
-      this.lastUpdated,
-      this.parentId,
-      this.hasCameras,
-      this.hierarchyLevel,
-      this.createdAt,
-      this.updatedAt,
-      this.aiStats,
-      this.constructionDays,
-      this.projectModelId,
-      final List<User>? users,
-      final List<ProjectModel>? children})
+      final List<ProjectImage>? images = const [],
+      this.coverImageUrl = '',
+      this.status = '',
+      final List<Asset>? assets = const [],
+      this.lastUpdated = null,
+      this.parentId = '',
+      this.hasCameras = false,
+      this.hierarchyLevel = 0,
+      this.createdAt = null,
+      this.updatedAt = null,
+      this.aiStats = const AiStats(),
+      this.constructionDays = 0,
+      final List<User>? users = const [],
+      final List<ProjectModel>? children = const []})
       : _images = images,
         _assets = assets,
         _users = users,
@@ -395,6 +367,7 @@ class _$_ProjectModel implements _ProjectModel {
       _$$_ProjectModelFromJson(json);
 
   @override
+  @JsonKey()
   final Location? location;
   @override
   @JsonKey(name: '_id')
@@ -403,6 +376,7 @@ class _$_ProjectModel implements _ProjectModel {
   final String? name;
   final List<ProjectImage>? _images;
   @override
+  @JsonKey()
   List<ProjectImage>? get images {
     final value = _images;
     if (value == null) return null;
@@ -412,11 +386,14 @@ class _$_ProjectModel implements _ProjectModel {
   }
 
   @override
-  final String? coverImageUrl;
+  @JsonKey()
+  final String coverImageUrl;
   @override
-  final String? status;
+  @JsonKey()
+  final String status;
   final List<Asset>? _assets;
   @override
+  @JsonKey()
   List<Asset>? get assets {
     final value = _assets;
     if (value == null) return null;
@@ -426,27 +403,32 @@ class _$_ProjectModel implements _ProjectModel {
   }
 
   @override
-  final String? activity;
-  @override
+  @JsonKey()
   final DateTime? lastUpdated;
   @override
-  final dynamic parentId;
+  @JsonKey()
+  final String? parentId;
   @override
-  final bool? hasCameras;
+  @JsonKey()
+  final bool hasCameras;
   @override
-  final int? hierarchyLevel;
+  @JsonKey()
+  final int hierarchyLevel;
   @override
+  @JsonKey()
   final DateTime? createdAt;
   @override
+  @JsonKey()
   final DateTime? updatedAt;
   @override
+  @JsonKey()
   final AiStats? aiStats;
   @override
-  final int? constructionDays;
-  @override
-  final String? projectModelId;
+  @JsonKey()
+  final int constructionDays;
   final List<User>? _users;
   @override
+  @JsonKey()
   List<User>? get users {
     final value = _users;
     if (value == null) return null;
@@ -457,6 +439,7 @@ class _$_ProjectModel implements _ProjectModel {
 
   final List<ProjectModel>? _children;
   @override
+  @JsonKey()
   List<ProjectModel>? get children {
     final value = _children;
     if (value == null) return null;
@@ -467,7 +450,7 @@ class _$_ProjectModel implements _ProjectModel {
 
   @override
   String toString() {
-    return 'ProjectModel(location: $location, id: $id, name: $name, images: $images, coverImageUrl: $coverImageUrl, status: $status, assets: $assets, activity: $activity, lastUpdated: $lastUpdated, parentId: $parentId, hasCameras: $hasCameras, hierarchyLevel: $hierarchyLevel, createdAt: $createdAt, updatedAt: $updatedAt, aiStats: $aiStats, constructionDays: $constructionDays, projectModelId: $projectModelId, users: $users, children: $children)';
+    return 'ProjectModel(location: $location, id: $id, name: $name, images: $images, coverImageUrl: $coverImageUrl, status: $status, assets: $assets, lastUpdated: $lastUpdated, parentId: $parentId, hasCameras: $hasCameras, hierarchyLevel: $hierarchyLevel, createdAt: $createdAt, updatedAt: $updatedAt, aiStats: $aiStats, constructionDays: $constructionDays, users: $users, children: $children)';
   }
 
   @override
@@ -484,11 +467,10 @@ class _$_ProjectModel implements _ProjectModel {
                 other.coverImageUrl == coverImageUrl) &&
             (identical(other.status, status) || other.status == status) &&
             const DeepCollectionEquality().equals(other._assets, _assets) &&
-            (identical(other.activity, activity) ||
-                other.activity == activity) &&
             (identical(other.lastUpdated, lastUpdated) ||
                 other.lastUpdated == lastUpdated) &&
-            const DeepCollectionEquality().equals(other.parentId, parentId) &&
+            (identical(other.parentId, parentId) ||
+                other.parentId == parentId) &&
             (identical(other.hasCameras, hasCameras) ||
                 other.hasCameras == hasCameras) &&
             (identical(other.hierarchyLevel, hierarchyLevel) ||
@@ -500,36 +482,31 @@ class _$_ProjectModel implements _ProjectModel {
             (identical(other.aiStats, aiStats) || other.aiStats == aiStats) &&
             (identical(other.constructionDays, constructionDays) ||
                 other.constructionDays == constructionDays) &&
-            (identical(other.projectModelId, projectModelId) ||
-                other.projectModelId == projectModelId) &&
             const DeepCollectionEquality().equals(other._users, _users) &&
             const DeepCollectionEquality().equals(other._children, _children));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hashAll([
-        runtimeType,
-        location,
-        id,
-        name,
-        const DeepCollectionEquality().hash(_images),
-        coverImageUrl,
-        status,
-        const DeepCollectionEquality().hash(_assets),
-        activity,
-        lastUpdated,
-        const DeepCollectionEquality().hash(parentId),
-        hasCameras,
-        hierarchyLevel,
-        createdAt,
-        updatedAt,
-        aiStats,
-        constructionDays,
-        projectModelId,
-        const DeepCollectionEquality().hash(_users),
-        const DeepCollectionEquality().hash(_children)
-      ]);
+  int get hashCode => Object.hash(
+      runtimeType,
+      location,
+      id,
+      name,
+      const DeepCollectionEquality().hash(_images),
+      coverImageUrl,
+      status,
+      const DeepCollectionEquality().hash(_assets),
+      lastUpdated,
+      parentId,
+      hasCameras,
+      hierarchyLevel,
+      createdAt,
+      updatedAt,
+      aiStats,
+      constructionDays,
+      const DeepCollectionEquality().hash(_users),
+      const DeepCollectionEquality().hash(_children));
 
   @JsonKey(ignore: true)
   @override
@@ -551,19 +528,17 @@ abstract class _ProjectModel implements ProjectModel {
       @JsonKey(name: '_id') required final String id,
       final String? name,
       final List<ProjectImage>? images,
-      final String? coverImageUrl,
-      final String? status,
+      final String coverImageUrl,
+      final String status,
       final List<Asset>? assets,
-      final String? activity,
       final DateTime? lastUpdated,
-      final dynamic parentId,
-      final bool? hasCameras,
-      final int? hierarchyLevel,
+      final String? parentId,
+      final bool hasCameras,
+      final int hierarchyLevel,
       final DateTime? createdAt,
       final DateTime? updatedAt,
       final AiStats? aiStats,
-      final int? constructionDays,
-      final String? projectModelId,
+      final int constructionDays,
       final List<User>? users,
       final List<ProjectModel>? children}) = _$_ProjectModel;
 
@@ -580,21 +555,19 @@ abstract class _ProjectModel implements ProjectModel {
   @override
   List<ProjectImage>? get images;
   @override
-  String? get coverImageUrl;
+  String get coverImageUrl;
   @override
-  String? get status;
+  String get status;
   @override
   List<Asset>? get assets;
   @override
-  String? get activity;
-  @override
   DateTime? get lastUpdated;
   @override
-  dynamic get parentId;
+  String? get parentId;
   @override
-  bool? get hasCameras;
+  bool get hasCameras;
   @override
-  int? get hierarchyLevel;
+  int get hierarchyLevel;
   @override
   DateTime? get createdAt;
   @override
@@ -602,9 +575,7 @@ abstract class _ProjectModel implements ProjectModel {
   @override
   AiStats? get aiStats;
   @override
-  int? get constructionDays;
-  @override
-  String? get projectModelId;
+  int get constructionDays;
   @override
   List<User>? get users;
   @override
@@ -705,14 +676,16 @@ class __$$_AiStatsCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_AiStats implements _AiStats {
-  const _$_AiStats({this.activityScore, this.ppeScore});
+  const _$_AiStats({this.activityScore = 0, this.ppeScore = 0.0});
 
   factory _$_AiStats.fromJson(Map<String, dynamic> json) =>
       _$$_AiStatsFromJson(json);
 
   @override
+  @JsonKey()
   final int? activityScore;
   @override
+  @JsonKey()
   final double? ppeScore;
 
   @override
@@ -860,7 +833,7 @@ class __$$_ProjectImageCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_ProjectImage implements _ProjectImage {
-  const _$_ProjectImage({@JsonKey(name: '_id') this.imageId, this.url});
+  const _$_ProjectImage({@JsonKey(name: '_id') this.imageId, this.url = ''});
 
   factory _$_ProjectImage.fromJson(Map<String, dynamic> json) =>
       _$$_ProjectImageFromJson(json);
@@ -869,6 +842,7 @@ class _$_ProjectImage implements _ProjectImage {
   @JsonKey(name: '_id')
   final String? imageId;
   @override
+  @JsonKey()
   final String? url;
 
   @override
@@ -1022,17 +996,20 @@ class __$$_AssetCopyWithImpl<$Res> extends _$AssetCopyWithImpl<$Res, _$_Asset>
 /// @nodoc
 @JsonSerializable()
 class _$_Asset implements _Asset {
-  const _$_Asset({this.name, @JsonKey(name: '_id') this.id, this.count});
+  const _$_Asset(
+      {this.name = '', @JsonKey(name: '_id') this.id, this.count = 0});
 
   factory _$_Asset.fromJson(Map<String, dynamic> json) =>
       _$$_AssetFromJson(json);
 
   @override
+  @JsonKey()
   final String? name;
   @override
   @JsonKey(name: '_id')
   final String? id;
   @override
+  @JsonKey()
   final int? count;
 
   @override
@@ -1192,16 +1169,19 @@ class __$$_LocationCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Location implements _Location {
-  const _$_Location({this.name, this.latitude, this.longitude});
+  const _$_Location({this.name = '', this.latitude = '', this.longitude = ''});
 
   factory _$_Location.fromJson(Map<String, dynamic> json) =>
       _$$_LocationFromJson(json);
 
   @override
+  @JsonKey()
   final String? name;
   @override
+  @JsonKey()
   final dynamic latitude;
   @override
+  @JsonKey()
   final dynamic longitude;
 
   @override
@@ -1270,12 +1250,11 @@ mixin _$User {
   Preset? get preset => throw _privateConstructorUsedError;
   @JsonKey(name: '_id')
   String? get userId => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
-  String? get email => throw _privateConstructorUsedError;
-  String? get dp => throw _privateConstructorUsedError;
-  String? get role => throw _privateConstructorUsedError;
-  List<String>? get projects => throw _privateConstructorUsedError;
-  String? get dpUrl => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  String get email => throw _privateConstructorUsedError;
+  String get role => throw _privateConstructorUsedError;
+  String get dp => throw _privateConstructorUsedError;
+  String get dpUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1290,12 +1269,11 @@ abstract class $UserCopyWith<$Res> {
   $Res call(
       {Preset? preset,
       @JsonKey(name: '_id') String? userId,
-      String? name,
-      String? email,
-      String? dp,
-      String? role,
-      List<String>? projects,
-      String? dpUrl});
+      String name,
+      String email,
+      String role,
+      String dp,
+      String dpUrl});
 
   $PresetCopyWith<$Res>? get preset;
 }
@@ -1315,12 +1293,11 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   $Res call({
     Object? preset = freezed,
     Object? userId = freezed,
-    Object? name = freezed,
-    Object? email = freezed,
-    Object? dp = freezed,
-    Object? role = freezed,
-    Object? projects = freezed,
-    Object? dpUrl = freezed,
+    Object? name = null,
+    Object? email = null,
+    Object? role = null,
+    Object? dp = null,
+    Object? dpUrl = null,
   }) {
     return _then(_value.copyWith(
       preset: freezed == preset
@@ -1331,30 +1308,26 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String?,
-      name: freezed == name
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      email: freezed == email
+              as String,
+      email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String?,
-      dp: freezed == dp
-          ? _value.dp
-          : dp // ignore: cast_nullable_to_non_nullable
-              as String?,
-      role: freezed == role
+              as String,
+      role: null == role
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
-              as String?,
-      projects: freezed == projects
-          ? _value.projects
-          : projects // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      dpUrl: freezed == dpUrl
+              as String,
+      dp: null == dp
+          ? _value.dp
+          : dp // ignore: cast_nullable_to_non_nullable
+              as String,
+      dpUrl: null == dpUrl
           ? _value.dpUrl
           : dpUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ) as $Val);
   }
 
@@ -1380,12 +1353,11 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
   $Res call(
       {Preset? preset,
       @JsonKey(name: '_id') String? userId,
-      String? name,
-      String? email,
-      String? dp,
-      String? role,
-      List<String>? projects,
-      String? dpUrl});
+      String name,
+      String email,
+      String role,
+      String dp,
+      String dpUrl});
 
   @override
   $PresetCopyWith<$Res>? get preset;
@@ -1402,12 +1374,11 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
   $Res call({
     Object? preset = freezed,
     Object? userId = freezed,
-    Object? name = freezed,
-    Object? email = freezed,
-    Object? dp = freezed,
-    Object? role = freezed,
-    Object? projects = freezed,
-    Object? dpUrl = freezed,
+    Object? name = null,
+    Object? email = null,
+    Object? role = null,
+    Object? dp = null,
+    Object? dpUrl = null,
   }) {
     return _then(_$_User(
       preset: freezed == preset
@@ -1418,30 +1389,26 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String?,
-      name: freezed == name
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      email: freezed == email
+              as String,
+      email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String?,
-      dp: freezed == dp
-          ? _value.dp
-          : dp // ignore: cast_nullable_to_non_nullable
-              as String?,
-      role: freezed == role
+              as String,
+      role: null == role
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
-              as String?,
-      projects: freezed == projects
-          ? _value._projects
-          : projects // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
-      dpUrl: freezed == dpUrl
+              as String,
+      dp: null == dp
+          ? _value.dp
+          : dp // ignore: cast_nullable_to_non_nullable
+              as String,
+      dpUrl: null == dpUrl
           ? _value.dpUrl
           : dpUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -1450,47 +1417,41 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
 @JsonSerializable()
 class _$_User implements _User {
   const _$_User(
-      {this.preset,
+      {this.preset = const Preset(),
       @JsonKey(name: '_id') this.userId,
-      this.name,
-      this.email,
-      this.dp,
-      this.role,
-      final List<String>? projects,
-      this.dpUrl})
-      : _projects = projects;
+      this.name = '',
+      this.email = '',
+      this.role = '',
+      this.dp = '',
+      this.dpUrl = ''});
 
   factory _$_User.fromJson(Map<String, dynamic> json) => _$$_UserFromJson(json);
 
   @override
+  @JsonKey()
   final Preset? preset;
   @override
   @JsonKey(name: '_id')
   final String? userId;
   @override
-  final String? name;
+  @JsonKey()
+  final String name;
   @override
-  final String? email;
+  @JsonKey()
+  final String email;
   @override
-  final String? dp;
+  @JsonKey()
+  final String role;
   @override
-  final String? role;
-  final List<String>? _projects;
+  @JsonKey()
+  final String dp;
   @override
-  List<String>? get projects {
-    final value = _projects;
-    if (value == null) return null;
-    if (_projects is EqualUnmodifiableListView) return _projects;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
-  @override
-  final String? dpUrl;
+  @JsonKey()
+  final String dpUrl;
 
   @override
   String toString() {
-    return 'User(preset: $preset, userId: $userId, name: $name, email: $email, dp: $dp, role: $role, projects: $projects, dpUrl: $dpUrl)';
+    return 'User(preset: $preset, userId: $userId, name: $name, email: $email, role: $role, dp: $dp, dpUrl: $dpUrl)';
   }
 
   @override
@@ -1502,16 +1463,15 @@ class _$_User implements _User {
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.dp, dp) || other.dp == dp) &&
             (identical(other.role, role) || other.role == role) &&
-            const DeepCollectionEquality().equals(other._projects, _projects) &&
+            (identical(other.dp, dp) || other.dp == dp) &&
             (identical(other.dpUrl, dpUrl) || other.dpUrl == dpUrl));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, preset, userId, name, email, dp,
-      role, const DeepCollectionEquality().hash(_projects), dpUrl);
+  int get hashCode =>
+      Object.hash(runtimeType, preset, userId, name, email, role, dp, dpUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -1531,12 +1491,11 @@ abstract class _User implements User {
   const factory _User(
       {final Preset? preset,
       @JsonKey(name: '_id') final String? userId,
-      final String? name,
-      final String? email,
-      final String? dp,
-      final String? role,
-      final List<String>? projects,
-      final String? dpUrl}) = _$_User;
+      final String name,
+      final String email,
+      final String role,
+      final String dp,
+      final String dpUrl}) = _$_User;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
 
@@ -1546,17 +1505,15 @@ abstract class _User implements User {
   @JsonKey(name: '_id')
   String? get userId;
   @override
-  String? get name;
+  String get name;
   @override
-  String? get email;
+  String get email;
   @override
-  String? get dp;
+  String get role;
   @override
-  String? get role;
+  String get dp;
   @override
-  List<String>? get projects;
-  @override
-  String? get dpUrl;
+  String get dpUrl;
   @override
   @JsonKey(ignore: true)
   _$$_UserCopyWith<_$_User> get copyWith => throw _privateConstructorUsedError;
@@ -1640,12 +1597,13 @@ class __$$_PresetCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Preset implements _Preset {
-  const _$_Preset({this.color});
+  const _$_Preset({this.color = ''});
 
   factory _$_Preset.fromJson(Map<String, dynamic> json) =>
       _$$_PresetFromJson(json);
 
   @override
+  @JsonKey()
   final String? color;
 
   @override

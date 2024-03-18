@@ -40,7 +40,6 @@ class _PreviousRequestsTabviewState
     if (date == null) {
       return "";
     }
-    print("datetime format" + date.toString());
     DateTime parsedDate = DateTime.parse(date);
     String formattedDate = DateFormat(dateFormat).format(parsedDate);
 

@@ -391,8 +391,6 @@ class _ChangePasswordProfileScreenState
                             isLoading = true;
                           });
                           await Service().changePassword(data).then((value) {
-                            print(value.toString());
-
                             context.pushReplacement('/signin');
                             Utils.toastSuccessMessage(
                                 "Password changed Successfully", context);

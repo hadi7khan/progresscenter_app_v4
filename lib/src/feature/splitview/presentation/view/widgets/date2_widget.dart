@@ -69,10 +69,8 @@ class _Date2WidgetState extends BaseConsumerState<Date2Widget> {
             ),
             value: [],
             onValueChanged: (value) {
-              print(value.toString());
               DateTime date = DateTime.parse(value[0].toString());
               changeDate = DateFormat("yyyyMMdd").format(date);
-              print("selectedDate " + changeDate);
             },
           ),
           Container(

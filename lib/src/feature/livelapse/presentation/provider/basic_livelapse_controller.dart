@@ -16,7 +16,6 @@ class BasicLivelapseController extends StateNotifier<BasicLivelapseState> {
   BasicLivelapseController(super.state, this.service);
 
   Future basicLivelapse(projectId, cameraId, data) async {
-    print("data passed to controller" + data.toString());
     state = state.copyWith(isLoading: true);
     final result =
         await service.createBasicLivelapse(projectId, cameraId, data);
@@ -30,7 +29,6 @@ class BasicLivelapseController extends StateNotifier<BasicLivelapseState> {
       //     result: AsyncValue.data(r));
       return r;
     });
-    print("valueee " + valueee.toString());
     return result;
   }
 }

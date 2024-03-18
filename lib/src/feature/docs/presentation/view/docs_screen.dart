@@ -9,7 +9,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
-import 'package:progresscenter_app_v4/src/common/skeletons/loading_card_list.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/loading_docs_list.dart';
 import 'package:progresscenter_app_v4/src/common/widgets/custom_input_widget.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
@@ -149,38 +148,6 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                                 ),
                                 child:
                                     SvgPicture.asset('assets/images/sort.svg'),
-                                // PopupMenuButton(
-                                //   padding: EdgeInsets.zero,
-                                //   icon: SvgPicture.asset(
-                                //       'assets/images/sort.svg'),
-                                //   position: PopupMenuPosition.under,
-                                //   itemBuilder: (BuildContext context) {
-                                //     return data.map((folder) {
-                                //       return PopupMenuItem(
-                                //           value: folder
-                                //               .id, // Use a unique identifier for each item
-                                //           child: ListTile(
-                                //             horizontalTitleGap: 8.w,
-                                //             dense: true,
-                                //             visualDensity: VisualDensity(
-                                //                 horizontal: 0, vertical: -4),
-                                //             contentPadding: EdgeInsets.zero,
-                                //             title: Text(
-                                //               folder.name!,
-                                //               style: TextStyle(
-                                //                   color: Helper.baseBlack,
-                                //                   fontSize: 14.sp,
-                                //                   fontWeight: FontWeight.w500),
-                                //             ),
-                                //           ));
-                                //     }).toList();
-                                //   },
-                                //   onSelected: (value) {
-                                //     setState(() {
-                                //       selectedDocumentId = value;
-                                //     });
-                                //   },
-                                // ),
                               ),
                               SizedBox(width: 12.w),
                               InkWell(
@@ -506,9 +473,7 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                                   .watch(createDocFolderProvider.notifier)
                                   .createDocFolder(data)
                                   .then((value) async {
-                                value.fold((failure) {
-                                  print("errorrrrrr");
-                                }, (res) {
+                                value.fold((failure) {}, (res) {
                                   ref
                                       .watch(docsControllerProvider.notifier)
                                       .getDocs();

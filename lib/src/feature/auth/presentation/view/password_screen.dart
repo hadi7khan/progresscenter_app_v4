@@ -57,7 +57,6 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.dark,
         child: Scaffold(
-          // appBar: AppBar(iconTheme: IconThemeData(color: Helper.secondary)),
           body: SafeArea(
               child: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
@@ -88,8 +87,6 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                     ),
                     RichText(
                       text: TextSpan(
-                        // Note: Styles for TextSpans must be explicitly defined.
-                        // Child text spans will inherit styles from parent
                         style: TextStyle(
                           letterSpacing: Platform.isIOS ? -1 : -0.6,
                           fontSize: 32.sp,
@@ -98,9 +95,6 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                         ),
                         children: <TextSpan>[
                           TextSpan(text: 'Enter your \npassword'),
-                          // TextSpan(
-                          //     text: 'Center',
-                          //     style: TextStyle(color: Helper.primary)),
                         ],
                       ),
                     ),
@@ -145,9 +139,7 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                         if (_validate && val == null || val!.isEmpty) {
                           return 'Password is required';
                         }
-                        // if (val.length < 5) {
-                        //   return 'Password is short';
-                        // }
+
                         return null;
                       },
                       obscureText: _obscurePassword,

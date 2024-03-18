@@ -31,7 +31,7 @@ class DroneFootageRepositoryImpl implements DroneFootageRepository {
           (result as List).map((e) => DroneFootageModel.fromJson(e)).toList());
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
-      print(errorMessage.toString());
+
       rethrow;
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
@@ -42,11 +42,11 @@ class DroneFootageRepositoryImpl implements DroneFootageRepository {
   Future<Either<Failure, dynamic>> addFileVideo(projectId, data) async {
     try {
       final result = await droneFootageDataSource.addFileVideo(projectId, data);
-      print("result: " + result.toString());
+
       return Right(result);
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
-      print(errorMessage.toString());
+
       rethrow;
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
@@ -58,11 +58,11 @@ class DroneFootageRepositoryImpl implements DroneFootageRepository {
     try {
       final result =
           await droneFootageDataSource.addVimeoVideo(projectId, data);
-      print("result: " + result.toString());
+
       return Right(result);
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
-      print(errorMessage.toString());
+
       rethrow;
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));
@@ -74,11 +74,11 @@ class DroneFootageRepositoryImpl implements DroneFootageRepository {
     try {
       final result =
           await droneFootageDataSource.addYouTubeVideo(projectId, data);
-      print("result: " + result.toString());
+
       return Right(result);
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
-      print(errorMessage.toString());
+
       rethrow;
     } on SocketException {
       return const Left(ConnectionFailure('Failed to connect to the network'));

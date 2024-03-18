@@ -50,7 +50,6 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
   void initState() {
     super.initState();
     Service().fetchUserList().then((users) {
-      print("users----" + users.toString());
       setState(() {
         _myCustomList = users;
       });
@@ -92,8 +91,6 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
       } else {
         fileSizeString = '${(fileSize / (1024 * 1024)).toStringAsFixed(2)} MB';
       }
-
-      print("image path" + _doc!.path.toString());
     }
   }
 
@@ -116,7 +113,6 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("category passed" + widget.category.toString());
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -375,7 +371,6 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                             setState(() {
                               _categorySelected = value!["_id"];
                             });
-                            print("roleselected" + _categorySelected);
                           },
                           items: (widget.category as List<Map<String, dynamic>>)
                               .map((e) {
@@ -403,7 +398,6 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                               onSubmitted: (value) {
                                 setState(() {
                                   if (value.isNotEmpty) {
-                                    print("value selected" + value.toString());
                                     _selectedUsers.add(value);
                                     _usersController.clear();
                                   }
@@ -512,9 +506,6 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                               );
                             },
                             onSuggestionSelected: (team) {
-                              // Do something with the selected user
-                              // print('Selected user: ${user.email}');
-                              print("value selected" + team.toString());
                               setState(() {
                                 _selectedUsers.add(team.email.toString());
                                 _selectedUserIds.add(team.id.toString());
@@ -613,9 +604,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                       .watch(addDocProvider.notifier)
                       .addDocument(_categorySelected, formData)
                       .then((value) async {
-                    value.fold((failure) {
-                      print("errorrrrrr");
-                    }, (data) {
+                    value.fold((failure) {}, (data) {
                       context.pop();
                       ref.watch(docsControllerProvider.notifier).getDocs();
                       Utils.toastSuccessMessage("Document Added", context);

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -11,7 +10,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/common/skeletons/load_comments_widget.dart';
@@ -25,8 +23,6 @@ import 'package:progresscenter_app_v4/src/feature/progressline/presentation/prov
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/post_comment_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/widgets/process_mention_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean_model.dart';
-
-import 'dart:developer' as dev;
 
 import 'package:timezone/timezone.dart';
 
@@ -113,49 +109,6 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
     return replacedText;
   }
 
-// method for showing mentioned user n additional text
-  TextSpan _buildTextSpan(String text) {
-    RegExp regex = RegExp(r"@\[([^\]]+)\]\(user:(\d+)\)");
-
-    List<TextSpan> textSpans = [];
-
-    List<String> matches =
-        regex.allMatches(text).map((m) => m.group(0)!).toList();
-    List<String> segments = text.split(regex);
-
-    for (int i = 0; i < segments.length; i++) {
-      textSpans.add(TextSpan(text: segments[i]));
-
-      if (i < matches.length) {
-        String match = matches[i];
-        RegExpMatch userMatch = RegExp(r"\[([^\]]+)\]").firstMatch(match)!;
-        RegExpMatch idMatch = RegExp(r":(\d+)").firstMatch(match)!;
-
-        String username = userMatch.group(1)!;
-        String userId = idMatch.group(1)!;
-
-        textSpans.add(
-          TextSpan(
-            text: '@$username',
-            style: TextStyle(
-              letterSpacing: -0.3,
-              color: Colors.blue, // Set your desired text style here
-              fontWeight: FontWeight.bold,
-            ),
-            recognizer:
-                TapGestureRecognizer() // Add a tap gesture recognizer if needed
-                  ..onTap = () {
-                    // Handle tap on mention
-                    print('Tapped on mention: $userId');
-                  },
-          ),
-        );
-      }
-    }
-
-    return TextSpan(children: textSpans);
-  }
-
   String formatTimeDifference(DateTime date,
       {String? timezone, bool showSuffix = true}) {
     Duration difference = DateTime.now().toUtc().difference(date.toUtc());
@@ -164,8 +117,6 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
       DateTime convertedDate = TZDateTime.from(date, getLocation(timezone));
       difference = DateTime.now().toUtc().difference(convertedDate.toUtc());
     }
-
-    String timeAgo = DateFormat().add_yMMMMd().add_jm().format(date);
 
     if (difference.inSeconds < 60) {
       return '${difference.inSeconds}s ago';
@@ -385,7 +336,6 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                           fontSize: 14.sp),
                       data: getMentionsList(),
                       suggestionBuilder: (data) {
-                        print("builder data" + data.toString());
                         return Container(
                           margin: EdgeInsets.all(10),
                           width: MediaQuery.of(context).size.width,
@@ -459,7 +409,6 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                         },
                       ),
                     ),
-                    // hintText: widget.control.label,
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.r),
                       borderSide: BorderSide(color: Helper.textColor300),

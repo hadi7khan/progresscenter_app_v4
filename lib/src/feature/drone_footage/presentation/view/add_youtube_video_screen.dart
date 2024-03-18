@@ -317,9 +317,7 @@ class _AddYoutubeVideoScreenState
                             .watch(addYoutubeVideoControllerProvider.notifier)
                             .addYoutubeVideo(widget.projectId, data)
                             .then((value) async {
-                          value.fold((failure) {
-                            print("errorrrrrr");
-                          }, (res) {});
+                          value.fold((failure) {}, (res) {});
                           context.pop();
                           Utils.toastSuccessMessage(
                               "Drone Footage added", context);

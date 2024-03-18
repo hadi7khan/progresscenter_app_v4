@@ -26,7 +26,6 @@ class DocsCard extends ConsumerStatefulWidget {
 class _DocsCardState extends BaseConsumerState<DocsCard> {
   @override
   Widget build(BuildContext context) {
-    print("data passed to docs card" + widget.docsData.toString());
     return widget.docsData != null
         ? Container(
             decoration: BoxDecoration(

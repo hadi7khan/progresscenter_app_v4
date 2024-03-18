@@ -306,7 +306,6 @@ class _AddUserScreenState extends BaseConsumerState<AddUserScreen> {
                               onChanged: (CountryCode countryCode) {
                                 _countryDialCode = countryCode.dialCode!;
                                 _countryCode = countryCode.code!;
-                                print(_countryCode.toString());
                               },
                               showDropDownButton: true,
                               padding: EdgeInsets.zero,
@@ -502,7 +501,6 @@ class _AddUserScreenState extends BaseConsumerState<AddUserScreen> {
                       };
                       if (_fbKey.currentState!.saveAndValidate()) {
                         context.push('/addUser2', extra: data);
-                        print("data passed to screen 2" + data.toString());
                       }
                     },
                     style: TextButton.styleFrom(
@@ -573,12 +571,9 @@ class _AddUserScreenState extends BaseConsumerState<AddUserScreen> {
                   ),
                   value: [],
                   onValueChanged: (value) {
-                    print(value.toString());
                     DateTime date = DateTime.parse(value[0].toString());
                     selectedStartDate = DateFormat("yyyyMMdd").format(date);
                     _showDate = DateFormat('dd MMM yyyy').format(date);
-                    print("selectedDate " + selectedStartDate);
-                    print("showDate " + _showDate!);
                   },
                 ),
                 Divider(

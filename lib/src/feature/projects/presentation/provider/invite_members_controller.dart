@@ -15,7 +15,6 @@ class InviteMembersController extends StateNotifier<InviteMembersState> {
   InviteMembersController(super.state, this.service);
 
   Future inviteMember(data, id) async {
-    print("data passed to controller" + data.toString());
     state = state.copyWith(isLoading: true);
     final result = await service.inviteMembers(data, id);
     // return result;
@@ -28,7 +27,6 @@ class InviteMembersController extends StateNotifier<InviteMembersState> {
       //     result: AsyncValue.data(r));
       return r;
     });
-    print("valueee " + valueee.toString());
     return result;
   }
 }

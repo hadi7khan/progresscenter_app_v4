@@ -40,7 +40,6 @@ import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/li
 import 'package:progresscenter_app_v4/src/feature/notifications/presentation/view/notifications_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/progressline_details_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/progressline_screen.dart';
-import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_by_id_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/data/models/project_model.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/add_member_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/projects/presentation/view/camera_360.dart';
