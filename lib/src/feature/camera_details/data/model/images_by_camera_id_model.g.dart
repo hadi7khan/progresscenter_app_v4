@@ -37,14 +37,6 @@ _$_Image _$$_ImageFromJson(Map<String, dynamic> json) => _$_Image(
       date: json['date'] as String?,
       time: json['time'] as String?,
       datetime: json['datetime'] as String?,
-      camera: json['camera'] as String?,
-      createdAt: json['createdAt'] == null
-          ? null
-          : DateTime.parse(json['createdAt'] as String),
-      updatedAt: json['updatedAt'] == null
-          ? null
-          : DateTime.parse(json['updatedAt'] as String),
-      imageId: json['imageId'] as String?,
       urlThumb: json['urlThumb'] as String?,
       urlPreview: json['urlPreview'] as String?,
       url4K: json['url4K'] as String?,
@@ -57,10 +49,6 @@ Map<String, dynamic> _$$_ImageToJson(_$_Image instance) => <String, dynamic>{
       'date': instance.date,
       'time': instance.time,
       'datetime': instance.datetime,
-      'camera': instance.camera,
-      'createdAt': instance.createdAt?.toIso8601String(),
-      'updatedAt': instance.updatedAt?.toIso8601String(),
-      'imageId': instance.imageId,
       'urlThumb': instance.urlThumb,
       'urlPreview': instance.urlPreview,
       'url4K': instance.url4K,

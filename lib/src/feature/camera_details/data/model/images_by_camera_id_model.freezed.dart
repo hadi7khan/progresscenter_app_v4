@@ -259,10 +259,6 @@ mixin _$Image {
   String? get date => throw _privateConstructorUsedError;
   String? get time => throw _privateConstructorUsedError;
   String? get datetime => throw _privateConstructorUsedError;
-  String? get camera => throw _privateConstructorUsedError;
-  DateTime? get createdAt => throw _privateConstructorUsedError;
-  DateTime? get updatedAt => throw _privateConstructorUsedError;
-  String? get imageId => throw _privateConstructorUsedError;
   String? get urlThumb => throw _privateConstructorUsedError;
   String? get urlPreview => throw _privateConstructorUsedError;
   String? get url4K => throw _privateConstructorUsedError;
@@ -284,10 +280,6 @@ abstract class $ImageCopyWith<$Res> {
       String? date,
       String? time,
       String? datetime,
-      String? camera,
-      DateTime? createdAt,
-      DateTime? updatedAt,
-      String? imageId,
       String? urlThumb,
       String? urlPreview,
       String? url4K});
@@ -314,10 +306,6 @@ class _$ImageCopyWithImpl<$Res, $Val extends Image>
     Object? date = freezed,
     Object? time = freezed,
     Object? datetime = freezed,
-    Object? camera = freezed,
-    Object? createdAt = freezed,
-    Object? updatedAt = freezed,
-    Object? imageId = freezed,
     Object? urlThumb = freezed,
     Object? urlPreview = freezed,
     Object? url4K = freezed,
@@ -346,22 +334,6 @@ class _$ImageCopyWithImpl<$Res, $Val extends Image>
       datetime: freezed == datetime
           ? _value.datetime
           : datetime // ignore: cast_nullable_to_non_nullable
-              as String?,
-      camera: freezed == camera
-          ? _value.camera
-          : camera // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      imageId: freezed == imageId
-          ? _value.imageId
-          : imageId // ignore: cast_nullable_to_non_nullable
               as String?,
       urlThumb: freezed == urlThumb
           ? _value.urlThumb
@@ -404,10 +376,6 @@ abstract class _$$_ImageCopyWith<$Res> implements $ImageCopyWith<$Res> {
       String? date,
       String? time,
       String? datetime,
-      String? camera,
-      DateTime? createdAt,
-      DateTime? updatedAt,
-      String? imageId,
       String? urlThumb,
       String? urlPreview,
       String? url4K});
@@ -431,10 +399,6 @@ class __$$_ImageCopyWithImpl<$Res> extends _$ImageCopyWithImpl<$Res, _$_Image>
     Object? date = freezed,
     Object? time = freezed,
     Object? datetime = freezed,
-    Object? camera = freezed,
-    Object? createdAt = freezed,
-    Object? updatedAt = freezed,
-    Object? imageId = freezed,
     Object? urlThumb = freezed,
     Object? urlPreview = freezed,
     Object? url4K = freezed,
@@ -464,22 +428,6 @@ class __$$_ImageCopyWithImpl<$Res> extends _$ImageCopyWithImpl<$Res, _$_Image>
           ? _value.datetime
           : datetime // ignore: cast_nullable_to_non_nullable
               as String?,
-      camera: freezed == camera
-          ? _value.camera
-          : camera // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      imageId: freezed == imageId
-          ? _value.imageId
-          : imageId // ignore: cast_nullable_to_non_nullable
-              as String?,
       urlThumb: freezed == urlThumb
           ? _value.urlThumb
           : urlThumb // ignore: cast_nullable_to_non_nullable
@@ -506,10 +454,6 @@ class _$_Image implements _Image {
       this.date,
       this.time,
       this.datetime,
-      this.camera,
-      this.createdAt,
-      this.updatedAt,
-      this.imageId,
       this.urlThumb,
       this.urlPreview,
       this.url4K});
@@ -531,14 +475,6 @@ class _$_Image implements _Image {
   @override
   final String? datetime;
   @override
-  final String? camera;
-  @override
-  final DateTime? createdAt;
-  @override
-  final DateTime? updatedAt;
-  @override
-  final String? imageId;
-  @override
   final String? urlThumb;
   @override
   final String? urlPreview;
@@ -547,7 +483,7 @@ class _$_Image implements _Image {
 
   @override
   String toString() {
-    return 'Image(resolution: $resolution, id: $id, name: $name, date: $date, time: $time, datetime: $datetime, camera: $camera, createdAt: $createdAt, updatedAt: $updatedAt, imageId: $imageId, urlThumb: $urlThumb, urlPreview: $urlPreview, url4K: $url4K)';
+    return 'Image(resolution: $resolution, id: $id, name: $name, date: $date, time: $time, datetime: $datetime, urlThumb: $urlThumb, urlPreview: $urlPreview, url4K: $url4K)';
   }
 
   @override
@@ -563,12 +499,6 @@ class _$_Image implements _Image {
             (identical(other.time, time) || other.time == time) &&
             (identical(other.datetime, datetime) ||
                 other.datetime == datetime) &&
-            (identical(other.camera, camera) || other.camera == camera) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
-            (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt) &&
-            (identical(other.imageId, imageId) || other.imageId == imageId) &&
             (identical(other.urlThumb, urlThumb) ||
                 other.urlThumb == urlThumb) &&
             (identical(other.urlPreview, urlPreview) ||
@@ -578,21 +508,8 @@ class _$_Image implements _Image {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      resolution,
-      id,
-      name,
-      date,
-      time,
-      datetime,
-      camera,
-      createdAt,
-      updatedAt,
-      imageId,
-      urlThumb,
-      urlPreview,
-      url4K);
+  int get hashCode => Object.hash(runtimeType, resolution, id, name, date, time,
+      datetime, urlThumb, urlPreview, url4K);
 
   @JsonKey(ignore: true)
   @override
@@ -616,10 +533,6 @@ abstract class _Image implements Image {
       final String? date,
       final String? time,
       final String? datetime,
-      final String? camera,
-      final DateTime? createdAt,
-      final DateTime? updatedAt,
-      final String? imageId,
       final String? urlThumb,
       final String? urlPreview,
       final String? url4K}) = _$_Image;
@@ -639,14 +552,6 @@ abstract class _Image implements Image {
   String? get time;
   @override
   String? get datetime;
-  @override
-  String? get camera;
-  @override
-  DateTime? get createdAt;
-  @override
-  DateTime? get updatedAt;
-  @override
-  String? get imageId;
   @override
   String? get urlThumb;
   @override

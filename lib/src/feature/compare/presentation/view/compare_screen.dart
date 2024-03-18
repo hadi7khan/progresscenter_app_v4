@@ -268,8 +268,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                                         name: cameraData1.images![index].name,
                                         dateTime:
                                             cameraData1.images![index].datetime,
-                                        camera:
-                                            cameraData1.images![index].camera,
+                                        camera: widget.cameraId,
                                         id: cameraData1.images![index].id,
                                         urlPreview: cameraData1
                                             .images![index].urlPreview,
@@ -506,8 +505,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                                         name: cameraData2.images![index].name,
                                         dateTime:
                                             cameraData2.images![index].datetime,
-                                        camera:
-                                            cameraData2.images![index].camera,
+                                        camera: widget.cameraId,
                                         id: cameraData2.images![index].id,
                                         urlPreview: cameraData2
                                             .images![index].urlPreview,

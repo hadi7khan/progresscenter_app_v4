@@ -110,16 +110,19 @@ class __$$_AllImageCommentsModelCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_AllImageCommentsModel implements _AllImageCommentsModel {
-  const _$_AllImageCommentsModel({this.count, final List<Comment>? comments})
+  const _$_AllImageCommentsModel(
+      {this.count = 0, final List<Comment>? comments = const []})
       : _comments = comments;
 
   factory _$_AllImageCommentsModel.fromJson(Map<String, dynamic> json) =>
       _$$_AllImageCommentsModelFromJson(json);
 
   @override
+  @JsonKey()
   final int? count;
   final List<Comment>? _comments;
   @override
+  @JsonKey()
   List<Comment>? get comments {
     final value = _comments;
     if (value == null) return null;
@@ -190,7 +193,6 @@ mixin _$Comment {
   @JsonKey(name: "_id")
   String? get id => throw _privateConstructorUsedError;
   String? get imageName => throw _privateConstructorUsedError;
-  String? get camera => throw _privateConstructorUsedError;
   String? get message => throw _privateConstructorUsedError;
   User? get user => throw _privateConstructorUsedError;
   List<Reply>? get replies => throw _privateConstructorUsedError;
@@ -211,7 +213,6 @@ abstract class $CommentCopyWith<$Res> {
       {Position? position,
       @JsonKey(name: "_id") String? id,
       String? imageName,
-      String? camera,
       String? message,
       User? user,
       List<Reply>? replies,
@@ -238,7 +239,6 @@ class _$CommentCopyWithImpl<$Res, $Val extends Comment>
     Object? position = freezed,
     Object? id = freezed,
     Object? imageName = freezed,
-    Object? camera = freezed,
     Object? message = freezed,
     Object? user = freezed,
     Object? replies = freezed,
@@ -257,10 +257,6 @@ class _$CommentCopyWithImpl<$Res, $Val extends Comment>
       imageName: freezed == imageName
           ? _value.imageName
           : imageName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      camera: freezed == camera
-          ? _value.camera
-          : camera // ignore: cast_nullable_to_non_nullable
               as String?,
       message: freezed == message
           ? _value.message
@@ -321,7 +317,6 @@ abstract class _$$_CommentCopyWith<$Res> implements $CommentCopyWith<$Res> {
       {Position? position,
       @JsonKey(name: "_id") String? id,
       String? imageName,
-      String? camera,
       String? message,
       User? user,
       List<Reply>? replies,
@@ -347,7 +342,6 @@ class __$$_CommentCopyWithImpl<$Res>
     Object? position = freezed,
     Object? id = freezed,
     Object? imageName = freezed,
-    Object? camera = freezed,
     Object? message = freezed,
     Object? user = freezed,
     Object? replies = freezed,
@@ -366,10 +360,6 @@ class __$$_CommentCopyWithImpl<$Res>
       imageName: freezed == imageName
           ? _value.imageName
           : imageName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      camera: freezed == camera
-          ? _value.camera
-          : camera // ignore: cast_nullable_to_non_nullable
               as String?,
       message: freezed == message
           ? _value.message
@@ -399,13 +389,12 @@ class __$$_CommentCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Comment implements _Comment {
   const _$_Comment(
-      {this.position,
+      {this.position = const Position(),
       @JsonKey(name: "_id") this.id,
-      this.imageName,
-      this.camera,
-      this.message,
-      this.user,
-      final List<Reply>? replies,
+      this.imageName = '',
+      this.message = '',
+      this.user = const User(),
+      final List<Reply>? replies = const [],
       this.createdAt,
       this.updatedAt})
       : _replies = replies;
@@ -414,20 +403,23 @@ class _$_Comment implements _Comment {
       _$$_CommentFromJson(json);
 
   @override
+  @JsonKey()
   final Position? position;
   @override
   @JsonKey(name: "_id")
   final String? id;
   @override
+  @JsonKey()
   final String? imageName;
   @override
-  final String? camera;
-  @override
+  @JsonKey()
   final String? message;
   @override
+  @JsonKey()
   final User? user;
   final List<Reply>? _replies;
   @override
+  @JsonKey()
   List<Reply>? get replies {
     final value = _replies;
     if (value == null) return null;
@@ -443,7 +435,7 @@ class _$_Comment implements _Comment {
 
   @override
   String toString() {
-    return 'Comment(position: $position, id: $id, imageName: $imageName, camera: $camera, message: $message, user: $user, replies: $replies, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Comment(position: $position, id: $id, imageName: $imageName, message: $message, user: $user, replies: $replies, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -456,7 +448,6 @@ class _$_Comment implements _Comment {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.imageName, imageName) ||
                 other.imageName == imageName) &&
-            (identical(other.camera, camera) || other.camera == camera) &&
             (identical(other.message, message) || other.message == message) &&
             (identical(other.user, user) || other.user == user) &&
             const DeepCollectionEquality().equals(other._replies, _replies) &&
@@ -473,7 +464,6 @@ class _$_Comment implements _Comment {
       position,
       id,
       imageName,
-      camera,
       message,
       user,
       const DeepCollectionEquality().hash(_replies),
@@ -499,7 +489,6 @@ abstract class _Comment implements Comment {
       {final Position? position,
       @JsonKey(name: "_id") final String? id,
       final String? imageName,
-      final String? camera,
       final String? message,
       final User? user,
       final List<Reply>? replies,
@@ -515,8 +504,6 @@ abstract class _Comment implements Comment {
   String? get id;
   @override
   String? get imageName;
-  @override
-  String? get camera;
   @override
   String? get message;
   @override
@@ -625,14 +612,16 @@ class __$$_PositionCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Position implements _Position {
-  const _$_Position({this.x, this.y});
+  const _$_Position({this.x = 0.0, this.y = 0.0});
 
   factory _$_Position.fromJson(Map<String, dynamic> json) =>
       _$$_PositionFromJson(json);
 
   @override
+  @JsonKey()
   final double? x;
   @override
+  @JsonKey()
   final double? y;
 
   @override
@@ -689,7 +678,7 @@ Reply _$ReplyFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Reply {
   String? get message => throw _privateConstructorUsedError;
-  String? get user => throw _privateConstructorUsedError;
+  String? get userId => throw _privateConstructorUsedError;
   String? get id => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
@@ -706,7 +695,7 @@ abstract class $ReplyCopyWith<$Res> {
   @useResult
   $Res call(
       {String? message,
-      String? user,
+      String? userId,
       String? id,
       DateTime? createdAt,
       DateTime? updatedAt});
@@ -726,7 +715,7 @@ class _$ReplyCopyWithImpl<$Res, $Val extends Reply>
   @override
   $Res call({
     Object? message = freezed,
-    Object? user = freezed,
+    Object? userId = freezed,
     Object? id = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
@@ -736,9 +725,9 @@ class _$ReplyCopyWithImpl<$Res, $Val extends Reply>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
-      user: freezed == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as String?,
       id: freezed == id
           ? _value.id
@@ -764,7 +753,7 @@ abstract class _$$_ReplyCopyWith<$Res> implements $ReplyCopyWith<$Res> {
   @useResult
   $Res call(
       {String? message,
-      String? user,
+      String? userId,
       String? id,
       DateTime? createdAt,
       DateTime? updatedAt});
@@ -780,7 +769,7 @@ class __$$_ReplyCopyWithImpl<$Res> extends _$ReplyCopyWithImpl<$Res, _$_Reply>
   @override
   $Res call({
     Object? message = freezed,
-    Object? user = freezed,
+    Object? userId = freezed,
     Object? id = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
@@ -790,9 +779,9 @@ class __$$_ReplyCopyWithImpl<$Res> extends _$ReplyCopyWithImpl<$Res, _$_Reply>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String?,
-      user: freezed == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
               as String?,
       id: freezed == id
           ? _value.id
@@ -814,16 +803,23 @@ class __$$_ReplyCopyWithImpl<$Res> extends _$ReplyCopyWithImpl<$Res, _$_Reply>
 @JsonSerializable()
 class _$_Reply implements _Reply {
   const _$_Reply(
-      {this.message, this.user, this.id, this.createdAt, this.updatedAt});
+      {this.message = '',
+      this.userId = '',
+      this.id = '',
+      this.createdAt,
+      this.updatedAt});
 
   factory _$_Reply.fromJson(Map<String, dynamic> json) =>
       _$$_ReplyFromJson(json);
 
   @override
+  @JsonKey()
   final String? message;
   @override
-  final String? user;
+  @JsonKey()
+  final String? userId;
   @override
+  @JsonKey()
   final String? id;
   @override
   final DateTime? createdAt;
@@ -832,7 +828,7 @@ class _$_Reply implements _Reply {
 
   @override
   String toString() {
-    return 'Reply(message: $message, user: $user, id: $id, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Reply(message: $message, userId: $userId, id: $id, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -841,7 +837,7 @@ class _$_Reply implements _Reply {
         (other.runtimeType == runtimeType &&
             other is _$_Reply &&
             (identical(other.message, message) || other.message == message) &&
-            (identical(other.user, user) || other.user == user) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
@@ -852,7 +848,7 @@ class _$_Reply implements _Reply {
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, message, user, id, createdAt, updatedAt);
+      Object.hash(runtimeType, message, userId, id, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -871,7 +867,7 @@ class _$_Reply implements _Reply {
 abstract class _Reply implements Reply {
   const factory _Reply(
       {final String? message,
-      final String? user,
+      final String? userId,
       final String? id,
       final DateTime? createdAt,
       final DateTime? updatedAt}) = _$_Reply;
@@ -881,7 +877,7 @@ abstract class _Reply implements Reply {
   @override
   String? get message;
   @override
-  String? get user;
+  String? get userId;
   @override
   String? get id;
   @override
@@ -905,7 +901,6 @@ mixin _$User {
   @JsonKey(name: "_id")
   String? get userId => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
-  String? get dp => throw _privateConstructorUsedError;
   String? get dpUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -923,7 +918,6 @@ abstract class $UserCopyWith<$Res> {
       Preferences? preferences,
       @JsonKey(name: "_id") String? userId,
       String? name,
-      String? dp,
       String? dpUrl});
 
   $PresetCopyWith<$Res>? get preset;
@@ -947,7 +941,6 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? preferences = freezed,
     Object? userId = freezed,
     Object? name = freezed,
-    Object? dp = freezed,
     Object? dpUrl = freezed,
   }) {
     return _then(_value.copyWith(
@@ -966,10 +959,6 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      dp: freezed == dp
-          ? _value.dp
-          : dp // ignore: cast_nullable_to_non_nullable
               as String?,
       dpUrl: freezed == dpUrl
           ? _value.dpUrl
@@ -1014,7 +1003,6 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       Preferences? preferences,
       @JsonKey(name: "_id") String? userId,
       String? name,
-      String? dp,
       String? dpUrl});
 
   @override
@@ -1036,7 +1024,6 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
     Object? preferences = freezed,
     Object? userId = freezed,
     Object? name = freezed,
-    Object? dp = freezed,
     Object? dpUrl = freezed,
   }) {
     return _then(_$_User(
@@ -1056,10 +1043,6 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      dp: freezed == dp
-          ? _value.dp
-          : dp // ignore: cast_nullable_to_non_nullable
-              as String?,
       dpUrl: freezed == dpUrl
           ? _value.dpUrl
           : dpUrl // ignore: cast_nullable_to_non_nullable
@@ -1072,32 +1055,33 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
 @JsonSerializable()
 class _$_User implements _User {
   const _$_User(
-      {this.preset,
-      this.preferences,
+      {this.preset = const Preset(),
+      this.preferences = const Preferences(),
       @JsonKey(name: "_id") this.userId,
-      this.name,
-      this.dp,
-      this.dpUrl});
+      this.name = '',
+      this.dpUrl = ''});
 
   factory _$_User.fromJson(Map<String, dynamic> json) => _$$_UserFromJson(json);
 
   @override
+  @JsonKey()
   final Preset? preset;
   @override
+  @JsonKey()
   final Preferences? preferences;
   @override
   @JsonKey(name: "_id")
   final String? userId;
   @override
+  @JsonKey()
   final String? name;
   @override
-  final String? dp;
-  @override
+  @JsonKey()
   final String? dpUrl;
 
   @override
   String toString() {
-    return 'User(preset: $preset, preferences: $preferences, userId: $userId, name: $name, dp: $dp, dpUrl: $dpUrl)';
+    return 'User(preset: $preset, preferences: $preferences, userId: $userId, name: $name, dpUrl: $dpUrl)';
   }
 
   @override
@@ -1110,14 +1094,13 @@ class _$_User implements _User {
                 other.preferences == preferences) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.dp, dp) || other.dp == dp) &&
             (identical(other.dpUrl, dpUrl) || other.dpUrl == dpUrl));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, preset, preferences, userId, name, dp, dpUrl);
+      Object.hash(runtimeType, preset, preferences, userId, name, dpUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -1139,7 +1122,6 @@ abstract class _User implements User {
       final Preferences? preferences,
       @JsonKey(name: "_id") final String? userId,
       final String? name,
-      final String? dp,
       final String? dpUrl}) = _$_User;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
@@ -1153,8 +1135,6 @@ abstract class _User implements User {
   String? get userId;
   @override
   String? get name;
-  @override
-  String? get dp;
   @override
   String? get dpUrl;
   @override
