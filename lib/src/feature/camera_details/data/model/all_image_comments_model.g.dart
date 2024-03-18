@@ -9,10 +9,11 @@ part of 'all_image_comments_model.dart';
 _$_AllImageCommentsModel _$$_AllImageCommentsModelFromJson(
         Map<String, dynamic> json) =>
     _$_AllImageCommentsModel(
-      count: json['count'] as int?,
+      count: json['count'] as int? ?? 0,
       comments: (json['comments'] as List<dynamic>?)
-          ?.map((e) => Comment.fromJson(e as Map<String, dynamic>))
-          .toList(),
+              ?.map((e) => Comment.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$_AllImageCommentsModelToJson(
@@ -24,18 +25,18 @@ Map<String, dynamic> _$$_AllImageCommentsModelToJson(
 
 _$_Comment _$$_CommentFromJson(Map<String, dynamic> json) => _$_Comment(
       position: json['position'] == null
-          ? null
+          ? const Position()
           : Position.fromJson(json['position'] as Map<String, dynamic>),
       id: json['_id'] as String?,
-      imageName: json['imageName'] as String?,
-      camera: json['camera'] as String?,
-      message: json['message'] as String?,
+      imageName: json['imageName'] as String? ?? '',
+      message: json['message'] as String? ?? '',
       user: json['user'] == null
-          ? null
+          ? const User()
           : User.fromJson(json['user'] as Map<String, dynamic>),
       replies: (json['replies'] as List<dynamic>?)
-          ?.map((e) => Reply.fromJson(e as Map<String, dynamic>))
-          .toList(),
+              ?.map((e) => Reply.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -49,7 +50,6 @@ Map<String, dynamic> _$$_CommentToJson(_$_Comment instance) =>
       'position': instance.position,
       '_id': instance.id,
       'imageName': instance.imageName,
-      'camera': instance.camera,
       'message': instance.message,
       'user': instance.user,
       'replies': instance.replies,
@@ -58,8 +58,8 @@ Map<String, dynamic> _$$_CommentToJson(_$_Comment instance) =>
     };
 
 _$_Position _$$_PositionFromJson(Map<String, dynamic> json) => _$_Position(
-      x: (json['x'] as num?)?.toDouble(),
-      y: (json['y'] as num?)?.toDouble(),
+      x: (json['x'] as num?)?.toDouble() ?? 0.0,
+      y: (json['y'] as num?)?.toDouble() ?? 0.0,
     );
 
 Map<String, dynamic> _$$_PositionToJson(_$_Position instance) =>
@@ -69,9 +69,9 @@ Map<String, dynamic> _$$_PositionToJson(_$_Position instance) =>
     };
 
 _$_Reply _$$_ReplyFromJson(Map<String, dynamic> json) => _$_Reply(
-      message: json['message'] as String?,
-      user: json['user'] as String?,
-      id: json['id'] as String?,
+      message: json['message'] as String? ?? '',
+      userId: json['userId'] as String? ?? '',
+      id: json['id'] as String? ?? '',
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -82,7 +82,7 @@ _$_Reply _$$_ReplyFromJson(Map<String, dynamic> json) => _$_Reply(
 
 Map<String, dynamic> _$$_ReplyToJson(_$_Reply instance) => <String, dynamic>{
       'message': instance.message,
-      'user': instance.user,
+      'userId': instance.userId,
       'id': instance.id,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
@@ -90,15 +90,14 @@ Map<String, dynamic> _$$_ReplyToJson(_$_Reply instance) => <String, dynamic>{
 
 _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
       preset: json['preset'] == null
-          ? null
+          ? const Preset()
           : Preset.fromJson(json['preset'] as Map<String, dynamic>),
       preferences: json['preferences'] == null
-          ? null
+          ? const Preferences()
           : Preferences.fromJson(json['preferences'] as Map<String, dynamic>),
       userId: json['_id'] as String?,
-      name: json['name'] as String?,
-      dp: json['dp'] as String?,
-      dpUrl: json['dpUrl'] as String?,
+      name: json['name'] as String? ?? '',
+      dpUrl: json['dpUrl'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$_UserToJson(_$_User instance) => <String, dynamic>{
@@ -106,7 +105,6 @@ Map<String, dynamic> _$$_UserToJson(_$_User instance) => <String, dynamic>{
       'preferences': instance.preferences,
       '_id': instance.userId,
       'name': instance.name,
-      'dp': instance.dp,
       'dpUrl': instance.dpUrl,
     };
 

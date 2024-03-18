@@ -22,6 +22,7 @@ import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/data/model/all_image_comments_model.dart'
     as allComments;
+import 'package:progresscenter_app_v4/src/feature/camera_details/data/model/all_image_comments_model.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/data/model/image_comments_model.dart'
     as model;
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/all_image_comments_controller.dart';
@@ -134,7 +135,7 @@ class _ImageCommentsScreenState extends BaseConsumerState<ImageCommentsScreen> {
     user = _prefsLocator.getUser();
   }
 
-  buildCommentsHead(List<model.Comment> comments) {
+  buildCommentsHead(List<allComments.Comment> comments) {
     return comments.map((e) {
       var x = (e.position!.x! / 100) * MediaQuery.of(context).size.width;
       var y = (e.position!.y! / 100) * imageHeight;

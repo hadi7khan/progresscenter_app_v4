@@ -13,8 +13,8 @@ String allImageCommentsModelToJson(AllImageCommentsModel data) =>
 @freezed
 class AllImageCommentsModel with _$AllImageCommentsModel {
   const factory AllImageCommentsModel({
-    int? count,
-    List<Comment>? comments,
+    @Default(0) int? count,
+    @Default([]) List<Comment>? comments,
   }) = _AllImageCommentsModel;
 
   factory AllImageCommentsModel.fromJson(Map<String, dynamic> json) =>
@@ -24,13 +24,12 @@ class AllImageCommentsModel with _$AllImageCommentsModel {
 @freezed
 class Comment with _$Comment {
   const factory Comment({
-    Position? position,
+    @Default(Position()) Position? position,
     @JsonKey(name: "_id") String? id,
-    String? imageName,
-    String? camera,
-    String? message,
-    User? user,
-    List<Reply>? replies,
+    @Default('') String? imageName,
+    @Default('') String? message,
+    @Default(User()) User? user,
+    @Default([]) List<Reply>? replies,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) = _Comment;
@@ -42,8 +41,8 @@ class Comment with _$Comment {
 @freezed
 class Position with _$Position {
   const factory Position({
-    double? x,
-    double? y,
+    @Default(0.0) double? x,
+    @Default(0.0) double? y,
   }) = _Position;
 
   factory Position.fromJson(Map<String, dynamic> json) =>
@@ -53,9 +52,9 @@ class Position with _$Position {
 @freezed
 class Reply with _$Reply {
   const factory Reply({
-    String? message,
-    String? user,
-    String? id,
+    @Default('') String? message,
+    @Default('') String? userId,
+    @Default('') String? id,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) = _Reply;
@@ -66,12 +65,11 @@ class Reply with _$Reply {
 @freezed
 class User with _$User {
   const factory User({
-    Preset? preset,
-    Preferences? preferences,
+    @Default(Preset()) Preset? preset,
+    @Default(Preferences()) Preferences? preferences,
     @JsonKey(name: "_id") String? userId,
-    String? name,
-    String? dp,
-    String? dpUrl,
+    @Default('') String? name,
+    @Default('') String? dpUrl,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

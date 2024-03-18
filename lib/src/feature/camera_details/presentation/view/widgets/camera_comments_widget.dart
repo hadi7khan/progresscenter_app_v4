@@ -18,6 +18,8 @@ import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_hel
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/data/model/all_image_comments_model.dart'
+    as allComments;
 import 'package:progresscenter_app_v4/src/feature/camera_details/data/model/image_comments_model.dart'
     as model;
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/image_comments_controller.dart';
@@ -26,7 +28,7 @@ import 'package:progresscenter_app_v4/src/feature/projects/data/models/user_lean
 import 'dart:developer' as dev;
 
 class CameraCommentsWidget extends ConsumerStatefulWidget {
-  final model.Comment comment;
+  final comment;
   final String projectId;
   final String cameraId;
   final String imageName;
