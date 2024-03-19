@@ -1,16 +1,20 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:video_player/video_player.dart';
 import 'package:vimeo_player_flutter/vimeo_player_flutter.dart';
 import 'package:vimeo_video_player/vimeo_video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class DroneListViewWidget extends StatefulWidget {
   final data;
-  const DroneListViewWidget({super.key, this.data});
+  final String projectId;
+  const DroneListViewWidget({super.key, this.data, required this.projectId});
 
   @override
   State<DroneListViewWidget> createState() => _DroneListViewWidgetState();
@@ -19,35 +23,36 @@ class DroneListViewWidget extends StatefulWidget {
 class _DroneListViewWidgetState extends State<DroneListViewWidget> {
   VlcPlayerController? _videoPlayerController;
   YoutubePlayerController? _youtubeController;
-  // WebViewController? _vimeoController;
   String videoId = "";
+  VideoPlayerController? controller;
+  ChewieController? chewieController;
 
   @override
   void initState() {
     super.initState();
 
-    _videoPlayerController = VlcPlayerController.network(
-      widget.data.url,
-      autoPlay: true,
-      options: VlcPlayerOptions(),
-    );
+    _initPlayer();
+
     // videoId = YoutubePlayer.convertUrlToId(url);
     _youtubeController = YoutubePlayerController(
       initialVideoId: YoutubePlayer.convertUrlToId(widget.data.url) ?? '',
       flags: YoutubePlayerFlags(
         hideControls: true,
         autoPlay: false,
-        mute: false,
+        mute: true,
         disableDragSeek: true,
       ),
     );
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   String extractVimeoVideoId(String videoUrl) {
     Uri uri = Uri.parse(videoUrl);
-
     String videoId = uri.queryParameters['video_id'] ?? '';
-
     if (videoId.isNotEmpty) {
       return videoId;
     }
@@ -62,154 +67,189 @@ class _DroneListViewWidgetState extends State<DroneListViewWidget> {
     }
   }
 
+  Future _initPlayer() async {
+    controller = VideoPlayerController.networkUrl(Uri.parse(widget.data.url!));
+    await controller!.initialize().then((value) {
+      chewieController = ChewieController(
+        // aspectRatio: 16 / 9,
+        videoPlayerController: controller!,
+        autoPlay: false,
+        looping: false,
+        showControls: false,
+        additionalOptions: (context) {
+          return <OptionItem>[
+            OptionItem(
+              onTap: () => debugPrint('Option 1 pressed!'),
+              iconData: Icons.chat,
+              title: 'Option 1',
+            ),
+            OptionItem(
+              onTap: () => debugPrint('Option 2 pressed!'),
+              iconData: Icons.share,
+              title: 'Option 2',
+            ),
+          ];
+        },
+      );
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.data.details.provider == "VIMEO") {
       String videoId = extractVimeoVideoId(widget.data.url);
     }
-    return Container(
-      margin: EdgeInsets.zero,
-      padding: EdgeInsets.zero,
-      height: 264.h,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16.r),
-      ),
-      child:
-          Stack(fit: StackFit.loose, alignment: Alignment.topCenter, children: [
-        widget.data.url != null
-            ? ClipRRect(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16.r),
-                    topRight: Radius.circular(16.r)),
-                child: Stack(alignment: Alignment.center, children: [
-                  AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: widget.data.details.provider == "PROGRESSCENTER"
-                        ? VlcPlayer(
-                            controller: _videoPlayerController!,
-                            aspectRatio: 16 / 9,
-                            placeholder:
-                                Center(child: CircularProgressIndicator()),
-                          )
-                        : widget.data.details.provider == "YOUTUBE"
-                            ? YoutubePlayer(
-                                controller: _youtubeController!,
-                              )
-                            :
-                            // PodVideoPlayer(
-                            //     controller: controller!,
-                            // videoThumbnail: const DecorationImage(
-                            //   /// load from asset: AssetImage('asset_path')
-                            //   image: NetworkImage(
-                            //     'https://images.unsplash.com/photo-1569317002804-ab77bcf1bce4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dW5zcGxhc2h8ZW58MHx8MHx8&w=1000&q=80',
-                            //   ),
-                            //   fit: BoxFit.cover,
-                            // ),
-                            // ),
-                            VimeoVideoPlayer(
-                                url: widget.data.shareUrl, autoPlay: false),
-                    // VimeoPlayer(videoId: extractVimeoVideoId(widget.data.url)),
-                  ),
-                  Positioned(
-                      top: 83,
-                      child: Icon(Icons.play_circle_outline_outlined,
-                          color: Colors.white, size: 44))
-                ]))
-            : ClipRRect(
-                borderRadius: BorderRadius.circular(16.r),
-                child: Image.asset(
-                  'assets/images/error_image.jpeg',
-                  fit: BoxFit.fill,
-                  height: 264.h,
+    return InkWell(
+      highlightColor: Colors.transparent,
+      onTap: () {
+        context.push('/fullViewDrone', extra: {
+          "projectId": widget.projectId,
+          "projectName": widget.data.name!,
+          "videoUrl": widget.data.details.provider == "VIMEO"
+              ? widget.data.shareUrl
+              : widget.data.url,
+          "provider": widget.data.details.provider
+        });
+      },
+      child: Container(
+        margin: EdgeInsets.zero,
+        padding: EdgeInsets.zero,
+        height: 264.h,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16.r),
+        ),
+        child: Stack(
+            fit: StackFit.loose,
+            alignment: Alignment.topCenter,
+            children: [
+              widget.data.url != null
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(16.r),
+                          topRight: Radius.circular(16.r)),
+                      child: Stack(alignment: Alignment.center, children: [
+                        AspectRatio(
+                          aspectRatio: 16 / 9,
+                          child:
+                              widget.data.details.provider == "PROGRESSCENTER"
+                                  ? chewieController != null &&
+                                          chewieController!
+                                              .videoPlayerController
+                                              .value
+                                              .isInitialized
+                                      ? Chewie(
+                                          controller: chewieController!,
+                                        )
+                                      : SizedBox()
+                                  : widget.data.details.provider == "YOUTUBE"
+                                      ? YoutubePlayer(
+                                          controller: _youtubeController!,
+                                        )
+                                      : Container(
+                                          color: Helper.baseBlack,
+                                          child: Center(
+                                            child: SvgPicture.asset(
+                                                'assets/images/vimeo.svg',
+                                                height: 24,
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                          // PodVideoPlayer(
+                          //     controller: controller!,
+                          // videoThumbnail: const DecorationImage(
+                          //   /// load from asset: AssetImage('asset_path')
+                          //   image: NetworkImage(
+                          //     'https://images.unsplash.com/photo-1569317002804-ab77bcf1bce4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dW5zcGxhc2h8ZW58MHx8MHx8&w=1000&q=80',
+                          //   ),
+                          //   fit: BoxFit.cover,
+                          // ),
+                          // ),
+                          // VimeoVideoPlayer(
+                          //     url: widget.data.shareUrl,
+                          //     autoPlay: false),
+                          // VimeoPlayer(videoId: extractVimeoVideoId(widget.data.url)),
+                        ),
+                        widget.data.details.provider == "VIMEO"
+                            ? SizedBox()
+                            : widget.data.details.provider == "YOUTUBE"
+                                ? SvgPicture.asset(
+                                    'assets/images/youtube.svg',
+                                  )
+                                : Positioned(
+                                    top: 83,
+                                    child: Icon(
+                                        Icons.play_circle_outline_outlined,
+                                        color: Colors.white,
+                                        size: 44),
+                                  ),
+                      ]))
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(16.r),
+                      child: Image.asset(
+                        'assets/images/error_image.jpeg',
+                        fit: BoxFit.fill,
+                        height: 264.h,
+                      ),
+                    ),
+              Positioned.fill(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                      height: 88.h,
+                      width: double.infinity,
+                      margin: EdgeInsets.zero,
+                      padding: EdgeInsets.symmetric(
+                          vertical: 20.h, horizontal: 20.w),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.r),
+                          color: Color.fromRGBO(246, 246, 246, 1)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                // width: MediaQuery.of(context).size.width * 0.5,
+                                child: Text(
+                                  widget.data.name!,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    letterSpacing: -0.3,
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Helper.baseBlack,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                showDate(
+                                    widget.data.createdAt.toIso8601String(),
+                                    'dd MMM yyyy'),
+                                style: TextStyle(
+                                  letterSpacing: -0.3,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w400,
+                                  color: Helper.baseBlack.withOpacity(0.5),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )),
                 ),
               ),
-        Positioned.fill(
-          // bottom: 20,
-          // left: 20,
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-                height: 88.h,
-                width: double.infinity,
-                margin: EdgeInsets.zero,
-                padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.w),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.r),
-                    color: Color.fromRGBO(246, 246, 246, 1)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          // width: MediaQuery.of(context).size.width * 0.5,
-                          child: Text(
-                            widget.data.name!,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              letterSpacing: -0.3,
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w500,
-                              color: Helper.baseBlack,
-                            ),
-                          ),
-                        ),
-                        // SizedBox(
-                        //   height: 6.h,
-                        // ),
-                        Text(
-                          showDate(widget.data.createdAt.toIso8601String(),
-                              'dd MMM yyyy'),
-                          style: TextStyle(
-                            letterSpacing: -0.3,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400,
-                            color: Helper.baseBlack.withOpacity(0.5),
-                          ),
-                        ),
-                      ],
-                    ),
-                    // TextButton(
-                    //     onPressed: () {
-                    //       context.push('/fullViewDrone', extra: {
-                    //         "projectId": widget.data.project.id,
-                    //         "projectName": widget.data.name!,
-                    //         "videoUrl": widget.data.url,
-                    //         "provider": widget.data.details.provider
-                    //       });
-                    //     },
-                    //     style: ButtonStyle(
-                    //         shape: MaterialStateProperty.all(
-                    //             RoundedRectangleBorder(
-                    //           borderRadius: BorderRadius.circular(8.r),
-                    //         )),
-                    //         backgroundColor:
-                    //             MaterialStateProperty.all(Colors.white)),
-                    //     child: Text(
-                    //       "View",
-                    //       style: TextStyle(
-                    //           color: Helper.baseBlack,
-                    //           fontSize: 14.sp,
-                    //           letterSpacing: 0.2,
-                    //           fontWeight: FontWeight.w600),
-                    //     ))
-                  ],
-                )),
-          ),
-        ),
-      ]),
+            ]),
+      ),
     );
   }
 }
 
 showDate(date, dateFormat) {
-  // Parse the installationDate string into a DateTime object
   DateTime parsedDate = DateTime.parse(date);
-
-  // Format the DateTime object into the desired format
   String formattedDate = DateFormat(dateFormat).format(parsedDate);
   return formattedDate;
 }

@@ -51,8 +51,8 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
             child: Padding(
               padding: EdgeInsets.only(right: 16.w, left: 16.w),
               child: AppBar(
-                // backgroundColor: Colors.white,
-                // surfaceTintColor: Colors.white,
+                backgroundColor: Colors.white,
+                surfaceTintColor: Colors.white,
                 automaticallyImplyLeading: false,
                 centerTitle: false,
                 titleSpacing: 12.0.w,
@@ -157,7 +157,8 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
                                 itemBuilder: ((context, index) {
                                   final reversedIndex = data.length - 1 - index;
                                   return DroneListViewWidget(
-                                      data: data[reversedIndex]);
+                                      data: data[reversedIndex],
+                                      projectId: widget.projectId);
                                 }),
                               )
                             : GridView.builder(
@@ -175,8 +176,8 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
                                 itemBuilder: ((context, index) {
                                   final reversedIndex = data.length - 1 - index;
                                   return DroneGridViewWidget(
-                                    data: data[reversedIndex],
-                                  );
+                                      data: data[reversedIndex],
+                                      projectId: widget.projectId);
                                 }),
                               )
                       ]);

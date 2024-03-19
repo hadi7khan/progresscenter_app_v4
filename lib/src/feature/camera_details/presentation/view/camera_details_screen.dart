@@ -121,6 +121,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
   @override
   void dispose() {
     super.dispose();
+    ref.invalidate(imagesByCamIdControllerProvider);
   }
 
   @override
@@ -271,6 +272,34 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                     // } else {
                     showBottomBar = true;
                     // }
+                    if (imagesData.images!.isEmpty) {
+                      Center(
+                        child: Container(
+                          height: MediaQuery.of(context).size.height -
+                              (Scaffold.of(context)
+                                      .appBarMaxHeight!
+                                      .toDouble() +
+                                  kBottomNavigationBarHeight +
+                                  184.h),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                  'assets/images/illustration.svg'),
+                              SizedBox(height: 16.h),
+                              Text(
+                                "No Images Available",
+                                style: TextStyle(
+                                    color: Helper.textColor900,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
 
                     return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -490,82 +519,99 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                   ),
                                 )
                               : SizedBox(height: 76.h),
-                          SizedBox(
-                            height: 74.h,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                InkWell(
-                                  onTap: () async {
-                                    showModalBottomSheet(
-                                        useRootNavigator: true,
-                                        isScrollControlled: true,
-                                        context: context,
-                                        backgroundColor: Colors.transparent,
-                                        builder: (context) => DatePickerWidget(
-                                              startDate: imagesByCameraIdInter
-                                                  .startDate!,
-                                              endDate: imagesByCameraIdInter
-                                                  .endDate!,
-                                              showMonthText:
-                                                  currentImage.datetime!,
-                                              onChange:
-                                                  (dateSelected, currentMonth) {
-                                                ref
-                                                    .read(
-                                                        imagesByCamIdControllerProvider
-                                                            .notifier)
-                                                    .getImagesByCamId(
-                                                        widget.projectId,
-                                                        widget.cameraId,
-                                                        searchDate:
-                                                            dateSelected);
+                          imagesData.images!.isNotEmpty
+                              ? SizedBox(
+                                  height: 74.h,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      InkWell(
+                                        onTap: () async {
+                                          showModalBottomSheet(
+                                              useRootNavigator: true,
+                                              isScrollControlled: true,
+                                              context: context,
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              builder: (context) =>
+                                                  DatePickerWidget(
+                                                    startDate:
+                                                        imagesByCameraIdInter
+                                                            .startDate!,
+                                                    endDate:
+                                                        imagesByCameraIdInter
+                                                            .endDate!,
+                                                    showMonthText:
+                                                        currentImage!.datetime!,
+                                                    onChange: (dateSelected,
+                                                        currentMonth) {
+                                                      ref
+                                                          .read(
+                                                              imagesByCamIdControllerProvider
+                                                                  .notifier)
+                                                          .getImagesByCamId(
+                                                              widget.projectId,
+                                                              widget.cameraId,
+                                                              searchDate:
+                                                                  dateSelected);
 
-                                                context.pop();
-                                                setState(() {
-                                                  getDaysInMonth(
-                                                      currentMonth, false);
-                                                  showDate(
-                                                      currentImage.datetime!);
-                                                  showBottomBar = true;
-                                                });
-                                              },
-                                            ));
-                                  },
-                                  child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 10.w, vertical: 14.h),
-                                      child: Text(
-                                        "-" +
-                                            parseEndDateTimeString(
-                                                currentImage!.datetime!, true) +
-                                            "-",
-                                        style: TextStyle(
-                                            letterSpacing: -0.3,
-                                            fontSize: 10.sp,
-                                            fontWeight: FontWeight.w700,
-                                            color: Helper.baseBlack
-                                                .withOpacity(0.3)),
-                                      )),
-                                ),
-                                Expanded(
-                                  child: DateSliderWidget(
-                                    daysInMonth: daysInMonth,
-                                    selectedDate: currentImage.date,
-                                    onChange: (value) {
-                                      log(value.toString());
-                                      ref
-                                          .watch(imagesByCamIdControllerProvider
-                                              .notifier)
-                                          .getImagesByCamId(
-                                              widget.projectId, widget.cameraId,
-                                              searchDate: value);
-                                    },
+                                                      context.pop();
+                                                      setState(() {
+                                                        getDaysInMonth(
+                                                            currentMonth,
+                                                            false);
+                                                        showDate(currentImage!
+                                                            .datetime!);
+                                                        showBottomBar = true;
+                                                      });
+                                                    },
+                                                  ));
+                                        },
+                                        child: imagesData.images!.isNotEmpty
+                                            ? Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 10.w,
+                                                    vertical: 14.h),
+                                                child: Text(
+                                                  "-" +
+                                                      parseEndDateTimeString(
+                                                          currentImage!
+                                                              .datetime!,
+                                                          true) +
+                                                      "-",
+                                                  style: TextStyle(
+                                                      letterSpacing: -0.3,
+                                                      fontSize: 10.sp,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color: Helper.baseBlack
+                                                          .withOpacity(0.3)),
+                                                ))
+                                            : SizedBox(),
+                                      ),
+                                      Expanded(
+                                        child: DateSliderWidget(
+                                          daysInMonth: daysInMonth,
+                                          selectedDate: currentImage!.date,
+                                          onChange: (value) {
+                                            log(value.toString());
+                                            ref
+                                                .watch(
+                                                    imagesByCamIdControllerProvider
+                                                        .notifier)
+                                                .getImagesByCamId(
+                                                    widget.projectId,
+                                                    widget.cameraId,
+                                                    searchDate: value);
+                                          },
+                                        ),
+                                      ),
+                                    ],
                                   ),
+                                )
+                              : SizedBox(
+                                  height: 74.h,
                                 ),
-                              ],
-                            ),
-                          )
                         ]);
                   },
                   error: (err, _) {

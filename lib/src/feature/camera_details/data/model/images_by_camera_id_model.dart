@@ -15,7 +15,7 @@ class ImagesByCameraIdModel with _$ImagesByCameraIdModel {
   const factory ImagesByCameraIdModel({
     String? startDate,
     String? endDate,
-    List<Image>? images,
+    @Default([]) List<Image>? images,
     Image? currentImage,
   }) = _ImagesByCameraIdModel;
 

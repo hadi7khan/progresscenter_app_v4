@@ -160,7 +160,7 @@ class _$_ImagesByCameraIdModel implements _ImagesByCameraIdModel {
   const _$_ImagesByCameraIdModel(
       {this.startDate,
       this.endDate,
-      final List<Image>? images,
+      final List<Image>? images = const [],
       this.currentImage})
       : _images = images;
 
@@ -173,6 +173,7 @@ class _$_ImagesByCameraIdModel implements _ImagesByCameraIdModel {
   final String? endDate;
   final List<Image>? _images;
   @override
+  @JsonKey()
   List<Image>? get images {
     final value = _images;
     if (value == null) return null;

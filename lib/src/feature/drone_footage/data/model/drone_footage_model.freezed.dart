@@ -25,13 +25,8 @@ mixin _$DroneFootageModel {
   @JsonKey(name: '_id')
   String? get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
-  String? get reseller => throw _privateConstructorUsedError;
-  String? get client => throw _privateConstructorUsedError;
-  Project? get project => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  DateTime? get updatedAt => throw _privateConstructorUsedError;
   String? get url => throw _privateConstructorUsedError;
-  String? get path => throw _privateConstructorUsedError;
   String? get status => throw _privateConstructorUsedError;
   String? get user => throw _privateConstructorUsedError;
   String? get shareUrl => throw _privateConstructorUsedError;
@@ -53,20 +48,14 @@ abstract class $DroneFootageModelCopyWith<$Res> {
       Details? details,
       @JsonKey(name: '_id') String? id,
       String? name,
-      String? reseller,
-      String? client,
-      Project? project,
       DateTime? createdAt,
-      DateTime? updatedAt,
       String? url,
-      String? path,
       String? status,
       String? user,
       String? shareUrl});
 
   $LocationCopyWith<$Res>? get location;
   $DetailsCopyWith<$Res>? get details;
-  $ProjectCopyWith<$Res>? get project;
 }
 
 /// @nodoc
@@ -86,13 +75,8 @@ class _$DroneFootageModelCopyWithImpl<$Res, $Val extends DroneFootageModel>
     Object? details = freezed,
     Object? id = freezed,
     Object? name = freezed,
-    Object? reseller = freezed,
-    Object? client = freezed,
-    Object? project = freezed,
     Object? createdAt = freezed,
-    Object? updatedAt = freezed,
     Object? url = freezed,
-    Object? path = freezed,
     Object? status = freezed,
     Object? user = freezed,
     Object? shareUrl = freezed,
@@ -114,33 +98,13 @@ class _$DroneFootageModelCopyWithImpl<$Res, $Val extends DroneFootageModel>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      reseller: freezed == reseller
-          ? _value.reseller
-          : reseller // ignore: cast_nullable_to_non_nullable
-              as String?,
-      client: freezed == client
-          ? _value.client
-          : client // ignore: cast_nullable_to_non_nullable
-              as String?,
-      project: freezed == project
-          ? _value.project
-          : project // ignore: cast_nullable_to_non_nullable
-              as Project?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
       url: freezed == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
-              as String?,
-      path: freezed == path
-          ? _value.path
-          : path // ignore: cast_nullable_to_non_nullable
               as String?,
       status: freezed == status
           ? _value.status
@@ -180,18 +144,6 @@ class _$DroneFootageModelCopyWithImpl<$Res, $Val extends DroneFootageModel>
       return _then(_value.copyWith(details: value) as $Val);
     });
   }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $ProjectCopyWith<$Res>? get project {
-    if (_value.project == null) {
-      return null;
-    }
-
-    return $ProjectCopyWith<$Res>(_value.project!, (value) {
-      return _then(_value.copyWith(project: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
@@ -207,13 +159,8 @@ abstract class _$$_DroneFootageModelCopyWith<$Res>
       Details? details,
       @JsonKey(name: '_id') String? id,
       String? name,
-      String? reseller,
-      String? client,
-      Project? project,
       DateTime? createdAt,
-      DateTime? updatedAt,
       String? url,
-      String? path,
       String? status,
       String? user,
       String? shareUrl});
@@ -222,8 +169,6 @@ abstract class _$$_DroneFootageModelCopyWith<$Res>
   $LocationCopyWith<$Res>? get location;
   @override
   $DetailsCopyWith<$Res>? get details;
-  @override
-  $ProjectCopyWith<$Res>? get project;
 }
 
 /// @nodoc
@@ -241,13 +186,8 @@ class __$$_DroneFootageModelCopyWithImpl<$Res>
     Object? details = freezed,
     Object? id = freezed,
     Object? name = freezed,
-    Object? reseller = freezed,
-    Object? client = freezed,
-    Object? project = freezed,
     Object? createdAt = freezed,
-    Object? updatedAt = freezed,
     Object? url = freezed,
-    Object? path = freezed,
     Object? status = freezed,
     Object? user = freezed,
     Object? shareUrl = freezed,
@@ -269,33 +209,13 @@ class __$$_DroneFootageModelCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      reseller: freezed == reseller
-          ? _value.reseller
-          : reseller // ignore: cast_nullable_to_non_nullable
-              as String?,
-      client: freezed == client
-          ? _value.client
-          : client // ignore: cast_nullable_to_non_nullable
-              as String?,
-      project: freezed == project
-          ? _value.project
-          : project // ignore: cast_nullable_to_non_nullable
-              as Project?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
       url: freezed == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
-              as String?,
-      path: freezed == path
-          ? _value.path
-          : path // ignore: cast_nullable_to_non_nullable
               as String?,
       status: freezed == status
           ? _value.status
@@ -317,57 +237,49 @@ class __$$_DroneFootageModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_DroneFootageModel implements _DroneFootageModel {
   const _$_DroneFootageModel(
-      {this.location,
-      this.details,
+      {this.location = const Location(),
+      this.details = const Details(),
       @JsonKey(name: '_id') this.id,
-      this.name,
-      this.reseller,
-      this.client,
-      this.project,
+      this.name = '',
       this.createdAt,
-      this.updatedAt,
-      this.url,
-      this.path,
-      this.status,
-      this.user,
-      this.shareUrl});
+      this.url = '',
+      this.status = '',
+      this.user = '',
+      this.shareUrl = ''});
 
   factory _$_DroneFootageModel.fromJson(Map<String, dynamic> json) =>
       _$$_DroneFootageModelFromJson(json);
 
   @override
+  @JsonKey()
   final Location? location;
   @override
+  @JsonKey()
   final Details? details;
   @override
   @JsonKey(name: '_id')
   final String? id;
   @override
+  @JsonKey()
   final String? name;
-  @override
-  final String? reseller;
-  @override
-  final String? client;
-  @override
-  final Project? project;
   @override
   final DateTime? createdAt;
   @override
-  final DateTime? updatedAt;
-  @override
+  @JsonKey()
   final String? url;
   @override
-  final String? path;
-  @override
+  @JsonKey()
   final String? status;
   @override
+  @JsonKey()
   final String? user;
   @override
+  @JsonKey()
   final String? shareUrl;
 
   @override
   String toString() {
-    return 'DroneFootageModel(location: $location, details: $details, id: $id, name: $name, reseller: $reseller, client: $client, project: $project, createdAt: $createdAt, updatedAt: $updatedAt, url: $url, path: $path, status: $status, user: $user, shareUrl: $shareUrl)';
+    return 'DroneFootageModel(location: $location, details: $details, id: $id, name: $name, createdAt: $createdAt, url: $url, status: $status, user: $user, shareUrl: $shareUrl)';
   }
 
   @override
@@ -380,16 +292,9 @@ class _$_DroneFootageModel implements _DroneFootageModel {
             (identical(other.details, details) || other.details == details) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.reseller, reseller) ||
-                other.reseller == reseller) &&
-            (identical(other.client, client) || other.client == client) &&
-            (identical(other.project, project) || other.project == project) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt) &&
             (identical(other.url, url) || other.url == url) &&
-            (identical(other.path, path) || other.path == path) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.user, user) || other.user == user) &&
             (identical(other.shareUrl, shareUrl) ||
@@ -398,22 +303,8 @@ class _$_DroneFootageModel implements _DroneFootageModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      location,
-      details,
-      id,
-      name,
-      reseller,
-      client,
-      project,
-      createdAt,
-      updatedAt,
-      url,
-      path,
-      status,
-      user,
-      shareUrl);
+  int get hashCode => Object.hash(runtimeType, location, details, id, name,
+      createdAt, url, status, user, shareUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -436,13 +327,8 @@ abstract class _DroneFootageModel implements DroneFootageModel {
       final Details? details,
       @JsonKey(name: '_id') final String? id,
       final String? name,
-      final String? reseller,
-      final String? client,
-      final Project? project,
       final DateTime? createdAt,
-      final DateTime? updatedAt,
       final String? url,
-      final String? path,
       final String? status,
       final String? user,
       final String? shareUrl}) = _$_DroneFootageModel;
@@ -460,19 +346,9 @@ abstract class _DroneFootageModel implements DroneFootageModel {
   @override
   String? get name;
   @override
-  String? get reseller;
-  @override
-  String? get client;
-  @override
-  Project? get project;
-  @override
   DateTime? get createdAt;
   @override
-  DateTime? get updatedAt;
-  @override
   String? get url;
-  @override
-  String? get path;
   @override
   String? get status;
   @override
@@ -564,12 +440,13 @@ class __$$_DetailsCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Details implements _Details {
-  const _$_Details({this.provider});
+  const _$_Details({this.provider = ''});
 
   factory _$_Details.fromJson(Map<String, dynamic> json) =>
       _$$_DetailsFromJson(json);
 
   @override
+  @JsonKey()
   final String? provider;
 
   @override
@@ -720,12 +597,13 @@ class __$$_LocationCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Location implements _Location {
-  const _$_Location({this.name, this.latitude, this.longitude});
+  const _$_Location({this.name = '', this.latitude, this.longitude});
 
   factory _$_Location.fromJson(Map<String, dynamic> json) =>
       _$$_LocationFromJson(json);
 
   @override
+  @JsonKey()
   final String? name;
   @override
   final dynamic latitude;
@@ -786,172 +664,5 @@ abstract class _Location implements Location {
   @override
   @JsonKey(ignore: true)
   _$$_LocationCopyWith<_$_Location> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-Project _$ProjectFromJson(Map<String, dynamic> json) {
-  return _Project.fromJson(json);
-}
-
-/// @nodoc
-mixin _$Project {
-  String? get id => throw _privateConstructorUsedError;
-  String? get name => throw _privateConstructorUsedError;
-  String? get projectId => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $ProjectCopyWith<Project> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ProjectCopyWith<$Res> {
-  factory $ProjectCopyWith(Project value, $Res Function(Project) then) =
-      _$ProjectCopyWithImpl<$Res, Project>;
-  @useResult
-  $Res call({String? id, String? name, String? projectId});
-}
-
-/// @nodoc
-class _$ProjectCopyWithImpl<$Res, $Val extends Project>
-    implements $ProjectCopyWith<$Res> {
-  _$ProjectCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = freezed,
-    Object? name = freezed,
-    Object? projectId = freezed,
-  }) {
-    return _then(_value.copyWith(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      projectId: freezed == projectId
-          ? _value.projectId
-          : projectId // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$_ProjectCopyWith<$Res> implements $ProjectCopyWith<$Res> {
-  factory _$$_ProjectCopyWith(
-          _$_Project value, $Res Function(_$_Project) then) =
-      __$$_ProjectCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String? id, String? name, String? projectId});
-}
-
-/// @nodoc
-class __$$_ProjectCopyWithImpl<$Res>
-    extends _$ProjectCopyWithImpl<$Res, _$_Project>
-    implements _$$_ProjectCopyWith<$Res> {
-  __$$_ProjectCopyWithImpl(_$_Project _value, $Res Function(_$_Project) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = freezed,
-    Object? name = freezed,
-    Object? projectId = freezed,
-  }) {
-    return _then(_$_Project(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String?,
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      projectId: freezed == projectId
-          ? _value.projectId
-          : projectId // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$_Project implements _Project {
-  const _$_Project({this.id, this.name, this.projectId});
-
-  factory _$_Project.fromJson(Map<String, dynamic> json) =>
-      _$$_ProjectFromJson(json);
-
-  @override
-  final String? id;
-  @override
-  final String? name;
-  @override
-  final String? projectId;
-
-  @override
-  String toString() {
-    return 'Project(id: $id, name: $name, projectId: $projectId)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_Project &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.projectId, projectId) ||
-                other.projectId == projectId));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, id, name, projectId);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$_ProjectCopyWith<_$_Project> get copyWith =>
-      __$$_ProjectCopyWithImpl<_$_Project>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_ProjectToJson(
-      this,
-    );
-  }
-}
-
-abstract class _Project implements Project {
-  const factory _Project(
-      {final String? id,
-      final String? name,
-      final String? projectId}) = _$_Project;
-
-  factory _Project.fromJson(Map<String, dynamic> json) = _$_Project.fromJson;
-
-  @override
-  String? get id;
-  @override
-  String? get name;
-  @override
-  String? get projectId;
-  @override
-  @JsonKey(ignore: true)
-  _$$_ProjectCopyWith<_$_Project> get copyWith =>
       throw _privateConstructorUsedError;
 }
