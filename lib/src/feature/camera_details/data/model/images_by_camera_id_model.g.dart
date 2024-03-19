@@ -12,8 +12,9 @@ _$_ImagesByCameraIdModel _$$_ImagesByCameraIdModelFromJson(
       startDate: json['startDate'] as String?,
       endDate: json['endDate'] as String?,
       images: (json['images'] as List<dynamic>?)
-          ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
-          .toList(),
+              ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       currentImage: json['currentImage'] == null
           ? null
           : Image.fromJson(json['currentImage'] as Map<String, dynamic>),

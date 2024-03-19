@@ -1,7 +1,7 @@
+import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:vimeo_video_player/vimeo_video_player.dart';
@@ -26,26 +26,44 @@ class DroneFootageFullviewScreen extends StatefulWidget {
 
 class _DroneFootageFullviewScreenState
     extends State<DroneFootageFullviewScreen> {
-  VlcPlayerController? _videoPlayerController;
   YoutubePlayerController? _youtubeController;
+  BetterPlayerController? betterController;
   @override
   void initState() {
     super.initState();
+    if (widget.provider == "PROGRESSCENTER") {
+      _initPlayer();
+    }
 
-    _videoPlayerController = VlcPlayerController.network(
-      widget.videoUrl,
-      autoPlay: true,
-      options: VlcPlayerOptions(),
-    );
     _youtubeController = YoutubePlayerController(
       initialVideoId: YoutubePlayer.convertUrlToId(widget.videoUrl) ?? '',
       flags: YoutubePlayerFlags(
         hideControls: false,
-        autoPlay: true,
+        autoPlay: false,
         mute: false,
         disableDragSeek: false,
       ),
     );
+  }
+
+  Future _initPlayer() async {
+    BetterPlayerDataSource betterPlayerDataSource = BetterPlayerDataSource(
+        BetterPlayerDataSourceType.network, widget.videoUrl);
+    betterController = BetterPlayerController(
+        BetterPlayerConfiguration(
+          autoPlay: true,
+          fullScreenByDefault: false,
+          fit: BoxFit.fitHeight,
+          looping: false,
+        ),
+        betterPlayerDataSource: betterPlayerDataSource);
+    betterController!.addEventsListener((BetterPlayerEvent event) {
+      if (event.betterPlayerEventType == BetterPlayerEventType.initialized) {
+        betterController!.setOverriddenAspectRatio(
+            betterController!.videoPlayerController!.value.aspectRatio);
+        setState(() {});
+      }
+    });
   }
 
   @override
@@ -82,16 +100,6 @@ class _DroneFootageFullviewScreenState
                     fontSize: 18.sp,
                     fontWeight: FontWeight.w500),
               ),
-              // actions: [
-
-              //   SizedBox(width: 5.w),
-              //   InkWell(
-              //     child: SvgPicture.asset('assets/images/plus.svg'),
-              //     onTap: () {
-              //       _showDroneFootageBottomSheet(context);
-              //     },
-              //   ),
-              // ],
             ),
           ),
         ),
@@ -99,10 +107,8 @@ class _DroneFootageFullviewScreenState
       body: SafeArea(
         child: Center(
           child: widget.provider == "PROGRESSCENTER"
-              ? VlcPlayer(
-                  controller: _videoPlayerController!,
-                  aspectRatio: 16 / 9,
-                  placeholder: Center(child: CircularProgressIndicator()),
+              ? BetterPlayer(
+                  controller: betterController!,
                 )
               : widget.provider == "YOUTUBE"
                   ? YoutubePlayer(

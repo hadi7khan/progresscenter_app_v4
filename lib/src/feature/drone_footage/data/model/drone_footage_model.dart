@@ -14,20 +14,15 @@ String droneFootageModelToJson(List<DroneFootageModel> data) =>
 @freezed
 class DroneFootageModel with _$DroneFootageModel {
   const factory DroneFootageModel({
-    Location? location,
-    Details? details,
+    @Default(Location()) Location? location,
+    @Default(Details()) Details? details,
     @JsonKey(name: '_id') String? id,
-    String? name,
-    String? reseller,
-    String? client,
-    Project? project,
+    @Default('') String? name,
     DateTime? createdAt,
-    DateTime? updatedAt,
-    String? url,
-    String? path,
-    String? status,
-    String? user,
-    String? shareUrl,
+    @Default('') String? url,
+    @Default('') String? status,
+    @Default('') String? user,
+    @Default('') String? shareUrl,
   }) = _DroneFootageModel;
 
   factory DroneFootageModel.fromJson(Map<String, dynamic> json) =>
@@ -37,7 +32,7 @@ class DroneFootageModel with _$DroneFootageModel {
 @freezed
 class Details with _$Details {
   const factory Details({
-    String? provider,
+    @Default('') String? provider,
   }) = _Details;
 
   factory Details.fromJson(Map<String, dynamic> json) =>
@@ -47,23 +42,11 @@ class Details with _$Details {
 @freezed
 class Location with _$Location {
   const factory Location({
-    String? name,
+    @Default('') String? name,
     dynamic latitude,
     dynamic longitude,
   }) = _Location;
 
   factory Location.fromJson(Map<String, dynamic> json) =>
       _$LocationFromJson(json);
-}
-
-@freezed
-class Project with _$Project {
-  const factory Project({
-    String? id,
-    String? name,
-    String? projectId,
-  }) = _Project;
-
-  factory Project.fromJson(Map<String, dynamic> json) =>
-      _$ProjectFromJson(json);
 }

@@ -32,7 +32,7 @@ final imagesByCameraIdInterProvider =
 
   if (currentImage != null) {
 // Set the initial value for currentImageProvider
-    ref.read(currentImageProvider.notifier).setCurrentImage(currentImage!);
+    ref.read(currentImageProvider.notifier).setCurrentImage(currentImage);
   }
 
   return ImagesByCameraIdModel(
