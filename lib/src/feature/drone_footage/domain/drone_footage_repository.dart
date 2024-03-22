@@ -7,4 +7,5 @@ abstract class DroneFootageRepository {
   Future<Either<Failure, dynamic>> addYoutubeVideo(projectId, data);
   Future<Either<Failure, dynamic>> addVimeoVideo(projectId, data);
   Future<Either<Failure, dynamic>> addFileVideo(projectId, data);
+  Future<Either<Failure, dynamic>> editDroneFootage(projectId, droneId, data);
 }

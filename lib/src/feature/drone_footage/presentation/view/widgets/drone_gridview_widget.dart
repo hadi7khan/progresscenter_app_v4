@@ -2,10 +2,10 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
+import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/view/widgets/drone_actions_widget.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -71,6 +71,19 @@ class _DroneGridViewWidgetState extends State<DroneGridViewWidget> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onLongPress: () {
+        showModalBottomSheet(
+            useRootNavigator: true,
+            isScrollControlled: true,
+            context: context,
+            backgroundColor: Colors.transparent,
+            builder: (context) => DroneActionsWidget(
+                  name: widget.data.name!,
+                  projectId: widget.projectId,
+                  droneFootageId: widget.data.id,
+                  location: widget.data.location.name,
+                ));
+      },
       onTap: () {
         context.push('/fullViewDrone', extra: {
           "projectId": widget.projectId,

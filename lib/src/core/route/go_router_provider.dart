@@ -34,6 +34,7 @@ import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/vie
 import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/view/add_vimeo_video_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/view/add_youtube_video_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/view/drone_footage_fullview.dart';
+import 'package:progresscenter_app_v4/src/feature/drone_footage/presentation/view/edit_drone_footage_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/create_livelapse_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/fullview_livelapse.dart';
 import 'package:progresscenter_app_v4/src/feature/livelapse/presentation/view/livelapse_screen.dart';
@@ -686,6 +687,24 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 key: state.pageKey,
                 projectId: args['projectId'],
                 projectName: args['projectName']),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/editDronefootage',
+        parentNavigatorKey: rootNavigatorKey,
+        name: editDronefootageRoute,
+        pageBuilder: (context, state) {
+          Map<String, dynamic> args = state.extra as Map<String, dynamic>;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: EditDroneFootageScreen(
+              key: state.pageKey,
+              projectId: args['projectId'],
+              droneId: args['droneId'],
+              name: args['name'],
+              location: args['location'],
+            ),
           );
         },
       ),
