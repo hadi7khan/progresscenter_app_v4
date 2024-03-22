@@ -209,6 +209,24 @@ class Service {
     }
   }
 
+  // method to delete drone footage
+  Future deleteDroneFootage(projectId, droneFootageId) async {
+    log(projectId + " " + droneFootageId);
+    final client = http.Client();
+    final response = await client.delete(
+        Uri.parse(Endpoints.droneFootageByIdUrl(projectId, droneFootageId)),
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer " + _prefsLocator.getUserToken(),
+        });
+
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to delete drone footage');
+    }
+  }
+
   // method to delete file
   Future deleteFile(folderId, fileId) async {
     final client = http.Client();

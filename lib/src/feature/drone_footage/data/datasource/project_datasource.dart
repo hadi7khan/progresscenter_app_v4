@@ -15,6 +15,7 @@ abstract class DroneFootageDataSource {
   Future addYouTubeVideo(String projectId, data);
   Future addVimeoVideo(String projectId, data);
   Future addFileVideo(String projectId, FormData data);
+  Future editDroneFootage(String projectId, String droneId, data);
 }
 
 class DroneFootageDataSourceImpl implements DroneFootageDataSource {
@@ -35,8 +36,8 @@ class DroneFootageDataSourceImpl implements DroneFootageDataSource {
 
   @override
   Future addFileVideo(String projectId, data) async {
-    final response = await dioClient
-        .post(Endpoints.addFileVideoUrl(projectId), data: data);
+    final response =
+        await dioClient.post(Endpoints.addFileVideoUrl(projectId), data: data);
     if (response.statusCode == 200) {
       return response.data;
     } else {
@@ -59,6 +60,17 @@ class DroneFootageDataSourceImpl implements DroneFootageDataSource {
   Future addYouTubeVideo(String projectId, data) async {
     final response = await dioClient
         .post(Endpoints.droneFootageListUrl(projectId), data: data);
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      return ServerException();
+    }
+  }
+
+  @override
+  Future editDroneFootage(String projectId, String droneId, data) async {
+    final response = await dioClient
+        .put(Endpoints.droneFootageByIdUrl(projectId, droneId), data: data);
     if (response.statusCode == 200) {
       return response.data;
     } else {

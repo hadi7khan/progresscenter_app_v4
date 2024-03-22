@@ -11,6 +11,7 @@ const String superProjectRoute = 'superProject';
 const String projectSearchRoute = 'projectSearch';
 const String cameraRoute = 'camera';
 const String dronefootageRoute = 'dronefootage';
+const String editDronefootageRoute = 'editDronefootage';
 const String addFileVideoRoute = 'addFileVideo';
 const String addVimeoVideoRoute = 'addVimeoVideo';
 const String addYoutubeVideoRoute = 'addYoutubeVideo';

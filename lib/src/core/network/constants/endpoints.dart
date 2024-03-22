@@ -109,6 +109,10 @@ class Endpoints {
     return '$baseUrl/api/v4/projects/$id/drone-footages';
   }
 
+  static droneFootageByIdUrl(projectId, droneFootageId) {
+    return '$baseUrl/api/v4/projects/$projectId/drone-footages/$droneFootageId';
+  }
+
   static addFileVideoUrl(id) {
     return '$baseUrl/api/v4/projects/$id/drone-footages/progress-center';
   }

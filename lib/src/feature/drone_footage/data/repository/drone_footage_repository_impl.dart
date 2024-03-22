@@ -84,4 +84,21 @@ class DroneFootageRepositoryImpl implements DroneFootageRepository {
       return const Left(ConnectionFailure('Failed to connect to the network'));
     }
   }
+
+  @override
+  Future<Either<Failure, dynamic>> editDroneFootage(
+      projectId, droneId, data) async {
+    try {
+      final result = await droneFootageDataSource.editDroneFootage(
+          projectId, droneId, data);
+
+      return Right(result);
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e);
+
+      rethrow;
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
+    }
+  }
 }
