@@ -82,8 +82,11 @@ class _CarouselWidgetState extends BaseConsumerState<CarouselWidget> {
             name: widget.imagesByCameraIdInter.images![index].name,
             datetime: widget.imagesByCameraIdInter.images![index].datetime,
             date: widget.imagesByCameraIdInter.images![index].date,
+            time: widget.imagesByCameraIdInter.images![index].time,
             urlPreview: widget.imagesByCameraIdInter.images![index].urlPreview,
             urlThumb: widget.imagesByCameraIdInter.images![index].urlThumb,
+            url4K: widget.imagesByCameraIdInter.images![index].url4K,
+            resolution: widget.imagesByCameraIdInter.images![index].resolution,
           );
           widget.onChange(image);
         });

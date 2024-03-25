@@ -72,10 +72,15 @@ class _ImageSliderWidgetState extends BaseConsumerState<ImageSliderWidget> {
                 name: widget.imagesByCameraIdInter.images![reversedIndex].name,
                 datetime: widget
                     .imagesByCameraIdInter.images![reversedIndex].datetime,
+                date: widget.imagesByCameraIdInter.images![reversedIndex].date,
+                time: widget.imagesByCameraIdInter.images![reversedIndex].time,
                 urlPreview: widget
                     .imagesByCameraIdInter.images![reversedIndex].urlPreview,
                 urlThumb: widget
                     .imagesByCameraIdInter.images![reversedIndex].urlThumb,
+                url4K: widget.imagesByCameraIdInter.images![index].url4K,
+                resolution:
+                    widget.imagesByCameraIdInter.images![index].resolution,
               );
               widget.onChange(image);
             },
