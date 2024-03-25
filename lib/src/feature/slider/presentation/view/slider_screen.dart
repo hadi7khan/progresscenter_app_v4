@@ -259,7 +259,7 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
                               Text(
                                 "Generating Progress Slider ${(progressValue).toStringAsFixed(0)}%",
                                 style: TextStyle(
-                                    fontSize: 10.0,
+                                    fontSize: 14.sp,
                                     fontWeight: FontWeight.w400,
                                     color: Colors.black),
                               ),
