@@ -9,9 +9,9 @@ part of 'comments_model.dart';
 _$_CommentsModel _$$_CommentsModelFromJson(Map<String, dynamic> json) =>
     _$_CommentsModel(
       user: json['user'] == null
-          ? null
+          ? const User()
           : User.fromJson(json['user'] as Map<String, dynamic>),
-      body: json['body'] as String?,
+      body: json['body'] as String? ?? '',
       id: json['_id'] as String,
       createdAt: json['createdAt'] == null
           ? null
@@ -34,19 +34,17 @@ _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
       preset: json['preset'] == null
           ? null
           : Preset.fromJson(json['preset'] as Map<String, dynamic>),
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-      dp: json['dp'] as String?,
-      designation: json['designation'] as String?,
-      userId: json['userId'] as String?,
-      dpUrl: json['dpUrl'] as String?,
+      id: json['_id'] as String?,
+      name: json['name'] as String? ?? '',
+      designation: json['designation'] as String? ?? '',
+      userId: json['userId'] as String? ?? '',
+      dpUrl: json['dpUrl'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$_UserToJson(_$_User instance) => <String, dynamic>{
       'preset': instance.preset,
-      'id': instance.id,
+      '_id': instance.id,
       'name': instance.name,
-      'dp': instance.dp,
       'designation': instance.designation,
       'userId': instance.userId,
       'dpUrl': instance.dpUrl,

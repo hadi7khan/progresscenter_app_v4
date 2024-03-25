@@ -145,9 +145,9 @@ class __$$_ProgresslineProjectModelCopyWithImpl<$Res>
 class _$_ProgresslineProjectModel implements _ProgresslineProjectModel {
   const _$_ProgresslineProjectModel(
       {@JsonKey(name: "_id") required this.id,
-      required this.coverImageUrl,
-      required this.name,
-      required this.postCount});
+      this.coverImageUrl = '',
+      this.name = '',
+      this.postCount = 0});
 
   factory _$_ProgresslineProjectModel.fromJson(Map<String, dynamic> json) =>
       _$$_ProgresslineProjectModelFromJson(json);
@@ -156,10 +156,13 @@ class _$_ProgresslineProjectModel implements _ProgresslineProjectModel {
   @JsonKey(name: "_id")
   final String id;
   @override
+  @JsonKey()
   final String coverImageUrl;
   @override
+  @JsonKey()
   final String name;
   @override
+  @JsonKey()
   final int postCount;
 
   @override
@@ -203,9 +206,9 @@ class _$_ProgresslineProjectModel implements _ProgresslineProjectModel {
 abstract class _ProgresslineProjectModel implements ProgresslineProjectModel {
   const factory _ProgresslineProjectModel(
       {@JsonKey(name: "_id") required final String id,
-      required final String coverImageUrl,
-      required final String name,
-      required final int postCount}) = _$_ProgresslineProjectModel;
+      final String coverImageUrl,
+      final String name,
+      final int postCount}) = _$_ProgresslineProjectModel;
 
   factory _ProgresslineProjectModel.fromJson(Map<String, dynamic> json) =
       _$_ProgresslineProjectModel.fromJson;

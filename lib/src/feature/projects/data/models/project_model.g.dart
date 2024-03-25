@@ -26,7 +26,6 @@ _$_ProjectModel _$$_ProjectModelFromJson(Map<String, dynamic> json) =>
       lastUpdated: json['lastUpdated'] == null
           ? null
           : DateTime.parse(json['lastUpdated'] as String),
-      parentId: json['parentId'] as String? ?? '',
       hasCameras: json['hasCameras'] as bool? ?? false,
       hierarchyLevel: json['hierarchyLevel'] as int? ?? 0,
       createdAt: json['createdAt'] == null
@@ -47,6 +46,7 @@ _$_ProjectModel _$$_ProjectModelFromJson(Map<String, dynamic> json) =>
               ?.map((e) => ProjectModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      parentId: json['parentId'],
     );
 
 Map<String, dynamic> _$$_ProjectModelToJson(_$_ProjectModel instance) =>
@@ -59,7 +59,6 @@ Map<String, dynamic> _$$_ProjectModelToJson(_$_ProjectModel instance) =>
       'status': instance.status,
       'assets': instance.assets,
       'lastUpdated': instance.lastUpdated?.toIso8601String(),
-      'parentId': instance.parentId,
       'hasCameras': instance.hasCameras,
       'hierarchyLevel': instance.hierarchyLevel,
       'createdAt': instance.createdAt?.toIso8601String(),
@@ -68,6 +67,7 @@ Map<String, dynamic> _$$_ProjectModelToJson(_$_ProjectModel instance) =>
       'constructionDays': instance.constructionDays,
       'users': instance.users,
       'children': instance.children,
+      'parentId': instance.parentId,
     };
 
 _$_AiStats _$$_AiStatsFromJson(Map<String, dynamic> json) => _$_AiStats(

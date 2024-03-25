@@ -23,13 +23,9 @@ mixin _$SiteGalleryModel {
   @JsonKey(name: "_id")
   String? get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
-  String? get path => throw _privateConstructorUsedError;
   String? get status => throw _privateConstructorUsedError;
   String? get type => throw _privateConstructorUsedError;
   User? get user => throw _privateConstructorUsedError;
-  String? get reseller => throw _privateConstructorUsedError;
-  String? get client => throw _privateConstructorUsedError;
-  String? get project => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   String? get url => throw _privateConstructorUsedError;
@@ -49,13 +45,9 @@ abstract class $SiteGalleryModelCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "_id") String? id,
       String? name,
-      String? path,
       String? status,
       String? type,
       User? user,
-      String? reseller,
-      String? client,
-      String? project,
       DateTime? createdAt,
       DateTime? updatedAt,
       String? url});
@@ -78,13 +70,9 @@ class _$SiteGalleryModelCopyWithImpl<$Res, $Val extends SiteGalleryModel>
   $Res call({
     Object? id = freezed,
     Object? name = freezed,
-    Object? path = freezed,
     Object? status = freezed,
     Object? type = freezed,
     Object? user = freezed,
-    Object? reseller = freezed,
-    Object? client = freezed,
-    Object? project = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? url = freezed,
@@ -98,10 +86,6 @@ class _$SiteGalleryModelCopyWithImpl<$Res, $Val extends SiteGalleryModel>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      path: freezed == path
-          ? _value.path
-          : path // ignore: cast_nullable_to_non_nullable
-              as String?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -114,18 +98,6 @@ class _$SiteGalleryModelCopyWithImpl<$Res, $Val extends SiteGalleryModel>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
-      reseller: freezed == reseller
-          ? _value.reseller
-          : reseller // ignore: cast_nullable_to_non_nullable
-              as String?,
-      client: freezed == client
-          ? _value.client
-          : client // ignore: cast_nullable_to_non_nullable
-              as String?,
-      project: freezed == project
-          ? _value.project
-          : project // ignore: cast_nullable_to_non_nullable
-              as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -165,13 +137,9 @@ abstract class _$$_SiteGalleryModelCopyWith<$Res>
   $Res call(
       {@JsonKey(name: "_id") String? id,
       String? name,
-      String? path,
       String? status,
       String? type,
       User? user,
-      String? reseller,
-      String? client,
-      String? project,
       DateTime? createdAt,
       DateTime? updatedAt,
       String? url});
@@ -193,13 +161,9 @@ class __$$_SiteGalleryModelCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? name = freezed,
-    Object? path = freezed,
     Object? status = freezed,
     Object? type = freezed,
     Object? user = freezed,
-    Object? reseller = freezed,
-    Object? client = freezed,
-    Object? project = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? url = freezed,
@@ -213,10 +177,6 @@ class __$$_SiteGalleryModelCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      path: freezed == path
-          ? _value.path
-          : path // ignore: cast_nullable_to_non_nullable
-              as String?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -229,18 +189,6 @@ class __$$_SiteGalleryModelCopyWithImpl<$Res>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
-      reseller: freezed == reseller
-          ? _value.reseller
-          : reseller // ignore: cast_nullable_to_non_nullable
-              as String?,
-      client: freezed == client
-          ? _value.client
-          : client // ignore: cast_nullable_to_non_nullable
-              as String?,
-      project: freezed == project
-          ? _value.project
-          : project // ignore: cast_nullable_to_non_nullable
-              as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -263,13 +211,9 @@ class _$_SiteGalleryModel implements _SiteGalleryModel {
   const _$_SiteGalleryModel(
       {@JsonKey(name: "_id") this.id,
       this.name,
-      this.path,
       this.status,
       this.type,
       this.user,
-      this.reseller,
-      this.client,
-      this.project,
       this.createdAt,
       this.updatedAt,
       this.url});
@@ -283,19 +227,11 @@ class _$_SiteGalleryModel implements _SiteGalleryModel {
   @override
   final String? name;
   @override
-  final String? path;
-  @override
   final String? status;
   @override
   final String? type;
   @override
   final User? user;
-  @override
-  final String? reseller;
-  @override
-  final String? client;
-  @override
-  final String? project;
   @override
   final DateTime? createdAt;
   @override
@@ -305,7 +241,7 @@ class _$_SiteGalleryModel implements _SiteGalleryModel {
 
   @override
   String toString() {
-    return 'SiteGalleryModel(id: $id, name: $name, path: $path, status: $status, type: $type, user: $user, reseller: $reseller, client: $client, project: $project, createdAt: $createdAt, updatedAt: $updatedAt, url: $url)';
+    return 'SiteGalleryModel(id: $id, name: $name, status: $status, type: $type, user: $user, createdAt: $createdAt, updatedAt: $updatedAt, url: $url)';
   }
 
   @override
@@ -315,14 +251,9 @@ class _$_SiteGalleryModel implements _SiteGalleryModel {
             other is _$_SiteGalleryModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.path, path) || other.path == path) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.user, user) || other.user == user) &&
-            (identical(other.reseller, reseller) ||
-                other.reseller == reseller) &&
-            (identical(other.client, client) || other.client == client) &&
-            (identical(other.project, project) || other.project == project) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -332,8 +263,8 @@ class _$_SiteGalleryModel implements _SiteGalleryModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, path, status, type,
-      user, reseller, client, project, createdAt, updatedAt, url);
+  int get hashCode => Object.hash(
+      runtimeType, id, name, status, type, user, createdAt, updatedAt, url);
 
   @JsonKey(ignore: true)
   @override
@@ -353,13 +284,9 @@ abstract class _SiteGalleryModel implements SiteGalleryModel {
   const factory _SiteGalleryModel(
       {@JsonKey(name: "_id") final String? id,
       final String? name,
-      final String? path,
       final String? status,
       final String? type,
       final User? user,
-      final String? reseller,
-      final String? client,
-      final String? project,
       final DateTime? createdAt,
       final DateTime? updatedAt,
       final String? url}) = _$_SiteGalleryModel;
@@ -373,19 +300,11 @@ abstract class _SiteGalleryModel implements SiteGalleryModel {
   @override
   String? get name;
   @override
-  String? get path;
-  @override
   String? get status;
   @override
   String? get type;
   @override
   User? get user;
-  @override
-  String? get reseller;
-  @override
-  String? get client;
-  @override
-  String? get project;
   @override
   DateTime? get createdAt;
   @override
@@ -407,7 +326,6 @@ mixin _$User {
   Preset? get preset => throw _privateConstructorUsedError;
   String? get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
-  String? get dp => throw _privateConstructorUsedError;
   String? get userId => throw _privateConstructorUsedError;
   String? get dpUrl => throw _privateConstructorUsedError;
 
@@ -425,7 +343,6 @@ abstract class $UserCopyWith<$Res> {
       {Preset? preset,
       String? id,
       String? name,
-      String? dp,
       String? userId,
       String? dpUrl});
 
@@ -448,7 +365,6 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? preset = freezed,
     Object? id = freezed,
     Object? name = freezed,
-    Object? dp = freezed,
     Object? userId = freezed,
     Object? dpUrl = freezed,
   }) {
@@ -464,10 +380,6 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      dp: freezed == dp
-          ? _value.dp
-          : dp // ignore: cast_nullable_to_non_nullable
               as String?,
       userId: freezed == userId
           ? _value.userId
@@ -503,7 +415,6 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       {Preset? preset,
       String? id,
       String? name,
-      String? dp,
       String? userId,
       String? dpUrl});
 
@@ -523,7 +434,6 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
     Object? preset = freezed,
     Object? id = freezed,
     Object? name = freezed,
-    Object? dp = freezed,
     Object? userId = freezed,
     Object? dpUrl = freezed,
   }) {
@@ -540,10 +450,6 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
-      dp: freezed == dp
-          ? _value.dp
-          : dp // ignore: cast_nullable_to_non_nullable
-              as String?,
       userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -559,8 +465,7 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
 /// @nodoc
 @JsonSerializable()
 class _$_User implements _User {
-  const _$_User(
-      {this.preset, this.id, this.name, this.dp, this.userId, this.dpUrl});
+  const _$_User({this.preset, this.id, this.name, this.userId, this.dpUrl});
 
   factory _$_User.fromJson(Map<String, dynamic> json) => _$$_UserFromJson(json);
 
@@ -571,15 +476,13 @@ class _$_User implements _User {
   @override
   final String? name;
   @override
-  final String? dp;
-  @override
   final String? userId;
   @override
   final String? dpUrl;
 
   @override
   String toString() {
-    return 'User(preset: $preset, id: $id, name: $name, dp: $dp, userId: $userId, dpUrl: $dpUrl)';
+    return 'User(preset: $preset, id: $id, name: $name, userId: $userId, dpUrl: $dpUrl)';
   }
 
   @override
@@ -590,15 +493,13 @@ class _$_User implements _User {
             (identical(other.preset, preset) || other.preset == preset) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.dp, dp) || other.dp == dp) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.dpUrl, dpUrl) || other.dpUrl == dpUrl));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, preset, id, name, dp, userId, dpUrl);
+  int get hashCode => Object.hash(runtimeType, preset, id, name, userId, dpUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -619,7 +520,6 @@ abstract class _User implements User {
       {final Preset? preset,
       final String? id,
       final String? name,
-      final String? dp,
       final String? userId,
       final String? dpUrl}) = _$_User;
 
@@ -631,8 +531,6 @@ abstract class _User implements User {
   String? get id;
   @override
   String? get name;
-  @override
-  String? get dp;
   @override
   String? get userId;
   @override

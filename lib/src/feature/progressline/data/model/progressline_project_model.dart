@@ -15,9 +15,9 @@ String progresslineProjectModelToJson(List<ProgresslineProjectModel> data) =>
 class ProgresslineProjectModel with _$ProgresslineProjectModel {
   const factory ProgresslineProjectModel({
     @JsonKey(name: "_id") required String id,
-    required String coverImageUrl,
-    required String name,
-    required int postCount,
+    @Default('') String coverImageUrl,
+    @Default('') String name,
+    @Default(0) int postCount,
   }) = _ProgresslineProjectModel;
 
   factory ProgresslineProjectModel.fromJson(Map<String, dynamic> json) =>

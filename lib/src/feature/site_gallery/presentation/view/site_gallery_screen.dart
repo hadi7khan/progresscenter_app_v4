@@ -250,9 +250,9 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                                 itemBuilder: ((context, index) {
                                   final reversedIndex = data.length - 1 - index;
                                   return SiteGalleryGridViewWidget(
-                                    data: data[reversedIndex],
-                                    projectName: widget.projectName,
-                                  );
+                                      data: data[reversedIndex],
+                                      projectName: widget.projectName,
+                                      projectId: widget.projectId);
                                 }),
                               )
                       ]);

@@ -16,16 +16,14 @@ class ProgressLineModel with _$ProgressLineModel {
   const factory ProgressLineModel({
     @JsonKey(name: '_id') required String? id,
     @Default("") String? caption,
-    required String? file,
-    required String? mediaType,
-    required List<Comment>? comments,
-    required List<User>? viewedBy,
-    required User? user,
-    required String? camera,
-    required Project? project,
+    @Default([]) List<Comment>? comments,
+    @Default([]) List<User>? viewedBy,
+    @Default(User()) User? user,
+    @Default('') String? camera,
+    Project? project,
     required DateTime? createdAt,
     required DateTime? updatedAt,
-    required String? url,
+    @Default('') String? url,
   }) = _ProgressLineModel;
 
   factory ProgressLineModel.fromJson(Map<String, dynamic> json) =>
@@ -35,9 +33,9 @@ class ProgressLineModel with _$ProgressLineModel {
 @freezed
 class Comment with _$Comment {
   const factory Comment({
-    required User? user,
-    required String? body,
-    @JsonKey(name: '_id') required String? commentId,
+    @Default(User()) User? user,
+    @Default('') String? body,
+    @JsonKey(name: '_id') String? commentId,
     required DateTime? createdAt,
     required DateTime? updatedAt,
   }) = _Comment;
@@ -49,13 +47,12 @@ class Comment with _$Comment {
 @freezed
 class User with _$User {
   const factory User({
-    required Preset? preset,
-    @JsonKey(name: '_id') required String? userId,
-    required String? name,
-    @Default("") String? dp,
-    String? designation,
-    @Default("") String? dpUrl,
-    String? role,
+    @Default(Preset()) Preset? preset,
+    @JsonKey(name: '_id') String? userId,
+    @Default('') String? name,
+    @Default('') String? designation,
+    @Default('') String? dpUrl,
+    @Default('') String? role,
     DateTime? lastActive,
   }) = _User;
 
@@ -65,7 +62,7 @@ class User with _$User {
 @freezed
 class Preset with _$Preset {
   const factory Preset({
-    required String? color,
+    String? color,
   }) = _Preset;
 
   factory Preset.fromJson(Map<String, dynamic> json) => _$PresetFromJson(json);
@@ -74,24 +71,11 @@ class Preset with _$Preset {
 @freezed
 class Project with _$Project {
   const factory Project({
-    @JsonKey(name: '_id') required String? projectId,
-    required String? name,
-    required List<Image>? images,
-    required String? coverImageUrl,
+    @JsonKey(name: '_id') String? projectId,
+    @Default('') String? name,
+    @Default('') String? coverImageUrl,
   }) = _Project;
 
   factory Project.fromJson(Map<String, dynamic> json) =>
       _$ProjectFromJson(json);
-}
-
-@freezed
-class Image with _$Image {
-  const factory Image({
-    required String? name,
-    @JsonKey(name: '_id') required String? imageId,
-    required DateTime? createdAt,
-    required DateTime? updatedAt,
-  }) = _Image;
-
-  factory Image.fromJson(Map<String, dynamic> json) => _$ImageFromJson(json);
 }

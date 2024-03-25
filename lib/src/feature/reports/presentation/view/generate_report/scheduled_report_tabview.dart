@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
+import 'package:progresscenter_app_v4/src/common/services/services.dart';
 import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
 import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
@@ -14,12 +15,19 @@ import 'package:progresscenter_app_v4/src/feature/reports/presentation/provider/
 import 'dart:developer' as dev;
 
 import 'package:progresscenter_app_v4/src/feature/reports/presentation/provider/scheduled_report_controller.dart';
+import 'package:progresscenter_app_v4/src/feature/reports/presentation/view/generate_report/instant_report_tabview.dart';
 
 class ScheduledReportTabview extends ConsumerStatefulWidget {
   final String projectId;
   final String cameraId;
+  final String endDate;
+  final String startDate;
   const ScheduledReportTabview(
-      {super.key, required this.projectId, required this.cameraId});
+      {super.key,
+      required this.projectId,
+      required this.cameraId,
+      required this.endDate,
+      required this.startDate});
 
   @override
   ConsumerState<ScheduledReportTabview> createState() =>
@@ -33,17 +41,63 @@ class _ScheduledReportTabviewState
   String _duration = "Select";
   final _prefsLocator = getIt.get<SharedPreferenceHelper>();
   Map<String, dynamic>? user;
+  int maxImageDays = 0;
+  List<Map<String, dynamic>> periods = [
+    {
+      "label": 'Weekly',
+      "value": 'WEEKLY',
+    },
+    {
+      "label": 'Monthly',
+      "value": 'MONTHLY',
+    },
+    {
+      "label": 'Quarterly',
+      "value": 'QUARTERLY',
+    },
+    {
+      "label": 'Biannually',
+      "value": 'BIANNUALLY',
+    },
+    {
+      "label": 'Annually',
+      "value": 'ANNUALLY',
+    },
+  ];
+  int getReportIntervalDays(CameraReportIntervalType intervalType) {
+    final Map<CameraReportIntervalType, int> periods = {
+      CameraReportIntervalType.WEEKLY: 7,
+      CameraReportIntervalType.MONTHLY: 30,
+      CameraReportIntervalType.QUARTERLY: 90,
+      CameraReportIntervalType.BIANNUALLY: 180,
+      CameraReportIntervalType.ANNUALLY: 365,
+    };
+
+    return periods[intervalType]!;
+  }
 
   @override
   void initState() {
     super.initState();
     fetchUser();
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    //   ref.read(scheduledReportProvider.notifier).getScheduledReport(
-    //         widget.projectId,
-    //         widget.cameraId,
-    //       );
-    // });
+    getDateDifference(widget.startDate, widget.endDate);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ref.read(scheduledReportProvider.notifier).getScheduledReport(
+            widget.projectId,
+            widget.cameraId,
+          );
+    });
+  }
+
+  getDateDifference(String sDate, String eDate) {
+    DateTime startDate = DateTime.parse(sDate);
+    DateTime endDate = DateTime.parse(eDate);
+
+    Duration difference = endDate.difference(startDate);
+    maxImageDays = difference.inDays;
+
+    // Print the difference in days
+    dev.log('Difference in days: ${maxImageDays} days');
   }
 
   fetchUser() {
@@ -57,11 +111,7 @@ class _ScheduledReportTabviewState
     return SingleChildScrollView(
       child: Padding(
           padding: EdgeInsets.symmetric(vertical: 24.h),
-          child:
-              //  scheduledReportData.when(
-              //     data: (data) {
-              //       return
-              Column(
+          child: Column(
             children: [
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
@@ -142,6 +192,80 @@ class _ScheduledReportTabviewState
                       ),
                     ]),
               ),
+              SizedBox(height: 24.h),
+              scheduledReportData.when(
+                  data: (data) {
+                    dev.log("data" + data.toString());
+                    return data.id != null
+                        ? Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 16.w, vertical: 24.h),
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12.r),
+                              color: Colors.white,
+                            ),
+                            child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      text: "Currently running : ",
+                                      style: TextStyle(
+                                          letterSpacing: -0.3,
+                                          color: Helper.textColor400,
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w600),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: data.type,
+                                          style: TextStyle(
+                                              letterSpacing: -0.3,
+                                              color: Helper.baseBlack,
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      Service()
+                                          .deleteScheduledReport(
+                                              widget.projectId, widget.cameraId)
+                                          .then((value) {
+                                        ref
+                                            .watch(scheduledReportProvider
+                                                .notifier)
+                                            .getScheduledReport(
+                                                widget.projectId,
+                                                widget.cameraId);
+                                        Utils.toastSuccessMessage(
+                                            "Report removed successfully",
+                                            context);
+                                      });
+                                    },
+                                    child: Text(
+                                      "Stop",
+                                      style: TextStyle(
+                                          letterSpacing: -0.3,
+                                          color: Helper.errorColor,
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                ]),
+                          )
+                        : SizedBox();
+                  },
+                  error: (err, _) {
+                    return const Text("Failed to fetch images data",
+                        style: TextStyle(
+                            letterSpacing: -0.3, color: Helper.errorColor));
+                  },
+                  loading: () => SizedBox()),
               SizedBox(height: 59.h),
               Container(
                 height: 52.h,
@@ -177,10 +301,11 @@ class _ScheduledReportTabviewState
                         .watch(scheduleReportsProvider.notifier)
                         .scheduleReport(widget.projectId, widget.cameraId, data)
                         .then((value) async {
-                      value.fold((failure) {
-                        dev.log("errorrrrrr");
-                      }, (res) {
-                        dev.log("response data" + res.toString());
+                      value.fold((failure) {}, (res) {
+                        ref
+                            .watch(scheduledReportProvider.notifier)
+                            .getScheduledReport(
+                                widget.projectId, widget.cameraId);
                         Utils.toastSuccessMessage(
                             "Report scheduled successfully", context);
                         setState(() {
@@ -192,16 +317,7 @@ class _ScheduledReportTabviewState
                 ),
               ),
             ],
-          )
-          //   ;
-          // },
-          // error: (err, _) {
-          //   return const Text("Failed to fetch images data",
-          //       style: TextStyle(
-          //           letterSpacing: -0.3, color: Helper.errorColor));
-          // },
-          // loading: () => SizedBox())
-          ),
+          )),
     );
   }
 
@@ -217,10 +333,8 @@ class _ScheduledReportTabviewState
               topLeft: Radius.circular(16.r), topRight: Radius.circular(16.r)),
           color: Colors.white,
         ),
-        height: 450.h,
         width: MediaQuery.of(context).size.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Wrap(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -241,131 +355,46 @@ class _ScheduledReportTabviewState
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                InkWell(
-                  onTap: () async {
-                    setState(() {
-                      _duration = "WEEKLY";
-                      _showDuration = "1 Week";
-                    });
-                    context.pop();
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.r),
-                        color: Colors.white),
-                    child: Text(
-                      '1 Week',
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Helper.baseBlack,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      _duration = "MONTHLY";
-                      _showDuration = "1 Month";
-                    });
-                    context.pop();
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.r),
-                        color: Colors.white),
-                    child: Text(
-                      '1 Month',
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Helper.baseBlack,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      _duration = "QUARTERLY";
-                      _showDuration = "3 Months";
-                    });
-                    context.pop();
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.r),
-                        color: Colors.white),
-                    child: Text(
-                      '3 Months',
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Helper.baseBlack,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      _duration = "BIANNUALLY";
-                      _showDuration = "6 Months";
-                    });
-                    context.pop();
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.r),
-                        color: Colors.white),
-                    child: Text(
-                      '6 Months',
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Helper.baseBlack,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      _duration = "ANNUALLY";
-                      _showDuration = "1 Year";
-                    });
-                    context.pop();
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.r),
-                        color: Colors.white),
-                    child: Text(
-                      '1 Year',
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Helper.baseBlack,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ),
+                ListView.builder(
+                    itemCount: periods.length,
+                    shrinkWrap: true,
+                    itemBuilder: ((context, index) {
+                      final int intervalDays = getReportIntervalDays(
+                        CameraReportIntervalType.values[index],
+                      );
+                      final bool isItemEnabled = maxImageDays >= intervalDays;
+
+                      return InkWell(
+                        onTap: isItemEnabled
+                            ? () async {
+                                setState(() {
+                                  _duration = periods[index]["value"];
+                                  _showDuration = periods[index]["label"];
+                                });
+                                context.pop();
+                              }
+                            : null,
+                        child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 10.w, vertical: 16.h),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.r),
+                            color: Colors.white,
+                          ),
+                          child: Text(
+                            periods[index]["label"],
+                            style: TextStyle(
+                                letterSpacing: -0.3,
+                                color: isItemEnabled
+                                    ? Helper.baseBlack
+                                    : Colors.grey,
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      );
+                    })),
                 SizedBox(height: 20.h),
                 Container(
                   height: 52.h,
