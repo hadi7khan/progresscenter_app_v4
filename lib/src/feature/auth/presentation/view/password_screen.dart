@@ -143,23 +143,24 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                         return null;
                       },
                       obscureText: _obscurePassword,
-                      obscuringCharacter: '*',
+                      obscuringCharacter: '\u2022',
                       textInputAction: TextInputAction.done,
                       style: TextStyle(
                         letterSpacing: -0.3,
-                        fontSize: 16,
+                        fontSize: 16.sp,
+                        height: 1.2,
                         fontWeight: FontWeight.w400,
                       ),
                       textCapitalization: TextCapitalization.sentences,
                       keyboardType: TextInputType.emailAddress,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.h, horizontal: 14.w),
                         hintText: "Enter Password",
                         hintStyle: TextStyle(
                           color: Helper.textColor500,
-                          fontSize: 16,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w400,
                         ),
                         suffixIcon: InkWell(
@@ -169,7 +170,7 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                                   ? Icons.visibility_off_outlined
                                   : Icons.visibility,
                               color: Helper.textColor400,
-                              size: 16),
+                              size: 18),
                         ),
                         // hintText: widget.control.label,
                         enabledBorder: OutlineInputBorder(
