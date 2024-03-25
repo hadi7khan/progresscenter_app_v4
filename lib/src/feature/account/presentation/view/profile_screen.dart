@@ -169,6 +169,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
 
   Widget _buildProjectTree(
       List<model.ProjectModel> projects, String? parentId) {
+    log("projects passed" + projects.toString());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: projects
@@ -1596,6 +1597,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                           ),
                           projectData.when(
                             data: (projectdata) {
+                              log("projects" + projectdata.toString());
                               // Update the projects in ProjectHierarchySelection
                               projectHierarchySelection =
                                   ProjectHierarchySelection(

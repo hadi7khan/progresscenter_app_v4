@@ -337,7 +337,7 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                                       leading: ClipRRect(
                                         borderRadius:
                                             BorderRadius.circular(200.r),
-                                        child: user.dp != null
+                                        child: user.dpUrl != null
                                             ? Image.network(
                                                 width: 32.w,
                                                 height: 32.h,
@@ -827,7 +827,7 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                               VisualDensity(horizontal: 0, vertical: -4),
                           contentPadding: EdgeInsets.only(bottom: 10.h),
                           leading: AvatarWidget(
-                            dpUrl: widget.data[index].dp != null
+                            dpUrl: widget.data[index].dpUrl != null
                                 ? widget.data[index].dpUrl!
                                 : "",
                             name: widget.data[index].name!,

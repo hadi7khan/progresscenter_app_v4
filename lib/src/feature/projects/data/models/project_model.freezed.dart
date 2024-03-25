@@ -29,7 +29,6 @@ mixin _$ProjectModel {
   String get status => throw _privateConstructorUsedError;
   List<Asset>? get assets => throw _privateConstructorUsedError;
   DateTime? get lastUpdated => throw _privateConstructorUsedError;
-  String? get parentId => throw _privateConstructorUsedError;
   bool get hasCameras => throw _privateConstructorUsedError;
   int get hierarchyLevel => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
@@ -38,6 +37,7 @@ mixin _$ProjectModel {
   int get constructionDays => throw _privateConstructorUsedError;
   List<User>? get users => throw _privateConstructorUsedError;
   List<ProjectModel>? get children => throw _privateConstructorUsedError;
+  dynamic get parentId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -60,7 +60,6 @@ abstract class $ProjectModelCopyWith<$Res> {
       String status,
       List<Asset>? assets,
       DateTime? lastUpdated,
-      String? parentId,
       bool hasCameras,
       int hierarchyLevel,
       DateTime? createdAt,
@@ -68,7 +67,8 @@ abstract class $ProjectModelCopyWith<$Res> {
       AiStats? aiStats,
       int constructionDays,
       List<User>? users,
-      List<ProjectModel>? children});
+      List<ProjectModel>? children,
+      dynamic parentId});
 
   $LocationCopyWith<$Res>? get location;
   $AiStatsCopyWith<$Res>? get aiStats;
@@ -95,7 +95,6 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
     Object? status = null,
     Object? assets = freezed,
     Object? lastUpdated = freezed,
-    Object? parentId = freezed,
     Object? hasCameras = null,
     Object? hierarchyLevel = null,
     Object? createdAt = freezed,
@@ -104,6 +103,7 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
     Object? constructionDays = null,
     Object? users = freezed,
     Object? children = freezed,
+    Object? parentId = freezed,
   }) {
     return _then(_value.copyWith(
       location: freezed == location
@@ -138,10 +138,6 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
           ? _value.lastUpdated
           : lastUpdated // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      parentId: freezed == parentId
-          ? _value.parentId
-          : parentId // ignore: cast_nullable_to_non_nullable
-              as String?,
       hasCameras: null == hasCameras
           ? _value.hasCameras
           : hasCameras // ignore: cast_nullable_to_non_nullable
@@ -174,6 +170,10 @@ class _$ProjectModelCopyWithImpl<$Res, $Val extends ProjectModel>
           ? _value.children
           : children // ignore: cast_nullable_to_non_nullable
               as List<ProjectModel>?,
+      parentId: freezed == parentId
+          ? _value.parentId
+          : parentId // ignore: cast_nullable_to_non_nullable
+              as dynamic,
     ) as $Val);
   }
 
@@ -219,7 +219,6 @@ abstract class _$$_ProjectModelCopyWith<$Res>
       String status,
       List<Asset>? assets,
       DateTime? lastUpdated,
-      String? parentId,
       bool hasCameras,
       int hierarchyLevel,
       DateTime? createdAt,
@@ -227,7 +226,8 @@ abstract class _$$_ProjectModelCopyWith<$Res>
       AiStats? aiStats,
       int constructionDays,
       List<User>? users,
-      List<ProjectModel>? children});
+      List<ProjectModel>? children,
+      dynamic parentId});
 
   @override
   $LocationCopyWith<$Res>? get location;
@@ -254,7 +254,6 @@ class __$$_ProjectModelCopyWithImpl<$Res>
     Object? status = null,
     Object? assets = freezed,
     Object? lastUpdated = freezed,
-    Object? parentId = freezed,
     Object? hasCameras = null,
     Object? hierarchyLevel = null,
     Object? createdAt = freezed,
@@ -263,6 +262,7 @@ class __$$_ProjectModelCopyWithImpl<$Res>
     Object? constructionDays = null,
     Object? users = freezed,
     Object? children = freezed,
+    Object? parentId = freezed,
   }) {
     return _then(_$_ProjectModel(
       location: freezed == location
@@ -297,10 +297,6 @@ class __$$_ProjectModelCopyWithImpl<$Res>
           ? _value.lastUpdated
           : lastUpdated // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      parentId: freezed == parentId
-          ? _value.parentId
-          : parentId // ignore: cast_nullable_to_non_nullable
-              as String?,
       hasCameras: null == hasCameras
           ? _value.hasCameras
           : hasCameras // ignore: cast_nullable_to_non_nullable
@@ -333,6 +329,10 @@ class __$$_ProjectModelCopyWithImpl<$Res>
           ? _value._children
           : children // ignore: cast_nullable_to_non_nullable
               as List<ProjectModel>?,
+      parentId: freezed == parentId
+          ? _value.parentId
+          : parentId // ignore: cast_nullable_to_non_nullable
+              as dynamic,
     ));
   }
 }
@@ -349,7 +349,6 @@ class _$_ProjectModel implements _ProjectModel {
       this.status = '',
       final List<Asset>? assets = const [],
       this.lastUpdated = null,
-      this.parentId = '',
       this.hasCameras = false,
       this.hierarchyLevel = 0,
       this.createdAt = null,
@@ -357,7 +356,8 @@ class _$_ProjectModel implements _ProjectModel {
       this.aiStats = const AiStats(),
       this.constructionDays = 0,
       final List<User>? users = const [],
-      final List<ProjectModel>? children = const []})
+      final List<ProjectModel>? children = const [],
+      this.parentId})
       : _images = images,
         _assets = assets,
         _users = users,
@@ -407,9 +407,6 @@ class _$_ProjectModel implements _ProjectModel {
   final DateTime? lastUpdated;
   @override
   @JsonKey()
-  final String? parentId;
-  @override
-  @JsonKey()
   final bool hasCameras;
   @override
   @JsonKey()
@@ -449,8 +446,11 @@ class _$_ProjectModel implements _ProjectModel {
   }
 
   @override
+  final dynamic parentId;
+
+  @override
   String toString() {
-    return 'ProjectModel(location: $location, id: $id, name: $name, images: $images, coverImageUrl: $coverImageUrl, status: $status, assets: $assets, lastUpdated: $lastUpdated, parentId: $parentId, hasCameras: $hasCameras, hierarchyLevel: $hierarchyLevel, createdAt: $createdAt, updatedAt: $updatedAt, aiStats: $aiStats, constructionDays: $constructionDays, users: $users, children: $children)';
+    return 'ProjectModel(location: $location, id: $id, name: $name, images: $images, coverImageUrl: $coverImageUrl, status: $status, assets: $assets, lastUpdated: $lastUpdated, hasCameras: $hasCameras, hierarchyLevel: $hierarchyLevel, createdAt: $createdAt, updatedAt: $updatedAt, aiStats: $aiStats, constructionDays: $constructionDays, users: $users, children: $children, parentId: $parentId)';
   }
 
   @override
@@ -469,8 +469,6 @@ class _$_ProjectModel implements _ProjectModel {
             const DeepCollectionEquality().equals(other._assets, _assets) &&
             (identical(other.lastUpdated, lastUpdated) ||
                 other.lastUpdated == lastUpdated) &&
-            (identical(other.parentId, parentId) ||
-                other.parentId == parentId) &&
             (identical(other.hasCameras, hasCameras) ||
                 other.hasCameras == hasCameras) &&
             (identical(other.hierarchyLevel, hierarchyLevel) ||
@@ -483,7 +481,8 @@ class _$_ProjectModel implements _ProjectModel {
             (identical(other.constructionDays, constructionDays) ||
                 other.constructionDays == constructionDays) &&
             const DeepCollectionEquality().equals(other._users, _users) &&
-            const DeepCollectionEquality().equals(other._children, _children));
+            const DeepCollectionEquality().equals(other._children, _children) &&
+            const DeepCollectionEquality().equals(other.parentId, parentId));
   }
 
   @JsonKey(ignore: true)
@@ -498,7 +497,6 @@ class _$_ProjectModel implements _ProjectModel {
       status,
       const DeepCollectionEquality().hash(_assets),
       lastUpdated,
-      parentId,
       hasCameras,
       hierarchyLevel,
       createdAt,
@@ -506,7 +504,8 @@ class _$_ProjectModel implements _ProjectModel {
       aiStats,
       constructionDays,
       const DeepCollectionEquality().hash(_users),
-      const DeepCollectionEquality().hash(_children));
+      const DeepCollectionEquality().hash(_children),
+      const DeepCollectionEquality().hash(parentId));
 
   @JsonKey(ignore: true)
   @override
@@ -532,7 +531,6 @@ abstract class _ProjectModel implements ProjectModel {
       final String status,
       final List<Asset>? assets,
       final DateTime? lastUpdated,
-      final String? parentId,
       final bool hasCameras,
       final int hierarchyLevel,
       final DateTime? createdAt,
@@ -540,7 +538,8 @@ abstract class _ProjectModel implements ProjectModel {
       final AiStats? aiStats,
       final int constructionDays,
       final List<User>? users,
-      final List<ProjectModel>? children}) = _$_ProjectModel;
+      final List<ProjectModel>? children,
+      final dynamic parentId}) = _$_ProjectModel;
 
   factory _ProjectModel.fromJson(Map<String, dynamic> json) =
       _$_ProjectModel.fromJson;
@@ -563,8 +562,6 @@ abstract class _ProjectModel implements ProjectModel {
   @override
   DateTime? get lastUpdated;
   @override
-  String? get parentId;
-  @override
   bool get hasCameras;
   @override
   int get hierarchyLevel;
@@ -580,6 +577,8 @@ abstract class _ProjectModel implements ProjectModel {
   List<User>? get users;
   @override
   List<ProjectModel>? get children;
+  @override
+  dynamic get parentId;
   @override
   @JsonKey(ignore: true)
   _$$_ProjectModelCopyWith<_$_ProjectModel> get copyWith =>

@@ -10,15 +10,11 @@ _$_SiteGalleryModel _$$_SiteGalleryModelFromJson(Map<String, dynamic> json) =>
     _$_SiteGalleryModel(
       id: json['_id'] as String?,
       name: json['name'] as String?,
-      path: json['path'] as String?,
       status: json['status'] as String?,
       type: json['type'] as String?,
       user: json['user'] == null
           ? null
           : User.fromJson(json['user'] as Map<String, dynamic>),
-      reseller: json['reseller'] as String?,
-      client: json['client'] as String?,
-      project: json['project'] as String?,
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -32,13 +28,9 @@ Map<String, dynamic> _$$_SiteGalleryModelToJson(_$_SiteGalleryModel instance) =>
     <String, dynamic>{
       '_id': instance.id,
       'name': instance.name,
-      'path': instance.path,
       'status': instance.status,
       'type': instance.type,
       'user': instance.user,
-      'reseller': instance.reseller,
-      'client': instance.client,
-      'project': instance.project,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
       'url': instance.url,
@@ -50,7 +42,6 @@ _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
           : Preset.fromJson(json['preset'] as Map<String, dynamic>),
       id: json['id'] as String?,
       name: json['name'] as String?,
-      dp: json['dp'] as String?,
       userId: json['userId'] as String?,
       dpUrl: json['dpUrl'] as String?,
     );
@@ -59,7 +50,6 @@ Map<String, dynamic> _$$_UserToJson(_$_User instance) => <String, dynamic>{
       'preset': instance.preset,
       'id': instance.id,
       'name': instance.name,
-      'dp': instance.dp,
       'userId': instance.userId,
       'dpUrl': instance.dpUrl,
     };

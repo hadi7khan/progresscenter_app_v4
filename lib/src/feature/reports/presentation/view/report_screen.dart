@@ -140,7 +140,11 @@ class _ReportScreenState extends State<ReportScreen> {
                         startDate: widget.startDate,
                         cameraName: widget.cameraName),
                     ScheduledReportTabview(
-                        projectId: widget.projectId, cameraId: widget.cameraId)
+                      projectId: widget.projectId,
+                      cameraId: widget.cameraId,
+                      endDate: widget.endDate,
+                      startDate: widget.startDate,
+                    )
                   ]),
                 )
               ],

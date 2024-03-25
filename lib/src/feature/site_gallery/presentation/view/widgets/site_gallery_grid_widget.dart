@@ -12,7 +12,9 @@ import 'package:video_player/video_player.dart';
 class SiteGalleryGridViewWidget extends StatefulWidget {
   final data;
   final projectName;
-  const SiteGalleryGridViewWidget({super.key, this.data, this.projectName});
+  final String projectId;
+  const SiteGalleryGridViewWidget(
+      {super.key, this.data, this.projectName, required this.projectId});
 
   @override
   State<SiteGalleryGridViewWidget> createState() =>
@@ -57,7 +59,7 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
     return InkWell(
       onTap: () {
         context.push('/fullViewSitegallery', extra: {
-          "projectId": widget.data.project,
+          "projectId": widget.projectId,
           "name": widget.data.name,
           "url": widget.data.url,
           "type": widget.data.type,

@@ -14,8 +14,8 @@ String commentsModelToJson(List<CommentsModel> data) =>
 @freezed
 class CommentsModel with _$CommentsModel {
   const factory CommentsModel({
-    User? user,
-    String? body,
+    @Default(User()) User? user,
+    @Default('') String? body,
     @JsonKey(name: '_id') required String id,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -29,12 +29,11 @@ class CommentsModel with _$CommentsModel {
 class User with _$User {
   const factory User({
     Preset? preset,
-    String? id,
-    String? name,
-    String? dp,
-    String? designation,
-    String? userId,
-    String? dpUrl,
+    @JsonKey(name: '_id') String? id,
+    @Default('') String? name,
+    @Default('') String? designation,
+    @Default('') String? userId,
+    @Default('') String? dpUrl,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

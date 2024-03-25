@@ -16,13 +16,9 @@ class SiteGalleryModel with _$SiteGalleryModel {
   const factory SiteGalleryModel({
     @JsonKey(name: "_id") String? id,
     String? name,
-    String? path,
     String? status,
     String? type,
     User? user,
-    String? reseller,
-    String? client,
-    String? project,
     DateTime? createdAt,
     DateTime? updatedAt,
     String? url,
@@ -38,7 +34,6 @@ class User with _$User {
     Preset? preset,
     String? id,
     String? name,
-    String? dp,
     String? userId,
     String? dpUrl,
   }) = _User;

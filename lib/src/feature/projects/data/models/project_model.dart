@@ -21,7 +21,6 @@ class ProjectModel with _$ProjectModel {
     @Default('') String status,
     @Default([]) List<Asset>? assets,
     @Default(null) DateTime? lastUpdated,
-    @Default('') String? parentId,
     @Default(false) bool hasCameras,
     @Default(0) int hierarchyLevel,
     @Default(null) DateTime? createdAt,
@@ -30,6 +29,7 @@ class ProjectModel with _$ProjectModel {
     @Default(0) int constructionDays,
     @Default([]) List<User>? users,
     @Default([]) List<ProjectModel>? children,
+    dynamic parentId,
   }) = _ProjectModel;
 
   factory ProjectModel.fromJson(Map<String, dynamic> json) =>

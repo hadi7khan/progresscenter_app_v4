@@ -10,9 +10,9 @@ _$_ProgresslineProjectModel _$$_ProgresslineProjectModelFromJson(
         Map<String, dynamic> json) =>
     _$_ProgresslineProjectModel(
       id: json['_id'] as String,
-      coverImageUrl: json['coverImageUrl'] as String,
-      name: json['name'] as String,
-      postCount: json['postCount'] as int,
+      coverImageUrl: json['coverImageUrl'] as String? ?? '',
+      name: json['name'] as String? ?? '',
+      postCount: json['postCount'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$$_ProgresslineProjectModelToJson(
