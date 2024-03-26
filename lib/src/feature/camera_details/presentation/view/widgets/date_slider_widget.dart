@@ -24,7 +24,6 @@ class DateSliderWidget extends ConsumerStatefulWidget {
 
 class _DateSliderWidgetState extends BaseConsumerState<DateSliderWidget> {
   ScrollController _dateController = ScrollController();
-  final dataKey = new GlobalKey();
 
   @override
   void initState() {
@@ -35,13 +34,13 @@ class _DateSliderWidgetState extends BaseConsumerState<DateSliderWidget> {
           (date) => DateFormat('yyyyMMdd').format(date) == widget.selectedDate);
       if (selectedIndex != -1) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          Timer(Duration(seconds: 1), () {
-            _dateController.animateTo(
-              selectedIndex * 40,
-              duration: Duration(milliseconds: 500),
-              curve: Curves.easeInOut,
-            );
-          });
+        Timer(Duration(seconds: 2), () {
+          _dateController.animateTo(
+            selectedIndex * 40,
+            duration: Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
+          );
+        });
         });
       }
     }

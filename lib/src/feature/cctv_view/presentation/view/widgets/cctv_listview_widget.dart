@@ -77,14 +77,16 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
     //   _checkStatus();
     // });
     return InkWell(
-      onTap: () {
-        context.push('/fullViewCCTV', extra: {
-          "projectId": widget.data.project,
-          "name": widget.data.name,
-          "streamingUrl": widget.data.streamingUrl,
-          // "type": widget.data.type
-        });
-      },
+      onTap: isOnline
+          ? () {
+              context.push('/fullViewCCTV', extra: {
+                "projectId": widget.data.project,
+                "name": widget.data.name,
+                "streamingUrl": widget.data.streamingUrl,
+                // "type": widget.data.type
+              });
+            }
+          : null,
       child: Container(
         margin: EdgeInsets.zero,
         padding: EdgeInsets.zero,

@@ -392,6 +392,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                                   selectedImageIndex:
                                                       _selectedImageIndex1,
                                                   data: data1,
+                                                  cameraId: widget.cameraId,
                                                   ref: ref,
                                                   changeTime: changeTime1,
                                                 ));
@@ -425,6 +426,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                                                   selectedImageIndex:
                                                       _selectedImageIndex1,
                                                   data: data2,
+                                                  cameraId: widget.cameraId,
                                                   ref: ref,
                                                   changeTime: changeTime1,
                                                 ));

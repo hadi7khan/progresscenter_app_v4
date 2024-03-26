@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,6 +25,8 @@ import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/vi
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/widgets/date_picker_widget.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/widgets/date_slider_widget.dart';
 import 'dart:developer';
+import 'package:progresscenter_app_v4/src/feature/camera_details/data/model/images_by_camera_id_model.dart'
+    as model;
 
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/view/widgets/image_slider_widget.dart';
 
@@ -49,6 +53,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
   final String _searchDate = '';
   String showMonth = "JAN";
   bool showBottomBar = true;
+  ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -60,6 +65,15 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
             widget.cameraId,
           );
     });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Timer(Duration(seconds: 2), () {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
+      });
+    });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ref
           .read(imagesByCamIdControllerProvider.notifier)
@@ -67,6 +81,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
               searchDate: _searchDate)
           .then((value) {
         getDaysInMonth(value.endDate, true);
+        log("endDate:" + value.endDate.toString());
         showDate(value.endDate);
       });
     });
@@ -118,10 +133,17 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
     return formattedTime;
   }
 
+  parseDateTimeString(String time) {
+    String dateWithT = time.substring(0, 8) + 'T' + time.substring(8);
+    DateTime dateTime = DateTime.parse(dateWithT);
+    final String formattedTime = DateFormat('h:mm a').format(dateTime);
+    return formattedTime;
+  }
+
   @override
   void dispose() {
     super.dispose();
-    ref.invalidate(imagesByCamIdControllerProvider);
+    // ref.invalidate(imagesByCamIdControllerProvider);
   }
 
   @override
@@ -374,6 +396,8 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                             imagesByCameraIdInter,
                                         currentImage: currentImage,
                                         onChange: (value) {
+                                          log("value id c" +
+                                              value.id.toString());
                                           Scrollable.ensureVisible(
                                               GlobalObjectKey(
                                                 value.id.toString(),
@@ -506,18 +530,184 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                 ]),
                           imagesData.images!.isNotEmpty
                               ? SizedBox(
-                                  height: 76.h,
-                                  child: ImageSliderWidget(
-                                    imagesByCameraIdInter:
-                                        imagesByCameraIdInter,
-                                    currentImage: currentImage!,
-                                    onChange: (value) {
-                                      ref
-                                          .read(currentImageProvider.notifier)
-                                          .setCurrentImage(value);
-                                    },
-                                  ),
-                                )
+                                  height: 86.h,
+                                  child: ListView.separated(
+                                      separatorBuilder: (context, builder) {
+                                        return SizedBox(
+                                          width: 2.w,
+                                        );
+                                      },
+                                      itemCount:
+                                          imagesByCameraIdInter.images!.length,
+                                      shrinkWrap: true,
+                                      physics: BouncingScrollPhysics(),
+                                      scrollDirection: Axis.horizontal,
+                                      controller: _scrollController,
+                                      itemBuilder: ((context, index) {
+                                        final reversedIndex =
+                                            imagesByCameraIdInter
+                                                    .images!.length -
+                                                1 -
+                                                index;
+                                        log("value id" +
+                                            imagesByCameraIdInter
+                                                .images![reversedIndex].id!
+                                                .toString());
+
+                                        return InkWell(
+                                          onTap: () {
+                                            final image = model.Image(
+                                              id: imagesByCameraIdInter
+                                                  .images![reversedIndex].id,
+                                              name: imagesByCameraIdInter
+                                                  .images![reversedIndex].name,
+                                              datetime: imagesByCameraIdInter
+                                                  .images![reversedIndex]
+                                                  .datetime,
+                                              date: imagesByCameraIdInter
+                                                  .images![reversedIndex].date,
+                                              time: imagesByCameraIdInter
+                                                  .images![reversedIndex].time,
+                                              urlPreview: imagesByCameraIdInter
+                                                  .images![reversedIndex]
+                                                  .urlPreview,
+                                              urlThumb: imagesByCameraIdInter
+                                                  .images![reversedIndex]
+                                                  .urlThumb,
+                                              url4K: imagesByCameraIdInter
+                                                  .images![reversedIndex].url4K,
+                                              resolution: imagesByCameraIdInter
+                                                  .images![reversedIndex]
+                                                  .resolution,
+                                            );
+                                            ref
+                                                .read(currentImageProvider
+                                                    .notifier)
+                                                .setCurrentImage(image);
+                                          },
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 4.w, vertical: 4.h),
+                                            child: Column(
+                                                key: GlobalObjectKey(
+                                                    imagesByCameraIdInter
+                                                        .images![reversedIndex]
+                                                        .id!),
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Container(
+                                                    padding: EdgeInsets.zero,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              6.r),
+                                                      border: currentImage!
+                                                                  .id ==
+                                                              imagesByCameraIdInter
+                                                                  .images![
+                                                                      reversedIndex]
+                                                                  .id!
+                                                          ? Border.all(
+                                                              color: ref.watch(
+                                                                  primaryColorProvider),
+                                                              width: 2.w,
+                                                            )
+                                                          : Border.all(
+                                                              width: 2.w,
+                                                              color: Colors
+                                                                  .transparent),
+                                                    ),
+                                                    child: Container(
+                                                      padding: EdgeInsets.zero,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(6.r),
+                                                        border: currentImage
+                                                                    .id ==
+                                                                imagesByCameraIdInter
+                                                                    .images![
+                                                                        reversedIndex]
+                                                                    .id!
+                                                            ? Border.all(
+                                                                color: Colors
+                                                                    .white,
+                                                                width: 0.7.w,
+                                                              )
+                                                            : Border.all(
+                                                                width: 0.6.w,
+                                                                color: Colors
+                                                                    .transparent),
+                                                      ),
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(4.r),
+                                                        child: Image.network(
+                                                          imagesByCameraIdInter
+                                                              .images![
+                                                                  reversedIndex]
+                                                              .urlThumb!,
+                                                          gaplessPlayback: true,
+                                                          width: 44.w,
+                                                          height: 44.h,
+                                                          fit: BoxFit.fill,
+                                                          errorBuilder:
+                                                              (BuildContext
+                                                                      context,
+                                                                  Object
+                                                                      exception,
+                                                                  StackTrace?
+                                                                      stackTrace) {
+                                                            return ClipRRect(
+                                                              child:
+                                                                  Image.asset(
+                                                                'assets/images/error_image.jpeg',
+                                                                width: 44.w,
+                                                                height: 44.h,
+                                                                fit:
+                                                                    BoxFit.fill,
+                                                              ),
+                                                            );
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 6.h,
+                                                  ),
+                                                  Text(
+                                                    parseDateTimeString(
+                                                        imagesByCameraIdInter
+                                                            .images![
+                                                                reversedIndex]
+                                                            .datetime!),
+                                                    style: TextStyle(
+                                                        letterSpacing: -0.3,
+                                                        color:
+                                                            Helper.textColor700,
+                                                        fontSize: 8.sp,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  )
+                                                ]),
+                                          ),
+                                        );
+                                      }))
+                                  //     ImageSliderWidget(
+                                  //   imagesByCameraIdInter:
+                                  //       imagesByCameraIdInter,
+                                  //   currentImage: currentImage!,
+                                  //   onChange: (value) {
+                                  //     ref
+                                  //         .read(currentImageProvider.notifier)
+                                  //         .setCurrentImage(value);
+                                  //   },
+                                  // ),
+                                  )
                               : SizedBox(height: 76.h),
                           imagesData.images!.isNotEmpty
                               ? SizedBox(

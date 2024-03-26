@@ -17,7 +17,7 @@ class ImagesByCamIdController extends StateNotifier<ImagesByCamIdState> {
     state = state.copyWith(isFetching: true);
     final result = await service.imagesByCameraId(projectId, cameraId,
         searchDate: searchDate);
-
+    if (!mounted) return;
     result.fold((l) {
       // error handle
       state = state.copyWith(isFetching: false, errorMessage: l.message);
