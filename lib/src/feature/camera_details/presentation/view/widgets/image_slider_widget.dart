@@ -14,6 +14,7 @@ class ImageSliderWidget extends ConsumerStatefulWidget {
   final model.ImagesByCameraIdModel imagesByCameraIdInter;
   final model.Image currentImage;
   final Function onChange;
+
   const ImageSliderWidget(
       {super.key,
       required this.imagesByCameraIdInter,
@@ -78,9 +79,10 @@ class _ImageSliderWidgetState extends BaseConsumerState<ImageSliderWidget> {
                     .imagesByCameraIdInter.images![reversedIndex].urlPreview,
                 urlThumb: widget
                     .imagesByCameraIdInter.images![reversedIndex].urlThumb,
-                url4K: widget.imagesByCameraIdInter.images![index].url4K,
-                resolution:
-                    widget.imagesByCameraIdInter.images![index].resolution,
+                url4K:
+                    widget.imagesByCameraIdInter.images![reversedIndex].url4K,
+                resolution: widget
+                    .imagesByCameraIdInter.images![reversedIndex].resolution,
               );
               widget.onChange(image);
             },
@@ -88,9 +90,7 @@ class _ImageSliderWidgetState extends BaseConsumerState<ImageSliderWidget> {
               padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
               child: Column(
                   key: GlobalObjectKey(
-                    widget.imagesByCameraIdInter.images![reversedIndex].id
-                        .toString(),
-                  ),
+                      widget.imagesByCameraIdInter.images![reversedIndex].id!),
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [

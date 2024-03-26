@@ -81,45 +81,48 @@ class _CamerasWidgetState extends BaseConsumerState<CamerasWidget> {
               },
               itemBuilder: (context, index) {
                 return InkWell(
-                  onTap: () async {
-                    context.pushReplacement('/cameradetails', extra: {
-                      "projectId": widget.projectId,
-                      "projectName": widget.projectName,
-                      "cameraId": widget.data[index].id,
-                    });
-                    // WidgetsBinding.instance.addPostFrameCallback((_) {
-                    //   ref
-                    //       .refresh(imagesByCamIdControllerProvider.notifier)
-                    //       .getImagesByCamId(
-                    //         widget.projectId,
-                    //         widget.data[index].id,
-                    //       );
-                    // });
+                  onTap: widget.data[index].hasImages!
+                      ? () async {
+                          context.pushReplacement('/cameradetails', extra: {
+                            "projectId": widget.projectId,
+                            "projectName": widget.projectName,
+                            "cameraId": widget.data[index].id,
+                            "cameraName": widget.data[index].name,
+                          });
+                          // WidgetsBinding.instance.addPostFrameCallback((_) {
+                          //   ref
+                          //       .refresh(imagesByCamIdControllerProvider.notifier)
+                          //       .getImagesByCamId(
+                          //         widget.projectId,
+                          //         widget.data[index].id,
+                          //       );
+                          // });
 
-                    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                    //   ref
-                    //       .read(imagesByCamIdControllerProvider.notifier)
-                    //       .getImagesByCamId(
-                    //         widget.projectId,
-                    //         widget.data[index].id,
-                    //       )
-                    //       .then((value) {
-                    //     log("imagesByCamIdControllerProvider executed----------");
-                    //   });
-                    // });
-                    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                    //   ref
-                    //       .read(cameraByIdControllerProvider.notifier)
-                    //       .getCameraById(
-                    //         widget.projectId,
-                    //         widget.data[index].id,
-                    //       )
-                    //       .then((value) {
-                    //     log("cameraByIdControllerProvider executed----------");
-                    //   });
-                    // });
-                    context.pop();
-                  },
+                          // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                          //   ref
+                          //       .read(imagesByCamIdControllerProvider.notifier)
+                          //       .getImagesByCamId(
+                          //         widget.projectId,
+                          //         widget.data[index].id,
+                          //       )
+                          //       .then((value) {
+                          //     log("imagesByCamIdControllerProvider executed----------");
+                          //   });
+                          // });
+                          // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                          //   ref
+                          //       .read(cameraByIdControllerProvider.notifier)
+                          //       .getCameraById(
+                          //         widget.projectId,
+                          //         widget.data[index].id,
+                          //       )
+                          //       .then((value) {
+                          //     log("cameraByIdControllerProvider executed----------");
+                          //   });
+                          // });
+                          context.pop();
+                        }
+                      : null,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

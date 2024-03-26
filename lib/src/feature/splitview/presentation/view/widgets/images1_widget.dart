@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,20 +6,24 @@ import 'package:intl/intl.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
+import 'package:progresscenter_app_v4/src/feature/camera_details/data/model/images_by_camera_id_model.dart'
+    as model;
 import 'package:progresscenter_app_v4/src/feature/camera_details/presentation/provider/selected_imagedata_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/splitview/presentation/provider/split_view1_provider.dart';
 
 class Images1Widget extends ConsumerStatefulWidget {
   final int selectedImageIndex;
-  final data;
+  final model.ImagesByCameraIdModel data;
   final WidgetRef ref;
   final ValueChanged<String> changeTime;
+  final String cameraId;
   Images1Widget(
       {super.key,
       required this.selectedImageIndex,
       required this.ref,
       required this.changeTime,
-      required this.data});
+      required this.data,
+      required this.cameraId});
 
   @override
   ConsumerState<Images1Widget> createState() => _Images1WidgetState();
@@ -87,7 +90,7 @@ class _Images1WidgetState extends BaseConsumerState<Images1Widget> {
                         final imageData = ImageData(
                           name: widget.data.images![index].name,
                           dateTime: widget.data.images![index].datetime,
-                          camera: widget.data.images![index].camera,
+                          camera: widget.cameraId,
                           id: widget.data.images![index].id,
                           urlPreview: widget.data.images![index].urlPreview,
                         );
@@ -95,7 +98,7 @@ class _Images1WidgetState extends BaseConsumerState<Images1Widget> {
                         widget.ref
                             .read(splitView1DataProvider.notifier)
                             .setImageData(imageData);
-                        widget.changeTime(widget.data.images![index].datetime);
+                        widget.changeTime(widget.data.images![index].datetime!);
                         context.pop();
                       },
                       child: Padding(
