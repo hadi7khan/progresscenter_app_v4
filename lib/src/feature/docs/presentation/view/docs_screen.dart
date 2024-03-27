@@ -58,7 +58,7 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
           return await ref.refresh(docsControllerProvider.notifier).getDocs();
         },
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: AlwaysScrollableScrollPhysics(),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
             child: docsData.when(
@@ -109,75 +109,81 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                         .toList()
                     : filesWithFolderId; // Show all files initially
 
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
+                return Container(
+                  height: MediaQuery.of(context).size.height,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                              onTap: () {
+                                context.push('/notifications');
+                              },
+                              child:
+                                  SvgPicture.asset('assets/images/home.svg')),
+                          InkWell(
                             onTap: () {
-                              context.push('/notifications');
+                              showModalBottomSheet(
+                                  useRootNavigator: true,
+                                  isScrollControlled: true,
+                                  context: context,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (context) => FolderFilterWidget(
+                                        folders: data,
+                                        onChange: (String id) {
+                                          setState(() {
+                                            selectedDocumentId = id;
+                                          });
+                                          context.pop();
+                                        },
+                                      ));
                             },
-                            child: SvgPicture.asset('assets/images/home.svg')),
-                        InkWell(
-                          onTap: () {
-                            showModalBottomSheet(
-                                useRootNavigator: true,
-                                isScrollControlled: true,
-                                context: context,
-                                backgroundColor: Colors.transparent,
-                                builder: (context) => FolderFilterWidget(
-                                      folders: data,
-                                      onChange: (String id) {
-                                        setState(() {
-                                          selectedDocumentId = id;
-                                        });
-                                        context.pop();
-                                      },
-                                    ));
-                          },
-                          child: Row(
-                            children: [
-                              // SvgPicture.asset('assets/images/search.svg'),
-                              SizedBox(width: 12.w),
-                              ConstrainedBox(
-                                constraints: new BoxConstraints(
-                                  maxHeight: 30.h,
-                                  maxWidth: 30.w,
-                                ),
-                                child:
-                                    SvgPicture.asset('assets/images/sort.svg'),
-                              ),
-                              SizedBox(width: 12.w),
-                              InkWell(
-                                  onTap: () {
-                                    _showAddBottomSheet(context, categoryList);
-                                  },
+                            child: Row(
+                              children: [
+                                // SvgPicture.asset('assets/images/search.svg'),
+                                SizedBox(width: 12.w),
+                                ConstrainedBox(
+                                  constraints: new BoxConstraints(
+                                    maxHeight: 30.h,
+                                    maxWidth: 30.w,
+                                  ),
                                   child: SvgPicture.asset(
-                                      'assets/images/plus.svg')),
-                            ],
+                                      'assets/images/sort.svg'),
+                                ),
+                                SizedBox(width: 12.w),
+                                InkWell(
+                                    onTap: () {
+                                      _showAddBottomSheet(
+                                          context, categoryList);
+                                    },
+                                    child: SvgPicture.asset(
+                                        'assets/images/plus.svg')),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 14.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Documents",
-                          style: TextStyle(
-                              color: Helper.textColor700,
-                              letterSpacing: -1,
-                              fontSize: 36.sp,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 16.h),
-                    DocsWidget(files: filteredFiles),
-                  ],
+                        ],
+                      ),
+                      SizedBox(height: 14.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Documents",
+                            style: TextStyle(
+                                color: Helper.textColor700,
+                                letterSpacing: -1,
+                                fontSize: 36.sp,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 16.h),
+                      DocsWidget(files: filteredFiles),
+                    ],
+                  ),
                 );
               },
               error: (err, _) {

@@ -125,7 +125,7 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
                     if (data.isEmpty) {
                       return Container(
                         alignment: Alignment.center,
-                        height: MediaQuery.of(context).size.height * 0.88.h,
+                        height: MediaQuery.of(context).size.height * 0.6.h,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,

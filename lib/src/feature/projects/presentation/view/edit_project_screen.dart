@@ -494,6 +494,7 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
                                   .deleteImage(projectId, imageId)
                                   .then((value) {
                                 context.pop();
+                                context.pop();
                                 Utils.flushBarErrorMessage(
                                     "Image Deleted", context);
                               });
@@ -571,6 +572,7 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
               ),
               onPressed: () {
                 Service().deleteImage(projectId, imageId).then((value) {
+                  context.pop();
                   context.pop();
                   Utils.flushBarErrorMessage("Image Deleted", context);
                 });
