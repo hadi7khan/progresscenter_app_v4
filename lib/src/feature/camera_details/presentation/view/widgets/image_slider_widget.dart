@@ -9,17 +9,20 @@ import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
 import 'package:progresscenter_app_v4/src/feature/camera_details/data/model/images_by_camera_id_model.dart'
     as model;
+import 'dart:developer' as dev;
 
 class ImageSliderWidget extends ConsumerStatefulWidget {
   final model.ImagesByCameraIdModel imagesByCameraIdInter;
   final model.Image currentImage;
   final Function onChange;
+  final String cameraId;
 
   const ImageSliderWidget(
       {super.key,
       required this.imagesByCameraIdInter,
       required this.currentImage,
-      required this.onChange});
+      required this.onChange,
+      required this.cameraId});
 
   @override
   ConsumerState<ImageSliderWidget> createState() => _ImageSliderWidgetState();
@@ -65,6 +68,10 @@ class _ImageSliderWidgetState extends BaseConsumerState<ImageSliderWidget> {
         itemBuilder: ((context, index) {
           final reversedIndex =
               widget.imagesByCameraIdInter.images!.length - 1 - index;
+          dev.log("reversedIndex:" + reversedIndex.toString());
+          dev.log("index:" + index.toString());
+          dev.log("length:" +
+              widget.imagesByCameraIdInter.images!.length.toString());
 
           return InkWell(
             onTap: () {

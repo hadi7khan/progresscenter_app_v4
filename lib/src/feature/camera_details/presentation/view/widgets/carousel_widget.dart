@@ -12,11 +12,13 @@ class CarouselWidget extends ConsumerStatefulWidget {
   final model.ImagesByCameraIdModel imagesByCameraIdInter;
   final model.Image currentImage;
   final Function onChange;
+  final String cameraId;
   const CarouselWidget(
       {super.key,
       required this.imagesByCameraIdInter,
       required this.currentImage,
-      required this.onChange});
+      required this.onChange,
+      required this.cameraId});
 
   @override
   ConsumerState<CarouselWidget> createState() => _CarouselWidgetState();
@@ -27,6 +29,7 @@ class _CarouselWidgetState extends BaseConsumerState<CarouselWidget> {
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
+      key: Key(widget.cameraId),
       controller: _pageController,
       itemCount: widget.imagesByCameraIdInter.images!.length,
       reverse: true,

@@ -151,6 +151,7 @@ class _DocsActionWidgetState extends BaseConsumerState<DocsActionWidget> {
                 ),
                 onPressed: () async {
                   context.pop();
+
                   showCupertinoDialog(
                     context: context,
                     builder: (context) => CupertinoAlertDialog(
@@ -188,11 +189,9 @@ class _DocsActionWidgetState extends BaseConsumerState<DocsActionWidget> {
                                   .deleteFile(widget.folderId, widget.fileId)
                                   .then((value) {
                                 context.pop();
+
                                 Utils.flushBarErrorMessage(
                                     "File deleted", context);
-                                ref
-                                    .watch(docsControllerProvider.notifier)
-                                    .getDocs();
                               });
                             }),
                       ],

@@ -95,6 +95,13 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
   }
 
   @override
+  void dispose() {
+    ref.invalidate(splitView1DataProvider);
+    ref.invalidate(splitView2DataProvider);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final splitViewData1 = ref.watch(
         splitView1ControllerProvider.select((value) => value.imagesByCamId));
