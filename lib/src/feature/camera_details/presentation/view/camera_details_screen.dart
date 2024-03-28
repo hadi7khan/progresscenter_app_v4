@@ -171,7 +171,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
             child: cameraByIdData.when(
               data: (cameraData) {
                 hasImages = cameraData.hasImages!;
-                log("camera data:" + hasImages.toString());
                 return AppBar(
                   backgroundColor: Colors.white,
                   surfaceTintColor: Colors.white,

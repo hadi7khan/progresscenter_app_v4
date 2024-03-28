@@ -6,6 +6,8 @@ import 'package:progresscenter_app_v4/src/common/error/no_internet_connection_sc
 import 'package:progresscenter_app_v4/src/common/error/page_not_found.dart';
 import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
 import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
+import 'package:progresscenter_app_v4/src/feature/account/presentation/view/privacy_policy_screen.dart';
+import 'package:progresscenter_app_v4/src/feature/account/presentation/view/terms_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/account/presentation/view/account_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/account/presentation/view/change_password_profile_screen.dart';
 import 'package:progresscenter_app_v4/src/feature/account/presentation/view/delete_account_screen.dart';
@@ -942,6 +944,32 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               teamsList: args['teamsList'],
               selectedTeams: args['selectedTeams'],
               userId: args['userId'],
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/terms',
+        parentNavigatorKey: rootNavigatorKey,
+        name: termsRoute,
+        pageBuilder: (context, state) {
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: TermsScreen(
+              key: state.pageKey,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/privacyPolicy',
+        parentNavigatorKey: rootNavigatorKey,
+        name: privacyPolicyRoute,
+        pageBuilder: (context, state) {
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: PrivacyPolicyScreen(
+              key: state.pageKey,
             ),
           );
         },

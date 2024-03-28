@@ -188,48 +188,60 @@ class _AccountScreenState extends BaseConsumerState<AccountScreen> {
                 SizedBox(
                   height: 16.h,
                 ),
-                Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12.r),
-                      color: Helper.widgetBackground),
-                  child: ListTile(
-                    dense: true,
-                    contentPadding: EdgeInsets.zero,
-                    visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                    leading: SvgPicture.asset('assets/images/profile.svg'),
-                    title: Text(
-                      "Privacy Policy",
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Helper.textColor700,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600),
+                InkWell(
+                  highlightColor: Colors.transparent,
+                  onTap: () {
+                    context.push('/privacyPolicy');
+                  },
+                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.r),
+                        color: Helper.widgetBackground),
+                    child: ListTile(
+                      dense: true,
+                      contentPadding: EdgeInsets.zero,
+                      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                      leading: SvgPicture.asset('assets/images/profile.svg'),
+                      title: Text(
+                        "Privacy Policy",
+                        style: TextStyle(
+                            letterSpacing: -0.3,
+                            color: Helper.textColor700,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600),
+                      ),
                     ),
                   ),
                 ),
                 SizedBox(
                   height: 16.h,
                 ),
-                Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12.r),
-                      color: Helper.widgetBackground),
-                  child: ListTile(
-                    dense: true,
-                    contentPadding: EdgeInsets.zero,
-                    visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                    leading: SvgPicture.asset('assets/images/profile.svg'),
-                    title: Text(
-                      "Terms of service",
-                      style: TextStyle(
-                          letterSpacing: -0.3,
-                          color: Helper.textColor700,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600),
+                InkWell(
+                  highlightColor: Colors.transparent,
+                  onTap: () {
+                    context.push('/terms');
+                  },
+                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.r),
+                        color: Helper.widgetBackground),
+                    child: ListTile(
+                      dense: true,
+                      contentPadding: EdgeInsets.zero,
+                      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                      leading: SvgPicture.asset('assets/images/profile.svg'),
+                      title: Text(
+                        "Terms of service",
+                        style: TextStyle(
+                            letterSpacing: -0.3,
+                            color: Helper.textColor700,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600),
+                      ),
                     ),
                   ),
                 ),

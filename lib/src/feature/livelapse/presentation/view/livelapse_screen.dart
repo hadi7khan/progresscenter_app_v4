@@ -237,7 +237,7 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
                                                   ]))
                                           : ClipRRect(
                                               borderRadius:
-                                                  BorderRadius.circular(16.r),
+                                                  BorderRadius.circular(8.r),
                                               child: AspectRatio(
                                                 aspectRatio: 16 / 9,
                                                 child: Image.asset(
