@@ -367,11 +367,6 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                             currentImage: currentImage!,
                                             cameraId: widget.cameraId,
                                             onChange: (value) {
-                                              log(
-                                                "moving id" +
-                                                    value.id.toString() +
-                                                    widget.cameraId,
-                                              );
                                               Scrollable.ensureVisible(
                                                   GlobalObjectKey(
                                                     value.id.toString(),
@@ -524,227 +519,18 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                 imagesData.images!.isNotEmpty
                                     ? SizedBox(
                                         height: 76.h,
-                                        child: ListView.separated(
-                                            key: Key(widget.cameraId),
-                                            separatorBuilder:
-                                                (context, builder) {
-                                              return SizedBox(
-                                                width: 2.w,
-                                              );
-                                            },
-                                            itemCount: imagesByCameraIdInter
-                                                .images!.length,
-                                            shrinkWrap: true,
-                                            physics: BouncingScrollPhysics(),
-                                            scrollDirection: Axis.horizontal,
-                                            controller: _scrollController,
-                                            itemBuilder: ((context, index) {
-                                              final reversedIndex =
-                                                  imagesByCameraIdInter
-                                                          .images!.length -
-                                                      1 -
-                                                      index;
-                                              log("reversedIndex:" +
-                                                  reversedIndex.toString());
-                                              log("index:" + index.toString());
-                                              log("length:" +
-                                                  imagesByCameraIdInter
-                                                      .images!.length
-                                                      .toString());
-                                              log("move id" +
-                                                  imagesByCameraIdInter
-                                                      .images![reversedIndex]
-                                                      .id! +
-                                                  widget.cameraId);
-
-                                              return InkWell(
-                                                onTap: () {
-                                                  final image = model.Image(
-                                                    id: imagesByCameraIdInter
-                                                        .images![reversedIndex]
-                                                        .id,
-                                                    name: imagesByCameraIdInter
-                                                        .images![reversedIndex]
-                                                        .name,
-                                                    datetime:
-                                                        imagesByCameraIdInter
-                                                            .images![
-                                                                reversedIndex]
-                                                            .datetime,
-                                                    date: imagesByCameraIdInter
-                                                        .images![reversedIndex]
-                                                        .date,
-                                                    time: imagesByCameraIdInter
-                                                        .images![reversedIndex]
-                                                        .time,
-                                                    urlPreview:
-                                                        imagesByCameraIdInter
-                                                            .images![
-                                                                reversedIndex]
-                                                            .urlPreview,
-                                                    urlThumb:
-                                                        imagesByCameraIdInter
-                                                            .images![
-                                                                reversedIndex]
-                                                            .urlThumb,
-                                                    url4K: imagesByCameraIdInter
-                                                        .images![reversedIndex]
-                                                        .url4K,
-                                                    resolution:
-                                                        imagesByCameraIdInter
-                                                            .images![
-                                                                reversedIndex]
-                                                            .resolution,
-                                                  );
-                                                  ref
-                                                      .read(currentImageProvider
-                                                          .notifier)
-                                                      .setCurrentImage(image);
-                                                },
-                                                child: Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 4.w,
-                                                      vertical: 4.h),
-                                                  child: Column(
-                                                      key: GlobalObjectKey(
-                                                          imagesByCameraIdInter
-                                                              .images![
-                                                                  reversedIndex]
-                                                              .id!
-                                                              .toString()),
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        Container(
-                                                          padding:
-                                                              EdgeInsets.zero,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        6.r),
-                                                            border: currentImage!
-                                                                        .id ==
-                                                                    imagesByCameraIdInter
-                                                                        .images![
-                                                                            reversedIndex]
-                                                                        .id!
-                                                                ? Border.all(
-                                                                    color: ref
-                                                                        .watch(
-                                                                            primaryColorProvider),
-                                                                    width: 2.w,
-                                                                  )
-                                                                : Border.all(
-                                                                    width: 2.w,
-                                                                    color: Colors
-                                                                        .transparent),
-                                                          ),
-                                                          child: Container(
-                                                            padding:
-                                                                EdgeInsets.zero,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          6.r),
-                                                              border: currentImage
-                                                                          .id ==
-                                                                      imagesByCameraIdInter
-                                                                          .images![
-                                                                              reversedIndex]
-                                                                          .id!
-                                                                  ? Border.all(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      width:
-                                                                          0.7.w,
-                                                                    )
-                                                                  : Border.all(
-                                                                      width:
-                                                                          0.6.w,
-                                                                      color: Colors
-                                                                          .transparent),
-                                                            ),
-                                                            child: ClipRRect(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          4.r),
-                                                              child:
-                                                                  Image.network(
-                                                                imagesByCameraIdInter
-                                                                    .images![
-                                                                        reversedIndex]
-                                                                    .urlThumb!,
-                                                                gaplessPlayback:
-                                                                    true,
-                                                                width: 44.w,
-                                                                height: 44.h,
-                                                                fit:
-                                                                    BoxFit.fill,
-                                                                errorBuilder: (BuildContext
-                                                                        context,
-                                                                    Object
-                                                                        exception,
-                                                                    StackTrace?
-                                                                        stackTrace) {
-                                                                  return ClipRRect(
-                                                                    child: Image
-                                                                        .asset(
-                                                                      'assets/images/error_image.jpeg',
-                                                                      width:
-                                                                          44.w,
-                                                                      height:
-                                                                          44.h,
-                                                                      fit: BoxFit
-                                                                          .fill,
-                                                                    ),
-                                                                  );
-                                                                },
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 6.h,
-                                                        ),
-                                                        Text(
-                                                          parseDateTimeString(
-                                                              imagesByCameraIdInter
-                                                                  .images![
-                                                                      reversedIndex]
-                                                                  .datetime!),
-                                                          style: TextStyle(
-                                                              letterSpacing:
-                                                                  -0.3,
-                                                              color: Helper
-                                                                  .textColor700,
-                                                              fontSize: 8.sp,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                        )
-                                                      ]),
-                                                ),
-                                              );
-                                            }))
-                                        //     ImageSliderWidget(
-                                        //   imagesByCameraIdInter:
-                                        //       imagesByCameraIdInter,
-                                        //   currentImage: currentImage!,
-                                        //   onChange: (value) {
-                                        //     ref
-                                        //         .read(currentImageProvider.notifier)
-                                        //         .setCurrentImage(value);
-                                        //   },
-                                        // ),
-                                        )
+                                        child: ImageSliderWidget(
+                                          imagesByCameraIdInter:
+                                              imagesByCameraIdInter,
+                                          currentImage: currentImage,
+                                          onChange: (value) {
+                                            ref
+                                                .read(currentImageProvider
+                                                    .notifier)
+                                                .setCurrentImage(value);
+                                          },
+                                        ),
+                                      )
                                     : SizedBox(
                                         height: 76.h,
                                         child: Center(
