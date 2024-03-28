@@ -22,6 +22,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
           "projectId": widget.data.project,
           "projectName": widget.projectName,
           "cameraId": widget.data.id,
+          "cameraName": widget.data.name,
         });
       },
       child: Container(

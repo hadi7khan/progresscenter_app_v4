@@ -15,14 +15,13 @@ class ImageSliderWidget extends ConsumerStatefulWidget {
   final model.ImagesByCameraIdModel imagesByCameraIdInter;
   final model.Image currentImage;
   final Function onChange;
-  final String cameraId;
 
-  const ImageSliderWidget(
-      {super.key,
-      required this.imagesByCameraIdInter,
-      required this.currentImage,
-      required this.onChange,
-      required this.cameraId});
+  const ImageSliderWidget({
+    super.key,
+    required this.imagesByCameraIdInter,
+    required this.currentImage,
+    required this.onChange,
+  });
 
   @override
   ConsumerState<ImageSliderWidget> createState() => _ImageSliderWidgetState();
