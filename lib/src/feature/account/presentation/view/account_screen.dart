@@ -56,6 +56,7 @@ class _AccountScreenState extends BaseConsumerState<AccountScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
+                        highlightColor: Colors.transparent,
                         onTap: () {
                           context.push('/notifications');
                         },
@@ -78,6 +79,7 @@ class _AccountScreenState extends BaseConsumerState<AccountScreen> {
                 ),
                 SizedBox(height: 16.h),
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     context.push("/profile");
                   },
@@ -133,6 +135,7 @@ class _AccountScreenState extends BaseConsumerState<AccountScreen> {
                   height: 24.h,
                 ),
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     context.push('/organisation');
                   },
@@ -234,6 +237,7 @@ class _AccountScreenState extends BaseConsumerState<AccountScreen> {
                   height: 16.h,
                 ),
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     context.push('/support');
                   },
@@ -275,6 +279,7 @@ class _AccountScreenState extends BaseConsumerState<AccountScreen> {
                   height: 32.h,
                 ),
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     Platform.isIOS
                         ? showCupertinoDialog(

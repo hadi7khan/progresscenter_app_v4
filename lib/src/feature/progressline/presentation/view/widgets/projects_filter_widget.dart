@@ -34,6 +34,7 @@ class _ProjectsFilterWidgetState extends State<ProjectsFilterWidget> {
       child: Column(
         children: [
           InkWell(
+            highlightColor: Colors.transparent,
             onTap: () {
               widget.onChange("All");
             },
@@ -74,6 +75,7 @@ class _ProjectsFilterWidgetState extends State<ProjectsFilterWidget> {
               itemBuilder: (context, index) {
                 log(widget.progresslineProjects[index].id.toString());
                 return InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     widget.onChange(widget.progresslineProjects[index].id);
                   },

@@ -27,6 +27,7 @@ class _SupportWidgetState extends BaseConsumerState<SupportWidget> {
       itemBuilder: ((context, index) {
         final data = widget.supportData[index];
         return InkWell(
+            highlightColor: Colors.transparent,
             onTap: () {
               context.push('/ticketById', extra: {"ticketId": data.id});
             },

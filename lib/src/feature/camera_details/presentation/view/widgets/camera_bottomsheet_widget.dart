@@ -288,6 +288,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
               children: [
                 showDownloadOptions || showShareOptions
                     ? InkWell(
+                        highlightColor: Colors.transparent,
                         onTap: () {
                           setState(() {
                             showDownloadOptions = false;
@@ -327,6 +328,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       InkWell(
+                        highlightColor: Colors.transparent,
                         onTap: () async {
                           setState(() {
                             showDownloadOptions = true;
@@ -361,6 +363,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                       ),
                       SizedBox(height: 4.h),
                       InkWell(
+                        highlightColor: Colors.transparent,
                         onTap: () async {
                           context.push('/imageComments', extra: {
                             "projectId": widget.projectId,
@@ -401,6 +404,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                       ),
                       SizedBox(height: 4.h),
                       InkWell(
+                        highlightColor: Colors.transparent,
                         onTap: () async {
                           setState(() {
                             showShareOptions = true;
@@ -467,6 +471,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           InkWell(
+                            highlightColor: Colors.transparent,
                             onTap: () async {
                               setState(() {
                                 showProgressIndicator = true;
@@ -529,6 +534,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                           ),
                           SizedBox(height: 4.h),
                           InkWell(
+                            highlightColor: Colors.transparent,
                             onTap: () async {
                               context.push('/multipleImages', extra: {
                                 "projectId": widget.projectId,
@@ -598,6 +604,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               InkWell(
+                                highlightColor: Colors.transparent,
                                 onTap: () async {
                                   context.push('/shareProgressline', extra: {
                                     "projectId": widget.projectId,
@@ -634,6 +641,7 @@ class _CameraBottomSheetState extends BaseConsumerState<CameraBottomSheet> {
                               ),
                               SizedBox(height: 4.h),
                               InkWell(
+                                highlightColor: Colors.transparent,
                                 onTap: () async {
                                   setState(() {
                                     showShareIndicator = true;

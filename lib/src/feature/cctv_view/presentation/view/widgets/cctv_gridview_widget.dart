@@ -64,6 +64,7 @@ class _CctvGridViewWidgetState extends State<CctvGridViewWidget> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      highlightColor: Colors.transparent,
       onTap: isOnline
           ? () {
               context.push('/fullViewCCTV', extra: {

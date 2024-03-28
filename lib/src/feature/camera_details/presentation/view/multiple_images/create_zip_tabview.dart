@@ -192,6 +192,7 @@ class _CreateZipTabviewState extends BaseConsumerState<CreateZipTabview> {
                     ),
                     SizedBox(height: 8.h),
                     InkWell(
+                      highlightColor: Colors.transparent,
                       onTap: () {
                         _showStartDateBottomSheet(context, "23", "22",
                             widget.startDate, widget.endDate, passStartDate);
@@ -233,6 +234,7 @@ class _CreateZipTabviewState extends BaseConsumerState<CreateZipTabview> {
                     ),
                     SizedBox(height: 8.h),
                     InkWell(
+                      highlightColor: Colors.transparent,
                       onTap: () {
                         _showEndDateBottomSheet(context, "23", "22",
                             widget.startDate, widget.endDate);

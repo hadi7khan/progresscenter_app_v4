@@ -34,6 +34,7 @@ class _TeamWidgetState extends BaseConsumerState<TeamWidget> {
       itemBuilder: ((context, index) {
         final user = widget.teamData[index];
         return InkWell(
+            highlightColor: Colors.transparent,
             onTap: () {
               context.push('/userProfile', extra: {"userId": user.id});
             },

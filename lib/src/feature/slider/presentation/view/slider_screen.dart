@@ -127,6 +127,7 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
             centerTitle: false,
             automaticallyImplyLeading: false,
             leading: InkWell(
+              highlightColor: Colors.transparent,
               onTap: () {
                 context.pop();
               },
@@ -198,6 +199,7 @@ class _SliderScreenState extends BaseConsumerState<SliderScreen> {
                                 top: 16,
                                 right: 16,
                                 child: InkWell(
+                                  highlightColor: Colors.transparent,
                                   onTap: () {
                                     Navigator.push(
                                       context,

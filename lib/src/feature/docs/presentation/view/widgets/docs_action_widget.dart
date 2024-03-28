@@ -243,6 +243,7 @@ class _DocsActionWidgetState extends BaseConsumerState<DocsActionWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       InkWell(
+                        highlightColor: Colors.transparent,
                         onTap: () async {
                           setState(() {
                             showDownloadIndicator = true;
@@ -284,6 +285,7 @@ class _DocsActionWidgetState extends BaseConsumerState<DocsActionWidget> {
                         ),
                       ),
                       InkWell(
+                        highlightColor: Colors.transparent,
                         onTap: () {
                           context.pop();
                           showDialog(

@@ -222,6 +222,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     ),
                     SizedBox(height: 8.h),
                     InkWell(
+                      highlightColor: Colors.transparent,
                       onTap: () {
                         _showImageBottomSheet(context);
                       },
@@ -261,6 +262,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     ),
                     SizedBox(height: 8.h),
                     InkWell(
+                      highlightColor: Colors.transparent,
                       onTap: () {
                         _showStartDateBottomSheet(context, "23", "22",
                             _selectedStartDate, _selectedEndDate);
@@ -302,6 +304,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                     ),
                     SizedBox(height: 8.h),
                     InkWell(
+                      highlightColor: Colors.transparent,
                       onTap: () {
                         _showQualityBottomSheet(context);
                       },
@@ -1046,6 +1049,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () async {
                     if (logo) {
                       _pickLogo(ImageSource.camera).then((value) {
@@ -1079,6 +1083,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                   ),
                 ),
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     if (logo) {
                       _pickLogo(ImageSource.gallery).then((value) {
@@ -1112,6 +1117,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                   ),
                 ),
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     if (logo) {
                       _pickLogo(ImageSource.gallery).then((value) {
@@ -1216,6 +1222,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () async {
                     setState(() {
                       _images = "1";
@@ -1241,6 +1248,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                   ),
                 ),
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () async {
                     setState(() {
                       _images = "3";
@@ -1266,6 +1274,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                   ),
                 ),
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () async {
                     setState(() {
                       _images = "5";
@@ -1291,6 +1300,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                   ),
                 ),
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () async {
                     setState(() {
                       _images = "10";
@@ -1316,6 +1326,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                   ),
                 ),
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () async {
                     setState(() {
                       _images = "15";
@@ -1341,6 +1352,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                   ),
                 ),
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () async {
                     setState(() {
                       _images = "20";
@@ -1709,6 +1721,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () async {
                     setState(() {
                       _showQuality = "Standard definitions";
@@ -1734,6 +1747,7 @@ class _AdvancedTabviewState extends BaseConsumerState<AdvancedTabview> {
                   ),
                 ),
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     setState(() {
                       _showQuality = "High Definition";

@@ -32,6 +32,7 @@ class _Camera360ScreenState extends State<Camera360Screen> {
               centerTitle: false,
               titleSpacing: 12.0.w,
               leading: InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   context.pop();
                 },
@@ -52,6 +53,7 @@ class _Camera360ScreenState extends State<Camera360Screen> {
               ),
               actions: [
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     setState(() {
                       if (list == true) {
@@ -67,6 +69,7 @@ class _Camera360ScreenState extends State<Camera360Screen> {
                 ),
                 SizedBox(width: 5.w),
                 InkWell(
+                  highlightColor: Colors.transparent,
                   child: SvgPicture.asset('assets/images/plus.svg'),
                   onTap: () {},
                 ),

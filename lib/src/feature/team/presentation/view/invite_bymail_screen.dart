@@ -176,6 +176,7 @@ class _InviteByMailScreenState extends BaseConsumerState<InviteByMailScreen> {
             centerTitle: false,
             titleSpacing: 12.0.w,
             leading: InkWell(
+              highlightColor: Colors.transparent,
               onTap: () {
                 context.pop();
               },

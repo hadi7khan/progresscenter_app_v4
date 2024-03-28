@@ -43,6 +43,7 @@ class _BottomNavWidgetState extends State<BottomNavWidget> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   HapticFeedback.mediumImpact();
                   context.push('/livelapse', extra: {
@@ -58,6 +59,7 @@ class _BottomNavWidgetState extends State<BottomNavWidget> {
                 ),
               ),
               InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   HapticFeedback.mediumImpact();
                   context.push('/slider', extra: {
@@ -73,6 +75,7 @@ class _BottomNavWidgetState extends State<BottomNavWidget> {
                 ),
               ),
               InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   HapticFeedback.mediumImpact();
                   context.push('/compare', extra: {
@@ -88,6 +91,7 @@ class _BottomNavWidgetState extends State<BottomNavWidget> {
                 ),
               ),
               InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   HapticFeedback.mediumImpact();
                   context.push('/splitview', extra: {
@@ -103,6 +107,7 @@ class _BottomNavWidgetState extends State<BottomNavWidget> {
                 ),
               ),
               InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   HapticFeedback.mediumImpact();
 

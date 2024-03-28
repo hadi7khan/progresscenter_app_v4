@@ -54,6 +54,7 @@ class _FullviewSliderScreenState
                           top: 16,
                           right: 16,
                           child: InkWell(
+                            highlightColor: Colors.transparent,
                             onTap: () {
                               context.pop();
                             },

@@ -81,6 +81,7 @@ class _CamerasWidgetState extends BaseConsumerState<CamerasWidget> {
               },
               itemBuilder: (context, index) {
                 return InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () async {
                     context.pushReplacement('/cameradetails', extra: {
                       "projectId": widget.projectId,

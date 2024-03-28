@@ -83,6 +83,7 @@ class _Images1WidgetState extends BaseConsumerState<Images1Widget> {
                     final String formattedTime =
                         DateFormat('h:mm a').format(dateTime);
                     return InkWell(
+                      highlightColor: Colors.transparent,
                       onTap: () {
                         setState(() {
                           selectedIndex = index;

@@ -48,6 +48,7 @@ class _ChooseAccountScreenState extends BaseConsumerState<ChooseAccountScreen> {
             automaticallyImplyLeading: false,
             titleSpacing: 12.0.w,
             leading: InkWell(
+              highlightColor: Colors.transparent,
               onTap: () {
                 context.pop();
               },
@@ -89,6 +90,7 @@ class _ChooseAccountScreenState extends BaseConsumerState<ChooseAccountScreen> {
                   itemCount: data.length,
                   itemBuilder: ((context, index) {
                     return InkWell(
+                      highlightColor: Colors.transparent,
                       onTap: () {
                         Service()
                             .fetchAccountToken(data[index].id!)

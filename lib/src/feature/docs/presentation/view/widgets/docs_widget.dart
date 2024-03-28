@@ -68,6 +68,7 @@ class _TeamWidgetState extends BaseConsumerState<DocsWidget> {
         final file = widget.files[index];
         log("file" + file.toString());
         return InkWell(
+            highlightColor: Colors.transparent,
             onTap: () {
               showModalBottomSheet(
                   useRootNavigator: true,

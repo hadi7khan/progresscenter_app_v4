@@ -73,6 +73,7 @@ class _ImageSliderWidgetState extends BaseConsumerState<ImageSliderWidget> {
               widget.imagesByCameraIdInter.images!.length.toString());
 
           return InkWell(
+            highlightColor: Colors.transparent,
             onTap: () {
               final image = model.Image(
                 id: widget.imagesByCameraIdInter.images![reversedIndex].id,

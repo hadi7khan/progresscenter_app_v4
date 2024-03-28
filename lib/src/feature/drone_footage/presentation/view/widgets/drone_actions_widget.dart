@@ -182,6 +182,7 @@ class _DroneActionsWidgetState extends BaseConsumerState<DroneActionsWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       InkWell(
+                        highlightColor: Colors.transparent,
                         onTap: () async {
                           context.push('/editDronefootage', extra: {
                             "projectId": widget.projectId,
@@ -213,6 +214,7 @@ class _DroneActionsWidgetState extends BaseConsumerState<DroneActionsWidget> {
                         ),
                       ),
                       InkWell(
+                        highlightColor: Colors.transparent,
                         onTap: () {
                           context.pop();
                           showDialog(

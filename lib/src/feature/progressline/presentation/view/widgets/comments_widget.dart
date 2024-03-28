@@ -221,7 +221,6 @@ class _CommentsWidgetState extends BaseConsumerState<CommentsWidget> {
                           itemBuilder: ((context, index) {
                             final reversedIndex = data.length - 1 - index;
                             return InkWell(
-                              splashColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onLongPress: () {
                                 HapticFeedback.mediumImpact();

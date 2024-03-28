@@ -158,6 +158,7 @@ class _ChangePasswordScreenState
                           fontWeight: FontWeight.w400,
                         ),
                         suffixIcon: InkWell(
+                          highlightColor: Colors.transparent,
                           onTap: togglePassword,
                           child: Icon(
                               _obscurePassword
@@ -243,6 +244,7 @@ class _ChangePasswordScreenState
                           fontWeight: FontWeight.w400,
                         ),
                         suffixIcon: InkWell(
+                          highlightColor: Colors.transparent,
                           onTap: retypetogglePassword,
                           child: Icon(
                               _obscurePassword

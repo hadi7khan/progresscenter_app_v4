@@ -179,6 +179,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                   automaticallyImplyLeading: false,
                   titleSpacing: 0.0,
                   leading: InkWell(
+                    highlightColor: Colors.transparent,
                     onTap: () {
                       context.pop();
                     },
@@ -192,6 +193,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                   title: camerasListData.when(
                     data: (data) {
                       return InkWell(
+                        highlightColor: Colors.transparent,
                         onTap: () {
                           showModalBottomSheet(
                               useRootNavigator: true,
@@ -245,6 +247,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                   ),
                   actions: [
                     InkWell(
+                        highlightColor: Colors.transparent,
                         onTap: () {
                           showModalBottomSheet(
                               useRootNavigator: true,
@@ -390,6 +393,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                     top: 16,
                                     left: 16,
                                     child: InkWell(
+                                      highlightColor: Colors.transparent,
                                       onTap: () async {
                                         showModalBottomSheet(
                                             useRootNavigator: true,
@@ -464,6 +468,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                           top: 16,
                                           right: 16,
                                           child: InkWell(
+                                            highlightColor: Colors.transparent,
                                             onTap: () {
                                               Navigator.push(
                                                 context,
@@ -549,6 +554,7 @@ class _CameraDetailsSreenState extends BaseConsumerState<CameraDetailsSreen>
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
                                       InkWell(
+                                          highlightColor: Colors.transparent,
                                           onTap: () async {
                                             showModalBottomSheet(
                                                 useRootNavigator: true,

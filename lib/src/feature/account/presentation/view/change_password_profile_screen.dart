@@ -67,6 +67,7 @@ class _ChangePasswordProfileScreenState
                 centerTitle: false,
                 titleSpacing: 12.0.w,
                 leading: InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     context.pop();
                   },
@@ -152,6 +153,7 @@ class _ChangePasswordProfileScreenState
                       fontWeight: FontWeight.w400,
                     ),
                     suffixIcon: InkWell(
+                      highlightColor: Colors.transparent,
                       onTap: toggleCurrentPassword,
                       child: Icon(
                           _obscurePassword
@@ -226,6 +228,7 @@ class _ChangePasswordProfileScreenState
                       fontWeight: FontWeight.w400,
                     ),
                     suffixIcon: InkWell(
+                      highlightColor: Colors.transparent,
                       onTap: toggleNewPassword,
                       child: Icon(
                           _obscureNewPassword
@@ -311,6 +314,7 @@ class _ChangePasswordProfileScreenState
                       fontWeight: FontWeight.w400,
                     ),
                     suffixIcon: InkWell(
+                      highlightColor: Colors.transparent,
                       onTap: toggleConfirmPassword,
                       child: Icon(
                           _obscureConfirmPassword

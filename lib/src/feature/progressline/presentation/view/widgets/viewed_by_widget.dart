@@ -157,6 +157,7 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                     children: [
                       showAddMember
                           ? InkWell(
+                              highlightColor: Colors.transparent,
                               onTap: () {
                                 setState(() {
                                   showAddMember = false;
@@ -196,6 +197,7 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                     Column(
                       children: [
                         InkWell(
+                          highlightColor: Colors.transparent,
                           onTap: () {
                             setState(() {
                               showAddMember =
@@ -425,6 +427,8 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                                           SizedBox(height: 6.h),
                                           Platform.isIOS
                                               ? InkWell(
+                                                  highlightColor:
+                                                      Colors.transparent,
                                                   onTap: () {
                                                     _showDialog(
                                                       CupertinoPicker(
@@ -855,6 +859,7 @@ class _ViewedByWidgetState extends BaseConsumerState<ViewedByWidget> {
                               : SizedBox(),
                           trailing: widget.showExtra && _userRole == "ADMIN"
                               ? InkWell(
+                                  highlightColor: Colors.transparent,
                                   radius: 40,
                                   excludeFromSemantics: true,
                                   onTap: () {

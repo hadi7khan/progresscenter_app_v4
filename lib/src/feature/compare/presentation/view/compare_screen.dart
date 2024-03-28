@@ -83,6 +83,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
             centerTitle: false,
             automaticallyImplyLeading: false,
             leading: InkWell(
+              highlightColor: Colors.transparent,
               onTap: () {
                 context.pop();
               },
@@ -199,6 +200,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                               top: 16,
                               left: 16,
                               child: InkWell(
+                                highlightColor: Colors.transparent,
                                 onTap: () {
                                   _showCompare1BottomSheet(
                                     context,
@@ -260,6 +262,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                                   final String formattedTime =
                                       DateFormat('h:mm a').format(dateTime);
                                   return InkWell(
+                                    highlightColor: Colors.transparent,
                                     onTap: () {
                                       setState(() {
                                         _selectedImageIndex1 = index;
@@ -436,6 +439,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                               top: 16,
                               left: 16,
                               child: InkWell(
+                                highlightColor: Colors.transparent,
                                 onTap: () {
                                   _showCompare2BottomSheet(
                                     context,
@@ -497,6 +501,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                                   final String formattedTime =
                                       DateFormat('h:mm a').format(dateTime);
                                   return InkWell(
+                                    highlightColor: Colors.transparent,
                                     onTap: () {
                                       setState(() {
                                         _selectedImageIndex2 = index;

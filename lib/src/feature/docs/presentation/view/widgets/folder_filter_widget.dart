@@ -29,6 +29,7 @@ class _FolderFilterWidgetState extends State<FolderFilterWidget> {
       child: ListView.separated(
           itemBuilder: (context, index) {
             return InkWell(
+              highlightColor: Colors.transparent,
               onTap: () {
                 widget.onChange(widget.folders[index].id);
               },

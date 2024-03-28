@@ -57,6 +57,7 @@ class _SiteGalleryGridViewWidgetState extends State<SiteGalleryGridViewWidget> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      highlightColor: Colors.transparent,
       onTap: () {
         context.push('/fullViewSitegallery', extra: {
           "projectId": widget.projectId,

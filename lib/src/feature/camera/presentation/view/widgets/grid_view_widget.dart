@@ -17,6 +17,7 @@ class _GridViewWidgetState extends State<GridViewWidget> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      highlightColor: Colors.transparent,
       onTap: () {
         context.push('/cameradetails', extra: {
           "projectId": widget.data.project,

@@ -129,6 +129,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
               centerTitle: false,
               titleSpacing: 12.0.w,
               leading: InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   context.pop();
                 },
@@ -244,6 +245,7 @@ class _AddDocsScreenState extends BaseConsumerState<AddDocsScreen> {
                                             fontSize: 16.sp,
                                             fontWeight: FontWeight.w600)),
                                     InkWell(
+                                        highlightColor: Colors.transparent,
                                         onTap: () {
                                           setState(() {
                                             pickedFile == null;

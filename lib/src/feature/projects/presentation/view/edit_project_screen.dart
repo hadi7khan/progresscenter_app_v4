@@ -91,6 +91,7 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
     List<Widget> carouselChildren = imageUrls.map((e) {
       var index = imageUrls.indexOf(e);
       return InkWell(
+          highlightColor: Colors.transparent,
           onLongPress: () {
             user!['role'] == "ADMIN"
                 ? _showDeleteBottomSheet(
@@ -121,6 +122,7 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
     }).toList();
     if (carouselChildren.length < 4) {
       carouselChildren.add(InkWell(
+        highlightColor: Colors.transparent,
         onTap: () {
           if (Platform.isIOS) {
             showCupertinoModalPopup(
@@ -196,6 +198,7 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
                 automaticallyImplyLeading: false,
                 titleSpacing: 12.0.w,
                 leading: InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     context.pop();
                   },
@@ -216,6 +219,7 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
                 ),
                 actions: [
                   InkWell(
+                    highlightColor: Colors.transparent,
                     onTap: () {
                       Map<String, dynamic> data = {
                         "name": _controller.text,

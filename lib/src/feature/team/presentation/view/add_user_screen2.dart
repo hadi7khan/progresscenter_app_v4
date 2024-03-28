@@ -193,6 +193,7 @@ class _AddUserScreen2State extends BaseConsumerState<AddUserScreen2> {
               centerTitle: false,
               titleSpacing: 12.0.w,
               leading: InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   context.pop();
                 },

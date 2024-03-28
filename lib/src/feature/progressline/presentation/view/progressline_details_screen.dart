@@ -193,6 +193,7 @@ class _TimelineDetailsScreenState
               centerTitle: false,
               titleSpacing: 12.0.w,
               leading: InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   context.pop();
                 },
@@ -213,6 +214,7 @@ class _TimelineDetailsScreenState
               ),
               actions: [
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     user!['role'] == "ADMIN"
                         ? _showProgresslineDeleteBottomSheet(
@@ -365,6 +367,8 @@ class _TimelineDetailsScreenState
                                           return Column(
                                             children: [
                                               InkWell(
+                                                highlightColor:
+                                                    Colors.transparent,
                                                 onLongPress: () {
                                                   HapticFeedback.mediumImpact();
                                                   user!['role'] == "ADMIN" ||
@@ -492,6 +496,7 @@ class _TimelineDetailsScreenState
                         top: 10,
                         left: 20,
                         child: InkWell(
+                          highlightColor: Colors.transparent,
                           onTap: () {
                             showModalBottomSheet(
                                 useRootNavigator: true,

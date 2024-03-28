@@ -115,6 +115,7 @@ class _NotificationWidgetState extends BaseConsumerState<NotificationWidget> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      highlightColor: Colors.transparent,
       onTap: () {
         if (widget.notificationsData!.type == "USER_CREATED" ||
             widget.notificationsData!.type == "USER_INVITATION_ACCEPTED") {

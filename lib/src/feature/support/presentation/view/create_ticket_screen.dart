@@ -44,6 +44,7 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
               centerTitle: false,
               titleSpacing: 12.0.w,
               leading: InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   context.pop();
                 },
@@ -97,7 +98,6 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  
                                   SizedBox(
                                     width: 5.w,
                                   ),
@@ -106,7 +106,6 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                                 ],
                               ),
                             ),
-
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.r),
                               borderSide:
@@ -125,7 +124,6 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                               borderRadius: BorderRadius.circular(8.r),
                               borderSide: const BorderSide(color: Colors.red),
                             ),
-                           
                           ),
                           onChanged: (value) {
                             setState(() {
@@ -204,8 +202,6 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                         formField: FormBuilderTextField(
                           name: 'details',
                           controller: _detailsController,
-                          
-
                           validator: (val) {
                             if (val == null || val.isEmpty) {
                               return 'Details are required';
@@ -307,8 +303,7 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                       .watch(createTicketProvider.notifier)
                       .createTicket(data)
                       .then((value) async {
-                    value.fold((failure) {
-                    }, (data) {
+                    value.fold((failure) {}, (data) {
                       Utils.toastSuccessMessage("Ticket created", context);
                       ref
                           .watch(supportControllerProvider.notifier)
@@ -322,7 +317,6 @@ class _CreateTicketScreenState extends BaseConsumerState<CreateTicketScreen> {
                       _isLoading = false;
                     });
                   });
-                
                 }
               },
             ),

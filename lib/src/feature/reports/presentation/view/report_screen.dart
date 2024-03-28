@@ -42,6 +42,7 @@ class _ReportScreenState extends State<ReportScreen> {
               centerTitle: false,
               automaticallyImplyLeading: false,
               leading: InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   context.pop();
                 },
