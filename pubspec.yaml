@@ -144,6 +144,7 @@ dependencies:
   gal: 2.3.0
   pdf: 3.10.8
   open_file: 3.3.2
+  webview_flutter: 4.7.0
   
 
 dependency_overrides: 

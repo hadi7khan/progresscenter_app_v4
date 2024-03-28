@@ -40,6 +40,8 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
   int _selectedImageIndex1 = 0;
   int _selectedImageIndex2 = 0;
   TransformationController _controller = TransformationController();
+  String showDateSelected1 = '';
+  String showDateSelected2 = '';
 
   @override
   void initState() {
@@ -125,29 +127,29 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                 children: [
                   compareCameraData1.when(
                     data: (cameraData1) {
-                      if (cameraData1.images!.isEmpty) {
-                        return Container(
-                          alignment: Alignment.center,
-                          height: MediaQuery.of(context).size.height * 0.88.h,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                  'assets/images/illustration.svg'),
-                              SizedBox(height: 16.h),
-                              Text(
-                                "No Images yet",
-                                style: TextStyle(
-                                    color: Helper.textColor900,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                      ;
+                      // if (cameraData1.images!.isEmpty) {
+                      //   return Container(
+                      //     alignment: Alignment.center,
+                      //     height: MediaQuery.of(context).size.height * 0.88.h,
+                      //     child: Column(
+                      //       mainAxisAlignment: MainAxisAlignment.center,
+                      //       crossAxisAlignment: CrossAxisAlignment.center,
+                      //       children: [
+                      //         SvgPicture.asset(
+                      //             'assets/images/illustration.svg'),
+                      //         SizedBox(height: 16.h),
+                      //         Text(
+                      //           "No Images yet",
+                      //           style: TextStyle(
+                      //               color: Helper.textColor900,
+                      //               fontSize: 16.sp,
+                      //               fontWeight: FontWeight.w600),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   );
+                      // }
+                      // ;
                       return Consumer(builder: (context, ref, child) {
                         return Column(children: [
                           Stack(children: [
@@ -155,45 +157,57 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                               color: Helper.textColor300,
                               child: AspectRatio(
                                 aspectRatio: 16 / 9,
-                                child: InteractiveViewer(
-                                  maxScale: 10,
-                                  transformationController: _controller,
-                                  child: Image.network(
-                                    selectedCompareData1 == null
-                                        ? cameraData1.images![0].urlPreview!
-                                        : selectedCompareData1.urlPreview!,
-                                    gaplessPlayback: true,
-                                    width: double.infinity,
-                                    fit: BoxFit.fill,
-                                    loadingBuilder:
-                                        (context, child, loadingProgress) {
-                                      if (loadingProgress == null) return child;
+                                child: cameraData1.images!.isNotEmpty
+                                    ? InteractiveViewer(
+                                        maxScale: 10,
+                                        transformationController: _controller,
+                                        child: Image.network(
+                                          selectedCompareData1 == null
+                                              ? cameraData1
+                                                  .images![0].urlPreview!
+                                              : selectedCompareData1
+                                                  .urlPreview!,
+                                          gaplessPlayback: true,
+                                          width: double.infinity,
+                                          fit: BoxFit.fill,
+                                          loadingBuilder: (context, child,
+                                              loadingProgress) {
+                                            if (loadingProgress == null)
+                                              return child;
 
-                                      return Center(
-                                        child: CircularProgressIndicator(
-                                          color:
-                                              ref.watch(primaryColorProvider),
-                                          value: (loadingProgress != null)
-                                              ? (loadingProgress
-                                                      .cumulativeBytesLoaded /
-                                                  loadingProgress
-                                                      .expectedTotalBytes!)
-                                              : 0,
+                                            return Center(
+                                              child: CircularProgressIndicator(
+                                                color: ref.watch(
+                                                    primaryColorProvider),
+                                                value: (loadingProgress != null)
+                                                    ? (loadingProgress
+                                                            .cumulativeBytesLoaded /
+                                                        loadingProgress
+                                                            .expectedTotalBytes!)
+                                                    : 0,
+                                              ),
+                                            );
+                                          },
+                                          errorBuilder: (BuildContext context,
+                                              Object exception,
+                                              StackTrace? stackTrace) {
+                                            return ClipRRect(
+                                              child: Image.asset(
+                                                'assets/images/error_image.jpeg',
+                                                fit: BoxFit.cover,
+                                              ),
+                                            );
+                                          },
                                         ),
-                                      );
-                                    },
-                                    errorBuilder: (BuildContext context,
-                                        Object exception,
-                                        StackTrace? stackTrace) {
-                                      return ClipRRect(
-                                        child: Image.asset(
-                                          'assets/images/error_image.jpeg',
-                                          fit: BoxFit.cover,
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
+                                      )
+                                    : Center(
+                                        child: Text(
+                                        "No image available",
+                                        style: TextStyle(
+                                            color: Helper.textColor500,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 12.sp),
+                                      )),
                               ),
                             ),
                             Positioned(
@@ -241,110 +255,123 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                           SizedBox(height: 6.h),
                           SizedBox(
                             height: 73.h,
-                            child: ListView.separated(
-                                separatorBuilder: (context, builder) {
-                                  return SizedBox(
-                                    width: 2.w,
-                                  );
-                                },
-                                itemCount: cameraData1.images!.length,
-                                shrinkWrap: true,
-                                physics: BouncingScrollPhysics(),
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: ((context, index) {
-                                  String dateWithT = cameraData1
-                                          .images![index].datetime!
-                                          .substring(0, 8) +
-                                      'T' +
-                                      cameraData1.images![index].datetime!
-                                          .substring(8);
-                                  DateTime dateTime = DateTime.parse(dateWithT);
-                                  final String formattedTime =
-                                      DateFormat('h:mm a').format(dateTime);
-                                  return InkWell(
-                                    highlightColor: Colors.transparent,
-                                    onTap: () {
-                                      setState(() {
-                                        _selectedImageIndex1 = index;
-                                      });
-                                      final imageData = ImageData(
-                                        name: cameraData1.images![index].name,
-                                        dateTime:
-                                            cameraData1.images![index].datetime,
-                                        camera: widget.cameraId,
-                                        id: cameraData1.images![index].id,
-                                        urlPreview: cameraData1
-                                            .images![index].urlPreview,
+                            child: cameraData1.images!.isNotEmpty
+                                ? ListView.separated(
+                                    separatorBuilder: (context, builder) {
+                                      return SizedBox(
+                                        width: 2.w,
                                       );
-
-                                      ref
-                                          .read(compare1DataProvider.notifier)
-                                          .setImageData(imageData);
                                     },
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 4.w, vertical: 2.h),
-                                      child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Container(
-                                              padding: EdgeInsets.zero,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(6.r),
-                                                border: _selectedImageIndex1 ==
-                                                        index
-                                                    ? Border.all(
-                                                        color: ref.watch(
-                                                            primaryColorProvider),
-                                                        width: 2.w,
-                                                      )
-                                                    : Border.all(
-                                                        width: 2.w,
-                                                        color:
-                                                            Colors.transparent),
-                                              ),
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(4.r),
-                                                child: Image.network(
-                                                  cameraData1
-                                                      .images![index].urlThumb!,
-                                                  gaplessPlayback: true,
-                                                  width: 44.w,
-                                                  height: 44.h,
-                                                  fit: BoxFit.fill,
-                                                  errorBuilder: (BuildContext
-                                                          context,
-                                                      Object exception,
-                                                      StackTrace? stackTrace) {
-                                                    return ClipRRect(
-                                                      child: Image.asset(
-                                                        'assets/images/error_image.jpeg',
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    );
-                                                  },
+                                    itemCount: cameraData1.images!.length,
+                                    shrinkWrap: true,
+                                    physics: BouncingScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: ((context, index) {
+                                      String dateWithT = cameraData1
+                                              .images![index].datetime!
+                                              .substring(0, 8) +
+                                          'T' +
+                                          cameraData1.images![index].datetime!
+                                              .substring(8);
+                                      DateTime dateTime =
+                                          DateTime.parse(dateWithT);
+                                      final String formattedTime =
+                                          DateFormat('h:mm a').format(dateTime);
+                                      return InkWell(
+                                        highlightColor: Colors.transparent,
+                                        onTap: () {
+                                          setState(() {
+                                            _selectedImageIndex1 = index;
+                                          });
+                                          final imageData = ImageData(
+                                            name:
+                                                cameraData1.images![index].name,
+                                            dateTime: cameraData1
+                                                .images![index].datetime,
+                                            camera: widget.cameraId,
+                                            id: cameraData1.images![index].id,
+                                            urlPreview: cameraData1
+                                                .images![index].urlPreview,
+                                          );
+
+                                          ref
+                                              .read(
+                                                  compare1DataProvider.notifier)
+                                              .setImageData(imageData);
+                                        },
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 4.w, vertical: 2.h),
+                                          child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Container(
+                                                  padding: EdgeInsets.zero,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            6.r),
+                                                    border:
+                                                        _selectedImageIndex1 ==
+                                                                index
+                                                            ? Border.all(
+                                                                color: ref.watch(
+                                                                    primaryColorProvider),
+                                                                width: 2.w,
+                                                              )
+                                                            : Border.all(
+                                                                width: 2.w,
+                                                                color: Colors
+                                                                    .transparent),
+                                                  ),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4.r),
+                                                    child: Image.network(
+                                                      cameraData1.images![index]
+                                                          .urlThumb!,
+                                                      gaplessPlayback: true,
+                                                      width: 44.w,
+                                                      height: 44.h,
+                                                      fit: BoxFit.fill,
+                                                      errorBuilder:
+                                                          (BuildContext context,
+                                                              Object exception,
+                                                              StackTrace?
+                                                                  stackTrace) {
+                                                        return ClipRRect(
+                                                          child: Image.asset(
+                                                            'assets/images/error_image.jpeg',
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 6.h,
-                                            ),
-                                            Text(
-                                              formattedTime,
-                                              style: TextStyle(
-                                                  letterSpacing: -0.3,
-                                                  color: Helper.textColor700,
-                                                  fontSize: 8.sp,
-                                                  fontWeight: FontWeight.w500),
-                                            )
-                                          ]),
-                                    ),
-                                  );
-                                })),
+                                                SizedBox(
+                                                  height: 6.h,
+                                                ),
+                                                Text(
+                                                  formattedTime,
+                                                  style: TextStyle(
+                                                      letterSpacing: -0.3,
+                                                      color:
+                                                          Helper.textColor700,
+                                                      fontSize: 8.sp,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                )
+                                              ]),
+                                        ),
+                                      );
+                                    }))
+                                : SizedBox(
+                                    child: Text("No Images on " +
+                                        showDate(showDateSelected1))),
                           ),
                         ]);
                       });
@@ -362,30 +389,30 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
 
                   compareCameraData2.when(
                     data: (cameraData2) {
-                      if (cameraData2.images!.isEmpty) {
-                        return Container(
-                          alignment: Alignment.center,
-                          height: MediaQuery.of(context).size.height * 0.88.h,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                  'assets/images/illustration.svg'),
-                              SizedBox(height: 16.h),
-                              Text(
-                                "No Images yet",
-                                style: TextStyle(
-                                    letterSpacing: -0.3,
-                                    color: Helper.textColor900,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                      ;
+                      // if (cameraData2.images!.isEmpty) {
+                      //   return Container(
+                      //     alignment: Alignment.center,
+                      //     height: MediaQuery.of(context).size.height * 0.88.h,
+                      //     child: Column(
+                      //       mainAxisAlignment: MainAxisAlignment.center,
+                      //       crossAxisAlignment: CrossAxisAlignment.center,
+                      //       children: [
+                      //         SvgPicture.asset(
+                      //             'assets/images/illustration.svg'),
+                      //         SizedBox(height: 16.h),
+                      //         Text(
+                      //           "No Images yet",
+                      //           style: TextStyle(
+                      //               letterSpacing: -0.3,
+                      //               color: Helper.textColor900,
+                      //               fontSize: 16.sp,
+                      //               fontWeight: FontWeight.w600),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   );
+                      // }
+                      // ;
                       return Consumer(builder: (context, ref, child) {
                         return Column(children: [
                           Stack(children: [
@@ -393,46 +420,58 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                               color: Helper.textColor300,
                               child: AspectRatio(
                                 aspectRatio: 16 / 9,
-                                child: InteractiveViewer(
-                                  transformationController: _controller,
-                                  maxScale: 10,
-                                  child: Image.network(
-                                    selectedCompareData2 == null
-                                        ? cameraData2.images![0].urlPreview!
-                                        : selectedCompareData2.urlPreview!,
-                                    gaplessPlayback: true,
-                                    width: double.infinity,
-                                    // height: 210.h,
-                                    fit: BoxFit.fill,
-                                    loadingBuilder:
-                                        (context, child, loadingProgress) {
-                                      if (loadingProgress == null) return child;
+                                child: cameraData2.images!.isNotEmpty
+                                    ? InteractiveViewer(
+                                        transformationController: _controller,
+                                        maxScale: 10,
+                                        child: Image.network(
+                                          selectedCompareData2 == null
+                                              ? cameraData2
+                                                  .images![0].urlPreview!
+                                              : selectedCompareData2
+                                                  .urlPreview!,
+                                          gaplessPlayback: true,
+                                          width: double.infinity,
+                                          // height: 210.h,
+                                          fit: BoxFit.fill,
+                                          loadingBuilder: (context, child,
+                                              loadingProgress) {
+                                            if (loadingProgress == null)
+                                              return child;
 
-                                      return Center(
-                                        child: CircularProgressIndicator(
-                                          color:
-                                              ref.watch(primaryColorProvider),
-                                          value: (loadingProgress != null)
-                                              ? (loadingProgress
-                                                      .cumulativeBytesLoaded /
-                                                  loadingProgress
-                                                      .expectedTotalBytes!)
-                                              : 0,
+                                            return Center(
+                                              child: CircularProgressIndicator(
+                                                color: ref.watch(
+                                                    primaryColorProvider),
+                                                value: (loadingProgress != null)
+                                                    ? (loadingProgress
+                                                            .cumulativeBytesLoaded /
+                                                        loadingProgress
+                                                            .expectedTotalBytes!)
+                                                    : 0,
+                                              ),
+                                            );
+                                          },
+                                          errorBuilder: (BuildContext context,
+                                              Object exception,
+                                              StackTrace? stackTrace) {
+                                            return ClipRRect(
+                                              child: Image.asset(
+                                                'assets/images/error_image.jpeg',
+                                                fit: BoxFit.cover,
+                                              ),
+                                            );
+                                          },
                                         ),
-                                      );
-                                    },
-                                    errorBuilder: (BuildContext context,
-                                        Object exception,
-                                        StackTrace? stackTrace) {
-                                      return ClipRRect(
-                                        child: Image.asset(
-                                          'assets/images/error_image.jpeg',
-                                          fit: BoxFit.cover,
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
+                                      )
+                                    : Center(
+                                        child: Text(
+                                        "No image available",
+                                        style: TextStyle(
+                                            color: Helper.textColor500,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 12.sp),
+                                      )),
                               ),
                             ),
                             Positioned(
@@ -480,110 +519,123 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                           SizedBox(height: 6.h),
                           SizedBox(
                             height: 73.h,
-                            child: ListView.separated(
-                                separatorBuilder: (context, builder) {
-                                  return SizedBox(
-                                    width: 2.w,
-                                  );
-                                },
-                                itemCount: cameraData2.images!.length,
-                                shrinkWrap: true,
-                                physics: BouncingScrollPhysics(),
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: ((context, index) {
-                                  String dateWithT = cameraData2
-                                          .images![index].datetime!
-                                          .substring(0, 8) +
-                                      'T' +
-                                      cameraData2.images![index].datetime!
-                                          .substring(8);
-                                  DateTime dateTime = DateTime.parse(dateWithT);
-                                  final String formattedTime =
-                                      DateFormat('h:mm a').format(dateTime);
-                                  return InkWell(
-                                    highlightColor: Colors.transparent,
-                                    onTap: () {
-                                      setState(() {
-                                        _selectedImageIndex2 = index;
-                                      });
-                                      final imageData = ImageData(
-                                        name: cameraData2.images![index].name,
-                                        dateTime:
-                                            cameraData2.images![index].datetime,
-                                        camera: widget.cameraId,
-                                        id: cameraData2.images![index].id,
-                                        urlPreview: cameraData2
-                                            .images![index].urlPreview,
+                            child: cameraData2.images!.isNotEmpty
+                                ? ListView.separated(
+                                    separatorBuilder: (context, builder) {
+                                      return SizedBox(
+                                        width: 2.w,
                                       );
-
-                                      ref
-                                          .read(compare2DataProvider.notifier)
-                                          .setImageData(imageData);
                                     },
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 4.w, vertical: 2.h),
-                                      child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Container(
-                                              padding: EdgeInsets.zero,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(6.r),
-                                                border: _selectedImageIndex2 ==
-                                                        index
-                                                    ? Border.all(
-                                                        color: ref.watch(
-                                                            primaryColorProvider),
-                                                        width: 2.w,
-                                                      )
-                                                    : Border.all(
-                                                        width: 2.w,
-                                                        color:
-                                                            Colors.transparent),
-                                              ),
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(4.r),
-                                                child: Image.network(
-                                                  cameraData2
-                                                      .images![index].urlThumb!,
-                                                  gaplessPlayback: true,
-                                                  width: 44.w,
-                                                  height: 44.h,
-                                                  fit: BoxFit.fill,
-                                                  errorBuilder: (BuildContext
-                                                          context,
-                                                      Object exception,
-                                                      StackTrace? stackTrace) {
-                                                    return ClipRRect(
-                                                      child: Image.asset(
-                                                        'assets/images/error_image.jpeg',
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    );
-                                                  },
+                                    itemCount: cameraData2.images!.length,
+                                    shrinkWrap: true,
+                                    physics: BouncingScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: ((context, index) {
+                                      String dateWithT = cameraData2
+                                              .images![index].datetime!
+                                              .substring(0, 8) +
+                                          'T' +
+                                          cameraData2.images![index].datetime!
+                                              .substring(8);
+                                      DateTime dateTime =
+                                          DateTime.parse(dateWithT);
+                                      final String formattedTime =
+                                          DateFormat('h:mm a').format(dateTime);
+                                      return InkWell(
+                                        highlightColor: Colors.transparent,
+                                        onTap: () {
+                                          setState(() {
+                                            _selectedImageIndex2 = index;
+                                          });
+                                          final imageData = ImageData(
+                                            name:
+                                                cameraData2.images![index].name,
+                                            dateTime: cameraData2
+                                                .images![index].datetime,
+                                            camera: widget.cameraId,
+                                            id: cameraData2.images![index].id,
+                                            urlPreview: cameraData2
+                                                .images![index].urlPreview,
+                                          );
+
+                                          ref
+                                              .read(
+                                                  compare2DataProvider.notifier)
+                                              .setImageData(imageData);
+                                        },
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 4.w, vertical: 2.h),
+                                          child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Container(
+                                                  padding: EdgeInsets.zero,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            6.r),
+                                                    border:
+                                                        _selectedImageIndex2 ==
+                                                                index
+                                                            ? Border.all(
+                                                                color: ref.watch(
+                                                                    primaryColorProvider),
+                                                                width: 2.w,
+                                                              )
+                                                            : Border.all(
+                                                                width: 2.w,
+                                                                color: Colors
+                                                                    .transparent),
+                                                  ),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4.r),
+                                                    child: Image.network(
+                                                      cameraData2.images![index]
+                                                          .urlThumb!,
+                                                      gaplessPlayback: true,
+                                                      width: 44.w,
+                                                      height: 44.h,
+                                                      fit: BoxFit.fill,
+                                                      errorBuilder:
+                                                          (BuildContext context,
+                                                              Object exception,
+                                                              StackTrace?
+                                                                  stackTrace) {
+                                                        return ClipRRect(
+                                                          child: Image.asset(
+                                                            'assets/images/error_image.jpeg',
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 6.h,
-                                            ),
-                                            Text(
-                                              formattedTime,
-                                              style: TextStyle(
-                                                  letterSpacing: -0.3,
-                                                  color: Helper.textColor700,
-                                                  fontSize: 8.sp,
-                                                  fontWeight: FontWeight.w500),
-                                            )
-                                          ]),
-                                    ),
-                                  );
-                                })),
+                                                SizedBox(
+                                                  height: 6.h,
+                                                ),
+                                                Text(
+                                                  formattedTime,
+                                                  style: TextStyle(
+                                                      letterSpacing: -0.3,
+                                                      color:
+                                                          Helper.textColor700,
+                                                      fontSize: 8.sp,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                )
+                                              ]),
+                                        ),
+                                      );
+                                    }))
+                                : SizedBox(
+                                    child: Text("No Images on " +
+                                        showDate(showDateSelected2))),
                           ),
                         ]);
                       });
@@ -690,6 +742,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                           .read(compare1ControllerProvider.notifier)
                           .getImagesByCamId(projectId, cameraId,
                               searchDate: selectedDate);
+                      showDateSelected1 = selectedDate;
                     });
                     // getCompare1Month(currentMonth);
                     context.pop();
@@ -790,6 +843,7 @@ class _CompareScreenState extends BaseConsumerState<CompareScreen> {
                           .getImagesByCamId(projectId, cameraId,
                               searchDate: selectedDate);
                     });
+                    showDateSelected2 = selectedDate;
                     // getCompare2Month(currentMonth);
                     context.pop();
                   },
