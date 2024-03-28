@@ -12,6 +12,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:progresscenter_app_v4/src/base/base_consumer_state.dart';
 import 'package:progresscenter_app_v4/src/common/services/services.dart';
+import 'package:progresscenter_app_v4/src/core/shared_pref/locator.dart';
+import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_helper.dart';
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
@@ -37,6 +39,8 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
   FocusNode focusNode = FocusNode();
   FocusNode focusNode1 = FocusNode();
   bool _validate = false;
+  final _prefsLocator = getIt.get<SharedPreferenceHelper>();
+  Map<String, dynamic>? user;
 
   var color;
   double _progress = 0.0;
@@ -53,6 +57,7 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
   @override
   void initState() {
     super.initState();
+    fetchUser();
     _locationController.text = widget.data.location!.name!;
     _controller.text = widget.data.name!;
     for (int i = 0; i < widget.data.images!.length; i++) {
@@ -77,14 +82,21 @@ class _EditProjectScreenState extends BaseConsumerState<EditProjectScreen> {
     });
   }
 
+  fetchUser() {
+    user = _prefsLocator.getUser();
+  }
+
 //method to show carousels
   _getChildren(images) {
     List<Widget> carouselChildren = imageUrls.map((e) {
       var index = imageUrls.indexOf(e);
       return InkWell(
           onLongPress: () {
-            _showDeleteBottomSheet(
-                context, widget.data.id, images[index]["id"]);
+            user!['role'] == "ADMIN"
+                ? _showDeleteBottomSheet(
+                    context, widget.data.id, images[index]["id"])
+                : null;
+            ;
           },
           child: Stack(children: [
             Container(
