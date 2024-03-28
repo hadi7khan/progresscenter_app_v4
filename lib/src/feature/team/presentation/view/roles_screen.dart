@@ -45,6 +45,7 @@ class _RolesScreenState extends ConsumerState<RolesScreen> {
               centerTitle: false,
               titleSpacing: 12.0.w,
               leading: InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   context.pop();
                 },

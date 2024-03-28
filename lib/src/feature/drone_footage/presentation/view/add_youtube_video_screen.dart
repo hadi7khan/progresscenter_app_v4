@@ -54,6 +54,7 @@ class _AddYoutubeVideoScreenState
               centerTitle: false,
               titleSpacing: 12.w,
               leading: InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   context.pop();
                 },

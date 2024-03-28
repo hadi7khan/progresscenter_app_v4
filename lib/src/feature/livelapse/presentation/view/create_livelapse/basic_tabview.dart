@@ -138,6 +138,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                     ),
                     SizedBox(height: 8.h),
                     InkWell(
+                      highlightColor: Colors.transparent,
                       onTap: () {
                         _showDurationBottomSheet(context);
                       },
@@ -177,6 +178,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                     ),
                     SizedBox(height: 8.h),
                     InkWell(
+                      highlightColor: Colors.transparent,
                       onTap: () {
                         _showQualityBottomSheet(context);
                       },
@@ -424,6 +426,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () async {
                     setState(() {
                       _duration = "1";
@@ -449,6 +452,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                   ),
                 ),
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     setState(() {
                       _duration = "5";
@@ -474,6 +478,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                   ),
                 ),
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     setState(() {
                       _duration = "15";
@@ -499,6 +504,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                   ),
                 ),
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     setState(() {
                       _duration = "30";
@@ -524,6 +530,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                   ),
                 ),
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     setState(() {
                       _duration = "90";
@@ -549,6 +556,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                   ),
                 ),
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     setState(() {
                       _duration = "180";
@@ -574,6 +582,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                   ),
                 ),
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     setState(() {
                       _duration = "365";
@@ -699,6 +708,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () async {
                     setState(() {
                       _showQuality = "Standard definitions";
@@ -724,6 +734,7 @@ class _BasicTabViewState extends BaseConsumerState<BasicTabView> {
                   ),
                 ),
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     setState(() {
                       _showQuality = "High Definition";

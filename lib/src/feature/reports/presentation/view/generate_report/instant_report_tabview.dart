@@ -389,6 +389,7 @@ class _InstantReportTabviewState
                     ),
                     SizedBox(height: 8.h),
                     InkWell(
+                      highlightColor: Colors.transparent,
                       onTap: () {
                         _showTypeBottomSheet(context);
                       },
@@ -545,6 +546,7 @@ class _InstantReportTabviewState
                   final bool isItemEnabled = maxImageDays >= intervalDays;
 
                   return InkWell(
+                    highlightColor: Colors.transparent,
                     onTap: isItemEnabled
                         ? () async {
                             setState(() {

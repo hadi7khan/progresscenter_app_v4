@@ -144,6 +144,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                 centerTitle: false,
                 titleSpacing: 12.0.w,
                 leading: InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     context.pop();
                   },
@@ -165,6 +166,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                 actions: [
                   SizedBox(width: 5.w),
                   InkWell(
+                    highlightColor: Colors.transparent,
                     child: SvgPicture.asset('assets/images/plus.svg'),
                     onTap: () {
                       _showBottomSheet(context, widget.projectId);
@@ -427,6 +429,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   InkWell(
+                    highlightColor: Colors.transparent,
                     onTap: () async {
                       _pickImage(ImageSource.camera, context)
                           .then((value) async {
@@ -461,6 +464,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                     ),
                   ),
                   InkWell(
+                    highlightColor: Colors.transparent,
                     onTap: () async {
                       result = await FilePicker.platform.pickFiles(
                         allowMultiple: true,
@@ -498,6 +502,7 @@ class _DroneFootageScreenState extends BaseConsumerState<SiteGalleryScreen> {
                     ),
                   ),
                   InkWell(
+                    highlightColor: Colors.transparent,
                     onTap: () async {
                       context.pop();
                     },

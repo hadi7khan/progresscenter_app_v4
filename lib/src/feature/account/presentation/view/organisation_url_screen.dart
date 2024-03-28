@@ -41,6 +41,7 @@ class _OrganisationUrlScreenState
               centerTitle: false,
               titleSpacing: 12.0.w,
               leading: InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   context.pop();
                 },

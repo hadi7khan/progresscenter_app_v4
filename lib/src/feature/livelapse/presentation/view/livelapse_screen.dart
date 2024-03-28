@@ -72,6 +72,7 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
             centerTitle: false,
             titleSpacing: 12.0.w,
             leading: InkWell(
+              highlightColor: Colors.transparent,
               onTap: () {
                 context.pop();
               },
@@ -93,6 +94,7 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
             actions: [
               SizedBox(width: 12.w),
               InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     context.push('/createlivelapse', extra: {
                       "projectId": widget.projectId,
@@ -155,6 +157,7 @@ class _LivelapseScreenState extends BaseConsumerState<LivelapseScreen> {
                           },
                           itemBuilder: (context, index) {
                             return InkWell(
+                              highlightColor: Colors.transparent,
                               onTap: () {
                                 if (data[index].status == "COMPLETED") {
                                   context.push("/fullViewlivelapse", extra: {

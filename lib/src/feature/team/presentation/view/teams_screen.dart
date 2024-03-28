@@ -82,6 +82,7 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           InkWell(
+                              highlightColor: Colors.transparent,
                               onTap: () {
                                 context.push('/notifications');
                               },
@@ -90,6 +91,7 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                           Row(
                             children: [
                               InkWell(
+                                  highlightColor: Colors.transparent,
                                   onTap: () {
                                     context.push("/teamSearch",
                                         extra: {"data": data});
@@ -98,6 +100,7 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                                       'assets/images/search.svg')),
                               SizedBox(width: 12.w),
                               InkWell(
+                                highlightColor: Colors.transparent,
                                 onTap: () {
                                   showModalBottomSheet(
                                       useRootNavigator: true,
@@ -127,6 +130,7 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                               ),
                               SizedBox(width: 12.w),
                               InkWell(
+                                  highlightColor: Colors.transparent,
                                   onTap: () {
                                     _showUserBottomSheet(context);
                                   },
@@ -268,6 +272,7 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () async {
                     context.push('/addUser');
                     context.pop();
@@ -290,6 +295,7 @@ class _TeamsScreenState extends BaseConsumerState<TeamsScreen> {
                   ),
                 ),
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     context.push('/inviteByMail');
                     context.pop();

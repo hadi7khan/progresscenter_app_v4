@@ -164,6 +164,7 @@ class _ScheduledReportTabviewState
                       ),
                       SizedBox(height: 8.h),
                       InkWell(
+                        highlightColor: Colors.transparent,
                         onTap: () {
                           _showTypeBottomSheet(context);
                         },
@@ -231,6 +232,7 @@ class _ScheduledReportTabviewState
                                     ),
                                   ),
                                   InkWell(
+                                    highlightColor: Colors.transparent,
                                     onTap: () {
                                       Service()
                                           .deleteScheduledReport(
@@ -365,6 +367,7 @@ class _ScheduledReportTabviewState
                       final bool isItemEnabled = maxImageDays >= intervalDays;
 
                       return InkWell(
+                        highlightColor: Colors.transparent,
                         onTap: isItemEnabled
                             ? () async {
                                 setState(() {

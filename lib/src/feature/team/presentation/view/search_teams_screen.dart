@@ -64,6 +64,7 @@ class _SearchProjectScreenState extends BaseConsumerState<SearchTeamScreen> {
               centerTitle: true,
               titleSpacing: 12.0.w,
               leading: InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   context.pop();
                 },

@@ -207,6 +207,7 @@ class _UploadBottomSheetState extends BaseConsumerState<UploadBottomSheet> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         InkWell(
+                          highlightColor: Colors.transparent,
                           onTap: () async {
                             _pickImage(ImageSource.camera).then((value) async {
                               await Service()
@@ -245,6 +246,7 @@ class _UploadBottomSheetState extends BaseConsumerState<UploadBottomSheet> {
                           ),
                         ),
                         InkWell(
+                          highlightColor: Colors.transparent,
                           onTap: () {
                             context.pop();
                             _pickImage(ImageSource.gallery).then((value) async {
@@ -280,6 +282,7 @@ class _UploadBottomSheetState extends BaseConsumerState<UploadBottomSheet> {
                           ),
                         ),
                         InkWell(
+                          highlightColor: Colors.transparent,
                           onTap: () {
                             _pickImage(ImageSource.gallery).then((value) async {
                               await Service()

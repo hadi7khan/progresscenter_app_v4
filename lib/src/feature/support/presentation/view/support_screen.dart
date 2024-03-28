@@ -58,6 +58,7 @@ class _SupportScreenState extends BaseConsumerState<SupportScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           InkWell(
+                            highlightColor: Colors.transparent,
                             onTap: () {
                               context.pop();
                             },
@@ -73,6 +74,7 @@ class _SupportScreenState extends BaseConsumerState<SupportScreen> {
                             children: [
                               SizedBox(width: 12.w),
                               InkWell(
+                                  highlightColor: Colors.transparent,
                                   onTap: () {
                                     context.push('/createTicket');
                                   },

@@ -63,6 +63,7 @@ class _SelectTeamsScreenState extends BaseConsumerState<SelectTeamsScreen> {
               centerTitle: false,
               titleSpacing: 12.0.w,
               leading: InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   context.pop();
                 },
@@ -89,6 +90,7 @@ class _SelectTeamsScreenState extends BaseConsumerState<SelectTeamsScreen> {
                   ]),
               actions: [
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     Map<String, dynamic> teamData = {"tags": _selectedTeams};
                     service.Service()

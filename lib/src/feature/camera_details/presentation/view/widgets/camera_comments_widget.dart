@@ -187,6 +187,7 @@ class _CameraCommentsWidgetState
                 ],
               ),
               InkWell(
+                highlightColor: Colors.transparent,
                 onLongPress: () {
                   HapticFeedback.mediumImpact();
                   user!['role'] == "ADMIN" ||
@@ -233,7 +234,6 @@ class _CameraCommentsWidgetState
                   itemCount: widget.comment.replies!.length,
                   itemBuilder: ((context, index) {
                     return InkWell(
-                      splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onLongPress: () {
                         HapticFeedback.mediumImpact();

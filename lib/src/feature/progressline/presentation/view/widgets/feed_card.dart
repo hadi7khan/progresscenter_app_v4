@@ -17,6 +17,7 @@ import 'package:progresscenter_app_v4/src/core/shared_pref/shared_preference_hel
 import 'package:progresscenter_app_v4/src/core/utils/flush_message.dart';
 import 'package:progresscenter_app_v4/src/core/utils/helper.dart';
 import 'package:progresscenter_app_v4/src/feature/auth/presentation/provider/primary_color_provider.dart';
+import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/all_progressline_posts_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/post_comment_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/provider/progressline_controller.dart';
 import 'package:progresscenter_app_v4/src/feature/progressline/presentation/view/widgets/comments_widget.dart';
@@ -131,7 +132,6 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
     return FormBuilder(
       key: _fbKey,
       child: InkWell(
-        splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         onLongPress: () {
           HapticFeedback.mediumImpact();
@@ -226,6 +226,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                               VisualDensity(horizontal: 0, vertical: -4),
                           contentPadding: EdgeInsets.zero,
                           leading: InkWell(
+                            highlightColor: Colors.transparent,
                             onTap: () {
                               showModalBottomSheet(
                                   useRootNavigator: true,
@@ -256,6 +257,7 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                 fontWeight: FontWeight.w500),
                           ),
                           trailing: InkWell(
+                            highlightColor: Colors.transparent,
                             onTap: () {
                               showModalBottomSheet(
                                   useRootNavigator: true,
@@ -383,14 +385,19 @@ class _FeedCardState extends BaseConsumerState<FeedCard> {
                                               widget.progresslineData.id, data)
                                           .then((value) async {
                                         value.fold((failure) {}, (res) {
+                                          // ref
+                                          //     .watch(
+                                          //         progresslineControllerProvider
+                                          //             .notifier)
+                                          //     .getProgressline(widget
+                                          //         .progresslineData
+                                          //         .project
+                                          //         .projectId);
                                           ref
                                               .watch(
-                                                  progresslineControllerProvider
+                                                  allProgresslinePostsControllerProvider
                                                       .notifier)
-                                              .getProgressline(widget
-                                                  .progresslineData
-                                                  .project
-                                                  .projectId);
+                                              .getAllProgresslinePosts();
 
                                           key.currentState!.controller!.clear();
                                         });

@@ -118,6 +118,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
             centerTitle: false,
             automaticallyImplyLeading: false,
             leading: InkWell(
+              highlightColor: Colors.transparent,
               onTap: () {
                 context.pop();
               },
@@ -280,6 +281,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                               top: 16,
                               left: 16,
                               child: InkWell(
+                                highlightColor: Colors.transparent,
                                 onTap: () {
                                   showModalBottomSheet(
                                       isScrollControlled: true,
@@ -324,6 +326,7 @@ class _SplitviewScreenState extends BaseConsumerState<SplitviewScreen> {
                               top: 16,
                               right: 16,
                               child: InkWell(
+                                highlightColor: Colors.transparent,
                                 onTap: () {
                                   showModalBottomSheet(
                                       isScrollControlled: true,

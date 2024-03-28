@@ -34,13 +34,13 @@ class _DateSliderWidgetState extends BaseConsumerState<DateSliderWidget> {
           (date) => DateFormat('yyyyMMdd').format(date) == widget.selectedDate);
       if (selectedIndex != -1) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-        Timer(Duration(seconds: 2), () {
-          _dateController.animateTo(
-            selectedIndex * 40,
-            duration: Duration(milliseconds: 500),
-            curve: Curves.easeInOut,
-          );
-        });
+          Timer(Duration(seconds: 2), () {
+            _dateController.animateTo(
+              selectedIndex * 40,
+              duration: Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
+            );
+          });
         });
       }
     }
@@ -63,6 +63,7 @@ class _DateSliderWidgetState extends BaseConsumerState<DateSliderWidget> {
         log("formatted day to compare" + compareDate.toString());
 
         return InkWell(
+          highlightColor: Colors.transparent,
           onTap: () {
             widget.onChange(DateFormat("yyyyMMdd").format(day));
           },

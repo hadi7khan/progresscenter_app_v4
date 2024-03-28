@@ -98,6 +98,7 @@ class _ProjectsScreenState extends BaseConsumerState<ProjectsScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         InkWell(
+                            highlightColor: Colors.transparent,
                             onTap: () {
                               context.push('/notifications');
                             },
@@ -105,6 +106,7 @@ class _ProjectsScreenState extends BaseConsumerState<ProjectsScreen> {
                         Row(
                           children: [
                             InkWell(
+                                highlightColor: Colors.transparent,
                                 onTap: () {
                                   context.push("/projectSearch");
                                 },
@@ -112,6 +114,7 @@ class _ProjectsScreenState extends BaseConsumerState<ProjectsScreen> {
                                     'assets/images/search.svg')),
                             SizedBox(width: 12.w),
                             InkWell(
+                                highlightColor: Colors.transparent,
                                 onTap: () {
                                   setState(() {
                                     _showArchived = !_showArchived;

@@ -106,6 +106,7 @@ class _LandscapeCameraDetailsScreenState
                     top: 16,
                     right: 0,
                     child: InkWell(
+                      highlightColor: Colors.transparent,
                       onTap: () {
                         context.pop();
                       },

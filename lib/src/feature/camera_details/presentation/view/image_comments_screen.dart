@@ -143,6 +143,7 @@ class _ImageCommentsScreenState extends BaseConsumerState<ImageCommentsScreen> {
           left: x,
           top: y,
           child: InkWell(
+            highlightColor: Colors.transparent,
             onTap: () {
               showModalBottomSheet(
                   useRootNavigator: true,
@@ -221,6 +222,7 @@ class _ImageCommentsScreenState extends BaseConsumerState<ImageCommentsScreen> {
               centerTitle: false,
               titleSpacing: 12.0.w,
               leading: InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   context.pop();
                 },
@@ -401,6 +403,7 @@ class _ImageCommentsScreenState extends BaseConsumerState<ImageCommentsScreen> {
                                       return Column(
                                         children: [
                                           InkWell(
+                                            highlightColor: Colors.transparent,
                                             onLongPress: () {
                                               HapticFeedback.mediumImpact();
                                               user!['role'] == "ADMIN" ||

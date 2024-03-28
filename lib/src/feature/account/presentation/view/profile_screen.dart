@@ -384,6 +384,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                       centerTitle: false,
                       titleSpacing: 12.0.w,
                       leading: InkWell(
+                        highlightColor: Colors.transparent,
                         onTap: () {
                           context.pop();
                         },
@@ -406,6 +407,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                       ),
                       actions: [
                         InkWell(
+                          highlightColor: Colors.transparent,
                           onTap: () {
                             setState(() {
                               _isNameEditing = false;
@@ -493,6 +495,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           InkWell(
+                            highlightColor: Colors.transparent,
                             onTap: () {
                               _showBottomSheet(context);
                             },
@@ -575,6 +578,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   InkWell(
+                                      highlightColor: Colors.transparent,
                                       onTap: () {
                                         setState(() {
                                           _isNameEditing = true;
@@ -749,6 +753,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                   ),
 
                                   InkWell(
+                                    highlightColor: Colors.transparent,
                                     onTap: () {
                                       _isNameEditing = false;
                                       _isDesignationEditing = false;
@@ -897,6 +902,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                   ),
 
                                   InkWell(
+                                      highlightColor: Colors.transparent,
                                       onTap: () {
                                         setState(() {
                                           _isMobileEditing = true;
@@ -1018,6 +1024,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                   ),
 
                                   InkWell(
+                                      highlightColor: Colors.transparent,
                                       onTap: () {
                                         setState(() {
                                           _isDesignationEditing = true;
@@ -1165,6 +1172,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                   ),
 
                                   InkWell(
+                                    highlightColor: Colors.transparent,
                                     onTap: () {
                                       _isNameEditing = false;
                                       _isDesignationEditing = false;
@@ -1235,6 +1243,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   InkWell(
+                                    highlightColor: Colors.transparent,
                                     onTap: () {
                                       // context.push('/roles', extra: {
                                       //   "roles": _roles,
@@ -1287,6 +1296,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                     color: Helper.textColor700,
                                   ),
                                   InkWell(
+                                    highlightColor: Colors.transparent,
                                     onTap: () {
                                       context.push('/profileTeam', extra: {
                                         "teamsList": _teamList,
@@ -1378,6 +1388,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   InkWell(
+                                      highlightColor: Colors.transparent,
                                       onTap: () {
                                         showDialog(
                                           context: context,
@@ -1644,6 +1655,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                             height: 20.h,
                           ),
                           InkWell(
+                            highlightColor: Colors.transparent,
                             onTap: () {
                               context.push("/changePasswordProfile");
                             },
@@ -1672,6 +1684,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                             height: 20.h,
                           ),
                           InkWell(
+                            highlightColor: Colors.transparent,
                             onTap: () {
                               context.push("/deleteAccount");
                             },
@@ -2097,6 +2110,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     InkWell(
+                      highlightColor: Colors.transparent,
                       onTap: () async {
                         _pickImage(ImageSource.camera).then((value) async {
                           await service.Service()
@@ -2128,6 +2142,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                       ),
                     ),
                     InkWell(
+                      highlightColor: Colors.transparent,
                       onTap: () {
                         context.pop();
                         _pickImage(ImageSource.gallery).then((value) async {
@@ -2160,6 +2175,7 @@ class _ProfileScreenState extends BaseConsumerState<ProfileScreen> {
                       ),
                     ),
                     InkWell(
+                      highlightColor: Colors.transparent,
                       onTap: () {
                         _pickImage(ImageSource.gallery).then((value) async {
                           await service.Service()

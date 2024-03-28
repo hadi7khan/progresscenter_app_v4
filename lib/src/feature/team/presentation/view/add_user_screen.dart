@@ -64,6 +64,7 @@ class _AddUserScreenState extends BaseConsumerState<AddUserScreen> {
               centerTitle: false,
               titleSpacing: 12.0.w,
               leading: InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   context.pop();
                 },
@@ -258,6 +259,7 @@ class _AddUserScreenState extends BaseConsumerState<AddUserScreen> {
                     CustomInputWidget(
                       title: "Date of birth",
                       formField: InkWell(
+                        highlightColor: Colors.transparent,
                         onTap: () {
                           _showStartDateBottomSheet(context, _selectedDate);
                         },

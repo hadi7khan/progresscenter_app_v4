@@ -152,6 +152,7 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                       centerTitle: false,
                       titleSpacing: 12.0.w,
                       leading: InkWell(
+                        highlightColor: Colors.transparent,
                         onTap: () {
                           context.pop();
                         },
@@ -174,6 +175,7 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                       ),
                       actions: [
                         InkWell(
+                          highlightColor: Colors.transparent,
                           onTap: () {
                             setState(() {
                               _isOrganisationNameEditing = false;
@@ -227,6 +229,7 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           InkWell(
+                            highlightColor: Colors.transparent,
                             onTap: () {
                               _showBottomSheet(context);
                               // Navigator.push(
@@ -353,6 +356,7 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   InkWell(
+                                      highlightColor: Colors.transparent,
                                       onTap: () {
                                         setState(() {
                                           _isOrganisationNameEditing = true;
@@ -484,6 +488,7 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                                   ),
                                   // SizedBox(height: 10.h),
                                   InkWell(
+                                    highlightColor: Colors.transparent,
                                     onTap: () {
                                       context.push("/organisationUrl");
                                     },
@@ -558,6 +563,7 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   InkWell(
+                                      highlightColor: Colors.transparent,
                                       onTap: () {},
                                       child: Row(
                                         mainAxisAlignment:
@@ -904,6 +910,7 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     InkWell(
+                      highlightColor: Colors.transparent,
                       onTap: () async {
                         _pickImage(ImageSource.camera).then((value) async {
                           await Service()
@@ -936,6 +943,7 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                       ),
                     ),
                     InkWell(
+                      highlightColor: Colors.transparent,
                       onTap: () {
                         context.pop();
                         _pickImage(ImageSource.gallery).then((value) async {
@@ -968,6 +976,7 @@ class _OrganisationScreenState extends BaseConsumerState<OrganisationScreen> {
                       ),
                     ),
                     InkWell(
+                      highlightColor: Colors.transparent,
                       onTap: () {
                         _pickImage(ImageSource.gallery).then((value) async {
                           await Service()

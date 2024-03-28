@@ -134,6 +134,7 @@ class _ShareProgresslineScreenState
             centerTitle: false,
             automaticallyImplyLeading: false,
             leading: InkWell(
+              highlightColor: Colors.transparent,
               onTap: () {
                 context.pop();
               },

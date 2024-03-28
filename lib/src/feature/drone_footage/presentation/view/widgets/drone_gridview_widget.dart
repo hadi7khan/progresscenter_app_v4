@@ -71,6 +71,7 @@ class _DroneGridViewWidgetState extends State<DroneGridViewWidget> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      highlightColor: Colors.transparent,
       onLongPress: () {
         showModalBottomSheet(
             useRootNavigator: true,

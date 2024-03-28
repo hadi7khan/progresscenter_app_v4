@@ -25,6 +25,7 @@ class _ListViewWidgetState extends BaseConsumerState<ListViewWidget> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      highlightColor: Colors.transparent,
       onTap: () {
         context.push('/cameradetails', extra: {
           "projectId": widget.data.project,

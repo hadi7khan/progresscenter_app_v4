@@ -72,6 +72,7 @@ class _AddFileVideoScreenState extends BaseConsumerState<AddFileVideoScreen> {
               centerTitle: false,
               titleSpacing: 12.w,
               leading: InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   context.pop();
                 },
@@ -340,6 +341,7 @@ class _AddFileVideoScreenState extends BaseConsumerState<AddFileVideoScreen> {
                               //         fit: BoxFit.cover,
                               //       ),
                               trailing: InkWell(
+                                highlightColor: Colors.transparent,
                                 onTap: () {
                                   setState(() {
                                     _file = null;

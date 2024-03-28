@@ -164,6 +164,7 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                           fontWeight: FontWeight.w400,
                         ),
                         suffixIcon: InkWell(
+                          highlightColor: Colors.transparent,
                           onTap: togglePassword,
                           child: Icon(
                               _obscurePassword
@@ -280,6 +281,7 @@ class _PasswordScreenState extends BaseConsumerState<PasswordScreen> {
                     Align(
                         alignment: Alignment.center,
                         child: InkWell(
+                          highlightColor: Colors.transparent,
                           onTap: () {
                             context.push('/forgotpassword');
                           },

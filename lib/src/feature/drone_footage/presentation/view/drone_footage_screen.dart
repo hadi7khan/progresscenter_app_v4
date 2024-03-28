@@ -57,6 +57,7 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
                 centerTitle: false,
                 titleSpacing: 12.0.w,
                 leading: InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     context.pop();
                   },
@@ -77,6 +78,7 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
                 ),
                 actions: [
                   InkWell(
+                    highlightColor: Colors.transparent,
                     onTap: () {
                       setState(() {
                         if (list == true) {
@@ -92,6 +94,7 @@ class _DroneFootageScreenState extends BaseConsumerState<DroneFootageScreen> {
                   ),
                   SizedBox(width: 5.w),
                   InkWell(
+                    highlightColor: Colors.transparent,
                     child: SvgPicture.asset('assets/images/plus.svg'),
                     onTap: () {
                       showModalBottomSheet(

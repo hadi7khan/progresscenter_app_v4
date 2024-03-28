@@ -81,6 +81,7 @@ class _EditDroneFootageScreenState
                 centerTitle: false,
                 titleSpacing: 12.0.w,
                 leading: InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     context.pop();
                   },
@@ -101,6 +102,7 @@ class _EditDroneFootageScreenState
                 ),
                 actions: [
                   InkWell(
+                    highlightColor: Colors.transparent,
                     onTap: () {
                       Map<String, dynamic> data = {
                         "name": _controller.text,

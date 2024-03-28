@@ -119,12 +119,14 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           InkWell(
+                              highlightColor: Colors.transparent,
                               onTap: () {
                                 context.push('/notifications');
                               },
                               child:
                                   SvgPicture.asset('assets/images/home.svg')),
                           InkWell(
+                            highlightColor: Colors.transparent,
                             onTap: () {
                               showModalBottomSheet(
                                   useRootNavigator: true,
@@ -155,6 +157,7 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                                 ),
                                 SizedBox(width: 12.w),
                                 InkWell(
+                                    highlightColor: Colors.transparent,
                                     onTap: () {
                                       _showAddBottomSheet(
                                           context, categoryList);
@@ -300,6 +303,7 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () async {
                     context.push('/addDocs', extra: {"category": categoryList});
                     context.pop();
@@ -322,6 +326,7 @@ class _DocsScreenState extends BaseConsumerState<DocsScreen> {
                   ),
                 ),
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     context.pop();
                     _showCategoryBottomSheet(context);

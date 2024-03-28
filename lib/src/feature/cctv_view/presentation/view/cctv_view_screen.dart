@@ -56,6 +56,7 @@ class _CCTVScreenState extends BaseConsumerState<CCTVScreen> {
               automaticallyImplyLeading: false,
               titleSpacing: 12.0.w,
               leading: InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   context.pop();
                 },
@@ -76,6 +77,7 @@ class _CCTVScreenState extends BaseConsumerState<CCTVScreen> {
               ),
               actions: [
                 InkWell(
+                  highlightColor: Colors.transparent,
                   child: list
                       ? SvgPicture.asset(
                           'assets/images/grid_view.svg',

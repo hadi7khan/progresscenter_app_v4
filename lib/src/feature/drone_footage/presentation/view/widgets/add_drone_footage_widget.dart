@@ -56,6 +56,7 @@ class _AddDroneFootageWidgetState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   context.push('/addFileVideo', extra: {
                     "projectId": widget.projectId,
@@ -70,6 +71,7 @@ class _AddDroneFootageWidgetState
               ),
               SizedBox(height: 20.h),
               InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   context.push('/addVimeoVideo', extra: {
                     "projectId": widget.projectId,
@@ -84,6 +86,7 @@ class _AddDroneFootageWidgetState
               ),
               SizedBox(height: 20.h),
               InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   context.push('/addYoutubeVideo', extra: {
                     "projectId": widget.projectId,

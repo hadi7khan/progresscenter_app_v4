@@ -53,6 +53,7 @@ class _AddVimeoVideoScreenState extends BaseConsumerState<AddVimeoVideoScreen> {
               centerTitle: false,
               titleSpacing: 12.w,
               leading: InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   context.pop();
                 },

@@ -59,6 +59,12 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
         filteredPosts = value;
       });
     });
+    Service().progresslineProjectsList().then((value) {
+      if (value.isNotEmpty) {
+        _progresslineProjects = value;
+        _projectId = _progresslineProjects[0].id;
+      }
+    });
   }
 
   @override
@@ -78,8 +84,8 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
           onRefresh: () async {
             HapticFeedback.mediumImpact();
             return await ref
-                .refresh(progresslineControllerProvider.notifier)
-                .getProgressline(_projectId);
+                .refresh(allProgresslinePostsControllerProvider.notifier)
+                .getAllProgresslinePosts();
           },
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
@@ -92,11 +98,13 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       InkWell(
+                          highlightColor: Colors.transparent,
                           onTap: () {
                             context.push('/notifications');
                           },
                           child: SvgPicture.asset('assets/images/home.svg')),
                       InkWell(
+                        highlightColor: Colors.transparent,
                         onTap: () {
                           showModalBottomSheet(
                               useRootNavigator: true,
@@ -168,23 +176,24 @@ class _ProgresslineScreenState extends BaseConsumerState<ProgresslineScreen> {
                   SizedBox(height: 15.h),
                   progresslineData.when(
                     data: (data) {
-                      return FutureBuilder(
-                          future: fetchFeed(),
-                          builder: ((context, snapshot) {
-                            switch (snapshot.connectionState) {
-                              case ConnectionState.none:
-                                return const Text('');
-                              case ConnectionState.active:
-                              case ConnectionState.waiting:
-                                return const Text('');
-                              case ConnectionState.done:
-                                if (snapshot.hasError) return const Text('');
-                                return FeedWidget(
-                                    progresslineProjects: _progresslineProjects,
-                                    projectId: _projectId,
-                                    posts: filteredPosts!);
-                            }
-                          }));
+                      // return FutureBuilder(
+                      //     future: fetchFeed(),
+                      //     builder: ((context, snapshot) {
+                      //       switch (snapshot.connectionState) {
+                      //         case ConnectionState.none:
+                      //           return const Text('');
+                      //         case ConnectionState.active:
+                      //         case ConnectionState.waiting:
+                      //           return const Text('');
+                      //         case ConnectionState.done:
+                      //           if (snapshot.hasError) return const Text('');
+                      return FeedWidget(
+                          progresslineProjects: _progresslineProjects,
+                          projectId: _projectId,
+                          posts: filteredPosts!);
+                      // }
+                      // }
+                      // ));
                     },
                     error: (err, _) {
                       return const Text("Failed to load Progressline",

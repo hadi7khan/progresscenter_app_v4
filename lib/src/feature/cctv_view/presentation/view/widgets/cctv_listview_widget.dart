@@ -77,6 +77,7 @@ class _CctvListViewWidgetState extends State<CctvListViewWidget> {
     //   _checkStatus();
     // });
     return InkWell(
+      highlightColor: Colors.transparent,
       onTap: isOnline
           ? () {
               context.push('/fullViewCCTV', extra: {

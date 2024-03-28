@@ -61,6 +61,7 @@ class _AddSiteGalleryScreenState
               centerTitle: false,
               titleSpacing: 12.0.w,
               leading: InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   context.pop();
                 },
@@ -223,6 +224,7 @@ class _AddSiteGalleryScreenState
                                           fontSize: 16.sp,
                                           fontWeight: FontWeight.w600)),
                                   trailing: InkWell(
+                                    highlightColor: Colors.transparent,
                                     onTap: () {
                                       setState(() {
                                         docFiles.removeAt(index);

@@ -60,6 +60,7 @@ class _ProfileTeamScreenState extends BaseConsumerState<ProfileTeamScreen> {
               centerTitle: false,
               titleSpacing: 12.0.w,
               leading: InkWell(
+                highlightColor: Colors.transparent,
                 onTap: () {
                   context.pop();
                 },
@@ -86,6 +87,7 @@ class _ProfileTeamScreenState extends BaseConsumerState<ProfileTeamScreen> {
                   ]),
               actions: [
                 InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     Map<String, dynamic> teamData = {"tags": _selectedTeams};
                     service.Service().changeAccountTags(teamData).then((val) {

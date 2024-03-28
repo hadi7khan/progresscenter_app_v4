@@ -85,6 +85,7 @@ class _SuperProjectScreenState extends BaseConsumerState<SuperProjectScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               InkWell(
+                                highlightColor: Colors.transparent,
                                 onTap: () {
                                   context.pop();
                                 },

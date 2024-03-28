@@ -175,6 +175,7 @@ class _ProjectDetailsScreenState
                             borderRadius: BorderRadius.circular(30.r),
                             color: Colors.white,
                             child: InkWell(
+                              highlightColor: Colors.transparent,
                               onTap: () {
                                 context.pop();
                               },
@@ -199,6 +200,7 @@ class _ProjectDetailsScreenState
                             borderRadius: BorderRadius.circular(30.r),
                             color: Colors.white,
                             child: InkWell(
+                              highlightColor: Colors.transparent,
                               onTap: () {
                                 context.push('/editproject',
                                     extra: projectByIdData.value);
@@ -302,6 +304,7 @@ class _ProjectDetailsScreenState
                                 height: 20.h,
                               ),
                               InkWell(
+                                highlightColor: Colors.transparent,
                                 onTap: () {
                                   showModalBottomSheet(
                                       useRootNavigator: true,

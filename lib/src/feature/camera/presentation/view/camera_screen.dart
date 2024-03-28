@@ -51,6 +51,7 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                 automaticallyImplyLeading: false,
                 titleSpacing: 12.0.w,
                 leading: InkWell(
+                  highlightColor: Colors.transparent,
                   onTap: () {
                     context.pop();
                   },
@@ -71,6 +72,7 @@ class _CameraScreenState extends BaseConsumerState<CameraScreen> {
                 ),
                 actions: [
                   InkWell(
+                    highlightColor: Colors.transparent,
                     child: list
                         ? SvgPicture.asset(
                             'assets/images/grid_view.svg',

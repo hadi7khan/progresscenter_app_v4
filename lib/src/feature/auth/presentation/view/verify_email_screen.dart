@@ -192,6 +192,7 @@ class _VerifyEmailScreenState extends BaseConsumerState<VerifyEmailScreen> {
                         : SizedBox(),
                     SizedBox(height: invalidCode ? 16.h : 6.h),
                     InkWell(
+                      highlightColor: Colors.transparent,
                       onTap: () async {
                         await ref
                             .watch(resendOTPProvider.notifier)

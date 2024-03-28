@@ -238,6 +238,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                   centerTitle: false,
                   titleSpacing: 12.0.w,
                   leading: InkWell(
+                    highlightColor: Colors.transparent,
                     onTap: () {
                       context.pop();
                     },
@@ -264,6 +265,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                       ]),
                   actions: [
                     InkWell(
+                      highlightColor: Colors.transparent,
                       onTap: () {
                         Map<String, dynamic> roleData = {
                           "role": _roleSelected.toUpperCase()
@@ -533,6 +535,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       InkWell(
+                                        highlightColor: Colors.transparent,
                                         onTap: () {
                                           context.push('/roles', extra: {
                                             "roles": _roles,
@@ -589,6 +592,7 @@ class _UserProfileScreenState extends BaseConsumerState<UserProfileScreen> {
                                         color: Helper.textColor700,
                                       ),
                                       InkWell(
+                                        highlightColor: Colors.transparent,
                                         onTap: () {
                                           context.push('/selectTeams', extra: {
                                             "teamsList": _teamList,

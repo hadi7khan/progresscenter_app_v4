@@ -28,6 +28,7 @@ class _TeamsFilterWidgetState extends State<TeamsFilterWidget> {
       child: ListView.separated(
           itemBuilder: (context, index) {
             return InkWell(
+              highlightColor: Colors.transparent,
               onTap: () {
                 widget.onChange(widget.teamList[index]);
               },
